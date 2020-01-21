@@ -27,7 +27,7 @@ class plumber extends CI_Controller {
 
 	public function register()
 	{
-			
+			echo 'test';
 
          	$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
