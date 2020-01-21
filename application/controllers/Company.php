@@ -277,21 +277,8 @@ public function fetch_suburb() {
 //   return true;
 
 // }
-
-
-
-
-
-
-
+//for testing
 }
-
-
-
-
-
-
- 
 
 ?>
 
