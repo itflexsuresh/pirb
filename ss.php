@@ -1,0 +1,3 @@
+<?
+echo $asdfasdf=0;
+?>
