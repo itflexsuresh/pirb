@@ -27,7 +27,7 @@ class plumber extends CI_Controller {
 
 	public function register()
 	{
-			echo 'test';
+			
 
          	$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
@@ -976,8 +976,106 @@ class plumber extends CI_Controller {
 
 	public function welcome(){
 		$data = array();
+		//	$data['session'] = $this->session;
 		$data['page_title'] = 'Profile - Welcome';        
+		$data['plumber_submit_application'] = $this->commonModel->plumber_submit_application();
+      	
+		if ($this->input->post('update'))
+      	{
+      		
+      	}
+
         $data['main_content'] = $this->load->view('plumber/welcome', $data, TRUE);	    
+	    $this->load->view('admin/index', $data);
+	}
+
+	public function personal(){
+		$data = array();
+		$user = $this->session->userdata;
+		$id = $user['usrId'];
+		$data['page_title'] = 'Profile - personal';        
+		$data['plumber_submit_application'] = $this->commonModel->plumber_submit_application();
+      	
+      	$data['application_update'] = array();
+ 			$data['id'] = $id;
+ 			$data['base_path'] = '../';
+ 			if($id!=''){
+ 				$data['base_path'] .= '../';
+ 				$this->db->select('DateofBirth,Title,ProcedureRegistration,CodeConduct,Acknowledgement,Declaration,t2.RegistrationCard,t2.DeliveryMethod,IDPhoto,Photo,title,Gender,Equity,CitizenResidentStatus,Nationality,Language,DisabilityStatus,DateofBirth,fname,lname,IDNo,Alternate,ResidentialStreet,Province,ResidentialCity,ResidentialSuburb,PostalAddress,PostalProvince,PostalCity,PostalSuburb,PostalCode,homePhone,contact,BusinessPhone,secondContact,Email,SecondEmail,SocioeconomicStatus,company,Designation,DeclarationName,DeclarationIDNumber');
+			    //	$this->db->join('newapplications AS t2', 't1.UserID = t2`.UserID','inner');
+			    $this->db->where('t1.UserID',$id);
+			    $res = $this->db->get('users AS t1')->row_array();
+			    if($res['DateofBirth']!=''){
+			    	$res['DateofBirth'] = date('d/m/Y',strtotime($res['DateofBirth']));
+			    }
+			    if($res['Nationality']>0){
+			    	$res['ResidentStatus'] = 0;
+			    	$data['nationality_show'] = 1;
+			    } else {
+			    	$res['ResidentStatus'] = 1;
+			    	$data['nationality_show'] = 0;
+			    }
+			    $data['res'] = $res;
+
+ 			}
+ 			
+ 			
+ 			$empty_arr = $this->config->item('empty_arr');
+ 			$data['empty_arr'] = $empty_arr;
+ 			$data['yes_no_arr'] = $empty_arr+$this->config->item('yes_no_arr');
+ 			$data['delivery_method_arr'] = $empty_arr+$this->config->item('delivery_method_arr');
+ 			$data['title_arr'] = $empty_arr+$this->config->item('title_arr');
+ 			$data['racialstatus_arr'] = $empty_arr+$this->config->item('racialstatus_arr');    
+ 			$data['gender_data'] = $empty_arr+$this->config->item('gender_arr'); 
+ 			$data['employment_status_data'] = $empty_arr+$this->config->item('employment_status_arr'); 
+ 			//$data['nationality_arr'] = $empty_arr+$this->config->item('nationality_arr');
+ 			
+ 			$data['nationality_arr'] = $this->commonModel->config('nationality_arr');
+ 			$data['home_language_arr'] = $this->commonModel->config('home_language_arr');
+ 			$data['disability_arr'] = $this->commonModel->config('disability_arr');
+ 			$data['resident_status_arr'] = $this->commonModel->config('resident_status_arr');
+ 			$data['designation_arr'] = $this->commonModel->config('designation_arr','radio');
+ 			
+ 			$data['application_update']['application_status_arr'] = $this->commonModel->config('application_status_arr','checkbox');
+ 			$data['application_update']['approve_arr'] = $this->config->item('approve_arr');
+
+ 			$province_field_arr = array('field'=>'province');
+ 			$data['province_data'] = $this->commonModel->set_selectbox_data($province_field_arr);
+ 			
+ 			$city_field_arr = array('field'=>'city','sel_val'=>$res['Province']);
+ 			$data['city_data'] = $this->commonModel->set_selectbox_data($city_field_arr);
+
+ 			$phy_city_field_arr = array('field'=>'city','sel_val'=>$res['PostalProvince']);
+ 			$data['phy_city_data'] = $this->commonModel->set_selectbox_data($phy_city_field_arr);
+
+ 			/*$cmp_city_field_arr = array('field'=>'city','sel_val'=>set_value('cmpProvince'));
+ 			$data['cmp_city_data'] = $this->commonModel->set_selectbox_data($cmp_city_field_arr);
+
+ 			$cmp_postal_city_arr = array('field'=>'city','sel_val'=>set_value('cmpPostalProvince'));
+ 			$data['cmp_postal_city_data'] = $this->commonModel->set_selectbox_data($cmp_postal_city_arr);*/
+
+ 			$area_arg = array('field'=>'area','sel_val'=>$res['ResidentialCity']);
+ 			$data['area_data'] = $this->commonModel->set_selectbox_data($area_arg);
+
+ 			$postal_area_arg = array('field'=>'area','sel_val'=>$res['PostalCity']);
+ 			$data['phy_area_data'] = $this->commonModel->set_selectbox_data($postal_area_arg); 	
+
+ 			/*$cmp_area_arg = array('field'=>'area','sel_val'=>set_value('cmpCity'));
+ 			$data['cmp_area_data'] = $this->commonModel->set_selectbox_data($cmp_area_arg);
+
+ 			$cmp_postal_area_arg = array('field'=>'area','sel_val'=>set_value('cmpPostalCity'));
+ 			$data['cmp_postal_area_data'] = $this->commonModel->set_selectbox_data($cmp_postal_area_arg);*/
+
+			$company_field_arr = array('field'=>'company');			
+ 			$company_data = $this->commonModel->set_selectbox_data($company_field_arr);
+ 			array_splice( $company_data, 1, 0, array('New company') ); 			
+ 			$data['company_data'] = $company_data;
+		if ($this->input->post('update'))
+      	{
+      		
+      	}
+
+        $data['main_content'] = $this->load->view('plumber/personal', $data, TRUE);	    
 	    $this->load->view('admin/index', $data);
 	}
 
