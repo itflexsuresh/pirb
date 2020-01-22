@@ -156,6 +156,44 @@ class commonModel extends CI_Model{
         return $slug;
 	}
 
+	function check_plumber_required(){
+		$plumber_user_required_fields = $this->config->item('plumber_user_required_fields');
+		$user = $this->session->userdata;
+		$user_id = $user['usrId'];
+		$user_where_fields = array('UserID'=>$user_id);
+		$this->db->select($plumber_user_required_fields);
+	    $this->db->from('users');	    
+	    $this->db->where($user_where_fields);
+	    $query = $this->db->get();
+	    $res = $query->row_array();
+	    $cnt = 0;
+	    foreach($res as $key=>$val){
+	    	if($val=='' || $val==0){
+	    		$cnt++; 
+	    	}
+	    }
+		return $cnt;
+	}
+
+	function plumber_submit_application(){
+		$required = $this->check_plumber_required();
+		$update_disabled = '';
+		if($required>0){
+			$update_disabled = 1;
+		} 
+		$form_submit = array(
+           'type' => 'submit', 
+           'name' => 'update',
+           'value' => 'Submit Application',
+           'id' => 'update',
+           'class' => 'form-control',                                   
+        );
+        if($update_disabled!=''){
+            $form_submit['disabled'] = 1;
+        }
+        return form_input($form_submit);
+	}
+
 }
 
 ?>

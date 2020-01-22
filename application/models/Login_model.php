@@ -8,11 +8,30 @@ class Login_model extends CI_Model
     }
 
 
-        function password_chks()
+    function password_chks()
     {
         // /echo "hii";exit;
+        // Store the cipher method 
+        $simple_string =$_POST['password']; 
+        $ciphering = "AES-128-CTR"; 
 
-        $this->db->where('password', $_POST['password']);
+// Use OpenSSl Encryption method 
+        $iv_length = openssl_cipher_iv_length($ciphering); 
+        $options = 0; 
+
+// Non-NULL Initialization Vector for encryption 
+        $encryption_iv = '1234567891011121'; 
+
+// Store the encryption key 
+        $encryption_key = "GeeksforGeeks"; 
+
+// Use openssl_encrypt() function to encrypt the data 
+        $encryption = openssl_encrypt($simple_string, $ciphering, 
+            $encryption_key, $options, $encryption_iv);
+
+
+
+        $this->db->where('password', $encryption);
         $this->db->where('email', $_POST['username']);
         $this->db->select('password');
         $this->db->from('users');
@@ -21,45 +40,67 @@ class Login_model extends CI_Model
     }
 
     function login(){
-    	$user_name         = $this->input->post('username');
+
+        $user_name         = $this->input->post('username');
         $password         = $this->input->post('password');
-        $query            = $this->db->get_where('users', array('email' => $user_name, 'password' => $password));
+        $simple_string =$password; 
+
+// Store the cipher method 
+        $ciphering = "AES-128-CTR"; 
+
+// Use OpenSSl Encryption method 
+        $iv_length = openssl_cipher_iv_length($ciphering); 
+        $options = 0; 
+
+// Non-NULL Initialization Vector for encryption 
+        $encryption_iv = '1234567891011121'; 
+
+// Store the encryption key 
+        $encryption_key = "GeeksforGeeks"; 
+
+// Use openssl_encrypt() function to encrypt the data 
+        $encryption = openssl_encrypt($simple_string, $ciphering, 
+            $encryption_key, $options, $encryption_iv);
+
+
+        $query            = $this->db->get_where('users', array('email' => $user_name, 'password' => $encryption));
        // print_r($query);exit;
         $record           = $query->result();
-       
+
         // $userid = $record[0]->user_id;
         //  print_r($userid);exit;
        // $login_date = date("Y-m-d H:i:s");
         //echo count($record);exit;
-         if (count($record) > 0) 
-         { 
+        if (count($record) > 0) 
+        { 
+            //echo "hii";exit;
             // if ($record[0]->status == 0) 
             // { 
             //     $rec_status     = 'Suspended';
             //     return $rec_status;
             // } 
-             $userDetails    = array(
-                'usrId'     => $record[0]->UserID,
-                'usrName'   => $record[0]->email,
-                'usrrole'   => $record[0]->role,
-                'fname'  => $record[0]->fname );
+         $userDetails    = array(
+            'usrId'     => $record[0]->UserID,
+            'usrName'   => $record[0]->email,
+            'usrrole'   => $record[0]->role,
+            'fname'  => $record[0]->fname );
 
             //print_r($userDetails);exit;
 
-            $this->session->set_userdata($userDetails);
+         $this->session->set_userdata($userDetails);
             //$sql = $this->db->query("update tbl_users set last_login_date='$login_date' where user_id='$userid'");  
-            
-            redirect('dashboard/');
-            return true;
-        }
-        else 
-        { 
-            $rec_status     = 'Invalid';
-            return $rec_status;
-        }
+
+         redirect('dashboard/');
+         return true;
+     }
+     else 
+     { 
+        $rec_status     = 'Invalid';
+        return $rec_status;
     }
-    function Forgot_password_update(){
+}
+function Forgot_password_update(){
         //logics
-        echo "Forgot Password";exit;
-    }
+    echo "Forgot Password";exit;
+}
 }
