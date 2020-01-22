@@ -557,6 +557,7 @@ $empty_arr = array(''=>'Select');
 $employment_status_arr = array(1=>'Employed',2=>'Unemployed');
 $application_status_arr = array('ID Attached','Initial each page','Company Details Correct','Payment Recieved','Declaration Signed','Photo Correct','Qualification Verified','Proof of Experience');
 
+$plumber_user_required_fields = array('Title');
 // $config['yes_no_arr'] = $yes_no_arr;
 
 //$config->set_item(array('mainURL'=>'itsolutionstuff.com'));
@@ -575,3 +576,4 @@ $config['designation_arr'] = $designation_arr;
 $config['empty_arr'] = $empty_arr;
 $config['employment_status_arr'] = $employment_status_arr;
 $config['application_status_arr'] = $application_status_arr;
+$config['plumber_user_required_fields'] = $plumber_user_required_fields;
