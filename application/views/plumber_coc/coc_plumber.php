@@ -80,7 +80,9 @@
 
                                         foreach($amou as $key=>$val)
                                         {
+
                                         	$i =$i+1;
+                                        	
 
                                         	if($key==0)
                                         	{
@@ -93,6 +95,8 @@
 
                                         	$value = $val['Amount'];
                                         	echo "<input type='radio' class=cal_amount id=amoun_rad$i value='$value' name=rad>$key";
+                                        	//"<input type='hidden' class=cal_amount id=amoun_rad$i value='1' name=rad>$key";
+                                        	//"<input type='hidden' value='2'>"
                                         }
 
                                         ?>
@@ -289,8 +293,11 @@
     		$('input[name="rad"]').change(function() 
     		{	
 
-    			 var radrad = null;
-    			 rad =this.value;
+    			 $('#no_coc').val(0);
+    			 $('#cost').val(0);
+    			 $('#delivery').val(0);
+    			 $('#vat').val(0);
+    			 $('#due').val(0);
     			 //alert(i.val());
     		});
 

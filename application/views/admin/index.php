@@ -106,15 +106,15 @@ if(!isset($page_title)){
                         </ul>
                     </li>
 
-                    <li><a href="forms.html" class="waves-effect"><i data-icon="&#xe00b;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Registra<span class="fa arrow"></span></span></a>
+                    <!-- <li><a href="forms.html" class="waves-effect"><i data-icon="&#xe00b;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Registra<span class="fa arrow"></span></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="<?php  echo base_url('get_company/view') ?>">Company Registra</a></li>
+                            <li><a href="<?php // echo base_url('get_company/view') ?>">Company Registra</a></li>
                         </ul>
-                    </li>
+                    </li> -->
 
-                    <li><a href="forms.html" class="waves-effect"><i data-icon="&#xe00b;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Activity Queue<span class="fa arrow"></span></span></a>
+                    <li><a href="forms.html" class="waves-effect"><i data-icon="&#xe00b;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Plumber Register<span class="fa arrow"></span></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="<?php  echo base_url('plumber/list') ?>">New Plumber Applications</a></li>
+                            <li><a href="<?php  echo base_url('register_plumber_list/view') ?>">List</a></li>
                         </ul>
                     </li>
 

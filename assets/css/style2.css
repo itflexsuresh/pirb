@@ -1,0 +1,456 @@
+
+    .align label {
+    width: 30%;
+    text-align: left;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.align {
+    width: 100%;
+    display: inline-block;
+}
+
+.column {
+    border: 1px solid;
+    width: 70%;
+}
+
+.column h2.title {
+    margin-bottom: 40px;
+}
+.align h4 {
+    margin-top: 50px;
+}
+
+#first-one tr td label {margin-bottom: 20px;}
+
+#first-one tr td input[type="text"] {
+    margin-bottom: 20px;
+}
+table#first-one {
+    width: 53%;
+    display: inline-block;
+}
+.error {
+color:red;
+font-size:13px;
+margin-bottom:15px
+}
+
+#compdetails br {
+   display: none;
+}
+
+#compdetails .col-md-12 .col-md-6{
+   display: inline-block;
+   float: left;
+   text-align: left;
+   margin-top: 10px;
+   width: 100% !important;
+}
+
+#compdetails .col-md-12{
+   display: inline-block;
+   width: 100%;
+}
+
+.user_edits textarea#ContentPlaceHolder1_txtCompMsg {
+   width: 100%;
+   height: 150px;
+   text-align: left;
+   resize: none;
+}
+
+.txt_area_msg .col-md-6.required {
+    width: 100%;
+}
+
+.physcl_addrss .form-group {
+    clear: both;
+    display: inline-block;
+    width: 70%;
+    vertical-align: middle;
+    margin-bottom: 10px;
+    max-width: 100%;
+}
+
+.physcl_addrss, .pstl_addrss {
+    display: inline-block;
+    width: 40%;
+    text-align: left;
+}
+
+.physcl_addrss {
+    clear: both;
+    vertical-align: top;
+}
+
+.cntct_dtls .form-group {
+    width: 70%;
+    display: inline-block;
+}
+
+.type_of_wrk {
+    width: 100%;
+    text-align: left;
+    display: inline-block;
+}
+
+.type_of_wrk label {
+    line-height: 33px;
+}
+
+#compdetails .col-md-12 h3 {
+    text-align: left;
+}
+select#ContentPlaceHolder1_DropDownList5 {
+    width: 30%;
+    height: 25px;
+}
+select#ContentPlaceHolder1_physicalCities {
+    width: 30%;
+    height: 25px;
+}
+select#ContentPlaceHolder1_physicalSuburb {
+    width: 30%;
+    height: 25px;
+}
+select#ContentPlaceHolder1_DropDownList4 {
+    width: 30%;
+    height: 25px;
+}
+select#ContentPlaceHolder1_DropDownList4 {
+    width: 30%;
+    height: 25px;
+}
+select#ContentPlaceHolder1_postalSuburb {
+    width: 30%;
+    height: 25px;
+}
+select#ContentPlaceHolder1_postalCities {
+    width: 30%;
+    height: 25px;
+}
+input#ContentPlaceHolder1_CompanyPostalCode {
+    width: 100%;
+    height: auto;
+}
+input#ContentPlaceHolder1_CompanyPhysicalAddress {
+    width: 90%;
+    height: 25px;
+}
+input#ContentPlaceHolder1_CompanyPhysicalAddress {
+    width: 100%;
+}
+input#ContentPlaceHolder1_CompanyPostalAddress {
+    width: 100%;
+    height: auto;
+}
+
+.col-md-6.qualification_details.cmpny_sections.physcl_addrss {
+    width: 50% !important;
+    float: left;
+}
+
+.col-md-6.qualification_details.cmpny_sections.pstl_addrss {
+    width: 50% !important;
+    float: left;
+}
+
+.col-md-6.qualification_details.cmpny_sections.physcl_addrss .col-md-6.form-group input {
+    width: 100%;
+    padding: 15px;
+}
+
+.col-md-6.qualification_details.cmpny_sections.physcl_addrss .col-md-6.form-group select {
+    padding: 10px;
+    width: 190px;
+}
+
+.col-md-6.qualification_details.cmpny_sections.pstl_addrss 
+ .col-md-6.form-group input {
+    width: 100% !important;
+}
+
+.col-md-6.qualification_details.cmpny_sections.pstl_addrss .col-md-6.form-group select {
+ padding: 9px;
+ width: 190px;
+}
+
+.title a {
+    padding: 10px;
+    background-color: #c3c3c3;
+    color: #fff;
+    text-decoration: none;
+}
+
+#submit{
+background-color: #8B4513;  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.panel-title {
+    text-align: center;
+}
+
+.act {width: 48%;display: block;margin: 0 auto;text-align: center;}
+
+.act input#active_btn {
+    float: left;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.act input#archive_btn {
+    float: left;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.act input#active_btn, .act input#archive_btn {
+    background-color: #666;
+    color: #fff;
+    border: navajowhite;
+    padding: 7px 20px 7px 20px;
+}
+
+
+div#isActive_length {
+    width: auto;
+    margin: 20px auto 10px;
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    left: 366px;
+}
+
+.dataTables_length + div#isActive_filter {
+    width: auto;
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    right: 370px;
+}
+.auto-style1 input#add_submit {
+    background-color: #8B4513;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+div#isActive_info {
+    display: block;
+    width: 64%;
+    margin: 0 auto;
+    text-align: center;
+}
+.cmpny_sections.complany_dtls h4 {
+    float: left;
+    width: 100%;
+    text-align: left;
+}
+#compdetails .cmpny_sections.complany_dtls .col-md-6 {
+    display: inline-block;
+    width: 50% !important;
+    float: left;
+    margin: 10px 0;
+}
+.user_edits {
+    float: right;
+}
+.cmpny_sections.complany_dtls label {
+    padding: 0 10px;
+    width: 55% !important;
+    display: inline-block;
+    float: left;
+}
+.txt_area_msg .user_edits {
+    float: none;
+}
+.physcl_addrss .user_edits {
+    width: 48%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+.pstl_addrss .form-group{
+    display: inline-block;
+    width: 70%;
+    margin-bottom: 10px;
+    max-width: 100%;
+}
+
+
+.cmpny_sections.cntct_dtls {
+    float: left;
+}
+.cmpny_sections.complany_dtls .user_edits {
+    width: 40%;
+}
+.cmpny_sections.cntct_dtls .form-group label {
+    width: auto;
+    display: inline-block;
+    text-align: left;
+    margin-bottom: 30px;
+}
+.cmpny_sections.cntct_dtls .form-group .user_edits {
+    width: 185px;
+    display: inline-block;
+}
+
+.user_edits + label {
+    width: 100% !important;
+    text-align: center !important;
+}
+
+.cmpny_sections.complany_dtls .col-md-6.form-group:nth-child(2) {
+    width: 100% !important;
+    display: inline-block;
+    position: relative;
+    top: 65px;
+    left: 10px;
+}
+input#ContentPlaceHolder1_CompanyPhysicalAddress {
+    width: 100%;
+    height: auto;
+}
+
+.update_com .col-md-6.form-group {
+    width: 100% !important;
+    float: none !important;
+}
+
+
+.update_com .col-md-6.form-group:nth-child(2){
+    position: unset !important;
+}
+
+.update_com .col-md-6.form-group:nth-child(3) label{
+    width: auto !important;
+    float: none;
+}
+.error {
+    
+    font-size: 15px;
+}
+
+
+.cmpny_dry textarea {
+    width: 70%;
+}
+
+.cmpny_dry label {
+    display: inline-block;
+    width: 70%;
+    text-align: left;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.cmpny_dry .user_edits {
+    float: none;
+}
+
+#DiaryComm .cmpny_dry:nth-child(2) {
+    margin-top: 30px;
+}
+
+.cmpny_dry .col-md-7.form-group {
+    width: 70%;
+    text-align: left;
+    margin-top: 20px;
+}
+
+.cmpny_dry .col-md-7.form-group input {
+    width: 100%;
+    padding: 10px 10px;
+}
+
+.form-group.cmpny_dry .col-md-7.form-group, 
+.form-group.cmpny_dry .col-md-5.form-group {
+    display: inline-block;
+    width: 35%;
+    vertical-align: middle;
+    margin-top: 10px;
+}
+
+.form-group.cmpny_dry .col-md-5.form-group input#ContentPlaceHolder1_btnAddComment{
+    float: left;
+    padding: 10px 10px;
+}
+div#message {
+    width: 100% !important;
+    white-space: nowrap;
+    margin-top: 10px;
+}
+.panel-body .col-md-12 {
+    width: 100%;
+    display: inline-block;
+}
+.panel-body .col-md-3 {
+    float: left;
+    width: 20%;
+    margin: 10px 0;
+    vertical-align: middle;
+}
+.controls.Pay_Registration {
+    width: 100%;
+    margin-top: 20px;
+}
+.disclaimer_text .user_edits {
+    width: 100%;
+}
+.tab-content {
+    margin-top: 30px;
+    width: 100%;
+    display: inline-block;
+}
+.admin_reg_form form {
+    width: 100%;
+    display: inline-block;
+}
+
+a#submit {
+    width: 100px;
+    float: right;
+}
+
+.pstl_addrss .form-group label, .pstl_addrss .form-group .user_edits {
+    display: inline-block;
+    width: 186px;
+}
+
+.type_of_wrk label br {
+    display: none;
+}
+
+.type_of_wrk label input[type="checkbox"] {margin: 0px 0px 0px 14px;}
+
+
+
+input#cancel {
+    background-color: #8B4513;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
