@@ -40,7 +40,8 @@ class Index extends CC_Controller
 		}
 		
 		$pagedata['notification'] 	= $this->getNotification();
-		$pagedata['empty_arr'] = array();
+		$pagedata['empty_arr'] = [];
+		$pagedata['province'] = $this->getProvinceList();
 		$pagedata['titlesign'] = $this->config->item('titlesign');
 		$pagedata['gender'] = $this->config->item('gender');
 		$pagedata['racial'] = $this->config->item('racial');
@@ -55,6 +56,20 @@ class Index extends CC_Controller
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
 		$data['content'] 			= $this->load->view('plumber/registration/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
+	}
+	
+	public function ajaxregistration()
+	{
+		$post 	= $this->input->post();
+		$result = $this->Plumber_Model->action($post);
+		
+		if($result){
+			$json = ['status' => '1'];
+		}else{
+			$json = ['status' => '0'];
+		}
+		
+		return json_encode($json);
 	}
 	
 	public function DTInstallationType()

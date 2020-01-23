@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Index extends CC_Controller 
+class Company extends CC_Controller 
 {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Auditor_Model');
+		$this->load->model('Plumber_Model');
 	}
 	
 	public function index($id='')
@@ -39,36 +39,12 @@ class Index extends CC_Controller
 			redirect('plumber/registration'); 
 		}
 		
-		// $pagedata['notification'] 	= $this->getNotification();
-		// $pagedata['empty_arr'] = [];
-		// $pagedata['fName'] = $this->getProvinceList();
-		$pagedata['fName'] = $this->config->item('name');
-		$pagedata['lName'] = $this->config->item('surname');
-		$pagedata['idNo'] = $this->config->item('id_Number');
-		$pagedata['photoFile'] = $this->config->item('racial');
-		$pagedata['email'] = $this->config->item('yesno');
-		$pagedata['pin'] = $this->config->item('othernationality');
-		$pagedata['phoneWork'] = $this->config->item('homelanguage');
-		$pagedata['phoneMobile'] = $this->config->item('disability');
-		$pagedata['companyName'] = $this->config->item('citizen');
-		$pagedata['companyRegNo'] = $this->config->item('deliverycard');
-		$pagedata['vatRegNo'] = $this->config->item('employmentdetail');
-		$pagedata['addressLine1'] = $this->config->item('designation');
-		$pagedata['province'] = $this->config->item('designation');
-		$pagedata['city'] = $this->config->item('designation');
-		$pagedata['Suburb'] = $this->config->item('designation');
-		$pagedata['areaCode'] = $this->config->item('designation');
-		$pagedata['CompanyLogo'] = $this->config->item('designation');
-		$pagedata['bankName'] = $this->config->item('designation');
-		$pagedata['accName'] = $this->config->item('designation');
-		$pagedata['branchCode'] = $this->config->item('designation');
-		$pagedata['branchCode'] = $this->config->item('designation');
-		$pagedata['accNumber'] = $this->config->item('designation');
-		$pagedata['accType'] = $this->config->item('designation');
-
-
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
-		$data['content'] 			= $this->load->view('auditor/profile/index', (isset($pagedata) ? $pagedata : ''), true);
+		$pagedata['notification'] 	= $this->getNotification();
+		$pagedata['province'] 		= $this->getProvinceList();
+		$pagedata['worktype'] 		= $this->config->item('worktype');
+		$pagedata['specialization']	= $this->config->item('specialization');
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
+		$data['content'] 			= $this->load->view('company/registration/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
 	

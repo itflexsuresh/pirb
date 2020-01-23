@@ -1,18 +1,18 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Systemusers extends CC_Controller 
+class Systemsettings extends CC_Controller 
 {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Systemusers_Model');
+		$this->load->model('Installationtype_Model');
 	}
 	
 	public function index($id='')
-	{		
+	{
 		if($id!=''){
-			$result = $this->Systemusers_Model->getList('row', ['u_id' => $id, 'u_status' => ['0','1']]);
+			$result = $this->Installationtype_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
 			if($result){
 				$pagedata['result'] = $result;
 			}else{
@@ -25,10 +25,10 @@ class Systemusers extends CC_Controller
 			$requestData 	= 	$this->input->post();
 
 			if($requestData['submit']=='submit'){
-				$data 	=  $this->Systemusers_Model->action($requestData);
+				$data 	=  $this->Installationtype_Model->action($requestData);
 				if($data) $message = 'Installation Type '.(($id=='') ? 'created' : 'updated').' successfully.';
 			}else{
-				$data 			= 	$this->Systemusers_Model->changestatus($requestData);
+				$data 			= 	$this->Installationtype_Model->changestatus($requestData);
 				$message		= 	'Installation Type deleted successfully.';
 			}
 
@@ -39,30 +39,28 @@ class Systemusers extends CC_Controller
 		}
 		
 		$pagedata['notification'] 	= $this->getNotification();
+		$pagedata['cpdstream']	 	= $this->config->item('cpdstream');
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
-		$data['content'] 			= $this->load->view('admin/systemsetup/systemusers/index', (isset($pagedata) ? $pagedata : ''), true);
+		$data['content'] 			= $this->load->view('admin/systemsetup/systemsettings/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
 	
-	public function DTSystemusersList()
+	public function DTInstallationType()
 	{
 		$post 			= $this->input->post();
-		$totalcount 	= $this->Systemusers_Model->getList('count', ['u_status' => ['0','1']]+$post);
-		$results 		= $this->Systemusers_Model->getList('all', ['u_status' => ['0','1']]+$post);
+		$totalcount 	= $this->Installationtype_Model->getList('count', ['status' => ['0','1']]+$post);
+		$results 		= $this->Installationtype_Model->getList('all', ['status' => ['0','1']]+$post);
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
 				$totalrecord[] = 	[
-										'u_name' 				=> 	$result['u_name'],
-										'u_surname' 			=> 	$result['u_surname'],
-										'u_email' 				=> 	$result['u_email'],
-										'u_password_raw' 		=> 	$result['u_password_raw'],
-										'u_type' 				=> 	$result['u_type'],
-										'action'				=> 	'
+										'name' 		=> 	$result['name'],
+										'status' 	=> 	$this->config->item('statusicon')[$result['status']],
+										'action'	=> 	'
 															<div class="table-action">
-																<a href="'.base_url().'admin/administration/installationtype/index/'.$result['u_id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-																<a href="javascript:void(0);" data-id="'.$result['u_id'].'" class="delete" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+																<a href="'.base_url().'admin/administration/installationtype/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+																<a href="javascript:void(0);" data-id="'.$result['id'].'" class="delete" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
 															</div>
 														'
 									];
