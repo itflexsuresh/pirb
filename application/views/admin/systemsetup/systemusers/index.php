@@ -16,13 +16,13 @@
 
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
-		<h4 class="text-themecolor">Installation Type</h4>
+		<h4 class="text-themecolor">Admin System Users</h4>
 	</div>
 	<div class="col-md-7 align-self-center text-right">
 		<div class="d-flex justify-content-end align-items-center">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="j<?php echo base_url().'admin/dashboard'; ?>">Home</a></li>
-				<li class="breadcrumb-item active">Installation Type</li>
+				<li class="breadcrumb-item active">Admin System Users</li>
 			</ol>
 		</div>
 	</div>
@@ -32,7 +32,7 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">Installation Type</h4>
+				<h4 class="card-title">Admin System Users</h4>
 				<form class="mt-4 form" action="" method="post">
 					<div class="form-group">
 						<label for="name">Installation Type *</label>
@@ -47,7 +47,7 @@
 						</div>
 						<div class="col-md-6 text-right">
 							<input type="hidden" name="id" value="<?php echo $id; ?>">
-							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> Installtion Type</button>
+							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> </button>
 						</div>
 					</div>
 				</form>
@@ -55,8 +55,11 @@
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
 							<tr>
-								<th>Installation Type</th>
-								<th>Status</th>
+								<th>Name</th>
+								<th>Surname</th>
+								<th>Role</th>
+								<th>Email Address</th>
+								<th>Pin</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -72,10 +75,13 @@
 	$(function(){
 		
 		var options = {
-			url 	: 	'<?php echo base_url()."admin/administration/installationtype/DTInstallationType"; ?>',
+			url 	: 	'<?php echo base_url()."admin/systemsetup/systemusers/systemusers/DTSystemusersList"; ?>',
 			columns : 	[
-							{ "data": "name" },
-							{ "data": "status" },
+							{ "data": "u_name" },
+							{ "data": "u_surname" },
+							{ "data": "u_type" },
+							{ "data": "u_email" },
+							{ "data": "u_password_raw" },							
 							{ "data": "action" }
 						]
 		};
