@@ -1,29 +1,25 @@
 <?php
 
-class Systemusers_Model extends CC_Model
+class Systemuseredit_Model extends CC_Model
 {
 	public function getList($type, $requestdata=[])
 	{
 		$this->db->select('*');
-		$this->db->from('users');
+		$this->db->from('installationtype');
 		
-		if(isset($requestdata['u_id'])) 		$this->db->where('u_id', $requestdata['u_id']);
-		if(isset($requestdata['u_status']))	$this->db->where_in('u_status', $requestdata['u_status']);
+		if(isset($requestdata['id'])) 		$this->db->where('id', $requestdata['id']);
+		if(isset($requestdata['status']))	$this->db->where_in('status', $requestdata['status']);
 		
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['u_id', 'u_name', 'u_surname', 'u_password_raw', 'u_email', 'u_type', 'u_status'];
+			$column = ['id', 'name', 'status'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
-			$this->db->like('u_name', $searchvalue);
-			$this->db->or_like('u_surname', $searchvalue);
-			$this->db->or_like('u_password_raw', $searchvalue);
-			$this->db->or_like('u_type', $searchvalue);
-			$this->db->or_like('u_status', $searchvalue);
+			$this->db->like('name', $searchvalue);
 		}
 		
 		if($type=='count'){
@@ -43,7 +39,7 @@ class Systemusers_Model extends CC_Model
 		$this->db->trans_begin();
 		
 		$userid			= 	$this->getUserID();
-		$id 			= 	$data['u_name'];
+		$id 			= 	$data['id'];
 		$datetime		= 	date('Y-m-d H:i:s');
 		
 		$request		=	[
@@ -52,7 +48,7 @@ class Systemusers_Model extends CC_Model
 							];
 							
 		if(isset($data['name'])) 	$request['name'] 	= $data['name'];
-		if(isset($data['status'])) 	$request['status'] 	= $data['status'];
+		$request['status'] 	= (isset($data['status'])) ? $data['status'] : '0';
 	
 		if($id==''){
 			$request['created_at'] = $datetime;

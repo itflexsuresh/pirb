@@ -1,29 +1,32 @@
 <?php
 
-class Systemusers_Model extends CC_Model
+class Cpdtypesetup_Model extends CC_Model
 {
 	public function getList($type, $requestdata=[])
 	{
 		$this->db->select('*');
-		$this->db->from('users');
+		$this->db->from('cpdtypes');
 		
-		if(isset($requestdata['u_id'])) 		$this->db->where('u_id', $requestdata['u_id']);
-		if(isset($requestdata['u_status']))	$this->db->where_in('u_status', $requestdata['u_status']);
+		if(isset($requestdata['id'])) 		$this->db->where('id', $requestdata['id']);
+		if(isset($requestdata['status']))	$this->db->where_in('status', $requestdata['status']);
 		
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['u_id', 'u_name', 'u_surname', 'u_password_raw', 'u_email', 'u_type', 'u_status'];
+			$column = ['id', 'activity', 'startdate', 'enddate', 'points', 'productcode', 'cpdstream', 'status'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
-			$this->db->like('u_name', $searchvalue);
-			$this->db->or_like('u_surname', $searchvalue);
-			$this->db->or_like('u_password_raw', $searchvalue);
-			$this->db->or_like('u_type', $searchvalue);
-			$this->db->or_like('u_status', $searchvalue);
+			$this->db->like('activity', $searchvalue);
+			$this->db->or_like('startdate', $searchvalue);
+			$this->db->or_like('enddate', $searchvalue);
+			$this->db->or_like('points', $searchvalue);
+			$this->db->or_like('productcode', $searchvalue);
+			$this->db->or_like('cpdstream', $searchvalue);
+			$this->db->or_like('status', $searchvalue);
+
 		}
 		
 		if($type=='count'){
@@ -43,7 +46,7 @@ class Systemusers_Model extends CC_Model
 		$this->db->trans_begin();
 		
 		$userid			= 	$this->getUserID();
-		$id 			= 	$data['u_name'];
+		$id 			= 	$data['id'];
 		$datetime		= 	date('Y-m-d H:i:s');
 		
 		$request		=	[
@@ -51,15 +54,20 @@ class Systemusers_Model extends CC_Model
 								'updated_by' 		=> $userid
 							];
 							
-		if(isset($data['name'])) 	$request['name'] 	= $data['name'];
-		if(isset($data['status'])) 	$request['status'] 	= $data['status'];
+		if(isset($data['activity'])) 		$request['activity'] 		= $data['activity'];
+		if(isset($data['points'])) 			$request['points'] 			= $data['points'];
+		if(isset($data['productcode'])) 	$request['productcode'] 	= $data['productcode'];
+		if(isset($data['cpdstream'])) 		$request['cpdstream'] 		= $data['cpdstream'];
+		$request['status'] 												= (isset($data['status'])) ? $data['status'] : '0';
+		if(isset($data['startdate'])) 		$request['startdate'] 		= date('Y-m-d',strtotime($data['startdate'])); 
+		if(isset($data['enddate'])) 		$request['enddate'] 		= date('Y-m-d',strtotime($data['enddate']));
 	
 		if($id==''){
 			$request['created_at'] = $datetime;
 			$request['created_by'] = $userid;
-			$this->db->insert('installationtype', $request);
+			$this->db->insert('cpdtypes', $request);
 		}else{
-			$this->db->update('installationtype', $request, ['id' => $id]);
+			$this->db->update('cpdtypes', $request, ['id' => $id]);
 		}
 			
 		if($this->db->trans_status() === FALSE)

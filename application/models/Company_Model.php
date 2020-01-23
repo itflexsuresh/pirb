@@ -1,6 +1,6 @@
 <?php
 
-class Plumber_Model extends CC_Model
+class Company_Model extends CC_Model
 {
 	public function getList($type, $requestdata=[])
 	{

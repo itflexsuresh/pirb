@@ -96,4 +96,24 @@ class Managearea_Model extends CC_Model
 			return true;
 		}
 	}
+	
+	public function getProvinceList($type, $requestdata=[])
+	{
+		$this->db->select('*');
+		$this->db->from('province');
+		
+		if(isset($requestdata['id'])) 		$this->db->where('id', $requestdata['id']);
+		if(isset($requestdata['status']))	$this->db->where_in('status', $requestdata['status']);
+		
+		if($type=='count'){
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		return $result;
+	}
 }

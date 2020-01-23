@@ -1,6 +1,6 @@
 <?php
 
-class Installationtype_Model extends CC_Model
+class Auditor_Model extends CC_Model
 {
 	public function getList($type, $requestdata=[])
 	{
@@ -94,6 +94,27 @@ class Installationtype_Model extends CC_Model
 		{
 			$this->db->trans_commit();
 			return true;
+		}
+	}
+	
+	public function checkPlumber($type,$type_val='')
+	{
+		$userid		= 	$this->getUserID();
+		
+		if($type=='1'){
+			$data = $this->db->where('user_id', $userid)->get('plumber')->row_array();
+		}elseif($type=='2'){
+			$data = $this->db->where('user_id', $userid)->get('plumber_details')->row_array();
+		}elseif($type=='3'){
+			$data = $this->db->where(array('user_id'=>$userid,'type'=>$type_val))->get('plumber_address')->row_array();			
+		}elseif($type=='4'){
+			$data = $this->db->where('user_id', $userid)->get('plumber_skills')->row_array();
+		}
+		
+		if($data){
+			return ['id' => $data['id'], 'userid' => $data['user_id']];
+		}else{
+			return ['userid' => $userid];
 		}
 	}
 }
