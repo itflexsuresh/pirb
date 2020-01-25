@@ -5,7 +5,7 @@ class Message_Model extends CC_Model
 	public function getList($type, $requestdata=[])
 	{
 		$this->db->select('*');
-		$this->db->from('messages');
+		$this->db->from('messages')->order_by('id','desc');
 		
 		if(isset($requestdata['id'])) 		$this->db->where('id', $requestdata['id']);
 		if(isset($requestdata['status']))	$this->db->where_in('status', $requestdata['status']);
@@ -51,10 +51,9 @@ class Message_Model extends CC_Model
 								'updated_at' 		=> $datetime,
 								'updated_by' 		=> $userid
 							];
-							
 		if(isset($data['groups'])) 		$request['groups'] 		= $data['groups'];
-		if(isset($data['start_date'])) 	$request['startdate'] 	= date('Y-m-d',strtotime($data['start_date'])); 
-		if(isset($data['end_date'])) 	$request['enddate'] 	= date('Y-m-d',strtotime($data['end_date']));
+		if(isset($data['startdate'])) 	$request['startdate'] 	= date('Y-m-d',strtotime($data['startdate'])); 
+		if(isset($data['startdate'])) 	$request['enddate'] 	= date('Y-m-d',strtotime($data['enddate']));
 		if(isset($data['message'])) 	$request['message'] 	= $data['message'];
 		$request['status'] 	= (isset($data['status'])) ? $data['status'] : '0';
 	

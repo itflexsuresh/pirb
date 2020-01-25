@@ -5,7 +5,7 @@ class Systemuseredit_Model extends CC_Model
 	public function getList($type, $requestdata=[])
 	{
 		$this->db->select('*');
-		$this->db->from('installationtype');
+		$this->db->from('installationtype=');
 		
 		if(isset($requestdata['id'])) 		$this->db->where('id', $requestdata['id']);
 		if(isset($requestdata['status']))	$this->db->where_in('status', $requestdata['status']);
@@ -53,9 +53,9 @@ class Systemuseredit_Model extends CC_Model
 		if($id==''){
 			$request['created_at'] = $datetime;
 			$request['created_by'] = $userid;
-			$this->db->insert('installationtype', $request);
+			$this->db->insert('users_detail', $request);
 		}else{
-			$this->db->update('installationtype', $request, ['id' => $id]);
+			$this->db->update('users_detail', $request, ['id' => $id]);
 		}
 			
 		if($this->db->trans_status() === FALSE)

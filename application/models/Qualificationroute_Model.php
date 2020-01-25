@@ -5,7 +5,7 @@ class Qualificationroute_Model extends CC_Model
 	public function getList($type, $requestdata=[])
 	{
 		$this->db->select('*');
-		$this->db->from('qualificationroute');
+		$this->db->from('qualificationroute')->order_by('id','desc');
 		
 		if(isset($requestdata['id'])) 		$this->db->where('id', $requestdata['id']);
 		if(isset($requestdata['status']))	$this->db->where_in('status', $requestdata['status']);
@@ -48,7 +48,7 @@ class Qualificationroute_Model extends CC_Model
 							];
 							
 		if(isset($data['name'])) 	$request['name'] 	= $data['name'];
-		if(isset($data['status'])) 	$request['status'] 	= $data['status'];
+		$request['status'] 	= (isset($data['status'])) ? $data['status'] : '0';
 	
 		if($id==''){
 			$request['created_at'] = $datetime;
@@ -94,6 +94,23 @@ class Qualificationroute_Model extends CC_Model
 		{
 			$this->db->trans_commit();
 			return true;
+		}
+	}
+
+		public function QualificationRouteValidator($data)
+	{		
+		$id 					= $data['id'];
+		$qualificationroute 	= $data['name'];
+		//print_r($data);die;
+		$this->db->where('name', $qualificationroute);
+		if($id!='') $this->db->where('id !=', $id);
+		//$this->db->where('status !=', '2');
+		$query = $this->db->get('qualificationroute');
+		
+		if($query->num_rows() > 0){
+			return 'false';
+		}else{
+			return 'true';
 		}
 	}
 }

@@ -4,7 +4,7 @@ class Subtype_Model extends CC_Model
 {
 	public function getList($type, $requestdata=[])
 	{
-		$this->db->select('ist.*, it.name as installationtypename');
+		$this->db->select('ist.*, it.name as installationtypename')->order_by('id','desc');
 		$this->db->from('installationsubtype as ist');
 		$this->db->join('installationtype as it', 'it.id = ist.installationtype_id', 'left');
 		
@@ -44,14 +44,14 @@ class Subtype_Model extends CC_Model
 		$datetime		= 	date('Y-m-d H:i:s');
 		
 		$request		=	[
-								'updated_at' 		=> $datetime,
-								'updated_by' 		=> $userid
-							];
+			'updated_at' 		=> $datetime,
+			'updated_by' 		=> $userid
+		];
 		
 		if(isset($data['installationtype_id'])) 	$request['installationtype_id'] 	= $data['installationtype_id'];					
 		if(isset($data['name'])) 	$request['name'] 	= $data['name'];
 		$request['status'] 	= (isset($data['status'])) ? $data['status'] : '0';
-	
+
 		if($id==''){
 			$request['created_at'] = $datetime;
 			$request['created_by'] = $userid;
@@ -59,7 +59,7 @@ class Subtype_Model extends CC_Model
 		}else{
 			$this->db->update('installationsubtype', $request, ['id' => $id]);
 		}
-			
+
 		if($this->db->trans_status() === FALSE)
 		{
 			$this->db->trans_rollback();
@@ -82,10 +82,10 @@ class Subtype_Model extends CC_Model
 		$this->db->trans_begin();
 		
 		$delete 	= 	$this->db->update(
-							'installationsubtype', 
-							['status' => $status, 'updated_at' => $datetime, 'updated_by' => $userid], 
-							['id' => $id]
-						);
+			'installationsubtype', 
+			['status' => $status, 'updated_at' => $datetime, 'updated_by' => $userid], 
+			['id' => $id]
+		);
 		
 		if(!$delete || $this->db->trans_status() === FALSE)
 		{
@@ -96,6 +96,23 @@ class Subtype_Model extends CC_Model
 		{
 			$this->db->trans_commit();
 			return true;
+		}
+	}
+
+	public function subValidator($data)
+	{		
+		$id 				= $data['id'];
+		$subtype 			= $data['name'];
+		
+		$this->db->where('name', $subtype);
+		if($id!='') $this->db->where('id !=', $id);
+		//$this->db->where('status !=', '2');
+		$query = $this->db->get('installationsubtype');
+		
+		if($query->num_rows() > 0){
+			return 'false';
+		}else{
+			return 'true';
 		}
 	}
 }

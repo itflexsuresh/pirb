@@ -26,11 +26,8 @@ class Plumber_Model extends CC_Model
 		$this->db->join('users_plumber_skill ups', 'ups.user_id=u.id', 'left');
 		$this->db->join('qualificationroute qr', 'qr.id=ups.skills', 'left');
 		
-		if(isset($requestdata['id'])) 			$this->db->where('u.id', $requestdata['id']);
-		if(isset($requestdata['idcard']) && $requestdata['idcard']!='')				$this->db->where('up.idcard', $requestdata['idcard']);
-		if(isset($requestdata['mobile_phone']) && $requestdata['mobile_phone']!='')	$this->db->where('up.mobile_phone', $requestdata['mobile_phone']);
-		// if(isset($requestdata['mobile_phone'])) $this->db->where('ud.mobile_phone', $requestdata['mobile_phone']);
-		if(isset($requestdata['status']))		$this->db->where_in('u.status', $requestdata['status']);
+		if(isset($requestdata['id'])) 		$this->db->where('u.id', $requestdata['id']);
+		if(isset($requestdata['status']))	$this->db->where_in('u.status', $requestdata['status']);
 		
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);

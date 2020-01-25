@@ -14,12 +14,15 @@ class Plumberperformance_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['id', 'name', 'status'];
+			$column = ['id', 'type', 'allocation', 'period_date', 'period_date', 'status'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
-			$this->db->like('name', $searchvalue);
+			$this->db->like('type', $searchvalue);
+			$this->db->or_like('allocation', $searchvalue);
+			$this->db->or_like('period_date', $searchvalue);
+			$this->db->or_like('status', $searchvalue);
 		}
 		
 		if($type=='count'){

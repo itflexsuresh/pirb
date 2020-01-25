@@ -2,62 +2,76 @@
 
 class Auditor_Model extends CC_Model
 {
-	public function getList($type, $requestdata=[])
-	{
-		$this->db->select('*');
-		$this->db->from('installationtype');
-		
-		if(isset($requestdata['id'])) 		$this->db->where('id', $requestdata['id']);
-		if(isset($requestdata['status']))	$this->db->where_in('status', $requestdata['status']);
-		
-		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
-			$this->db->limit($requestdata['length'], $requestdata['start']);
-		}
-		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['id', 'name', 'status'];
-			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
-		}
-		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
-			$searchvalue = $requestdata['search']['value'];
-			$this->db->like('name', $searchvalue);
-		}
-		
-		if($type=='count'){
-			$result = $this->db->count_all_results();
-		}else{
-			$query = $this->db->get();
-			
-			if($type=='all') 		$result = $query->result_array();
-			elseif($type=='row') 	$result = $query->row_array();
-		}
-		
-		return $result;
-	}
+	
 	
 	public function action($data)
-	{
+	{	
 		$this->db->trans_begin();
 		
 		$userid			= 	$this->getUserID();
-		$id 			= 	$data['id'];
 		$datetime		= 	date('Y-m-d H:i:s');
 		
-		$request		=	[
-								'updated_at' 		=> $datetime,
-								'updated_by' 		=> $userid
-							];
-							
-		if(isset($data['name'])) 	$request['name'] 	= $data['name'];
-		$request['status'] 	= (isset($data['status'])) ? $data['status'] : '0';
-	
-		if($id==''){
-			$request['created_at'] = $datetime;
-			$request['created_by'] = $userid;
-			$this->db->insert('installationtype', $request);
-		}else{
-			$this->db->update('installationtype', $request, ['id' => $id]);
-		}
+
+
+		if(isset($data['name'])) 	         $request['name'] 	    =    $data['name'];
+		if(isset($data['surname'])) 	     $request['surname'] 	=    $data['surname'];
+		// if(isset($data['idnumber'])) 	     $request[''] 			= 	 $data['idnumber'];
+		if(isset($data['auditor_picture']))  $request['file1'] 		= 	 $data['auditor_picture'];
+		if(isset($data['email'])) 			 $request['email']		= 	 $data['email'];		
+		if(isset($data['phonework'])) 		 $request['work_phone'] = 	 $data['phonework'];
+		if(isset($data['phonemobile'])) 	$request['mobile_phone']=    $data['phonemobile'];
+		if(isset($data['billingname'])) 	$request['company_name']=    $data['billingname'];
+		if(isset($data['regnumber'])) 		$request['reg_no'] 		= 	 $data['regnumber'];
+		if(isset($data['vat'])) 		    $request['vat_no'] 	    = 	 $data['vat'];
+		if(isset($data['comp_photo'])) 		$request['file2'] 		= 	 $data['comp_photo'];
+		
+		
+		if(isset($data['billingaddress'])) 	$request1['address'] 	= 	 $data['billingaddress'];
+		if(isset($data['province'])) 		$request1['province'] 	= 	 $data['province'];
+		if(isset($data['city'])) 			$request1['city'] 		= 	 $data['city'];
+		if(isset($data['suburb'])) 	 		$request1['suburb']     = 	 $data['suburb'];
+		if(isset($data['postalcode'])) 	    $request1['postal_code']=    $data['postalcode'];
+
+		
+		if(isset($data['bankname'])) 		$request2['bank_name'] 	=    $data['bankname'];
+		if(isset($data['accountname'])) 	$request2['account_name']=   $data['accountname'];
+		if(isset($data['branchcode'])) 		$request2['branch_code'] =   $data['branchcode'];
+		if(isset($data['accountnumber'])) 	$request2['account_no']  =   $data['accountnumber'];
+		if(isset($data['accounttype'])) 	$request2['account_type'] =  $data['accounttype'];
+
+		if(isset($data['email'])) 			 $request3['email']		= 	 $data['email'];
+		if(isset($data['pass'])) 		 	 $request3['password']	=    $data['pass'];
+
+		//$request['status'] 	= (isset($data['status'])) ? $data['status'] : '0';
+
+
+			if(isset($request)){
 			
+			$request['user_id'] 	= $userid;
+				$audior_details = $this->db->insert('users_detail', $request);
+			}
+
+			
+
+			if(isset($request1)){
+			
+			$request1['user_id'] 	= $userid;
+				$audior_details = $this->db->insert('users_address', $request1);
+			}
+
+			if(isset($request2)){
+			
+			$request2['user_id'] 	= $userid;
+				$audior_details = $this->db->insert('users_bank', $request2);
+			}
+			
+			if(isset($request3)){
+			
+			//$request3['user_id'] 	= $userid;
+				$audior_details = $this->db->insert('users', $request3);
+			}
+		
+
 		if($this->db->trans_status() === FALSE)
 		{
 			$this->db->trans_rollback();
@@ -70,51 +84,7 @@ class Auditor_Model extends CC_Model
 		}
 	}
 	
-	public function changestatus($data)
-	{
-		$userid		= 	$this->getUserID();
-		$id			= 	$data['id'];
-		$status		= 	$data['status'];
-		$datetime	= 	date('Y-m-d H:i:s');
-		
-		$this->db->trans_begin();
-		
-		$delete 	= 	$this->db->update(
-							'installationtype', 
-							['status' => $status, 'updated_at' => $datetime, 'updated_by' => $userid], 
-							['id' => $id]
-						);
-		
-		if(!$delete || $this->db->trans_status() === FALSE)
-		{
-			$this->db->trans_rollback();
-			return false;
-		}
-		else
-		{
-			$this->db->trans_commit();
-			return true;
-		}
-	}
 	
-	public function checkPlumber($type,$type_val='')
-	{
-		$userid		= 	$this->getUserID();
-		
-		if($type=='1'){
-			$data = $this->db->where('user_id', $userid)->get('plumber')->row_array();
-		}elseif($type=='2'){
-			$data = $this->db->where('user_id', $userid)->get('plumber_details')->row_array();
-		}elseif($type=='3'){
-			$data = $this->db->where(array('user_id'=>$userid,'type'=>$type_val))->get('plumber_address')->row_array();			
-		}elseif($type=='4'){
-			$data = $this->db->where('user_id', $userid)->get('plumber_skills')->row_array();
-		}
-		
-		if($data){
-			return ['id' => $data['id'], 'userid' => $data['user_id']];
-		}else{
-			return ['userid' => $userid];
-		}
-	}
+	
+	
 }
