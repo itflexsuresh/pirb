@@ -77,4 +77,12 @@ class Subtype  extends CC_Controller
 
 		echo json_encode($json);
 	}
+
+	public function SubTypeValidation()
+	{
+		$requestData 		= $this->input->post();
+		$data 				= $this->Subtype_Model->subValidator($requestData);
+		
+		echo $data;
+	}
 }

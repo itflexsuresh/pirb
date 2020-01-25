@@ -1,4 +1,5 @@
 <?php
+//Resellers Controllers
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Index extends CC_Controller 

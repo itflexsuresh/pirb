@@ -1,42 +1,44 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+//admin controller
 class Company extends CC_Controller 
 {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Plumber_Model');
+		$this->load->model('Company_Model');
 	}
 	
 	public function index($id='')
 	{
 
 		if($id!=''){
-			$result = $this->Plumber_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
+			$result = $this->Company_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
 			if($result){
 				$pagedata['result'] = $result;
 			}else{
 				$this->session->set_flashdata('error', 'No Record Found.');
-				redirect('plumber/registration'); 
+
+				redirect('company/registration/company'); 
 			}
 		}
 		
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
 
+
 			if($requestData['submit']=='submit'){
-				$data 	=  $this->Plumber_Model->action($requestData);
-				if($data) $message = 'Installation Type '.(($id=='') ? 'created' : 'updated').' successfully.';
+				$data 	=  $this->Company_Model->action($requestData);
+				if($data) $message = 'Company '.(($id=='') ? 'Registered' : 'updated').' successfully.';
 			}else{
-				$data 			= 	$this->Plumber_Model->changestatus($requestData);
-				$message		= 	'Installation Type deleted successfully.';
+				$data 			= 	$this->Company_Model->changestatus($requestData);
+				$message		= 	'Company deleted successfully.';
 			}
 
 			if(isset($data)) $this->session->set_flashdata('success', $message);
 			else $this->session->set_flashdata('error', 'Try Later.');
 			
-			redirect('plumber/registration'); 
+			redirect('company/registration/company'); 
 		}
 		
 		$pagedata['notification'] 	= $this->getNotification();
@@ -51,7 +53,7 @@ class Company extends CC_Controller
 	public function ajaxregistration()
 	{
 		$post 	= $this->input->post();
-		$result = $this->Plumber_Model->action($post);
+		$result = $this->Company_Model->action($post);
 		
 		if($result){
 			$json = ['status' => '1'];
@@ -65,8 +67,8 @@ class Company extends CC_Controller
 	public function DTInstallationType()
 	{
 		$post 			= $this->input->post();
-		$totalcount 	= $this->Plumber_Model->getList('count', ['status' => ['0','1']]+$post);
-		$results 		= $this->Plumber_Model->getList('all', ['status' => ['0','1']]+$post);
+		$totalcount 	= $this->Company_Model->getList('count', ['status' => ['0','1']]+$post);
+		$results 		= $this->Company_Model->getList('all', ['status' => ['0','1']]+$post);
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
@@ -76,7 +78,7 @@ class Company extends CC_Controller
 										'status' 	=> 	$this->config->item('statusicon')[$result['status']],
 										'action'	=> 	'
 															<div class="table-action">
-																<a href="'.base_url().'plumber/registration/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+																<a href="'.base_url().'company/registration/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
 																<a href="javascript:void(0);" data-id="'.$result['id'].'" class="delete" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
 															</div>
 														'
@@ -92,5 +94,10 @@ class Company extends CC_Controller
 		);
 
 		echo json_encode($json);
+	}
+		public function profile_page()
+	{
+		$data['content'] 			= $this->load->view('company/profile/index');
+		
 	}
 }

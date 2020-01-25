@@ -61,8 +61,7 @@ class Systemusers extends CC_Controller
 										'u_type' 				=> 	$result['u_type'],
 										'action'				=> 	'
 															<div class="table-action">
-																<a href="'.base_url().'admin/administration/installationtype/index/'.$result['u_id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-																<a href="javascript:void(0);" data-id="'.$result['u_id'].'" class="delete" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+																<a href="'.base_url().'admin/systemsetup/systemusers/systemuseredit/index/'.$result['u_id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>	
 															</div>
 														'
 									];
@@ -77,5 +76,42 @@ class Systemusers extends CC_Controller
 		);
 
 		echo json_encode($json);
+	}
+	
+	public function action($id='')
+	{
+		if($id!=''){
+			$result = $this->Systemusers_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
+			if($result){
+				$pagedata['result'] = $result;
+			}else{
+				$this->session->set_flashdata('error', 'No Record Found.');
+				redirect('admin/systemsetup/systemusers/systemusers/index'); 
+			}
+		}
+		
+		if($this->input->post()){
+			$requestData 	= 	$this->input->post();
+
+			if($requestData['submit']=='submit'){
+				$data 	=  $this->Systemusers_Model->action($requestData);
+				if($data) $message = 'SystemusersModel Type '.(($id=='') ? 'created' : 'updated').' successfully.';
+			}else{
+				$data 			= 	$this->Systemusers_Model->changestatus($requestData);
+				$message		= 	'SystemusersModel Type deleted successfully.';
+			}
+
+			if(isset($data)) $this->session->set_flashdata('success', $message);
+			else $this->session->set_flashdata('error', 'Try Later.');
+			
+			redirect('admin/systemsetup/systemusers/systemusers'); 
+		}
+		
+		$pagedata['notification'] 	= $this->getNotification();
+		//$pagedata['roletype']       = $this->getRoletype();
+		$pagedata['roletype'] = $this->config->item('roletype');
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
+		$data['content'] 			= $this->load->view('admin/systemsetup/systemusers/action', (isset($pagedata) ? $pagedata : ''), true);
+		$this->layout2($data);
 	}
 }

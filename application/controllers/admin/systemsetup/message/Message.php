@@ -13,6 +13,7 @@ class Message extends CC_Controller
 	{
 		if($id!=''){
 			$result = $this->Message_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
+			// print_r($result);die;
 			if($result){
 				$pagedata['result'] = $result;
 			}else{

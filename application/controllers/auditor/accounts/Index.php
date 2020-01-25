@@ -18,7 +18,7 @@ class Index extends CC_Controller
 				$pagedata['result'] = $result;
 			}else{
 				$this->session->set_flashdata('error', 'No Record Found.');
-				//redirect('plumber/registration'); 
+				redirect('plumber/registration'); 
 			}
 		}
 		
@@ -42,14 +42,14 @@ class Index extends CC_Controller
 			if(isset($data)) $this->session->set_flashdata('success', $message);
 			else $this->session->set_flashdata('error', 'Try Later.');
 			
-			redirect('auditor/profile/index'); 
+			redirect('auditor/accounts/index'); 
 		}
 		
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['province'] 		= $this->getProvinceList();		
 		$pagedata['userid']			= 	$this->getUserID();
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
-		$data['content'] 			= $this->load->view('auditor/profile/index', (isset($pagedata) ? $pagedata : ''), true);
+		$data['content'] 			= $this->load->view('auditor/accounts/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 
 

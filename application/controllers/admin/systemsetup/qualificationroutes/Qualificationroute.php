@@ -35,7 +35,7 @@ class Qualificationroute extends CC_Controller
 			if(isset($data)) $this->session->set_flashdata('success', $message);
 			else $this->session->set_flashdata('error', 'Try Later.');
 			
-			redirect('admin/administration/installationtype'); 
+			redirect('admin/systemsetup/qualificationroutes/Qualificationroute'); 
 		}
 		
 		$pagedata['notification'] 	= $this->getNotification();
@@ -58,7 +58,7 @@ class Qualificationroute extends CC_Controller
 										'status' 	=> 	$this->config->item('statusicon')[$result['status']],
 										'action'	=> 	'
 															<div class="table-action">
-																<a href="'.base_url().'admin/systemsetup/qualificationroutes/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+																<a href="'.base_url().'admin/systemsetup/qualificationroutes/qualificationroute/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
 																<a href="javascript:void(0);" data-id="'.$result['id'].'" class="delete" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
 															</div>
 														'
@@ -75,4 +75,14 @@ class Qualificationroute extends CC_Controller
 
 		echo json_encode($json);
 	}
+
+	public function QualificationRouteValidation()
+	{
+		$requestData 		= $this->input->post();
+		//$requestData['id'] 	= '';
+		$data 				= $this->Qualificationroute_Model->QualificationRouteValidator($requestData);
+		
+		echo $data;
+	}
+
 }

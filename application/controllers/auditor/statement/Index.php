@@ -18,7 +18,7 @@ class Index extends CC_Controller
 				$pagedata['result'] = $result;
 			}else{
 				$this->session->set_flashdata('error', 'No Record Found.');
-				//redirect('plumber/registration'); 
+				redirect('auditor/statement/index'); 
 			}
 		}
 		
@@ -42,14 +42,14 @@ class Index extends CC_Controller
 			if(isset($data)) $this->session->set_flashdata('success', $message);
 			else $this->session->set_flashdata('error', 'Try Later.');
 			
-			redirect('auditor/profile/index'); 
+			redirect('auditor/statement/index'); 
 		}
 		
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['province'] 		= $this->getProvinceList();		
 		$pagedata['userid']			= 	$this->getUserID();
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
-		$data['content'] 			= $this->load->view('auditor/profile/index', (isset($pagedata) ? $pagedata : ''), true);
+		$data['content'] 			= $this->load->view('auditor/statement/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 
 
@@ -57,10 +57,39 @@ class Index extends CC_Controller
 	}
 
 
+	public function audithistory(){
+
+
+
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
+		$data['content'] 			= $this->load->view('auditor/statement/audithistory/index', (isset($pagedata) ? $pagedata : ''), true);
+		$this->layout2($data);
+
+
+	}
+
+
+	public function auditreport(){
+
+
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
+		$data['content'] 			= $this->load->view('auditor/statement/auditreport/index', (isset($pagedata) ? $pagedata : ''), true);
+		$this->layout2($data);
+
+
+	}
 	
+	public function diary(){
+
+
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
+		$data['content'] 			= $this->load->view('auditor/statement/diary/index', (isset($pagedata) ? $pagedata : ''), true);
+		$this->layout2($data);
+
+
+	}
 	
-	
-	// public function DTInstallationType()
+	// public function DTAudithistory()
 	// {
 	// 	$post 			= $this->input->post();
 	// 	$totalcount 	= $this->Plumber_Model->getList('count', ['status' => ['0','1']]+$post);
@@ -71,13 +100,13 @@ class Index extends CC_Controller
 	// 		foreach($results as $result){
 	// 			$totalrecord[] = 	[
 	// 									'name' 		=> 	$result['name'],
+	// 									'name' 		=> 	$result['name'],
 	// 									'status' 	=> 	$this->config->item('statusicon')[$result['status']],
-	// 									'action'	=> 	'
-	// 														<div class="table-action">
-	// 															<a href="'.base_url().'plumber/registration/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-	// 															<a href="javascript:void(0);" data-id="'.$result['id'].'" class="delete" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
-	// 														</div>
-	// 													'
+	// 									// 'action'	=> 	'
+	// 									// 					<div class="table-action">
+	// 									// 						<a href="'.base_url().'plumber/registration/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+	// 									// 						<a href="javascript:void(0);" data-id="'.$result['id'].'" class="delete" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+	// 									// 					</div>'
 	// 								];
 	// 		}
 	// 	}
