@@ -7,34 +7,48 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="">
 		<meta name="author" content="">
+		<link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url().'assets/images/logo.png'; ?>">
 		<title><?php echo $sitename; ?></title>
-		<link href="<?php echo base_url().'assets/plugins/bootstrap/css/bootstrap.min.css'; ?>" rel="stylesheet">
-		<link href="<?php echo base_url().'assets/plugins/font-awesome/css/font-awesome.min.css'; ?>" rel="stylesheet" type="text/css">
-		<link href="<?php echo base_url().'assets/css/sb-admin.css'; ?>" rel="stylesheet">
+		<link href="<?php echo base_url().'assets/css/style.min.css'; ?>" rel="stylesheet">
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
 		<link href="<?php echo base_url().'assets/css/custom.css'; ?>" rel="stylesheet">
+		<script src="<?php echo base_url().'assets/plugins/jquery/jquery-3.2.1.min.js'; ?>"></script>
 	</head>
 
-	<body class="bg-dark">
-		<div class="container">
-			<?php if($this->session->has_userdata('success')){ ?>
-				<div class="alert alert-success alert-dismissible alert1">
-					<button type="button" class="close" data-dismiss="alert">&times;</button>
-					<?php echo $this->session->userdata('success'); ?>
-				</div>
-			<?php }elseif($this->session->has_userdata('error')){ ?>
-				<div class="alert alert-danger alert-dismissible alert1">
-					<button type="button" class="close" data-dismiss="alert">&times;</button>
-					<?php echo $this->session->userdata('error'); ?>
-				</div>
-			<?php } ?>
-			<?php echo (isset($content) ? $content : ''); ?>
+	<body class="skin-default card-no-border">
+		<div class="preloader">
+			<div class="loader">
+				<div class="loader__figure"></div>
+				<p class="loader__label">PIRB</p>
+			</div>
 		</div>
-		<script src="<?php echo base_url().'assets/plugins/jquery/jquery.min.js'; ?>"></script>
-		<script src="<?php echo base_url().'assets/plugins/bootstrap/js/bootstrap.bundle.min.js'; ?>"></script>
-		<script src="<?php echo base_url().'assets/plugins/jquery-easing/jquery.easing.min.js'; ?>"></script>
+		<section id="wrapper">	
+			<div class="col-sm-12 authenticationlogo">
+				<img src="<?php echo base_url().'assets/images/authenticationlogo.png'; ?>" width="100">
+			</div>
+			<?php echo (isset($content) ? $content : ''); ?>				
+		</section>
+		
+		<script src="<?php echo base_url().'assets/plugins/popper/popper.min.js'; ?>"></script>
+		<script src="<?php echo base_url().'assets/plugins/bootstrap/dist/js/bootstrap.min.js'; ?>"></script>
+		<?php
+			if(in_array('validation', $plugins)){ 
+				echo '<script src="'.base_url().'assets/plugins/jquery-validation/jquery.validate.min.js"></script>';
+			}
+		?>
 		<script src="<?php echo base_url().'assets/js/custom.js'; ?>"></script>
+		<script type="text/javascript">
+			$(function() {
+				$(".preloader").fadeOut();
+			});
+		</script>
 	</body>
 </html>

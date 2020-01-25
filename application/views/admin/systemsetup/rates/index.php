@@ -80,12 +80,12 @@ if(isset($result) && $result){
 										foreach($results as $result){
 								?>
 											<?php if($result['type']=='1'){ ?>
-												<tr><td colspan="4" style="text-align: center;"><?php echo $result['supplyitem']; ?></td></tr>
+												<tr><td colspan="4" style="text-align: center;font-weight: bold;"><?php echo $result['supplyitem']; ?></td></tr>
 											<?php }else{ ?>
 												<tr>
 													<td><?php echo $result['supplyitem']; ?></td>
 													<td><?php echo $result['amount']; ?></td>
-													<td><?php echo $result['validfrom']; ?></td>
+													<td><?php echo date('m/d/Y',strtotime($result['validfrom'])); ?></td>
 													<td><div class="table-action">
 																	<a href="<?php echo base_url().'admin/systemsetup/rates/rates/index/'.$result['id'].''?>" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
 																</div></td>

@@ -1,4 +1,5 @@
 <?php
+//Reseller View File
 	$usersdetailid 			= isset($result['usersdetailid']) ? $result['usersdetailid'] : '';
 	$usersplumberid 		= isset($result['usersplumberid']) ? $result['usersplumberid'] : '';
 	

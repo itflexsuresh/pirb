@@ -1,13 +1,55 @@
-<!-- Company front view file -->
+<?php 
+// admin company edit view file
+if(isset($edit)){
+	foreach ($edit as $key => $value) {
+ 	if($value['id']){
+ 	$id          	 =	isset($value['id']) ? $value['id'] : '';
+	$company_name 	 = isset($value['company_name']) ? $value['company_name'] : '';
+	$reg_no		  	 = isset($value['reg_no']) ? $value['reg_no'] : '';
+	$vat_no		   	 = isset($value['vat_no']) ? $value['vat_no'] : '';
+	$contact_person	 = isset($value['contact_person']) ? $value['contact_person'] : '';
+	$mobile_phone 	 = isset($value['mobile_phone']) ? $value['mobile_phone'] : '';
+	$work_phone   	 = isset($value['work_phone']) ? $value['work_phone'] : '';
+	$email 		  	 = isset($value['email']) ? $value['email'] : '';
+	$user_id 	 	 = isset($value['user_id']) ? $value['user_id'] : '';
+	}
+ } 
+ if(isset($id)){
+	foreach ($user_detail as $key => $result) {
+		if($result['type']==1){
+
+			$address1 	 = $result['address'];
+			$suburb1 	 = $result['suburb'];
+			$city1 		 = $result['city'];
+			$province1	 = $result['province'];
+			
+		}elseif ($result['type']==2) {
+			$address2 	 = $result['address'];
+			$suburb2 	 = $result['suburb'];
+			$city2 		 = $result['city'];
+			$province2	 = $result['province'];
+			$postal_code2 = $result['postal_code'];
+		}
+		
+	}
+ }
+}
+	
+// echo '<pre>';
+// print_r($edit);
+// print_r($user_detail);
+// die;
+
+?>
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
-		<h4 class="text-themecolor">Company register</h4>
+		<h4 class="text-themecolor">Company Details</h4>
 	</div>
 	<div class="col-md-7 align-self-center text-right">
 		<div class="d-flex justify-content-end align-items-center">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="j<?php echo base_url().'admin/dashboard'; ?>">Home</a></li>
-				<li class="breadcrumb-item active">Company register</li>
+				<li class="breadcrumb-item active">Company Details</li>
 			</ol>
 		</div>
 	</div>
@@ -17,29 +59,30 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<div class="col-md-12">
+				<?php echo $company_status ?>
+<!-- 				<div class="col-md-12">
 					<a href="javascript:void(0);" id="previous">Previous</a>
 					<a href="javascript:void(0);" id="next">Next</a>
-				</div>
+				</div> -->
+<!-- 								<div class="steps active" data-id="1">
+					<h4 class="card-title">Registered Company Details</h4>
+				</div> -->
 				
 				<div class="steps active" data-id="1">
-					<h4 class="card-title">Registered Company Details</h4>
-				</div>
-				
-				<div class="steps displaynone"  data-id="2">
 					<form class="form" method="post" action="">
-						<h4 class="card-title">Registered Company Details</h4>
+						<h4 class="card-title">Company Details</h4>
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Company Name *</label>
-									<input type="text" class="form-control"  name="name">
+									<input type="text" class="form-control"  name="name" 
+									value="<?php echo $company_name; ?>">
 									</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Company Registration Number *</label>
-									<input type="text" class="form-control"  name="reg_num">
+									<input type="text" class="form-control"  name="reg_num" value="<?php echo $reg_no; ?>">
 								</div>
 							</div>
 						</div>
@@ -47,7 +90,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>VAT Number</label>
-									<input type="text" class="form-control"  name="vat_num">
+									<input type="text" class="form-control"  name="vat_num" value="<?php echo $vat_no; ?>">
 								</div>
 							</div>
 						</div>
@@ -55,7 +98,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Primary Contact Person *</label>
-									<input type="text" class="form-control"  name="contact">
+									<input type="text" class="form-control"  name="contact" value="<?php echo $contact_person; ?>">
 									</div>
 							</div>
 						</div>
@@ -67,7 +110,7 @@
 								
 								<div class="form-group">
 									<label>Physical Address *</label>
-									<input type="text" class="form-control" name="address[1][address]">
+									<input type="text" class="form-control" name="address[1][address]" value="<?php echo $address1; ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -78,7 +121,7 @@
 								
 								<div class="form-group"> 
 									<label>Postal Address *</label>
-									<input type="text" class="form-control" name="address[2][address]">
+									<input type="text" class="form-control" name="address[2][address]" value="<?php echo $address2; ?>">
 								</div>
 							</div>
 						</div>
@@ -86,13 +129,13 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Suburb *</label>
-									<input type="text" class="form-control" name="address[1][suburb]">
+									<input type="text" class="form-control" name="address[1][suburb]" value="<?php echo $suburb1; ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Suburb *</label>
-									<input type="text" class="form-control" name="address[2][suburb]">
+									<input type="text" class="form-control" name="address[2][suburb]" value="<?php echo $suburb2; ?>">
 								</div>
 							</div>
 						</div>
@@ -100,13 +143,13 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>City *</label>
-									<input type="text" class="form-control" name="address[1][city]">
+									<input type="text" class="form-control" name="address[1][city]" value="<?php echo $city1; ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>City *</label>
-									<input type="text" class="form-control" name="address[2][city]">
+									<input type="text" class="form-control" name="address[2][city]" value="<?php echo $city2; ?>">
 								</div>
 							</div>
 						</div>
@@ -129,16 +172,10 @@
 							</div>
 						</div>
 						<div class="row">
-							<!-- <div class="col-md-6">
-								<div class="form-group">
-									<label>Postal Code *</label>
-									<input type="text" class="form-control" name="address[1][postal_code]">
-									</div>
-							</div> -->
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Postal Code *</label>
-									<input type="text" class="form-control" name="address[2][postal_code]">
+									<input type="text" class="form-control" name="address[2][postal_code]" value="<?php echo $postal_code2; ?>">
 									</div>
 							</div>
 						</div>
@@ -153,13 +190,13 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Work Phone:</label>
-									<input type="text" class="form-control" name="work_phone">
+									<input type="text" class="form-control" name="work_phone" value="<?php echo $work_phone; ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Mobile Phone of Primary Contact *</label>
-									<input type="text" class="form-control"  name="primary_phone">
+									<input type="text" class="form-control"  name="primary_phone" value="<?php echo $mobile_phone; ?>">
 										</br>
 										<small class="tagline">Note: all sms and OTP notifications will be sent to this mobile number above</small>
 								</div>
@@ -171,7 +208,7 @@
 								<div class="form-group">
 									<label>Email Address *
 									</label>
-									<input type="text" class="form-control" name="email_address">
+									<input type="text" class="form-control" name="email_address" value="<?php echo $email; ?>">
 										</br>
 										<small class="tagline">Note: this email will be used as your user profile name and all emails notifications will be sent to it</small>
 								</div>
@@ -197,7 +234,7 @@
 						</div>
 						</div>
 						<div class="col-md-6 text-right">
-							<input type="hidden" name="user_id" value="<?php if(isset($id)) echo $id ?>">
+							<input type="hidden" name="id_user" value="<?php if(isset($user_id)) echo $user_id ?>">
 							<button type="submit" name="submit" value="submit" class="btn btn-primary">Submit</button>
 						</div>
 					</form>
@@ -241,7 +278,7 @@ function checkstep(){
 		$('#next').addClass('displaynone');
 	}
 }
-	$(function(){
+$(function(){
 
 			validation(
 				'.form',

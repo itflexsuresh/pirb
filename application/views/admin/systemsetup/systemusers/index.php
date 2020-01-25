@@ -33,24 +33,6 @@
 		<div class="card">
 			<div class="card-body">
 				<h4 class="card-title">Admin System Users</h4>
-				<form class="mt-4 form" action="" method="post">
-					<div class="form-group">
-						<label for="name">Installation Type *</label>
-						<textarea class="form-control" id="name" name="name" placeholder="Enter Installation Type *"><?php echo $name; ?></textarea>
-					</div>
-					<div class="row">
-						<div class="col-md-6">
-							<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
-								<input type="checkbox" class="custom-control-input" name="status" id="status" <?php if($status=='1') echo 'checked'; ?> value="1">
-								<label class="custom-control-label" for="status">Active</label>
-							</div>
-						</div>
-						<div class="col-md-6 text-right">
-							<input type="hidden" name="id" value="<?php echo $id; ?>">
-							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> </button>
-						</div>
-					</div>
-				</form>
 				<div class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>

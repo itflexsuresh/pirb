@@ -68,7 +68,7 @@ $period_date					= set_value('period_date');
 						</div>
 						<div class="col-md-6 text-right">
 							<input type="hidden" name="id" value="<?php echo $id; ?>">
-							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> Plumber Perfromance Type</button>
+							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> Plumber Performance Type</button>
 						</div>
 					</div>
 				</form>
@@ -111,7 +111,7 @@ $period_date					= set_value('period_date');
 				type : {
 					required	: true,
 				},
-				period : {
+				allocation : {
 					required	: true,
 				}
 				
@@ -120,8 +120,8 @@ $period_date					= set_value('period_date');
 				type 	: {
 					required	: "Performance Type field is required."
 				},
-				period 	: {
-					required	: "period field is required."
+				allocation 	: {
+					required	: "Allocation field is required."
 				}
 			}
 		);

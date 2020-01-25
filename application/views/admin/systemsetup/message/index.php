@@ -2,33 +2,44 @@
 if(isset($result) && $result){
 	$id 			= $result['id'];
 	$msgid 			= (set_value('groups')) ? set_value('groups') : $result['groups'];
-	$message 			= (set_value('message')) ? set_value('message') : $result['message'];
-	$start_date 	= (set_value('start_date')) ? set_value('start_date') : $result['startdate'];
-	$end_date 		= (set_value('end_date')) ? set_value('end_date') : $result['enddate'];
+	$message 		= (set_value('message')) ? set_value('message') : $result['message'];
+	$startdate 		= isset($result['startdate']) && $result['startdate']!='1970-01-01' ? date('d-m-Y', strtotime($result['startdate'])) : '';
+	$enddate 		= isset($result['enddate']) && $result['enddate']!='1970-01-01' ? date('d-m-Y', strtotime($result['enddate'])) : '';
 	$status 		= (set_value('status')) ? set_value('status') : $result['status'];
+	$DBendDate 		= (set_value('enddate')) ? set_value('enddate') : strtotime($result['enddate']);
+
 	
 	$heading		= 'Update';
 }else{
 	$id 			= '';
 	$msgid			= set_value('groups');		
-	$message			= set_value('message');
-	$start_date		= set_value('start_date');
-	$end_date		= set_value('end_date');
+	$message		= set_value('message');
+	$startdate		= set_value('startdate');
+	$enddate		= set_value('enddate');
 	$status			= set_value('status');
+	$DBendDate		= set_value('enddate');
 
 	$heading		= 'Add';
 }
+			$crrrentDate = strtotime(date('Y-m-d'));
+			if ($crrrentDate<=$DBendDate) {
+				$activeStatus = '1';
+			//print_r(date('Y-m-d',$DBendDate));
+			}else{
+				$activeStatus = '0';
+			}
+
 ?>
 
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
-		<h4 class="text-themecolor">Global Message</h4>
+		<h4 class="text-themecolor">Global Messages</h4>
 	</div>
 	<div class="col-md-7 align-self-center text-right">
 		<div class="d-flex justify-content-end align-items-center">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="j<?php echo base_url().'admin/dashboard'; ?>">Home</a></li>
-				<li class="breadcrumb-item active">Global Message</li>
+				<li class="breadcrumb-item active">Global Messages</li>
 			</ol>
 		</div>
 	</div>
@@ -45,12 +56,12 @@ if(isset($result) && $result){
 						<?php echo form_dropdown('groups', $msggrp, $msgid, ['id' => 'groups', 'class' => 'form-control']); ?>
 					</div>
 					<div class="form-group">
-						<label for="name">Message Start Date</label>
-						<input type="text" autocomplete="off" class="form-control" id="start-date" name="start_date" placeholder="Enter Start date *" value="<?php echo $start_date; ?>">
+						<label for="startdate">Message Start Date</label>
+						<input type="text" autocomplete="off" class="form-control" id="startdate" name="startdate" placeholder="Enter Start date *" value="<?php echo $startdate; ?>">
 					</div>
 					<div class="form-group">
-						<label for="end-end">Message End Date</label>
-						<input type="text" autocomplete="off" class="form-control" id="end-end" name="end_date" placeholder="Enter End date *" value="<?php echo $end_date; ?>">
+						<label for="enddate">Message End Date</label>
+						<input type="text" autocomplete="off" class="form-control" id="enddate" name="enddate" placeholder="Enter End date *" value="<?php echo $enddate; ?>">
 					</div>
 					<div class="form-group">
 						<label for="message">Message</label>
@@ -59,7 +70,7 @@ if(isset($result) && $result){
 					<div class="row">
 						<div class="col-md-6">
 							<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
-								<input type="checkbox" class="custom-control-input" name="status" id="status" <?php if($status=='1') echo 'checked'; ?> value="1">
+								<input type="checkbox" class="custom-control-input" name="status" id="status" <?php if($status=='1' && $activeStatus=='1') echo 'checked'; ?> value="1">
 								<label class="custom-control-label" for="status">Active</label>
 							</div>
 						</div>
@@ -109,7 +120,7 @@ if(isset($result) && $result){
 		validation(
 			'.form',
 			{				
-				start_date : {
+				startdate: {
 					required	: true,
 				},
 				end_date : {
@@ -117,7 +128,7 @@ if(isset($result) && $result){
 				}
 			},
 			{				
-				start_date 	: {
+				startdate 	: {
 					required	: "Start Date field is required."
 				},
 				end_date 	: {
@@ -126,8 +137,8 @@ if(isset($result) && $result){
 			}
 		);
 
-		datepicker('#start-date', ['currentdate'])
-		datepicker('#end-end', ['currentdate'])
+		datepicker('#startdate', ['currentdate'])
+		datepicker('#enddate', ['currentdate'])
 		
 	});
 	

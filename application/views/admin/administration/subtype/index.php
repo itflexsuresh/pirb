@@ -47,12 +47,12 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
-								<input type="checkbox" class="custom-control-input" name="status" id="status" <?php if($status=='1') echo 'checked'; ?> value="1">
+								<input type="checkbox" class="custom-control-input" name="status" id="status" <?php if($status=='1') echo 'checked'; ?> value="1" checked>
 								<label class="custom-control-label" for="status">Active</label>
 							</div>
 						</div>
 						<div class="col-md-6 text-right">
-							<input type="hidden" name="id" value="<?php echo $id; ?>">
+							<input type="hidden" id="DBId" name="id" value="<?php echo $id; ?>">
 							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> Sub Type</button>
 						</div>
 					</div>
@@ -98,6 +98,18 @@
 				},
 				name : {
 					required	: true,
+					remote		: 	{
+							url	: "<?php echo base_url().'admin/administration/subtype/SubTypeValidation'; ?>",
+							type: "post",
+							data: {
+								name: function() {
+									return $( "#name" ).val();
+								},
+								id: function() {
+									return $( "#DBId" ).val();
+								}
+							}
+						}
 				}
 			},
 			{
@@ -105,7 +117,8 @@
 					required	: "Installation Type field is required."
 				},
 				name 	: {
-					required	: "Sub Type field is required."
+					required	: "Sub Type field is required.",
+					remote		: "Sub Type Already Exists."
 				}
 			}
 		);
