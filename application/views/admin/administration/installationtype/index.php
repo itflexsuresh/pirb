@@ -98,6 +98,7 @@ if(isset($result) && $result){
 									return $( "#id" ).val();
 								}
 							}
+
 						}
 				}
 			},
@@ -106,9 +107,8 @@ if(isset($result) && $result){
 					required	: "Installation Type field is required.",
 					remote		: "Installation Type Already Exists."
 				}
-			}
+			},[],'1'
 			);
-		
 	});
 	
 	// Delete

@@ -28,7 +28,10 @@ class Plumber_Model extends CC_Model
 		
 		if(isset($requestdata['id'])) 			$this->db->where('u.id', $requestdata['id']);
 		if(isset($requestdata['idcard']) && $requestdata['idcard']!='')				$this->db->where('up.idcard', $requestdata['idcard']);
-		if(isset($requestdata['mobile_phone']) && $requestdata['mobile_phone']!='')	$this->db->where('up.mobile_phone', $requestdata['mobile_phone']);
+		if(isset($requestdata['dob']) && $requestdata['dob']!='')					$this->db->where('ud.dob', $requestdata['dob']);
+		if(isset($requestdata['reg_no']) && $requestdata['reg_no']!='')				$this->db->where('up.reg_no', $requestdata['reg_no']);
+		if(isset($requestdata['company_details']) && $requestdata['company_details']!='')				$this->db->where('up.company_details', $requestdata['company_details']);
+		if(isset($requestdata['mobile_phone']) && $requestdata['mobile_phone']!='')	$this->db->where('ud.mobile_phone', $requestdata['mobile_phone']);
 		// if(isset($requestdata['mobile_phone'])) $this->db->where('ud.mobile_phone', $requestdata['mobile_phone']);
 		if(isset($requestdata['status']))		$this->db->where_in('u.status', $requestdata['status']);
 		

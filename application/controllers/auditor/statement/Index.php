@@ -67,27 +67,6 @@ class Index extends CC_Controller
 
 
 	}
-
-
-	public function auditreport(){
-
-
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
-		$data['content'] 			= $this->load->view('auditor/statement/auditreport/index', (isset($pagedata) ? $pagedata : ''), true);
-		$this->layout2($data);
-
-
-	}
-	
-	public function diary(){
-
-
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
-		$data['content'] 			= $this->load->view('auditor/statement/diary/index', (isset($pagedata) ? $pagedata : ''), true);
-		$this->layout2($data);
-
-
-	}
 	
 	// public function DTAudithistory()
 	// {

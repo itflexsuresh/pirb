@@ -18,6 +18,7 @@
 			<div class="card-body">
 				
 				<form class="form" method="post">
+
 					<ul class="nav nav-tabs" role="tablist">
 						<li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#tab1" role="tab"><span class="hidden-sm-up"><!-- <i class="ti-home"> </i>--></span> <span class="hidden-xs-down">Plumber Audit History</span></a> </li>
 						<li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#tab2" role="tab"><span class="hidden-sm-up"><!-- <i class="ti-user"></i> --></span> <span class="hidden-xs-down">Audit Review</span></a> </li>
@@ -26,63 +27,63 @@
 
 					
 					<div class="tab-content tabcontent-border">
-					<div class="tab-pane active p-20" id="tab1" role="tabpanel">
-					<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="name">Number Audits Done to Date *</label>							
-							<input type="text" class="form-control"  name="numberaudits">
-						</div>
-					</div>
-					<div class="col-md-6">
-							<div class="form-group">
-								<label>Total Number of Audit Findings *</label>
-								<input type="text" class="form-control"  name="caution">
+						<div class="tab-pane active p-20" id="tab1" role="tabpanel">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="name">Number Audits Done to Date *</label>							
+										<input type="text" class="form-control"  name="numberaudits">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Total Number of Audit Findings *</label>
+										<input type="text" class="form-control"  name="caution">
+									</div>
+								</div>
 							</div>
-						</div>
-						</div>
-						<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Cautionary Audit Findings *</label>
-								<input type="text" class="form-control"  name="caution">
-								 
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Cautionary Audit Findings *</label>
+										<input type="text" class="form-control"  name="caution">
+
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Refix (In-Complete) Audit Findings *</label>
+										<input type="text" class="form-control"  name="caution">
+									</div>
+								</div>
 							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Refix (In-Complete) Audit Findings *</label>
-								<input type="text" class="form-control"  name="caution">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Refix (Complete) Audit Findings *</label>
+										<input type="text" class="form-control"  name="caution">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>No Audit Findings Audit Findings *</label>
+										<input type="text" class="form-control"  name="caution">
+									</div>
+								</div>
 							</div>
-						</div>
-						</div>
-						<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Refix (Complete) Audit Findings *</label>
-								<input type="text" class="form-control"  name="caution">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>No Audit Findings Audit Findings *</label>
-								<input type="text" class="form-control"  name="caution">
-							</div>
-						</div>
-						</div>
-					<div class="row">
-						<div class="col-md-12">							
-							<table id="table" class="table table-bordered table-striped datatables fullwidth">
-								<thead>
-									<tr>
-										<th>Audit Date</th>
-										<th>Auditor</th>        
-										<th>Installatation Type</th>
-										<th>Sub Type</th>
-										<th>Statements</th>
-										<th>Audit Finding</th>										
-									</tr>
-								</thead>
+							<div class="row">
+								<div class="col-md-12">							
+									<table id="table" class="table table-bordered table-striped datatables fullwidth">
+										<thead>
+											<tr>
+												<th>Audit Date</th>
+												<th>Auditor</th>        
+												<th>Installatation Type</th>
+												<th>Sub Type</th>
+												<th>Statements</th>
+												<th>Audit Finding</th>										
+											</tr>
+										</thead>
 								<!-- <tbody>
 									<tr >    
 										<td></td>
@@ -101,38 +102,38 @@
 							</table>
 						</div>
 					</div>
-						</div>	
-					
-						<div class="tab-pane p-20" id="tab2" role="tabpanel">
-							<h4 class="card-title">Plumbers Details</h4>
-							<div class="row">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Registration Number *</label>
-										<input type="text" class="form-control"  name="regnumber">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Plumbers Name and Surname *</label>
-										<input type="text" class="form-control"  name="plumname">
-									</div>
-								</div>
-								</div>
-								<div class="row">
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Phone (Work) *</label>
-										<input type="text" class="form-control"  name="phonework">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Phone (Mobile) *</label>
-										<input type="text" class="form-control"  name="phonemobile">
-									</div>
-								</div>
-								<div class="col-md-6">
+				</div>	
+
+				<div class="tab-pane p-20" id="tab2" role="tabpanel">
+					<h4 class="card-title">Plumbers Details</h4>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Registration Number *</label>
+								<input type="text" class="form-control"  name="regnumber">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Plumbers Name and Surname *</label>
+								<input type="text" class="form-control"  name="plumname">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Phone (Work) *</label>
+								<input type="text" class="form-control"  name="phonework">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Phone (Mobile) *</label>
+								<input type="text" class="form-control"  name="phonemobile">
+							</div>
+						</div>
+						<div class="col-md-4">
 							<div class="form-group">
 								<label>Plumbers Image</label>
 								<div>
@@ -142,21 +143,178 @@
 								<input type="hidden" name="plumber_picture" class="plumber_picture">			
 							</div>
 						</div>
-								</div>
+					</div>
+					<h4 class="card-title">COC Details</h4>
+					<h4 class="card-title">View COC Details in full</h4>
 
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="name">Certificate No *</label>							
+								<input type="text" class="form-control"  name="numberaudits">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="name">Plumbing Work Completion Date *</label>							
+								<input type="date" class="form-control"  name="numberaudits">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="name">Owners Name *</label>							
+								<input type="text" class="form-control"  name="numberaudits">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="name">Name of Complex/Flat (if applicable) *</label>							
+								<input type="text" class="form-control"  name="numberaudits">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="name">Street *</label>							
+								<input type="text" class="form-control"  name="numberaudits">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="name">Number *</label>							
+								<input type="text" class="form-control"  name="numberaudits">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="name">Province *</label>							
+								<input type="text" class="form-control"  name="numberaudits">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="name">City *</label>							
+								<input type="text" class="form-control"  name="numberaudits">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="name">Suburb *</label>							
+								<input type="text" class="form-control"  name="numberaudits">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="name">Contact Mobile *</label>							
+								<input type="text" class="form-control"  name="numberaudits">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="name">Alternate Contact *</label>							
+								<input type="text" class="form-control"  name="numberaudits">
+							</div>
+						</div>
+					</div>
+
+					<h4 class="card-title">Audit Review</h4>
 					
-				</form>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="name">Date of Audit *</label>							
+							<input type="date" class="form-control"  name="numberaudits">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="name">Overall Workmanship *</label>							
+							<input type="text" class="form-control"  name="numberaudits">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="name">Licensed Plumber Present *</label>							
+							<input type="text" class="form-control"  name="numberaudits">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="name">Was COC Completed Correctly *</label>							
+							<input type="text" class="form-control"  name="numberaudits">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="name">Place Audit on hold</label>							
+							<input type="radio" class="form-control"  name="numberaudits">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="name">Why was Audit placed on hold?</label>							
+							<textarea class="form-control"  name="numberaudits"></textarea>
+						</div>
+					</div>
+
+					<div class="table-responsive m-t-40">
+						<table class="table table-bordered table-striped datatables fullwidth">
+							<thead>
+								<tr>
+									<th>Review Type</th>
+									<th>Statement</th>
+									<th>Comments</th>
+									<th>Images</th>
+									<th>Performance Points</th>
+									<th>Refix Status</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+
+					<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="name">Refix Period (Days) *</label>							
+							<input type="number" class="form-control"  name="numberaudits">
+						</div>
+					</div>
+					<div class="col-md-6 text-right">
+							
+							<button type="submit" name="submit" value="submit" class="btn btn-primary">Add a Review</button>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="name">Date and Time of Report submitted: *</label>							
+							<input type="text" class="form-control"  name="numberaudits">
+						</div>
+					</div>
+					
+
+				
+				</div>
 
 			</div>
-		</div>
+		</form>
+
 	</div>
+</div>
+</div>
 </div>
 
 
 <script type="text/javascript">
 
 	$(document).ready(function() {
-    $("#addarea").click(function() { 
+		$("#addarea").click(function() { 
 
         // var cty = $("#audit_city").val();
         // var srb = $("#audit_suburb").val();
@@ -165,19 +323,19 @@
         var val2 = $('input[id="audit_city"]').val();
         var val3 = $('input[id="audit_suburb"]').val();
 
-            if(val1 != '')
-            {
+        if(val1 != '')
+        {
                 //('#table').append('<tr class="prov"><td>' + val1 + '</td></tr>');
                 $('#table').append('<td class="ptty">' + val1 + '</td>');
                 $('#table').append('<td class="cccty">' + val2 + '</td>');
                 $('#table').append('<td class="qqty">' + val3 + '</td>');
             }
-        
 
 
-    });
-    
-});
+
+        });
+
+	});
 
 
 
@@ -196,7 +354,7 @@
 		};
 		
 
-	validation(
+		validation(
 			'.form',
 			{
 				name : {
@@ -306,6 +464,6 @@
 					required	: "Please enter the account type"	
 				}
 			}
-		);
+			);
 	});
 </script>
