@@ -13,6 +13,7 @@ class Cpdtypesetup extends CC_Controller
 	
 	public function index($pagestatus='',$id='')
 	{
+		
 		if($id!=''){
 			$result = $this->Cpdtypesetup_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
 			if($result){
@@ -54,6 +55,7 @@ class Cpdtypesetup extends CC_Controller
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['cpdstreamID'] 	= $this->config->item('cpdstream');
 		$pagedata['pagestatus'] 	= $this->getPageStatus($pagestatus);
+		$pagedata['id'] 			= $this->getUserID();
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
 		$data['content'] 			= $this->load->view('admin/cpd/cpdtypesetup/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
@@ -79,7 +81,7 @@ class Cpdtypesetup extends CC_Controller
 										//'status' 	=> 	$this->config->item('statusicon')[$result['status']],
 					'action'			=> 	'
 					<div class="table-action">
-					<a href="'.base_url().'admin/cpd/cpdtypesetup/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+					<a href="'.base_url().'admin/cpd/cpdtypesetup/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
 					</div>
 					'
 				];
