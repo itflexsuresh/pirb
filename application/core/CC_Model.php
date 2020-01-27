@@ -13,14 +13,17 @@ class CC_Model extends CI_Model
 		
 		$this->load->library('email');
 		
+		$config['protocol']    	= 'smtp';
+        $config['smtp_host']    = 'ssl://smtp.gmail.com';
+        $config['smtp_port']    = '465';
+        $config['smtp_user']    = 'manikandan@itflexsolutions.com';
+        $config['smtp_pass']    = 'mani@itf';
 		$config['mailtype'] 	= 'html';
-		$config['protocol'] 	= 'sendmail';
-		$config['mailpath'] 	= '/usr/sbin/sendmail';
 		$config['charset'] 		= 'iso-8859-1';
 		$config['wordwrap'] 	= TRUE;
 
 		$this->email->initialize($config);
-		$this->email->from('icomeagain@gmail.com', $sitename);
+		$this->email->from('pirb@gmail.com', $sitename);
 		$this->email->to($to);
 		$this->email->subject($subject);
 		$this->email->message($message);
@@ -29,7 +32,20 @@ class CC_Model extends CI_Model
 		if($this->email->send()){
 			return 'true';
 		}else{
-			//print_r($this->email->print_debugger());
+			print_r($this->email->print_debugger());
+			return 'false';
+		}
+	}
+	
+	public function sentMail2($to, $subject, $message)
+	{
+		$headers = "MIME-Version: 1.0" . "\r\n";
+		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+		$headers .= 'From: <pirb@gmail.com>' . "\r\n";
+		
+		if(mail($to,$subject,$message,$headers)){
+			return 'true';
+		}else{
 			return 'false';
 		}
 	}
@@ -47,7 +63,7 @@ class CC_Model extends CI_Model
 
 		if(!$this->upload->do_upload($file))
 		{
-			//return $this->upload->display_errors();
+			return $this->upload->display_errors();
 			return '';
 		}
 		else
@@ -77,10 +93,10 @@ class CC_Model extends CI_Model
 	{
 		if($this->session->has_userdata('userid')){
 			$userid = $this->session->userdata('userid');			
-			$result = $this->db->select('*')->from('users')->where('u_id', $userid)->where_in('u_status', ['1'])->get()->row_array();
+			$result = $this->db->select('*')->from('users')->where('id', $userid)->where_in('status', ['0', '1'])->get()->row_array();
 			
 			if($result){
-				return $result['u_id'];
+				return $result['id'];
 			}else{
 				return '';
 			}
