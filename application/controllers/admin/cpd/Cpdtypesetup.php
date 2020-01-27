@@ -11,7 +11,7 @@ class Cpdtypesetup extends CC_Controller
 		
 	}
 	
-	public function index($id='')
+	public function index($pagestatus='',$id='')
 	{
 		if($id!=''){
 			$result = $this->Cpdtypesetup_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
@@ -27,8 +27,8 @@ class Cpdtypesetup extends CC_Controller
 			$requestData 	= 	$this->input->post();
 
 			if($requestData['submit']=='submit'){
-				// QR CODE 
 
+				// QR CODE
 				$SERVERFILEPATH 			= $_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirbGit/assets/uploads/qrcode/';
 				$text 						= $requestData['productcode'];
 				$code_fileName 				= substr($text, 0,9);
@@ -53,6 +53,7 @@ class Cpdtypesetup extends CC_Controller
 		
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['cpdstreamID'] 	= $this->config->item('cpdstream');
+		$pagedata['pagestatus'] 	= $this->getPageStatus($pagestatus);
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
 		$data['content'] 			= $this->load->view('admin/cpd/cpdtypesetup/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
@@ -61,8 +62,9 @@ class Cpdtypesetup extends CC_Controller
 	public function DTCpdType()
 	{
 		$post 			= $this->input->post();
-		$totalcount 	= $this->Cpdtypesetup_Model->getList('count', ['status' => ['1']]+$post);
-		$results 		= $this->Cpdtypesetup_Model->getList('all', ['status' => ['1']]+$post);
+
+		$totalcount 	= $this->Cpdtypesetup_Model->getList('count', ['status' => [$post['pagestatus']]]+$post);
+		$results 		= $this->Cpdtypesetup_Model->getList('all', ['status' => [$post['pagestatus']]]+$post);
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
