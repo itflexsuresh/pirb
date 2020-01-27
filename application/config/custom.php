@@ -1,0 +1,271 @@
+<?php
+
+$config['sitename']	 				= 	'Audit IT';
+
+$config['learner']	 				= 	'1';
+$config['assistant']	 			= 	'2';
+$config['operator']	 				= 	'3';
+$config['licensed']	 				= 	'4';
+
+
+
+$config['plumberstatus'] 			= 	[
+											'' 	=> '',
+											'1' => 'Enabled',
+											'0' => 'Disabled'
+										];
+
+$config['status'] 					= 	[
+											'' 	=> '',
+											'1' => 'Active',
+											'0' => 'InActive'
+										];
+
+$config['statusicon'] 				= 	[
+											'' 	=> '',
+											'1' => '<i class="fa fa-check"></i>',
+											'0' => '<i class="fa fa-times"></i>'
+										];
+
+
+$config['roletype'] 				= 	[
+											'1' => 'Administrator',
+											'2' => 'Local Authorities',
+											'3' => 'Insurance',
+											'4' => 'Guest'
+										];
+
+$config['messagegroup'] 			= 	[
+											'1' => 'PLUMBER MESSAGE',
+											'2' => 'AUDITOR MESSAGE',
+											'3' => 'RESELLER MESSAGE',
+											'4' => 'COMPANY MESSAGE'
+										];
+
+
+$config['cpdstream'] 				= 	[
+											'1' => 'Developmental',
+											'2' => 'Work-Based',
+											'3' => 'Individual'
+										];
+
+
+
+
+
+$config['titlesign'] 				= 	[
+											'1' => 'Mr',
+											'2' => 'Mrs',
+											'3' => 'Miss',
+											'4' => 'Other'
+										];
+										
+$config['gender'] 					= 	[
+											'1' => 'Male',
+											'2' => 'Female'
+										];	
+										
+$config['racial'] 					= 	[
+											'1' => 'African',
+											'2' => 'Indian',
+											'3' => 'Coloured',
+											'4' => 'White'
+										];		
+										
+$config['yesno'] 					= 	[
+											'1' => 'Yes',
+											'2' => 'No'
+										];
+										
+$config['othernationality'] 		= 	[
+											'1' => 'Item1',
+											'2' => 'Item2',
+											'3' => 'Item3',
+											'4' => 'Item4'
+										];	
+										
+$config['homelanguage'] 			= 	[
+											'1' => 'Item1',
+											'2' => 'Item2',
+											'3' => 'Item3',
+											'4' => 'Item4'
+										];
+										
+$config['disability'] 				= 	[
+											'1' => 'Item1',
+											'2' => 'Item2',
+											'3' => 'Item3',
+											'4' => 'Item4'
+										];	
+										
+$config['citizen'] 					= 	[
+											'1' => 'Dual (South African & Other)',
+											'2' => 'Permanent',
+											'3' => 'South African',
+											'4' => 'Other'
+										];		
+										
+$config['deliverycard'] 			= 	[
+											'1' => 'Postage',
+											'2' => 'Couriour',
+											'3' => 'Collected at PIRB'
+										];
+										
+$config['employmentdetail'] 		= 	[
+											'1' => 'Employed',
+											'2' => 'Unemployed'
+										];	
+										
+$config['companydetail'] 			= 	[
+											'1' => 'From Data Listing'
+										];	
+										
+$config['designation1'] 			= 	[
+											'1' => 	'
+													<div class="">
+														<input type="radio" value="1" name="designation" class="designation"> <label>Learner Plumber</label>
+														<p>The following designation requirements must be observed to hold and/or maintain a Learner designations;</p>
+														<ul>
+															<li>Completion of the PIRB induction course;</li>
+															<li>Must preferably be employed and must work under the supervision and/or mentorship of a Licensed or Qualified Plumber;</li>
+															<li>Provide details of the PIRB Licensed/Qualified Plumber under whose adequate supervision and/or mentorship you will be doing your plumbing training;</li>
+															<li>Obtain 10 CPD points over 12-month cycle Re-register every 12 months.</li>
+														</ul>
+														<p>Current Registration Fee : %s</p>
+													</div>
+													',
+											'2' => 	'
+													<div class="">
+														<input type="radio" value="2" name="designation" class="designation"> <label>Technical Assisting Practitioner</label>
+														<p>The following designation requirements must be observed to hold and/or maintain a Technical Assistance Practitioner designation;</p>
+														<ul>
+															<li>3 Years proven practicing experience in the plumbing industry</li>
+															<li>Completion of the PIRB online induction course;</li>
+															<li>Obtain 10 CPD points over 12-month cycle</li>
+															<li>Re-register every 12 months</li>
+														</ul>
+														<p>Current Registration Fee : %s</p>
+													</div>
+													',
+											'3' => 	'
+													<div class="">
+														<input type="radio" value="3" name="designation" class="designation"> <label>Technical Operator Practitioner</label>
+														<p>The following designation requirements must be observed to hold and/or maintain a Technical Operating Practitioner:</p>
+														<ul>
+															<li>3 Years proven practicing experience in the plumbing industry and respective designation being applied for;</li>
+															<li>Completion of the PIRB online induction course;</li>
+															<li>Pass the PIRB’s Written and or Practical assessment;</li>
+															<li>Obtain 10 CPD points over 12-month cycle;</li>
+															<li>Re-register every 12 months.</li>
+														</ul>
+														<p>Current Registration Fee : %s</p>
+													</div>
+													',
+											'4' => 	'
+													<div class="">
+														<input type="radio" value="4" name="designation" class="designation"> <label>Licensed Plumber</label>
+														<p>The following designation requirements must be observed to hold and/or maintain a Licensed Plumber Designation;</p>
+														<ul>
+															<li>Must have completed and passed the relevant plumber trade teat as specified in the Manpower training act section 28 or 13 and/or have obtained a plumber qualification in terms of the Skills Development Act;</li>
+															<li>Completion of the PIRB online induction course; </li>
+															<li>Pass PIRB’s practical and or written board assessment in the 5 Core PIRB designation levels;</li>
+															<li>Obtain 25 CPD points over your respective 12-month registration cycle;</li>
+															<li>Re-register every 12 months.</li>
+														</ul>
+														<p>Current Registration Fee : %s</p>
+													</div>
+													'
+										];		
+				
+
+$config['designation2'] 			= 	[ 
+											'1' => 'Leak Detection',
+											'2' => 'Drain Cleaning',
+											'3' => 'Solar Water Heating',
+											'4' => 'Heat Pumps',
+											'5' => 'Gas',
+											'6' => 'Bathroom renovations'
+										];
+				
+$config['criminalact'] 				= 	'<div><input type="checkbox" name="criminalact" class="criminalact"> <span>I fully understand sumbitting a false qualification is a criminal act, which comes with a chance of jail time or a fine and anyone can report someone who does it.</span></div>';
+
+$config['registerprocedure'] 		= 	'
+											<div class="">
+											<h4>The Registered Procedure</h4>
+											<ul>
+												<li>- All qualifications of any individual applying for registration will be vetted and verified with the various authenticating bodies.</li>
+												<li>- The applicant will be notified via email/sms/telephone of any discrepancies that are found and the applicants application will be put on hold. The process of the application/registration will only continue once it has been addressed.</li>
+												<li>- Once the application has been approved a pro-forma invoice for the yearly registration fee will be sent (current yearly registration fees can be found at www.pirb.co.za). The pro-forma invoice will be sent to the contact details that appear on the application/registration form.</li>
+												<li>- Only once payment has been received, the PIRB will continue with the application and the application will be registered on the PIRB database.</li>
+												<li>- It the applicant requested a card, the PIRB registration card registration will be sent via registered mail to the postal address that appears on the application form, or alternatively the PIRB Registration Card can also be collected from the PIRB registration office or collection points.</li>
+												<li>- If the registration card is sent via registered mail the relevant tracking number will be sms’d to the applicant and it will be the applicants responsibility to keep track of the registered mail. Any registered mail returned to PIRB office due to non-collection by the applicant will only be resent if an additional administration fee is paid. Alternatively it can be collected at the PIRB registration office.</li>
+												<li>- If the application is found to be in order and payment of the invoice has been within a reasonable time, the PIRB registration process should not take longer than 20 working days from receipt of application.</li>
+												<li>- Further information can be obtained from www.pirb.co.za or you may email registration@pirb.co.za
+											</ul>
+											</div>
+										';
+					
+$config['acknowledgement'] 			= 	'
+											<div class="">
+											<h4>Acknowledgement</h4>
+											<ul>
+												<li>- All qualifications of any individual applying for registration will be vetted and verified with the various authenticating bodies.</li>
+												<li>- The applicant will be notified via email/sms/telephone of any discrepancies that are found and the applicants application will be put on hold. The process of the application/registration will only continue once it has been addressed.</li>
+												<li>- Once the application has been approved a pro-forma invoice for the yearly registration fee will be sent (current yearly registration fees can be found at www.pirb.co.za). The pro-forma invoice will be sent to the contact details that appear on the application/registration form.</li>
+												<li>- Only once payment has been received, the PIRB will continue with the application and the application will be registered on the PIRB database.</li>
+												<li>- It the applicant requested a card, the PIRB registration card registration will be sent via registered mail to the postal address that appears on the application form, or alternatively the PIRB Registration Card can also be collected from the PIRB registration office or collection points.</li>
+												<li>- If the registration card is sent via registered mail the relevant tracking number will be sms’d to the applicant and it will be the applicants responsibility to keep track of the registered mail. Any registered mail returned to PIRB office due to non-collection by the applicant will only be resent if an additional administration fee is paid. Alternatively it can be collected at the PIRB registration office.</li>
+												<li>- If the application is found to be in order and payment of the invoice has been within a reasonable time, the PIRB registration process should not take longer than 20 working days from receipt of application.</li>
+												<li>- Further information can be obtained from www.pirb.co.za or you may email registration@pirb.co.za
+											</ul>
+											</div>
+										';
+					
+$config['codeofconduct'] 			= 	'
+											<div class="">
+											<h4>PIRBs Code of Conduct</h4>
+											<ul>
+												<li>- All qualifications of any individual applying for registration will be vetted and verified with the various authenticating bodies.</li>
+												<li>- The applicant will be notified via email/sms/telephone of any discrepancies that are found and the applicants application will be put on hold. The process of the application/registration will only continue once it has been addressed.</li>
+												<li>- Once the application has been approved a pro-forma invoice for the yearly registration fee will be sent (current yearly registration fees can be found at www.pirb.co.za). The pro-forma invoice will be sent to the contact details that appear on the application/registration form.</li>
+												<li>- Only once payment has been received, the PIRB will continue with the application and the application will be registered on the PIRB database.</li>
+												<li>- It the applicant requested a card, the PIRB registration card registration will be sent via registered mail to the postal address that appears on the application form, or alternatively the PIRB Registration Card can also be collected from the PIRB registration office or collection points.</li>
+												<li>- If the registration card is sent via registered mail the relevant tracking number will be sms’d to the applicant and it will be the applicants responsibility to keep track of the registered mail. Any registered mail returned to PIRB office due to non-collection by the applicant will only be resent if an additional administration fee is paid. Alternatively it can be collected at the PIRB registration office.</li>
+												<li>- If the application is found to be in order and payment of the invoice has been within a reasonable time, the PIRB registration process should not take longer than 20 working days from receipt of application.</li>
+												<li>- Further information can be obtained from www.pirb.co.za or you may email registration@pirb.co.za
+											</ul>
+											</div>
+										';		
+										
+$config['declaration'] 				= 	'
+											<div>Declare that the information contained in this application, or attached by me to this application, is complete, accurate and true to the best of my knowledge. I further declare that by forwarding this completed application form to the PIRB I am acknowledging that I have read and fully understood what is required of me as a PIRB registered and professional plumber and that I adhere to all aims and objectives of the PIRB and the PIRB’s Plumber Code of Conduct. I give consent for enquiries for verification purposes to be made into any information I have given on this application.</div>
+										';
+		
+$config['plumberstatus'] 			= 	[ 
+											'1' => 'Leak Detection',
+											'2' => 'Drain Cleaning',
+											'3' => 'Solar Water Heating',
+											'4' => 'Heat Pumps',
+											'5' => 'Gas',
+											'6' => 'Bathroom renovations'
+										];
+				
+										
+$config['worktype'] 				= 	[
+											'1' => 'Maintenance - Residential',
+											'2' => 'Maintenance - Industrial',
+											'3' => 'Maintenance - Commercial',
+											'4' => 'Construction - Residential',
+											'5' => 'Construction - Industrial',
+											'6' => 'Construction - Commercial',
+											'7' => 'Construction - Civil Works'
+										];
+				
+$config['specialization'] 			= 	[
+											'1' => 'Leak Detection',
+											'2' => 'Drain Cleaning',
+											'3' => 'Solar Water Heating',
+											'4' => 'Heat Pumps',
+											'5' => 'Gas',
+											'6' => 'Bathroom renovations'
+										];
