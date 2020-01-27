@@ -11,5 +11,3 @@ class Dashboard extends CC_Controller
 		$this->layout2($data);
 	}
 }
-
-
