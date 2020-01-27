@@ -11,3 +11,14 @@ p.error_class_1{
     color: red;
     margin-bottom: 10px;
 }
+.tagline{
+	color: red;
+}
+
+.authenticationlogo{
+	text-align: center;
+    margin: 10px 0 30px 0;
+}
+.specific_mgs{
+	width: 100%;
+}
