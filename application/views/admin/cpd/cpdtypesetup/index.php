@@ -103,12 +103,9 @@ if(isset($result) && $result){
 					</div>
 				</form>
 				<div class="row">
-					<div class="col-md-1">
-						<button type="button" id="active-btn" name="active" value="active" class="btn btn-primary">Active</button>
-					</div>
-					<div class="col-md-1">
-						<button type="button" id="archive-btn" name="archive" value="archive" class="btn btn-secondary">Archive</button>
-					</div>
+					<div class="col-md-6">
+						<a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index/1'; ?>">Active</a> | <a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index/2'; ?>">Archive</a>
+					</div>					
 				</div>
 				<div id="active" class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
@@ -144,7 +141,8 @@ if(isset($result) && $result){
 			{ "data": "cpdstream" },
 			{ "data": "points" },
 			{ "data": "action" }
-			]
+			],
+			data : {pagestatus : '<?php echo $pagestatus; ?>'}
 		};
 		
 		ajaxdatatables('.datatables', options);
