@@ -7,7 +7,7 @@ if(isset($result) && $result){
 	$cpdstream 			= (set_value('cpdstream')) ? set_value('cpdstream') : $result['cpdstream'];
 	$enddate 			= (set_value('enddate')) ? set_value('enddate') : $result['enddate'];
 	$productcode 		= (set_value('productcode')) ? set_value('productcode') : $result['productcode'];
-		//$cpdstream 			= (set_value('cpdstream')) ? set_value('cpdstream') : $result['cpdstream'];
+	$qrcode 			= (set_value('qrcode')) ? set_value('qrcode') : $result['qrcode'];
 	$status 			= (set_value('status')) ? set_value('status') : $result['status'];
 	
 	$heading			= 'Update';
@@ -18,6 +18,7 @@ if(isset($result) && $result){
 	$points				= set_value('points');
 	$enddate			= set_value('enddate');
 	$productcode		= set_value('productcode');
+	$qrcode				= set_value('qrcode');
 	$cpdstream			= set_value('cpdstream');
 	$status				= set_value('status');
 
@@ -75,6 +76,19 @@ if(isset($result) && $result){
 							<?php echo form_dropdown('cpdstream', $cpdstreamID, $cpdstream, ['id' => 'cpdstream', 'class' => 'form-control']); ?>					
 						</div>
 					</div>
+					<?php
+					if(isset($qrcode) && $qrcode){ ?>
+						<div class="row">
+							<div class="col-md-6">
+								<img src="<?php echo base_url().'assets/uploads/qrcode/'.$qrcode.''; ?>" height="200" width="200">
+							</div>
+							<div class="col-md-6">
+								<a href="<?php echo base_url().'admin/cpd/cpdtypesetup/getPDF/'.$id.''; ?>">download PDF</a>
+							</div>
+						</div>
+						<?php
+					}
+					?>
 					<div class="row">
 						<div class="col-md-6">
 							<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
@@ -88,7 +102,15 @@ if(isset($result) && $result){
 						</div>
 					</div>
 				</form>
-				<div class="table-responsive m-t-40">
+				<div class="row">
+					<div class="col-md-1">
+						<button type="button" id="active-btn" name="active" value="active" class="btn btn-primary">Active</button>
+					</div>
+					<div class="col-md-1">
+						<button type="button" id="archive-btn" name="archive" value="archive" class="btn btn-secondary">Archive</button>
+					</div>
+				</div>
+				<div id="active" class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
 							<tr>
@@ -173,6 +195,7 @@ if(isset($result) && $result){
 		
 	});
 	$( document ).ready(function() {
+		
 		datepicker('#startdate', ['currentdate']);
 		datepicker('#enddate', ['currentdate']);
 	});
