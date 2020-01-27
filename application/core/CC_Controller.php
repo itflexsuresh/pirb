@@ -12,6 +12,8 @@ class CC_Controller extends CI_Controller
 		$this->load->model('Managearea_Model');
 		$this->load->model('Qualificationroute_Model');
 		$this->load->model('Rates_Model');
+		$this->load->library('pdf');
+		$this->load->library('phpqrcode/qrlib');
 	}
 	
 	public function layout1($data=[])
@@ -50,6 +52,15 @@ class CC_Controller extends CI_Controller
 			if(!$userDetails){
 				redirect('');
 			}
+		}
+	}
+	
+	public function getPageStatus($pagestatus='')
+	{
+		if($pagestatus=='' || $pagestatus=='1'){
+			return '1';
+		}else{
+			return '0';
 		}
 	}
 	
