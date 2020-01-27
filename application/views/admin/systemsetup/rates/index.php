@@ -59,7 +59,7 @@ if(isset($result) && $result){
 						</div>
 						<div class="col-md-1 text-right">
 								<input type="hidden" name="id" value="<?php echo $id; ?>">
-								<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php// echo $heading; ?> Update</button>
+								<button type="submit" name="submit" value="submit" class="btn btn-primary"> Update</button>
 							</div>
 						</div>						
 					</form>
