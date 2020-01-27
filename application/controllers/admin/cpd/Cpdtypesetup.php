@@ -111,7 +111,7 @@ class Cpdtypesetup extends CC_Controller
 				<table style="width: 80%; display: table; margin: 0 auto; ">
 				<tbody>
 				<tr style="text-align: center;">
-				<td colspan="2"><img style="width: 200px;" src="https://lh3.googleusercontent.com/-RGusk-AC5bc/Xi7Nq5rWDQI/AAAAAAAAC44/gkq02n3UxR0ZmfszX9M0I80Tj4nc2-cTgCK8BGAsYHg/s0/2020-01-27.png"></td>
+				<td colspan="2"><img style="width: 200px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirbGit/assets/images/pitrb-logo.png"></td>
 				</tr>
 				<tr style="text-align: center;">
 				<td style="width: 50%; text-align: right;padding: 10px 20px 10px 0; font-weight: 700;">ACTIVITY NAME:</td>
@@ -135,7 +135,7 @@ class Cpdtypesetup extends CC_Controller
 				</tr>
 				<tr style="text-align: center;">
 				<td colspan="2">
-				<img style="width: 210px; padding-top: 20px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirbGit/assets/uploads/qrcode/'.$rowData['qrcode'].'">
+				<img style="width: 210px; padding-top: 70px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirbGit/assets/uploads/qrcode/'.$rowData['qrcode'].'">
 				<p style="font-size: 12px">Use App Plumber to Scan this QR Code</p>
 				</td>
 				</tr>
