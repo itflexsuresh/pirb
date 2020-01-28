@@ -163,40 +163,28 @@
 	                    </div>
 	                    <div class="form-group">
 		                    <div class="row">
-		                    		<div class="col-md-12 rejection">
+		                    		<div class="col-md-6">
 			                    		<label>Reason for Rejection</label>
 			                    	</div>
-		                    		<div class="col-md-12">
-		                    			<div class="row">
-		                    				<div class="col-md-6">
-							                    <div class="custom-control custom-checkbox">
-						                            <input type="checkbox" class="custom-control-input" id="no_supporting_evidence">
-						                            <label class="custom-control-label" for="no_supporting_evidence">No Supporting Evidence</label>
-						                        </div>
-					                    	</div>
-					                    	<div class="col-md-6">
-						                        <div class="custom-control custom-checkbox">
-						                            <input type="checkbox" class="custom-control-input" id="cannot_verifiy">
-						                            <label class="custom-control-label" for="cannot_verifiy">Cannot Verifiy Qualification/Certificates</label>
-						                        </div>
-					                    	</div>
-					                    	<div class="col-md-6">
-						                        <div class="custom-control custom-checkbox">
-						                            <input type="checkbox" class="custom-control-input" id="no_payment">
-						                            <label class="custom-control-label" for="no_payment">No Payment Recieved</label>
-						                        </div>
-					                    	</div>
-					                    	<div class="col-md-6">
-						                        <div class="custom-control custom-checkbox">
-						                            <input type="checkbox" class="custom-control-input" id="other">
-						                            <label class="custom-control-label" for="other">Other</label>
-						                        </div>
-					                    	</div>
-					                    	<div class="col-md-12">
-						                        <div class="form-group">
-													<input type="text" class="form-control" placeholder="If Other specify">		
-												</div>
-											</div>
+		                    		<div class="col-md-6">
+					                    <div class="custom-control custom-checkbox">
+				                            <input type="checkbox" class="custom-control-input" id="no_supporting_evidence">
+				                            <label class="custom-control-label" for="no_supporting_evidence">No Supporting Evidence</label>
+				                        </div>
+				                        <div class="custom-control custom-checkbox">
+				                            <input type="checkbox" class="custom-control-input" id="cannot_verifiy">
+				                            <label class="custom-control-label" for="cannot_verifiy">Cannot Verifiy Qualification/Certificates</label>
+				                        </div>
+				                        <div class="custom-control custom-checkbox">
+				                            <input type="checkbox" class="custom-control-input" id="no_payment">
+				                            <label class="custom-control-label" for="no_payment">No Payment Recieved</label>
+				                        </div>
+				                        <div class="custom-control custom-checkbox">
+				                            <input type="checkbox" class="custom-control-input" id="other">
+				                            <label class="custom-control-label" for="other">Other</label>
+				                        </div>
+				                        <div class="form-group">
+											<input type="text" class="form-control" placeholder="If Other specify">		
 										</div>
 				                    </div>
 		                    </div>
@@ -210,7 +198,7 @@
 						<form method="post">
 							<div class="form-group">
 								<div class="row">
-									<input type="text" id="width_alignment" class="form-control" name="" placeholder="Type your comments here">
+									<input type="text" class="form-control" name="" placeholder="Type your comments here">
 								</div>
 								<div class="text-right">
 									<button type="submit" name="add_comment" value="submit" class="btn btn-primary">Add comment</button>
@@ -224,7 +212,7 @@
 					<h4 class="card-title">Plumber register</h4>
 				
 					<div class="row">
-						<div class="col-md-12 add_full_width">
+						<div class="col-md-6">
 							<div class="form-group">
 								<label>Registration Number</label>
 								<input type="text" class="form-control" name="reg_no" value="<?php echo $regno; ?>">								
@@ -310,7 +298,7 @@
                     		<input type="number" class="form-control">
 						</div>
 						<div class="col-md-6">
-							<div class="custom-control custom-checkbox" id="electronic_coc_loging">
+							<div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="electronic_coc_loging">
                                 <label class="custom-control-label" for="electronic_coc_loging">Allow for Electronic COC's loging</label>
                             </div>
@@ -444,11 +432,10 @@
 							<div class="col-md-6">
 								<h4 class="card-title">Photo ID *</h4>
 								<div class="form-group">
-									<div class="photo_upload">
+									<div>
 										<img src="<?php echo ($file2!='') ? $filepath.$file2 : base_url().'assets/images/profile.jpg'; ?>" class="photo_image" width="100">
 									</div>
-									<input type="file" id="file" class="photo_file" data-multiple-caption="{count} files selected" multiple="">
-									<label for="file" class="choose_file">Choose File</label>
+									<input type="file" class="photo_file">
 									<input type="hidden" name="image2" class="photo" value="<?php echo $file2; ?>">
 									<p>(Image/File Size Smaller than 5mb)</p>
 								</div>
@@ -652,7 +639,7 @@
 									</tr>
 									<tr class="skillnotfound"><td colspan="6">No Record Found</td></tr>
 								</table>
-								<div class="text-right">
+								<div class="">
 									<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#skillmodal">Add Cert/Skill</button>
 								</div>
 							</div>
@@ -664,7 +651,7 @@
 				<div class="col-md-12 text-right">
 					<input type="hidden" name="usersdetailid" id="usersdetailid" value="<?php echo $usersdetailid; ?>">
 					<input type="hidden" name="usersplumberid" id="usersplumberid" value="<?php echo $usersplumberid; ?>">
-					<input type="submit" id="right_align" name="submit" value="submit" class="btn btn-primary">
+					<input type="submit" name="submit" value="submit" class="btn btn-primary">
 				</div>				
 				</form>
 			</div>

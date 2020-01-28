@@ -5,7 +5,7 @@ class Cpdtypesetup_Model extends CC_Model
 	public function getList($type, $requestdata=[])
 	{
 		$this->db->select('*');
-		$this->db->from('cpdtypes')->order_by('id','desc');
+		$this->db->from('cpdtypes');
 		
 		if(isset($requestdata['id'])) 		$this->db->where('id', $requestdata['id']);
 		if(isset($requestdata['status']))	$this->db->where_in('status', $requestdata['status']);
@@ -43,7 +43,6 @@ class Cpdtypesetup_Model extends CC_Model
 	
 	public function action($data)
 	{
-		//print_r($data);die;
 		$this->db->trans_begin();
 		
 		$userid			= 	$this->getUserID();
@@ -54,13 +53,11 @@ class Cpdtypesetup_Model extends CC_Model
 								'updated_at' 		=> $datetime,
 								'updated_by' 		=> $userid
 							];
-							//print_r($data);die;
 							
 		if(isset($data['activity'])) 		$request['activity'] 		= $data['activity'];
 		if(isset($data['points'])) 			$request['points'] 			= $data['points'];
 		if(isset($data['productcode'])) 	$request['productcode'] 	= $data['productcode'];
 		if(isset($data['cpdstream'])) 		$request['cpdstream'] 		= $data['cpdstream'];
-		if(isset($data['qrcode'])) 			$request['qrcode'] 			= $data['qrcode'];
 		$request['status'] 												= (isset($data['status'])) ? $data['status'] : '0';
 		if(isset($data['startdate'])) 		$request['startdate'] 		= date('Y-m-d',strtotime($data['startdate'])); 
 		if(isset($data['enddate'])) 		$request['enddate'] 		= date('Y-m-d',strtotime($data['enddate']));
