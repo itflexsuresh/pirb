@@ -8,6 +8,7 @@ class CC_Controller extends CI_Controller
 		parent::__construct();
 		$this->load->model('CC_Model');
 		$this->load->model('Users_Model');
+		$this->load->model('Company_Model');
 		$this->load->model('Installationtype_Model');
 		$this->load->model('Managearea_Model');
 		$this->load->model('Qualificationroute_Model');
@@ -117,6 +118,14 @@ class CC_Controller extends CI_Controller
 		$data = $this->Qualificationroute_Model->getList('all', ['status' => ['1']]);
 		
 		if(count($data) > 0) return ['' => 'Select Qualification Route']+array_column($data, 'name', 'id');
+		else return [];
+	}
+
+	public function getCompanyList()
+	{
+		$data = $this->Company_Model->getList('all', ['status' => ['1']]);
+		
+		if(count($data) > 0) return ['' => 'Select Company']+array_column($data, 'company_name', 'id');
 		else return [];
 	}
 	

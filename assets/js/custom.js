@@ -138,7 +138,7 @@ function fileupload(data1=[], data2=[]){
 				if(ext=='jpg' || ext=='jpeg' || ext=='png'){
 					$(data2[1]).attr('src', data2[2]+'/'+file);
 				}else if(ext=='pdf'){
-					$(data2[1]).attr('src', data2[2]);
+					$(data2[1]).attr('src', data2[3]);
 				}
 			}
 		}
