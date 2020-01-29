@@ -13,10 +13,12 @@ class Index extends CC_Controller
 	{
 		
 		$pagedata['notification'] 	= $this->getNotification();
-		$pagedata['plumberstatus'] 		= $this->config->item('plumberstatus');
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
+		$pagedata['company'] 		= $this->getCompanyList();
+		$pagedata['plumberstatus'] 	= $this->config->item('plumberstatus');
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
 		$data['content'] 			= $this->load->view('admin/plumber/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
+		
 	}
 
 	public function action($id='')
@@ -50,7 +52,10 @@ class Index extends CC_Controller
 		$pagedata['notification'] 		= $this->getNotification();
 		$pagedata['province'] 			= $this->getProvinceList();
 		$pagedata['qualificationroute'] = $this->getQualificationRouteList();
+
+		$pagedata['id'] 				= $id;
 		$pagedata['titlesign'] 			= $this->config->item('titlesign');
+		$pagedata['company'] 			= $this->getCompanyList();
 		$pagedata['gender'] 			= $this->config->item('gender');
 		$pagedata['racial'] 			= $this->config->item('racial');
 		$pagedata['yesno'] 				= $this->config->item('yesno');
@@ -58,9 +63,10 @@ class Index extends CC_Controller
 		$pagedata['homelanguage'] 		= $this->config->item('homelanguage');
 		$pagedata['disability'] 		= $this->config->item('disability');
 		$pagedata['citizen'] 			= $this->config->item('citizen');
-		$pagedata['deliverycard'] 		= $this->config->item('deliverycard');
+		$pagedata['deliverycard'] 		= $this->config->item('deliverycard');		
 		$pagedata['employmentdetail'] 	= $this->config->item('employmentdetail');
 		$pagedata['designation'] 		= $this->config->item('designation');
+		$pagedata['criminalact'] 		= $this->config->item('criminalact');
 		$pagedata['designation2'] 		= $this->config->item('designation2');
 		$pagedata['plumberstatus'] 		= $this->config->item('plumberstatus');
 		$pagedata['registerprocedure'] 	= $this->config->item('registerprocedure');
@@ -125,4 +131,36 @@ class Index extends CC_Controller
 
 		echo json_encode($json);
 	}
+
+	public function ajaxskillaction()
+	{
+		$post 				= $this->input->post();
+		print '<pre>';
+print_r($post);
+print '</pre>';
+exit;
+		
+		if(isset($post['action']) && $post['action']=='delete'){
+			$result = $this->Plumber_Model->deleteSkillList($post['skillid']);
+		}else{
+			$post['user_id'] 	= $this->getUserID();
+			if(isset($post['action']) && $post['action']=='edit'){
+				$result['skillid'] = $post['skillid'];
+			}else{
+				$result = $this->Plumber_Model->action($post);
+			}
+			
+			$result = $this->Plumber_Model->getSkillList('row', ['id' => $result['skillid']]);
+		}
+		
+		if($result){
+			// $result['date'] = date('d-m-Y',strtotime($result['date']));
+			$json = ['status' => '1', 'result' => $result];
+		}else{
+			$json = ['status' => '0'];
+		}
+		
+		echo json_encode($json);
+	}
 }
+
