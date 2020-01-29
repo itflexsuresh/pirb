@@ -31,6 +31,8 @@ class Index extends CC_Controller
 		$pagedata['province'] 			= $this->getProvinceList();
 		$pagedata['qualificationroute'] = $this->getQualificationRouteList();
 		$pagedata['plumberrates'] 		= $this->getPlumberRates();
+		$pagedata['company'] 			= $this->getCompanyList();
+		
 		$pagedata['titlesign'] 			= $this->config->item('titlesign');
 		$pagedata['gender'] 			= $this->config->item('gender');
 		$pagedata['racial'] 			= $this->config->item('racial');
@@ -89,6 +91,7 @@ class Index extends CC_Controller
 		}
 		
 		if($result){
+			// $result['date'] = date('d-m-Y',strtotime($result['date']));
 			$json = ['status' => '1', 'result' => $result];
 		}else{
 			$json = ['status' => '0'];
