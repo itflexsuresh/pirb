@@ -45,7 +45,7 @@
 							<div class="form-group">
 								<label>Status:</label>
 								<?php
-									echo form_dropdown('plumberstatus', $plumberstatus, '', ['id'=>'plumberstatus', 'class'=>'form-control']);
+									echo form_dropdown('status', $plumberstatus, '', ['id'=>'plumberstatus', 'class'=>'form-control']);
 								?>
 							</div>
 						</div>
@@ -75,7 +75,7 @@
 							<div class="form-group">
 								<label>Company:</label>
 								<?php
-									echo form_dropdown('title', array(), '', ['id'=>'company_details', 'class'=>'form-control']);
+									echo form_dropdown('company_details', $company, '', ['id'=>'company_details', 'class'=>'form-control']);
 								?>
 							</div>
 						</div>
@@ -110,6 +110,7 @@
 <script>
 	$(function(){
 		// idcard = $('#idcard').val();
+		datepicker('.dob');
 		data_table();
 		$('.search').on('click',function(){			
 			//	data_table.fnFilter( $("#input1").val(), '0' );

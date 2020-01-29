@@ -10,7 +10,7 @@
 	$racialid 				= isset($result['racial']) ? $result['racial'] : '';
 	$nationality 			= isset($result['nationality']) ? $result['nationality'] : '';
 	$idcard 				= isset($result['idcard']) ? $result['idcard'] : '';
-	$othernationality 		= isset($result['othernationality']) ? $result['othernationality'] : '';
+	$othernationalityid		= isset($result['othernationality']) ? $result['othernationality'] : '';
 	$otheridcard 			= isset($result['otheridcard']) ? $result['otheridcard'] : '';
 	$homelanguageid 		= isset($result['homelanguage']) ? $result['homelanguage'] : '';
 	$disabilityid 			= isset($result['disability']) ? $result['disability'] : '';
@@ -18,7 +18,7 @@
 	$file1 					= isset($result['file1']) ? $result['file1'] : '';
 	$file2 					= isset($result['file2']) ? $result['file2'] : '';
 	$registrationcard 		= isset($result['registration_card']) ? $result['registration_card'] : '';
-	$deliverycard 			= isset($result['delivery_card']) ? $result['delivery_card'] : '';
+	$deliverycardid 		= isset($result['delivery_card']) ? $result['delivery_card'] : '';
 	$homephone 				= isset($result['home_phone']) ? $result['home_phone'] : '';
 	$mobilephone 			= isset($result['mobile_phone']) ? $result['mobile_phone'] : '';
 	$workphone 				= isset($result['work_phone']) ? $result['work_phone'] : '';
@@ -53,6 +53,11 @@
 	$city3 					= isset($billingaddress[4]) ? $billingaddress[4] : '';
 	$province3 				= isset($billingaddress[5]) ? $billingaddress[5] : '';
 	$postalcode3 			= isset($billingaddress[6]) ? $billingaddress[6] : '';
+
+	$skills 				= isset($result['skills']) ? array_filter(explode('@-@', $result['skills'])) : [];
+
+
+	$filepath				= base_url().'assets/uploads/plumber/'.$id.'/';
 ?>
 
 <div class="row page-titles">
@@ -198,7 +203,7 @@
 						<form method="post">
 							<div class="form-group">
 								<div class="row">
-									<input type="text" class="form-control" name="" placeholder="Type your comments here">
+									<input type="text" class="form-control" name="comments" placeholder="Type your comments here">
 								</div>
 								<div class="text-right">
 									<button type="submit" name="add_comment" value="submit" class="btn btn-primary">Add comment</button>
@@ -207,7 +212,7 @@
 						</form>
 					</div>
 				</div>
-				<form class="mt-4 form" action="" method="post">				
+				<form class="mt-4 form plumber" action="" method="post">				
 				<div class="col-md-12">
 					<h4 class="card-title">Plumber register</h4>
 				
@@ -375,7 +380,7 @@
 								<div class="form-group">
 									<label>South African National *</label>
 									<?php
-										echo form_dropdown('nationality', $yesno, $nationality,['class'=>'form-control']);
+										echo form_dropdown('nationality', $yesno, $nationality,['class'=>'form-control','id'=>'nationality']);
 									?>
 									</div>
 							</div>
@@ -386,11 +391,14 @@
 									</div>
 							</div>
 						</div>
-						<div class="row">
+						<div class="row othernationalityidcardbox">
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Other Nationality *</label>
-									<input type="text" class="form-control" name="othernationality" value="<?php echo $othernationality; ?>">
+									<?php
+										echo form_dropdown('othernationality', $othernationality, $othernationalityid,['class'=>'form-control']);
+									?>
+									<!-- <input type="text" class="form-control" name="othernationality" value="<?php //echo $othernationality; ?>"> -->
 									</div>
 							</div>
 							<div class="col-md-6">
@@ -453,11 +461,11 @@
 									?>
 									</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-6 deliverycardbox">
 								<div class="form-group">
 									<label>Method of Delivery of Card *</label>
 									<?php
-									echo form_dropdown('delivery_card', $deliverycard, $deliverycard,['class'=>'form-control']);
+									echo form_dropdown('delivery_card', $deliverycard, $deliverycardid,['class'=>'form-control']);
 									?>
 									</div>
 							</div>
@@ -545,6 +553,8 @@
 							</div>
 							<div class="row">
 								<div class="col-md-6">
+								</div>
+								<div class="col-md-6">
 									<div class="form-group">
 										<label>Postal Code *</label>
 										<input type="text" class="form-control" name="address[2][postal_code]" value="<?php echo $postalcode2; ?>">
@@ -603,11 +613,11 @@
 										?>
 									</div>
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-6 companydetailsbox">
 									<div class="form-group">
 										<label>Company</label>
 										<?php
-										echo form_dropdown('company_details', [], $companydetailsid,['class'=>'form-control']);
+										echo form_dropdown('company_details', $company, $companydetailsid,['class'=>'form-control']);
 										?>
 									</div>
 								</div>
@@ -625,7 +635,7 @@
 					    </div>
 					    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
 					      <div class="card-body">
-					      	<div class="row">
+					      	<div class="row designationattachment ">
 						        <h4 class="card-title">Attachements</h4>
 								<p>Please Attach ALL your relevant trade certificates, course certificates, evidence that supports your registration application:</p>
 								<table class="table table-bordered skilltable">
@@ -638,11 +648,15 @@
 										<td>Action</td>
 									</tr>
 									<tr class="skillnotfound"><td colspan="6">No Record Found</td></tr>
+
 								</table>
 								<div class="">
 									<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#skillmodal">Add Cert/Skill</button>
 								</div>
+								<input type="hidden" class="attachmenthidden" name="attachmenthidden"> 
+								<?php echo $criminalact; ?>
 							</div>
+							<button type="button" id="submit5" class="btn btn-primary">Save</button>
 					      </div>
 					    </div>
 					  </div>
@@ -651,7 +665,7 @@
 				<div class="col-md-12 text-right">
 					<input type="hidden" name="usersdetailid" id="usersdetailid" value="<?php echo $usersdetailid; ?>">
 					<input type="hidden" name="usersplumberid" id="usersplumberid" value="<?php echo $usersplumberid; ?>">
-					<input type="submit" name="submit" value="submit" class="btn btn-primary">
+					<input type="submit" name="submit" id="submit" value="submit" class="btn btn-primary">
 				</div>				
 				</form>
 			</div>
@@ -659,18 +673,416 @@
 	</div>
 </div>
 
+<div id="skillmodal" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<form class="skillform">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Add a Qualification/Skill</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Date of Qualification/Skill Obtained</label>
+									<div class="input-group">
+										<input type="text" class="form-control skill_date" name="skill_date">
+										<div class="input-group-append">
+											<span class="input-group-text"><i class="icon-calender"></i></span>
+										</div>
+									</div>
+									
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Certificate Number</label>
+									<input type="text" class="form-control skill_certificate" name="skill_certificate">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label>Qualification/Skills Route</label>
+								<?php
+								echo form_dropdown('skill_route', $qualificationroute, '', ['class'=>'form-control skill_route']);
+								?>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label>Training Provider</label>
+								<input name="skill_training" type="text" class="form-control skill_training">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<div>
+									<img src="<?php echo base_url().'assets/images/profile.jpg'; ?>" class="skill_attachment_image" width="100">
+								</div>
+								<input type="file" class="skill_attachment_file">
+								<input type="hidden" name="skill_attachment" class="skill_attachment">
+								<p>(Image/File Size Smaller than 5mb)</p>
+							</div>						
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" name="skill_id" class="skill_id">
+					<button type="button" class="btn btn-success skillsubmit">Submit</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
 <script type="text/javascript">
+
+var filepath = '<?php echo $filepath; ?>';
+
 $(function(){
+	// $('#headingTwo').click();
+	// $('#headingTwo').trigger('click');
 	datepicker('.first_reg_date');	
 	datepicker('.next_renewal_date');
+	datepicker('.skill_date');
 	datepicker('.dob');
-	fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".photo_file", "./assets/uploads/plumber/<?php echo $userid; ?>/"], ['.photo', '.photo_image', '<?php echo base_url()."assets/uploads/plumber/".$userid; ?>']);
+	fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".photo_file", "./assets/uploads/plumber/<?php echo $id; ?>/",['jpg','gif','jpeg','png','pdf','tiff']], ['.photo', '.photo_image', '<?php echo base_url()."assets/uploads/plumber/".$id; ?>', '<?php echo base_url()."assets/images/pdf.png"?>']);
+
+	var skill = $.parseJSON('<?php echo json_encode($skills); ?>');
+	if(skill.length > 0){
+		$(skill).each(function(i, v){
+			var skillsplit 	= v.split('@@@');
+			var skilldata 	= {status : 1, result : { id: skillsplit[0], date: skillsplit[2], certificate: skillsplit[3], skillname: skillsplit[7], training: skillsplit[5], attachment: skillsplit[6] }}
+			skills(skilldata);
+		})
+	}
+
+	validation(
+		'.plumber',
+		{
+			title : {
+				required	: true,
+			},
+			dob : {
+				required	: true,
+			},
+			name : {
+				required	: true,
+			},
+			surname : {
+				required	: true,
+			},
+			gender : {
+				required	: true,
+			},
+			racial : {
+				required	: true,
+			},
+			nationality : {
+				required	: true,
+			},
+			othernationality : {
+				required:  	function() {
+								if($('#nationality').val() == "2"){
+									return true;
+								}else{
+									return false;
+								}
+							}
+			},
+			otheridcard 	: {
+				required:  	function() {
+								if($('#nationality').val() == "2"){
+									return true;
+								}else{
+									return false;
+								}
+							}
+			},
+			homelanguage : {
+				required	: true,
+			},
+			disability : {
+				required	: true,
+			},
+			citizen : {
+				required	: true,
+			},
+			image2 : {
+				required	: true,
+			},
+			registration_card : {
+				required	: true,
+			},
+			delivery_card : {
+				required:  	function() {
+								if($('#registration_card').val() == "1"){
+									return true;
+								}else{
+									return false;
+								}
+							}
+			},
+			'address[1][address]' : {
+				required	: true,
+			},
+			mobile_phone : {
+				required	: true,
+				maxlength: 20,
+				minlength: 10,
+			},
+		},
+		{
+			title : {
+				required	: "Tittle field is required.",
+			},
+			name 	: {
+				required	: "Name field is required."
+			},
+			dob : {
+				required	: "DOB field is required.",
+			},
+			surname : {
+				required	: "Surname field is required.",
+			},
+			gender : {
+				required	: "Gender field is required.",
+			},
+			racial : {
+				required	: "Racial field is required.",
+			},
+			nationality : {
+				required	: "nationality field is required.",
+			},
+			othernationality : {
+				required	: "Other nationality field is required.",
+			},
+			otheridcard : {
+				required	: "Alternate ID Card  field is required.",
+			},
+			homelanguage : {
+				required	: "Homelanguage field is required.",
+			},
+			disability : {
+				required	: "Disability field is required.",
+			},
+			citizen : {
+				required	: "Citizen field is required.",
+			},
+			image1 : {
+				required	: "Identity Document field is required.",
+			},
+			image2 : {
+				required	: "Photo ID field is required.",
+			},
+			registration_card : {
+				required	: "Registration Card field is required.",
+			},
+			delivery_card : {
+				required	: "Delivery_card field is required.",
+			},
+			'address[1][address]' : {
+				required	: "Address  field is required.",
+			},
+			mobile_phone : {
+				required	: "Mobile phone  field is required.",
+				maxlength: "Please Enter 20 Numbers Only.",
+				minlength: "Please Enter 10 Numbers Only.",
+			},
+		},
+		{
+			ignore : '.test',
+		}
+	);
+
+	validation(
+		'.skillform',
+		{
+			skill_date : {
+				required	: true,
+			},
+			skill_certificate : {
+				required	: true,
+			},
+			skill_route : {
+				required	: true,
+			},
+			skill_training : {
+				required	: true,
+			},
+			skill_attachment : {
+				required	: true,
+			}
+		},
+		{
+			skill_date 	: {
+				required	: "Please Enter Skill Date.",
+			},
+			skill_certificate 	: {
+				required	: "Please Enter Skill certificate Number.",
+			},
+			skill_route : {
+				required	: "Please Enter Employment Status.",
+			},
+			skill_training : {
+				required	: "Please Enter Training Provider.",
+			},
+			skill_attachment : {
+				required	: "Choose File Please",
+			}
+		}
+	);
+
+	$('#submit').click(function(e){
+		
+		if($('form.plumber').valid()==false){
+			accord = $('.error_class_1').parents('.collapse').addClass('show');
+			// accord = $('.error_class_1').parents('.collapse').attr('aria-labelledby');
+			// console.log(accord);
+			// $('#'+accord).click();
+		}
+		
+	})
+
 });
 
-$('.skillsubmit').click(function(){
-	var data = $('.skillform').serialize();
-	ajax('<?php echo base_url()."/plumber/registration/index/ajaxskillregistration"; ?>', data, skills);
+
+$('#nationality').change(function(){
+	othernationalityidcardbox($(this).val());
 })
 
-</script>
+function othernationalityidcardbox(value){
+	if(value=='2'){
+		$('.othernationalityidcardbox').show();
+	}else{
+		$('.othernationalityidcardbox').hide();
+	}
+}
 
+$('#registration_card').change(function(){
+	deliverycardbox($(this).val());
+})
+
+function deliverycardbox(value){
+	if(value=='1'){
+		$('.deliverycardbox').show();
+	}else{
+		$('.deliverycardbox').hide();
+	}
+}
+
+$('#employment_details').change(function(){
+	companydetailsbox($(this).val());
+})
+
+function companydetailsbox(value){
+	if(value=='1'){
+		$('.companydetailsbox').show();
+	}else{
+		$('.companydetailsbox').hide();
+	}
+}
+
+$('.designation').click(function(){
+	designationattachment($(this).val());
+})
+
+function designationattachment(value){
+	if(value=='4'){
+		$('.designationattachment').removeClass('displaynone');
+	}else{
+		$('.designationattachment').addClass('displaynone');
+	}	
+}
+
+$('#skillmodal').on('hidden.bs.modal', function () {
+    skillsclear();
+})
+
+$('.skillsubmit').click(function(){
+	if($('.skillform').valid())
+	{
+		var data = $('.skillform').serialize();
+		ajax('<?php echo base_url()."/admin/plumber/index/ajaxskillaction"; ?>', data, skills);
+	}
+})
+
+function skills(data){
+	if(data.status==1){		
+		var result 		= 	data.result; 
+		$(document).find('.skillappend[data-id="'+result.id+'"]').remove();
+		
+		var attachment	= 	(result.attachment!='') ? '<img src="'+filepath+(result.attachment)+'" width="50">' : '';
+		var appenddata 	= 	'\
+								<tr class="skillappend" data-id="'+result.id+'">\
+									<td>'+formatdate(result.date,1)+'</td>\
+									<td>'+result.certificate+'</td>\
+									<td>'+result.skillname+'</td>\
+									<td>'+result.training+'</td>\
+									<td>'+attachment+'</td>\
+									<td>\
+										<a href="javascript:void(0);" class="skilledit" data-id="'+result.id+'"><i class="fa fa-pencil-alt"></i></a>\
+										<a href="javascript:void(0);" class="skillremove" data-id="'+result.id+'"><i class="fa fa-trash"></i></a>\
+									</td>\
+								</tr>\
+							';
+					
+		$('.skilltable').append(appenddata);
+	}
+	
+	$('#skillmodal').modal('hide');
+
+	skillsextras();
+}
+
+$(document).on('click', '.skilledit', function(){
+	ajax('<?php echo base_url()."/plumber/registration/index/ajaxskillaction"; ?>', {'skillid' : $(this).attr('data-id'), 'action' : 'edit'}, skillsedit);
+})
+
+function skillsedit(data){
+	if(data.status==1){
+		var result 	= 	data.result;
+		
+		$('.skill_date').val(formatdate(result.date, 1));
+		$('.skill_certificate').val(result.certificate);
+		$('.skill_route').val(result.skills);
+		$('.skill_training').val(result.training);
+		$('.skill_attachment').val(result.attachment);
+		if(result.attachment!='') $('.skill_attachment_image').attr('src', filepath+(result.attachment));
+		$('.skill_id').val(result.id);
+		$('#skillmodal').modal('show');
+	} 
+}
+
+$(document).on('click', '.skillremove', function(){
+	ajax('<?php echo base_url()."/plumber/registration/index/ajaxskillaction"; ?>', {'skillid' : $(this).attr('data-id'), 'action' : 'delete'}, skillsremove);
+	$(this).parent().parent().remove();
+	
+	skillsextras();
+})
+
+function skillsremove(data){}
+
+function skillsclear(){
+	$('.skill_date, .skill_certificate, .skill_route, .skill_training, .skill_attachment').val('');
+	$('.skill_attachment_image').attr("src", "<?php echo base_url().'assets/images/profile.jpg'; ?>");
+}
+
+function skillsextras(){
+	if($(document).find('.skillappend').length){
+		$('.skillnotfound').hide();
+		$('.attachmenthidden').val('1');
+	}else{
+		$('.skillnotfound').show();
+		$('.attachmenthidden').val('');
+	}	
+	
+}
+
+</script>

@@ -1,4 +1,5 @@
 <?php
+
 	$usersdetailid 			= isset($result['usersdetailid']) ? $result['usersdetailid'] : '';
 	$usersplumberid 		= isset($result['usersplumberid']) ? $result['usersplumberid'] : '';
 	
@@ -12,7 +13,8 @@
 	$racialid 				= isset($result['racial']) ? $result['racial'] : '';
 	$nationality 			= isset($result['nationality']) ? $result['nationality'] : '';
 	$idcard 				= isset($result['idcard']) ? $result['idcard'] : '';
-	$othernationality 		= isset($result['othernationality']) ? $result['othernationality'] : '';
+	$othernationalityid 		= isset($result['othernationality']) ? $result['othernationality'] : '';
+
 	$otheridcard 			= isset($result['otheridcard']) ? $result['otheridcard'] : '';
 	$homelanguageid 		= isset($result['homelanguage']) ? $result['homelanguage'] : '';
 	$disabilityid 			= isset($result['disability']) ? $result['disability'] : '';
@@ -54,8 +56,18 @@
 	$city3 					= isset($billingaddress[4]) ? $billingaddress[4] : '';
 	$province3 				= isset($billingaddress[5]) ? $billingaddress[5] : '';
 	$postalcode3 			= isset($billingaddress[6]) ? $billingaddress[6] : '';
-	
+
 	$skills 				= isset($result['skills']) ? array_filter(explode('@-@', $result['skills'])) : [];
+	// if($skills){
+	// 	foreach ($skills as $key => $value) {
+	// 		$exp_val = explode($value);
+	// 		$skills[$k] = date('d-m-Y',strtotime($exp_val[2]));
+	// 	}
+	// }
+// print '<pre>';
+// print_r($skills);
+// print '</pre>';
+// exit;
 	
 	$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/';
 ?>
@@ -128,13 +140,13 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Name *</label>
-									<input type="text" class="form-control"  name="name"  value="<?php echo $name; ?>">
+									<input type="text" class="form-control"  id="name" name="name" value="<?php echo $name; ?>">
 									</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Surname *</label>
-									<input type="text" class="form-control"  name="surname"  value="<?php echo $surname; ?>">
+									<input type="text" class="form-control" name="surname" id="surname" value="<?php echo $surname; ?>">
 								</div>
 							</div>
 						</div>
@@ -176,8 +188,10 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Other Nationality <span class="othernationality_required">*</span></label>
-									<input type="text" class="form-control" name="othernationality" value="<?php echo $othernationality; ?>">
-									</div>
+									<?php
+										echo form_dropdown('othernationality', $othernationality, $othernationalityid, ['class'=>'form-control']);
+									?>
+								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
@@ -269,6 +283,7 @@
 								<div class="form-group">
 									<label>Method of Delivery of Card <span class="delivery_card_required">*</span></label>
 									<?php
+									
 									echo form_dropdown('delivery_card', $deliverycard, $deliverycardid,['class'=>'form-control']);
 									?>
 									</div>
@@ -343,6 +358,8 @@
 							</div>
 						</div>
 						<div class="row">
+							<div class="col-md-6">
+							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Postal Code *</label>
@@ -466,7 +483,7 @@
 								<div class="form-group">
 									<label>Company *</label>
 									<?php
-									echo form_dropdown('company_details', [], $companydetailsid,['class'=>'form-control']);
+									echo form_dropdown('company_details', $company, $companydetailsid,['class'=>'form-control']);
 									?>
 									<p>If the Compnay does not appear on this listing please ask the company to Register with the PIRB.  Once they have been apporved and registered return to the listing and select the company</p>
 									<a href="javascript:void(0)">Register Company with the PIRB</a>
@@ -481,7 +498,7 @@
 					<form class="form5">
 						<h4 class="card-title">Designation</h4>
 						<p>Applications for Master Plumber and or specialisations can only be done once your registration has been verified and approved. See Application for further designations/specializations</p>
-						<p>Please select the relevant designation being applied for.</p>                    	
+						<p>Please select the relevant designation being applied for. <a style="margin-left: 10px;" href="javascript:void()">View the designation requirements</a></p>                    	
 						<?php 
 							foreach($designation1 as $k => $design){
 								echo sprintf($design, $plumberrates[$k]);
@@ -512,7 +529,7 @@
 				</div>
 				
 				<div class="steps displaynone" data-id="6">
-					<form class="form6" action="" method="post">
+					<form class="form6" method="post">
 						<div class="row">
 							<?php echo $registerprocedure; ?>
 							<div>
@@ -624,9 +641,9 @@ $(function(){
 	checkstep();
 	datepicker('.dob');
 	datepicker('.skill_date');
-	fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".document_file", "./assets/uploads/plumber/<?php echo $userid; ?>/"], ['.document', '.document_image', '<?php echo base_url()."assets/uploads/plumber/".$userid; ?>']);
-	fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".photo_file", "./assets/uploads/plumber/<?php echo $userid; ?>/"], ['.photo', '.photo_image', '<?php echo base_url()."assets/uploads/plumber/".$userid; ?>']);
-	fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".skill_attachment_file", "./assets/uploads/plumber/<?php echo $userid; ?>/"], ['.skill_attachment', '.skill_attachment_image', '<?php echo base_url()."assets/uploads/plumber/".$userid; ?>']);
+	fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".document_file", "./assets/uploads/plumber/<?php echo $userid; ?>/",['jpg','gif','jpeg','png','pdf','tiff']], ['.document', '.document_image', '<?php echo base_url()."assets/uploads/plumber/".$userid; ?>' , '<?php echo base_url()."assets/images/pdf.png"?>']);
+	fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".photo_file", "./assets/uploads/plumber/<?php echo $userid; ?>/",['jpg','gif','jpeg','png','pdf','tiff']], ['.photo', '.photo_image', '<?php echo base_url()."assets/uploads/plumber/".$userid; ?>', '<?php echo base_url()."assets/images/pdf.png"?>']);
+	fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".skill_attachment_file", "./assets/uploads/plumber/<?php echo $userid; ?>/",['jpg','gif','jpeg','png','pdf','tiff']], ['.skill_attachment', '.skill_attachment_image', '<?php echo base_url()."assets/uploads/plumber/".$userid; ?>', '<?php echo base_url()."assets/images/pdf.png"?>']);
 	
 	var nationality = '<?php echo $nationality; ?>';
 	othernationalityidcardbox(nationality);
@@ -749,7 +766,7 @@ $(function(){
 			},
 			mobile_phone : {
 				required	: true,
-				maxlength: 10,
+				maxlength: 20,
 				minlength: 10,
 			},
 			email : {
@@ -857,8 +874,8 @@ $(function(){
 				number 	: "Numbers Only.",
 			},
 			mobile_phone : {
-				required	: "Mobile_phone  field is required.",
-				maxlength: "Please Enter 10 Numbers Only.",
+				required	: "Mobile phone  field is required.",
+				maxlength: "Please Enter 20 Numbers Only.",
 				minlength: "Please Enter 10 Numbers Only.",
 			},
 			email : {
@@ -879,6 +896,9 @@ $(function(){
 				minlength: "Please Enter 10 Numbers Only.",
 			}
 
+		},
+		{
+			ignore : '.test'
 		}
 	);
 
@@ -925,6 +945,9 @@ $(function(){
 				required	: "Postal Code field is required.",
 				number 	: "Numbers Only",
 			}
+		},
+		{
+			ignore : '.test'
 		}
 	);
 
@@ -945,6 +968,9 @@ $(function(){
 			company_details 	: {
 				required	: "Please select company.",
 			}
+		},
+		{
+			ignore : '.test',
 		}
 	);
 	
@@ -1058,6 +1084,9 @@ $(function(){
 			}
 		}
 	);
+	// $('#skillmodal').on('hidden.bs.modal', function (e) {
+	//   skillsclear();
+	// })
 })
 
 $('#submit2,#submit3,#submit4,#submit5').click(function(){
@@ -1065,10 +1094,27 @@ $('#submit2,#submit3,#submit4,#submit5').click(function(){
 	ajax('<?php echo base_url()."/plumber/registration/index/ajaxregistration"; ?>', data, registration);
 })
 
-$('#submit').click(function(){
-	if(!$('.form2').valid() || !$('.form3').valid() || !$('.form4').valid() || !$('.form5').valid() || !$('.form6').valid())
-	{
+$('#submit').click(function(e){
+	// console.log('f');
+	var formvalid = 0;
+	for(var i=2; i<=6; i++){
+// console.log(i)
+$('.form'+i).removeClass('displaynone');
+		if($('.form'+i).valid()==false){
+			// console.log('acs'+i);
+			$('.stepbar[data-id="'+i+'"]').click();
+			if(formvalid==0) formvalid = i; 
+		}
+		// else{
+		// 	console.log('as'+i);
+		// }
+	}
+// console.log(formvalid)
+	if(formvalid==0){		
+		return true;
+	} else {
 		alert('Before submitting please check the form');
+		$('.stepbar[data-id="'+formvalid+'"]').click();
 		return false;
 	}
 })
@@ -1180,6 +1226,10 @@ function designationattachment(value){
 	}	
 }
 
+$('#skillmodal').on('hidden.bs.modal', function () {
+    skillsclear();
+})
+
 $('.skillsubmit').click(function(){
 	if($('.skillform').valid())
 	{
@@ -1196,7 +1246,7 @@ function skills(data){
 		var attachment	= 	(result.attachment!='') ? '<img src="'+filepath+(result.attachment)+'" width="50">' : '';
 		var appenddata 	= 	'\
 								<tr class="skillappend" data-id="'+result.id+'">\
-									<td>'+result.date+'</td>\
+									<td>'+formatdate(result.date,1)+'</td>\
 									<td>'+result.certificate+'</td>\
 									<td>'+result.skillname+'</td>\
 									<td>'+result.training+'</td>\
@@ -1212,9 +1262,8 @@ function skills(data){
 	}
 	
 	$('#skillmodal').modal('hide');
-	
+
 	skillsextras();
-	skillsclear();
 }
 
 $(document).on('click', '.skilledit', function(){
@@ -1233,7 +1282,7 @@ function skillsedit(data){
 		if(result.attachment!='') $('.skill_attachment_image').attr('src', filepath+(result.attachment));
 		$('.skill_id').val(result.id);
 		$('#skillmodal').modal('show');
-	}
+	} 
 }
 
 $(document).on('click', '.skillremove', function(){
