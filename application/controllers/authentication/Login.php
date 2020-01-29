@@ -27,10 +27,10 @@ class Login extends CC_Controller
 					$mailstatus		= $data['mailstatus'];
 					$id				= $data['id'];
 					
-					if($status=='1' && $mailstatus=='1'){
+					if($mailstatus=='1'){
 						$this->session->set_userdata('userid', $id);
 						$this->middleware('1');
-					}elseif($status=='0' && $mailstatus=='1'){
+					}elseif($status=='0' && $mailstatus=='0'){
 						$this->session->set_flashdata('error', 'Please Verify Email.');
 					}else{	
 						$this->session->set_flashdata('error', 'Invalid Credentials.');
