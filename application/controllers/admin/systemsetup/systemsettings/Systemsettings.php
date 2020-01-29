@@ -14,7 +14,7 @@ class Systemsettings extends CC_Controller
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
 			$data 			=  $this->Systemsettings_Model->action($requestData);
-			if($data) $this->session->set_flashdata('success', 'Installation Type '.(($id=='') ? 'created' : 'updated').' successfully.');
+			if($data) $this->session->set_flashdata('success', 'System Settings '.(($id=='') ? 'updated' : 'updated').' successfully.');
 			else $this->session->set_flashdata('error', 'Try Later.');
 			
 			redirect('admin/systemsetup/systemsettings/Systemsettings'); 
