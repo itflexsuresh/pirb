@@ -9,117 +9,34 @@ class Index extends CC_Controller
 		$this->load->model('Auditor_Model');
 	}
 	
-	public function index($id='')
+	public function index()
 	{
+		$userid = $this->getUserID();
 
-		if($id!=''){
-			$result = $this->Auditor_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
-			if($result){
-				$pagedata['result'] = $result;
-			}else{
-				$this->session->set_flashdata('error', 'No Record Found.');
-				//redirect('plumber/registration'); 
-			}
+		$result = $this->Auditor_Model->getList('row', ['id' => $userid, 'status' => ['0','1']]);
+		if($result){
+			$pagedata['result'] = $result;
+		}else{
+			$this->session->set_flashdata('error', 'No Record Found.');
+			redirect('auditor/profile/index'); 
 		}
 		
-
-		
 		if($this->input->post()){
+			$requestData 	= 	$this->input->post();		
+			$id				=	$requestData['id'];		
+			$data 			=  	$this->Auditor_Model->action($requestData);			
 
-			$requestData 	= 	$this->input->post();
-			// print '<pre>';		
-			// print_r($requestData); exit;
-			// print '</pre>';
-			if($requestData['submit']=='submit')
-			{
-				$data 	=  $this->Auditor_Model->action($requestData);
-				
-				if($data) $message = 'Records '.(($id=='') ? 'created' : 'updated').' successfully.';
-			}
-			// else
-			// {
-			// 	$data 			= 	$thsis->Auditor_Model->changestatus($requestData);
-			// 	$message		= 	'Installation Type deleted successfully.';
-			// }
-			
-
-
-			if(isset($data)) $this->session->set_flashdata('success', $message);
+			if(isset($data)) $this->session->set_flashdata('success', 'Records '.(($id=='') ? 'created' : 'updated').' successfully.');
 			else $this->session->set_flashdata('error', 'Try Later.');
 			
 			redirect('auditor/profile/index'); 
-
 		}
-
-			$pagedata['user_id'] 	= $this->getUserID();				
-			$result = $this->Auditor_Model->getList('row', ['user_id' => $pagedata['user_id']]);
-			$pagedata['result'] 	= $result;				
-
-// 			print '<pre>';
-// 			print_r($pagedata['result']);
-// print '</pre>';
-// exit;
+		
 		$pagedata['notification'] 	= $this->getNotification();
-		$pagedata['provincelist'] 	= $this->getProvinceList();		
-		$pagedata['CityList'] 		= $this->getCityList();
-		//$pagedata['SuburbList'] 	= $this->getListSuburb();
-		$pagedata['userid']			= $this->getUserID();
+		$pagedata['provincelist'] 	= $this->getProvinceList();	
+		$pagedata['userid']			= $userid;
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
 		$data['content'] 			= $this->load->view('auditor/profile/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
-
-	// 	public function DTSubtype()
-	// {
-	// 	$post 			= $this->input->post();
-	// 	$totalcount 	= $this->Subtype_Model->getList('count', ['status' => ['0','1']]+$post);
-	// 	$results 		= $this->Subtype_Model->getList('all', ['status' => ['0','1']]+$post);
-		
-	// 	$totalrecord 	= [];
-	// 	if(count($results) > 0){
-	// 		foreach($results as $result){
-	// 			$totalrecord[] = 	[
-	// 									'installationtypename' 		=> 	$result['installationtypename'],
-	// 									'name' 						=> 	$result['name'],
-	// 									'status' 					=> 	$this->config->item('statusicon')[$result['status']],
-	// 									'action'					=> 	'
-	// 																		<div class="table-action">
-	// 																			<a href="'.base_url().'admin/administration/subtype/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-	// 																			<a href="javascript:void(0);" data-id="'.$result['id'].'" class="delete" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
-	// 																		</div>
-	// 																	'
-	// 								];
-	// 		}
-	// 	}
-		
-	// 	$json = array(
-	// 		"draw"            => intval($post['draw']),   
-	// 		"recordsTotal"    => intval($totalcount),  
-	// 		"recordsFiltered" => intval($totalcount),
-	// 		"data"            => $totalrecord
-	// 	);
-
-	// 	echo json_encode($json);
-	// }
-
-
-
-	
 	}
-
-	// public function getdata()
-	// {
-	// 	// echo "fdgdfgdfgdfggggggggggggggggggggggggggggg";
-	// 		$pagedata['user_id'] 	= $this->getUserID();
-				
-	// 		$result = $this->Auditor_Model->getList('row', ['user_id' => $pagedata['user_id']]);
-	// 		$data['content'] = $this->load->view('auditor/profile/index', (isset($pagedata) ? $pagedata : ''), true);
-	// 		$this->layout2($data);
-			
-		
-	// }
-
-	
-	
-	
-	
 }

@@ -138,11 +138,90 @@ function fileupload(data1=[], data2=[]){
 				if(ext=='jpg' || ext=='jpeg' || ext=='png'){
 					$(data2[1]).attr('src', data2[2]+'/'+file);
 				}else if(ext=='pdf'){
-					$(data2[1]).attr('src', data2[3]);
+					$(data2[1]).attr('src', data2[2]);
 				}
 			}
 		}
 		
 		$(selector).val('');
+	}
+}
+
+function fileupload(data1=[], data2=[]){
+	
+	var selector 	= data1[1];
+	var extension 	= data1[3] ? data1[3] : ['jpg','jpeg','png'];
+	
+	$(document).on('change', selector, function(){
+		var name 		= $(this).val();
+		var ext 		= name.split('.').pop().toLowerCase();
+		
+		if($.inArray(ext, extension) !== -1){
+			var form_data 	= new FormData();
+			form_data.append("file", $(selector)[0].files[0]);
+			form_data.append("path", data1[2]);
+			form_data.append("type", extension.join('|'));
+			
+			ajax(data1[0], form_data, fileappend, 'post', 'json', '1', '1');
+		}else{
+			$(selector).val('');
+			alert('Supported file format are '+extension.join(','));
+		}
+	})
+	
+	function fileappend(data){
+		if(data.file_name && data2.length){
+			var file 		= data.file_name;
+			$(data2[0]).val(file);
+			
+			if(data2[1] && data2[2]){
+				var ext 		= data.file_name.split('.').pop().toLowerCase();
+				
+				if(ext=='jpg' || ext=='jpeg' || ext=='png'){
+					$(data2[1]).attr('src', data2[2]+'/'+file);
+				}else if(ext=='pdf'){
+					$(data2[1]).attr('src', data2[2]);
+				}
+			}
+		}
+		
+		$(selector).val('');
+	}
+}
+
+function citysuburb(data1=[], data2=[]){
+
+	ajax(data1[0], data1[1], city)
+
+	function city(data){
+		$('.cityappend').remove();
+
+		if(data.status=='1'){
+			var append = [];
+			$(data.result).each(function(i, v){
+				var selected = (data1[3] && data1[3]==v.id) ? 'selected="selected"' : '';
+				append.push('<option value="'+v.id+'" '+selected+' class="cityappend">'+v.name+'</option>');
+			})
+
+			$(data1[2]).append(append);
+
+			if(data2.length > 0) ajax(data2[0], data2[1], suburb);
+		}
+	}
+
+	if(data2.length > 0){
+		function suburb(data){
+			$('.suburbappend').remove();
+
+			if(data.status=='1'){
+				var append = [];
+				$(data.result).each(function(i, v){
+					var selected = (data2[3] && data2[3]==v.id) ? 'selected="selected"' : '';
+					append.push('<option value="'+v.id+'" '+selected+' class="suburbappend">'+v.name+'</option>');
+				})
+
+				$(data2[2]).append(append);
+			}
+		}
 	}
 }

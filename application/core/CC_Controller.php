@@ -8,13 +8,10 @@ class CC_Controller extends CI_Controller
 		parent::__construct();
 		$this->load->model('CC_Model');
 		$this->load->model('Users_Model');
-		$this->load->model('Company_Model');
 		$this->load->model('Installationtype_Model');
 		$this->load->model('Managearea_Model');
 		$this->load->model('Qualificationroute_Model');
 		$this->load->model('Rates_Model');
-		$this->load->library('pdf');
-		$this->load->library('phpqrcode/qrlib');
 	}
 	
 	public function layout1($data=[])
@@ -53,15 +50,6 @@ class CC_Controller extends CI_Controller
 			if(!$userDetails){
 				redirect('');
 			}
-		}
-	}
-	
-	public function getPageStatus($pagestatus='')
-	{
-		if($pagestatus=='' || $pagestatus=='1'){
-			return '1';
-		}else{
-			return '0';
 		}
 	}
 	
@@ -107,7 +95,7 @@ class CC_Controller extends CI_Controller
 
 	public function getProvinceList()
 	{
-		$data = $this->Managearea_Model->getProvinceList('all', ['status' => ['1']]);
+		$data = $this->Managearea_Model->getListProvince('all', ['status' => ['1']]);
 		
 		if(count($data) > 0) return ['' => 'Select Province']+array_column($data, 'name', 'id');
 		else return [];
@@ -118,14 +106,6 @@ class CC_Controller extends CI_Controller
 		$data = $this->Qualificationroute_Model->getList('all', ['status' => ['1']]);
 		
 		if(count($data) > 0) return ['' => 'Select Qualification Route']+array_column($data, 'name', 'id');
-		else return [];
-	}
-
-	public function getCompanyList()
-	{
-		$data = $this->Company_Model->getList('all', ['status' => ['1']]);
-		
-		if(count($data) > 0) return ['' => 'Select Company']+array_column($data, 'company_name', 'id');
 		else return [];
 	}
 	
@@ -146,4 +126,13 @@ class CC_Controller extends CI_Controller
 					'4' => $this->getRates($this->config->item('licensed'))
 				];
 	}
+	public function getCityList()
+{
+$data = $this->Auditor_Model->getListCity('all', ['status' => ['1']]);
+
+if(count($data) > 0) return ['' => 'Select City']+array_column($data, 'name', 'id');
+else return [];
+}
+
+
 }
