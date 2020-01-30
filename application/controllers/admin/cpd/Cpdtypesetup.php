@@ -25,17 +25,20 @@ class Cpdtypesetup extends CC_Controller
 		}
 		
 		if($this->input->post()){
-			$requestData 					= 	$this->input->post();
+			$requestData 	= 	$this->input->post();
 			if ($id=='') {
 				$check_code 	= 	$this->productCode();				
 				$product_code 	= 	"CPD-".$check_code;
 			}else{
 				$product_code 	= 	$requestData['productcode'];
 			}
-			
+			// print_r($check_code);die;
+			// print_r($requestData);die;
+			// $check_code 	= 	$this->productCode($requestData['productcode']);
+			// print_r($check_code);die;
+			// $product_code 	= 	"CPD-".$check_code;
 
 			if($requestData['submit']=='submit'){
-				//print_r($requestData);die;
 
 				// QR CODE
 				$SERVERFILEPATH 				= $_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/qrcode/';
@@ -46,9 +49,9 @@ class Cpdtypesetup extends CC_Controller
 				define('IMAGE_WIDTH',1000);
 				define('IMAGE_HEIGHT',1000);
 				QRcode::png($text,$Qrcode_path,'L', '10', '10');
-				$requestData['qrcode']			= $file_name;
-				$requestData['productcode']		= $product_code;
-				$data 							=  $this->Cpdtypesetup_Model->action($requestData);
+				$requestData['qrcode']				= $file_name;
+				$requestData['productcode']			= $product_code;
+				$data 	=  $this->Cpdtypesetup_Model->action($requestData);
 				if($data) $message = 'CPD Type '.(($id=='') ? 'created' : 'updated').' successfully.';
 			}else{
 				$data 			= 	$this->Cpdtypesetup_Model->changestatus($requestData);
@@ -69,16 +72,15 @@ class Cpdtypesetup extends CC_Controller
 		$data['content'] 			= $this->load->view('admin/cpd/cpdtypesetup/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
+
 	public function productCode(){
-		$randno = mt_rand('00000', '99999');
-
-		$noCheck = $this->db->where('productcode', $randno)->get('cpdtypes')->result();
-
-		if(count($noCheck) > 0){
-			$this->productCode();
-		}else{
-			return $randno;
-		}
+			$randno = mt_rand('00000', '99999');
+			$noCheck = $this->db->where('productcode', $randno)->get('cpdtypes')->result();
+			if(count($noCheck) > 0){
+				$this->productCode();
+			}else{
+				return $randno;
+			}
 	}
 
 	public function DTCpdType()
