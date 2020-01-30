@@ -98,6 +98,7 @@ if(isset($result) && $result){
 						</div>
 						<div class="col-md-6 text-right">
 							<input type="hidden" name="id" value="<?php echo $id; ?>">
+							<input type="hidden" name="productcode" value="<?php echo $productcode; ?>">
 							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> CPD Type</button>
 						</div>
 					</div>
