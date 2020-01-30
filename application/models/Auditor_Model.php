@@ -30,7 +30,7 @@ class Auditor_Model extends CC_Model
 		}
 		else
 		{
-			//$query = $this->db->get();
+			$query = $this->db->get();
 			
 			if($type=='all') 		$result = $query->result_array();
 			elseif($type=='row') 	$result = $query->row_array();
