@@ -25,14 +25,14 @@ class Cpdtypesetup extends CC_Controller
 		}
 		
 		if($this->input->post()){
-			$requestData 	= 	$this->input->post();			
-			$check_code 	= 	$this->productCode();
-			$product_code 	= 	"CPD-".$check_code;
+			$requestData 					= 	$this->input->post();			
+			$check_code 					= 	$this->productCode();
+			$product_code 					= 	"CPD-".$check_code;
 			$requestData['productcode']		= $product_code;
 			
 
 			if($requestData['submit']=='submit'){
-				print_r($requestData);die;
+				//print_r($requestData);die;
 
 				// QR CODE
 				$SERVERFILEPATH 				= $_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/qrcode/';
