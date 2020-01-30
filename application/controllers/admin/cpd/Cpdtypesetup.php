@@ -115,6 +115,11 @@ class Cpdtypesetup extends CC_Controller
 		echo json_encode($json);
 	}
 
+	public function Cron(){
+		$current_date = date('Y-m-d');
+		$this->Cpdtypesetup_Model->getCronDate();
+	}
+
 	public function getPDF($id){
 
 		if($id!=''){
