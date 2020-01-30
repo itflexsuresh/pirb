@@ -1,4 +1,5 @@
 <?php
+
 	$usersdetailid 			= isset($result['usersdetailid']) ? $result['usersdetailid'] : '';
 	$usersplumberid 		= isset($result['usersplumberid']) ? $result['usersplumberid'] : '';
 	
@@ -29,6 +30,15 @@
 	$employmentdetailsid	= isset($result['employment_details']) ? $result['employment_details'] : '';
 	$companydetailsid		= isset($result['company_details']) ? $result['company_details'] : '';
 	$designation			= isset($result['designation']) ? $result['designation'] : '';
+	$message				= isset($result['message']) ? $result['message'] : '';
+	$status					= isset($result['status']) ? $result['status'] : '';
+	$application_status_id	= isset($result['application_status']) ? $result['application_status'] : '';
+	$specialisations_id		= isset($result['specialisations']) ? $result['specialisations'] : '';
+	$reject_reason_id		= isset($result['reject_reason']) ? $result['reject_reason'] : '';
+	$reject_reason_other	= isset($result['reject_reason_other']) ? $result['reject_reason_other'] : '';
+	$coc_purchase_limit		= isset($result['coc_purchase_limit']) ? $result['coc_purchase_limit'] : '';
+	$electronic_coc_log		= isset($result['electronic_coc_log']) && $result['electronic_coc_log']==1 ? 'checked' : '';
+
 	
 	$physicaladdress 		= isset($result['physicaladdress']) ? explode('@-@', $result['physicaladdress']) : [];
 	$addressid1 			= isset($physicaladdress[0]) ? $physicaladdress[0] : '';
@@ -58,6 +68,7 @@
 
 
 	$filepath				= base_url().'assets/uploads/plumber/'.$id.'/';
+
 ?>
 
 <div class="row page-titles">
@@ -80,72 +91,40 @@
 			<div class="card-body">
 				<h4 class="card-title">Application Status</h4>
 				<div class="row">
+
 					<div class="col-md-6">
+						<form method="post" id="application_status">
+						<input type="hidden" value="<?php echo $id; ?>" name="user_id">
 						<div class="form-group">
-						<div class="row">
+							<?php
+							$application_status_id_arr = explode(',', $application_status_id);
+
+
+							foreach($application_status as $key=>$val){
+								$name = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '_', $val)));
+								if(in_array($key,$application_status_id_arr)){
+									$checked = 'checked';
+								} else {
+									$checked = '';
+								}
+								if($key%2==1){						
+									echo "<div class='row'>";
+								}
+							?>
 							<div class="col-md-6">
 		                        <div class="custom-control custom-checkbox">
-		                            <input type="checkbox" class="custom-control-input" id="id_attached">
-		                            <label class="custom-control-label" for="id_attached">ID Attached</label>
+		                            <input type="checkbox" class="custom-control-input" id="<?php echo $name; ?>" name="application_status[<?php echo $key ?>]" <?php echo $checked; ?>>
+		                            <label class="custom-control-label" for="<?php echo $name; ?>"><?php echo $val; ?></label>
 		                        </div>
 		                    </div>
-		                    <div class="col-md-6">
-		                        <div class="custom-control custom-checkbox">
-		                            <input type="checkbox" class="custom-control-input" id="qualification_verified">
-		                            <label class="custom-control-label" for="qualification_verified">Qualification Verified</label>
-		                        </div>
-		                    </div>
-	                    </div> 
-	                    <div class="row">
-							<div class="col-md-6">
-		                        <div class="custom-control custom-checkbox">
-		                            <input type="checkbox" class="custom-control-input" id="proof_of_experience">
-		                            <label class="custom-control-label" for="proof_of_experience">Proof of Experience</label>
-		                        </div>
-		                    </div>
-		                    <div class="col-md-6">
-		                        <div class="custom-control custom-checkbox">
-		                            <input type="checkbox" class="custom-control-input" id="declaration_signed">
-		                            <label class="custom-control-label" for="declaration_signed">Declaration Signed</label>
-		                        </div>
-		                    </div>
-	                    </div>
-	                    <div class="row">
-							<div class="col-md-6">
-		                        <div class="custom-control custom-checkbox">
-		                            <input type="checkbox" class="custom-control-input" id="initial_each_page">
-		                            <label class="custom-control-label" for="initial_each_page">Initial each page</label>
-		                        </div>
-		                    </div>
-		                    <div class="col-md-6">
-		                        <div class="custom-control custom-checkbox">
-		                            <input type="checkbox" class="custom-control-input" id="photo_correct">
-		                            <label class="custom-control-label" for="photo_correct">Photo Correct</label>
-		                        </div>
-		                    </div>
-	                    </div>  
-	                    <div class="row">
-							<div class="col-md-6">
-		                        <div class="custom-control custom-checkbox">
-		                            <input type="checkbox" class="custom-control-input" id="company_details_correct">
-		                            <label class="custom-control-label" for="company_details_correct">Company Details Correct</label>
-		                        </div>
-		                    </div>
-		                    <div class="col-md-6">
-		                        <div class="custom-control custom-checkbox">
-		                            <input type="checkbox" class="custom-control-input" id="induction_completed">
-		                            <label class="custom-control-label" for="induction_completed">Induction Completed</label>
-		                        </div>
-		                    </div>
-	                    </div>
-	                    <div class="row">
-							<div class="col-md-6">
-		                        <div class="custom-control custom-checkbox">
-		                            <input type="checkbox" class="custom-control-input" id="payment_recieved">
-		                            <label class="custom-control-label" for="payment_recieved">Payment Recieved</label>
-		                        </div>
-		                    </div>
-	                    </div>                 
+							<?php
+								if($key%2==0 || end($application_status)==$val){						
+									echo "</div>";
+								}
+								$key++;
+							}
+							?>
+	                                    
 	                    </div>
 	                    <div class="form-group">
 		                    <div class="row">
@@ -154,13 +133,15 @@
 			                    	</div>
 		                    		<div class="col-md-3">
 					                    <div class="custom-control custom-radio">
-					                        <input type="radio" id="approve" name="approve" class="custom-control-input">
+					                        <input type="radio" id="approve" name="status" class="custom-control-input" value="3" <?php 
+    echo $status == '3' ? "checked" : ""; ?>>
 					                        <label class="custom-control-label" for="approve">Approve</label>
 					                    </div>
 				                    </div>
 		                    		<div class="col-md-3">
 					                    <div class="custom-control custom-radio">
-					                        <input type="radio" id="reject" name="approve" class="custom-control-input">
+					                        <input type="radio" id="reject" name="status" class="custom-control-input" value="2" <?php 
+    echo $status == '2' ? "checked" : ""; ?>>
 					                        <label class="custom-control-label" for="reject">Reject</label>
 					                    </div>
 				                    </div>
@@ -172,7 +153,22 @@
 			                    		<label>Reason for Rejection</label>
 			                    	</div>
 		                    		<div class="col-md-6">
-					                    <div class="custom-control custom-checkbox">
+		                    			<?php
+		                    			$reject_reason_id_arr = explode(',', $reject_reason_id);
+		                    			foreach ($reject_reason as $key => $value) {
+		                    				$name = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '_', $value)));
+											if(in_array($key,$reject_reason_id_arr)){
+												$checked = 'checked';
+											} else {
+												$checked = '';
+											}
+											echo "<div class='custom-control custom-checkbox'>
+					                            <input type='checkbox' class='custom-control-input' id='$name' name='reject_reason[$key]' $checked>
+					                            <label class='custom-control-label' for='$name'>$value</label>
+					                        </div>";
+		                    			}
+		                    			?>
+					                    <!-- <div class="custom-control custom-checkbox">
 				                            <input type="checkbox" class="custom-control-input" id="no_supporting_evidence">
 				                            <label class="custom-control-label" for="no_supporting_evidence">No Supporting Evidence</label>
 				                        </div>
@@ -187,26 +183,43 @@
 				                        <div class="custom-control custom-checkbox">
 				                            <input type="checkbox" class="custom-control-input" id="other">
 				                            <label class="custom-control-label" for="other">Other</label>
-				                        </div>
+				                        </div> -->
 				                        <div class="form-group">
-											<input type="text" class="form-control" placeholder="If Other specify">		
+											<input type="text" class="form-control" placeholder="If Other specify" name="reject_reason_other" value="<?php echo $reject_reason_other; ?>">		
 										</div>
 				                    </div>
 		                    </div>
 	                    </div>
+	                    <div class="form-group">
+	                    	<input type="hidden" name="usersdetailid" id="usersdetailid" value="<?php echo $usersdetailid; ?>">
+							<input type="hidden" name="usersplumberid" id="usersplumberid" value="<?php echo $usersplumberid; ?>">
+							<input type="submit" name="submit" value="submit" class="btn btn-primary">
+	                    </div>
+	                	</form>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Comments</label>
-							<textarea class="form-control" rows="5"></textarea>
+							<?php
+							$comments_merge = '';
+							foreach($comments_result as $key=>$value){
+								$comments_merge .= $value['comments']."<br>";
+							}
+							?>
+							<textarea class="form-control" rows="5">
+							<?php 
+							echo $comments_merge;
+							?>								
+							</textarea>
 						</div>
-						<form method="post">
+						<form method="post" class="comments_section">
+							<input type="hidden" value="<?php echo $id; ?>" name="user_id">
 							<div class="form-group">
 								<div class="row">
 									<input type="text" class="form-control" name="comments" placeholder="Type your comments here">
 								</div>
 								<div class="text-right">
-									<button type="submit" name="add_comment" value="submit" class="btn btn-primary">Add comment</button>
+									<button type="submit" name="submit" value="submit" class="btn btn-primary">Add comment</button>
 								</div>
 							</div>
 						</form>
@@ -260,12 +273,24 @@
 							<div class="col-md-12">
 								<label>PIRB Specialisations:</label>
 							</div>
-							<div class="col-md-4">
-	                            <div class="custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input" id="solar">
-	                                <label class="custom-control-label" for="solar">- Solar</label>
-	                            </div>
-                            </div>
+							<?php
+							$specialisations_id_arr = explode(',', $specialisations_id);
+							foreach ($specialisations as $key => $value) {
+								$name = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '_', $value)));
+								if(in_array($key,$specialisations_id_arr)){
+									$checked = 'checked';
+								} else {
+									$checked = '';
+								}
+								echo "<div class='col-md-4'>
+			                            <div class='custom-control custom-checkbox'>
+			                                <input type='checkbox' class='custom-control-input' name='specialisations[$key]' id='$name' $checked>
+			                                <label class='custom-control-label' for='$name'>- $value</label>
+			                            </div>
+		                            </div>";
+							}
+							?>
+							
 							<div class="col-md-4">
 	                            <div class="custom-control custom-checkbox">
 	                                <input type="checkbox" class="custom-control-input" id="gas">
@@ -300,19 +325,19 @@
                     <div class="form-group row">
 						<div class="col-md-6">
 							<label>Number of CoC's Able to purchase:</label>
-                    		<input type="number" class="form-control">
+                    		<input type="number" class="form-control" name="coc_purchase_limit" value="<?php echo $coc_purchase_limit ?>">
 						</div>
 						<div class="col-md-6">
 							<div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="electronic_coc_loging">
-                                <label class="custom-control-label" for="electronic_coc_loging">Allow for Electronic COC's loging</label>
+                                <input type="checkbox" class="custom-control-input" id="electronic_coc_log" name="electronic_coc_log" <?php echo $electronic_coc_log ?> value="1">
+                                <label class="custom-control-label" for="electronic_coc_log">Allow for Electronic COC's loging</label>
                             </div>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-md-12">
 							<label>Specific Message to Plumber</label>
-							<textarea class="form-control" rows="5"></textarea>
+							<textarea class="form-control" rows="5" name="message"><?php echo $message; ?></textarea>
 						</div>
 					</div>
 					<div class="accordion" id="accordionExample">
@@ -939,6 +964,20 @@ $(function(){
 		}
 	);
 
+	validation(
+		'.comments_section',
+		{
+			comments : {
+				required	: true,
+			}
+		},
+		{
+			comments 	: {
+				required	: "Please add comment.",
+			}
+		}
+	);
+
 	$('#submit').click(function(e){
 		
 		if($('form.plumber').valid()==false){
@@ -1042,7 +1081,7 @@ function skills(data){
 }
 
 $(document).on('click', '.skilledit', function(){
-	ajax('<?php echo base_url()."/plumber/registration/index/ajaxskillaction"; ?>', {'skillid' : $(this).attr('data-id'), 'action' : 'edit'}, skillsedit);
+	ajax('<?php echo base_url()."/admin/plumber/index/ajaxskillaction"; ?>', {'skillid' : $(this).attr('data-id'), 'action' : 'edit'}, skillsedit);
 })
 
 function skillsedit(data){

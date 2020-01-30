@@ -81,7 +81,7 @@ $config['yesno'] 					= 	[
 											'2' => 'No'
 										];
 										
-$config['homelanguage'] 			= 	[
+$config['homelanguage'] 		= 	[
 											'1' => 'Afrikaans',
 											'2' => 'English',
 											'3' => 'isiNdebele',
@@ -314,4 +314,32 @@ $config['specialization'] 			= 	[
 											'4' => 'Heat Pumps',
 											'5' => 'Gas',
 											'6' => 'Bathroom renovations'
+										];					
+
+$config['reject_reason'] 			= 	[
+											'1' => 'No Supporting Evidence',
+											'2' => 'Cannot Verifiy Qualification/Certificates',
+											'3' => 'No Payment Recieved',
+											'4' => 'Other',
+										];										
+
+$config['specialisations'] 			= 	[
+											'1' => 'Solar',
+											'2' => 'Gas',
+											'3' => 'Plumbing estimator',
+											'4' => 'Heat Pump',
+											'5' => 'Plumbing Training Assessor',
+											'6' => 'Plumbing Arbitrator',
+										];			
+
+$config['application_status'] 			= 	[
+											'1' => 'ID Attached',
+											'2' => 'Qualification Verified',
+											'3' => 'Proof of Experience',
+											'4' => 'Declaration Signed',
+											'5' => 'Initial each page',
+											'6' => 'Photo Correct',
+											'7' => 'Company Details Correct',
+											'8' => 'Induction Completed',
+											'9' => 'Payment Recieved',
 										];
