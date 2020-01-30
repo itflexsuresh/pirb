@@ -25,10 +25,10 @@ class Cpdtypesetup extends CC_Controller
 		}
 		
 		if($this->input->post()){
-			$requestData 	= 	$this->input->post();
-			print_r($requestData);die;
+			$requestData 	= 	$this->input->post();			
 			$check_code 	= 	$this->productCode();
 			$product_code 	= 	"CPD-".$check_code;
+			print_r($product_code);die;
 
 			if($requestData['submit']=='submit'){
 
