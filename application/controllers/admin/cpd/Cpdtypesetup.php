@@ -29,9 +29,10 @@ class Cpdtypesetup extends CC_Controller
 			$check_code 	= 	$this->productCode();
 			$product_code 	= 	"CPD-".$check_code;
 			$requestData['productcode']		= $product_code;
-			print_r($requestData);die;
+			
 
 			if($requestData['submit']=='submit'){
+				print_r($requestData);die;
 
 				// QR CODE
 				$SERVERFILEPATH 				= $_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/qrcode/';
@@ -44,7 +45,7 @@ class Cpdtypesetup extends CC_Controller
 				QRcode::png($text,$Qrcode_path,'L', '10', '10');
 				$requestData['qrcode']			= $file_name;
 				$requestData['productcode']		= $product_code;
-				$data 	=  $this->Cpdtypesetup_Model->action($requestData);
+				$data 							=  $this->Cpdtypesetup_Model->action($requestData);
 				if($data) $message = 'CPD Type '.(($id=='') ? 'created' : 'updated').' successfully.';
 			}else{
 				$data 			= 	$this->Cpdtypesetup_Model->changestatus($requestData);
