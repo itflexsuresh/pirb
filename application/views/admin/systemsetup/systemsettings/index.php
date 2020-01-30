@@ -28,8 +28,8 @@ if(isset($result) && $result){
 		$workbased5					= (isset($cpd_points2[5])) ?  $cpd_points2[5] : '';
 		$workbased6					= (isset($cpd_points2[6])) ?  $cpd_points2[6] : '';
 	}
-	if(isset($cpd[2])){
-		$cpd_points3				= explode('@-@', $cpd[2]);
+	
+		$cpd_points3				= (isset($cpd[2])) ? explode('@-@', $cpd[2]) : [];
 		$cpd_id3					= (isset($cpd_points3[0])) ?  $cpd_points3[0] : '';
 		$individual1				= (isset($cpd_points3[1])) ?  $cpd_points3[1] : '';
 		$individual2				= (isset($cpd_points3[2])) ?  $cpd_points3[2] : '';
@@ -37,7 +37,7 @@ if(isset($result) && $result){
 		$individual4				= (isset($cpd_points3[4])) ?  $cpd_points3[4] : '';
 		$individual5				= (isset($cpd_points3[5])) ?  $cpd_points3[5] : '';
 		$individual6				= (isset($cpd_points3[6])) ?  $cpd_points3[6] : '';
-	}
+	
 
 	if(isset($result['physical'])){
 		$address1 					= explode('@-@', $result['physical']);
