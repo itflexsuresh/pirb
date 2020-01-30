@@ -384,7 +384,7 @@ if(isset($result) && $result){
 											else if($key==3){
 												$str_key = 2;			
 											}
-											print_r($cpd);die;
+											//print_r($cpd);die;
 											$exp_arr = explode('@-@',$cpd[$str_key]);
 											$id = $exp_arr[0];
 											$cpd_id = $exp_arr[1];												
