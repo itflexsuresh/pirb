@@ -51,11 +51,11 @@ class Cpdtypesetup_Model extends CC_Model
 		$datetime		= 	date('Y-m-d H:i:s');
 		
 		$request		=	[
-								'updated_at' 		=> $datetime,
-								'updated_by' 		=> $userid
-							];
+			'updated_at' 		=> $datetime,
+			'updated_by' 		=> $userid
+		];
 							//print_r($data);die;
-							
+		
 		if(isset($data['activity'])) 		$request['activity'] 		= $data['activity'];
 		if(isset($data['points'])) 			$request['points'] 			= $data['points'];
 		if(isset($data['productcode'])) 	$request['productcode'] 	= $data['productcode'];
@@ -64,7 +64,7 @@ class Cpdtypesetup_Model extends CC_Model
 		$request['status'] 												= (isset($data['status'])) ? $data['status'] : '0';
 		if(isset($data['startdate'])) 		$request['startdate'] 		= date('Y-m-d',strtotime($data['startdate'])); 
 		if(isset($data['enddate'])) 		$request['enddate'] 		= date('Y-m-d',strtotime($data['enddate']));
-	
+		
 		if($id==''){
 			$request['created_at'] = $datetime;
 			$request['created_by'] = $userid;
@@ -72,7 +72,7 @@ class Cpdtypesetup_Model extends CC_Model
 		}else{
 			$this->db->update('cpdtypes', $request, ['id' => $id]);
 		}
-			
+		
 		if($this->db->trans_status() === FALSE)
 		{
 			$this->db->trans_rollback();
@@ -82,6 +82,16 @@ class Cpdtypesetup_Model extends CC_Model
 		{
 			$this->db->trans_commit();
 			return true;
+		}
+	}
+	public function getCronDate(){
+		$this->db->select('id, enddate, status');
+		$this->db->from('cpdtypes');
+		$this->db->where('enddate <', date('Y-m-d'));
+		$query = $this->db->get()->result_array();
+		foreach ($query as $key => $value) {
+			//print_r($value);
+			$this->db->update('cpdtypes', ['status' => '0'], ['id' => $value['id']]);
 		}
 	}
 	
@@ -95,10 +105,10 @@ class Cpdtypesetup_Model extends CC_Model
 		$this->db->trans_begin();
 		
 		$delete 	= 	$this->db->update(
-							'installationtype', 
-							['status' => $status, 'updated_at' => $datetime, 'updated_by' => $userid], 
-							['id' => $id]
-						);
+			'installationtype', 
+			['status' => $status, 'updated_at' => $datetime, 'updated_by' => $userid], 
+			['id' => $id]
+		);
 		
 		if(!$delete || $this->db->trans_status() === FALSE)
 		{
