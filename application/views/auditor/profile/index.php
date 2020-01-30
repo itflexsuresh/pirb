@@ -419,47 +419,47 @@
 		citysuburb(['<?php echo base_url()."ajax/index/ajaxcity"; ?>', {provinceid : $("#province").val()}, '#city', '<?php echo $city; ?>'], ['<?php echo base_url()."ajax/index/ajaxsuburb"; ?>', {provinceid : $("#province").val(),cityid : '<?php echo $city; ?>'}, '#suburb', '<?php echo $suburb; ?>']);
 	});
 
-	var areacount = 0;
+	// var areacount = 0;
 
-	$("#addarea").click(function() { 
+	// $("#addarea").click(function() { 
         
-        var areaprovinceval = $('#area_province').val();
-        var areacityval 	= $('#area_city').val();
-        var areasuburbval 	= $('#area_suburb').val();
+ //        var areaprovinceval = $('#area_province').val();
+ //        var areacityval 	= $('#area_city').val();
+ //        var areasuburbval 	= $('#area_suburb').val();
 
-        var areaprovincetxt = $('#area_province :selected').text();
-        var areacitytxt 	= $('#area_city :selected').text();
-        var areasuburbtxt 	= $('#area_suburb :selected').text();
+ //        var areaprovincetxt = $('#area_province :selected').text();
+ //        var areacitytxt 	= $('#area_city :selected').text();
+ //        var areasuburbtxt 	= $('#area_suburb :selected').text();
 
-        areadata([areaprovinceval, areacityval, areasuburbval], [areaprovincetxt, areacitytxt, areasuburbtxt]);
+ //        areadata([areaprovinceval, areacityval, areasuburbval], [areaprovincetxt, areacitytxt, areasuburbtxt]);
           
-    });
+ //    });
 
-    $('#area_province').on('change', function(){
-		citysuburb(['<?php echo base_url()."ajax/index/ajaxcity"; ?>', {provinceid : $("#area_province").val()}, '#area_city'], ['<?php echo base_url()."ajax/index/ajaxsuburb"; ?>', {provinceid : $("#area_province").val(), cityid : '<?php echo $city; ?>'}, '#area_suburb']);
-	});
+ //    $('#area_province').on('change', function(){
+	// 	citysuburb(['<?php echo base_url()."ajax/index/ajaxcity"; ?>', {provinceid : $("#area_province").val()}, '#area_city'], ['<?php echo base_url()."ajax/index/ajaxsuburb"; ?>', {provinceid : $("#area_province").val(), cityid : '<?php echo $city; ?>'}, '#area_suburb']);
+	// });
 
-    function areadata(data1, data2){
-    	var append			= 	'\
-        							<tr class="">\
-        								<td>'+data2[0]+'</td>\
-        								<td>'+data2[1]+'</td>\
-        								<td>'+data2[2]+'</td>\
-        								<td>\
-        									<a href="javascript:void(0);" class="area_remove"><i class="fa fa-trash"></i></a>\
-        									<input type="hidden" value="'+data1[0]+'" name="area['+areacount+'][province]">\
-        									<input type="hidden" value="'+data1[1]+'" name="area['+areacount+'][city]">\
-        									<input type="hidden" value="'+data1[2]+'" name="area['+areacount+'][suburb]">\
-        									<input type="hidden" value="'+((data1[3]) ? data1[3] : "")+'" name="area['+areacount+'][id]">\
-        								</td>\
-        							</tr>\
-        						';
+    // function areadata(data1, data2){
+    // 	var append			= 	'\
+    //     							<tr class="">\
+    //     								<td>'+data2[0]+'</td>\
+    //     								<td>'+data2[1]+'</td>\
+    //     								<td>'+data2[2]+'</td>\
+    //     								<td>\
+    //     									<a href="javascript:void(0);" class="area_remove"><i class="fa fa-trash"></i></a>\
+    //     									<input type="hidden" value="'+data1[0]+'" name="area['+areacount+'][province]">\
+    //     									<input type="hidden" value="'+data1[1]+'" name="area['+areacount+'][city]">\
+    //     									<input type="hidden" value="'+data1[2]+'" name="area['+areacount+'][suburb]">\
+    //     									<input type="hidden" value="'+((data1[3]) ? data1[3] : "")+'" name="area['+areacount+'][id]">\
+    //     								</td>\
+    //     							</tr>\
+    //     						';
 
-        $('#area_table').append(append);
-        areacount++;
-    }
+    //     $('#area_table').append(append);
+    //     areacount++;
+    // }
 
-    $(document).on('click', '.area_remove', function(){
-    	$(this).parent().parent().remove();
-    })
+    // $(document).on('click', '.area_remove', function(){
+    // 	$(this).parent().parent().remove();
+    // })
 </script>

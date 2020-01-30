@@ -131,7 +131,7 @@ class Auditor_Model extends CC_Model
 		// 	}
 		// }
 		
-		if((!isset($userdata) && !isset($userdetaildata) && !isset($useraddressdata) && !isset($userbankdata) && !isset($usersarea)) && $this->db->trans_status() === FALSE)
+		if((!isset($userdata) && !isset($userdetaildata) && !isset($useraddressdata) && !isset($userbankdata)) && $this->db->trans_status() === FALSE)
 		{
 			$this->db->trans_rollback();
 			return false;
