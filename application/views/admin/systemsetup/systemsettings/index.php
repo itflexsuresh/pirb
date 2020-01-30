@@ -4,7 +4,7 @@ if(isset($result) && $result){
 	
 	$cpd 							= explode('@@@', $result['cpd']);
 	$cpd_points2				= explode('@-@', $cpd[1]);
-	print_r($cpd_points2);die;
+	///print_r($cpd_points2);die;
 	
 	$details_id						= $result['id'];
 	if(isset($cpd[0])){
