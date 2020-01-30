@@ -69,7 +69,7 @@ if(isset($result) && $result){
 					<div class="row">
 						<div class="form-group col-md-6">
 							<label for="productcode">Product Code</label>
-							<input type="text" class="form-control" id="productcode" name="productcode" placeholder="Enter Product Code *" value="<?php echo $productcode; ?>">						
+							<input type="text" class="form-control" id="productcode" placeholder="Product Code will generate automatically" readonly value="<?php echo $productcode; ?>">						
 						</div>
 						<div class="form-group col-md-6">
 							<label for="cpdstream">CPD Stream</label>

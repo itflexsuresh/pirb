@@ -216,7 +216,7 @@
 							</div>
 						</div>
 						<div class="row add_top_value">
-							<div class="col-md-4">
+							<div class="col-md-6">
 								<div class="form-group">
 									<label>South African National *</label>
 									<?php
@@ -275,8 +275,8 @@
 									</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-md-6">
+						<div class="row add_top_value">
+							<div class="col-md-4">
 								<h4 class="card-title">Identity Document *</h4>
 								<div class="form-group">
 									<div>
@@ -301,7 +301,7 @@
 								</div>
 							</div>
 							<div class="col-md-5">
-								<ul>
+								<ul class="file_up_points">
 									<li>Photos must be no more than 6 months old</li>
 									<li>Photos must be high quality</li>
 									<li>Photos must be in colour</li>
@@ -428,7 +428,7 @@
 								<div class="form-group">
 									<label>Mobile Phone *</label>
 									<input type="text" class="form-control" name="mobile_phone" value="<?php echo $mobilephone; ?>">
-									<p>Note all SMS and OTP notifications will be sent to this mobile number above</p>
+									<p class="note">Note all SMS and OTP notifications will be sent to this mobile number above</p>
 								</div>
 							</div>
 						</div>
@@ -443,7 +443,7 @@
 								<div class="form-group">
 									<label>Email Address *</label>
 									<input type="text" class="form-control" id="email" name="email" value="<?php echo $email; ?>">
-									<p>Note: this email will be used as your user profile name and all emails notifications will be sent to it</p>
+									<p class="note">Note: this email will be used as your user profile name and all emails notifications will be sent to it</p>
 								</div>
 							</div>
 						</div>
@@ -538,7 +538,7 @@
 									<?php
 									echo form_dropdown('company_details', $company, $companydetailsid,['class'=>'form-control']);
 									?>
-									<p>If the Compnay does not appear on this listing please ask the company to Register with the PIRB.  Once they have been apporved and registered return to the listing and select the company</p>
+									<p class="note">If the Compnay does not appear on this listing please ask the company to Register with the PIRB.  Once they have been apporved and registered return to the listing and select the company</p>
 									<a href="javascript:void(0)">Register Company with the PIRB</a>
 								</div>
 							</div>

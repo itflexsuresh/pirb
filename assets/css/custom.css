@@ -105,10 +105,14 @@ ul.collapse.in {
 }
 
 .form-group input[type="text"], .form-group select, .form-group input[type="number"], .form-group input[type="password"] {
-    padding: 15px 10px 15px 10px;
+    padding: 13px 10px 13px 10px;
     height: auto;
     border: 1px solid #dde6ef;
     border-radius: 7px;
+}
+
+textarea {
+    height: 100px !important;
 }
 
 .card-title {
@@ -271,6 +275,13 @@ label.choose_file {background-color: #019cde;padding: 4px 14px 4px 14px;color: #
     background-color: #019cde;
 }
 
+p.note {
+    font-size: 12px;
+}
+
+a {
+    color: #48c7ff;
+}
 
 /* login page */
 
@@ -538,7 +549,12 @@ input[name="declaration"] {
     cursor: pointer;
 }
 
-/* Plumber Registration Process  Over*/
+.nav-link i.icon-menu {
+    color: #000;
+    text-shadow: 2px 0px #000;
+}
+
+/* Plumber Registration Process  Over*/ 
 
 
 

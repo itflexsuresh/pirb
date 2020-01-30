@@ -3,12 +3,10 @@
 if(isset($result) && $result){
 	
 	$cpd 							= explode('@@@', $result['cpd']);
-	$cpd_points2				= explode('@-@', $cpd[1]);
-	///print_r($cpd_points2);die;
 	
 	$details_id						= $result['id'];
-	if(isset($cpd[0])){
-		$cpd_points1				= explode('@-@', $cpd[0]);		
+	
+		$cpd_points1				= (isset($cpd[0])) ? explode('@-@', $cpd[0]) : [];		
 		
 		$cpd_id1					= (isset($cpd_points1[0])) ?  $cpd_points1[0] : '';
 		$developemantal1			= (isset($cpd_points1[1])) ?  $cpd_points1[1] : '';
@@ -17,9 +15,9 @@ if(isset($result) && $result){
 		$developemantal4			= (isset($cpd_points1[4])) ?  $cpd_points1[4] : '';
 		$developemantal5			= (isset($cpd_points1[5])) ?  $cpd_points1[5] : '';
 		$developemantal6			= (isset($cpd_points1[6])) ?  $cpd_points1[6] : '';
-	}
-	if(isset($cpd[1])){
-		$cpd_points2				= explode('@-@', $cpd[1]);
+	
+	
+		$cpd_points2				= (isset($cpd[1])) ? explode('@-@', $cpd[1]) : [];
 		$cpd_id2					= (isset($cpd_points2[0])) ?  $cpd_points2[0] : '';
 		$workbased1					= (isset($cpd_points2[1])) ?  $cpd_points2[1] : '';
 		$workbased2					= (isset($cpd_points2[2])) ?  $cpd_points2[2] : '';
@@ -27,7 +25,7 @@ if(isset($result) && $result){
 		$workbased4					= (isset($cpd_points2[4])) ?  $cpd_points2[4] : '';
 		$workbased5					= (isset($cpd_points2[5])) ?  $cpd_points2[5] : '';
 		$workbased6					= (isset($cpd_points2[6])) ?  $cpd_points2[6] : '';
-	}
+	
 	
 		$cpd_points3				= (isset($cpd[2])) ? explode('@-@', $cpd[2]) : [];
 		$cpd_id3					= (isset($cpd_points3[0])) ?  $cpd_points3[0] : '';
@@ -67,7 +65,7 @@ if(isset($result) && $result){
 	$reg_no 						= (set_value('reg_no')) ? set_value('reg_no') : $result['reg_no'];
 	$vat_no 						= (set_value('vat_no')) ? set_value('vat_no') : $result['vat_no'];
 	//$vat_no 					= (set_value('workphone')) ? set_value('workphone') : $result['workphone'];
-	$system_email 					= (set_value('system_email')) ? set_value('email') : $result['email'];
+	$system_email 					= (set_value('system_email')) ? set_value('system_email') : $result['system_email'];
 	$bank_name 						= (set_value('bank_name')) ? set_value('bank_name') : $result['bank_name'];
 	$branch_code 					= (set_value('branch_code')) ? set_value('branch_code') : $result['branch_code'];
 	$account_name 					= (set_value('account_name')) ? set_value('account_name') : $result['account_name'];
@@ -232,31 +230,31 @@ if(isset($result) && $result){
 							<div class="row">
 								<div class="form-group col-md-6">
 									<label for="physical_address">Physical Address</label>
-									<input type="text" class="form-control" id="physical_address" name="address1[1][address]" placeholder="Enter Physical Address *" value="<?php echo $physicaladdress; ?>">
+									<input type="text" class="form-control" id="physical_address" name="address1[1][address]" placeholder="Enter Physical Address" value="<?php echo $physicaladdress; ?>">
 								</div>
 								<div class="form-group col-md-6">
 									<label for="postal_address">Postal Address</label>
-									<input type="text" class="form-control" id="postal_address" name="address1[2][address]" placeholder="Enter Postal Address *" value="<?php echo $postaladdress; ?>">
+									<input type="text" class="form-control" id="postal_address" name="address1[2][address]" placeholder="Enter Postal Address" value="<?php echo $postaladdress; ?>">
 								</div>
 							</div>
 							<div class="row">
 								<div class="form-group col-md-6">
 									<label for="phy_suburb">Suburb</label>
-									<input type="text" class="form-control" id="phy_suburb" name="address1[1][suburb]" placeholder="Enter Suburb *" value="<?php echo $physicaladdress1; ?>">
+									<input type="text" class="form-control" id="phy_suburb" name="address1[1][suburb]" placeholder="Enter Suburb" value="<?php echo $physicaladdress1; ?>">
 								</div>
 								<div class="form-group col-md-6">
 									<label for="postal_suburb">Suburb</label>
-									<input type="text" class="form-control" id="postal_suburb" name="address1[2][suburb]" placeholder="Enter Suburb *" value="<?php echo $postaladdress1; ?>">
+									<input type="text" class="form-control" id="postal_suburb" name="address1[2][suburb]" placeholder="Enter Suburb" value="<?php echo $postaladdress1; ?>">
 								</div>
 							</div>
 							<div class="row">
 								<div class="form-group col-md-6">
 									<label for="phy_city">City</label>
-									<input type="text" class="form-control" id="phy_city" name="address1[1][city]" placeholder="Enter City *" value="<?php echo $physicaladdress2; ?>">
+									<input type="text" class="form-control" id="phy_city" name="address1[1][city]" placeholder="Enter City" value="<?php echo $physicaladdress2; ?>">
 								</div>
 								<div class="form-group col-md-6">
 									<label for="postal_city">City</label>
-									<input type="text" class="form-control" id="postal_city" name="address1[2][city]" placeholder="Enter City *" value="<?php echo $postaladdress2; ?>">
+									<input type="text" class="form-control" id="postal_city" name="address1[2][city]" placeholder="Enter City" value="<?php echo $postaladdress2; ?>">
 								</div>
 							</div>
 							<div class="row">
@@ -282,7 +280,7 @@ if(isset($result) && $result){
 							<div class="row">
 								<div class="form-group col-md-6">
 									<label for="work_phone">Work Phone</label>
-									<input type="number" class="form-control" id="workphone" maxlength="10" name="work_phone" placeholder="Enter Work Phone *" value="<?php echo $work_phone; ?>">
+									<input type="number" class="form-control" id="workphone" maxlength="20" name="work_phone" placeholder="Enter Work Phone *" value="<?php echo $work_phone; ?>">
 								</div>
 								<div class="form-group col-md-6">
 									<label for="email">Email Address</label>
@@ -298,7 +296,7 @@ if(isset($result) && $result){
 								</div>
 								<div class="form-group col-md-6">
 									<label for="branch_code">Branch Code</label>
-									<input type="number" class="form-control" id="branch_code" name="branch_code" placeholder="Enter Branch Code *" value="<?php echo $branch_code; ?>">
+									<input type="text" class="form-control" id="branch_code" name="branch_code" placeholder="Enter Branch Code *" value="<?php echo $branch_code; ?>">
 								</div>
 							</div>
 							<div class="row">
@@ -364,8 +362,8 @@ if(isset($result) && $result){
 											<th>CPD Stream</th>
 											<th>Master Plumber</th>
 											<th>Licsensed Plumber</th>
-											<th>Operating Technician</th>
-											<th>Assistant Technician</th>
+											<th>Technical Operator Practitioner</th>
+											<th>Technical Assistant Practitioner</th>
 											<th>Learner</th>
 										</tr>
 									</thead>
