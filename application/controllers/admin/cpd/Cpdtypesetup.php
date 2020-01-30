@@ -29,7 +29,7 @@ class Cpdtypesetup extends CC_Controller
 			$check_code 	= 	$this->productCode();
 			$product_code 	= 	"CPD-".$check_code;
 			$requestData['productcode']		= $product_code;
-			print_r($product_code);die;
+			print_r($requestData);die;
 
 			if($requestData['submit']=='submit'){
 
