@@ -101,6 +101,7 @@
 					remote		: 	{
 							url	: "<?php echo base_url().'admin/administration/subtype/SubTypeValidation'; ?>",
 							type: "post",
+							async: false,
 							data: {
 								name: function() {
 									return $( "#name" ).val();

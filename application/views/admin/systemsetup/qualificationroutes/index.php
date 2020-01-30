@@ -91,6 +91,7 @@
 					remote		: 	{
 							url	: "<?php echo base_url().'admin/systemsetup/qualificationroutes/qualificationroute/QualificationRouteValidation'; ?>",
 							type: "post",
+							async: false,
 							data: {
 								name: function() {
 									return $( "#name" ).val();
