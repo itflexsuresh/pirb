@@ -29,10 +29,7 @@ class Systemsettings_Model extends CC_Model
 	}
 	
 	public function action($data)
-	{
-		// echo "<pre>";
-		// print_r($data);die;
-		
+	{	
 		$this->db->trans_begin();
 		
 		$physical_id 			= 	$data['physical_id'];
@@ -94,7 +91,8 @@ class Systemsettings_Model extends CC_Model
 		if(isset($data['cpd'][3]['operating'])) 		$individual['operating']				= $data['cpd'][3]['operating'];
 		if(isset($data['cpd'][3]['assistant'])) 		$individual['assistant']				= $data['cpd'][3]['assistant'];
 		if(isset($data['cpd'][3]['learner'])) 			$individual['learner']					= $data['cpd'][3]['learner'];
-
+// echo "<pre>";
+// 		print_r($request1);die;
 
 		if(isset($request1)){
 			if($details_id==''){
