@@ -90,6 +90,7 @@ if(isset($result) && $result){
 					remote		: 	{
 							url	: "<?php echo base_url().'admin/administration/installationtype/InstallationTypeValidation'; ?>",
 							type: "post",
+							async: false,
 							data: {
 								name: function() {
 									return $( "#name" ).val();
