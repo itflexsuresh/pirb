@@ -2,21 +2,17 @@
 
 $config['sitename']	 				= 	'Audit IT';
 
-$config['learner']	 				= 	'23';
-$config['assistant']	 			= 	'3';
-$config['operator']	 				= 	'4';
-$config['licensed']	 				= 	'6';
+$config['learner']	 				= 	'1';
+$config['assistant']	 			= 	'2';
+$config['operator']	 				= 	'3';
+$config['licensed']	 				= 	'4';
 
 
 
 $config['plumberstatus'] 			= 	[
 											'' 	=> '',
-											'0' => 'Pending',
-											'1' => 'Active',
-											'2' => 'CPD Suspention',
-											'3' => 'Expired',
-											'4' => 'Deceased',
-											'5' => 'Resigned',
+											'1' => 'Enabled',
+											'0' => 'Disabled'
 										];
 
 $config['status'] 					= 	[
@@ -81,68 +77,25 @@ $config['yesno'] 					= 	[
 											'2' => 'No'
 										];
 										
-$config['homelanguage'] 			= 	[
-											'1' => 'Afrikaans',
-											'2' => 'English',
-											'3' => 'isiNdebele',
-											'4' => 'isiXhosa',
-											'5' => 'isiZulu',
-											'6' => 'Other',
-											'7' => 'sePedi',
-											'8' => 'seSotho',
-											'9' => 'seTswana',
-											'10' => 'siSwati',
-											'11' => 'South African Sign Language',
-											'12' => 'tshiVenda',
-											'13' => 'Unknown',
-											'14' => 'xiTsonga'
+$config['othernationality'] 		= 	[
+											'1' => 'Item1',
+											'2' => 'Item2',
+											'3' => 'Item3',
+											'4' => 'Item4'
 										];	
 										
-$config['othernationality'] 			= 	[
-											'1' => 'Angola',
-											'2' => 'Asian countries',
-											'3' => 'Australia Oceania countries',
-											'4' => 'Botswana',
-											'5' => 'European countries',
-											'6' => 'Lesotho',
-											'7' => 'Malawi',
-											'8' => 'Mauritius',
-											'9' => 'Mozambique',
-											'10' => 'N/A: Institution',
-											'11' => 'Namibia',
-											'12' => 'North American countries',
-											'13' => 'Other & rest of Oceania',
-											'14' => 'Rest of Africa',
-											'15' => 'SADC except SA',
-											'16' => 'Seychelles',
-											'17' => 'South / Central American countries',
-											'18' => 'South Africa',
-											'19' => 'Swaziland',
-											'20' => 'Tanzania',
-											'21' => 'Unspecified',
-											'22' => 'Zaire',
-											'23' => 'Zambia',
-											'24' => 'Zimbabwe'
+$config['homelanguage'] 			= 	[
+											'1' => 'Item1',
+											'2' => 'Item2',
+											'3' => 'Item3',
+											'4' => 'Item4'
 										];
 										
 $config['disability'] 				= 	[
-											'1' => 'Communication(talk/listen)',
-											'2' => 'Disabled but unspecified',
-											'3' => 'Emotional (behav/psych)',
-											'4' => 'Hearing (even with h. aid)',
-											'5' => 'Intellectual (learn etc)',
-											'6' => 'Multiple',
-											'7' => 'None',
-											'8' => 'None now - was Communic',
-											'9' => 'None now - was Disabled but unspecified',
-											'10' => 'None now - was Emotional',
-											'11' => 'None now - was Hearing',
-											'12' => 'None now - was Intellect',
-											'13' => 'None now - was Multiple',
-											'14' => 'None now - was Physical',
-											'15' => 'None now - was Sight',
-											'16' => 'Physical (move/stand etc)',
-											'17' => 'Sight (even with glasses)'
+											'1' => 'Item1',
+											'2' => 'Item2',
+											'3' => 'Item3',
+											'4' => 'Item4'
 										];	
 										
 $config['citizen'] 					= 	[
@@ -234,12 +187,12 @@ $config['designation1'] 			= 	[
 				
 
 $config['designation2'] 			= 	[ 
-											'1' => 'Learner Plumber',
-											'2' => 'Drain Technical Assistant Practitioner',
-											'3' => 'Technical Operator Practitioner',
-											'4' => 'Qualified Plumber',
-											'5' => 'Licensed Plumber',
-											'6' => 'Master Plumber'
+											'1' => 'Leak Detection',
+											'2' => 'Drain Cleaning',
+											'3' => 'Solar Water Heating',
+											'4' => 'Heat Pumps',
+											'5' => 'Gas',
+											'6' => 'Bathroom readline_callback_handler_remove()ations'
 										];
 				
 $config['criminalact'] 				= 	'<div><input type="checkbox" name="criminalact" class="criminalact"> <span>I fully understand sumbitting a false qualification is a criminal act, which comes with a chance of jail time or a fine and anyone can report someone who does it.</span></div>';
@@ -296,14 +249,14 @@ $config['declaration'] 				= 	'
 											<div class="info_text">Declare that the information contained in this application, or attached by me to this application, is complete, accurate and true to the best of my knowledge. I further declare that by forwarding this completed application form to the PIRB I am acknowledging that I have read and fully understood what is required of me as a PIRB registered and professional plumber and that I adhere to all aims and objectives of the PIRB and the PIRB’s Plumber Code of Conduct. I give consent for enquiries for verification purposes to be made into any information I have given on this application.</div>
 										';
 		
-// $config['plumberstatus'] 			= 	[ 
-// 											'1' => 'Leak Detection',
-// 											'2' => 'Drain Cleaning',
-// 											'3' => 'Solar Water Heating',
-// 											'4' => 'Heat Pumps',
-// 											'5' => 'Gas',
-// 											'6' => 'Bathroom renovations'
-// 										];
+$config['plumberstatus'] 			= 	[ 
+											'1' => 'Leak Detection',
+											'2' => 'Drain Cleaning',
+											'3' => 'Solar Water Heating',
+											'4' => 'Heat Pumps',
+											'5' => 'Gas',
+											'6' => 'Bathroom renovations'
+										];
 				
 										
 $config['worktype'] 				= 	[
