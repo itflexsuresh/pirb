@@ -324,9 +324,9 @@
 				surname : {
 					required	: true,
 				},
-				// idnumber : {
-				// 	required	: true,
-				// },
+				idno : {
+					required	: true,
+				},
 				email : {
 					required	: true,
 				},
@@ -379,9 +379,9 @@
 				surname 	: {
 					required	: "Please enter the surname."
 				},				
-				// idnumber : {
-				// 	required	: "Please enter the ID"
-				// },
+				idno : {
+					required	: "Please enter the ID"
+				},
 				email : {
 					required	: "Please enter the email"
 				},

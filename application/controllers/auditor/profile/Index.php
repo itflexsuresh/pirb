@@ -11,7 +11,8 @@ class Index extends CC_Controller
 	
 	public function index()
 	{
-		$userid = $this->getUserID();
+		echo $userid = $this->getUserID();
+		exit;
 
 		$result = $this->Auditor_Model->getList('row', ['id' => $userid, 'status' => ['0','1']]);
 		if($result){
@@ -35,6 +36,7 @@ class Index extends CC_Controller
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['provincelist'] 	= $this->getProvinceList();	
 		$pagedata['userid']			= $userid;
+
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
 		$data['content'] 			= $this->load->view('auditor/profile/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
