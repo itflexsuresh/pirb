@@ -7,6 +7,7 @@ class Index extends CC_Controller
 	{
 		parent::__construct();
 		$this->load->model('CC_Model');
+		$this->load->model('Managearea_Model');
 	}
 	
 	public function ajaxfileupload()
@@ -17,5 +18,32 @@ class Index extends CC_Controller
 		
 		$result 		= $this->CC_Model->fileUpload('file', $path, $type);
 		echo json_encode($result);
+	}
+	public function ajaxcity()
+	{
+		$post = $this->input->post();
+		$result = $this->Managearea_Model->getListCity('all', $post);
+
+		if(count($result)){
+			$json = ['status' => '1', 'result' => $result];
+		}else{
+			$json = ['status' => '0', 'result' => []];
+		}
+
+		echo json_encode($json);
+	}
+
+	public function ajaxsuburb()
+	{
+		$post = $this->input->post();
+		$result = $this->Managearea_Model->getListSuburb('all', $post);
+
+		if(count($result)){
+			$json = ['status' => '1', 'result' => $result];
+		}else{
+			$json = ['status' => '0', 'result' => []];
+		}
+
+		echo json_encode($json);
 	}
 }

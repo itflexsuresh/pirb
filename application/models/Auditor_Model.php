@@ -5,252 +5,135 @@ class Auditor_Model extends CC_Model
 	public function getList($type, $requestdata=[])
 	{ 
 		
-		$usersdetail 	= ['ud.user_id as usersdetailid','ud.name','ud.surname','ud.company_name','ud.reg_no','ud.vat_no','ud.mobile_phone','ud.work_phone','ud.email','ud.file1','ud.file2'];
-		
-		$useraddress = ['ua.user_id', 'ua.address', 'ua.province', 'ua.city', 'ua.suburb', 'ua.postal_code'];
-		$userbank = ['ub.user_id', 'ub.bank_name', 'ub.branch_code', 'ub.account_name', 'ub.account_no', 'account_type'];
-		$user = ['uc.id', 'uc.email', 'uc.password_raw'];
+		$user 			= ['u.id as id', 'u.email', 'u.password_raw'];
+		$usersdetail 	= ['ud.id as userdetailid','ud.name','ud.surname','ud.company_name','ud.reg_no','ud.vat_no','ud.vat_vendor','ud.mobile_phone','ud.work_phone','ud.file1','ud.file2','ud.identity_no'];		
+		$useraddress 	= ['ua.id as useraddressid', 'ua.address', 'ua.province', 'ua.city', 'ua.suburb', 'ua.postal_code'];
+		$userbank 		= ['ub.id as userbankid', 'ub.bank_name', 'ub.branch_code', 'ub.account_name', 'ub.account_no', 'account_type'];
 
-		$this->db->select('*');
+		$this->db->select('
+			'.implode(',', $user).',
+			'.implode(',', $usersdetail).',
+			'.implode(',', $useraddress).',
+			'.implode(',', $userbank).',
+			group_concat(concat_ws("@@@", "uaa.id", "uaa.province", "uaa.city", "uaa.suburb", "seperator" ",")) as areas');
 		$this->db->from('users as u');
 		$this->db->join('users_detail as ud','ud.user_id=u.id', 'left');
-		$this->db->join('users_address as ua1', 'ua1.user_id=ud.user_id', 'left');		
-		$this->db->join('users_bank as ua3', 'ua3.user_id=ua1.user_id', 'left');
-		$this->db->where('ud.user_id', $requestdata['user_id']);
-		// $query=	$this->db->get()->result_array();
-		// return $query;
+		$this->db->join('users_address as ua', 'ua.user_id=u.id and ua.type="3"', 'left');		
+		$this->db->join('users_bank as ub', 'ub.user_id=u.id', 'left');
+		//$this->db->join('users_auditor_area as uaa', 'uaa.user_id=u.id', 'left');
+		
+		if(isset($requestdata['id'])) 			$this->db->where('u.id', $requestdata['id']);
+		if(isset($requestdata['status'])) 		$this->db->where_in('u.status', $requestdata['status']);
 
-			if($type=='count'){
+		if($type=='count'){
 			$result = $this->db->count_all_results();
-		}else{
+		}
+		else
+		{
 			$query = $this->db->get();
 			
 			if($type=='all') 		$result = $query->result_array();
 			elseif($type=='row') 	$result = $query->row_array();
 		}
 		
-		return $result;
-	
-
+		return $result;	
 	}
 
-
-		// if(isset($requestdata['id'])) 			
-		// 	$this->db->where('u.id', $requestdata['id']);
-		// if(isset($requestdata['idcard']) && $requestdata['idcard']!='')				$this->db->where('up.idcard', $requestdata['idcard']);
-		// if(isset($requestdata['dob']) && $requestdata['dob']!='')					$this->db->where('ud.dob', $requestdata['dob']);
-		// if(isset($requestdata['reg_no']) && $requestdata['reg_no']!='')				$this->db->where('up.reg_no', $requestdata['reg_no']);
-		// if(isset($requestdata['company_details']) && $requestdata['company_details']!='')				$this->db->where('up.company_details', $requestdata['company_details']);
-		// if(isset($requestdata['mobile_phone']) && $requestdata['mobile_phone']!='')	$this->db->where('ud.mobile_phone', $requestdata['mobile_phone']);
-		// if(isset($requestdata['mobile_phone'])) $this->db->where('ud.mobile_phone', $requestdata['mobile_phone']);
-		//if(isset($requestdata['status']))		$this->db->where_in('u.status', $requestdata['status']);
-		
-		
-
-	//  		public function getDetails($type, $requestdata=[])
-	// {
-	// 	$this->db->select('*');
-	// 	$this->db->from('users');
-	// 	$this->db->join('users_detail', 'users_detail.user_id = users.id', 'left');
-	// 	$this->db->join('users_address', 'users_address.user_id = users_detail.user_id');
-	// 	$this->db->join('users_bank', ;'users_bank.user_id = users_address.user_id');
-
-
-	// 	if(isset($requestdata['id'])) 		
-	// 		$this->db->where('ups.id', $requestdata['id']);
-		
-	// 	if($type=='count'){
-	// 		$result = $this->db->count_all_results();
-	// 	}else{
-	// 		$query = $this->db->get();
-			
-	// 		if($type=='all') 		$result = $query->result_array();
-	// 		elseif($type=='row') 	$result = $query->row_array();
-	// 	}
-		
-	// 	return $result;
-	// }
-
-	
 	public function action($data)
-	{	
+	{
 		$this->db->trans_begin();
-		
-		$userid			= 	$this->getUserID();
-		
+
+		$userid			= 	$this->getUserID();		
 		$datetime		= 	date('Y-m-d H:i:s');
+		$id				= 	$data['id'];
 
-
-		if(isset($data['email'])) 			 $request3['email']			= 	 $data['email'];
-		if(isset($data['pass'])) 		 	 $request3['password_raw']	=    $data['pass'];
-		if(isset($data['pass'])) 		     $request3['password']	=    md5($data['pass']);
-
-		if(isset($request3))
-		{
-			//$request3['id'] = $id;
-			$this->db->insert('users', $request3);
-			$insert_id = $this->db->insert_id();
-		}
-		else
-		{
-			$this->db->update('users', $request, ['id' => $id]);
-		}
-
-
-
-		if(isset($data['name'])) 	         $request['name'] 	    =    $data['name'];
-		if(isset($data['surname'])) 	     $request['surname'] 	=    $data['surname'];
-		// if(isset($data['idnumber'])) 	     $request[''] 			= 	 $data['idnumber'];
-		if(isset($data['auditor_picture']))  $request['file1'] 		= 	 $data['auditor_picture'];
-		if(isset($data['email'])) 			 $request['email']		= 	 $data['email'];		
-		if(isset($data['phonework'])) 		 $request['work_phone'] = 	 $data['phonework'];
-		if(isset($data['phonemobile'])) 	$request['mobile_phone']=    $data['phonemobile'];
-		if(isset($data['billingname'])) 	$request['company_name']=    $data['billingname'];
-		if(isset($data['regnumber'])) 		$request['reg_no'] 		= 	 $data['regnumber'];
-		if(isset($data['vat'])) 		    $request['vat_no'] 	    = 	 $data['vat'];
-		if(isset($data['comp_photo'])) 		$request['file2'] 		= 	 $data['comp_photo'];
+		if(isset($data['email'])) 				$request1['email'] 				= $data['email'];
+		if(isset($data['password'])) 			$request1['password_raw'] 		= $data['password'];
+		if(isset($data['password'])) 			$request1['password'] 			= md5($data['password']);
 		
-
-		if(isset($request))
-		{
-			$request['user_id'] = $insert_id;
-			$this->db->insert('users_detail', $request);
-			//$insert_id = $this->db->insert_id();
+		if(isset($request1)){
+			if($id==''){
+				$userdata = $this->db->insert('users', $request1);
+			}else{
+				$userdata = $this->db->update('users', $request1, ['id' => $id]);
+			}
 		}
-		else
-		{
-			$this->db->update('users_detail', $request, ['user_id' => $user_id]);
-		}
-
-
-
-		// if(isset($request))
-		// {	
-		// 	$user_id	= 	$userid;
-		// 	if(isset($data['user_id'])) $request['user_id'] = $data['user_id'];
-			
-		// 	if($user_id=='')
-		// 	{
-		// 		$usersdetail = $this->db->insert('users_detail', $request);
-		// 		$usersdetailinsertid = $this->db->insert_id();
-		// 	}
-		// 	else
-		// 	{
-		// 		$usersdetail = $this->db->update('users_detail', $request, ['id' => $user_id]);
-		// 		$usersdetailinsertid = $user_id;
-		// 	}
-			
-		// 	$idarray['user_id'] = $usersdetailinsertid;
-		// }
-
+	
+		if(isset($data['user_id'])) 			$request2['user_id'] 			= $id;
+		if(isset($data['name'])) 				$request2['name'] 				= $data['name'];
+		if(isset($data['surname'])) 			$request2['surname'] 			= $data['surname'];
+		if(isset($data['company_name'])) 		$request2['company_name'] 		= $data['company_name'];
+		if(isset($data['reg_no'])) 				$request2['reg_no'] 			= $data['reg_no']; 
+		if(isset($data['vat_no'])) 				$request2['vat_no'] 			= $data['vat_no'];
+		if(isset($data['vat_vendor'])) 			$request2['vat_vendor'] 		= $data['vat_vendor'];
+		if(isset($data['work_phone'])) 			$request2['work_phone'] 		= $data['work_phone'];
+		if(isset($data['mobile_phone'])) 		$request2['mobile_phone'] 		= $data['mobile_phone'];	
+		if(isset($data['file1'])) 				$request2['file1'] 				= $data['file1'];
+		if(isset($data['file2'])) 				$request2['file2'] 				= $data['file2'];
+		if(isset($data['idno'])) 				$request2['identity_no'] 		= $data['idno'];
 		
-		if(isset($data['billingaddress'])) 	$request1['address'] 	= 	 $data['billingaddress'];
-		if(isset($data['province'])) 		$request1['province'] 	= 	 $data['province'];
-		if(isset($data['city'])) 				$request1['city'] 		= 	 $data['city'];
-		if(isset($data['suburb'])) 	 		$request1['suburb']     = 	 $data['suburb'];
-		if(isset($data['postalcode'])) 	    $request1['postal_code']=    $data['postalcode'];
+		if(isset($request2)){
+			$userdetailid	= 	$data['userdetailid'];
 
-		if(isset($request1))
-		{
-			$request1['user_id'] = $insert_id;
-			$this->db->insert('users_address', $request1);
-
-			//$insert_id = $this->db->insert_id();
+			if($userdetailid==''){
+				$userdetaildata = $this->db->insert('users_detail', $request2);
+			}else{
+				$userdetaildata = $this->db->update('users_detail', $request2, ['id' => $userdetailid]);
+			}
 		}
-		else
-		{
-			$this->db->update('users_address', $request1, ['user_id' => $user_id]);
-		}
-		// if(isset($request1))
-		// {
-		// 	$user_id	= 	$userid;
-		// 	if(isset($data['user_id'])) $request1['user_id'] = $data['user_id'];
-			
-		// 	if($user_id=='')
-		// 	{
-		// 		$usersdetail = $this->db->insert('users_address', $request1);
-		// 		$usersdetailinsertid = $this->db->insert_id();
-		// 	}
-		// 	else
-		// 	{
-		// 		$usersdetail = $this->db->update('users_address', $request1, ['id' => $user_id]);
-		// 		$usersdetailinsertid = $user_id;
-		// 	}
-			
-		// 	$idarray['user_id'] = $usersdetailinsertid;
-		// }
+	
 
-		if(isset($data['bankname'])) 		$request2['bank_name'] 	=    $data['bankname'];
-		if(isset($data['accountname'])) 	$request2['account_name']=   $data['accountname'];
-		if(isset($data['branchcode'])) 		$request2['branch_code'] =   $data['branchcode'];
-		if(isset($data['accountnumber'])) 	$request2['account_no']  =   $data['accountnumber'];
-		if(isset($data['accounttype'])) 	$request2['account_type'] =  $data['accounttype'];
-
-		if(isset($request2))
-		{
-			$request2['user_id'] = $insert_id;
-			$this->db->insert('users_bank', $request2);
-			//$insert_id = $this->db->insert_id();
-		}
-		else
-		{
-			$this->db->update('users_bank', $request2, ['user_id' => $user_id]);
-		}
-		// if(isset($request2)){
-		// 	$user_id	= 	$userid;
-		// 	if(isset($data['user_id'])) $request2['user_id'] = $data['user_id'];
-			
-		// 	if($user_id=='')
-		// 	{
-		// 		$usersdetail = $this->db->insert('users_bank', $request2);
-		// 		$usersdetailinsertid = $this->db->insert_id();
-		// 	}
-		// 	else
-		// 	{
-		// 		$usersdetail = $this->db->update('users_bank', $request2, ['id' => $user_id]);
-		// 		$usersdetailinsertid = $user_id;
-		// 	}
-			
-		// 	$idarray['user_id'] = $usersdetailinsertid;
-		// }
-
-
+		if(isset($data['user_id'])) 			$request3['user_id'] 		= $id;
+		if(isset($data['address'])) 			$request3['address'] 		= $data['address'];
+		if(isset($data['province'])) 			$request3['province'] 		= $data['province'];
+		if(isset($data['city'])) 				$request3['city'] 			= $data['city'];		
+		if(isset($data['suburb'])) 				$request3['suburb'] 		= $data['suburb'];
+		if(isset($data['postal_code'])) 		$request3['postal_code'] 	= $data['postal_code']; 
 		
-		// if(isset($request3))
-		// {
-		// 	$$user_id	= 	$userid;
-		// 	if(isset($data['user_id'])) $request3['user_id'] = $data['user_id'];
-			
-		// 	if($usersdetailid=='')
-		// 	{
-		// 		$usersdetail = $this->db->insert('users', $request3);
-		// 		$usersdetailinsertid = $this->db->insert_id();
-		// 	}
-		// 	else
-		// 	{
-		// 		$usersdetail = $this->db->update('users', $request3, ['id' => $user_id]);
-		// 		$usersdetailinsertid = $user_id;
-		// 	}
-			
-		// 	$idarray['user_id'] = $usersdetailinsertid;
-		// }
+		if(isset($request3)){
+			$request3['type'] 	= '3'; 
+			$useraddressid		= $data['useraddressid'];
 
-		// if(isset($request2)){
-			
-		// 	$request2['user_id'] 	= $userid;
-		// 	$audior_details = $this->db->insert('users_bank', $request2);
+			if($useraddressid==''){
+				$useraddressdata = $this->db->insert('users_address', $request3);
+			}else{
+				$useraddressdata = $this->db->update('users_address', $request3, ['id' => $useraddressid]);
+			}
+		}
+
+		if(isset($data['user_id'])) 				$request4['user_id'] 		= $id;
+		if(isset($data['bank_name'])) 				$request4['bank_name'] 		= $data['bank_name'];
+		if(isset($data['branch_code'])) 			$request4['branch_code'] 	= $data['branch_code'];
+		if(isset($data['account_name'])) 			$request4['account_name'] 	= $data['account_name'];	
+		if(isset($data['account_no'])) 				$request4['account_no'] 	= $data['account_no'];
+		if(isset($data['account_type'])) 			$request4['account_type'] 	= $data['account_type']; 
+		
+		
+		if(isset($request4)){
+			$userbankid	= 	$data['userbankid'];
+
+			if($userbankid==''){
+				$userbankdata = $this->db->insert('users_bank', $request4);
+			}else{
+				$userbankdata = $this->db->update('users_bank', $request4, ['id' => $userbankid]);
+			}
+		}
+
+		// if(isset($data['area']) && count($data['area'])){
+		// 	foreach($data['area'] as $key => $request5){
+		// 		$request5['user_id'] = $id;
+
+		// 		if($request5['id']==''){
+		// 			$usersarea = $this->db->insert('users_auditor_area', $request5);
+		// 		}else{
+		// 			$usersarea = $this->db->update('users_auditor_area', $request5, ['id' => $request5['id']]);
+		// 		}
+		// 	}
 		// }
 		
-		// if(isset($request3)){
-			
-		// 	$request3['id'] 	= $id;
-		// 	$audior_details = $this->db->insert('users', $request3);
-		// }
-		
-
-		if($this->db->trans_status() === FALSE)
+		if((!isset($userdata) && !isset($userdetaildata) && !isset($useraddressdata) && !isset($userbankdata)) && $this->db->trans_status() === FALSE)
 		{
-			$this->dsb->trans_rollback();
+			$this->db->trans_rollback();
 			return false;
 		}
 		else
@@ -261,95 +144,5 @@ class Auditor_Model extends CC_Model
 	}
 
 
-	// public function action1($data)
-	// {	
-	// 	$this->db->trans_begin();
-		
-	// 	$userid			= 	$this->getUserID();
-	// 	$datetime		= 	date('Y-m-d H:i:s');
-		
-		
-	// 	if(isset($data['province'])) 	     	 $request4['name'] 	    =    $data['province'];
-	// 	if(isset($data['audit_city'])) 	     	 $request5['name'] 		=    $data['audit_city'];
-	// 	if(isset($data['audit_suburb'])) 	     $request6['name'] 		=    $data['audit_suburb'];
-		
 
-	// 	if(isset($request4)){
-			
-	// 		$request4['id'] 	= $id;
-	// 		$audior_details = $this->db->insert('province', $request4);
-	// 	}
-
-	// 	if(isset($request5)){
-			
-	// 		$request5['user_id'] 	= $userid;
-	// 		$audior_details = $this->db->insert('city', $request5);
-	// 	}
-	// 	if(isset($request6)){
-			
-	// 		$request6['user_id'] 	= $userid;
-	// 		$audior_details = $this->db->insert('suburb', $request6);
-	// 	}
-	// }
-
-	public function getListProvince($type, $requestdata=[])
-	{
-		$this->db->select('*');
-		$this->db->from('province');
-
-		if(isset($requestdata['id'])) $this->db->where('id', $requestdata['id']);
-		if(isset($requestdata['status'])) $this->db->where_in('status', $requestdata['status']);
-
-		if($type=='count'){
-			$result = $this->db->count_all_results();
-		}else{
-			$query = $this->db->get();
-
-			if($type=='all') $result = $query->result_array();
-			elseif($type=='row') $result = $query->row_array();
-		}
-
-		return $result;
-	}
-
-	public function getListCity($type, $requestdata=[])
-	{
-		$this->db->select('*');
-		$this->db->from('city');
-
-		if(isset($requestdata['id'])) $this->db->where('id', $requestdata['id']);
-		if(isset($requestdata['provinceid'])) $this->db->where('province_id', $requestdata['provinceid']);
-		//if(isset($requestdata['status'])) $this->db->where_in('status', $requestdata['status']);
-
-		if($type=='count'){
-			$result = $this->db->count_all_results();
-		}else{
-			$query = $this->db->get();
-
-			if($type=='all') $result = $query->result_array();
-			elseif($type=='row') $result = $query->row_array();
-		}
-
-		return $result;
-	}
-	public function getListSuburb($type, $requestdata=[])
-	{
-		$this->db->select('*');
-		$this->db->from('suburb');
-
-		if(isset($requestdata['id'])) $this->db->where('id', $requestdata['id']);
-		if(isset($requestdata['cityid'])) $this->db->where('id', $requestdata['id']);
-		//if(isset($requestdata['status'])) $this->db->where_in('status', $requestdata['status']);
-
-		if($type=='count'){
-			$result = $this->db->count_all_results();
-		}else{
-			$query = $this->db->get();
-
-			if($type=='all') $result = $query->result_array();
-			elseif($type=='row') $result = $query->row_array();
-		}
-
-		return $result;
-	}
 }

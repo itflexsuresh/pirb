@@ -8,7 +8,6 @@ class CC_Controller extends CI_Controller
 		parent::__construct();
 		$this->load->model('CC_Model');
 		$this->load->model('Users_Model');
-		$this->load->model('Company_Model');
 		$this->load->model('Installationtype_Model');
 		$this->load->model('Managearea_Model');
 		$this->load->model('Qualificationroute_Model');
@@ -34,7 +33,6 @@ class CC_Controller extends CI_Controller
 	public function middleware($type='')
 	{
 		$userDetails = $this->getUserDetails();
-		
 		if($type=='1'){
 			if($userDetails){
 				if($userDetails['type']=='1'){
@@ -47,6 +45,8 @@ class CC_Controller extends CI_Controller
 					else redirect('company/registration/company'); 
 				}elseif($userDetails['type']=='5'){
 					redirect('auditor/profile/index'); 
+				}elseif($userDetails['type']=='6'){
+					redirect('resellers/profile/index'); 
 				}
 			}
 		}else{
@@ -107,7 +107,7 @@ class CC_Controller extends CI_Controller
 
 	public function getProvinceList()
 	{
-		$data = $this->Managearea_Model->getProvinceList('all', ['status' => ['1']]);
+		$data = $this->Managearea_Model->getListProvince('all', ['status' => ['1']]);
 		
 		if(count($data) > 0) return ['' => 'Select Province']+array_column($data, 'name', 'id');
 		else return [];
@@ -118,14 +118,6 @@ class CC_Controller extends CI_Controller
 		$data = $this->Qualificationroute_Model->getList('all', ['status' => ['1']]);
 		
 		if(count($data) > 0) return ['' => 'Select Qualification Route']+array_column($data, 'name', 'id');
-		else return [];
-	}
-
-	public function getCompanyList()
-	{
-		$data = $this->Company_Model->getList('all', ['status' => ['1']]);
-		
-		if(count($data) > 0) return ['' => 'Select Company']+array_column($data, 'company_name', 'id');
 		else return [];
 	}
 	
@@ -140,10 +132,19 @@ class CC_Controller extends CI_Controller
 	public function getPlumberRates()
 	{
 		return 	[
-					'1' => $this->getRates($this->config->item('learner')),
-					'2' => $this->getRates($this->config->item('assistant')),
-					'3' => $this->getRates($this->config->item('operator')),
-					'4' => $this->getRates($this->config->item('licensed'))
-				];
+			'1' => $this->getRates($this->config->item('learner')),
+			'2' => $this->getRates($this->config->item('assistant')),
+			'3' => $this->getRates($this->config->item('operator')),
+			'4' => $this->getRates($this->config->item('licensed'))
+		];
 	}
+	public function getCityList()
+	{
+		$data = $this->Managearea_Model->getListCity('all', ['status' => ['1']]);
+
+		if(count($data) > 0) return ['' => 'Select City']+array_column($data, 'name', 'id');
+		else return [];
+	}
+
+
 }
