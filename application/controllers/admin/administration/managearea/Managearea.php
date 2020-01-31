@@ -39,9 +39,8 @@ class Managearea extends CC_Controller
 		}
 		
 		$pagedata['notification'] 			= $this->getNotification();
+		$pagedata['provincelist'] 			= $this->getProvinceList();
 		$pagedata['msggrp'] 				= $this->config->item('messagegroup');
-		//$pagedata['results'] 		= $this->Managearea_Model->getList('all', ['status' => ['0','1']]);
-		//$pagedata['city'] = $this->config->item('city');
 		$data['plugins']					= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
 		$data['content'] 					= $this->load->view('admin/administration/managearea/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
@@ -59,8 +58,7 @@ class Managearea extends CC_Controller
 				$totalrecord[] = 	[
 										'name' 		=> 	$result['name'],
 										'city' 		=> 	$result['city_name'],
-										'suburb'    =>  $result['suburb'],
-										// 'status' 	=> 	$this->config->item('statusicon')[$result['status']],
+										'province'  =>  $result['province_name'],
 										'action'	=> 	'
 															<div class="table-action">
 																<a href="'.base_url().'admin/administration/managearea/managearea/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
