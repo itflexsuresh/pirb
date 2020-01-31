@@ -143,7 +143,7 @@ class Users_Model extends CC_Model
 		
 		$result = $this->db->update('users', $users, ['id' => $id]);
 
-		if($this->db->trans_status() === FALSE || $result)
+		if((!isset($result)) || !$result || $this->db->trans_status() === FALSE)
 		{
 			$this->db->trans_rollback();
 			return false;
