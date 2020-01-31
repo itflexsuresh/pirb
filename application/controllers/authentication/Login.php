@@ -53,7 +53,7 @@ class Login extends CC_Controller
 										<a href="'.base_url().'authentication/login/verification/'.$encryptid.'">Click Here</a>
 								';
 				
-					$this->CC_Model->sentMail($requestData['email'], $subject, $message);
+					$this->CC_Model->sentMail2($requestData['email'], $subject, $message);
 				
 					$this->session->set_flashdata('success', 'Successfully Registered.');
 				}else{
@@ -73,7 +73,7 @@ class Login extends CC_Controller
 	public function verification($id)
 	{
 		$decryptid 	= $this->encryption->decrypt($id);
-		$data 		= $this->Users_Model->verification($requestData);
+		$data 		= $this->Users_Model->verification($decryptid);
 		$this->session->set_flashdata('success', 'Successfully Verified.');
 		redirect(''); 
 	}

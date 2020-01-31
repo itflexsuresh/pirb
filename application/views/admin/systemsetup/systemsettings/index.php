@@ -280,7 +280,7 @@ if(isset($result) && $result){
 							<div class="row">
 								<div class="form-group col-md-6">
 									<label for="work_phone">Work Phone</label>
-									<input type="number" class="form-control" id="workphone" maxlength="20" name="work_phone" placeholder="Enter Work Phone *" value="<?php echo $work_phone; ?>">
+									<input type="text" class="form-control" id="workphone" maxlength="20" autocomplete="off" name="work_phone" placeholder="Enter Work Phone *" value="<?php echo $work_phone; ?>">
 								</div>
 								<div class="form-group col-md-6">
 									<label for="email">Email Address</label>
@@ -356,7 +356,6 @@ if(isset($result) && $result){
 						</div>
 						<div class="tab-pane p-20" id="tab6" role="tabpanel">
 							<div class="col-md-12">
-								Total CPD points required per stream and per designation
 								<table id="mainTable" class="table table-bordered">
 									<thead>
 										<tr>
@@ -437,20 +436,17 @@ if(isset($result) && $result){
 			{
 				
 				workphone : {
-					required	: true,
-					number	: true,
-				}
+					required	: true
+				},
 			},
 			{
 				
 				workphone 	: {
-					required	: "Wrok Phone field is required.",
-					number		: "Maximum 20 numbers are allowed"
-				}
+					required	: "Wrok Phone field is required."
+				},
 			}
 			);
 		numberonly('#workphone');
-		
 
 			
 			$(".cpdmaster").keyup(function(){
@@ -558,7 +554,7 @@ if(isset($result) && $result){
 				$('.cpdlearner-total').val(cpdlearner);
 			});	
 
-		
+
 		
 	});
 </script>

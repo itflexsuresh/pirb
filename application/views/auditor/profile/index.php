@@ -33,7 +33,7 @@
 
 	$areas 			= isset($result['areas']) ? $result['areas'] : [];
 
-	$heading 		= isset($result['userid']) ? 'Save' : 'Update';   
+	$heading 		= isset($result['userid']) ? 'Save' : 'Update'; 
 
 	$filepath 		= base_url().'assets/uploads/auditor/'.$id.'/';
 	$filepath1		= (isset($result['file1']) && $result['file1']!='') ? $filepath.$result['file1'] : base_url().'assets/images/auditor/profile.jpg';
@@ -284,11 +284,11 @@
 					</div>
 
 					<div class="row">
-						<input type="hidden" name="id" value="<?php echo $id; ?>">
+						<input type="hidden" name="id" value="<?php echo $userid; ?>">
 						<input type="hidden" name="userdetailid" value="<?php echo $userdetailid; ?>">
 						<input type="hidden" name="useraddressid" value="<?php echo $useraddressid; ?>">
 						<input type="hidden" name="userbankid" value="<?php echo $userbankid; ?>">
-						<div class="col-md-2">
+						<div class="col-md-2"> 
 							<button type="button" name="addarea" id="addarea" value="addarea" class="btn btn-block btn-primary btn-rounded">Add Area</button>
 						</div>
 
