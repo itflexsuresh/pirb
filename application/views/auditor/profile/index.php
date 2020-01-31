@@ -63,7 +63,7 @@
 
 					<h4 class="card-title">My Profile</h4>
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
@@ -83,19 +83,20 @@
 										<input type="text" class="form-control"  name="idno" value="<?php echo $idno; ?>">
 									</div>
 								</div>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Photo</label>
-								<div>
-									<img src="<?php echo $filepath1; ?>" class="auditor_photo" width="100">
-								</div>
-								<input type="file" class="auditor_image">
-								<input type="hidden" name="file1" class="auditor_picture" value="<?php echo $image; ?>">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Photo</label>
+										<div>
+											<img src="<?php echo $filepath1; ?>" class="auditor_photo" width="100">
+										</div>
+										<input type="file" class="auditor_image">
+										<input type="hidden" name="file1" class="auditor_picture" value="<?php echo $image; ?>">
 								<p>(Image/File Size Smaller than 5mb)</p>
 							</div>
 						</div>
+							</div>
+						</div>
+						
 					</div>					
 					<div class="row">
 						<div class="col-md-6">
@@ -124,7 +125,7 @@
 						</div>
 					</div>
 
-					<h4 class="card-title">Billing Details</h4>
+					<h4 class="card-title add_top_value">Billing Details</h4>
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group">
@@ -151,33 +152,43 @@
 						</div>
 					</div>
 
-					<h4 class="card-title">Billing Address</h4>
-					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Billing Address</label>
-								<input type="text" class="form-control" name="address" value="<?php echo$billaddress; ?>">
+					<h4 class="card-title add_top_value">Billing Address</h4>
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Billing Address</label>
+									<input type="text" class="form-control" name="address" value="<?php echo$billaddress; ?>">
+								</div>
 							</div>
-							<div class="form-group"> 
-								<label>Province</label>
-								<?php echo form_dropdown('province', $provincelist, $province, ['id' => 'province', 'class' => 'form-control province_name']); ?>
+							<div class="col-md-6">
+								<div class="form-group"> 
+									<label>Province</label>
+									<?php echo form_dropdown('province', $provincelist, $province, ['id' => 'province', 'class' => 'form-control province_name']); ?>
+								</div>
 							</div>
-							<div class="form-group">
-								<label>City</label>
-								<?php echo form_dropdown('city', [], $city, ['id' => 'city', 'class' => 'form-control city_name']); ?>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>City</label>
+									<?php echo form_dropdown('city', [], $city, ['id' => 'city', 'class' => 'form-control city_name']); ?>
+								</div>
 							</div>
-							<div class="form-group">
-								<label>Suburb</label>
-								<?php
-								echo form_dropdown('suburb', [], '', ['id' => 'suburb', 'class'=>'form-control']);
-								?> 
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Suburb</label>
+									<?php
+									echo form_dropdown('suburb', [], '', ['id' => 'suburb', 'class'=>'form-control']);
+									?> 
+								</div>
 							</div>
-							<div class="form-group">
-								<label>Postal Code</label>
-								<input type="text" class="form-control" name="postal_code" value="<?php echo $postal; ?>">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Postal Code</label>
+									<input type="text" class="form-control" name="postal_code" value="<?php echo $postal; ?>">
+								</div>
 							</div>
-						</div>						
-						<div class="col-md-6">
+
+							<div class="col-md-6">
 							<div class="form-group">
 								<label>Company Logo</label>
 								<div>
@@ -188,38 +199,40 @@
 								<p>(Image/File Size Smaller than 5mb)</p>
 							</div>
 						</div>
+						</div>						
+						
 					</div>
 					
-					<h4 class="card-title">Banking Details</h4>
+					<h4 class="card-title add_top_value">Banking Details</h4>
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-6">
 							<div class="form-group">
 								<label>Bank Name</label>
 								<input type="text" class="form-control" name="bank_name" value="<?php echo $bank; ?>">
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-6">
 							<div class="form-group">
 								<label>Account Name</label>
 								<input type="text" class="form-control" name="account_name" value="<?php echo $accountname; ?>">
 								
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-6">
 							<div class="form-group">
 								<label>Branch Code</label>
 								<input type="text" class="form-control" name="branch_code" value="<?php echo $branchcode; ?>">
 								
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-6">
 							<div class="form-group">
 								<label>Account Number</label>
 								<input type="text" class="form-control" name="account_no" value="<?php echo $accno; ?>">
 								
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-6">
 							<div class="form-group">
 								<label>Account Type</label>
 								<input type="text" class="form-control" name="account_type" value="<?php echo $type; ?>">
@@ -227,7 +240,7 @@
 						</div>
 					</div>
 					
-					<h4 class="card-title">My Auditting Areas</h4>
+					<h4 class="card-title add_top_value">My Auditting Areas</h4>
 					<div class="row">
 						<div class="col-md-12">							
 							<table id="area_table" class="table table-bordered table-striped datatables fullwidth">
@@ -419,47 +432,47 @@
 		citysuburb(['<?php echo base_url()."ajax/index/ajaxcity"; ?>', {provinceid : $("#province").val()}, '#city', '<?php echo $city; ?>'], ['<?php echo base_url()."ajax/index/ajaxsuburb"; ?>', {provinceid : $("#province").val(),cityid : '<?php echo $city; ?>'}, '#suburb', '<?php echo $suburb; ?>']);
 	});
 
-	// var areacount = 0;
+	var areacount = 0;
 
-	// $("#addarea").click(function() { 
+	$("#addarea").click(function() { 
         
- //        var areaprovinceval = $('#area_province').val();
- //        var areacityval 	= $('#area_city').val();
- //        var areasuburbval 	= $('#area_suburb').val();
+        var areaprovinceval = $('#area_province').val();
+        var areacityval 	= $('#area_city').val();
+        var areasuburbval 	= $('#area_suburb').val();
 
- //        var areaprovincetxt = $('#area_province :selected').text();
- //        var areacitytxt 	= $('#area_city :selected').text();
- //        var areasuburbtxt 	= $('#area_suburb :selected').text();
+        var areaprovincetxt = $('#area_province :selected').text();
+        var areacitytxt 	= $('#area_city :selected').text();
+        var areasuburbtxt 	= $('#area_suburb :selected').text();
 
- //        areadata([areaprovinceval, areacityval, areasuburbval], [areaprovincetxt, areacitytxt, areasuburbtxt]);
+        areadata([areaprovinceval, areacityval, areasuburbval], [areaprovincetxt, areacitytxt, areasuburbtxt]);
           
- //    });
+    });
 
- //    $('#area_province').on('change', function(){
-	// 	citysuburb(['<?php echo base_url()."ajax/index/ajaxcity"; ?>', {provinceid : $("#area_province").val()}, '#area_city'], ['<?php echo base_url()."ajax/index/ajaxsuburb"; ?>', {provinceid : $("#area_province").val(), cityid : '<?php echo $city; ?>'}, '#area_suburb']);
-	// });
+    $('#area_province').on('change', function(){
+		citysuburb(['<?php echo base_url()."ajax/index/ajaxcity"; ?>', {provinceid : $("#area_province").val()}, '#area_city'], ['<?php echo base_url()."ajax/index/ajaxsuburb"; ?>', {provinceid : $("#area_province").val(), cityid : '<?php echo $city; ?>'}, '#area_suburb']);
+	});
 
-    // function areadata(data1, data2){
-    // 	var append			= 	'\
-    //     							<tr class="">\
-    //     								<td>'+data2[0]+'</td>\
-    //     								<td>'+data2[1]+'</td>\
-    //     								<td>'+data2[2]+'</td>\
-    //     								<td>\
-    //     									<a href="javascript:void(0);" class="area_remove"><i class="fa fa-trash"></i></a>\
-    //     									<input type="hidden" value="'+data1[0]+'" name="area['+areacount+'][province]">\
-    //     									<input type="hidden" value="'+data1[1]+'" name="area['+areacount+'][city]">\
-    //     									<input type="hidden" value="'+data1[2]+'" name="area['+areacount+'][suburb]">\
-    //     									<input type="hidden" value="'+((data1[3]) ? data1[3] : "")+'" name="area['+areacount+'][id]">\
-    //     								</td>\
-    //     							</tr>\
-    //     						';
+    function areadata(data1, data2){
+    	var append			= 	'\
+        							<tr class="">\
+        								<td>'+data2[0]+'</td>\
+        								<td>'+data2[1]+'</td>\
+        								<td>'+data2[2]+'</td>\
+        								<td>\
+        									<a href="javascript:void(0);" class="area_remove"><i class="fa fa-trash"></i></a>\
+        									<input type="hidden" value="'+data1[0]+'" name="area['+areacount+'][province]">\
+        									<input type="hidden" value="'+data1[1]+'" name="area['+areacount+'][city]">\
+        									<input type="hidden" value="'+data1[2]+'" name="area['+areacount+'][suburb]">\
+        									<input type="hidden" value="'+((data1[3]) ? data1[3] : "")+'" name="area['+areacount+'][id]">\
+        								</td>\
+        							</tr>\
+        						';
 
-    //     $('#area_table').append(append);
-    //     areacount++;
-    // }
+        $('#area_table').append(append);
+        areacount++;
+    }
 
-    // $(document).on('click', '.area_remove', function(){
-    // 	$(this).parent().parent().remove();
-    // })
+    $(document).on('click', '.area_remove', function(){
+    	$(this).parent().parent().remove();
+    })
 </script>
