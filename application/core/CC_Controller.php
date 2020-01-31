@@ -39,6 +39,15 @@ class CC_Controller extends CI_Controller
 			}
 		}
 	}
+
+	public function getPageStatus($pagestatus='')
+	{
+		if($pagestatus=='' || $pagestatus=='1'){
+			return '1';
+		}else{
+			return '0';
+		}
+	}
 	
 	public function getUserID()
 	{
