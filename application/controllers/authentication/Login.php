@@ -52,6 +52,7 @@ class Login extends CC_Controller
 
 									<div>Please Click the below link to verify your account.</div>
 									<div><a href="'.base_url().'authentication/login/verification/'.$encryptid.'">Click Here</a></div>
+									<br>
 									<div>Best Regards</div>
 									<br>
 									<div>Lea Smith</div>
