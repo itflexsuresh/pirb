@@ -11,8 +11,7 @@ class Index extends CC_Controller
 	
 	public function index()
 	{
-		echo $userid = $this->getUserID();
-		exit;
+		
 
 		$result = $this->Auditor_Model->getList('row', ['id' => $userid, 'status' => ['0','1']]);
 		if($result){
