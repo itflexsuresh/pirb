@@ -16,12 +16,16 @@ class Auditor_Model extends CC_Model
 			'.implode(',', $usersdetail).',
 			'.implode(',', $useraddress).',
 			'.implode(',', $userbank).',
-			group_concat(concat_ws("@@@", "uaa.id", "uaa.province", "uaa.city", "uaa.suburb", "seperator" ",")) as areas');
+			group_concat(concat_ws("@@@", uaa.id, uaa.province, uaa.city, uaa.suburb, p.name, c.name, s.name, uaa.city) separator "@-@") as areas'
+		);
 		$this->db->from('users as u');
 		$this->db->join('users_detail as ud','ud.user_id=u.id', 'left');
 		$this->db->join('users_address as ua', 'ua.user_id=u.id and ua.type="3"', 'left');		
 		$this->db->join('users_bank as ub', 'ub.user_id=u.id', 'left');
-		//$this->db->join('users_auditor_area as uaa', 'uaa.user_id=u.id', 'left');
+		$this->db->join('users_auditor_area as uaa', 'uaa.user_id=u.id', 'left');
+		$this->db->join('province as p', 'p.id=uaa.province', 'left');
+		$this->db->join('city as c', 'c.id=uaa.city', 'left');
+		$this->db->join('suburb as s', 's.id=uaa.suburb', 'left');
 		
 		if(isset($requestdata['id'])) 			$this->db->where('u.id', $requestdata['id']);
 		if(isset($requestdata['status'])) 		$this->db->where_in('u.status', $requestdata['status']);
@@ -122,17 +126,20 @@ class Auditor_Model extends CC_Model
 			}
 		}
 
-		// if(isset($data['area']) && count($data['area'])){
-		// 	foreach($data['area'] as $key => $request5){
-		// 		$request5['user_id'] = $id;
+		if(isset($data['area']) && count($data['area'])){
+			$auditorids = array_column($data['area'], 'id');
+			$this->db->where('user_id', $id)->where_not_in('id', $auditorids)->delete('users_auditor_area');
 
-		// 		if($request5['id']==''){
-		// 			$usersarea = $this->db->insert('users_auditor_area', $request5);
-		// 		}else{
-		// 			$usersarea = $this->db->update('users_auditor_area', $request5, ['id' => $request5['id']]);
-		// 		}
-		// 	}
-		// }
+			foreach($data['area'] as $key => $request5){
+				$request5['user_id'] = $id;
+
+				if($request5['id']==''){
+					$usersarea = $this->db->insert('users_auditor_area', $request5);
+				}else{
+					$usersarea = $this->db->update('users_auditor_area', $request5, ['id' => $request5['id']]);
+				}
+			}
+		}
 		
 		if((!isset($userdata) && !isset($userdetaildata) && !isset($useraddressdata) && !isset($userbankdata) && !isset($usersarea)) && $this->db->trans_status() === FALSE)
 		{

@@ -14,7 +14,6 @@ class Index extends CC_Controller
 		$userid = $this->getUserID();
 		$result = $this->Auditor_Model->getList('row', ['id' => $userid, 'status' => ['0','1']]);
 
-
 		if($result){
 			$pagedata['result'] = $result;
 		}else{

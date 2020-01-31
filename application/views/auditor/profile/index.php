@@ -31,13 +31,13 @@
 	$accno 			= isset($result['account_no']) ? $result['account_no'] : set_value ('account_no');
 	$type 			= isset($result['account_type']) ? $result['account_type'] : set_value ('account_type');
 
-	$areas 			= isset($result['areas']) ? $result['areas'] : [];
+	$areas 			= isset($result['areas']) ? explode('@-@', $result['areas']) : [];
 
-	$heading 		= isset($result['']) ? 'Save' : 'Update';   
+	$heading 		= isset($result['id']) ? 'Save' : 'Update';   
 
 	$filepath 		= base_url().'assets/uploads/auditor/'.$id.'/';
 	$filepath1		= (isset($result['file1']) && $result['file1']!='') ? $filepath.$result['file1'] : base_url().'assets/images/auditor/profile.jpg';
-	$filepath2		= (isset($result['file2']) && $result['file1']!='')  ? $filepath.$result['file2'] : base_url().'assets/images/auditor/profile.jpg';	
+	$filepath2		= (isset($result['file2']) && $result['file2']!='')  ? $filepath.$result['file2'] : base_url().'assets/images/auditor/profile.jpg';	
 ?>
 
 <div class="row page-titles">
@@ -315,7 +315,7 @@
 		citysuburb(['<?php echo base_url()."ajax/index/ajaxcity"; ?>', {provinceid : $("#province").val()}, '#city', '<?php echo $city; ?>'], ['<?php echo base_url()."ajax/index/ajaxsuburb"; ?>', {provinceid : $("#province").val(),cityid : '<?php echo $city; ?>'}, '#suburb', '<?php echo $suburb; ?>']);
 
 
-	validation(
+		validation(
 			'.form',
 			{
 				name : {
@@ -324,9 +324,9 @@
 				surname : {
 					required	: true,
 				},
-				// idnumber : {
-				// 	required	: true,
-				// },
+				idno : {
+					required	: true,
+				},
 				email : {
 					required	: true,
 				},
@@ -379,9 +379,9 @@
 				surname 	: {
 					required	: "Please enter the surname."
 				},				
-				// idnumber : {
-				// 	required	: "Please enter the ID"
-				// },
+				idno : {
+					required	: "Please enter the ID"
+				},
 				email : {
 					required	: "Please enter the email"
 				},
@@ -426,6 +426,14 @@
 				}
 			}
 		);
+
+		var areas = $.parseJSON('<?php echo json_encode($areas); ?>');
+		if(areas.length){
+			$(areas).each(function(i, v){
+				var areadatas = v.split('@@@');
+				areadata([areadatas[1],areadatas[2],areadatas[3],areadatas[0]], [areadatas[4],areadatas[5],areadatas[6]]);
+			})			
+		}
 	});
 
 	$('.province_name').on('change', function(){
