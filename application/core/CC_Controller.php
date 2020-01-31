@@ -138,4 +138,13 @@ class CC_Controller extends CI_Controller
 					'4' => $this->getRates($this->config->item('licensed'))
 				];
 	}
+	public function getCityList()
+	{
+		$data = $this->Auditor_Model->getListCity('all', ['status' => ['1']]);
+
+		if(count($data) > 0) return ['' => 'Select City']+array_column($data, 'name', 'id');
+		else return [];
+	}
+
+
 }
