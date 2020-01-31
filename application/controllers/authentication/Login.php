@@ -17,18 +17,19 @@ class Login extends CC_Controller
 		{	
 			$requestData 	= $this->input->post();
 			
-			if($requestData['submit']=='login'){
+			if($requestData['submit']=='login'){				
 				$data 			= $this->Users_Model->login($requestData);
 				
-				if($data['status']=='1'){
+				if($data['status']=='1' || $data['status']=='3'){
+
 					$data = $this->Users_Model->getUserDetails('row', ['id' => $data['result']]);
 					
 					$status			= $data['status'];
 					$mailstatus		= $data['mailstatus'];
 					$id				= $data['id'];
 					
-					if($mailstatus=='1'){
-						$this->session->set_userdata('userid', $id);
+					if($mailstatus=='1'){						
+						$this->session->set_userdata('userid', $id);						
 						$this->middleware('1');
 					}elseif($status=='0' && $mailstatus=='0'){
 						$this->session->set_flashdata('error', 'Please Verify Email.');
@@ -43,18 +44,21 @@ class Login extends CC_Controller
 				$requestData['status'] 	= '0';
 				$requestData['type'] 	= '3';
 				$data 			= $this->Users_Model->actionUsers($requestData);
-				
-				$encryptid 	= 	$this->encryption->decrypt($data['id']);
-				$subject 	= 	'Email Verification';
-				$message 	= 	'
-									Please Click the below link to verify your account 
-									<a href="'.base_url().'authentication/login/verification/'.$encryptid.'">Click Here</a>
+				// echo $data;die;
+				if($data){
+					$encryptid 	= 	$this->encryption->encrypt($data);
+					$subject 	= 	'Email Verification';
+					$message 	= 	'
+										Please Click the below link to verify your account 
+										<a href="'.base_url().'authentication/login/verification/'.$encryptid.'">Click Here</a>
 								';
 				
-				$this->CC_Model->sentMail2($requestData['email'], $subject, $message);
+					$this->CC_Model->sentMail($requestData['email'], $subject, $message);
 				
-				if($data) $this->session->set_flashdata('success', 'Successfully Registered.');
-				else $this->session->set_flashdata('error', 'Try Later.');
+					$this->session->set_flashdata('success', 'Successfully Registered.');
+				}else{
+					$this->session->set_flashdata('error', 'Try Later.');	
+				} 
 			}
 			
 			redirect(''); 

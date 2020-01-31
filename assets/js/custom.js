@@ -5,6 +5,15 @@ function datatables(selector, options={}){
 	});
 }
 
+function numberonly(selector){
+	$(selector).keyup(function(){
+		if (/\D/g.test(this.value))
+		{
+			this.value = this.value.replace(/\D/g, '');
+		}
+	})
+}
+
 function ajaxdatatables(selector, options={}){
 	if(options.destroy && options.destroy==1){
 		$(selector).DataTable().destroy();
