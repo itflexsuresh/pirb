@@ -130,11 +130,11 @@ class Users_Model extends CC_Model
 		}
 	}
 	
-	public function verification($data)
+	public function verification($id)
 	{
 		$this->db->trans_begin();
 		
-		$id 		= 	$data['id'];
+		$id 		= 	$id;
 		$datetime	= 	date('Y-m-d H:i:s');
 		
 		$users		=	[
