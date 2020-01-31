@@ -35,7 +35,7 @@ class Index extends CC_Controller
 
 	public function ajaxsuburb()
 	{
-		$post = $this->input->post();
+		$post = $this->input->post();  
 		$result = $this->Managearea_Model->getListSuburb('all', $post);
 
 		if(count($result)){
