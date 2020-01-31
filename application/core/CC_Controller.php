@@ -8,6 +8,7 @@ class CC_Controller extends CI_Controller
 		parent::__construct();
 		$this->load->model('CC_Model');
 		$this->load->model('Users_Model');
+		$this->load->model('Company_Model');
 		$this->load->model('Installationtype_Model');
 		$this->load->model('Managearea_Model');
 		$this->load->model('Qualificationroute_Model');
@@ -80,7 +81,7 @@ class CC_Controller extends CI_Controller
 	{
 		if($this->session->has_userdata('userid')){
 			$userid = $this->session->userdata('userid');
-			$result = $this->Users_Model->getUserDetails('row', ['id' => $userid, 'status' => ['0','1']]);
+			$result = $this->Users_Model->getUserDetails('row', ['id' => $userid, 'status' => ['0','1','3']]);
 			
 			if($result){
 				return $result;
@@ -107,7 +108,7 @@ class CC_Controller extends CI_Controller
 
 	public function getProvinceList()
 	{
-		$data = $this->Managearea_Model->getListProvince('all', ['status' => ['1']]);
+		$data = $this->Managearea_Model->getProvinceList('all', ['status' => ['1']]);
 		
 		if(count($data) > 0) return ['' => 'Select Province']+array_column($data, 'name', 'id');
 		else return [];
@@ -118,6 +119,14 @@ class CC_Controller extends CI_Controller
 		$data = $this->Qualificationroute_Model->getList('all', ['status' => ['1']]);
 		
 		if(count($data) > 0) return ['' => 'Select Qualification Route']+array_column($data, 'name', 'id');
+		else return [];
+	}
+	
+	public function getCompanyList()
+	{
+		$data = $this->Company_Model->getList('all', ['status' => ['1']]);
+		
+		if(count($data) > 0) return ['' => 'Select Company']+array_column($data, 'company_name', 'id');
 		else return [];
 	}
 	
