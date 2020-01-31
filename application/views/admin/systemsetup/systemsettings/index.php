@@ -356,6 +356,7 @@ if(isset($result) && $result){
 						</div>
 						<div class="tab-pane p-20" id="tab6" role="tabpanel">
 							<div class="col-md-12">
+								Total CPD points required per stream and per designation
 								<table id="mainTable" class="table table-bordered">
 									<thead>
 										<tr>
@@ -444,7 +445,7 @@ if(isset($result) && $result){
 				
 				workphone 	: {
 					required	: "Wrok Phone field is required.",
-					number	: "Only numbers are allowed."
+					number		: "Maximum 20 numbers are allowed"
 				},
 			}
 			);
