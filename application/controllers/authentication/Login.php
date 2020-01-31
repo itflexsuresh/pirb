@@ -48,10 +48,14 @@ class Login extends CC_Controller
 				if($data){
 					$encryptid 	= 	$this->encryption->encrypt($data);
 					$subject 	= 	'Email Verification';
-					$message 	= 	'
-										Please Click the below link to verify your account 
-										<a href="'.base_url().'authentication/login/verification/'.$encryptid.'">Click Here</a>
-								';
+					$message 	= 	'Hi,
+
+									Please Click the below link to verify your account. 
+									<div><a href="'.base_url().'authentication/login/verification/'.$encryptid.'">Click Here</a></div>
+									<div>Best Regards</div>
+									<div></div>
+									<div>Lea Smith</div>
+									Chairman of the PIRB';
 				
 					$this->CC_Model->sentMail2($requestData['email'], $subject, $message);
 				
