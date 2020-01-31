@@ -29,6 +29,7 @@ class Cpdtypesetup extends CC_Controller
 
 			if($requestData['submit']=='submit'){
 				$check_code 	= $this->productCode();
+				print_r($check_code);die;
 				if ($id=='') {
 					if ($check_code[0]['productcode']!='') {
 						$sequence_number  = explode("-",$check_code[0]['productcode']);
