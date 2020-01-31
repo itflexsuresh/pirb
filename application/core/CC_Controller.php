@@ -132,15 +132,15 @@ class CC_Controller extends CI_Controller
 	public function getPlumberRates()
 	{
 		return 	[
-					'1' => $this->getRates($this->config->item('learner')),
-					'2' => $this->getRates($this->config->item('assistant')),
-					'3' => $this->getRates($this->config->item('operator')),
-					'4' => $this->getRates($this->config->item('licensed'))
-				];
+			'1' => $this->getRates($this->config->item('learner')),
+			'2' => $this->getRates($this->config->item('assistant')),
+			'3' => $this->getRates($this->config->item('operator')),
+			'4' => $this->getRates($this->config->item('licensed'))
+		];
 	}
 	public function getCityList()
 	{
-		$data = $this->Auditor_Model->getListCity('all', ['status' => ['1']]);
+		$data = $this->Managearea_Model->getListCity('all', ['status' => ['1']]);
 
 		if(count($data) > 0) return ['' => 'Select City']+array_column($data, 'name', 'id');
 		else return [];
