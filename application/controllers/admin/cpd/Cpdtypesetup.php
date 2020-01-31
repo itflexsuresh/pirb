@@ -26,30 +26,30 @@ class Cpdtypesetup extends CC_Controller
 		
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
-			if ($id=='') {
-				$check_code 	= 	$this->productCode();				
-				$product_code 	= 	"CPD-".$check_code;
-			}else{
-				$product_code 	= 	$requestData['productcode'];
-			}
-			// print_r($check_code);die;
-			// print_r($requestData);die;
-			// $check_code 	= 	$this->productCode($requestData['productcode']);
-			// print_r($check_code);die;
-			// $product_code 	= 	"CPD-".$check_code;
 
 			if($requestData['submit']=='submit'){
+				$check_code 	= $this->productCode();
 
-				// QR CODE
-				$SERVERFILEPATH 				= $_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/qrcode/';
-				$text 							= $product_code;
-				$code_fileName 					= substr($text, 0,9);
-				$file_name 						= $code_fileName ."-Qrcode".rand(2,200).".png";
-				$Qrcode_path 					= $SERVERFILEPATH.$file_name;
-				define('IMAGE_WIDTH',1000);
-				define('IMAGE_HEIGHT',1000);
-				QRcode::png($text,$Qrcode_path,'L', '10', '10');
-				$requestData['qrcode']				= $file_name;
+				if ($id=='') {
+					if ($check_code[0]['productcode']!='') {
+						$sequence_number  = explode("-",$check_code[0]['productcode']);
+						$product_code = $sequence_number[1]+1;
+						$code =  str_pad($product_code,6,'0',STR_PAD_LEFT);
+						$full_code = "CPD-".$code;
+						// QR CODE
+						$SERVERFILEPATH 					= $_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/qrcode/';
+						$text 								= $full_code;
+						$file_name 							= $text ."-Qrcode.png";
+						$Qrcode_path 						= $SERVERFILEPATH.$file_name;
+						define('IMAGE_WIDTH',1000);
+						define('IMAGE_HEIGHT',1000);
+						QRcode::png($text,$Qrcode_path,'L', '10', '10');
+						$requestData['qrcode']				= $file_name;
+					}
+				}else{
+					$full_code 	= 	$requestData['productcode'];
+				}
+				print_r($product_code);die;
 				$requestData['productcode']			= $product_code;
 				$data 	=  $this->Cpdtypesetup_Model->action($requestData);
 				if($data) $message = 'CPD Type '.(($id=='') ? 'created' : 'updated').' successfully.';
@@ -74,13 +74,13 @@ class Cpdtypesetup extends CC_Controller
 	}
 
 	public function productCode(){
-			$randno = mt_rand('00000', '99999');
-			$noCheck = $this->db->where('productcode', $randno)->get('cpdtypes')->result();
-			if(count($noCheck) > 0){
-				$this->productCode();
-			}else{
-				return $randno;
-			}
+		$result = $this->db->select('*')->order_by('id',"desc")->limit(1)->get('cpdtypes')->result_array();
+		if (count($result)<=0) {
+			$cpd = 'CPD-000001';
+			return $cpd;
+		}else{
+			return $result;
+		}
 	}
 
 	public function DTCpdType()

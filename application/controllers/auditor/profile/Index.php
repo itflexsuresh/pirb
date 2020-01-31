@@ -11,9 +11,10 @@ class Index extends CC_Controller
 	
 	public function index()
 	{
-
-
+		$userid = $this->getUserID();
 		$result = $this->Auditor_Model->getList('row', ['id' => $userid, 'status' => ['0','1']]);
+
+
 		if($result){
 			$pagedata['result'] = $result;
 		}else{
@@ -21,11 +22,9 @@ class Index extends CC_Controller
 			redirect('auditor/profile/index'); 
 		}
 		
-		if($this->input->post()){ 
+		if($this->input->post()){
 			$requestData 	= 	$this->input->post();		
-			$id				=	$requestData['id'];	
-			print_r($requestData);	
-			exit;
+			$id				=	$requestData['id'];		
 			$data 			=  	$this->Auditor_Model->action($requestData);			
 
 			if(isset($data)) $this->session->set_flashdata('success', 'Records '.(($id=='') ? 'created' : 'updated').' successfully.');
@@ -37,7 +36,6 @@ class Index extends CC_Controller
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['provincelist'] 	= $this->getProvinceList();	
 		$pagedata['userid']			= $userid;
-
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
 		$data['content'] 			= $this->load->view('auditor/profile/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
