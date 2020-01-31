@@ -179,7 +179,7 @@
 								<div class="form-group">
 									<label>Suburb</label>
 									<?php
-									echo form_dropdown('suburb', [], '', ['id' => 'suburb', 'class'=>'form-control']);
+									echo form_dropdown('suburb', [], $suburb, ['id' => 'suburb', 'class'=>'form-control']);
 									?> 
 								</div>
 							</div>
