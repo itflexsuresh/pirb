@@ -72,7 +72,7 @@ class Auditor_Model extends CC_Model
 		if(isset($data['file1'])) 				$request2['file1'] 				= $data['file1'];
 		if(isset($data['file2'])) 				$request2['file2'] 				= $data['file2'];
 		if(isset($data['idno'])) 				$request2['identity_no'] 		= $data['idno'];
-		print_r($request2['user_id']); exit;
+		
 		if(isset($request2)){
 			$userdetailid	= 	$data['userdetailid'];
 
