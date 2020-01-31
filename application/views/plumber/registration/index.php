@@ -317,9 +317,12 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Suburb *</label>
-									<input type="text" class="form-control" name="address[1][suburb]" value="<?php echo $suburb1; ?>">
+									<?php
+									echo form_dropdown('address[1][suburb]', [], $suburb1, ['id' => 'suburb', 'class'=>'form-control']);
+									?> 
 								</div>
 							</div>
+
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Suburb *</label>
@@ -331,7 +334,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>City *</label>
-									<input type="text" class="form-control" name="address[1][city]" value="<?php echo $city1; ?>">
+									<?php echo form_dropdown('address[1][city]', [], $city1, ['id' => 'city', 'class' => 'form-control city_name']); ?>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -342,12 +345,10 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
+							<div class="col-md-6">								
+								<div class="form-group"> 
 									<label>Province *</label>
-									<?php
-									echo form_dropdown('address[1][province]', $province, $province1,['class'=>'form-control']);
-									?>
+									<?php echo form_dropdown('address[1][province]', $province, $province1, ['id' => 'province', 'class' => 'form-control province_name']); ?>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -357,6 +358,7 @@
 									echo form_dropdown('address[2][province]', $province, $province2,['class'=>'form-control']);
 									?>
 								</div>
+
 							</div>
 						</div>
 						<div class="row">
@@ -582,7 +584,7 @@
 								<div class="form-group">
 									<label>Date of Qualification/Skill Obtained</label>
 									<div class="input-group">
-										<input type="text" class="form-control skill_date" name="skill_date">
+										<input type="text" class="form-control skill_date" name="skill_date" data-date='datepicker'>
 										<div class="input-group-append">
 											<span class="input-group-text"><i class="icon-calender"></i></span>
 										</div>
@@ -646,6 +648,8 @@ $(function(){
 	fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".document_file", "./assets/uploads/plumber/<?php echo $userid; ?>/",['jpg','gif','jpeg','png','pdf','tiff']], ['.document', '.document_image', '<?php echo base_url()."assets/uploads/plumber/".$userid; ?>' , '<?php echo base_url()."assets/images/pdf.png"?>']);
 	fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".photo_file", "./assets/uploads/plumber/<?php echo $userid; ?>/",['jpg','gif','jpeg','png','pdf','tiff']], ['.photo', '.photo_image', '<?php echo base_url()."assets/uploads/plumber/".$userid; ?>', '<?php echo base_url()."assets/images/pdf.png"?>']);
 	fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".skill_attachment_file", "./assets/uploads/plumber/<?php echo $userid; ?>/",['jpg','gif','jpeg','png','pdf','tiff']], ['.skill_attachment', '.skill_attachment_image', '<?php echo base_url()."assets/uploads/plumber/".$userid; ?>', '<?php echo base_url()."assets/images/pdf.png"?>']);
+
+	
 	
 	var nationality = '<?php echo $nationality; ?>';
 	othernationalityidcardbox(nationality);
@@ -1245,7 +1249,8 @@ function skills(data){
 		var result 		= 	data.result; 
 		$(document).find('.skillappend[data-id="'+result.id+'"]').remove();
 		
-		var attachment	= 	(result.attachment!='') ? '<img src="'+filepath+(result.attachment)+'" width="50">' : '';
+		var attachment	= 	(result.attachment!='') ? result.attachment : '';
+		// var attachment	= 	(result.attachment!='') ? '<img src="'+filepath+(result.attachment)+'" width="50">' : '';
 		var appenddata 	= 	'\
 								<tr class="skillappend" data-id="'+result.id+'">\
 									<td>'+formatdate(result.date,1)+'</td>\
@@ -1281,7 +1286,14 @@ function skillsedit(data){
 		$('.skill_route').val(result.skills);
 		$('.skill_training').val(result.training);
 		$('.skill_attachment').val(result.attachment);
-		if(result.attachment!='') $('.skill_attachment_image').attr('src', filepath+(result.attachment));
+		if(result.attachment!=''){
+			var ext 		= result.attachment.split('.').pop().toLowerCase();
+			if(ext=='jpg' || ext=='jpeg' || ext=='png'){
+				$('.skill_attachment_image').attr('src', filepath+(result.attachment));	
+			}else if(ext=='pdf'){
+				$('.skill_attachment_image').attr('src', '<?php echo base_url()."assets/images/pdf.png"?>');	
+			}
+		} 
 		$('.skill_id').val(result.id);
 		$('#skillmodal').modal('show');
 	} 
@@ -1297,7 +1309,10 @@ $(document).on('click', '.skillremove', function(){
 function skillsremove(data){}
 
 function skillsclear(){
-	$('.skill_date, .skill_certificate, .skill_route, .skill_training, .skill_attachment').val('');
+	$('form.skillform').find("input[type=text],input[type=hidden], textarea, select").val("");
+	$('form.skillform').find("p.error_class_1").remove();
+	$('form.skillform').find(".error_class_1").removeClass('error_class_1');
+	// $('.skill_date, .skill_certificate, .skill_route, .skill_training, .skill_attachment').val('');
 	$('.skill_attachment_image').attr("src", "<?php echo base_url().'assets/images/profile.jpg'; ?>");
 }
 
@@ -1312,5 +1327,10 @@ function skillsextras(){
 	
 	$('.form5').valid();
 }
+
+$('.province_name').on('change', function(){
+	citysuburb(['<?php echo base_url()."ajax/index/ajaxcity"; ?>', {provinceid : $("#province").val()}, '#city', '<?php echo $city1; ?>'], ['<?php echo base_url()."ajax/index/ajaxsuburb"; ?>', {provinceid : $("#province").val(),cityid : '<?php echo $city1; ?>'}, '#suburb', '<?php echo $suburb1; ?>']);
+});
+
 </script>
 
