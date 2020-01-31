@@ -52,15 +52,15 @@ class Auditor_Model extends CC_Model
 		if(isset($data['password'])) 			$request1['password_raw'] 		= $data['password'];
 		if(isset($data['password'])) 			$request1['password'] 			= md5($data['password']);
 		
-		if(isset($request1)){ 
+		if(isset($request1)){
 			if($id==''){
 				$userdata = $this->db->insert('users', $request1);
 			}else{
 				$userdata = $this->db->update('users', $request1, ['id' => $id]);
 			}
 		}
+	
 		
-		if(isset($data['user_id'])) 			$request2['user_id'] 			= $id;
 		if(isset($data['name'])) 				$request2['name'] 				= $data['name'];
 		if(isset($data['surname'])) 			$request2['surname'] 			= $data['surname'];
 		if(isset($data['company_name'])) 		$request2['company_name'] 		= $data['company_name'];
@@ -74,7 +74,8 @@ class Auditor_Model extends CC_Model
 		if(isset($data['idno'])) 				$request2['identity_no'] 		= $data['idno'];
 		
 		if(isset($request2)){
-			$userdetailid	= 	$data['userdetailid'];
+			$request2['user_id'] 	= $id;
+			$userdetailid			= $data['userdetailid'];
 
 			if($userdetailid==''){
 				$userdetaildata = $this->db->insert('users_detail', $request2);
@@ -82,9 +83,8 @@ class Auditor_Model extends CC_Model
 				$userdetaildata = $this->db->update('users_detail', $request2, ['id' => $userdetailid]);
 			}
 		}
-			
+	
 
-		if(isset($data['user_id'])) 			$request3['user_id'] 		= $id;
 		if(isset($data['address'])) 			$request3['address'] 		= $data['address'];
 		if(isset($data['province'])) 			$request3['province'] 		= $data['province'];
 		if(isset($data['city'])) 				$request3['city'] 			= $data['city'];		
@@ -92,8 +92,9 @@ class Auditor_Model extends CC_Model
 		if(isset($data['postal_code'])) 		$request3['postal_code'] 	= $data['postal_code']; 
 		
 		if(isset($request3)){
-			$request3['type'] 	= '3'; 
-			$useraddressid		= $data['useraddressid'];
+			$request3['user_id'] 	= $id;
+			$request3['type'] 		= '3'; 
+			$useraddressid			= $data['useraddressid'];
 
 			if($useraddressid==''){
 				$useraddressdata = $this->db->insert('users_address', $request3);
@@ -102,7 +103,7 @@ class Auditor_Model extends CC_Model
 			}
 		}
 
-		if(isset($data['user_id'])) 				$request4['user_id'] 		= $id;
+		
 		if(isset($data['bank_name'])) 				$request4['bank_name'] 		= $data['bank_name'];
 		if(isset($data['branch_code'])) 			$request4['branch_code'] 	= $data['branch_code'];
 		if(isset($data['account_name'])) 			$request4['account_name'] 	= $data['account_name'];	
@@ -111,7 +112,8 @@ class Auditor_Model extends CC_Model
 		
 		
 		if(isset($request4)){
-			$userbankid	= 	$data['userbankid'];
+			$request4['user_id'] 	= $id;
+			$userbankid				= $data['userbankid'];
 
 			if($userbankid==''){
 				$userbankdata = $this->db->insert('users_bank', $request4);
@@ -132,7 +134,7 @@ class Auditor_Model extends CC_Model
 		// 	}
 		// }
 		
-		if((!isset($userdata) && !isset($userdetaildata) && !isset($useraddressdata) && !isset($userbankdata)) && $this->db->trans_status() === FALSE)
+		if((!isset($userdata) && !isset($userdetaildata) && !isset($useraddressdata) && !isset($userbankdata) && !isset($usersarea)) && $this->db->trans_status() === FALSE)
 		{
 			$this->db->trans_rollback();
 			return false;
