@@ -11,7 +11,7 @@ class Index extends CC_Controller
 	
 	public function index()
 	{
-		
+
 
 		$result = $this->Auditor_Model->getList('row', ['id' => $userid, 'status' => ['0','1']]);
 		if($result){
@@ -23,7 +23,9 @@ class Index extends CC_Controller
 		
 		if($this->input->post()){ 
 			$requestData 	= 	$this->input->post();		
-			$id				=	$requestData['id'];		
+			$id				=	$requestData['id'];	
+			print_r($requestData);	
+			exit;
 			$data 			=  	$this->Auditor_Model->action($requestData);			
 
 			if(isset($data)) $this->session->set_flashdata('success', 'Records '.(($id=='') ? 'created' : 'updated').' successfully.');
