@@ -5,6 +5,15 @@ function datatables(selector, options={}){
 	});
 }
 
+function numberonly(selector){
+	$(selector).keyup(function(){
+		if (/\D/g.test(this.value))
+		{
+			this.value = this.value.replace(/\D/g, '');
+		}
+	})
+}
+
 function ajaxdatatables(selector, options={}){
 	if(options.destroy && options.destroy==1){
 		$(selector).DataTable().destroy();
@@ -40,7 +49,11 @@ function validation(selector, rules, messages, extras=[])
 	validation['errorClass'] 		= 	(extras['errorClass']) ? extras['errorClass'] : 'error_class_1';
 	validation['ignore'] 			= 	(extras['ignore']) ? extras['ignore'] : ':hidden';
 	validation['errorPlacement']	= 	function(error, element) {
-											error.insertAfter(element);
+											if(element.attr('data-date')=='datepicker'){
+												element.parent().parent().append(error);
+											}else{
+												error.insertAfter(element);
+											}
 										}
 										
 	var validator = $(selector).validate(validation);
@@ -138,49 +151,7 @@ function fileupload(data1=[], data2=[]){
 				if(ext=='jpg' || ext=='jpeg' || ext=='png'){
 					$(data2[1]).attr('src', data2[2]+'/'+file);
 				}else if(ext=='pdf'){
-					$(data2[1]).attr('src', data2[2]);
-				}
-			}
-		}
-		
-		$(selector).val('');
-	}
-}
-
-function fileupload(data1=[], data2=[]){
-	
-	var selector 	= data1[1];
-	var extension 	= data1[3] ? data1[3] : ['jpg','jpeg','png'];
-	
-	$(document).on('change', selector, function(){
-		var name 		= $(this).val();
-		var ext 		= name.split('.').pop().toLowerCase();
-		
-		if($.inArray(ext, extension) !== -1){
-			var form_data 	= new FormData();
-			form_data.append("file", $(selector)[0].files[0]);
-			form_data.append("path", data1[2]);
-			form_data.append("type", extension.join('|'));
-			
-			ajax(data1[0], form_data, fileappend, 'post', 'json', '1', '1');
-		}else{
-			$(selector).val('');
-			alert('Supported file format are '+extension.join(','));
-		}
-	})
-	
-	function fileappend(data){
-		if(data.file_name && data2.length){
-			var file 		= data.file_name;
-			$(data2[0]).val(file);
-			
-			if(data2[1] && data2[2]){
-				var ext 		= data.file_name.split('.').pop().toLowerCase();
-				
-				if(ext=='jpg' || ext=='jpeg' || ext=='png'){
-					$(data2[1]).attr('src', data2[2]+'/'+file);
-				}else if(ext=='pdf'){
-					$(data2[1]).attr('src', data2[2]);
+					$(data2[1]).attr('src', data2[3]);
 				}
 			}
 		}
