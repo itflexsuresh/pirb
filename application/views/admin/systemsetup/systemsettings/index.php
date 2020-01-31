@@ -280,7 +280,7 @@ if(isset($result) && $result){
 							<div class="row">
 								<div class="form-group col-md-6">
 									<label for="work_phone">Work Phone</label>
-									<input type="text" class="form-control" id="workphone" maxlength="20" name="work_phone" placeholder="Enter Work Phone *" value="<?php echo $work_phone; ?>">
+									<input type="number" class="form-control" id="workphone" maxlength="20" name="work_phone" placeholder="Enter Work Phone *" value="<?php echo $work_phone; ?>">
 								</div>
 								<div class="form-group col-md-6">
 									<label for="email">Email Address</label>
@@ -434,163 +434,23 @@ if(isset($result) && $result){
 		validation(
 			'.form',
 			{
-				reg_no : {
-					required	: true,
-				},
-				company_name : {
-					required	: true,
-				},
-				vat_no : {
-					required	: true,
-				},
-				physical_address : {
-					required	: true,
-				},
-				postal_address : {
-					required	: true,
-				},
-				phy_suburb : {
-					required	: true,
-				},
-				postal_suburb : {
-					required	: true,
-				},
-				phy_city : {
-					required	: true,
-				},
-				postal_city : {
-					required	: true,
-				},
-				postal_code : {
-					required	: true,
-				},
+				
 				workphone : {
 					required	: true,
 					number	: true,
 				},
-				email : {
-					required	: true,
-				},
-				bank_name : {
-					required	: true,
-				},
-				branch_code : {
-					required	: true,
-				},
-				account_name : {
-					required	: true,
-				},
-				account_no : {
-					required	: true,
-				},
-				account_type : {
-					required	: true,
-				},
-				vat_percentage : {
-					required	: true,
-				},
-				email : {
-					required	: true,
-				},
-				plumber_certificate : {
-					required	: true,
-				},
-				reseller_certificate : {
-					required	: true,
-				},
-				refix_period : {
-					required	: true,
-				},
-				audit_percentage : {
-					required	: true,
-				},
-				penalty : {
-					required	: true,
-				},
-				expired : {
-					required	: true,
-				}
 			},
 			{
-				reg_no 	: {
-					required	: "Company Registration Number field is required."
-				},
-				company_name 	: {
-					required	: "Company Name field is required."
-				},
-				vat_no 	: {
-					required	: "VAT field is required."
-				},
-				physical_address 	: {
-					required	: "Physical Address field is required."
-				},
-				postal_address 	: {
-					required	: "Postal Address field is required."
-				},
-				phy_suburb 	: {
-					required	: "Physical Suburb field is required."
-				},
-				postal_suburb 	: {
-					required	: "Postal Suburb field is required."
-				},
-				phy_city 	: {
-					required	: "Physical City field is required."
-				},
-				postal_city 	: {
-					required	: "Postal City field is required."
-				},
-				postal_code 	: {
-					required	: "Postal Code field is required."
-				},
+				
 				workphone 	: {
 					required	: "Wrok Phone field is required.",
-					required	: "Only numbers are allowed."
+					number	: "Only numbers are allowed."
 				},
-				email 	: {
-					required	: "Email field is required."
-				},
-				bank_name 	: {
-					required	: "Bank Name field is required."
-				},
-				branch_code 	: {
-					required	: "Branch Code field is required."
-				},
-				account_name 	: {
-					required	: "Account Name field is required."
-				},
-				account_no 	: {
-					required	: "Account Number field is required."
-				},
-				account_type 	: {
-					required	: "Account Type field is required."
-				},
-				vat_percentage 	: {
-					required	: "VAT Percentage field is required."
-				},
-				email: {
-					required	: "System Email field is required."
-				},
-				plumber_certificate 	: {
-					required	: "Default Plumber Max Non - Logged Certificates field is required."
-				},
-				reseller_certificate 	: {
-					required	: "Default Resellers Max Non - Logged Certificates field is required."
-				},
-				refix_period 	: {
-					required	: "Defult Refix Period in days field is required."
-				},
-				audit_percentage 	: {
-					required	: "Audit Ratio as a Percentage field is required."
-				},
-				penalty 	: {
-					required	: "Days allowed after regsitration date has passed to apply Late Date Payment penalty  field is required."
-				},
-				expired 	: {
-					required	: "Days allowed after regsitration date has passed before making registration expired field is required."
-				}
 			}
 			);
+		numberonly('#workphone');
 		$(document).ready(function(){
+
 			
 			$(".cpdmaster").keyup(function(){
 				var sumMaster=0;
