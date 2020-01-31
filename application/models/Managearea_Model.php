@@ -148,7 +148,7 @@ class Managearea_Model extends CC_Model
 		$this->db->from('city');
 
 		if(isset($requestdata['id'])) 				$this->db->where('id', $requestdata['id']);
-		if(isset($requestdata['provinceid'])) 		$this->db->where('province_id', $requestdata['s']);
+		if(isset($requestdata['provinceid'])) 		$this->db->where('province_id', $requestdata['provinceid']);
 		if(isset($requestdata['status']))			$this->db->where_in('status', $requestdata['status']);
 		
 		if($type=='count'){
