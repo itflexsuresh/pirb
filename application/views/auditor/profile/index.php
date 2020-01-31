@@ -104,6 +104,7 @@
 								<label>Email</label>
 								<input type="email" class="form-control"  name="email" value="<?php echo $email; ?>">
 							</div>
+							<label style="color: red;white-space: nowrap;">Note: all emails notifications will be sent to this email address above</label>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
@@ -122,6 +123,7 @@
 								<label>Phone (Mobile)</label>
 								<input type="text" class="form-control"  name="mobile_phone" value="<?php echo $mobile; ?>">
 							</div>
+							<label style="color: red;white-space: nowrap;">Note: all SMS and OTP notifications will be sent to this mobile number above</label>
 						</div>
 					</div>
 
@@ -329,6 +331,7 @@
 				},
 				email : {
 					required	: true,
+					
 				},
 				pass : {
 					required	: true,
@@ -384,6 +387,7 @@
 				},
 				email : {
 					required	: "Please enter the email"
+					
 				},
 				pass : {
 					required	: "Please enter the password"
