@@ -439,18 +439,18 @@ if(isset($result) && $result){
 				workphone : {
 					required	: true,
 					number	: true,
-				},
+				}
 			},
 			{
 				
 				workphone 	: {
 					required	: "Wrok Phone field is required.",
 					number		: "Maximum 20 numbers are allowed"
-				},
+				}
 			}
 			);
 		numberonly('#workphone');
-		$(document).ready(function(){
+		
 
 			
 			$(".cpdmaster").keyup(function(){
@@ -558,7 +558,7 @@ if(isset($result) && $result){
 				$('.cpdlearner-total').val(cpdlearner);
 			});	
 
-		})
+		
 		
 	});
 </script>

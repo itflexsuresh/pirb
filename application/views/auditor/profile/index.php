@@ -33,7 +33,7 @@
 
 	$areas 			= isset($result['areas']) ? $result['areas'] : [];
 
-	$heading 		= isset($result['userid']) ? 'Save' : 'Update';   
+	$heading 		= isset($result['userid']) ? 'Save' : 'Update'; 
 
 	$filepath 		= base_url().'assets/uploads/auditor/'.$id.'/';
 	$filepath1		= (isset($result['file1']) && $result['file1']!='') ? $filepath.$result['file1'] : base_url().'assets/images/auditor/profile.jpg';

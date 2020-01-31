@@ -53,7 +53,7 @@ class Login extends CC_Controller
 										<a href="'.base_url().'authentication/login/verification/'.$encryptid.'">Click Here</a>
 								';
 				
-					$this->CC_Model->sentMail($requestData['email'], $subject, $message);
+					$this->CC_Model->sentMail2($requestData['email'], $subject, $message);
 				
 					$this->session->set_flashdata('success', 'Successfully Registered.');
 				}else{

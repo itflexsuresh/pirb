@@ -21,7 +21,7 @@ class Index extends CC_Controller
 			redirect('auditor/profile/index'); 
 		}
 		
-		if($this->input->post()){
+		if($this->input->post()){ 
 			$requestData 	= 	$this->input->post();		
 			$id				=	$requestData['id'];		
 			$data 			=  	$this->Auditor_Model->action($requestData);			
