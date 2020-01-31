@@ -29,7 +29,7 @@ class Cpdtypesetup extends CC_Controller
 
 			if($requestData['submit']=='submit'){
 				$check_code 	= $this->productCode();
-				print_r($check_code);die;
+
 				if ($id=='') {
 					if ($check_code[0]['productcode']!='') {
 						$sequence_number  = explode("-",$check_code[0]['productcode']);
@@ -49,6 +49,7 @@ class Cpdtypesetup extends CC_Controller
 				}else{
 					$full_code 	= 	$requestData['productcode'];
 				}
+				print_r($product_code);die;
 				$requestData['productcode']			= $product_code;
 				$data 	=  $this->Cpdtypesetup_Model->action($requestData);
 				if($data) $message = 'CPD Type '.(($id=='') ? 'created' : 'updated').' successfully.';
