@@ -59,7 +59,7 @@ class Auditor_Model extends CC_Model
 				$userdata = $this->db->update('users', $request1, ['id' => $id]);
 			}
 		}
-	
+		
 		if(isset($data['user_id'])) 			$request2['user_id'] 			= $id;
 		if(isset($data['name'])) 				$request2['name'] 				= $data['name'];
 		if(isset($data['surname'])) 			$request2['surname'] 			= $data['surname'];
@@ -72,7 +72,7 @@ class Auditor_Model extends CC_Model
 		if(isset($data['file1'])) 				$request2['file1'] 				= $data['file1'];
 		if(isset($data['file2'])) 				$request2['file2'] 				= $data['file2'];
 		if(isset($data['idno'])) 				$request2['identity_no'] 		= $data['idno'];
-		
+		print_r($request2['user_id']); exit;
 		if(isset($request2)){
 			$userdetailid	= 	$data['userdetailid'];
 
@@ -82,7 +82,7 @@ class Auditor_Model extends CC_Model
 				$userdetaildata = $this->db->update('users_detail', $request2, ['id' => $userdetailid]);
 			}
 		}
-	
+			
 
 		if(isset($data['user_id'])) 			$request3['user_id'] 		= $id;
 		if(isset($data['address'])) 			$request3['address'] 		= $data['address'];
