@@ -355,6 +355,7 @@ if(isset($result) && $result){
 							</div>
 						</div>
 						<div class="tab-pane p-20" id="tab6" role="tabpanel">
+							Total CPD points required per stream and per designation
 							<div class="col-md-12">
 								<table id="mainTable" class="table table-bordered">
 									<thead>
