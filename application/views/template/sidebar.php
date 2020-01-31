@@ -23,6 +23,12 @@ $flag = $userdata['flag'];
 							<li><a href="<?php echo base_url().'admin/systemsetup/qualificationroutes/qualificationroute'; ?>">Qualification Routes</a></li>
 							<li><a href="<?php echo base_url().'admin/systemsetup/message/message'; ?>">Messages</a></li>
 						</ul>
+						<li> 
+							<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Performance Settings</span></a>
+							<ul aria-expanded="false" class="collapse">
+								<li><a href="<?php echo base_url().'admin/systemsetup/performancesettings/plumberperformance'; ?>">Plumber Performance Settings</a></li>
+							</ul>
+						</li>
 					</li>
 					<li> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">CPD</span></a>
