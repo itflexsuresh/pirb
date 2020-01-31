@@ -4,8 +4,8 @@ class Plumber_Model extends CC_Model
 {
 	public function getList($type, $requestdata=[])
 	{ 
-		$usersdetail 	= ['ud.id as usersdetailid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.work_phone','ud.file1','ud.file2'];
-		$usersplumber 	= ['up.id as usersplumberid','up.racial','up.nationality','up.othernationality','up.idcard','up.otheridcard','up.homelanguage','up.disability','up.citizen','up.registration_card','up.delivery_card','up.employment_details','up.company_details','up.designation'];
+		$usersdetail 	= ['ud.id as usersdetailid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.work_phone','ud.file1','ud.file2','ud.application_status','ud.reject_reason','ud.reject_reason_other'];
+		$usersplumber 	= ['up.id as usersplumberid','up.racial','up.nationality','up.othernationality','up.idcard','up.otheridcard','up.homelanguage','up.disability','up.citizen','up.registration_card','up.delivery_card','up.employment_details','up.company_details','up.designation','up.specialisations','up.coc_purchase_limit','up.electronic_coc_log','up.message'];
 		
 		$this->db->select('
 			u.id,
@@ -69,6 +69,7 @@ class Plumber_Model extends CC_Model
 		$datetime				= 	date('Y-m-d H:i:s');
 		$idarray				= 	[];
 		
+
 		if(isset($data['title'])) 				$request1['title'] 				= $data['title'];
 		if(isset($data['name'])) 				$request1['name'] 				= $data['name'];
 		if(isset($data['surname'])) 			$request1['surname'] 			= $data['surname'];
@@ -82,6 +83,13 @@ class Plumber_Model extends CC_Model
 		if(isset($data['work_phone'])) 			$request1['work_phone'] 		= $data['work_phone'];
 		if(isset($data['image1'])) 				$request1['file1'] 				= $data['image1'];
 		if(isset($data['image2'])) 				$request1['file2'] 				= $data['image2'];
+		if(isset($data['reject_reason_other'])) $request1['reject_reason_other']= $data['reject_reason_other'];
+		if(isset($data['application_status'])){
+			$request1['application_status'] = implode(',',array_keys($data['application_status']));
+		}
+		if(isset($data['reject_reason'])){
+			$request1['reject_reason'] 		= implode(',',array_keys($data['reject_reason']));
+		}
 		
 		if(isset($request1)){
 			$usersdetailid	= 	$data['usersdetailid'];
@@ -111,6 +119,12 @@ class Plumber_Model extends CC_Model
 		if(isset($data['employment_details'])) 	$request2['employment_details'] = $data['employment_details'];
 		if(isset($data['company_details'])) 	$request2['company_details'] 	= $data['company_details'];
 		if(isset($data['designation'])) 		$request2['designation'] 		= $data['designation'];
+		if(isset($data['message'])) 			$request2['message'] 		= $data['message'];
+		if(isset($data['electronic_coc_log'])) 		$request2['electronic_coc_log'] 		= $data['electronic_coc_log'];
+		if(isset($data['coc_purchase_limit'])) 		$request2['coc_purchase_limit'] 		= $data['coc_purchase_limit'];
+		if(isset($data['specialisations'])){
+			$request2['specialisations'] 		= implode(',',array_keys($data['specialisations']));
+		}
 		
 		if(isset($request2)){
 			$usersplumberid	= $data['usersplumberid'];
@@ -165,14 +179,15 @@ class Plumber_Model extends CC_Model
 		
 		if(isset($data['flag'])) 		$request5['flag'] 	= $data['flag'];
 		if(isset($data['email'])) 		$request5['email'] 	= $data['email'];
+		if(isset($data['status'])) 		$request5['status'] 	= $data['status'];
 		
 		if(isset($request5)){
+
 			if(isset($data['user_id'])){
-				$userid = $data['user_id'];			
+				$userid = $data['user_id'];	
 				$users = $this->db->update('users', $request5, ['id' => $userid]);
 			}
 		}
-		
 		
 		if((isset($usersdetail) || isset($usersplumber) || isset($usersaddress) || isset($skill) || isset($users)) && $this->db->trans_status() === FALSE)
 		{
