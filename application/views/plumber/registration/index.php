@@ -1299,6 +1299,7 @@ function skillsedit(data){
 	} 
 }
 
+
 $(document).on('click', '.skillremove', function(){
 	ajax('<?php echo base_url()."/plumber/registration/index/ajaxskillaction"; ?>', {'skillid' : $(this).attr('data-id'), 'action' : 'delete'}, skillsremove);
 	$(this).parent().parent().remove();
