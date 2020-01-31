@@ -76,7 +76,7 @@ class Cpdtypesetup extends CC_Controller
 			$product_code = $sequence_number[1]+1;						
 			$code 		=  str_pad($product_code,6,'0',STR_PAD_LEFT);
 			$full_code = "CPD-".$code;
-			return $result;
+			return $full_code;
 		}else{
 			$cpd = 'CPD-000001';
 			return $cpd;
