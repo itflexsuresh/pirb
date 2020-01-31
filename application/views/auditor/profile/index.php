@@ -288,7 +288,7 @@
 						<input type="hidden" name="userdetailid" value="<?php echo $userdetailid; ?>">
 						<input type="hidden" name="useraddressid" value="<?php echo $useraddressid; ?>">
 						<input type="hidden" name="userbankid" value="<?php echo $userbankid; ?>">
-						<div class="col-md-2">
+						<div class="col-md-2"> 
 							<button type="button" name="addarea" id="addarea" value="addarea" class="btn btn-block btn-primary btn-rounded">Add Area</button>
 						</div>
 
