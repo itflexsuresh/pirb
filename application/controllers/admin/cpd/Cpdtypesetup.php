@@ -29,13 +29,9 @@ class Cpdtypesetup extends CC_Controller
 
 			if($requestData['submit']=='submit'){
 				$check_code 	= $this->productCode();
-
 				if ($id=='') {
-					if ($check_code[0]['productcode']!='') {
-						$sequence_number  = explode("-",$check_code[0]['productcode']);
-						$product_code = $sequence_number[1]+1;
-						$code =  str_pad($product_code,6,'0',STR_PAD_LEFT);
-						$full_code = "CPD-".$code;
+					if ($check_code!='') {
+						$full_code = $check_code;
 						// QR CODE
 						$SERVERFILEPATH 					= $_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/qrcode/';
 						$text 								= $full_code;
@@ -49,8 +45,8 @@ class Cpdtypesetup extends CC_Controller
 				}else{
 					$full_code 	= 	$requestData['productcode'];
 				}
-				print_r($product_code);die;
-				$requestData['productcode']			= $product_code;
+				
+				$requestData['productcode']			= $full_code;
 				$data 	=  $this->Cpdtypesetup_Model->action($requestData);
 				if($data) $message = 'CPD Type '.(($id=='') ? 'created' : 'updated').' successfully.';
 			}else{
@@ -74,12 +70,16 @@ class Cpdtypesetup extends CC_Controller
 	}
 
 	public function productCode(){
-		$result = $this->db->select('*')->order_by('id',"desc")->limit(1)->get('cpdtypes')->result_array();
-		if (count($result)<=0) {
+		$result = $this->db->order_by('id',"desc")->get('cpdtypes')->row_array();
+		if ($result) {
+			$sequence_number  = explode("-",$result['productcode']);
+			$product_code = $sequence_number[1]+1;						
+			$code 		=  str_pad($product_code,6,'0',STR_PAD_LEFT);
+			$full_code = "CPD-".$code;
+			return $result;
+		}else{
 			$cpd = 'CPD-000001';
 			return $cpd;
-		}else{
-			return $result;
 		}
 	}
 

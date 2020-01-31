@@ -108,7 +108,7 @@ class CC_Controller extends CI_Controller
 
 	public function getProvinceList()
 	{
-		$data = $this->Managearea_Model->getProvinceList('all', ['status' => ['1']]);
+		$data = $this->Managearea_Model->getListProvince('all', ['status' => ['1']]);
 		
 		if(count($data) > 0) return ['' => 'Select Province']+array_column($data, 'name', 'id');
 		else return [];
