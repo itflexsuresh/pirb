@@ -280,7 +280,7 @@ if(isset($result) && $result){
 							<div class="row">
 								<div class="form-group col-md-6">
 									<label for="work_phone">Work Phone</label>
-									<input type="number" class="form-control" id="workphone" maxlength="20" name="work_phone" placeholder="Enter Work Phone *" value="<?php echo $work_phone; ?>">
+									<input type="text" class="form-control" id="workphone" maxlength="20" name="work_phone" placeholder="Enter Work Phone *" value="<?php echo $work_phone; ?>">
 								</div>
 								<div class="form-group col-md-6">
 									<label for="email">Email Address</label>
