@@ -142,7 +142,7 @@ class Users_Model extends CC_Model
 						];
 		
 		$result = $this->db->update('users', $users, ['id' => $id]);
-			
+
 		if($this->db->trans_status() === FALSE)
 		{
 			$this->db->trans_rollback();
@@ -153,6 +153,8 @@ class Users_Model extends CC_Model
 			$this->db->trans_commit();
 			return true;
 		}
+		echo $this->db->last_query();
+		exit;			
 	}
 	
 	public function changepassword($data, $userid)
