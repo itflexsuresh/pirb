@@ -1,26 +1,29 @@
 <?php
 	if(isset($result) && $result){
 		$id 			= $result['id'];
-		$syr_id		= (set_value('role_id')) ? set_value('role_id') : $result['role_id'];
+		$role_id        = (set_value('type')) 			? set_value('type') 			: $result['type'];
 		$name 			= (set_value('name')) ? set_value('name') : $result['name'];
 		$surname        = (set_value('surname')) ? set_value('surname') : $result['surname'];
 		$email          = (set_value('email')) ? set_value('email') : $result['email'];
-		$password       = (set_value('password')) ? set_value('password') : $result['password'];
+		$password       = (set_value('password_raw')) 	? set_value('password_raw') 	: $result['password_raw'];
 		$type           = (set_value('type')) ? set_value('type') : $result['type'];
 		$comments       = (set_value('comments')) ? set_value('comments') : $result['comments'];
 		$status 		= (set_value('status')) ? set_value('status') : $result['status'];
-	
+	    $read 		= (set_value('read')) 		? set_value('read') 			: $result['read_permission'];
+	$write 		= (set_value('write')) 		? set_value('write') 			: $result['write_permission'];
 		$heading		= 'Update';
 	}else{
 		$id 			= '';
 		$role_id        = set_value('role_id'); 
 		$name			= set_value('name');
 		$surname        = set_value('surname');
-		$password       = set_value('password');
+		$password       = set_value('password_raw');
 		$email          = set_value('email');
 		$type           = set_value('type');
 		$comments       = set_value('comments');
 		$status			= set_value('status');
+		$read       = set_value('read');
+     	$write			= set_value('write');
 		
 		$heading		= 'Save';
 	}
@@ -39,7 +42,7 @@
 		</div>
 	</div>
 </div>
-<?php echo $notification; ?>
+
 <div class="row">
 	<div class="col-12">
 		<div class="card">
@@ -49,20 +52,20 @@
 					<div class="row">
 					<div class="form-group col-md-6">
 						<label for="name">Name *</label>
-						<input type="text" class="form-control" id="name" name="name" placeholder="Enthe the name*"><?php echo $name; ?>
+						<input type="text" class="form-control" id="name" name="name" placeholder="Enter the name*" value="<?php echo $name; ?>">
 					</div>
 					<div class="form-group  col-md-6">
 						<label for="surname">Surname *</label>
-						<input type="text" class="form-control" id="surname" name="surname" placeholder="Enthe the surname*">
+						<input type="text" class="form-control" id="surname" name="surname" placeholder="Enthe the surname*" value="<?php echo $surname; ?>">
 					</div>
 			
 					<div class="form-group col-md-6">
 						<label for="email">Email Address*</label>
-						<input type="email" class="form-control" id="email " name="email" placeholder="Enthe the Email*">
+						<input type="email" class="form-control" id="email" name="email" placeholder="Enthe the Email*" value="<?php echo $email; ?>">
 					</div>
 					<div class="form-group col-md-6">
 						<label for="password">Password *</label>
-						<input type="password" class="form-control" id="password" name="password" placeholder="Enthe the Password*">
+						<input type="password" class="form-control" id="password" name="password" placeholder="Enthe the Password*" value="<?php echo $password; ?>">
 					</div>
 					<div class="form-group col-md-6">
 						
@@ -71,7 +74,7 @@
 				    </div>
 				    <div class="form-group col-md-6">
 						<label for="comments">Comments *</label>
-						<textarea class="form-control" id="comments" name="comments" placeholder="Enter the comments *"></textarea>
+							<textarea class="form-control" id="comments" name="comments" placeholder="Enter the comments *"><?php echo $comments; ?></textarea>
 					</div>
 				</div>
 
@@ -82,26 +85,76 @@
 								<input type="checkbox" class="custom-control-input" name="status" id="status" <?php if($status=='1') echo 'checked'; ?> value="1">
 								<label class="custom-control-label" for="status">Active</label>
 							</div>
-
 						</div>
+
+						<div class="table-responsive m-t-40">
+					
+					<table class="table table-bordered table-striped  fullwidth">
+						<?php //if($key=='Administration'){?>
+						<thead>
+							<tr>
+								<th>Permissions</th>
+								<th>Read</th>
+								<th>Write</th>
+							</tr>
+						</thead>
+					<?php// }?>
+					<?php 
+					if(count($permission_list) > 0)
+					{
+						foreach($permission_list as $key=>$val)
+						{
+
+							?>
+						<tbody>
+							<tr style="background-color:lightgray">
+								<td ><?php echo $key;?></td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>
+							<?php // print_r($val); exit;
+							foreach($val as $k=>$v)
+							{
+								?>
+							<tr >
+								<td ><?php echo $v['name'];?></td>
+								<?php 
+								$read_permission = explode(',', $read);
+								$write_permission = explode(',', $write);
+
+								if(in_array($v['id'],$read_permission))
+								{ ?>
+								<td><input checked="checked" type="checkbox" name="read[]" value="<?php echo $v['id'];?>"></td>	
+								<?php } else { ?>
+								<td><input type="checkbox" name="read[]" value="<?php echo $v['id'];?>"></td>
+							<?php }
+								if(in_array($v['id'],$write_permission))
+								{
+								 ?>							
+								<td><input checked="checked" type="checkbox" name="write[]" value="<?php echo $v['id'];?>"></td>
+							<?php } else { ?>
+ 								<td><input type="checkbox" name="write[]" value="<?php echo $v['id'];?>"></td>
+						<?php	} ?>
+							</tr>
+								<?php
+										}
+								?>
+						</tbody>
+						<?php } } ?>
+					</table>
+				
+				</div>
 						<div class="col-md-6 text-right">
-							<input type="hidden" name="id" value="<?php echo $id; ?>">
+							<input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
 							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?></button>
 						</div>
 					</div>
 				</form>
-				<!-- <div class="table-responsive m-t-40">
-					<table class="table table-bordered table-striped datatables fullwidth">
-						<thead>
-							<tr>
-								<th>Installation Type</th>
-								<th>Status</th>
-								<th>Action</th>
-							</tr>
-						</thead>
-					</table>
-				</div> -->
-
+			</div>
+			</div>
+	</div>
+</div>
+		
 			</div>
 		</div>
 	</div>
@@ -110,20 +163,6 @@
 <script>
 	$(function(){
 		
-		var options = {
-			url 	: 	'<?php echo base_url()."admin/systemsetup/systemusers/systemuseredit/DTsystemuseredit"; ?>',
-			columns : 	[
-							{ "data": "name" },
-							{ "data": "surname" },
-							{ "data": "email"},
-							{ "data": "password"},
-							{ "data": "type"},
-                            { "data": "comments"},
-							{ "data": "status" }
-						]
-		};
-		
-		ajaxdatatables('.datatables', options);
 		
 		validation(
 			'.form',
@@ -136,6 +175,19 @@
 				},
 				email  :{
 					required    : true,
+					remote		: 	{
+						url	: "<?php echo base_url().'admin/systemsetup/systemusers/systemusers/DTemailValidation'; ?>",
+						type: "post",
+						data: {
+							email: function() {
+								return $( "#email" ).val();
+							},
+							id: function() {
+								return $( "#id" ).val();
+							}
+						}
+
+					}
 				},
 				password:{
 					required    : true,
@@ -154,6 +206,7 @@
 				},
 				email  :{
 					required    : "Please enter the email",
+					remote		: "Please enter the differene email",
 				},
 				password:{
 					required    : "Please enter the password",
