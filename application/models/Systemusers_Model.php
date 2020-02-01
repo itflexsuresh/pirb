@@ -4,26 +4,30 @@ class Systemusers_Model extends CC_Model
 {
 	public function getList($type, $requestdata=[])
 	{
-		$this->db->select('*');
-		$this->db->from('users');
-		
-		if(isset($requestdata['id'])) 		$this->db->where('id', $requestdata['id']);
-		if(isset($requestdata['status']))	$this->db->where_in('status', $requestdata['status']);
-		
+
+		$this->db->select('ist.name, ist.surname, ist.comments, ist.read_permission, ist.write_permission, it.id, it.type, it.email, it.status,  it.password_raw, it.type as userdetails')->order_by('it.id','desc');
+        $this->db->from('users_detail as ist');
+        $query = $this->db->join('users as it', 'it.id = ist.user_id', 'left');
+
+       if(isset($requestdata['id'])) $this->db->where('it.id', $requestdata['id']);
+       if(isset($requestdata['status'])) $this->db->where_in('it.status', $requestdata['status']);
+       if(isset($requestdata['u_type'])) $this->db->where_in('it.type', $requestdata['u_type']);
+
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['id', 'name', 'surname', 'password', 'email', 'type', 'status'];
+			$column = ['it.id', 'ist.name', 'ist.surname', 'it.password_raw', 'ist.email', 'it.type', 'it.status'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
-			$this->db->like('name', $searchvalue);
-			$this->db->or_like('surname', $searchvalue);
-			$this->db->or_like('password', $searchvalue);
-			$this->db->or_like('type', $searchvalue);
-			$this->db->or_like('status', $searchvalue);
+			$this->db->like('ist.name', $searchvalue);
+            $this->db->or_like('ist.surname', $searchvalue);
+            $this->db->or_like('it.password_raw', $searchvalue);
+            $this->db->or_like('it.type', $searchvalue);
+            $this->db->or_like('it.status', $searchvalue);
+            $this->db->or_like('it.id', $searchvalue);
 		}
 		
 		if($type=='count'){
@@ -43,44 +47,42 @@ class Systemusers_Model extends CC_Model
 		$this->db->trans_begin();
 		
 		$userid			= 	$this->getUserID();
-		$id 			= 	$data['name'];
+		$id = $data['id'];
 		$datetime		= 	date('Y-m-d H:i:s');
 		
-		$request1		=	[
-								'created_at' 		=> $datetime,
-								'created_by' 		=> $userid
-							];
-	    if(isset($data['role_id'])) 	$request['role_id'] 	= $data['role_id'];
-		if(isset($data['name'])) 	   $request['name'] 	= $data['name'];
-		if(isset($data['surname']))    $request['surname'] 	= $data['surname'];
+		$request = [
+                      'created_at' => $datetime,
+                       'created_by' => $userid
+                   ];
+        $md5pass = md5($data['password']);
+	    if(isset($data['type']))   $request['type'] = $data['type'];
 		if(isset($data['email'])) 	   $request['email'] 	= $data['email'];
+		if(isset($md5pass))   $request['password'] = $md5pass;
+        if(isset($data['password']))   $request['password_raw'] = $data['password']; 
+        if(isset($data['status']))   $request['status'] = $data['status'];
+        if(isset($data['email']))   $request1['email'] = $data['email'];
+        if(isset($data['name']))   $request1['name'] = $data['name'];
+        if(isset($data['surname']))     $request1['surname'] = $data['surname'];
+        if(isset($data['comments']))   $request1['comments'] = $data['comments'];
 
-		if(isset($data['email'])) 	   $request1['email'] 	= $data['email'];
-		if(isset($data['password']))   $request1['password'] = $data['password'];
-		if(isset($data['type'])) 	   $request1['type'] 	= $data['type'];
-		if(isset($data['status']))     $request1['status'] 	= $data['status'];
-	
-		
-		
-		if(isset($request)){
+        if(isset($data['read']))   $request1['read_permission'] = implode(',',$data['read']);
+        if(isset($data['write']))   $request1['write_permission'] = implode(',',$data['write']);
 
-$request['user_id'] = $userid;
-$audior_details = $this->db->insert('users_detail', $request);
-}
 
+if($id!=''){
+$this->db->update('users', $request, ['id' => $id]);
+$this->db->update('users_detail', $request1, ['user_id' => $id]);
+}else{
 	if(isset($request)){
-
-$request['user_id'] = $userid;
-$audior_details1 = $this->db->insert('users', $request1);
+$audior_details = $this->db->insert('users', $request);
+$request1['user_id'] = $this->db->insert_id();
 }
-		// if($id==''){
-
-		// 	$request['created_at'] = $datetime;
-		// 	$request['created_by'] = $userid;
-		// 	$this->db->insert('users', $request1);
-		// }else{
-		// 	$this->db->update('users', $request1, ['id' => $id]);
-		// }
+if (isset($request1)) {
+$usersdetail = $this->db->insert('users_detail', $request1);
+}
+		
+}
+		
 
 		if($this->db->trans_status() === FALSE)
 		{
@@ -119,5 +121,32 @@ $audior_details1 = $this->db->insert('users', $request1);
 			$this->db->trans_commit();
 			return true;
 		}
+	}
+	public function emailValidator($data)
+{
+$id = $data['id'];
+$user_email = $data['email'];
+$this->db->where('email', $user_email);
+if($id!='') $this->db->where('id !=', $id);
+$query = $this->db->get('users');
+
+if($query->num_rows() > 0){
+return 'false';
+}else{
+return 'true';
+}
+}
+
+
+	public function getPermissions()
+	{ 
+		$this->db->select('system_user_permission.*,system_user_category.name as cat_name');
+		$this->db->from('system_user_permission');
+		$this->db->join('system_user_category', 'system_user_permission.category_id = system_user_category.id');
+
+		
+		$query = $this->db->get();
+
+		return $query->result();
 	}
 }
