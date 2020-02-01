@@ -65,7 +65,7 @@ if(isset($result) && $result){
 					</form>
 				<?php } ?>
 				<div class="table-responsive m-t-40">
-						<table id="table" class="table table-bordered fullwidth">
+						<table id="table" class="table table-bordered fullwidth text_issue">
 							<thead>
 								<tr>
 									<th>Rate Type</th>

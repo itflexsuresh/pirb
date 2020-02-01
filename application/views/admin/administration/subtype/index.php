@@ -36,13 +36,19 @@
 			<div class="card-body">
 				<h4 class="card-title">Sub Types</h4>
 				<form class="mt-4 form" action="" method="post">
-					<div class="form-group">
-						<label for="installationtype_id">Installation Type *</label>
-						<?php echo form_dropdown('installationtype_id', $installationtypelist, $itid, ['id' => 'installationtype_id', 'class' => 'form-control']); ?>
-					</div>
-					<div class="form-group">
-						<label for="name">Sub Type *</label>
-						<input type="text" class="form-control" id="name" name="name" placeholder="Enter Sub Type *" value="<?php echo $name; ?>">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="installationtype_id">Installation Type *</label>
+								<?php echo form_dropdown('installationtype_id', $installationtypelist, $itid, ['id' => 'installationtype_id', 'class' => 'form-control']); ?>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="name">Sub Type *</label>
+								<input type="text" class="form-control" id="name" name="name" placeholder="Enter Sub Type *" value="<?php echo $name; ?>">
+							</div>
+						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6">

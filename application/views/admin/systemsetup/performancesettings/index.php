@@ -40,23 +40,34 @@ $period_date					= set_value('period_date');
 			<div class="card-body">
 				<h4 class="card-title">Plumber Performance Types</h4>
 				<form class="mt-4 form" action="" method="post">
-					<div class="form-group">
-						<label for="type">Performance Type *</label>
-						<input type="text" class="form-control" id="type" name="type" placeholder="Enter Plumber Performance Type *" value="<?php echo $type; ?>">						
-					</div>
-					<div class="form-group">
-						<label for="allocation">Performance Point Allocation *</label>
-						<input type="number" class="form-control" id="allocation" name="allocation" placeholder="Enter Performance Point *" value="<?php echo $allocation; ?>">						
-					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="type">Performance Type *</label>
+								<input type="text" class="form-control" id="type" name="type" placeholder="Enter Plumber Performance Type *" value="<?php echo $type; ?>">						
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="allocation">Performance Point Allocation *</label>
+								<input type="number" class="form-control" id="allocation" name="allocation" placeholder="Enter Performance Point *" value="<?php echo $allocation; ?>">						
+							</div>
+						</div>
+					</div>	
+					<div class="row">
+						<div class="col-md-6">
+							<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
+								<input type="checkbox" class="custom-control-input" name="period" id="period" <?php if($period=='1') echo 'checked'; ?> value="1">
+								<label class="custom-control-label" for="period">This Performance Type has limited period to it</label>
+							</div>
+						</div>
 
-					<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
-						<input type="checkbox" class="custom-control-input" name="period" id="period" <?php if($period=='1') echo 'checked'; ?> value="1">
-						<label class="custom-control-label" for="period">This Performance Type has limited period to it</label>
-					</div>
-
-					<div class="form-group datewrapper displaynone">
-						<label for="period_date">Select date when Performance type is archived*</label>
-						<input type="text" autocomplete="off" class="form-control" id="period_date" name="period_date" placeholder="Enter Select date when Performance type is archived *" value="<?php echo $period_date; ?>">						
+						<div class="col-md-6">
+							<div class="form-group datewrapper displaynone">
+								<label for="period_date">Select date when Performance type is archived*</label>
+								<input type="text" autocomplete="off" class="form-control" id="period_date" name="period_date" placeholder="Enter Select date when Performance type is archived *" value="<?php echo $period_date; ?>">						
+							</div>
+						</div>
 					</div>
 
 					<div class="row">
