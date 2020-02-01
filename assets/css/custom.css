@@ -104,7 +104,7 @@ ul.collapse.in {
     background: #ffff;
 }
 
-.form-group input[type="text"], .form-group select, .form-group input[type="number"], .form-group input[type="password"] {
+.form-group input[type="text"], .form-group select, .form-group input[type="number"], .form-group input[type="password"], input[type="email"], input[type="datepicker"] {
     padding: 13px 10px 13px 10px;
     height: auto;
     border: 1px solid #dde6ef;
@@ -119,12 +119,24 @@ textarea {
     font-size: 20px;
     font-weight: 600 !important;
     margin-bottom: 35px;
+    width: 70%;
+    display: inline-block;
+}
+
+h4.sup_title {
+    width: 29%;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 500 !important;
+    margin-bottom: 35px;
+    text-align: right;
 }
 
 .form-group label {
     color: #818284;
     font-size: 14px;
     font-weight: 500;
+    margin-left: 4px;
 }
 
 button.btn.btn-primary, button.btn.btn-info.btn-lg, input.btn.btn-primary, button.btn.btn-success {
@@ -236,6 +248,7 @@ input#width_alignment {
 
 .text-right {
 	width: 100%;
+    display: inline-block;
 }
 
 .alert-success {
@@ -554,8 +567,46 @@ input[name="declaration"] {
     text-shadow: 2px 0px #000;
 }
 
+ul.collapse.in > li.active a.active {
+    color: #019cde !important;
+}
+
+.text_issue td {
+    text-align: left !important;
+}
+
+.add_max_height {
+    min-height: 42px;
+}
+
+.sidebar-nav .has-arrow::after {
+    border-color: #000;
+}
+
 /* Plumber Registration Process  Over*/ 
 
+
+button.btn.btn-primary, button.btn.btn-info.btn-lg, input.btn.btn-primary, button.btn.btn-success {
+    border-radius: 4px;
+    width: auto;
+    display: inline-block;
+    vertical-align: bottom;
+    margin: 10px 0px 10px 10px;
+}
+
+
+.add_top_value_v2 {
+    margin-top: 30px !important;
+}
+
+table.table th, table.table td {
+    border-color: rgba(0, 0, 0, 0.28);
+}
+
+table.table {
+    width: 98% !important;
+    margin: 0 auto;
+}
 
 
 /* Progress Bar */
