@@ -207,7 +207,7 @@ if(isset($result) && $result){
 						<li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#tab6" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">CPD Points Settings</span></a> </li>
 					</ul>
 					<!-- Tab panes -->
-					<div class="tab-content tabcontent-border">
+					<div class="tab-content tabcontent-border add_top_value">
 						<div class="tab-pane active p-20" id="tab1" role="tabpanel">
 							<div class="row">
 								<div class="form-group col-md-6">
@@ -304,14 +304,12 @@ if(isset($result) && $result){
 									<label for="account_name">Account Name</label>
 									<input type="text" class="form-control" id="account_name" name="account_name" placeholder="Enter Account Name *" value="<?php echo $account_name; ?>">
 								</div>
-								<div class="form-group col-md-6">									
+								<div class="form-group col-md-6">	
+									<label for="account_no">Account Number</label>
+									<input type="number" class="form-control" id="account_no" name="account_no" placeholder="Enter Company Account Number *" value="<?php echo $account_no; ?>">								
 								</div>
 							</div>
 							<div class="row">
-								<div class="form-group col-md-6">
-									<label for="account_no">Account Number</label>
-									<input type="number" class="form-control" id="account_no" name="account_no" placeholder="Enter Company Account Number *" value="<?php echo $account_no; ?>">
-								</div>
 								<div class="form-group col-md-6">
 									<label for="account_type">Account Type</label>
 									<input type="text" class="form-control" id="account_type" name="account_type" placeholder="Enter Account Type *" value="<?php echo $account_type; ?>">
@@ -355,9 +353,8 @@ if(isset($result) && $result){
 							</div>
 						</div>
 						<div class="tab-pane p-20" id="tab6" role="tabpanel">
-							Total CPD points required per stream and per designation
-							<div class="col-md-12">
-								<table id="mainTable" class="table table-bordered">
+							<h4 class="card-title">Total CPD points required per stream and per designation</h4>
+								<table id="mainTable" style="width: 100% !important" class="table table-bordered">
 									<thead>
 										<tr>
 											<th>CPD Stream</th>
@@ -408,7 +405,6 @@ if(isset($result) && $result){
 
 									</tbody>
 								</table>
-							</div>
 						</div>
 					</div>
 					<div class="row">
