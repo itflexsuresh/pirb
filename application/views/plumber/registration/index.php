@@ -526,7 +526,7 @@
 				<div class="steps displaynone" data-id="4">
 					<form class="form4">
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<h4 class="card-title">Employment Details</h4>
 								<div class="form-group">
 									<label>Your Employment Status</label>

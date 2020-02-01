@@ -149,7 +149,7 @@
 	                    </div>
 	                    <div class="form-group">
 		                    <div class="row">
-		                    		<div class="col-md-6">
+		                    		<div class="col-md-6 rejection">
 			                    		<label>Reason for Rejection</label>
 			                    	</div>
 		                    		<div class="col-md-6">
@@ -230,7 +230,7 @@
 					<h4 class="card-title">Plumber register</h4>
 				
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-12 add_full_width">
 							<div class="form-group">
 								<label>Registration Number</label>
 								<input type="text" class="form-control" name="reg_no" value="<?php echo $regno; ?>">								
@@ -328,7 +328,7 @@
                     		<input type="number" class="form-control" name="coc_purchase_limit" value="<?php echo $coc_purchase_limit ?>">
 						</div>
 						<div class="col-md-6">
-							<div class="custom-control custom-checkbox">
+							<div class="custom-control custom-checkbox" id="electronic_coc_loging">
                                 <input type="checkbox" class="custom-control-input" id="electronic_coc_log" name="electronic_coc_log" <?php echo $electronic_coc_log ?> value="1">
                                 <label class="custom-control-label" for="electronic_coc_log">Allow for Electronic COC's loging</label>
                             </div>
@@ -465,7 +465,7 @@
 							<div class="col-md-6">
 								<h4 class="card-title">Photo ID *</h4>
 								<div class="form-group">
-									<div>
+									<div class="photo_upload">
 										<img src="<?php echo ($file2!='') ? $filepath.$file2 : base_url().'assets/images/profile.jpg'; ?>" class="photo_image" width="100">
 									</div>
 									<input type="file" class="photo_file">
@@ -675,7 +675,7 @@
 									<tr class="skillnotfound"><td colspan="6">No Record Found</td></tr>
 
 								</table>
-								<div class="">
+								<div class="text-right">
 									<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#skillmodal">Add Cert/Skill</button>
 								</div>
 								<input type="hidden" class="attachmenthidden" name="attachmenthidden"> 
