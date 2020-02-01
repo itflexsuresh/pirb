@@ -92,6 +92,9 @@
 <div class="row">
 	<div class="col-12">
 		<div class="card">
+			<?php
+				if($status==0){
+			?>
 			<div class="card-body">
 				<h4 class="card-title">Application Status</h4>
 				<div class="row">
@@ -638,7 +641,7 @@
 									<div class="form-group">
 										<label>Your Employment Status</label>
 										<?php
-										echo form_dropdown('employment_details', $employmentdetail, $employmentdetailsid,['class'=>'form-control']);
+										echo form_dropdown('employment_details', $employmentdetail, $employmentdetailsid,['class'=>'form-control', 'id' => 'employment_details']);
 										?>
 									</div>
 								</div>
