@@ -333,16 +333,13 @@
 					required	: true,
 					email		: true,
 					remote		: 	{
-										url	: "<?php echo base_url().'auditor/profile/index/emailvalidation'; ?>",
+										url	: "<?php echo base_url().'authentication/login/emailvalidation'; ?>",
 										type: "post",
 										data: {
-											email: function() {
-												return $( "#email" ).val();
-											}
+											id : '<?php echo $id; ?>'
 										}
 									}
-					
-				},
+								},
 				pass : {
 					required	: true,
 				},
@@ -396,7 +393,7 @@
 					required	: "Please enter the ID"
 				},
 				email : {
-					required	: "Please enter the email",
+					required	: "Please enter the email",					
 					remote		: "Email already exists."
 				},
 				pass : {

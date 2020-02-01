@@ -114,7 +114,8 @@ class Auditor_Model extends CC_Model
 		if(isset($data['account_no'])) 				$request4['account_no'] 	= $data['account_no'];
 		if(isset($data['account_type'])) 			$request4['account_type'] 	= $data['account_type']; 
 		
-		
+		        
+
 		if(isset($request4)){
 			$request4['user_id'] 	= $id;
 			$userbankid				= $data['userbankid'];

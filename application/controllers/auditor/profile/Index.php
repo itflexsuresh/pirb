@@ -48,4 +48,6 @@ class Index extends CC_Controller
 		
 		echo $data;
 	}
+
+	
 }
