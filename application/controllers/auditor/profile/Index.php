@@ -40,14 +40,7 @@ class Index extends CC_Controller
 		$this->layout2($data);
 	}
 
-	public function emailvalidation()
-	{
-		$requestData 		= $this->input->post();
-		$requestData['id'] 	= isset($requestData['id']) ? $requestData['id'] : '';
-		$data 				= $this->Auditor_Model->emailvalidation($requestData);
-		
-		echo $data;
-	}
+	
 
 	
 }
