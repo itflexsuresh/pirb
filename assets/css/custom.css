@@ -150,8 +150,8 @@ button.btn.btn-primary, button.btn.btn-info.btn-lg, input.btn.btn-primary, butto
 
 .dataTables_length select, input[type="search"] {
     border: 1px solid rgba(0, 0, 0, 0.28);
-    padding: 2px 5px 2px 5px;
-    border-radius: 2px;
+    padding: 5px;
+    border-radius: 4px;
 }
 
 .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
@@ -573,7 +573,7 @@ input[name="declaration"] {
     text-shadow: 2px 0px #000;
 }
 
-ul.collapse.in > li.active a.active {
+ul.collapse.in > li.active a.active, ul.collapse.in > li.active a {
     color: #019cde !important;
 }
 
@@ -644,6 +644,43 @@ a.sub_menu:after {content: "\f105";font-family: 'Fontawesome';position: absolute
 a.sub_menu.active:after {
     transform: rotate(-270deg);
     transition: all 0.3s;
+}
+
+.cpd_body td input {
+    padding-left: 13px;
+}
+
+.table.table-bordered .table-action a {
+    margin: 0 10px 0 10px;
+}
+
+a.btn.btn-primary {
+    background-color: #88745c !important;
+    border-color: #88745c !important;
+    box-shadow: 4px 4px 11px rgba(0, 0, 0, 0.51);
+}
+
+a.active_link_btn, a.archive_link_btn {
+    padding: 6px 20px 6px 20px;
+    background-color: #88745c;
+    border-color: #88745c;
+    box-shadow: 4px 4px 11px rgba(0, 0, 0, 0.51);
+    color: #ffff;
+    font-size: 15px;
+    margin: 0 10px 0 10px;
+    border-radius: 4px;
+}
+
+a.active_link_btn {
+    background-color: #88745c;
+    border-color: #88745c;
+    box-shadow: 4px 4px 11px rgba(0, 0, 0, 0.51);
+}
+
+a.archive_link_btn {
+    background-color: #aeba72;
+    border-color: #aeba72;
+    box-shadow: 4px 4px 11px #aeba72;
 }
 
 

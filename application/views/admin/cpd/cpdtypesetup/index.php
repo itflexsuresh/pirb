@@ -83,7 +83,7 @@ if(isset($result) && $result){
 								<img src="<?php echo base_url().'assets/qrcode/'.$qrcode.''; ?>" height="200" width="200">
 							</div>
 							<div class="col-md-6">
-								<a href="<?php echo base_url().'admin/cpd/cpdtypesetup/getPDF/'.$id.''; ?>">Download PDF</a>
+								<a href="<?php echo base_url().'admin/cpd/cpdtypesetup/getPDF/'.$id.''; ?>" class="btn btn-primary">Download PDF</a>
 							</div>
 						</div>
 						<?php
@@ -103,12 +103,12 @@ if(isset($result) && $result){
 						</div>
 					</div>
 				</form>
-				<div class="row">
+				<div class="row m-t-40">
 					<div class="col-md-6">
-						<a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index/1'; ?>">Active</a> | <a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index/2'; ?>">Archive</a>
+						<a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index/1'; ?>" class="active_link_btn">Active</a>  <a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index/2'; ?>" class="archive_link_btn">Archive</a>
 					</div>					
 				</div>
-				<div id="active" class="table-responsive m-t-40">
+				<div id="active" class="table-responsive">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
 							<tr>
