@@ -37,7 +37,7 @@ class Index extends CC_Controller
 	{
 		$post = $this->input->post();  
 		$result = $this->Managearea_Model->getListSuburb('all', $post);
-		print_r($result); exit;
+		
 		if(count($result)){
 			$json = ['status' => '1', 'result' => $result];
 		}else{
