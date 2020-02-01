@@ -51,22 +51,33 @@ if(isset($result) && $result){
 			<div class="card-body">
 				<h4 class="card-title">Global Messages</h4>
 				<form class="mt-4 form" action="" method="post">
-					<div class="form-group">
-						<label for="groups">Message Group</label>
-						<?php echo form_dropdown('groups', $msggrp, $msgid, ['id' => 'groups', 'class' => 'form-control']); ?>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="groups">Message Group</label>
+								<?php echo form_dropdown('groups', $msggrp, $msgid, ['id' => 'groups', 'class' => 'form-control']); ?>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="startdate">Message Start Date</label>
+								<input type="text" autocomplete="off" class="form-control" id="startdate" name="startdate" placeholder="Enter Start date *" value="<?php echo $startdate; ?>">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="enddate">Message End Date</label>
+								<input type="text" autocomplete="off" class="form-control" id="enddate" name="enddate" placeholder="Enter End date *" value="<?php echo $enddate; ?>">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="message">Message</label>
+								<textarea type="text" class="form-control" id="message" name="message" placeholder="Enter Message"><?php echo $message; ?></textarea>
+							</div>
+						</div>
 					</div>
-					<div class="form-group">
-						<label for="startdate">Message Start Date</label>
-						<input type="text" autocomplete="off" class="form-control" id="startdate" name="startdate" placeholder="Enter Start date *" value="<?php echo $startdate; ?>">
-					</div>
-					<div class="form-group">
-						<label for="enddate">Message End Date</label>
-						<input type="text" autocomplete="off" class="form-control" id="enddate" name="enddate" placeholder="Enter End date *" value="<?php echo $enddate; ?>">
-					</div>
-					<div class="form-group">
-						<label for="message">Message</label>
-						<textarea type="text" class="form-control" id="message" name="message" placeholder="Enter Message"><?php echo $message; ?></textarea>
-					</div>
+
 					<div class="row">
 						<div class="col-md-6">
 							<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
