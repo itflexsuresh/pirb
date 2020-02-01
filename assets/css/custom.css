@@ -634,6 +634,9 @@ table.table {
     color: #fff;
 }
 
+ul.nav.nav-tabs {
+    background-color: #e6ebf1;
+}
 
 /* Progress Bar */
 
