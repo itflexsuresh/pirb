@@ -182,3 +182,4 @@ $(".existing-city").show();
 		sweetalert(action, data);
 	});
 </script>
+
