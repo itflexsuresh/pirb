@@ -609,7 +609,7 @@ table.table th, table.table td {
 }
 
 table.table {
-    width: 98% !important;
+    width: 100% !important;
     margin: 0 auto;
 }
 
@@ -637,6 +637,14 @@ table.table {
 ul.nav.nav-tabs {
     background-color: #e6ebf1;
 }
+
+a.sub_menu:after {content: "\f105";font-family: 'Fontawesome';position: absolute;right: 21px;font-size: 19px;top: 11px;transition: all 0.3s;}
+
+a.sub_menu.active:after {
+    transform: rotate(-270deg);
+    transition: all 0.3s;
+}
+
 
 /* Progress Bar */
 
