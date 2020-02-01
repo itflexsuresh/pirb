@@ -85,6 +85,8 @@ class Plumber_Model extends CC_Model
 		if(isset($data['image1'])) 				$request1['file1'] 				= $data['image1'];
 		if(isset($data['image2'])) 				$request1['file2'] 				= $data['image2'];
 		if(isset($data['reject_reason_other'])) $request1['reject_reason_other']= $data['reject_reason_other'];
+		if(isset($data['status']) && $data['status']==3)	$request1['registered_date'] 	= date('Y-m-d');
+
 		if(isset($data['application_status'])){
 			$request1['application_status'] = implode(',',array_keys($data['application_status']));
 		}

@@ -93,7 +93,7 @@
 	<div class="col-12">
 		<div class="card">
 			<?php
-				if($status==0){
+				if($status=='0'){
 			?>
 			<div class="card-body">
 				<h4 class="card-title">Application Status</h4>
@@ -133,12 +133,12 @@
 							?>
 	                                    
 	                    </div>
-	                    <div class="form-group approve_box">
+	                    <div class="form-group">
 		                    <div class="row">
 		                    		<div class="col-md-6">
 			                    		<label>Approval Status *</label>
 			                    	</div>
-		                    		<div class="col-md-3">
+		                    		<div class="col-md-3 approve_box">
 					                    <div class="custom-control custom-radio">
 					                        <input type="radio" id="approve" name="status" class="custom-control-input" value="3" <?php 
     echo $status == '3' ? "checked" : ""; ?>>
@@ -244,6 +244,11 @@
 							</div>
 						</div>
 					</div>
+
+					<?php 
+					if($status=='1' || $status=='3'){
+					?>
+					
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
@@ -258,6 +263,7 @@
 							</div>
 						</div>
 					</div>
+					<?php } ?>
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
@@ -271,12 +277,12 @@
 							<div class="form-group">
 								<label>PIRB Designation</label>
 								<?php
-									echo form_dropdown('designation', $designation2, $designation, ['class'=>'form-control']);
+									echo form_dropdown('designation', $designation2, $designation, ['class'=>'form-control','id'=>'designation']);
 								?>
 							</div>
 						</div>
 					</div>
-					<div class="form-group row">
+					<div class="form-group row specialisation_section">
 							<div class="col-md-12">
 								<label>PIRB Specialisations:</label>
 							</div>
@@ -297,37 +303,6 @@
 		                            </div>";
 							}
 							?>
-							
-							<div class="col-md-4">
-	                            <div class="custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input" id="gas">
-	                                <label class="custom-control-label" for="gas">- Gas</label>
-	                            </div>
-                            </div>
-							<div class="col-md-4">
-	                            <div class="custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input" id="plumbing_estimator">
-	                                <label class="custom-control-label" for="plumbing_estimator">- Plumbing estimator</label>
-	                            </div>
-                            </div>
-							<div class="col-md-4">
-	                            <div class="custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input" id="heat_pump">
-	                                <label class="custom-control-label" for="heat_pump">- Heat Pump</label>
-	                            </div>
-                            </div>
-                            <div class="col-md-4">
-	                            <div class="custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input" id="plumbing_training_assessor">
-	                                <label class="custom-control-label" for="plumbing_training_assessor">- Plumbing Training Assessor</label>
-	                            </div>
-                            </div>
-							<div class="col-md-4">
-	                            <div class="custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input" id="plumbing_arbitrator">
-	                                <label class="custom-control-label" for="plumbing_arbitrator">- Plumbing Arbitrator</label>
-	                            </div>
-                            </div>
                     </div>
                     <div class="form-group row">
 						<div class="col-md-6">
@@ -618,7 +593,7 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Email Address *</label>
-										<input type="text" class="form-control" name="email" value="<?php echo $email; ?>">
+										<input type="text" class="form-control" id="email" name="email" value="<?php echo $email; ?>">
 										<p>Note: this email will be used as your user profile name and all emails notifications will be sent to it</p>
 									</div>
 								</div>
@@ -626,6 +601,75 @@
 					      </div>
 					    </div>
 					  </div>
+					  <div class="card">
+					  	<div class="card-header" id="billing">
+					      <h2 class="mb-0">
+					        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#billing" aria-expanded="false" aria-controls="collapsebilling">
+					          Plumbers Billing Details
+					        </button>
+					      </h2>
+					    </div>
+					    <div id="billing" class="collapse" aria-labelledby="billing" data-parent="#accordionExample">
+					      	<div class="card-body">
+					      		<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>Billing Name *</label>
+									<input type="text" class="form-control" name="company_name" value="<?php echo $companyname; ?>">
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>Company Reg Number</label>
+									<input type="text" class="form-control" name="reg_no" value="<?php echo $regno; ?>">
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>Company Vat</label>
+									<input type="text" class="form-control" name="vat_no" value="<?php echo $vatno; ?>">
+								</div>
+							</div>                            
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Billing Address *</label>
+									<input type="hidden" class="form-control" name="address[3][id]" value="<?php echo $addressid3; ?>">
+									<input type="hidden" class="form-control" name="address[3][type]" value="3">
+									<input type="text" class="form-control" name="address[3][address]" value="<?php echo $address3; ?>">
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Suburb *</label>
+									<input type="text" class="form-control" name="address[3][suburb]" value="<?php echo $suburb3; ?>">
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>City *</label>
+									<input type="text" class="form-control" name="address[3][city]" value="<?php echo $city3; ?>">
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Province *</label>
+									<?php
+									echo form_dropdown('address[3][province]', $province, $province3,['class'=>'form-control']);
+									?>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Postal Code *</label>
+									<input type="text" class="form-control" name="address[3][postal_code]" value="<?php echo $postalcode3; ?>">
+								</div>
+							</div>
+						</div>
+				      		</div>
+				      	</div>
+					  </div>	
 					  <div class="card">
 					    <div class="card-header" id="headingThree">
 					      <h2 class="mb-0">
@@ -763,6 +807,7 @@
 				</div>
 				<div class="modal-footer">
 					<input type="hidden" name="skill_id" class="skill_id">
+					<input type="hidden" name="user_id" class="user_id" value="<?php echo $id; ?>">
 					<button type="button" class="btn btn-success skillsubmit">Submit</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
@@ -876,14 +921,67 @@ $(function(){
 			'address[1][address]' : {
 				required	: true,
 			},
+			'address[2][address]' : {
+				required	: true,
+			},
+			'address[1][city]' : {
+				required	: true,
+			},
+			'address[2][city]' : {
+				required	: true,
+			},
+			'address[1][province]' : {
+				required	: true,
+			},
+			'address[2][province]' : {
+				required	: true,
+			},
+			'address[2][postal_code]' : {
+				required	: true,
+			},
 			mobile_phone : {
 				required	: true,
 				maxlength: 20,
 				minlength: 10,
 			},
-			mobile_phone : {
+			email : {
+				required	: true,
+				email		: true,
+				remote		: 	{
+									url	: "<?php echo base_url().'authentication/login/emailvalidation'; ?>",
+									type: "post",
+									async: false,
+									data: {
+										email: function() {
+											return $( "#email" ).val();
+										},
+										id : '<?php echo $id; ?>'
+									}
+								}
+			},
+			home_phone : {
 				maxlength: 20,
 				minlength: 10,
+			},
+			company_name : {
+				required	: true,
+			},
+			'address[3][address]' : {
+				required	: true,
+			},
+			'address[3][suburb]' : {
+				required	: true,
+			},
+			'address[3][city]' : {
+				required	: true,
+			},
+			'address[3][province]' : {
+				required	: true,
+			},
+			'address[3][postal_code]' : {
+				required	: true,
+				number 	: true
+			}
 		},
 		{
 			title : {
@@ -925,9 +1023,6 @@ $(function(){
 			image1 : {
 				required	: "Identity Document field is required.",
 			},
-			image2 : {
-				required	: "Photo ID field is required.",
-			},
 			registration_card : {
 				required	: "Registration Card field is required.",
 			},
@@ -935,16 +1030,58 @@ $(function(){
 				required	: "Delivery_card field is required.",
 			},
 			'address[1][address]' : {
-				required	: "Address  field is required.",
+				required	: "Physical Address  field is required.",
+			},
+			'address[2][address]' : {
+				required	: "Postal Address  field is required.",
+			},
+			'address[2][city]' : {
+				required	: "Physical City  field is required.",
+			},
+			'address[2][city]' : {
+				required	: "Postal City field is required.",
+			},
+			'address[1][province]' : {
+				required	: "Physical Province field is required.",
+			},
+			'address[2][province]' : {
+				required	: "Postal Province field is required.",
+			},
+			'address[2][postal_code]' : {
+				required	: "Postal code field is required.",
 			},
 			mobile_phone : {
-				required	: "Mobile phone  field is required.",
+				required	: "Mobile phone field is required.",
 				maxlength: "Please Enter 20 Numbers Only.",
 				minlength: "Please Enter 10 Numbers Only.",
+			},
+			email : {
+				required: "Email field is required.",
+				required: "Email field already exists.",
 			},
 			home_phone : {
 				maxlength: "Please Enter 20 Numbers Only.",
 				minlength: "Please Enter 10 Numbers Only.",
+			},
+			company_name 	: {
+				required	: "Billing name field is required.",
+			},
+			'address[3][address]' 	: {
+				required	: "Address field is required.",
+			},
+			'address[3][suburb]' 	: {
+				required	: "Suburb field is required.",
+			},
+			'address[3][city]' 	: {
+				required	: "City field is required.",
+			},
+			'address[3][province]' 	: {
+				required	: "province field is required.",
+			},
+			'address[3][postal_code]' 	: {
+				required	: "Postal Code field is required.",
+				number 	: "Numbers Only",
+			}
 		},
 		{
 			ignore : '.test',
@@ -1017,10 +1154,14 @@ $(function(){
 	approve_show();
 	$('.app_checkbox input[type="checkbox"]').change(function(){
 		approve_show();
-});
+	});
 	reject_show();
 	$('.approve_box input[type="radio"]').change(function(){
 		reject_show();
+	});
+	specialisation_show();
+	$('#designation').change(function(){
+		specialisation_show();
 	});
 
 });
@@ -1185,6 +1326,7 @@ function approve_show(){
 	// checkbox_check_len = $('.app_checkbox checkbox').is(":checked").length;
 	// console.log(checkbox_len);
 	// console.log(checkbox_check_len);
+
 	if(checkbox_len==check_box_check_len){
 		$('.approve_box').show();
 	} else {
@@ -1205,4 +1347,14 @@ function reject_show(){
 	}
 }
 
+function specialisation_show(){
+	designation_val = $('#designation').val();
+	if(designation_val=='4' || designation_val=='5' || designation_val=='6'){
+		$('.specialisation_section').show();
+	} else {
+		$('.specialisation_section').hide();		
+	}
+}
+
 </script>
+
