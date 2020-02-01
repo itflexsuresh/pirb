@@ -1,19 +1,17 @@
 <?php
 	if(isset($result) && $result){
 		$id 			= $result['id'];
-		$name 			= (set_value('name')) ? set_value('name') : $result['name'];
-		$city  			= (set_value('city_name')) ? set_value('city_name') : $result['city_name'];
-		$suburb         = (set_value('suburb')) ? set_value('suburb') : $result['suburb'];
-		$status 		= (set_value('status')) ? set_value('status') : $result['status'];
-	
+		$province 		= (isset($result['province_id'])) ? $result['province_id'] : set_value('province');
+		$city 			= (isset($result['city_id'])) ? $result['city_id'] : set_value('city_id');
+		$suburb 		= (isset($result['name'])) ? $result['name'] : set_value('suburb');
+		$status 		= (isset($result['status'])) ? $result['status'] : set_value('status');
 		$heading		= 'Update';
 	}else{
 		$id 			= '';
-		$name			= set_value('name');
+		$province        = set_value('province');
 		$city           = set_value('city');
 		$suburb         = set_value('suburb');
 		$status			= set_value('status');
-		
 		$heading		= 'Save';
 	}
 ?>
@@ -38,36 +36,27 @@
 			<div class="card-body">
 				<h4 class="card-title">Managearea </h4>
 				<form class="mt-4 form" action="" method="post">
-					<!-- <div class="form-group">
-						<label for="installationtype_id">Managearea Type *</label>
-						<?php //echo form_dropdown('installationtype_id', $installationtypelist, $itid, ['id' => 'installationtype_id', 'class' => 'form-control']); ?> -->
-					<!-- </div> -->
 					 <div class="form-group col-6">
-						<label for="name">Province*</label>
-						 <input type="text" class="form-control" id="name" name="name" value="<?php echo $name; ?>"placeholder="Select">
-                        
+					 	<div class="form-group">
+						<label for="id">Province*</label>
+						<?php echo form_dropdown('province', $provincelist, $province, ['id' => 'province', 'class' => 'form-control province_name']); ?>
+                        </div>
 					</div>
                     <div class="form-group col-6">
-                    	
                         <input type="radio" class="radio-control box1" id="choice1" name="choice1" value="choice">
                         <label class="radio-button">New city</label>
 					
                         <input type="radio" class="radio-control" id="choice1" name="choice1" value="other" checked="checked" >
                         <label class="radio-button">Existing city</label>
-
-
 					</div>
 					<div class="existing-city" >
                     <div class="form-group col-6">
-						<label for="city">City*</label>
-						
-                         <input type="text"  class="form-control box" id="city" name="city"  value="<?php echo $city; ?>" placeholder="Select">
-                       
+						<label for="city">City</label>
+                        <?php echo form_dropdown('city', [], $city, ['id' => 'city', 'class' => 'form-control city_name']); ?>
 					</div>
 					<div class="form-group col-6">
-						<label class="Subrub">Subrub</label>
-                        <input type="text" class="form-control" id="suburb" name="suburb" value="<?php echo $suburb; ?>" placeholder="suburb">
-                        
+						<label class="Subrub">Suburb</label>
+                        <input type="text" class="form-control suburb" id="suburb" name="suburb" value="<?php echo $suburb; ?>" placeholder="suburb">
 					</div>
 					</div>
 					<div class="form-group col-6 new-city" style="display:none;">
@@ -95,8 +84,7 @@
 							<tr>
 								<th>Provice</th>
 								<th>City</th>
-								<th>Subrub</th>
-								<!-- <th>Status</th> -->
+								<th>Suburb</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -107,37 +95,18 @@
 		</div>
 	</div>
 </div>
-		
+<div class="suburb"></div>
 <script>
 	$(function(){
 
-	
-	$("input[type='radio']").change(function(){
-if($(this).val()=="other")
-{
-$(".new-city").hide();
-}else{
-	$(".new-city").show();
-}
+    	citysuburb(['<?php echo base_url()."ajax/index/ajaxcity"; ?>', {provinceid : $('.province_name').val()}, '.city_name', '<?php echo $city; ?>']);
 
-});
-	$("input[type='radio']").change(function(){
-if($(this).val()=="choice")
-{
-$(".existing-city").hide();
-}
-else
-{
-$(".existing-city").show(); 
-}
-});
 		var options = {
 			url 	: 	'<?php echo base_url()."admin/administration/managearea/managearea/DTManagearea"; ?>',
 			columns : 	[
-							{ "data": "name" },
+							{ "data": "province" },
                             {"data" :"city"},
-                            {"data" :"suburb"},
-							//{ "data": "status" },
+                            {"data" :"name"},
 							{ "data": "action" }
 						]
 		};
@@ -169,7 +138,7 @@ $(".existing-city").show();
 					required    : "Please Select the city",
 				},
 				suburb : {
-					required    : "Please enter the sub",
+					required    : "Please enter the suburb",
 				},
 				city1:{
 					required    :"Please enter the city",
@@ -178,7 +147,28 @@ $(".existing-city").show();
 
 			}
 		);
-		
+	});
+$("input[type='radio']").change(function(){
+if($(this).val()=="other")
+{
+$(".new-city").hide();
+}else{
+	$(".new-city").show();
+}
+});
+	$("input[type='radio']").change(function(){
+if($(this).val()=="choice")
+{
+$(".existing-city").hide();
+}
+else
+{
+$(".existing-city").show(); 
+}
+});
+
+	$('.province_name').on('change', function(){
+		citysuburb(['<?php echo base_url()."ajax/index/ajaxcity"; ?>', {provinceid : $(this).val()}, '#city']);	
 	});
 	
 	// Delete
@@ -189,7 +179,6 @@ $(".existing-city").show();
 							<input type="hidden" value="'+$(this).attr('data-id')+'" name="id">\
 							<input type="hidden" value="2" name="status">\
 						';
-						
 		sweetalert(action, data);
-	})
+	});
 </script>
