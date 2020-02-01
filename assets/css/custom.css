@@ -230,6 +230,11 @@ input#width_alignment {
     margin-top: 58px;
 }
 
+#electronic_coc_log {
+    margin-top: 58px;
+}
+
+
 .card-header button.btn.btn-link {width: 100%;text-align: left;color: #818284;text-decoration: none;}
 
 .card-header {
@@ -606,6 +611,27 @@ table.table th, table.table td {
 table.table {
     width: 98% !important;
     margin: 0 auto;
+}
+
+.nav.nav-tabs a.nav-link {
+    padding-left: 12px;
+    padding-right: 12px;
+    font-weight: 500;
+    padding-top: 10px;
+    padding-bottom: 9px;
+    color: #777978;
+}
+
+.nav.nav-tabs a.nav-link.active {
+    background-color: #aeba72;
+    color: #fff;
+    border-color: #aeba72;
+}
+
+.nav.nav-tabs a.nav-link:hover {color: #000;}
+
+.nav.nav-tabs a.nav-link.active:hover {
+    color: #fff;
 }
 
 
