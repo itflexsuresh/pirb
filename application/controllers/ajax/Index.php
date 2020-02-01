@@ -19,19 +19,19 @@ class Index extends CC_Controller
 		$result 		= $this->CC_Model->fileUpload('file', $path, $type);
 		echo json_encode($result);
 	}
-	// public function ajaxcity()
-	// {
-	// 	$post = $this->input->post();
-	// 	$result = $this->Managearea_Model->getListCity('all', $post);
+	public function ajaxcity()
+	{
+		$post = $this->input->post();
+		$result = $this->Managearea_Model->getListCity('all', $post);
 
-	// 	if(count($result)){
-	// 		$json = ['status' => '1', 'result' => $result];
-	// 	}else{
-	// 		$json = ['status' => '0', 'result' => []];
-	// 	}
+		if(count($result)){
+			$json = ['status' => '1', 'result' => $result];
+		}else{
+			$json = ['status' => '0', 'result' => []];
+		}
 
-	// 	echo json_encode($json);
-	// }
+		echo json_encode($json);
+	}
 
 	public function ajaxsuburb()
 	{
