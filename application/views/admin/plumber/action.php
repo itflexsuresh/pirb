@@ -5,7 +5,11 @@
 	
 	$titleid 				= isset($result['title']) ? $result['title'] : '';
 	$dob 					= isset($result['dob']) && $result['dob']!='1970-01-01' ? date('d-m-Y', strtotime($result['dob'])) : '';
+	$registered_date 		= isset($result['registered_date']) && $result['registered_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['registered_date'])) : '';
+
+	$renewal_date 			= isset($result['registered_date']) && $result['registered_date']!='1970-01-01' ? date('d-m-Y', strtotime(date("Y-m-d", strtotime($result['registered_date'])) . " + 1 year")) : '';
 	$name 					= isset($result['name']) ? $result['name'] : '';
+	// $name 					= isset($result['status']) ? $result['status'] : '';
 	$surname 				= isset($result['surname']) ? $result['surname'] : '';
 	$genderid 				= isset($result['gender']) ? $result['gender'] : '';
 	$racialid 				= isset($result['racial']) ? $result['racial'] : '';
@@ -95,7 +99,7 @@
 					<div class="col-md-6">
 						<form method="post" id="application_status">
 						<input type="hidden" value="<?php echo $id; ?>" name="user_id">
-						<div class="form-group">
+						<div class="form-group app_checkbox">
 							<?php
 							$application_status_id_arr = explode(',', $application_status_id);
 
@@ -126,7 +130,7 @@
 							?>
 	                                    
 	                    </div>
-	                    <div class="form-group">
+	                    <div class="form-group approve_box">
 		                    <div class="row">
 		                    		<div class="col-md-6">
 			                    		<label>Approval Status *</label>
@@ -147,9 +151,9 @@
 				                    </div>
 		                    </div>
 	                    </div>
-	                    <div class="form-group">
+	                    <div class="form-group reject_box">
 		                    <div class="row">
-		                    		<div class="col-md-6 rejection">
+		                    		<div class="col-md-6">
 			                    		<label>Reason for Rejection</label>
 			                    	</div>
 		                    		<div class="col-md-6">
@@ -193,6 +197,7 @@
 	                    <div class="form-group">
 	                    	<input type="hidden" name="usersdetailid" id="usersdetailid" value="<?php echo $usersdetailid; ?>">
 							<input type="hidden" name="usersplumberid" id="usersplumberid" value="<?php echo $usersplumberid; ?>">
+							<input type="hidden" value="<?php echo $id; ?>" name="user_id">							
 							<input type="submit" name="submit" value="submit" class="btn btn-primary">
 	                    </div>
 	                	</form>
@@ -201,16 +206,14 @@
 						<div class="form-group">
 							<label>Comments</label>
 							<?php
+
 							$comments_merge = '';
 							foreach($comments_result as $key=>$value){
-								$comments_merge .= $value['comments']."<br>";
+								$comment_date	= isset($value['created_at']) && $value['created_at']!='1970-01-01' ? date('d-m-Y', strtotime($value['created_at'])) : '';
+								$comments_merge .= $comment_date.' - Admin : '.trim($value['comments']).PHP_EOL;
 							}
 							?>
-							<textarea class="form-control" rows="5">
-							<?php 
-							echo $comments_merge;
-							?>								
-							</textarea>
+							<textarea class="form-control" rows="5"><?php echo $comments_merge; ?></textarea>
 						</div>
 						<form method="post" class="comments_section">
 							<input type="hidden" value="<?php echo $id; ?>" name="user_id">
@@ -225,6 +228,7 @@
 						</form>
 					</div>
 				</div>
+				<?php } ?>
 				<form class="mt-4 form plumber" action="" method="post">				
 				<div class="col-md-12">
 					<h4 class="card-title">Plumber register</h4>
@@ -233,7 +237,7 @@
 						<div class="col-md-12 add_full_width">
 							<div class="form-group">
 								<label>Registration Number</label>
-								<input type="text" class="form-control" name="reg_no" value="<?php echo $regno; ?>">								
+								<input type="text" class="form-control" name="reg_no" value="<?php echo $id; ?>" disabled>								
 							</div>
 						</div>
 					</div>
@@ -241,13 +245,13 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>First Registration Date</label>
-								<input type="text" class="form-control first_reg_date">								
+								<input type="text" class="form-control first_reg_date" value="<?php echo $registered_date; ?>" disabled>						
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Next Renewal Date</label>
-								<input type="text" class="form-control next_renewal_date">								
+								<input type="text" class="form-control next_renewal_date" value="<?php echo $renewal_date; ?>" disabled>			
 							</div>
 						</div>
 					</div>
@@ -328,7 +332,7 @@
                     		<input type="number" class="form-control" name="coc_purchase_limit" value="<?php echo $coc_purchase_limit ?>">
 						</div>
 						<div class="col-md-6">
-							<div class="custom-control custom-checkbox" id="electronic_coc_loging">
+							<div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="electronic_coc_log" name="electronic_coc_log" <?php echo $electronic_coc_log ?> value="1">
                                 <label class="custom-control-label" for="electronic_coc_log">Allow for Electronic COC's loging</label>
                             </div>
@@ -679,9 +683,7 @@
 									<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#skillmodal">Add Cert/Skill</button>
 								</div>
 								<input type="hidden" class="attachmenthidden" name="attachmenthidden"> 
-								<?php echo $criminalact; ?>
 							</div>
-							<button type="button" id="submit5" class="btn btn-primary">Save</button>
 					      </div>
 					    </div>
 					  </div>
@@ -713,7 +715,7 @@
 								<div class="form-group">
 									<label>Date of Qualification/Skill Obtained</label>
 									<div class="input-group">
-										<input type="text" class="form-control skill_date" name="skill_date">
+										<input type="text" class="form-control skill_date" name="skill_date" data-date='datepicker'>
 										<div class="input-group-append">
 											<span class="input-group-text"><i class="icon-calender"></i></span>
 										</div>
@@ -778,6 +780,20 @@ $(function(){
 	datepicker('.skill_date');
 	datepicker('.dob');
 	fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".photo_file", "./assets/uploads/plumber/<?php echo $id; ?>/",['jpg','gif','jpeg','png','pdf','tiff']], ['.photo', '.photo_image', '<?php echo base_url()."assets/uploads/plumber/".$id; ?>', '<?php echo base_url()."assets/images/pdf.png"?>']);
+	fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".skill_attachment_file", "./assets/uploads/plumber/<?php echo $id; ?>/",['jpg','gif','jpeg','png','pdf','tiff']], ['.skill_attachment', '.skill_attachment_image', '<?php echo base_url()."assets/uploads/plumber/".$id; ?>', '<?php echo base_url()."assets/images/pdf.png"?>']);
+	
+	var nationality = '<?php echo $nationality; ?>';
+	othernationalityidcardbox(nationality);
+	
+	var registrationcard = '<?php echo $registrationcard; ?>';
+	deliverycardbox(registrationcard);
+	
+	var employmentdetails = '<?php echo $employmentdetailsid; ?>';
+	companydetailsbox(employmentdetails);
+
+	// var designationid = '<?php //	echo $designationid; ?>';
+	// if(designationid!='') $('input[name="designation"][value="'+designationid+'"]').prop('checked', true);
+	// designationattachment(designationid);
 
 	var skill = $.parseJSON('<?php echo json_encode($skills); ?>');
 	if(skill.length > 0){
@@ -862,6 +878,9 @@ $(function(){
 				maxlength: 20,
 				minlength: 10,
 			},
+			mobile_phone : {
+				maxlength: 20,
+				minlength: 10,
 		},
 		{
 			title : {
@@ -920,6 +939,9 @@ $(function(){
 				maxlength: "Please Enter 20 Numbers Only.",
 				minlength: "Please Enter 10 Numbers Only.",
 			},
+			home_phone : {
+				maxlength: "Please Enter 20 Numbers Only.",
+				minlength: "Please Enter 10 Numbers Only.",
 		},
 		{
 			ignore : '.test',
@@ -989,6 +1011,15 @@ $(function(){
 		
 	})
 
+	approve_show();
+	$('.app_checkbox input[type="checkbox"]').change(function(){
+		approve_show();
+});
+	reject_show();
+	$('.approve_box input[type="radio"]').change(function(){
+		reject_show();
+	});
+
 });
 
 
@@ -1057,7 +1088,9 @@ function skills(data){
 		var result 		= 	data.result; 
 		$(document).find('.skillappend[data-id="'+result.id+'"]').remove();
 		
-		var attachment	= 	(result.attachment!='') ? '<img src="'+filepath+(result.attachment)+'" width="50">' : '';
+		// var attachment	= 	(result.attachment!='') ? '<img src="'+filepath+(result.attachment)+'" width="50">' : '';
+		var attachment	= 	(result.attachment!='') ? result.attachment : '';
+
 		var appenddata 	= 	'\
 								<tr class="skillappend" data-id="'+result.id+'">\
 									<td>'+formatdate(result.date,1)+'</td>\
@@ -1093,7 +1126,14 @@ function skillsedit(data){
 		$('.skill_route').val(result.skills);
 		$('.skill_training').val(result.training);
 		$('.skill_attachment').val(result.attachment);
-		if(result.attachment!='') $('.skill_attachment_image').attr('src', filepath+(result.attachment));
+		if(result.attachment!=''){
+			var ext 		= result.attachment.split('.').pop().toLowerCase();
+			if(ext=='jpg' || ext=='jpeg' || ext=='png'){
+				$('.skill_attachment_image').attr('src', filepath+(result.attachment));	
+			}else if(ext=='pdf'){
+				$('.skill_attachment_image').attr('src', '<?php echo base_url()."assets/images/pdf.png"?>');	
+			}
+		}
 		$('.skill_id').val(result.id);
 		$('#skillmodal').modal('show');
 	} 
@@ -1109,7 +1149,10 @@ $(document).on('click', '.skillremove', function(){
 function skillsremove(data){}
 
 function skillsclear(){
-	$('.skill_date, .skill_certificate, .skill_route, .skill_training, .skill_attachment').val('');
+	$('form.skillform').find("input[type=text],input[type=hidden], textarea, select").val("");
+	$('form.skillform').find("p.error_class_1").remove();
+	$('form.skillform').find(".error_class_1").removeClass('error_class_1');
+	// $('.skill_date, .skill_certificate, .skill_route, .skill_training, .skill_attachment').val('');
 	$('.skill_attachment_image').attr("src", "<?php echo base_url().'assets/images/profile.jpg'; ?>");
 }
 
@@ -1122,6 +1165,41 @@ function skillsextras(){
 		$('.attachmenthidden').val('');
 	}	
 	
+}
+
+function approve_show(){
+	app_checkbox = $('.app_checkbox input[type="checkbox"]');
+	checkbox_len = app_checkbox.length;
+	check_box_check_len = 0;
+	app_checkbox.each(function(){
+		if($(this).prop('checked')==true){
+			check_box_check_len++;
+		}
+	});
+	// console.log(check_box_check_len);
+	// return false;
+
+	// checkbox_check_len = $('.app_checkbox checkbox').is(":checked").length;
+	// console.log(checkbox_len);
+	// console.log(checkbox_check_len);
+	if(checkbox_len==check_box_check_len){
+		$('.approve_box').show();
+	} else {
+		$('.approve_box').hide();		
+	}
+}
+
+function reject_show(){
+	approve_radio = $('.approve_box input[type="radio"]');
+	$('.reject_box').hide();
+	if(approve_radio.is(':visible')==true){
+		approve_status = $('.approve_box input[type="radio"]:checked').val();
+		if(approve_status=='2'){
+			$('.reject_box').show();
+		} else {
+			$('.reject_box').hide();		
+		}
+	}
 }
 
 </script>

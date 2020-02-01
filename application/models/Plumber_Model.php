@@ -4,7 +4,7 @@ class Plumber_Model extends CC_Model
 {
 	public function getList($type, $requestdata=[])
 	{ 
-		$usersdetail 	= ['ud.id as usersdetailid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.work_phone','ud.file1','ud.file2','ud.application_status','ud.reject_reason','ud.reject_reason_other'];
+		$usersdetail 	= ['ud.id as usersdetailid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.work_phone','ud.file1','ud.file2','ud.application_status','ud.registered_date','ud.reject_reason','ud.reject_reason_other'];
 		$usersplumber 	= ['up.id as usersplumberid','up.racial','up.nationality','up.othernationality','up.idcard','up.otheridcard','up.homelanguage','up.disability','up.citizen','up.registration_card','up.delivery_card','up.employment_details','up.company_details','up.designation','up.specialisations','up.coc_purchase_limit','up.electronic_coc_log','up.message'];
 		
 		$this->db->select('
@@ -29,6 +29,7 @@ class Plumber_Model extends CC_Model
 		
 		if(isset($requestdata['id'])) 			$this->db->where('u.id', $requestdata['id']);
 		if(isset($requestdata['idcard']) && $requestdata['idcard']!='')				$this->db->where('up.idcard', $requestdata['idcard']);
+		if(isset($requestdata['plumberstatus']) && $requestdata['plumberstatus']!='')				$this->db->where('u.status', $requestdata['plumberstatus']);
 		if(isset($requestdata['dob']) && $requestdata['dob']!='')					$this->db->where('ud.dob', date('Y-m-d',strtotime($requestdata['dob'])));
 		if(isset($requestdata['reg_no']) && $requestdata['reg_no']!='')				$this->db->where('ud.reg_no', $requestdata['reg_no']);
 		if(isset($requestdata['company_details']) && $requestdata['company_details']!='')				$this->db->where('up.company_details', $requestdata['company_details']);

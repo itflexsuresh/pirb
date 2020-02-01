@@ -7,6 +7,7 @@ class Index extends CC_Controller
 	{
 		parent::__construct();
 		$this->load->model('Plumber_Model');
+		$this->load->model('Comments_Model');
 	}
 	
 	public function index()
@@ -36,6 +37,9 @@ class Index extends CC_Controller
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
 			if($requestData['submit']=='submit'){
+				if(isset($requestData['comments'])){
+					$comments=  $this->Comments_Model->action($requestData);
+				}
 				$data 	=  $this->Plumber_Model->action($requestData);
 				if($data) $message = 'Plumber '.(($id=='') ? 'created' : 'updated').' successfully.';
 			}else{
@@ -65,6 +69,9 @@ class Index extends CC_Controller
 		$pagedata['citizen'] 			= $this->config->item('citizen');
 		$pagedata['deliverycard'] 		= $this->config->item('deliverycard');		
 		$pagedata['employmentdetail'] 	= $this->config->item('employmentdetail');
+		$pagedata['application_status']	= $this->config->item('application_status');
+		$pagedata['reject_reason']		= $this->config->item('reject_reason');
+		$pagedata['specialisations']	= $this->config->item('specialisations');
 		$pagedata['designation'] 		= $this->config->item('designation');
 		$pagedata['criminalact'] 		= $this->config->item('criminalact');
 		$pagedata['designation2'] 		= $this->config->item('designation2');
@@ -73,7 +80,9 @@ class Index extends CC_Controller
 		$pagedata['acknowledgement'] 	= $this->config->item('acknowledgement');
 		$pagedata['codeofconduct'] 		= $this->config->item('codeofconduct');
 		$pagedata['declaration'] 		= $this->config->item('declaration');
-		$pagedata['result'] 		= $this->Plumber_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
+		$pagedata['result'] 			= $this->Plumber_Model->getList('row', ['id' => $id, 'status' => ['0','1','3']]);
+		$pagedata['comments_result'] 	= $this->Comments_Model->getList('all', ['user_id' => $id]);
+		
 		// if(isset($_REQUEST['exit']) && $_REQUEST['exit']==1){
 		
 		// }
