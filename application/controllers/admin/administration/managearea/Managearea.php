@@ -79,4 +79,3 @@ class Managearea extends CC_Controller
 		echo json_encode($json);
 	}
 }
-

@@ -103,12 +103,12 @@ if(isset($result) && $result){
 						</div>
 					</div>
 				</form>
-				<div class="row m-t-40">
+				<div class="row">
 					<div class="col-md-6">
 						<a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index/1'; ?>" class="active_link_btn">Active</a>  <a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index/2'; ?>" class="archive_link_btn">Archive</a>
 					</div>					
 				</div>
-				<div id="active" class="table-responsive">
+				<div id="active" class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
 							<tr>

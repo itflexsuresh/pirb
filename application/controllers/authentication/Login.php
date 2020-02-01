@@ -84,7 +84,8 @@ class Login extends CC_Controller
 	}
 	
 	public function emailvalidation()
-	{
+	{	
+		echo "hihih"; exit;
 		$requestData 		= $this->input->post();
 		$requestData['id'] 	= isset($requestData['id']) ? $requestData['id'] : '';
 		$data 				= $this->Users_Model->emailvalidation($requestData);

@@ -102,7 +102,7 @@ class Managearea_Model extends CC_Model
 		$this->db->trans_begin();
 		
 		$delete 	= 	$this->db->update(
-							'suburb', 
+							'province', 
 							['status' => $status, 'name' => $name], 
 							['id' => $id]
 						);

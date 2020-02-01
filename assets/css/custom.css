@@ -150,8 +150,9 @@ button.btn.btn-primary, button.btn.btn-info.btn-lg, input.btn.btn-primary, butto
 
 .dataTables_length select, input[type="search"] {
     border: 1px solid rgba(0, 0, 0, 0.28);
-    padding: 5px;
+    padding: 6px;
     border-radius: 4px;
+    background-color: #fff;
 }
 
 .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
@@ -675,6 +676,7 @@ a.active_link_btn {
     background-color: #88745c;
     border-color: #88745c;
     box-shadow: 4px 4px 11px rgba(0, 0, 0, 0.51);
+    margin-left: 0px;
 }
 
 a.archive_link_btn {
