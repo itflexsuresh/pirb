@@ -1358,3 +1358,8 @@ function specialisation_show(){
 
 </script>
 
+<style type="text/css">
+.progress-circle span {
+    display: none;
+}
+</style>
