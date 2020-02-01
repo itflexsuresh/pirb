@@ -102,9 +102,9 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Email</label>
-								<input type="email" class="form-control"  name="email" value="<?php echo $email; ?>">
+								<input type="email" class="form-control"  id="email" name="email" value="<?php echo $email; ?>">
 							</div>
-							<label style="color: red;white-space: nowrap;">Note: all emails notifications will be sent to this email address above</label>
+							<p>Note: all emails notifications will be sent to this email address above</p>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
@@ -123,7 +123,7 @@
 								<label>Phone (Mobile)</label>
 								<input type="text" class="form-control"  name="mobile_phone" value="<?php echo $mobile; ?>">
 							</div>
-							<label style="color: red;white-space: nowrap;">Note: all SMS and OTP notifications will be sent to this mobile number above</label>
+							<p>Note: all SMS and OTP notifications will be sent to this mobile number above</p>
 						</div>
 					</div>
 
@@ -331,6 +331,16 @@
 				},
 				email : {
 					required	: true,
+					email		: true,
+					remote		: 	{
+										url	: "<?php echo base_url().'auditor/profile/index/emailvalidation'; ?>",
+										type: "post",
+										data: {
+											email: function() {
+												return $( "#email" ).val();
+											}
+										}
+									}
 					
 				},
 				pass : {
@@ -386,8 +396,8 @@
 					required	: "Please enter the ID"
 				},
 				email : {
-					required	: "Please enter the email"
-					
+					required	: "Please enter the email",
+					remote		: "Email already exists."
 				},
 				pass : {
 					required	: "Please enter the password"

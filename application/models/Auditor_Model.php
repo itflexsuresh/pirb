@@ -153,6 +153,23 @@ class Auditor_Model extends CC_Model
 		}
 	}
 
+	public function emailvalidation($data)
+	{
+		$id 	= $data['id'];
+		$email 	= $data['email'];
+		
+		$this->db->where('email', $email);
+		if($id!='') $this->db->where('id !=', $id);
+		$this->db->where('status !=', '5');
+		$query = $this->db->get('users');
+		
+		if($query->num_rows() > 0){
+			return 'false';
+		}else{
+			return 'true';
+		}
+	}
+	
 
 
 }
