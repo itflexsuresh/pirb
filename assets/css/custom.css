@@ -305,6 +305,7 @@ a {
 
 .skin-default .card.card-body .card-title {
     text-align: center;
+    width: 100%;
 }
 
 .skin-default .card.card-body button.btn.btn-success {
