@@ -27,6 +27,7 @@ class Plumber_Model extends CC_Model
 		$this->db->join('users_plumber_skill ups', 'ups.user_id=u.id', 'left');
 		$this->db->join('qualificationroute qr', 'qr.id=ups.skills', 'left');
 		
+		$this->db->where('u.type', '3');
 		if(isset($requestdata['id'])) 			$this->db->where('u.id', $requestdata['id']);
 		if(isset($requestdata['idcard']) && $requestdata['idcard']!='')				$this->db->where('up.idcard', $requestdata['idcard']);
 		if(isset($requestdata['plumberstatus']) && $requestdata['plumberstatus']!='')				$this->db->where('u.status', $requestdata['plumberstatus']);
