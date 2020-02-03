@@ -8,6 +8,7 @@ function baseurl(){
 	}
 }
 
+
 function datatables(selector, options={}){
 	$(selector).DataTable({
 		"searching"		: (options.search && options.search=='0') ? false : true,
