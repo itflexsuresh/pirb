@@ -92,7 +92,7 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<div class="col-md-12 breadcrumb_tab">
+				<div class="col-md-12">
 					<a href="javascript:void(0);" class="stepbar" data-id="1">Welcome</a>
 					<a href="javascript:void(0);" class="stepbar" data-id="2">Personal Details</a>
 					<a href="javascript:void(0);" class="stepbar" data-id="3">Billing Details</a>
@@ -101,60 +101,13 @@
 					<a href="javascript:void(0);" class="stepbar" data-id="6">Declaration</a>
 				</div>
 				
-				<div class="col-md-12 pagination">
+				<div class="col-md-12">
 					<a href="javascript:void(0);" id="previous">Previous</a>
-						<div class="progress-circle p10" data-id="1">
-						   <span>10%</span>
-						   <div class="left-half-clipper">
-						      <div class="first50-bar"></div>
-						      <div class="value-bar"></div>
-						   </div>
-						</div>
-
-						<div class="progress-circle p20" data-id="2">
-						   <span>20%</span>
-						   <div class="left-half-clipper">
-						      <div class="first50-bar"></div>
-						      <div class="value-bar"></div>
-						   </div>
-						</div>
-
-						<div class="progress-circle p40" data-id="3">
-						   <span>40%</span>
-						   <div class="left-half-clipper">
-						      <div class="first50-bar"></div>
-						      <div class="value-bar"></div>
-						   </div>
-						</div>
-
-						<div class="progress-circle over50 p60" data-id="4">
-						   <span>60%</span>
-						   <div class="left-half-clipper">
-						      <div class="first50-bar"></div>
-						      <div class="value-bar"></div>
-						   </div>
-						</div>
-
-						<div class="progress-circle over50 p80" data-id="5">
-						   <span>80%</span>
-						   <div class="left-half-clipper">
-						      <div class="first50-bar"></div>
-						      <div class="value-bar"></div>
-						   </div>
-						</div>
-
-						<div class="progress-circle over50 p100" data-id="6">
-						   <span>100%</span>
-						   <div class="left-half-clipper">
-						      <div class="first50-bar"></div>
-						      <div class="value-bar"></div>
-						   </div>
-						</div>
 					<a href="javascript:void(0);" id="next">Next</a>
 				</div>
 				
 				<div class="steps active" data-id="1">
-					<h4 class="card-title">Welcome</h4>
+					<h4 class="card-title">Registered Plumber Details</h4>
 					<p>
 						Donec augue enim, volutpat at ligula et, dictum laoreet sapien. Sed maximus feugiat tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla eu mollis leo, eu elementum nisl. Curabitur cursus turpis nibh, egestas efficitur diam tristique non. Proin faucibus erat ligula, nec interdum odio rhoncus vel. Nulla facilisi. Nulla vehicula felis lorem, sed molestie lacus maximus quis. Mauris dolor enim, fringilla ut porta sed, ullamcorper id quam. Integer in eleifend justo, quis cursus odio. Pellentesque fermentum sapien elit, aliquam rhoncus neque semper in. Duis id consequat nisl, vitae semper elit. Nulla tristique lorem sem, et pretium magna cursus sit amet. Maecenas malesuada fermentum mauris, at vestibulum arcu vulputate a.
 					</p>
@@ -217,7 +170,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="row add_top_value">
+						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>South African National *</label>
@@ -277,15 +230,14 @@
 									</div>
 							</div>
 						</div>
-						<div class="row add_top_value">
-							<div class="col-md-4">
+						<div class="row">
+							<div class="col-md-6">
 								<h4 class="card-title">Identity Document *</h4>
 								<div class="form-group">
 									<div>
 										<img src="<?php echo ($file1!='') ? $filepath.$file1 : base_url().'assets/images/profile.jpg'; ?>" class="document_image" width="100">
 									</div>
-									<input type="file" id="file" class="document_file">
-									<label for="file" class="choose_file">Choose File</label>
+									<input type="file" class="document_file">
 									<input type="hidden" name="image1" class="document" value="<?php echo $file1; ?>">
 									<p>(Image/File Size Smaller than 5mb)</p>
 								</div>
@@ -296,14 +248,13 @@
 									<div>
 										<img src="<?php echo ($file2!='') ? $filepath.$file2 : base_url().'assets/images/profile.jpg'; ?>" class="photo_image" width="100">
 									</div>
-									<input type="file" id="file" class="photo_file">
-									<label for="file" class="choose_file">Choose File</label>
+									<input type="file" class="photo_file">
 									<input type="hidden" name="image2" class="photo" value="<?php echo $file2; ?>">
 									<p>(Image/File Size Smaller than 5mb)</p>
 								</div>
 							</div>
-							<div class="col-md-5">
-								<ul class="file_up_points">
+							<div class="col-md-3">
+								<ul>
 									<li>Photos must be no more than 6 months old</li>
 									<li>Photos must be high quality</li>
 									<li>Photos must be in colour</li>
@@ -321,7 +272,7 @@
 						<h4 class="card-title">Registration Card</h4>
 						<p>Due to the high number of card returns and cost incurred the registration fees do not include a registration card. Registration cards are available but must be requested separately.  If registration card is selected you will be billed accordingly.</p>
 
-						<div class="row add_top_value">
+						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Registration Card Required *</label>
@@ -367,8 +318,10 @@
 								<div class="form-group">
 									<label>Suburb *</label>
 									<?php
-									echo form_dropdown('address[1][suburb]', [], $suburb1, ['id' => 'suburb', 'class'=>'form-control']);
+									// echo form_dropdown('address[1][suburb]', [], $suburb1, ['id' => 'suburb', 'class'=>'form-control']);
 									?> 
+									<input type="text" class="form-control" name="address[1][suburb]" value="<?php echo $suburb1; ?>">
+
 								</div>
 							</div>
 
@@ -383,7 +336,11 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>City *</label>
-									<?php echo form_dropdown('address[1][city]', [], $city1, ['id' => 'city', 'class' => 'form-control city_name']); ?>
+									<?php 
+									// echo form_dropdown('address[1][city]', [], $city1, ['id' => 'city', 'class' => 'form-control city_name']); 
+									?>
+									<input type="text" class="form-control" name="address[1][city]" value="<?php echo $city1; ?>">
+
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -420,7 +377,7 @@
 								</div>
 							</div>
 						</div>
-						<h4 class="card-title add_top_value">Contact Details</h4>
+						<h4 class="card-title">Contact Details</h4>
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
@@ -432,7 +389,7 @@
 								<div class="form-group">
 									<label>Mobile Phone *</label>
 									<input type="text" class="form-control" name="mobile_phone" value="<?php echo $mobilephone; ?>">
-									<p class="note">Note all SMS and OTP notifications will be sent to this mobile number above</p>
+									<p>Note all SMS and OTP notifications will be sent to this mobile number above</p>
 								</div>
 							</div>
 						</div>
@@ -447,13 +404,11 @@
 								<div class="form-group">
 									<label>Email Address *</label>
 									<input type="text" class="form-control" id="email" name="email" value="<?php echo $email; ?>">
-									<p class="note">Note: this email will be used as your user profile name and all emails notifications will be sent to it</p>
+									<p>Note: this email will be used as your user profile name and all emails notifications will be sent to it</p>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-12 text-right">
-							<button type="button" id="submit2" class="btn btn-primary">Save</button>
-						</div>
+						<button type="button" id="submit2" class="btn btn-primary">Save</button>
 					</form>
 				</div>
 				
@@ -490,19 +445,19 @@
 									<input type="text" class="form-control" name="address[3][address]" value="<?php echo $address3; ?>">
 								</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<div class="form-group">
 									<label>Suburb *</label>
 									<input type="text" class="form-control" name="address[3][suburb]" value="<?php echo $suburb3; ?>">
 								</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<div class="form-group">
 									<label>City *</label>
 									<input type="text" class="form-control" name="address[3][city]" value="<?php echo $city3; ?>">
 								</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<div class="form-group">
 									<label>Province *</label>
 									<?php
@@ -517,16 +472,14 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-12 text-right">
-							<button type="button" id="submit3" class="btn btn-primary">Save</button>
-						</div>
+						<button type="button" id="submit3" class="btn btn-primary">Save</button>
 					</form>
 				</div>
 				
 				<div class="steps displaynone" data-id="4">
 					<form class="form4">
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<h4 class="card-title">Employment Details</h4>
 								<div class="form-group">
 									<label>Your Employment Status</label>
@@ -535,21 +488,19 @@
 									?>
 								</div>
 							</div>
-							<div class="col-md-6 companydetailsbox">
+							<div class="col-md-12 companydetailsbox">
 								<h4 class="card-title">Company Details</h4>
 								<div class="form-group">
 									<label>Company *</label>
 									<?php
 									echo form_dropdown('company_details', $company, $companydetailsid,['class'=>'form-control']);
 									?>
-									<p class="note">If the Compnay does not appear on this listing please ask the company to Register with the PIRB.  Once they have been apporved and registered return to the listing and select the company</p>
+									<p>If the Compnay does not appear on this listing please ask the company to Register with the PIRB.  Once they have been apporved and registered return to the listing and select the company</p>
 									<a href="javascript:void(0)">Register Company with the PIRB</a>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-12 text-right">
-							<button type="button" id="submit4" class="btn btn-primary">Save</button>
-						</div>
+						<button type="button" id="submit4" class="btn btn-primary">Save</button>
 					</form>
 				</div>
 				
@@ -583,9 +534,7 @@
 							<input type="hidden" class="attachmenthidden" name="attachmenthidden"> 
 							<?php echo $criminalact; ?>
 						</div>
-						<div class="col-md-12">
-							<button type="button" id="submit5" class="btn btn-primary">Save</button>
-						</div>
+						<button type="button" id="submit5" class="btn btn-primary">Save</button>
 					</form>
 				</div>
 				
@@ -593,24 +542,24 @@
 					<form class="form6" method="post">
 						<div class="row">
 							<?php echo $registerprocedure; ?>
-							<label class="checkbox">
+							<div>
 								<input type="checkbox" name="registerprocedure">
-								<p>I declare that I have fully read and understood the Procedure of Registration</p>
-							</label>
+								I declare that I have fully read and understood the Procedure of Registration
+							</div>
 							<?php echo $acknowledgement; ?>
-							<label class="checkbox">
+							<div>
 								<input type="checkbox" name="acknowledgement">
-								<p>I declare that I have fully read and understood the Procedure of Acknowledgement</p>
-							</label>
+								I declare that I have fully read and understood the Procedure of Acknowledgement
+							</div>
 							<?php echo $codeofconduct; ?>
-							<label class="checkbox">
+							<div>
 								<input type="checkbox" name="codeofconduct">
-								<p>I declare that I have fully read and understood the PIRB's Code of Conduct</p>
-							</label>
-							<label class="checkbox">
+								I declare that I have fully read and understood the PIRB's Code of Conduct
+							</div>
+							<div>
 								<input type="checkbox" name="declaration">
-								<input type="text" class="declarationname" disabled><p>I identity number</p> <input type="text" class="declarationidno" disabled>
-							</label>
+								I <input type="text" class="declarationname" disabled> identity number <input type="text" class="declarationidno" disabled>
+							</div>
 							<?php echo $declaration; ?>
 							<div class="col-md-12 text-right">
 								<input type="hidden" name="usersdetailid" id="usersdetailid" value="<?php echo $usersdetailid; ?>">
@@ -1182,18 +1131,11 @@ $('.form'+i).removeClass('displaynone');
 	}
 })
 
-$('.progress-circle[data-id="1"]').addClass('active');	
-$('a.stepbar[data-id="1"]').addClass('active');
 $('.stepbar').click(function(){
 	var step = $(this).attr('data-id');
 	$('.steps.active').addClass('displaynone').removeClass('active');
 	$('.steps[data-id="'+step+'"]').removeClass('displaynone').addClass('active');
-
-	$('.stepbar.active').addClass('un_active').removeClass('active');	
-	$('.stepbar[data-id="'+step+'"]').removeClass('un_active').addClass('active');	
-
-	$('.progress-circle.active').addClass('prog_hide').removeClass('active');	
-	$('.progress-circle[data-id="'+step+'"]').removeClass('prog_hide').addClass('active');
+	
 	checkstep();
 })
 
@@ -1202,17 +1144,12 @@ $('#next').click(function(){
 	
 	if($('.steps.active form').length){
 		//var data = $('.steps.active form').serialize()+'&'+$.param({ 'usersdetailid': $('#usersdetailid').val(), 'usersplumberid': $('#usersplumberid').val() });
-		//ajax('<?php echo base_url()."/plumber/registration/index/ajaxregistration"; ?>', data, registration);
+		//ajax('<?php // echo base_url()."/plumber/registration/index/ajaxregistration"; ?>', data, registration);
 	}
 	
 	$('.steps.active').addClass('displaynone').removeClass('active');
 	$('.steps[data-id="'+step+'"]').removeClass('displaynone').addClass('active');
 	
-	$('.stepbar.active').addClass('un_active').removeClass('active');	
-	$('.stepbar[data-id="'+step+'"]').removeClass('un_active').addClass('active');	
-
-	$('.progress-circle.active').addClass('prog_hide').removeClass('active');	
-	$('.progress-circle[data-id="'+step+'"]').removeClass('prog_hide').addClass('active');
 	checkstep();
 })
 
@@ -1221,23 +1158,18 @@ $('#previous').click(function(){
 	$('.steps.active').addClass('displaynone').removeClass('active');
 	$('.steps[data-id="'+step+'"]').removeClass('displaynone').addClass('active');
 	
-	$('.stepbar.active').addClass('un_active').removeClass('active');	
-	$('.stepbar[data-id="'+step+'"]').removeClass('un_active').addClass('active');	
-	
-	$('.progress-circle.active').addClass('prog_hide').removeClass('active');	
-	$('.progress-circle[data-id="'+step+'"]').removeClass('prog_hide').addClass('active');
 	checkstep();
 })
 
 function checkstep(){
-	$('#next, #previous').removeClass('not_working');
+	$('#next, #previous').removeClass('displaynone');
 	
 	var step = $('.steps.active').attr('data-id');
 		
 	if(step=='1'){
-		$('#previous').addClass('not_working');
+		$('#previous').addClass('displaynone');
 	}else if(step=='6'){
-		$('#next').addClass('not_working');
+		$('#next').addClass('displaynone');
 		
 		$('.declarationname').val($('input[name="name"]').val());
 		$('.declarationidno').val($('input[name="idcard"]').val());
