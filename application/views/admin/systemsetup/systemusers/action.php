@@ -9,8 +9,8 @@
 		$type           = (set_value('type')) ? set_value('type') : $result['type'];
 		$comments       = (set_value('comments')) ? set_value('comments') : $result['comments'];
 		$status 		= (set_value('status')) ? set_value('status') : $result['status'];
-	    $read 		= (set_value('read')) 		? set_value('read') 			: $result['read_permission'];
-	$write 		= (set_value('write')) 		? set_value('write') 			: $result['write_permission'];
+	    $read 		    = (set_value('read')) 		? set_value('read') 			: $result['read_permission'];
+	    $write 		        = (set_value('write')) 		? set_value('write') 			: $result['write_permission'];
 		$heading		= 'Update';
 	}else{
 		$id 			= '';
@@ -73,8 +73,8 @@
 						<?php echo form_dropdown('type', $roletype, $role_id, ['id' => 'role_id', 'class' => 'form-control']); ?>
 				    </div>
 				    <div class="form-group col-md-6">
-						<label for="comments">Comments *</label>
-							<textarea class="form-control" id="comments" name="comments" placeholder="Enter the comments *"><?php echo $comments; ?></textarea>
+						<label for="comments">Comments </label>
+							<textarea class="form-control" id="comments" name="comments" placeholder="Enter the comments "><?php echo $comments; ?></textarea>
 					</div>
 				</div>
 
@@ -82,7 +82,7 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
-								<input type="checkbox" class="custom-control-input" name="status" id="status" <?php if($status=='1') echo 'checked'; ?> value="1">
+								<input type="checkbox" class="custom-control-input" name="status" id="status" <?php if($status=='1')echo 'checked'; ?> value="1">
 								<label class="custom-control-label" for="status">Active</label>
 							</div>
 						</div>
@@ -109,8 +109,8 @@
 						<tbody>
 							<tr style="background-color:lightgray">
 								<td ><?php echo $key;?></td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
+								<td>&nbsp;<input type="checkbox" name="checkbox"></td>
+								<td>&nbsp;<input type="checkbox" name="checkbox"></td>
 							</tr>
 							<?php // print_r($val); exit;
 							foreach($val as $k=>$v)
@@ -231,3 +231,7 @@
 		sweetalert(action, data);
 	})
 </script>
+
+
+
+
