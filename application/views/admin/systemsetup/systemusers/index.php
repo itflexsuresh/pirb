@@ -1,17 +1,17 @@
 <?php
-	if(isset($result) && $result){
-		$id 			= $result['id'];
-		$name 			= (set_value('name')) ? set_value('name') : $result['name'];
-		$status 		= (set_value('status')) ? set_value('status') : $result['status'];
+if(isset($result) && $result){
+	$id 			= $result['id'];
+	$name 			= (set_value('name')) ? set_value('name') : $result['name'];
+	$status 		= (set_value('status')) ? set_value('status') : $result['status'];
 	
-		$heading		= 'Update';
-	}else{
-		$id 			= '';
-		$name			= set_value('name');
-		$status			= set_value('status');
-		
-		$heading		= 'Add';
-	}
+	$heading		= 'Update';
+}else{
+	$id 			= '';
+	$name			= set_value('name');
+	$status			= set_value('status');
+
+	$heading		= 'Add';
+}
 ?>
 
 <div class="row page-titles">
@@ -47,54 +47,44 @@
 						</thead>
 					</table>
 				</div>
-
+				<div class="col-md-6 text-right">
+					<input type="hidden" name="id" value="<?php echo $id; ?>">
+					<button type="button" name="submit" value="submit" onclick="window.location.href='<?php echo base_url().'admin/systemsetup/systemusers/systemusers/action'; ?>';" class="btn btn-primary">Add Users</button>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
-		
+
 <script>
 	$(function(){
 		
 		var options = {
 			url 	: 	'<?php echo base_url()."admin/systemsetup/systemusers/systemusers/DTSystemusersList"; ?>',
 			columns : 	[
-							{ "data": "u_name" },
-							{ "data": "u_surname" },
-							{ "data": "u_type" },
-							{ "data": "u_email" },
-							{ "data": "u_password_raw" },							
-							{ "data": "action" }
-						]
+			{ "data": "u_name" },
+			{ "data": "u_surname" },
+			{ "data": "u_type" },
+			{ "data": "u_email" },
+			{ "data": "u_password_raw" },							
+			{ "data": "action" }
+			]
 		};
 		
-		ajaxdatatables('.datatables', options);
-		
-		validation(
-			'.form',
-			{
-				name : {
-					required	: true,
-				}
-			},
-			{
-				name 	: {
-					required	: "Installation Type field is required."
-				}
-			}
-		);
-		
+		ajaxdatatables('.datatables', options);	
 	});
+
 	
 	// Delete
 	
 	$(document).on('click', '.delete', function(){
 		var action 	= 	'<?php echo base_url().'admin/administration/installationtype'; ?>';
 		var data	= 	'\
-							<input type="hidden" value="'+$(this).attr('data-id')+'" name="id">\
-							<input type="hidden" value="2" name="status">\
-						';
-						
+		<input type="hidden" value="'+$(this).attr('data-id')+'" name="id">\
+		<input type="hidden" value="2" name="status">\
+		';
+
 		sweetalert(action, data);
 	})
 </script>
+
