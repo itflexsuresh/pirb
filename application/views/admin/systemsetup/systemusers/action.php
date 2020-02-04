@@ -103,16 +103,21 @@
 					if(count($permission_list) > 0)
 					{
 						foreach($permission_list as $key=>$val)
-						{
+						{  
+							$read_key=str_replace(' ', '', $key);
+  
 
 							?>
 						<tbody>
 							<tr style="background-color:lightgray">
 								<td ><?php echo $key;?></td>
-								<td>&nbsp;<input type="checkbox" name="checkbox"></td>
-								<td>&nbsp;<input type="checkbox" name="checkbox"></td>
+								<td>&nbsp;<input data-id="<?php echo $read_key.'_read';?>" type="checkbox" name="read[]" id="checkbox3" class="<?php echo $read_key.'_read';?> checkbox3"></td>
+								<td>&nbsp;<input data-id="<?php echo $read_key;?>" type="checkbox" name="checkbox" id="checkbox4" class="<?php echo $read_key;?> checkbox4"></td>
 							</tr>
-							<?php // print_r($val); exit;
+							<?php 
+
+                           
+							// print_r($val); exit;
 							foreach($val as $k=>$v)
 							{
 								?>
@@ -123,17 +128,19 @@
 								$write_permission = explode(',', $write);
 
 								if(in_array($v['id'],$read_permission))
-								{ ?>
-								<td><input checked="checked" type="checkbox" name="read[]" value="<?php echo $v['id'];?>"></td>	
+								{ 
+
+									?>
+								<td><input data-id="<?php echo $read_key.'_read';?>" class="<?php echo $read_key.'_read';?>"  checked="checked" type="checkbox" name="read[]" value="<?php echo $v['id'];?>"></td>	
 								<?php } else { ?>
-								<td><input type="checkbox" name="read[]" value="<?php echo $v['id'];?>"></td>
+								<td><input  class="<?php echo $read_key.'_read';?>" type="checkbox" name="read[]" value="<?php echo $v['id'];?>"></td>
 							<?php }
 								if(in_array($v['id'],$write_permission))
 								{
 								 ?>							
-								<td><input checked="checked" type="checkbox" name="write[]" value="<?php echo $v['id'];?>"></td>
+								<td><input data-id="<?php echo $read_key;?>" class="<?php echo $read_key;?> write_key" checked="checked" type="checkbox" name="write[]" value="<?php echo $v['id'];?>"></td>
 							<?php } else { ?>
- 								<td><input type="checkbox" name="write[]" value="<?php echo $v['id'];?>"></td>
+ 								<td><input data-id="<?php echo $read_key;?>" class="<?php echo $read_key;?> write_key" type="checkbox" name="write[]" value="<?php echo $v['id'];?>"></td>
 						<?php	} ?>
 							</tr>
 								<?php
@@ -169,6 +176,7 @@
 			{
 				name : {
 					required	: true,
+					
 				},
 				surname:{
 					required    : true,
@@ -229,9 +237,53 @@
 						';
 						
 		sweetalert(action, data);
-	})
+	});
+
+	$(document).ready(function(){
+
+    $(".checkbox3").click(function(){
+    var c = $(this).attr("data-id");
+    // alert(c);
+
+// alert($(this).prop("checked"));
+
+    if( $(this).prop("checked")==true){
+    
+   
+     $("."+c).prop("checked", true);
+    }else{
+    
+    	 $("."+c).prop("checked", false);
+   /*  $("."+c+"_read").prop("checked",true);
+     $("."+c).prop("checked",true);*/
+    }
+    });
+
+
+    $(".checkbox4").click(function(){
+    var c = $(this).attr("data-id");
+     if( $("."+c+"_read").prop("checked")==false){
+     $("."+c+"_read").prop("checked", true);
+     $("."+c).prop("checked", true);
+    }else{
+     $("."+c+"_read").prop("checked", false);
+     $("."+c).prop("checked", false);
+    }
+    
+    
+    });
+
+    $(".write_key").click(function(){
+    
+   if($(this).closest('tr').find("input[name='read[]']").prop('checked')==false) {
+   $(this).closest('tr').find("input[name='read[]']").prop('checked', true);
+   }else{
+    $(this).closest('tr').find("input[name='read[]']").prop('checked', false);
+   };
+    
+    });
+
+   
+});
 </script>
-
-
-
 
