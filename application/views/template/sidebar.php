@@ -8,41 +8,35 @@ $flag = $userdata['flag'];
 		<nav class="sidebar-nav">
 			<ul id="sidebarnav">
 				<?php if($type=='1'){ ?>
-					<li class="setp one"> 
+					<li> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Administration</span></a>
 						<ul aria-expanded="false" class="collapse">
 							<li><a href="<?php echo base_url().'admin/administration/installationtype'; ?>">Installation Type</a></li>
-							<li><a href="<?php echo base_url().'admin/administration/subtype'; ?>">Sub Type</a></li>
+								<li><a href="<?php echo base_url().'admin/administration/subtype'; ?>">Sub Type</a></li>
+							<li><a href="<?php echo base_url().'admin/cocstatement/papermanagement/index'; ?>">Paper Certificate Stock Management</a></li>	
 						</ul>
 					</li>
-					<li class="step two"> 
+					<li> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">System Setup</span></a>
 						<ul aria-expanded="false" class="collapse">
 							<li><a href="<?php echo base_url().'admin/systemsetup/rates/rates'; ?>">Rates</a></li>
-							<li><a href="<?php echo base_url().'admin/systemsetup/systemsettings/systemsettings'; ?>">System Settings</a></li>
 							<li><a href="<?php echo base_url().'admin/systemsetup/qualificationroutes/qualificationroute'; ?>">Qualification Routes</a></li>
 							<li><a href="<?php echo base_url().'admin/systemsetup/message/message'; ?>">Messages</a></li>
-							<li> 
-								<a href="javascript:void(0)" aria-expanded="false" class="sub_menu">Performance Settings</a>
-								<ul aria-expanded="false" class="collapse">
-									<li><a href="<?php echo base_url().'admin/systemsetup/performancesettings/plumberperformance'; ?>">Plumber Performance Settings</a></li>
-								</ul>
-							</li>
-						</ul>						
-					</li>
-					<li class="step three"> 
-						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">CPD</span></a>
-						<ul aria-expanded="false" class="collapse">
-							<li><a href="<?php echo base_url().'admin/cpd/cpdtypesetup'; ?>">CPD Types</a></li>							
 						</ul>
 					</li>
-					<li class="step four"> 
+					<li> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Plumber</span></a>
 						<ul aria-expanded="false" class="collapse">
 							<li><a href="<?php echo base_url().'admin/plumber/index'; ?>">Plumber</a></li>
 						</ul>
 					</li>
-					<li class="step five"> 
+					<li> 
+						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Auditor</span></a>
+						<ul aria-expanded="false" class="collapse">
+							<li><a href="<?php echo base_url().'auditor/profile/index'; ?>">My Profile</a></li>								
+						</ul>
+					</li>
+					<li> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Company</span></a>
 						<ul aria-expanded="false" class="collapse">
 							<li><a href="<?php echo base_url().'admin/company/index'; ?>">Company</a></li>
