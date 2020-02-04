@@ -14,7 +14,7 @@ $flag = $userdata['flag'];
 							<li><a href="<?php echo base_url().'admin/administration/installationtype'; ?>">Installation Type</a></li>
 								<li><a href="<?php echo base_url().'admin/administration/subtype'; ?>">Sub Type</a></li>
 								<li> 
-									<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><!-- <i class="ti-email"></i> --><span class="hide-menu">COC Management</span></a>
+									<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">COC Management</a>
 									<ul aria-expanded="false" class="collapse">
 										<li><a href="<?php echo base_url().'admin/cocstatement/papermanagement/index'; ?>">Paper Certificate Stock Management </a></li>								
 									</ul>
