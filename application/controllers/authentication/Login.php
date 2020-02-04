@@ -18,33 +18,29 @@ class Login extends CC_Controller
 			$requestData 	= $this->input->post();
 			
 			if($requestData['submit']=='login'){				
-				$data 			= $this->Users_Model->login($requestData);
+				$data = $this->Users_Model->login($requestData);
 				
-				if($data['status']=='1' || $data['status']=='3'){
-
-					$data = $this->Users_Model->getUserDetails('row', ['id' => $data['result']]);
-					
-					$status			= $data['status'];
-					$mailstatus		= $data['mailstatus'];
-					$id				= $data['id'];
-					
-					if($mailstatus=='1'){						
-						$this->session->set_userdata('userid', $id);						
-						$this->middleware('1');
-					}elseif($status=='0' && $mailstatus=='0'){
-						$this->session->set_flashdata('error', 'Please Verify Email.');
-					}else{	
-						$this->session->set_flashdata('error', 'Invalid Credentials.');
-					}
+				$data = $this->Users_Model->getUserDetails('row', ['id' => $data['result']]);
+				
+				$status			= $data['status'];
+				$mailstatus		= $data['mailstatus'];
+				$id				= $data['id'];
+				
+				if($mailstatus=='1'){						
+					$this->session->set_userdata('userid', $id);						
+					$this->middleware('1');
+				}elseif($mailstatus=='0'){
+					$this->session->set_flashdata('error', 'Please Verify Email.');
 				}else{	
 					$this->session->set_flashdata('error', 'Invalid Credentials.');
 				}
+				
 			}elseif($requestData['submit']=='register'){
 				$requestData['id'] 		= '';
 				$requestData['status'] 	= '0';
 				$requestData['type'] 	= '3';
 				$data 			= $this->Users_Model->actionUsers($requestData);
-				// echo $data;die;
+				
 				if($data){
 					$encryptid 	= 	$this->encryption->encrypt($data);
 					$subject 	= 	'Email Verification';

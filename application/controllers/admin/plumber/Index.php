@@ -7,23 +7,126 @@ class Index extends CC_Controller
 	{
 		parent::__construct();
 		$this->load->model('Plumber_Model');
-		$this->load->model('Comments_Model');
+		$this->load->model('Comment_Model');
+		$this->load->model('Systemsettings_Model');
 	}
 	
 	public function index()
 	{
-		
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['company'] 		= $this->getCompanyList();
 		$pagedata['plumberstatus'] 	= $this->config->item('plumberstatus');
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
+		
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'datepicker'];
 		$data['content'] 			= $this->load->view('admin/plumber/index', (isset($pagedata) ? $pagedata : ''), true);
+		
+		$this->layout2($data);		
+	}
+	
+	
+	public function DTPlumber()
+	{
+		$post 			= $this->input->post();
+
+		$totalcount 	= $this->Plumber_Model->getList('count', ['type' => '3', 'approvalstatus' => ['0','1'], 'status' => ['1']]+$post);
+		$results 		= $this->Plumber_Model->getList('all', ['type' => '3', 'approvalstatus' => ['0','1'], 'status' => ['1']]+$post);
+
+		$totalrecord 	= [];
+		if(count($results) > 0){
+			foreach($results as $result){
+				$designation 	= isset($this->config->item('designation2')[$result["designation"]]) ? $this->config->item('designation2')[$result["designation"]] : '';
+				$status 		= isset($this->config->item('plumberstatus')[$result["plumberstatus"]]) ? $this->config->item('plumberstatus')[$result["plumberstatus"]] : '';
+
+				$totalrecord[] = 	[
+										'reg_no' 		=> 	$result['registration_no'],
+										'name' 			=> 	$result['name'],
+										'surname' 		=> 	$result['surname'],
+										'designation' 	=> 	$designation,
+										'email' 		=> 	$result['email'],
+										'status' 		=> 	$status,
+										'action'		=> 	'
+																<div class="table-action">
+																	<a href="'.base_url().'admin/plumber/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+																</div>
+															'
+									];
+			}
+		}
+		
+		$json = array(
+			"draw"            => intval($post['draw']),   
+			"recordsTotal"    => intval($totalcount),  
+			"recordsFiltered" => intval($totalcount),
+			"data"            => $totalrecord
+		);
+
+		echo json_encode($json);
+	}
+	
+	public function action($id)
+	{
+		$result = $this->Plumber_Model->getList('row', ['id' => $id, 'type' => '3', 'approvalstatus' => ['0','1'], 'status' => ['1']]);
+		if(!$result){
+			redirect('admin/plumber/index');
+		}
+		
+		if($this->input->post()){
+			$requestData 			= 	$this->input->post();
+			$requestData['user_id'] = 	$id;
+			
+			$plumberdata 	=  $this->Plumber_Model->action($requestData);
+				
+			if(isset($requestData['submit']) && $requestData['submit']=='approvalsubmit'){
+				$commentdata 	=  $this->Comment_Model->action($requestData);				
+			}
+			
+			if($plumberdata || (isset($commentdata) && $commentdata)){
+				$data		= '1';
+				$message 	= 'Plumber '.(($id=='') ? 'created' : 'updated').' successfully.';
+			}
+			
+			if(isset($data)) $this->session->set_flashdata('success', $message);
+			else $this->session->set_flashdata('error', 'Try Later.');
+			
+			redirect('admin/plumber/index'); 
+		}
+		
+		$userid			= 	$result['id'];
+		
+		$pagedata['notification'] 		= $this->getNotification();
+		$pagedata['province'] 			= $this->getProvinceList();
+		$pagedata['qualificationroute'] = $this->getQualificationRouteList();
+		$pagedata['plumberrates'] 		= $this->getPlumberRates();
+		$pagedata['company'] 			= $this->getCompanyList();
+		
+		$pagedata['titlesign'] 			= $this->config->item('titlesign');
+		$pagedata['gender'] 			= $this->config->item('gender');
+		$pagedata['racial'] 			= $this->config->item('racial');
+		$pagedata['yesno'] 				= $this->config->item('yesno');
+		$pagedata['othernationality'] 	= $this->config->item('othernationality');
+		$pagedata['homelanguage'] 		= $this->config->item('homelanguage');
+		$pagedata['disability'] 		= $this->config->item('disability');
+		$pagedata['citizen'] 			= $this->config->item('citizen');
+		$pagedata['deliverycard'] 		= $this->config->item('deliverycard');
+		$pagedata['employmentdetail'] 	= $this->config->item('employmentdetail');
+		$pagedata['userid'] 			= $userid;
+		$pagedata['result'] 			= $result;
+		
+		$pagedata['designation2'] 		= $this->config->item('designation2');
+		$pagedata['applicationstatus'] 	= $this->config->item('applicationstatus');
+		$pagedata['approvalstatus'] 	= $this->config->item('approvalstatus');
+		$pagedata['rejectreason'] 		= $this->config->item('rejectreason');
+		$pagedata['plumberstatus'] 		= $this->config->item('plumberstatus');
+		$pagedata['specialisations'] 	= $this->config->item('specialisations');
+		$pagedata['comments'] 			= $this->Comment_Model->getList('all', ['user_id' => $id]);
+		$pagedata['defaultsettings'] 	= $this->Systemsettings_Model->getList('row');
+		
+		
+		$data['plugins']				= ['validation','datepicker'];
+		$data['content'] 				= $this->load->view('common/plumber', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 		
-	}
-
-	public function action($id='')
-	{
+		/*
 		// if($id!=''){
 		// 	$result = $this->Plumber_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
 		// 	if($result){
@@ -87,89 +190,9 @@ class Index extends CC_Controller
 		
 		// }
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
-		$data['content'] 			= $this->load->view('admin/plumber/action', (isset($pagedata) ? $pagedata : ''), true);
+		$data['content'] 			= $this->load->view('common/plumber', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
-	}
-	
-	public function DTPlumber()
-	{
-// 		print '<pre>';
-// print_r($this->config->item('designation2')[1]);
-// print '</pre>';
-// exit;
-		
-
-		$post 			= $this->input->post();
-		// $post['columns'][0]['search']['value'] = 98765432;
-
-		$totalcount 	= $this->Plumber_Model->getList('count', ['status' => ['0','1']]+$post);
-		//	$results 		= $this->Plumber_Model->getList('all', ['status' => ['0','1'],'search' =>['value'=>'admin']]+$post);
-		$results 		= $this->Plumber_Model->getList('all', ['status' => ['0','1']]+$post);
-
-		$totalrecord 	= [];
-		if(count($results) > 0){
-			foreach($results as $result){
-				// isset($this->config->item('designation2')[$result["designation"]]) ? $this->config->item('designation2')[$result["designation"]] : ''
-				// ;
-				$designation 				= isset($this->config->item('designation2')[$result["designation"]]) ? $this->config->item('designation2')[$result["designation"]] : '';
-				$status 				= isset($this->config->item('plumberstatus')[$result["status"]]) ? $this->config->item('plumberstatus')[$result["status"]] : '';
-
-				$totalrecord[] = 	[
-										'reg_no' 		=> 	$result['reg_no'],
-										'name' 			=> 	$result['name'],
-										'surname' 		=> 	$result['surname'],
-										//	'designation' 	=> 	$result['designation'],
-										'designation' 	=> 	$designation,
-										'email' 		=> 	$result['email'],
-										'status' 		=> 	$status,
-										'action'		=> 	'
-															<div class="table-action">
-																<a href="'.base_url().'admin/plumber/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-															</div>
-														'
-									];
-			}
-		}
-		
-		$json = array(
-			"draw"            => intval($post['draw']),   
-			"recordsTotal"    => intval($totalcount),  
-			"recordsFiltered" => intval($totalcount),
-			"data"            => $totalrecord
-		);
-
-		echo json_encode($json);
-	}
-
-	public function ajaxskillaction()
-	{
-		$post 				= $this->input->post();
-		print '<pre>';
-print_r($post);
-print '</pre>';
-exit;
-		
-		if(isset($post['action']) && $post['action']=='delete'){
-			$result = $this->Plumber_Model->deleteSkillList($post['skillid']);
-		}else{
-			$post['user_id'] 	= $this->getUserID();
-			if(isset($post['action']) && $post['action']=='edit'){
-				$result['skillid'] = $post['skillid'];
-			}else{
-				$result = $this->Plumber_Model->action($post);
-			}
-			
-			$result = $this->Plumber_Model->getSkillList('row', ['id' => $result['skillid']]);
-		}
-		
-		if($result){
-			// $result['date'] = date('d-m-Y',strtotime($result['date']));
-			$json = ['status' => '1', 'result' => $result];
-		}else{
-			$json = ['status' => '0'];
-		}
-		
-		echo json_encode($json);
+		*/
 	}
 }
 

@@ -8,17 +8,6 @@ $config['operator']	 				= 	'4';
 $config['licensed']	 				= 	'6';
 
 
-
-$config['plumberstatus'] 			= 	[
-											'' 	=> '',
-											'0' => 'Pending',
-											'1' => 'Active',
-											'2' => 'CPD Suspention',
-											'3' => 'Expired',
-											'4' => 'Deceased',
-											'5' => 'Resigned',
-										];
-
 $config['status'] 					= 	[
 											'' 	=> '',
 											'1' => 'Active',
@@ -81,7 +70,7 @@ $config['yesno'] 					= 	[
 											'2' => 'No'
 										];
 										
-$config['homelanguage'] 		= 	[
+$config['homelanguage'] 			= 	[
 											'1' => 'Afrikaans',
 											'2' => 'English',
 											'3' => 'isiNdebele',
@@ -98,7 +87,7 @@ $config['homelanguage'] 		= 	[
 											'14' => 'xiTsonga'
 										];	
 										
-$config['othernationality'] 			= 	[
+$config['othernationality'] 		= 	[
 											'1' => 'Angola',
 											'2' => 'Asian countries',
 											'3' => 'Australia Oceania countries',
@@ -237,12 +226,12 @@ $config['designation2'] 			= 	[
 											'1' => 'Learner Plumber',
 											'2' => 'Drain Technical Assistant Practitioner',
 											'3' => 'Technical Operator Practitioner',
-											'4' => 'Qualified Plumber',
-											'5' => 'Licensed Plumber',
+											'4' => 'Licensed Plumber',
+											'5' => 'Qualified Plumber',
 											'6' => 'Master Plumber'
 										];
 				
-$config['criminalact'] 				= 	'<div><input type="checkbox" name="criminalact" class="criminalact"> <span>I fully understand sumbitting a false qualification is a criminal act, which comes with a chance of jail time or a fine and anyone can report someone who does it.</span></div>';
+$config['criminalact'] 				= 	'<div><input type="checkbox" name="criminalact" class="criminalact" value="1"> <span>I fully understand sumbitting a false qualification is a criminal act, which comes with a chance of jail time or a fine and anyone can report someone who does it.</span></div>';
 
 $config['registerprocedure'] 		= 	'
 											<div class="des_points">
@@ -295,16 +284,41 @@ $config['codeofconduct'] 			= 	'
 $config['declaration'] 				= 	'
 											<div class="info_text">Declare that the information contained in this application, or attached by me to this application, is complete, accurate and true to the best of my knowledge. I further declare that by forwarding this completed application form to the PIRB I am acknowledging that I have read and fully understood what is required of me as a PIRB registered and professional plumber and that I adhere to all aims and objectives of the PIRB and the PIRB’s Plumber Code of Conduct. I give consent for enquiries for verification purposes to be made into any information I have given on this application.</div>
 										';
-		
-// $config['plumberstatus'] 			= 	[ 
-// 											'1' => 'Leak Detection',
-// 											'2' => 'Drain Cleaning',
-// 											'3' => 'Solar Water Heating',
-// 											'4' => 'Heat Pumps',
-// 											'5' => 'Gas',
-// 											'6' => 'Bathroom renovations'
-// 										];
-				
+
+
+$config['applicationstatus'] 		= 	[
+											'1' => 'ID Attached',
+											'2' => 'Qualification Verified',
+											'3' => 'Proof of Experience',
+											'4' => 'Declaration Signed',
+											'5' => 'Initial each page',
+											'6' => 'Photo Correct',
+											'7' => 'Company Details Correct',
+											'8' => 'Induction Completed',
+											'9' => 'Payment Recieved',
+										];
+
+$config['approvalstatus'] 			= 	[
+											'1' => 'Approve',
+											'2' => 'Reject'
+										];
+
+$config['rejectreason'] 			= 	[
+											'1' => 'No Supporting Evidence',
+											'2' => 'Cannot Verifiy Qualification/Certificates',
+											'3' => 'No Payment Recieved',
+											'4' => 'Other',
+										];			
+
+
+$config['plumberstatus'] 			= 	[
+											'0' => 'Pending',
+											'1' => 'Active',
+											'2' => 'CPD Suspention',
+											'3' => 'Expired',
+											'4' => 'Deceased',
+											'5' => 'Resigned',
+										];
 										
 $config['worktype'] 				= 	[
 											'1' => 'Maintenance - Residential',
@@ -324,13 +338,7 @@ $config['specialization'] 			= 	[
 											'5' => 'Gas',
 											'6' => 'Bathroom renovations'
 										];					
-
-$config['reject_reason'] 			= 	[
-											'1' => 'No Supporting Evidence',
-											'2' => 'Cannot Verifiy Qualification/Certificates',
-											'3' => 'No Payment Recieved',
-											'4' => 'Other',
-										];										
+							
 
 $config['specialisations'] 			= 	[
 											'1' => 'Solar',
@@ -340,15 +348,3 @@ $config['specialisations'] 			= 	[
 											'5' => 'Plumbing Training Assessor',
 											'6' => 'Plumbing Arbitrator',
 										];			
-
-$config['application_status'] 			= 	[
-											'1' => 'ID Attached',
-											'2' => 'Qualification Verified',
-											'3' => 'Proof of Experience',
-											'4' => 'Declaration Signed',
-											'5' => 'Initial each page',
-											'6' => 'Photo Correct',
-											'7' => 'Company Details Correct',
-											'8' => 'Induction Completed',
-											'9' => 'Payment Recieved',
-										];

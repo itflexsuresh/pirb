@@ -154,31 +154,4 @@ class Systemsettings_Model extends CC_Model
 			return true;
 		}
 	}
-	
-	public function changestatus($data)
-	{
-		$userid		= 	$this->getUserID();
-		$id			= 	$data['id'];
-		$status		= 	$data['status'];
-		$datetime	= 	date('Y-m-d H:i:s');
-		
-		$this->db->trans_begin();
-		
-		$delete 	= 	$this->db->update(
-			'installationtype', 
-			['status' => $status, 'updated_at' => $datetime, 'updated_by' => $userid], 
-			['id' => $id]
-		);
-		
-		if(!$delete || $this->db->trans_status() === FALSE)
-		{
-			$this->db->trans_rollback();
-			return false;
-		}
-		else
-		{
-			$this->db->trans_commit();
-			return true;
-		}
-	}
 }

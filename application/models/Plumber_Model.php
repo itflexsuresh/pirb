@@ -4,13 +4,20 @@ class Plumber_Model extends CC_Model
 {
 	public function getList($type, $requestdata=[])
 	{ 
-		$usersdetail 	= ['ud.id as usersdetailid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.work_phone','ud.file1','ud.file2','ud.application_status','ud.registered_date','ud.reject_reason','ud.reject_reason_other'];
-		$usersplumber 	= ['up.id as usersplumberid','up.racial','up.nationality','up.othernationality','up.idcard','up.otheridcard','up.homelanguage','up.disability','up.citizen','up.registration_card','up.delivery_card','up.employment_details','up.company_details','up.designation','up.specialisations','up.coc_purchase_limit','up.electronic_coc_log','up.message'];
+		$users 			= 	[ 
+								'u.id','u.email','u.formstatus','u.status' 
+							];
+		$usersdetail 	= 	[ 
+								'ud.id as usersdetailid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2'
+							];
+		$usersplumber 	= 	[ 
+								'up.id as usersplumberid','up.racial','up.nationality','up.othernationality','up.idcard','up.otheridcard','up.homelanguage','up.disability','up.citizen','up.registration_card','up.delivery_card','up.employment_details','up.company_details',
+								'up.registration_no','up.registration_date','up.status as plumberstatus','up.designation','up.qualification_year','up.specialisations','up.coc_purchase_limit','up.coc_electronic','up.message',
+								'up.application_status','up.approval_status','up.reject_reason','up.reject_reason_other'
+							];
 		
 		$this->db->select('
-			u.id,
-			u.status,
-			u.email,
+			'.implode(',', $users).',
 			'.implode(',', $usersdetail).',
 			'.implode(',', $usersplumber).',
 			concat_ws("@-@", ua1.id, ua1.user_id, ua1.address, ua1.suburb, ua1.city, ua1.province, ua1.postal_code, ua1.type)  as physicaladdress,
@@ -27,16 +34,10 @@ class Plumber_Model extends CC_Model
 		$this->db->join('users_plumber_skill ups', 'ups.user_id=u.id', 'left');
 		$this->db->join('qualificationroute qr', 'qr.id=ups.skills', 'left');
 		
-		$this->db->where('u.type', '3');
-		if(isset($requestdata['id'])) 			$this->db->where('u.id', $requestdata['id']);
-		if(isset($requestdata['idcard']) && $requestdata['idcard']!='')				$this->db->where('up.idcard', $requestdata['idcard']);
-		if(isset($requestdata['plumberstatus']) && $requestdata['plumberstatus']!='')				$this->db->where('u.status', $requestdata['plumberstatus']);
-		if(isset($requestdata['dob']) && $requestdata['dob']!='')					$this->db->where('ud.dob', date('Y-m-d',strtotime($requestdata['dob'])));
-		if(isset($requestdata['reg_no']) && $requestdata['reg_no']!='')				$this->db->where('ud.reg_no', $requestdata['reg_no']);
-		if(isset($requestdata['company_details']) && $requestdata['company_details']!='')				$this->db->where('up.company_details', $requestdata['company_details']);
-		if(isset($requestdata['mobile_phone']) && $requestdata['mobile_phone']!='')	$this->db->where('ud.mobile_phone', $requestdata['mobile_phone']);
-		// if(isset($requestdata['mobile_phone'])) $this->db->where('ud.mobile_phone', $requestdata['mobile_phone']);
-		if(isset($requestdata['status']))		$this->db->where_in('u.status', $requestdata['status']);
+		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);
+		if(isset($requestdata['type'])) 				$this->db->where('u.type', $requestdata['type']);
+		if(isset($requestdata['approvalstatus']))		$this->db->where_in('up.approval_status', $requestdata['approvalstatus']);
+		if(isset($requestdata['status']))				$this->db->where_in('u.status', $requestdata['status']);
 		
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
@@ -48,6 +49,17 @@ class Plumber_Model extends CC_Model
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
 			$this->db->like('ud.name', $searchvalue);
+		}
+		
+		if(isset($requestdata['customsearch'])){
+			if($requestdata['customsearch']=='listsearch1'){
+				if(isset($requestdata['search_reg_no']) && $requestdata['search_reg_no']!='') $this->db->like('up.registration_no', $requestdata['search_reg_no']);
+				if(isset($requestdata['search_plumberstatus']) && $requestdata['search_plumberstatus']!='') $this->db->like('up.status', $requestdata['search_plumberstatus']);
+				if(isset($requestdata['search_idcard']) && $requestdata['search_idcard']!='') $this->db->like('up.idcard', $requestdata['search_idcard']);
+				if(isset($requestdata['search_mobile_phone']) && $requestdata['search_mobile_phone']!='') $this->db->like('ud.mobile_phone', $requestdata['search_mobile_phone']);
+				if(isset($requestdata['search_dob']) && $requestdata['search_dob']!='') $this->db->like('ud.dob', date('Y-m-d', strtotime($requestdata['search_dob'])));
+				if(isset($requestdata['search_company_details']) && $requestdata['search_company_details']!='') $this->db->like('up.company_details', $requestdata['search_company_details']);
+			}
 		}
 		
 		$this->db->group_by('u.id');
@@ -71,7 +83,6 @@ class Plumber_Model extends CC_Model
 		$datetime				= 	date('Y-m-d H:i:s');
 		$idarray				= 	[];
 		
-
 		if(isset($data['title'])) 				$request1['title'] 				= $data['title'];
 		if(isset($data['name'])) 				$request1['name'] 				= $data['name'];
 		if(isset($data['surname'])) 			$request1['surname'] 			= $data['surname'];
@@ -85,15 +96,6 @@ class Plumber_Model extends CC_Model
 		if(isset($data['work_phone'])) 			$request1['work_phone'] 		= $data['work_phone'];
 		if(isset($data['image1'])) 				$request1['file1'] 				= $data['image1'];
 		if(isset($data['image2'])) 				$request1['file2'] 				= $data['image2'];
-		if(isset($data['reject_reason_other'])) $request1['reject_reason_other']= $data['reject_reason_other'];
-		if(isset($data['status']) && $data['status']==3)	$request1['registered_date'] 	= date('Y-m-d');
-
-		if(isset($data['application_status'])){
-			$request1['application_status'] = implode(',',array_keys($data['application_status']));
-		}
-		if(isset($data['reject_reason'])){
-			$request1['reject_reason'] 		= implode(',',array_keys($data['reject_reason']));
-		}
 		
 		if(isset($request1)){
 			$usersdetailid	= 	$data['usersdetailid'];
@@ -110,24 +112,36 @@ class Plumber_Model extends CC_Model
 			$idarray['usersdetailid'] = $usersdetailinsertid;
 		}
 		
-		if(isset($data['racial'])) 				$request2['racial'] 			= $data['racial'];
-		if(isset($data['nationality'])) 		$request2['nationality'] 		= $data['nationality'];
-		if(isset($data['othernationality'])) 	$request2['othernationality'] 	= $data['othernationality'];
-		if(isset($data['idcard'])) 				$request2['idcard'] 			= $data['idcard'];
-		if(isset($data['otheridcard'])) 		$request2['otheridcard'] 		= $data['otheridcard'];
-		if(isset($data['homelanguage'])) 		$request2['homelanguage'] 		= $data['homelanguage'];
-		if(isset($data['disability'])) 			$request2['disability'] 		= $data['disability'];
-		if(isset($data['citizen'])) 			$request2['citizen'] 			= $data['citizen'];
-		if(isset($data['registration_card'])) 	$request2['registration_card'] 	= $data['registration_card'];
-		if(isset($data['delivery_card'])) 		$request2['delivery_card'] 		= $data['delivery_card'];
-		if(isset($data['employment_details'])) 	$request2['employment_details'] = $data['employment_details'];
-		if(isset($data['company_details'])) 	$request2['company_details'] 	= $data['company_details'];
-		if(isset($data['designation'])) 		$request2['designation'] 		= $data['designation'];
-		if(isset($data['message'])) 			$request2['message'] 		= $data['message'];
-		if(isset($data['electronic_coc_log'])) 		$request2['electronic_coc_log'] 		= $data['electronic_coc_log'];
-		if(isset($data['coc_purchase_limit'])) 		$request2['coc_purchase_limit'] 		= $data['coc_purchase_limit'];
-		if(isset($data['specialisations'])){
-			$request2['specialisations'] 		= implode(',',array_keys($data['specialisations']));
+		if(isset($data['racial'])) 				$request2['racial'] 				= $data['racial'];
+		if(isset($data['nationality'])) 		$request2['nationality'] 			= $data['nationality'];
+		if(isset($data['othernationality'])) 	$request2['othernationality'] 		= $data['othernationality'];
+		if(isset($data['idcard'])) 				$request2['idcard'] 				= $data['idcard'];
+		if(isset($data['otheridcard'])) 		$request2['otheridcard'] 			= $data['otheridcard'];
+		if(isset($data['homelanguage'])) 		$request2['homelanguage'] 			= $data['homelanguage'];
+		if(isset($data['disability'])) 			$request2['disability'] 			= $data['disability'];
+		if(isset($data['citizen'])) 			$request2['citizen'] 				= $data['citizen'];
+		if(isset($data['registration_card'])) 	$request2['registration_card'] 		= $data['registration_card'];
+		if(isset($data['delivery_card'])) 		$request2['delivery_card'] 			= $data['delivery_card'];
+		if(isset($data['employment_details'])) 	$request2['employment_details'] 	= $data['employment_details'];
+		if(isset($data['company_details'])) 	$request2['company_details'] 		= $data['company_details'];
+		if(isset($data['registration_no']) && $data['registration_no']=='') 	$request2['registration_no'] 		= $this->plumberregistrationno($data['designation2'], $data['qualification_year']);
+		if(isset($data['registration_date'])) 	$request2['registration_date'] 		= date('Y-m-d', strtotime($data['registration_date']));
+		if(isset($data['plumberstatus'])) 		$request2['status'] 				= $data['plumberstatus'];
+		if(isset($data['designation'])) 		$request2['designation'] 			= $data['designation'];
+		if(isset($data['designation2'])) 		$request2['designation'] 			= $data['designation2'];
+		if(isset($data['qualification_year'])) 	$request2['qualification_year'] 	= $data['qualification_year'];
+		if(isset($data['specialisations'])) 	$request2['specialisations'] 		= implode(',', $data['specialisations']);
+		if(isset($data['coc_purchase_limit'])) 	$request2['coc_purchase_limit']	 	= $data['coc_purchase_limit'];
+		if(isset($data['coc_electronic'])) 		$request2['coc_electronic'] 		= $data['coc_electronic'];
+		if(isset($data['message'])) 			$request2['message'] 				= $data['message'];
+		if(isset($data['application_status'])) 	$request2['application_status'] 	= implode(',', $data['application_status']);
+		if(isset($data['approval_status'])) 	$request2['approval_status'] 		= $data['approval_status'];
+		if(isset($data['reject_reason'])) 		$request2['reject_reason'] 			= implode(',', $data['reject_reason']);
+		if(isset($data['reject_reason_other'])) $request2['reject_reason_other']	= $data['reject_reason_other'];
+		
+		if(isset($data['approval_status']) && $data['approval_status']=='1'){
+			$request2['registration_date'] 	= date('Y-m-d');
+			$request2['status'] 			= '1';
 		}
 		
 		if(isset($request2)){
@@ -181,12 +195,11 @@ class Plumber_Model extends CC_Model
 			$idarray['skillid'] = $skillid;
 		}
 		
-		if(isset($data['flag'])) 		$request5['flag'] 	= $data['flag'];
-		if(isset($data['email'])) 		$request5['email'] 	= $data['email'];
-		if(isset($data['status'])) 		$request5['status'] 	= $data['status'];
+		if(isset($data['formstatus'])) 		$request5['formstatus'] 	= $data['formstatus'];
+		if(isset($data['email'])) 			$request5['email'] 			= $data['email'];
+		if(isset($data['status'])) 			$request5['status'] 		= $data['status'];
 		
 		if(isset($request5)){
-
 			if(isset($data['user_id'])){
 				$userid = $data['user_id'];	
 				$users = $this->db->update('users', $request5, ['id' => $userid]);
@@ -228,5 +241,22 @@ class Plumber_Model extends CC_Model
 	public function deleteSkillList($id)
 	{
 		return $this->db->where('id', $id)->delete('users_plumber_skill');
+	}
+	
+	public function plumberregistrationno($value, $year)
+	{
+		$count = $this->getList('count', ['type' => '3']);
+		
+		if($value=='1'){
+			$prefix = '/L';
+		}elseif($value=='2'){
+			$prefix = '/TA';
+		}elseif($value=='3'){
+			$prefix = '/TO';
+		}else{
+			$prefix = '/'.$year;
+		}
+		
+		return str_pad($count, 6, '0', STR_PAD_LEFT).$prefix;
 	}
 }

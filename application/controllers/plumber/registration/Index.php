@@ -11,14 +11,23 @@ class Index extends CC_Controller
 	
 	public function index()
 	{
-		$userid			= 	$this->getUserID();
-		$userdata		= 	$this->getUserDetails();
+		$userid		= 	$this->getUserID();
+		$result		= 	$this->Plumber_Model->getList('row', ['id' => $userid, 'status' => ['0','1']]);
+		
+		if(!$result){
+			redirect('admin/plumber/index');
+		}
+		
+		if($result['formstatus']=='1'){
+			redirect('plumber/profile/index'); 
+		}
 		
 		if($this->input->post()){
-			$requestData 			= 	$this->input->post();
-			$requestData['user_id'] = 	$userid;
-			$requestData['flag'] 	= 	'1';
-			$data 					=  	$this->Plumber_Model->action($requestData);
+			$requestData 				= 	$this->input->post();
+			$requestData['user_id']	 	= 	$userid;
+			$requestData['formstatus'] 	= 	'1';
+			$requestData['status'] 		= 	'1';
+			$data 						=  	$this->Plumber_Model->action($requestData);
 			
 			if(isset($data)) $this->session->set_flashdata('success', 'Waiting for approval');
 			else $this->session->set_flashdata('error', 'Try Later.');
@@ -50,8 +59,7 @@ class Index extends CC_Controller
 		$pagedata['codeofconduct'] 		= $this->config->item('codeofconduct');
 		$pagedata['declaration'] 		= $this->config->item('declaration');
 		$pagedata['userid'] 			= $userid;
-		$pagedata['userdata'] 			= $userdata;
-		$pagedata['result'] 			= $this->Plumber_Model->getList('row', ['id' => $userid, 'status' => ['0','1']]);
+		$pagedata['result'] 			= $result;
 		
 		$data['plugins']				= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
 		$data['content'] 				= $this->load->view('plumber/registration/index', (isset($pagedata) ? $pagedata : ''), true);
@@ -65,33 +73,6 @@ class Index extends CC_Controller
 		$result = $this->Plumber_Model->action($post);
 		
 		if($result){
-			$json = ['status' => '1', 'result' => $result];
-		}else{
-			$json = ['status' => '0'];
-		}
-		
-		echo json_encode($json);
-	}
-	
-	public function ajaxskillaction()
-	{
-		$post 				= $this->input->post();
-		
-		if(isset($post['action']) && $post['action']=='delete'){
-			$result = $this->Plumber_Model->deleteSkillList($post['skillid']);
-		}else{
-			$post['user_id'] 	= $this->getUserID();
-			if(isset($post['action']) && $post['action']=='edit'){
-				$result['skillid'] = $post['skillid'];
-			}else{
-				$result = $this->Plumber_Model->action($post);
-			}
-			
-			$result = $this->Plumber_Model->getSkillList('row', ['id' => $result['skillid']]);
-		}
-		
-		if($result){
-			// $result['date'] = date('d-m-Y',strtotime($result['date']));
 			$json = ['status' => '1', 'result' => $result];
 		}else{
 			$json = ['status' => '0'];

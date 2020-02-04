@@ -1,19 +1,3 @@
-<?php
-	// if(isset($result) && $result){
-	// 	$id 			= $result['id'];
-	// 	$name 			= (set_value('name')) ? set_value('name') : $result['name'];
-	// 	$status 		= (set_value('status')) ? set_value('status') : $result['status'];
-	
-	// 	$heading		= 'Update';
-	// }else{
-	// 	$id 			= '';
-	// 	$name			= set_value('name');
-	// 	$status			= set_value('status');
-		
-	// 	$heading		= 'Add';
-	// }
-?>
-
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
 		<h4 class="text-themecolor">Plumber Register</h4>
@@ -45,7 +29,7 @@
 							<div class="form-group">
 								<label>Status:</label>
 								<?php
-									echo form_dropdown('status', $plumberstatus, '', ['id'=>'plumberstatus', 'class'=>'form-control']);
+									echo form_dropdown('status', ['' => 'Select Status']+$plumberstatus, '', ['id'=>'plumberstatus', 'class'=>'form-control']);
 								?>
 							</div>
 						</div>
@@ -53,7 +37,7 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>Plumber Id Number:</label>
+								<label>Plumber ID Number:</label>
 								<input type="text" class="form-control" id="idcard" name="idcard" value="">
 							</div>
 						</div>
@@ -86,6 +70,7 @@
 						</div>
 					</div>
 				</form>
+				
 				<div class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
@@ -109,38 +94,19 @@
 		
 <script>
 	$(function(){
-		// idcard = $('#idcard').val();
 		datepicker('.dob');
-		data_table();
-		$('.search').on('click',function(){			
-			//	data_table.fnFilter( $("#input1").val(), '0' );
-			data_table(1);
-			//	ajaxdatatables('.datatables', options);
-		});
-		
-		// validation(
-		// 	'.form',
-		// 	{
-		// 		name : {
-		// 			required	: true,
-		// 		}
-		// 	},
-		// 	{
-		// 		name 	: {
-		// 			required	: "Plumber Register field is required."
-		// 		}
-		// 	}
-		// );
-
-		
+		datatable();
 	});
-
-	function data_table(destroy=0){
+	
+	$('.search').on('click',function(){		
+		datatable(1);
+	});
+	
+	function datatable(destroy=0){
 
 		var options = {
 			url 	: 	'<?php echo base_url()."admin/plumber/index/DTPlumber"; ?>',
-			// data    :   $('form').serialize(),  			
-			data    :   {reg_no:$('#reg_no').val(),plumberstatus:$('#plumberstatus').val(),idcard:$('#idcard').val(),mobile_phone:$('#mobile_phone').val(),dob:$('#dob').val(),company_details:$('#company_details').val()},  			
+			data    :   { customsearch : 'listsearch1', search_reg_no:$('#reg_no').val(), search_plumberstatus:$('#plumberstatus').val(), search_idcard:$('#idcard').val(), search_mobile_phone:$('#mobile_phone').val(), search_dob:$('#dob').val(), search_company_details:$('#company_details').val()},  			
 			destroy :   destroy,  			
 			columns : 	[
 							{ "data": "reg_no" },
