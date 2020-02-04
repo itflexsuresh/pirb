@@ -2,7 +2,7 @@ function baseurl(){
 	var base = window.location;
 
 	if(base.host=='localhost'){
-		return base.protocol + "//" + base.host + "/auditit_new/pirb/";
+		return base.protocol + "//" + base.host + "/nantha/pirb/";
 	}else{
 		return base.protocol + "//" + base.host + "/auditit_new/pirb/";
 	}
@@ -51,7 +51,11 @@ function validation(selector, rules, messages, extras=[])
 	validation['errorClass'] 		= 	(extras['errorClass']) ? extras['errorClass'] : 'error_class_1';
 	validation['ignore'] 			= 	(extras['ignore']) ? extras['ignore'] : ':hidden';
 	validation['errorPlacement']	= 	function(error, element) {
-											error.insertAfter(element);
+											if(element.attr('data-date') == 'datepicker'){
+												$(element).parent().parent().append(error);
+											}else{
+												error.insertAfter(element);
+											}
 										}
 										
 	var validator = $(selector).validate(validation);
@@ -210,13 +214,14 @@ function fileupload(data1=[], data2=[]){
 }
 
 function citysuburb(data1=[], data2=[]){
-
-	var cityurl 	= baseurl()+"ajax/index/ajaxcity";
-	var suburburl 	= baseurl()+"ajax/index/ajaxsuburb";
-
-	var citydata 	= { provinceid : $(data1[0]).val() };
-	var suburbdata  = { provinceid : $(data1[0]).val() };
-
+	var cityurl 		= baseurl()+"ajax/index/ajaxcity";
+	var suburburl 		= baseurl()+"ajax/index/ajaxsuburb";
+	
+	var cityappend		= data1[1].substr(1)+'append';
+	var suburbappend	= (data1[2]) ? data1[2].substr(1)+'append' : '';
+	
+	var citydata 		= { provinceid : $(data1[0]).val() };
+	
 	ajax(cityurl, citydata, city)
 
 	$(document).on('change', data1[0], function(){
@@ -225,36 +230,36 @@ function citysuburb(data1=[], data2=[]){
 	})
 
 	function city(data){
-		$('.cityappend').remove();
+		$('.'+cityappend).remove();
 
 		if(data.status=='1'){
 			var append = [];
 			$(data.result).each(function(i, v){
 				var selected = (data2[0] && data2[0]==v.id) ? 'selected="selected"' : '';
-				append.push('<option value="'+v.id+'" '+selected+' class="cityappend">'+v.name+'</option>');
+				append.push('<option value="'+v.id+'" '+selected+' class="'+cityappend+'">'+v.name+'</option>');
 			})
 
 			$(data1[1]).append(append);
-
-			suburbdata.cityid = $(data1[1]).val();
+			
+			var suburbdata  = { provinceid : $(data1[0]).val(), cityid : $(data1[1]).val() };
 			if(data1[2].length > 0) ajax(suburburl, suburbdata, suburb);
 		}
 	}
 
 	if(data1[2].length > 0){
 		$(document).on('change', data1[1], function(){
-			suburbdata.cityid = $(this).val();
+			var suburbdata  = { provinceid : $(data1[0]).val(), cityid : $(this).val() };
 			ajax(suburburl, suburbdata, suburb);
 		})
 
 		function suburb(data){
-			$('.suburbappend').remove();
+			$('.'+suburbappend).remove();
 
 			if(data.status=='1'){
 				var append = [];
 				$(data.result).each(function(i, v){
 					var selected = (data2[1] && data2[1]==v.id) ? 'selected="selected"' : '';
-					append.push('<option value="'+v.id+'" '+selected+' class="suburbappend">'+v.name+'</option>');
+					append.push('<option value="'+v.id+'" '+selected+' class="'+suburbappend+'">'+v.name+'</option>');
 				})
 
 				$(data1[2]).append(append);
