@@ -65,9 +65,9 @@ $count =  isset($result['ar']['total']) ? $result['ar']['total'] : set_value('co
 							</div>
 
 							<div class="row text-right">						
-								<div class="col-md-3">
+								
 									<button type="submit" name="submit" value="submit" class="btn btn-block btn-primary btn-rounded">Generate COC Stock</button>
-								</div>
+								
 							</div>	
 						</div>	
 						</div>															
