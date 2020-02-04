@@ -87,8 +87,8 @@ $count =  isset($result['ar']['total']) ? $result['ar']['total'] : set_value('co
 				{	
 					cocstock : {
 						required	: true,
-					}										
 
+					}
 				},
 
 				{
@@ -103,7 +103,7 @@ $count =  isset($result['ar']['total']) ? $result['ar']['total'] : set_value('co
 			{
 				ths_val = $(this).val();				
 				second = $('#range_start').val();
-				third = (parseInt(ths_val)+parseInt(second))-1;
+				third = (parseInt(ths_val)+parseInt(second));
 				$('#range_end').val(third);
 			});
 
