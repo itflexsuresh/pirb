@@ -39,10 +39,10 @@ class CC_Controller extends CI_Controller
 				if($userDetails['type']=='1'){
 					redirect('admin/administration/installationtype'); 
 				}elseif($userDetails['type']=='3'){
-					if($userDetails['flag']=='1') redirect('plumber/profile/index'); 
+					if($userDetails['formstatus']=='1') redirect('plumber/profile/index'); 
 					else redirect('plumber/registration/index'); 
 				}elseif($userDetails['type']=='4'){
-					if($userDetails['flag']=='1') redirect('company/profile/index'); 
+					if($userDetails['formstatus']=='1') redirect('company/profile/index'); 
 					else redirect('company/registration/company'); 
 				}elseif($userDetails['type']=='5'){
 					redirect('auditor/profile/index'); 
@@ -66,9 +66,9 @@ class CC_Controller extends CI_Controller
 		}
 	}
 	
-	public function getUserID()
+	public function getUserID($id='')
 	{
-		$userDetails = $this->getUserDetails();
+		$userDetails = $this->getUserDetails($id);
 		
 		if($userDetails){
 			return $userDetails['id'];
@@ -77,10 +77,15 @@ class CC_Controller extends CI_Controller
 		}
 	}
 	
-	public function getUserDetails()
+	public function getUserDetails($id='')
 	{
-		if($this->session->has_userdata('userid')){
+		if($id!=''){
+			$userid = $id;
+		}elseif($this->session->has_userdata('userid')){
 			$userid = $this->session->userdata('userid');
+		}
+		
+		if(isset($userid)){
 			$result = $this->Users_Model->getUserDetails('row', ['id' => $userid, 'status' => ['0','1','3']]);
 			
 			if($result){
