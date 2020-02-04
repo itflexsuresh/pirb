@@ -13,4 +13,10 @@ class Index extends CC_Controller
 		$data['content'] 	= $this->load->view('design/register', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
+
+	public function admin_cocstatement()
+	{
+		$data['content'] 	= $this->load->view('design/admin_cocstatement', (isset($pagedata) ? $pagedata : ''), true);
+		$this->layout2($data);
+	}
 }
