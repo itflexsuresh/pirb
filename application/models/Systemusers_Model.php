@@ -60,7 +60,6 @@ class Systemusers_Model extends CC_Model
 		if(isset($md5pass))   $request['password'] = $md5pass;
         if(isset($data['password']))   $request['password_raw'] = $data['password']; 
         if(isset($data['status']))   $request['status'] = $data['status'];
-        if(isset($data['email']))   $request1['email'] = $data['email'];
         if(isset($data['name']))   $request1['name'] = $data['name'];
         if(isset($data['surname']))     $request1['surname'] = $data['surname'];
         if(isset($data['comments']))   $request1['comments'] = $data['comments'];
