@@ -1,11 +1,8 @@
 <?php
-
-//	echo 'This is for test';
-
 	$usersdetailid 			= isset($result['usersdetailid']) ? $result['usersdetailid'] : '';
 	$usersplumberid 		= isset($result['usersplumberid']) ? $result['usersplumberid'] : '';
 	
-	$email 					= $userdata['email'];
+	$email 					= isset($result['email']) ? $result['email'] : '';
 	
 	$titleid 				= isset($result['title']) ? $result['title'] : '';
 	$dob 					= isset($result['dob']) && $result['dob']!='1970-01-01' ? date('d-m-Y', strtotime($result['dob'])) : '';
@@ -15,7 +12,7 @@
 	$racialid 				= isset($result['racial']) ? $result['racial'] : '';
 	$nationality 			= isset($result['nationality']) ? $result['nationality'] : '';
 	$idcard 				= isset($result['idcard']) ? $result['idcard'] : '';
-	$othernationalityid 		= isset($result['othernationality']) ? $result['othernationality'] : '';
+	$othernationalityid 	= isset($result['othernationality']) ? $result['othernationality'] : '';
 
 	$otheridcard 			= isset($result['otheridcard']) ? $result['otheridcard'] : '';
 	$homelanguageid 		= isset($result['homelanguage']) ? $result['homelanguage'] : '';
@@ -60,16 +57,6 @@
 	$postalcode3 			= isset($billingaddress[6]) ? $billingaddress[6] : '';
 
 	$skills 				= isset($result['skills']) ? array_filter(explode('@-@', $result['skills'])) : [];
-	// if($skills){
-	// 	foreach ($skills as $key => $value) {
-	// 		$exp_val = explode($value);
-	// 		$skills[$k] = date('d-m-Y',strtotime($exp_val[2]));
-	// 	}
-	// }
-// print '<pre>';
-// print_r($skills);
-// print '</pre>';
-// exit;
 	
 	$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/';
 ?>
@@ -277,7 +264,7 @@
 								<div class="form-group">
 									<label>Registration Card Required *</label>
 									<?php
-									echo form_dropdown('registration_card', $yesno, $registrationcard,['class'=>'form-control', 'id' => 'registration_card']);
+										echo form_dropdown('registration_card', $yesno, $registrationcard,['class'=>'form-control', 'id' => 'registration_card']);
 									?>
 									</div>
 							</div>
@@ -285,8 +272,7 @@
 								<div class="form-group">
 									<label>Method of Delivery of Card <span class="delivery_card_required">*</span></label>
 									<?php
-									
-									echo form_dropdown('delivery_card', $deliverycard, $deliverycardid,['class'=>'form-control']);
+										echo form_dropdown('delivery_card', $deliverycard, $deliverycardid,['class'=>'form-control']);
 									?>
 									</div>
 							</div>
@@ -314,21 +300,20 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Suburb *</label>
-									<?php
-									// echo form_dropdown('address[1][suburb]', [], $suburb1, ['id' => 'suburb', 'class'=>'form-control']);
-									?> 
-									<input type="text" class="form-control" name="address[1][suburb]" value="<?php echo $suburb1; ?>">
-
+							<div class="col-md-6">								
+								<div class="form-group"> 
+									<label>Province *</label>
+									<?php 
+										echo form_dropdown('address[1][province]', $province, $province1, ['id' => 'province1', 'class' => 'form-control']); 
+									?>
 								</div>
 							</div>
-
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Suburb *</label>
-									<input type="text" class="form-control" name="address[2][suburb]" value="<?php echo $suburb2; ?>">
+									<label>Province *</label>
+									<?php
+										echo form_dropdown('address[2][province]', $province, $province2, ['id' => 'province2', 'class'=>'form-control']);
+									?>
 								</div>
 							</div>
 						</div>
@@ -337,40 +322,40 @@
 								<div class="form-group">
 									<label>City *</label>
 									<?php 
-									// echo form_dropdown('address[1][city]', [], $city1, ['id' => 'city', 'class' => 'form-control city_name']); 
+										echo form_dropdown('address[1][city]', [], $city1, ['id' => 'city1', 'class' => 'form-control']); 
 									?>
-									<input type="text" class="form-control" name="address[1][city]" value="<?php echo $city1; ?>">
-
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>City *</label>
-									<input type="text" class="form-control" name="address[2][city]" value="<?php echo $city2; ?>">
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">								
-								<div class="form-group"> 
-									<label>Province *</label>
-									<?php echo form_dropdown('address[1][province]', $province, $province1, ['id' => 'province', 'class' => 'form-control province_name']); ?>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Province *</label>
-									<?php
-									echo form_dropdown('address[2][province]', $province, $province2,['class'=>'form-control']);
+									<?php 
+										echo form_dropdown('address[2][city]', [], $city2, ['id' => 'city2', 'class' => 'form-control']); 
 									?>
 								</div>
-
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6">
+								<div class="form-group">
+									<label>Suburb *</label>
+									<?php
+										echo form_dropdown('address[1][suburb]', [], $suburb1, ['id' => 'suburb1', 'class'=>'form-control']);
+									?>
+								</div>
 							</div>
+
 							<div class="col-md-6">
+								<div class="form-group">
+									<label>Suburb *</label>
+									<?php
+										echo form_dropdown('address[2][suburb]', [], $suburb2, ['id' => 'suburb2', 'class'=>'form-control']);
+									?>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 col-md-offset-6">
 								<div class="form-group">
 									<label>Postal Code *</label>
 									<input type="text" class="form-control" name="address[2][postal_code]" value="<?php echo $postalcode2; ?>">
@@ -447,21 +432,25 @@
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
-									<label>Suburb *</label>
-									<input type="text" class="form-control" name="address[3][suburb]" value="<?php echo $suburb3; ?>">
+									<label>Province *</label>
+									<?php
+										echo form_dropdown('address[3][province]', $province, $province3, ['id' => 'province3', 'class'=>'form-control']);
+									?>
 								</div>
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
 									<label>City *</label>
-									<input type="text" class="form-control" name="address[3][city]" value="<?php echo $city3; ?>">
+									<?php 
+										echo form_dropdown('address[3][city]', [], $city3, ['id' => 'city3', 'class' => 'form-control']); 
+									?>
 								</div>
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
-									<label>Province *</label>
-									<?php
-									echo form_dropdown('address[3][province]', $province, $province3,['class'=>'form-control']);
+									<label>Suburb *</label>
+									<?php 
+										echo form_dropdown('address[3][suburb]', [], $suburb3, ['id' => 'suburb3', 'class'=>'form-control']);
 									?>
 								</div>
 							</div>
@@ -484,7 +473,7 @@
 								<div class="form-group">
 									<label>Your Employment Status</label>
 									<?php
-									echo form_dropdown('employment_details', $employmentdetail, $employmentdetailsid,['class'=>'form-control', 'id' => 'employment_details']);
+										echo form_dropdown('employment_details', $employmentdetail, $employmentdetailsid,['class'=>'form-control', 'id' => 'employment_details']);
 									?>
 								</div>
 							</div>
@@ -493,7 +482,7 @@
 								<div class="form-group">
 									<label>Company *</label>
 									<?php
-									echo form_dropdown('company_details', $company, $companydetailsid,['class'=>'form-control']);
+										echo form_dropdown('company_details', $company, $companydetailsid,['class'=>'form-control']);
 									?>
 									<p>If the Compnay does not appear on this listing please ask the company to Register with the PIRB.  Once they have been apporved and registered return to the listing and select the company</p>
 									<a href="javascript:void(0)">Register Company with the PIRB</a>
@@ -528,7 +517,7 @@
 								</tr>
 								<tr class="skillnotfound"><td colspan="6">No Record Found</td></tr>
 							</table>
-							<div class="">
+							<div>
 								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#skillmodal">Add Cert/Skill</button>
 							</div>
 							<input type="hidden" class="attachmenthidden" name="attachmenthidden"> 
@@ -645,25 +634,29 @@
 
 <script type="text/javascript">
 
-var filepath = '<?php echo $filepath; ?>';
+var userid		= '<?php echo $userid; ?>';
+var filepath 	= '<?php echo $filepath; ?>';
+var ajaxfileurl	= '<?php echo base_url("ajax/index/ajaxfileupload"); ?>';
+var pdfimg		= '<?php echo base_url()."assets/images/pdf.png"?>';
 
 $(function(){
 	checkstep();
 	datepicker('.dob');
 	datepicker('.skill_date');
-	fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".document_file", "./assets/uploads/plumber/<?php echo $userid; ?>/",['jpg','gif','jpeg','png','pdf','tiff']], ['.document', '.document_image', '<?php echo base_url()."assets/uploads/plumber/".$userid; ?>' , '<?php echo base_url()."assets/images/pdf.png"?>']);
-	fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".photo_file", "./assets/uploads/plumber/<?php echo $userid; ?>/",['jpg','gif','jpeg','png','pdf','tiff']], ['.photo', '.photo_image', '<?php echo base_url()."assets/uploads/plumber/".$userid; ?>', '<?php echo base_url()."assets/images/pdf.png"?>']);
-	fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".skill_attachment_file", "./assets/uploads/plumber/<?php echo $userid; ?>/",['jpg','gif','jpeg','png','pdf','tiff']], ['.skill_attachment', '.skill_attachment_image', '<?php echo base_url()."assets/uploads/plumber/".$userid; ?>', '<?php echo base_url()."assets/images/pdf.png"?>']);
-
+	fileupload([ajaxfileurl, ".document_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf']], ['.document', '.document_image', filepath, pdfimg]);
+	fileupload([ajaxfileurl, ".photo_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf']], ['.photo', '.photo_image', filepath, pdfimg]);
+	fileupload([ajaxfileurl, ".skill_attachment_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf']], ['.skill_attachment', '.skill_attachment_image', filepath, pdfimg]);
+	citysuburb(['#province1','#city1', '#suburb1'], ['<?php echo $city1; ?>', '<?php echo $suburb1; ?>']);
+	citysuburb(['#province2','#city2', '#suburb2'], ['<?php echo $city2; ?>', '<?php echo $suburb2; ?>']);
+	citysuburb(['#province3','#city3', '#suburb3'], ['<?php echo $city3; ?>', '<?php echo $suburb3; ?>']);
 	
-	
-	var nationality = '<?php echo $nationality; ?>';
+	var nationality = $('#nationality').val();
 	othernationalityidcardbox(nationality);
 	
-	var registrationcard = '<?php echo $registrationcard; ?>';
+	var registrationcard = $('#registration_card').val();
 	deliverycardbox(registrationcard);
 	
-	var employmentdetails = '<?php echo $employmentdetailsid; ?>';
+	var employmentdetails = $('#employment_details').val();
 	companydetailsbox(employmentdetails);
 	
 	var designationid = '<?php echo $designationid; ?>';
@@ -705,20 +698,12 @@ $(function(){
 			},
 			othernationality : {
 				required:  	function() {
-								if($('#nationality').val() == "2"){
-									return true;
-								}else{
-									return false;
-								}
+								return $('#nationality').val() == "2";
 							}
 			},
 			otheridcard 	: {
 				required:  	function() {
-								if($('#nationality').val() == "2"){
-									return true;
-								}else{
-									return false;
-								}
+								return $('#nationality').val() == "2";
 							}
 			},
 			homelanguage : {
@@ -741,11 +726,7 @@ $(function(){
 			},
 			delivery_card : {
 				required:  	function() {
-								if($('#registration_card').val() == "1"){
-									return true;
-								}else{
-									return false;
-								}
+								return $('#registration_card').val() == "1";
 							}
 			},
 			'address[1][address]' : {
@@ -785,14 +766,12 @@ $(function(){
 				required	: true,
 				email		: true,
 				remote		: 	{
-									url	: "<?php echo base_url().'authentication/login/emailvalidation'; ?>",
-									type: "post",
-									data: {
-										email: function() {
-											return $( "#email" ).val();
-										},
-										id : '<?php echo $userid; ?>'
-									}
+									url		: 	"<?php echo base_url().'authentication/login/emailvalidation'; ?>",
+									type	: 	"post",
+									async	: 	false,
+									data	: 	{
+													id : userid
+												}
 								}
 			},
 			idcard : {
@@ -910,7 +889,7 @@ $(function(){
 
 		},
 		{
-			ignore : '.test'
+			ignore : []
 		}
 	);
 
@@ -955,11 +934,11 @@ $(function(){
 			},
 			'address[3][postal_code]' 	: {
 				required	: "Postal Code field is required.",
-				number 	: "Numbers Only",
+				number 		: "Numbers Only",
 			}
 		},
 		{
-			ignore : '.test'
+			ignore : []
 		}
 	);
 
@@ -968,11 +947,7 @@ $(function(){
 		{
 			company_details : {
 				required:  	function() {
-								if($('#employment_details').val() == "1"){
-									return true;
-								}else{
-									return false;
-								}
+								return $("#employment_details").val() == "4";
 							}
 			}
 		},
@@ -982,7 +957,7 @@ $(function(){
 			}
 		},
 		{
-			ignore : '.test',
+			ignore : [],
 		}
 	);
 	
@@ -994,20 +969,12 @@ $(function(){
 			},
 			attachmenthidden 	: {
 				required:  	function() {
-								if($('input[name="designation"]:checked').val() == "4"){
-									return true;
-								}else{
-									return false;
-								}
+								return $(".designation:checked").val() == "4";
 							}
 			},
 			criminalact 		: {
 				required:  	function() {
-								if($('input[name="designation"]:checked').val() == "4"){
-									return true;
-								}else{
-									return false;
-								}
+								return $(".designation:checked").val() == "4";
 							}
 			}
 		},
@@ -1023,7 +990,7 @@ $(function(){
 			}
 		},
 		{
-			ignore : ':hidden:not(.attachmenthidden)'
+			ignore : []
 		}
 	);
 	
@@ -1096,9 +1063,6 @@ $(function(){
 			}
 		}
 	);
-	// $('#skillmodal').on('hidden.bs.modal', function (e) {
-	//   skillsclear();
-	// })
 })
 
 $('#submit2,#submit3,#submit4,#submit5').click(function(){
@@ -1107,24 +1071,16 @@ $('#submit2,#submit3,#submit4,#submit5').click(function(){
 })
 
 $('#submit').click(function(e){
-	// console.log('f');
 	var formvalid = 0;
 	for(var i=2; i<=6; i++){
-// console.log(i)
-$('.form'+i).removeClass('displaynone');
 		if($('.form'+i).valid()==false){
-			// console.log('acs'+i);
-			$('.stepbar[data-id="'+i+'"]').click();
 			if(formvalid==0) formvalid = i; 
 		}
-		// else{
-		// 	console.log('as'+i);
-		// }
 	}
-// console.log(formvalid)
+	
 	if(formvalid==0){		
 		return true;
-	} else {
+	}else{
 		alert('Before submitting please check the form');
 		$('.stepbar[data-id="'+formvalid+'"]').click();
 		return false;
@@ -1141,11 +1097,6 @@ $('.stepbar').click(function(){
 
 $('#next').click(function(){
 	var step = parseInt($('.steps.active').attr('data-id'))+1;
-	
-	if($('.steps.active form').length){
-		//var data = $('.steps.active form').serialize()+'&'+$.param({ 'usersdetailid': $('#usersdetailid').val(), 'usersplumberid': $('#usersplumberid').val() });
-		//ajax('<?php // echo base_url()."/plumber/registration/index/ajaxregistration"; ?>', data, registration);
-	}
 	
 	$('.steps.active').addClass('displaynone').removeClass('active');
 	$('.steps[data-id="'+step+'"]').removeClass('displaynone').addClass('active');
@@ -1246,17 +1197,27 @@ $('.skillsubmit').click(function(){
 	if($('.skillform').valid())
 	{
 		var data = $('.skillform').serialize();
-		ajax('<?php echo base_url()."/plumber/registration/index/ajaxskillaction"; ?>', data, skills);
+		ajax('<?php echo base_url()."ajax/index/ajaxskillaction"; ?>', data, skills);
 	}
 })
 
 function skills(data){
 	if(data.status==1){		
 		var result 		= 	data.result; 
+		
 		$(document).find('.skillappend[data-id="'+result.id+'"]').remove();
 		
-		var attachment	= 	(result.attachment!='') ? result.attachment : '';
-		// var attachment	= 	(result.attachment!='') ? '<img src="'+filepath+(result.attachment)+'" width="50">' : '';
+		if(result.attachment!=''){
+			var ext 		= result.attachment.split('.').pop().toLowerCase();
+			if(ext=='jpg' || ext=='jpeg' || ext=='png'){
+				var attachment = '<img src="'+filepath+(result.attachment)+'" width="50">';
+			}else if(ext=='pdf'){
+				var attachment = '<?php echo base_url()."assets/images/pdf.png"?>';
+			}
+		}else{
+			var attachment = '';
+		} 
+		
 		var appenddata 	= 	'\
 								<tr class="skillappend" data-id="'+result.id+'">\
 									<td>'+formatdate(result.date,1)+'</td>\
@@ -1275,12 +1236,12 @@ function skills(data){
 	}
 	
 	$('#skillmodal').modal('hide');
-
+	
 	skillsextras();
 }
 
 $(document).on('click', '.skilledit', function(){
-	ajax('<?php echo base_url()."/plumber/registration/index/ajaxskillaction"; ?>', {'skillid' : $(this).attr('data-id'), 'action' : 'edit'}, skillsedit);
+	ajax('<?php echo base_url()."ajax/index/ajaxskillaction"; ?>', {'skillid' : $(this).attr('data-id'), 'action' : 'edit'}, skillsedit);
 })
 
 function skillsedit(data){
@@ -1292,6 +1253,7 @@ function skillsedit(data){
 		$('.skill_route').val(result.skills);
 		$('.skill_training').val(result.training);
 		$('.skill_attachment').val(result.attachment);
+		
 		if(result.attachment!=''){
 			var ext 		= result.attachment.split('.').pop().toLowerCase();
 			if(ext=='jpg' || ext=='jpeg' || ext=='png'){
@@ -1300,6 +1262,7 @@ function skillsedit(data){
 				$('.skill_attachment_image').attr('src', '<?php echo base_url()."assets/images/pdf.png"?>');	
 			}
 		} 
+		
 		$('.skill_id').val(result.id);
 		$('#skillmodal').modal('show');
 	} 
@@ -1307,20 +1270,22 @@ function skillsedit(data){
 
 
 $(document).on('click', '.skillremove', function(){
-	ajax('<?php echo base_url()."/plumber/registration/index/ajaxskillaction"; ?>', {'skillid' : $(this).attr('data-id'), 'action' : 'delete'}, skillsremove);
+	ajax('<?php echo base_url()."ajax/index/ajaxskillaction"; ?>', {'skillid' : $(this).attr('data-id'), 'action' : 'delete'}, skillsremove);
 	$(this).parent().parent().remove();
-	
 	skillsextras();
+	
+	$('.attachmenthidden').valid();
 })
 
 function skillsremove(data){}
 
 function skillsclear(){
-	$('form.skillform').find("input[type=text],input[type=hidden], textarea, select").val("");
-	$('form.skillform').find("p.error_class_1").remove();
-	$('form.skillform').find(".error_class_1").removeClass('error_class_1');
-	// $('.skill_date, .skill_certificate, .skill_route, .skill_training, .skill_attachment').val('');
+	$('.skill_date, .skill_certificate, .skill_route, .skill_training, .skill_attachment').val('');
 	$('.skill_attachment_image').attr("src", "<?php echo base_url().'assets/images/profile.jpg'; ?>");
+	$('.skillform').find("p.error_class_1").remove();
+	$('.skillform').find(".error_class_1").removeClass('error_class_1');
+	
+	$('.attachmenthidden').valid();
 }
 
 function skillsextras(){
@@ -1330,14 +1295,7 @@ function skillsextras(){
 	}else{
 		$('.skillnotfound').show();
 		$('.attachmenthidden').val('');
-	}	
-	
-	$('.form5').valid();
+	}
 }
-
-$('.province_name').on('change', function(){
-	citysuburb(['<?php echo base_url()."ajax/index/ajaxcity"; ?>', {provinceid : $("#province").val()}, '#city', '<?php echo $city1; ?>'], ['<?php echo base_url()."ajax/index/ajaxsuburb"; ?>', {provinceid : $("#province").val(),cityid : '<?php echo $city1; ?>'}, '#suburb', '<?php echo $suburb1; ?>']);
-});
-
 </script>
 
