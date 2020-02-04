@@ -72,18 +72,6 @@ class Paper_Model extends CC_Model
 			//print_r($userdata); exit;			
 			
 		}
-
-		if(isset($data['cocstock'])) 			$request1['stock'] 					= $data['cocstock'];
-		if(isset($data['range_start'])) 		$request1['range_start'] 			= $data['range_start'];
-		if(isset($data['range_end'])) 			$request1['range_end'] 				= $data['range_end'];
-		
-		if(isset($request1))
-		{	
-
-			$request1['created_at'] = $datetime;			
-			$userdata = $this->db->insert('paper_stock_management_log', $request1);
-		}
-
 		
 		if($this->db->trans_status() == FALSE)
 		{
