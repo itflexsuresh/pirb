@@ -59,6 +59,24 @@
 	$skills 				= isset($result['skills']) ? array_filter(explode('@-@', $result['skills'])) : [];
 	
 	$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/';
+	$pdfimg 				= base_url().'assets/images/pdf.png';
+	$profileimg 			= base_url().'assets/images/profile.jpg';
+	
+	if($file1!=''){
+		$explodefile1 	= explode('.', $file1);
+		$extfile1 		= array_pop($explodefile1);
+		$identityimg 	= (in_array($extfile1, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$file1;
+	}else{
+		$identityimg 	= $profileimg;
+	}
+	
+	if($file2!=''){
+		$explodefile2 	= explode('.', $file2);
+		$extfile2 		= array_pop($explodefile2);
+		$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$file2;
+	}else{
+		$photoidimg 	= $profileimg;
+	}
 ?>
 
 <div class="row page-titles">
@@ -222,7 +240,7 @@
 								<h4 class="card-title">Identity Document *</h4>
 								<div class="form-group">
 									<div>
-										<img src="<?php echo ($file1!='') ? $filepath.$file1 : base_url().'assets/images/profile.jpg'; ?>" class="document_image" width="100">
+										<img src="<?php echo $identityimg; ?>" class="document_image" width="100">
 									</div>
 									<input type="file" class="document_file">
 									<input type="hidden" name="image1" class="document" value="<?php echo $file1; ?>">
@@ -233,7 +251,7 @@
 								<h4 class="card-title">Photo ID *</h4>
 								<div class="form-group">
 									<div>
-										<img src="<?php echo ($file2!='') ? $filepath.$file2 : base_url().'assets/images/profile.jpg'; ?>" class="photo_image" width="100">
+										<img src="<?php echo $photoidimg; ?>" class="photo_image" width="100">
 									</div>
 									<input type="file" class="photo_file">
 									<input type="hidden" name="image2" class="photo" value="<?php echo $file2; ?>">
@@ -637,15 +655,15 @@
 var userid		= '<?php echo $userid; ?>';
 var filepath 	= '<?php echo $filepath; ?>';
 var ajaxfileurl	= '<?php echo base_url("ajax/index/ajaxfileupload"); ?>';
-var pdfimg		= '<?php echo base_url()."assets/images/pdf.png"?>';
+var pdfimg		= '<?php echo $pdfimg; ?>';
 
 $(function(){
 	checkstep();
 	datepicker('.dob');
 	datepicker('.skill_date');
-	fileupload([ajaxfileurl, ".document_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf']], ['.document', '.document_image', filepath, pdfimg]);
-	fileupload([ajaxfileurl, ".photo_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf']], ['.photo', '.photo_image', filepath, pdfimg]);
-	fileupload([ajaxfileurl, ".skill_attachment_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf']], ['.skill_attachment', '.skill_attachment_image', filepath, pdfimg]);
+	fileupload([ajaxfileurl, ".document_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.document', '.document_image', filepath, pdfimg]);
+	fileupload([ajaxfileurl, ".photo_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.photo', '.photo_image', filepath, pdfimg]);
+	fileupload([ajaxfileurl, ".skill_attachment_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.skill_attachment', '.skill_attachment_image', filepath, pdfimg]);
 	citysuburb(['#province1','#city1', '#suburb1'], ['<?php echo $city1; ?>', '<?php echo $suburb1; ?>']);
 	citysuburb(['#province2','#city2', '#suburb2'], ['<?php echo $city2; ?>', '<?php echo $suburb2; ?>']);
 	citysuburb(['#province3','#city3', '#suburb3'], ['<?php echo $city3; ?>', '<?php echo $suburb3; ?>']);
@@ -947,7 +965,7 @@ $(function(){
 		{
 			company_details : {
 				required:  	function() {
-								return $("#employment_details").val() == "4";
+								return $("#employment_details").val() == "1";
 							}
 			}
 		},
@@ -1079,6 +1097,11 @@ $('#submit').click(function(e){
 	}
 	
 	if(formvalid==0){		
+		for(var i=2; i<=5; i++){		
+			var data = $('#submit'+i).parent('form').serialize()+'&'+$.param({ 'usersdetailid': $('#usersdetailid').val(), 'usersplumberid': $('#usersplumberid').val() });
+			ajax('<?php echo base_url()."/plumber/registration/index/ajaxregistration"; ?>', data, registration, 'post', 'json', '', '', 1);				
+		}
+		
 		return true;
 	}else{
 		alert('Before submitting please check the form');

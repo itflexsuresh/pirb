@@ -59,6 +59,20 @@
 	$skills 				= isset($result['skills']) ? array_filter(explode('@-@', $result['skills'])) : [];
 	
 	$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/';
+	$pdfimg 				= base_url().'assets/images/pdf.png';
+	$profileimg 			= base_url().'assets/images/profile.jpg';
+	
+	$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/';
+	$pdfimg 				= base_url().'assets/images/pdf.png';
+	$profileimg 			= base_url().'assets/images/profile.jpg';
+	
+	if($file2!=''){
+		$explodefile2 	= explode('.', $file2);
+		$extfile2 		= array_pop($explodefile2);
+		$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$file2;
+	}else{
+		$photoidimg 	= $profileimg;
+	}
 	
 	$email2 				= isset($result['email2']) ? $result['email2'] : '';
 	$mobilephone2 			= isset($result['mobile_phone2']) ? $result['mobile_phone2'] : '';
@@ -422,7 +436,7 @@
 											<h4 class="card-title">Photo ID *</h4>
 											<div class="form-group">
 												<div>
-													<img src="<?php echo ($file2!='') ? $filepath.$file2 : base_url().'assets/images/profile.jpg'; ?>" class="photo_image" width="100">
+													<img src="<?php echo $photoidimg; ?>" class="photo_image" width="100">
 												</div>
 												<input type="file" class="photo_file">
 												<input type="hidden" name="image2" class="photo" value="<?php echo $file2; ?>">
@@ -714,7 +728,7 @@
 						</div>
 
 
-						<div class="card">
+						<div class="card qualification_tab_wrapper displaynone">
 							<div class="card-header" id="PlumbersQualificationCertificateDetails">
 								<h2 class="mb-0">
 									<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#tab5" aria-expanded="true" aria-controls="tab5">
@@ -831,7 +845,7 @@
 var userid		= '<?php echo $userid; ?>';
 var filepath 	= '<?php echo $filepath; ?>';
 var ajaxfileurl	= '<?php echo base_url("ajax/index/ajaxfileupload"); ?>';
-var pdfimg		= '<?php echo base_url()."assets/images/pdf.png"?>';
+var pdfimg		= '<?php echo $pdfimg; ?>';
 
 $(function(){
 	datepicker('.dob');
@@ -1010,7 +1024,7 @@ $(function(){
 			
 			company_details : {
 				required:  	function() {
-								return $("#employment_details").val() == "4";
+								return $("#employment_details").val() == "1";
 							}
 			},
 			
@@ -1411,9 +1425,11 @@ function designationcondition(value){
 	if(value=='4' || value=='5' || value=='6'){
 		$('.qualificationyear_wrapper').removeClass('displaynone');
 		$('.specialisations_wrapper').removeClass('displaynone');
+		$('.qualification_tab_wrapper').removeClass('displaynone');
 	}else{
 		$('.qualificationyear_wrapper').addClass('displaynone');
 		$('.specialisations_wrapper').addClass('displaynone');
+		$('.qualification_tab_wrapper').addClass('displaynone');
 	}	
 }
 

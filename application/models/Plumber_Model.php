@@ -36,8 +36,9 @@ class Plumber_Model extends CC_Model
 		
 		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);
 		if(isset($requestdata['type'])) 				$this->db->where('u.type', $requestdata['type']);
-		if(isset($requestdata['approvalstatus']))		$this->db->where_in('up.approval_status', $requestdata['approvalstatus']);
+		if(isset($requestdata['formstatus']))			$this->db->where_in('u.formstatus', $requestdata['formstatus']);
 		if(isset($requestdata['status']))				$this->db->where_in('u.status', $requestdata['status']);
+		if(isset($requestdata['approvalstatus']))		$this->db->where_in('up.approval_status', $requestdata['approvalstatus']);
 		
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
@@ -254,7 +255,7 @@ class Plumber_Model extends CC_Model
 		}elseif($value=='3'){
 			$prefix = '/TO';
 		}else{
-			$prefix = '/'.$year;
+			$prefix = '/'.substr($year, 2, 2);
 		}
 		
 		return str_pad($count, 6, '0', STR_PAD_LEFT).$prefix;
