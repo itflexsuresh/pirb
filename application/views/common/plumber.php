@@ -130,7 +130,7 @@
 									?>
 												<div class="col-md-6">
 													<div class="custom-control custom-checkbox">
-														<input type="checkbox" id="<?php echo $key.'-'.$value; ?>" class="custom-control-input" name="application_status[]" value="<?php echo $key; ?>" <?php echo (in_array($key, $application_status)) ? 'checked="checked"' : ''; ?>>
+														<input type="checkbox" id="<?php echo $key.'-'.$value; ?>" class="custom-control-input applicationstatus" name="application_status[]" value="<?php echo $key; ?>" <?php echo (in_array($key, $application_status)) ? 'checked="checked"' : ''; ?>>
 														<label class="custom-control-label" for="<?php echo $key.'-'.$value; ?>"><?php echo $value; ?></label>
 													</div>
 												</div>
@@ -590,7 +590,7 @@
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
-												<label>Secondary Mobile Phone *</label>
+												<label>Secondary Mobile Phone</label>
 												<input type="text" class="form-control" name="mobile_phone2" value="<?php echo $mobilephone2; ?>">
 											</div>
 										</div>
@@ -605,7 +605,7 @@
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
-												<label>Secondary Email Address *</label>
+												<label>Secondary Email Address</label>
 												<input type="text" class="form-control" name="email2" value="<?php echo $email2; ?>">
 											</div>
 										</div>
@@ -876,6 +876,7 @@ $(function(){
 	var approvalstatus = '<?php echo $approval_status; ?>';
 	rejectwrapper(approvalstatus);
 	
+	applicationstatus();
 	rejectother();
 	
 	var skill = $.parseJSON('<?php echo json_encode($skills); ?>');
@@ -1266,7 +1267,7 @@ function designationattachment(value){
 	}	
 }
 
-$('#skillmodal').on('hidden.bs.modal', function () {
+$('#skillmodal').on('hidden.bs.modal', function(){
     skillsclear();
 })
 
@@ -1375,8 +1376,6 @@ function skillsextras(){
 	}
 }
 
-
-
 $('#plumbersubmit').click(function(){
 	if($('.form2').valid() && $('.form2').valid()){
 		$('.form2').submit();
@@ -1384,6 +1383,25 @@ $('#plumbersubmit').click(function(){
 		$('.error_class_1').parents('.collapse').addClass('show');
 	}
 })
+
+$('.applicationstatus').click(function(){
+	applicationstatus();
+})
+
+function applicationstatus(){
+	var approveenable = 0;
+	$('.applicationstatus').each(function(){
+		if(!$(this).is(':checked')){
+			approveenable = 1;
+		}
+	})
+	
+	if(approveenable==1){
+		$('.approvalstatus[value="1"]').attr('disabled', 'disabled');
+	}else if(approveenable==0){
+		$('.approvalstatus[value="1"]').removeAttr('disabled');
+	}	
+}
 
 $('.approvalstatus').click(function(){
 	rejectwrapper($(this).val());

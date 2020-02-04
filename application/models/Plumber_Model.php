@@ -97,6 +97,8 @@ class Plumber_Model extends CC_Model
 		if(isset($data['work_phone'])) 			$request1['work_phone'] 		= $data['work_phone'];
 		if(isset($data['image1'])) 				$request1['file1'] 				= $data['image1'];
 		if(isset($data['image2'])) 				$request1['file2'] 				= $data['image2'];
+		if(isset($data['mobile_phone2'])) 		$request1['mobile_phone2'] 		= $data['mobile_phone2'];
+		if(isset($data['email2'])) 				$request1['email2'] 			= $data['email2'];
 		
 		if(isset($request1)){
 			$usersdetailid	= 	$data['usersdetailid'];
