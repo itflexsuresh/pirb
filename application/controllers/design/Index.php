@@ -72,4 +72,33 @@ class Index extends CC_Controller
 		$data['plugins'] = [];
 		$this->layout2($data);
 	}
+
+	public function allocate_coc_confirmation()
+	{
+		$data['content'] 	= $this->load->view('design/allocate_coc_confirmation', (isset($pagedata) ? $pagedata : ''), true);
+		$data['plugins'] = [];
+		$this->layout2($data);
+	}
+
+	public function allocate_coc()
+	{
+		$data['content'] 	= $this->load->view('design/allocate_coc', (isset($pagedata) ? $pagedata : ''), true);
+		$data['plugins'] = [];
+		$this->layout2($data);
+	}
+
+	public function myprofile_reseller_details()
+	{
+		$data['content'] 	= $this->load->view('design/myprofile_reseller_details', (isset($pagedata) ? $pagedata : ''), true);
+		$data['plugins'] = [];
+		$this->layout2($data);
+	}
+
+	public function after_reg_myprofile()
+	{
+		$data['content'] 	= $this->load->view('design/after_reg_myprofile', (isset($pagedata) ? $pagedata : ''), true);
+		$data['plugins'] = [];
+		$this->layout2($data);
+	}
+
 }
