@@ -5,24 +5,22 @@ class Forgotpassword extends CC_Controller
 {
 	public function index()
 	{
-		if($this->input->post()){
+		if($this->input->post()){			
+			$requestData 	= $this->input->post();
+			$data 			= $this->Users_Model->forgotPassword($requestData);
 			
-			$this->form_validation->set_rules('email', 		'Email ID',				'trim|required|valid_email');
+			if($data=='1') $this->session->set_flashdata('success', 'Check your email id and follow the steps to reset your password.');
+			elseif($data=='3') $this->session->set_flashdata('error', 'Incorrect Email ID.');
+			else $this->session->set_flashdata('error', 'Try Later.');
 			
-			if($this->form_validation->run() != FALSE)
-			{
-				$requestData 	= $this->input->post();
-				$data 			= $this->Users_Model->forgotPassword($requestData);
-				
-				if($data=='1') $this->session->set_flashdata('success', 'Check your email id and follow the steps to reset your password.');
-				elseif($data=='3') $this->session->set_flashdata('error', 'Incorrect Email ID.');
-				else $this->session->set_flashdata('error', 'Try Later.');
-				
-				redirect('authentication/forgotpassword'); 
-			}
+			redirect('authentication/forgotpassword'); 			
 		}
 		
-		$data['content'] = $this->load->view('authentication/forgotpassword/index', '', true);
+		$pagedata['notification'] 	= $this->getNotification();
+		
+		$data['plugins'] = ['validation'];
+		$data['content'] = $this->load->view('authentication/forgotpassword/index', $pagedata, true);
+		
 		$this->layout1($data);
 	}
 	

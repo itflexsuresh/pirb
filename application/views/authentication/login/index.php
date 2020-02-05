@@ -16,7 +16,8 @@
 					<input class="form-control" name="password" id="password1" type="password" value="<?php echo set_value('password'); ?>" placeholder="Password">
 				</div>
 				<div class="text-center">
-					<a href="javascript:void(0)">PIRB Company Login</a>					
+					<div><a href="<?php echo base_url('authentication/forgotpassword'); ?>">Forgot Password</a></div>
+					<div><a href="javascript:void(0);">PIRB Company Login</a></div>					
 				</div>
 				<button type="submit" name="submit" value="login" class="btn btn-success">Login</button>
 			</form>

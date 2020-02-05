@@ -30,7 +30,7 @@ class Login extends CC_Controller
 					$this->session->set_userdata('userid', $id);						
 					$this->middleware('1');
 				}elseif($mailstatus=='0'){
-					$this->session->set_flashdata('error', 'Please Verify Email.');
+					$this->session->set_flashdata('error', 'Please activate your account by verifying the link sent to your E-mail id.');
 				}else{	
 					$this->session->set_flashdata('error', 'Invalid Credentials.');
 				}
@@ -56,7 +56,7 @@ class Login extends CC_Controller
 				
 					$this->CC_Model->sentMail2($requestData['email'], $subject, $message);
 				
-					$this->session->set_flashdata('success', 'Successfully Registered.');
+					$this->session->set_flashdata('success', 'Successfully Registered. Kindly check your inbox for account activation details.');
 				}else{
 					$this->session->set_flashdata('error', 'Try Later.');	
 				} 

@@ -29,7 +29,7 @@ class Index extends CC_Controller
 			$requestData['status'] 		= 	'1';
 			$data 						=  	$this->Plumber_Model->action($requestData);
 			
-			if(isset($data)) $this->session->set_flashdata('success', 'Waiting for approval');
+			if(isset($data)) $this->session->set_flashdata('success', 'Thanks for submitting the application. You will get notified through email about the application status.');
 			else $this->session->set_flashdata('error', 'Try Later.');
 			
 			redirect('plumber/profile/index'); 

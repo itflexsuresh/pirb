@@ -373,7 +373,7 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-6 col-md-offset-6">
+							<div class="col-md-6 offset-md-6">
 								<div class="form-group">
 									<label>Postal Code *</label>
 									<input type="text" class="form-control" name="address[2][postal_code]" value="<?php echo $postalcode2; ?>">
@@ -1084,8 +1084,9 @@ $(function(){
 })
 
 $('#submit2,#submit3,#submit4,#submit5').click(function(){
-	var data = $(this).parent('form').serialize()+'&'+$.param({ 'usersdetailid': $('#usersdetailid').val(), 'usersplumberid': $('#usersplumberid').val() });
-	ajax('<?php echo base_url()."/plumber/registration/index/ajaxregistration"; ?>', data, registration);
+	var _this 	= $(this);
+	var data 	= _this.parent('form').serialize()+'&'+$.param({ 'usersdetailid': $('#usersdetailid').val(), 'usersplumberid': $('#usersplumberid').val() });
+	ajax('<?php echo base_url()."/plumber/registration/index/ajaxregistration"; ?>', data, registration, { beforesend : function(){ _this.attr('disabled','disabled') }, complete : function(){ _this.removeAttr('disabled'); sweetalertautoclose('Successfully Saved.'); } });
 })
 
 $('#submit').click(function(e){
@@ -1099,7 +1100,7 @@ $('#submit').click(function(e){
 	if(formvalid==0){		
 		for(var i=2; i<=5; i++){		
 			var data = $('#submit'+i).parent('form').serialize()+'&'+$.param({ 'usersdetailid': $('#usersdetailid').val(), 'usersplumberid': $('#usersplumberid').val() });
-			ajax('<?php echo base_url()."/plumber/registration/index/ajaxregistration"; ?>', data, registration, 'post', 'json', '', '', 1);				
+			ajax('<?php echo base_url()."/plumber/registration/index/ajaxregistration"; ?>', data, registration, { asynchronous : 1 });				
 		}
 		
 		return true;
@@ -1145,8 +1146,13 @@ function checkstep(){
 	}else if(step=='6'){
 		$('#next').addClass('displaynone');
 		
-		$('.declarationname').val($('input[name="name"]').val());
-		$('.declarationidno').val($('input[name="idcard"]').val());
+		if($('select[name="nationality"]')=='1'){
+			var declarationidno = $('input[name="idcard"]').val();
+		}else{
+			var declarationidno = $('input[name="otheridcard"]').val();
+		}
+		$('.declarationname').val($('input[name="name"]').val()+' '+$('input[name="surname"]').val());
+		$('.declarationidno').val(declarationidno);
 	}
 }
 

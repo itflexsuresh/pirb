@@ -86,6 +86,21 @@ function sweetalert(action, data){
 	})
 }
 
+function sweetalertautoclose(title, html='', timer=''){
+	let timerInterval;
+	Swal.fire({
+		title: title,
+		timer: (timer=='') ? 1000 : timer,
+		timerProgressBar: true,
+		onBeforeOpen: () => {
+			Swal.showLoading();
+		},
+		onClose: () => {
+			clearInterval(timerInterval);
+		}
+	}).then((result) => {})
+}
+
 function datepicker(selector, extras=[]){
 	var options = {};	
 	options['format'] = 'dd-mm-yyyy';
@@ -99,16 +114,20 @@ function formsubmit(action, data){
 	$('<form action="'+action+'" method="post">'+data+'</form>').appendTo('body').submit();
 }
 
-function ajax(url, data, method, type="post", datatype="json", contenttype='', processdata='', asynchronous=''){
+function ajax(url, data, method, extras=[]){
 	var options = {};
 	
 	options['url'] 			= 	url;
-	options['type'] 		=	type;
+	options['type'] 		=	(extras['type']) ? extras['type'] : 'post';
 	options['data'] 		=	data;
-	options['dataType'] 	=	datatype;
-	if(contenttype!='') 	options['contentType'] 	=	false;
-	if(processdata!='') 	options['processData'] 	=	false;
-	if(asynchronous!='') 	options['async'] 		=	false;
+	options['dataType'] 	=	(extras['datatype']) ? extras['datatype'] : 'json';
+	
+	if(extras['contenttype']) 	options['contentType'] 	=	false;
+	if(extras['processdata']) 	options['processData'] 	=	false;
+	if(extras['asynchronous']) 	options['async'] 		=	false;
+	if(extras['beforesend'])	options['beforeSend'] 	=	extras['beforesend'];
+	if(extras['complete']) 		options['complete'] 	=	extras['complete'];
+	
 	options['success'] 		=	function(data){ 
 									method(data);
 								}
@@ -145,7 +164,7 @@ function fileupload(data1=[], data2=[]){
 			form_data.append("path", data1[2]);
 			form_data.append("type", extension.join('|'));
 			
-			ajax(data1[0], form_data, fileappend, 'post', 'json', '1', '1');
+			ajax(data1[0], form_data, fileappend, { contenttype : 1, processdata : 1});
 		}else{
 			$(selector).val('');
 			alert('Supported file format are '+extension.join(','));
@@ -187,7 +206,7 @@ function fileupload(data1=[], data2=[]){
 			form_data.append("path", data1[2]);
 			form_data.append("type", extension.join('|'));
 			
-			ajax(data1[0], form_data, fileappend, 'post', 'json', '1', '1');
+			ajax(data1[0], form_data, fileappend, { contenttype : 1, processdata : 1});
 		}else{
 			$(selector).val('');
 			alert('Supported file format are '+extension.join(','));
