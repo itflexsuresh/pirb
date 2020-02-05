@@ -7,7 +7,7 @@ $userid		 			= $username['id'];
 $log_coc 				= $logcoc;
 $VAT 					= $settings["vat_percentage"];
 $coc_purchase_limit   	= $cocpermitted["coc_purchase_limit"];
-$electronic_coc_log   	= $cocpermitted["electronic_coc_log"];
+$electronic_coc_log   	= $cocpermitted["coc_electronic"];
 $cocpaperwork 			= $cocpaperwork["amount"];
 $cocelectronic 			= $cocelectronic["amount"];
 
