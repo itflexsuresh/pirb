@@ -94,6 +94,9 @@
 	$message 				= isset($result['message']) ? $result['message'] : '';
 	
 	$roletype 				= isset($result['roletype']) ? $result['roletype'] : '';
+	$pagetype 				= isset($result['pagetype']) ? $result['pagetype'] : '';
+	
+	
 ?>
 
 <div class="row page-titles">
@@ -112,7 +115,7 @@
 
 <?php echo $notification; ?>
 
-<?php if($approval_status=='0' || $approval_status=='2'){ ?>
+<?php if($roletype=='1' && ($approval_status=='0' || $approval_status=='2')){ ?>
 	<form class="form1" method="post">
 		<div class="row">
 			<div class="col-12">

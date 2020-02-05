@@ -7,8 +7,6 @@ class Index extends CC_Controller
 	{
 		parent::__construct();
 		$this->load->model('Plumber_Model');
-		$this->load->model('Comment_Model');
-		$this->load->model('Systemsettings_Model');
 	}
 	
 	public function index()
@@ -65,7 +63,7 @@ class Index extends CC_Controller
 	
 	public function action($id)
 	{
-		$this->plumberaction($id, ['roletype' => $this->config->item('roleadmin')], ['redirect' => 'admin/plumber/index']);
+		$this->plumberprofile($id, ['roletype' => $this->config->item('roleadmin'), 'pagetype' => 'applications'], ['redirect' => 'admin/plumber/index']);
 	}
 	
 	public function rejected()
@@ -127,7 +125,7 @@ class Index extends CC_Controller
 	
 	public function rejectedaction($id)
 	{
-		$this->plumberaction($id, ['roletype' => $this->config->item('roleadmin')], ['redirect' => 'admin/plumber/index/rejected']);
+		$this->plumberprofile($id, ['roletype' => $this->config->item('roleadmin'), 'pagetype' => 'rejectedapplications'], ['redirect' => 'admin/plumber/index/rejected']);
 	}
 	
 }

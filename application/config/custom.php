@@ -3,6 +3,7 @@
 $config['sitename']	 				= 	'Audit IT';
 
 $config['roleadmin']	 			= 	'1';
+$config['roleplumber']	 			= 	'3';
 
 $config['learner']	 				= 	'23';
 $config['assistant']	 			= 	'3';

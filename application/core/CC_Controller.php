@@ -163,7 +163,7 @@ class CC_Controller extends CI_Controller
 		else return [];
 	}
 	
-	public function plumberaction($id, $pagedata=[], $extras=[])
+	public function plumberprofile($id, $pagedata=[], $extras=[])
 	{
 		$result = $this->Plumber_Model->getList('row', ['id' => $id, 'type' => '3', 'status' => ['1']]);
 		if(!$result){

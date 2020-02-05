@@ -52,7 +52,8 @@ $formstatus = $userdata['formstatus'];
 				<?php }elseif($type=='3'){ ?>
 					<li><a href="<?php echo base_url().'plumber/registration/index'; ?>">Dashboard</a></li>
 					<?php if($formstatus=='1'){ ?>
-						
+						<li><a href="<?php echo base_url().'plumber/profile/index'; ?>">My Profile</a></li>
+						<li><a href="<?php echo base_url().'plumber/purchasecoc/index'; ?>">Purchase COC</a></li>
 					<?php }elseif($formstatus=='0'){ ?>
 						<li><a href="<?php echo base_url().'plumber/registration/index'; ?>">My Profile</a></li>
 					<?php } ?>
