@@ -274,7 +274,7 @@ input#width_alignment {
     margin-top: 20px;
 }
 
-input#file {
+input#file, input#file_2 {
     display: none;
 }
 
@@ -486,6 +486,7 @@ a#previous, a#next {
 
 .form-group a {
     color: #48c7ff;
+    font-weight: 500;
 }
 
 .des_points label {
@@ -847,6 +848,91 @@ table th {
 .full_width {
     width: 100% !important;
 }
+
+.user_name {
+    width: auto;
+    display: inline-block;
+    margin-left: 8px;
+    font-weight: 500;
+}
+
+
+/* id card tabel */
+
+#id_Card img.id_logo {
+    width: 240px;
+    margin: 10px 15px 20px 10px;
+}
+
+#id_Card img.id_admin {
+    width: 160px;
+    margin: 13px 0 10px 15px;
+    border: 2px solid #e4010c;
+}
+
+table#id_Card, table#id_Card_back {
+    border: 1px solid #f5f9fc;
+    box-shadow: 1px 4px 14px rgba(0, 0, 0, 0.44);
+}
+
+#id_Card tr {
+    padding: 5px;
+}
+
+#id_Card p.license {
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    font-weight: 600;
+    position: relative;
+    right: 132px;
+    margin-bottom: 0;
+}
+
+#id_Card img.plum_lic {
+    width: 39px;
+    margin: 5px;
+}
+
+#id_Card p {
+    margin: 0 0 10px 20px;
+    font-weight: 500;
+}
+
+#id_Card_back tr td {
+    padding: 5px;
+}
+
+#id_Card_back p {
+    font-size: 14px;
+    margin: 7px 0 3px 19px;
+    font-weight: 500;
+    width: auto;
+    display: inline-block;
+}
+
+#id_Card_back ul li {margin: 2px 0 4px 0;font-weight: 500;}
+
+#id_Card_back ul {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+p.plumber_name {
+    margin-left: 0 !important;
+}
+
+#id_Card_back span {
+    margin-left: 19px;
+    font-weight: 500;
+}
+
+p.back_license {
+    font-size: 20px !important;
+    font-weight: 600 !important;
+}
+
+
 
 /* Progress Bar */
 
