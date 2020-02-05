@@ -240,7 +240,7 @@ $config['designation2'] 			= 	[
 											'6' => 'Master Plumber'
 										];
 				
-$config['criminalact'] 				= 	'<div><input type="checkbox" name="criminalact" class="criminalact" value="1"> <span>I fully understand sumbitting a false qualification is a criminal act, which comes with a chance of jail time or a fine and anyone can report someone who does it.</span></div>';
+$config['criminalact'] 				= 	'<div class="custom-control custom-checkbox"><input type="checkbox" name="criminalact" id="criminalact" class="criminalact custom-control-input " value="1"> <label for="criminalact" class="custom-control-label">I fully understand sumbitting a false qualification is a criminal act, which comes with a chance of jail time or a fine and anyone can report someone who does it.</label></div>';
 
 $config['registerprocedure'] 		= 	'
 											<div class="des_points">
