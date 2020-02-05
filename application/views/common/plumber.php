@@ -93,10 +93,8 @@
 	$cocelectronic 			= isset($result['coc_electronic']) ? $result['coc_electronic'] : '';
 	$message 				= isset($result['message']) ? $result['message'] : '';
 	
-	$roletype 				= isset($result['roletype']) ? $result['roletype'] : '';
-	$pagetype 				= isset($result['pagetype']) ? $result['pagetype'] : '';
-	
-	
+	$roletype 				= isset($roletype) ? $roletype : '';
+	$pagetype 				= isset($pagetype) ? $pagetype : '';
 ?>
 
 <div class="row page-titles">
@@ -224,7 +222,7 @@
 					
 					<h4 class="card-title">Plumbers Registration Details</h4>
 					
-					<?php if($approval_status=='1'){ ?>
+					<?php if(($roletype=='1' && $approval_status=='1') || $roletype=='3'){ ?>
 						<div class="col-md-12">
 							<div class="row">
 								<div class="col-md-12 add_full_width">

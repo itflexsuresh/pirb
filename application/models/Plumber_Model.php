@@ -39,6 +39,7 @@ class Plumber_Model extends CC_Model
 		if(isset($requestdata['formstatus']))			$this->db->where_in('u.formstatus', $requestdata['formstatus']);
 		if(isset($requestdata['status']))				$this->db->where_in('u.status', $requestdata['status']);
 		if(isset($requestdata['approvalstatus']))		$this->db->where_in('up.approval_status', $requestdata['approvalstatus']);
+		if(isset($requestdata['plumberstatus']))		$this->db->where_in('up.status', $requestdata['plumberstatus']);
 		
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
