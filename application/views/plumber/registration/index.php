@@ -491,7 +491,7 @@
 							</div>                            
 						</div>
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<div class="form-group">
 									<label>Billing Address *</label>
 									<input type="hidden" class="form-control" name="address[3][id]" value="<?php echo $addressid3; ?>">
@@ -499,7 +499,7 @@
 									<input type="text" class="form-control" name="address[3][address]" value="<?php echo $address3; ?>">
 								</div>
 							</div>
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<div class="form-group">
 									<label>Province *</label>
 									<?php
@@ -507,7 +507,7 @@
 									?>
 								</div>
 							</div>
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<div class="form-group">
 									<label>City *</label>
 									<?php 
@@ -515,7 +515,7 @@
 									?>
 								</div>
 							</div>
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<div class="form-group">
 									<label>Suburb *</label>
 									<?php 
@@ -530,7 +530,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-12 text-right">
 							<button type="button" id="submit3" class="btn btn-primary">Save</button>
 						</div>
 					</form>
@@ -590,7 +590,7 @@
 								</tr>
 								<tr class="skillnotfound"><td colspan="6">No Record Found</td></tr>
 							</table>
-							<div>
+							<div class="col-md-12 text-right">
 								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#skillmodal">Add Cert/Skill</button>
 							</div>
 							<input type="hidden" class="attachmenthidden" name="attachmenthidden"> 
