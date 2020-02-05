@@ -73,12 +73,10 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 								if($electronic_coc_log==1){								
 									foreach($coctype as $key => $type){
 										?>
-										<div class="col-md-3">
-											<div class="custom-control custom-radio">
-												<input type="radio" id="coc_type" name="coc_type" value="<?php echo $key; ?>" class="coc_type custom-control-input">
-												<label class="custom-control-label" for="coc_type"><?php echo $type; ?></label>
+										<div class="custom-control custom-radio">
+												<input type="radio" id="<?php echo $key.'-'.$type; ?>" name="coc_type" value="<?php echo $key; ?>" class="coc_type custom-control-input">
+												<label class="custom-control-label" for="<?php echo $key.'-'.$type; ?>"><?php echo $type; ?></label>
 											</div>
-										</div>
 										<?php 
 									}
 								}else{ ?>
@@ -291,7 +289,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 			var delivery_type = 0;
 			var cocType = 0;
 			var delivery_cost = 0;
-			if ($('#coc_type').prop("checked")) {
+			if ($('.coc_type').is(":checked")) {
 				delivery_type = 0;
 				delivery_cost = 0;
 				cocType = 1;
@@ -372,8 +370,10 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 	function coctype(value){
 		if(value=='1'){
 			$('.coc_cost').val('<?php echo $cocpaperwork; ?>')
+			$('#cost_f_delivery').val('0');
 		}else if(value=='2'){
 			$('.coc_cost').val('<?php echo $cocelectronic; ?>')
+			$('#cost_f_delivery').val('<?php echo $cocelectronic; ?>');
 		}
 
 	}
