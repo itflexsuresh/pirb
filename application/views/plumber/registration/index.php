@@ -97,7 +97,7 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<div class="col-md-12">
+				<div class="col-md-12 breadcrumb_tab">
 					<a href="javascript:void(0);" class="stepbar" data-id="1">Welcome</a>
 					<a href="javascript:void(0);" class="stepbar" data-id="2">Personal Details</a>
 					<a href="javascript:void(0);" class="stepbar" data-id="3">Billing Details</a>
@@ -106,8 +106,55 @@
 					<a href="javascript:void(0);" class="stepbar" data-id="6">Declaration</a>
 				</div>
 				
-				<div class="col-md-12">
+				<div class="col-md-12 pagination">
 					<a href="javascript:void(0);" id="previous">Previous</a>
+						<div class="progress-circle p10" data-id="1">
+						   <span>10%</span>
+						   <div class="left-half-clipper">
+						      <div class="first50-bar"></div>
+						      <div class="value-bar"></div>
+						   </div>
+						</div>
+
+						<div class="progress-circle p20" data-id="2">
+						   <span>20%</span>
+						   <div class="left-half-clipper">
+						      <div class="first50-bar"></div>
+						      <div class="value-bar"></div>
+						   </div>
+						</div>
+
+						<div class="progress-circle p40" data-id="3">
+						   <span>40%</span>
+						   <div class="left-half-clipper">
+						      <div class="first50-bar"></div>
+						      <div class="value-bar"></div>
+						   </div>
+						</div>
+
+						<div class="progress-circle over50 p60" data-id="4">
+						   <span>60%</span>
+						   <div class="left-half-clipper">
+						      <div class="first50-bar"></div>
+						      <div class="value-bar"></div>
+						   </div>
+						</div>
+
+						<div class="progress-circle over50 p80" data-id="5">
+						   <span>80%</span>
+						   <div class="left-half-clipper">
+						      <div class="first50-bar"></div>
+						      <div class="value-bar"></div>
+						   </div>
+						</div>
+
+						<div class="progress-circle over50 p100" data-id="6">
+						   <span>100%</span>
+						   <div class="left-half-clipper">
+						      <div class="first50-bar"></div>
+						      <div class="value-bar"></div>
+						   </div>
+						</div>
 					<a href="javascript:void(0);" id="next">Next</a>
 				</div>
 				
@@ -235,14 +282,15 @@
 									</div>
 							</div>
 						</div>
-						<div class="row">
+						<div class="row add_top_value">
 							<div class="col-md-6">
 								<h4 class="card-title">Identity Document *</h4>
 								<div class="form-group">
 									<div>
 										<img src="<?php echo $identityimg; ?>" class="document_image" width="100">
 									</div>
-									<input type="file" class="document_file">
+									<input type="file" id="file" class="document_file">
+									<label for="file" class="choose_file">Choose File</label>
 									<input type="hidden" name="image1" class="document" value="<?php echo $file1; ?>">
 									<p>(Image/File Size Smaller than 5mb)</p>
 								</div>
@@ -253,13 +301,14 @@
 									<div>
 										<img src="<?php echo $photoidimg; ?>" class="photo_image" width="100">
 									</div>
-									<input type="file" class="photo_file">
+									<input type="file" id="file_2" class="photo_file">
+									<label for="file_2" class="choose_file">Choose File</label>
 									<input type="hidden" name="image2" class="photo" value="<?php echo $file2; ?>">
 									<p>(Image/File Size Smaller than 5mb)</p>
 								</div>
 							</div>
 							<div class="col-md-3">
-								<ul>
+								<ul class="file_up_points">
 									<li>Photos must be no more than 6 months old</li>
 									<li>Photos must be high quality</li>
 									<li>Photos must be in colour</li>
@@ -295,7 +344,7 @@
 									</div>
 							</div>
 						</div>
-						<div class="row">
+						<div class="row add_top_value">
 							<div class="col-md-6">
 								<h4 class="card-title">Physical Address</h4>
 								<p class="tagline">Note all delivery services will be sent to this address</p>
@@ -380,7 +429,7 @@
 								</div>
 							</div>
 						</div>
-						<h4 class="card-title">Contact Details</h4>
+						<h4 class="card-title add_top_value">Contact Details</h4>
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
@@ -411,7 +460,9 @@
 								</div>
 							</div>
 						</div>
-						<button type="button" id="submit2" class="btn btn-primary">Save</button>
+						<div class="col-md-12 text-right">
+							<button type="button" id="submit2" class="btn btn-primary">Save</button>
+						</div>
 					</form>
 				</div>
 				
@@ -479,14 +530,16 @@
 								</div>
 							</div>
 						</div>
-						<button type="button" id="submit3" class="btn btn-primary">Save</button>
+						<div class="col-md-12">
+							<button type="button" id="submit3" class="btn btn-primary">Save</button>
+						</div>
 					</form>
 				</div>
 				
 				<div class="steps displaynone" data-id="4">
 					<form class="form4">
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<h4 class="card-title">Employment Details</h4>
 								<div class="form-group">
 									<label>Your Employment Status</label>
@@ -495,7 +548,7 @@
 									?>
 								</div>
 							</div>
-							<div class="col-md-12 companydetailsbox">
+							<div class="col-md-6 companydetailsbox">
 								<h4 class="card-title">Company Details</h4>
 								<div class="form-group">
 									<label>Company *</label>
@@ -507,7 +560,9 @@
 								</div>
 							</div>
 						</div>
-						<button type="button" id="submit4" class="btn btn-primary">Save</button>
+						<div class="col-md-12 text-right">
+							<button type="button" id="submit4" class="btn btn-primary">Save</button>
+						</div>
 					</form>
 				</div>
 				
@@ -541,7 +596,9 @@
 							<input type="hidden" class="attachmenthidden" name="attachmenthidden"> 
 							<?php echo $criminalact; ?>
 						</div>
-						<button type="button" id="submit5" class="btn btn-primary">Save</button>
+						<div class="col-md-12 text-right">
+							<button type="button" id="submit5" class="btn btn-primary">Save</button>
+						</div>
 					</form>
 				</div>
 				
@@ -549,24 +606,24 @@
 					<form class="form6" method="post">
 						<div class="row">
 							<?php echo $registerprocedure; ?>
-							<div>
+							<label class="checkbox">
 								<input type="checkbox" name="registerprocedure">
-								I declare that I have fully read and understood the Procedure of Registration
-							</div>
+								<p>I declare that I have fully read and understood the Procedure of Registration</p>
+							</label>
 							<?php echo $acknowledgement; ?>
-							<div>
+							<label class="checkbox">
 								<input type="checkbox" name="acknowledgement">
-								I declare that I have fully read and understood the Procedure of Acknowledgement
-							</div>
+								<p>I declare that I have fully read and understood the Procedure of Acknowledgement</p>
+							</label>
 							<?php echo $codeofconduct; ?>
-							<div>
+							<label class="checkbox">
 								<input type="checkbox" name="codeofconduct">
-								I declare that I have fully read and understood the PIRB's Code of Conduct
-							</div>
-							<div>
+								<p>I declare that I have fully read and understood the PIRB's Code of Conduct</p>
+							</label>
+							<label class="checkbox">
 								<input type="checkbox" name="declaration">
-								I <input type="text" class="declarationname" disabled> identity number <input type="text" class="declarationidno" disabled>
-							</div>
+								<input type="text" class="declarationname" disabled> <p>I identity number</p> <input type="text" class="declarationidno" disabled>
+							</label>
 							<?php echo $declaration; ?>
 							<div class="col-md-12 text-right">
 								<input type="hidden" name="application_received" value="<?php echo date('Y-m-d'); ?>">
@@ -1112,11 +1169,18 @@ $('#submit').click(function(e){
 	}
 })
 
+$('.progress-circle[data-id="1"]').addClass('active');
+$('a.stepbar[data-id="1"]').addClass('active');
 $('.stepbar').click(function(){
 	var step = $(this).attr('data-id');
 	$('.steps.active').addClass('displaynone').removeClass('active');
 	$('.steps[data-id="'+step+'"]').removeClass('displaynone').addClass('active');
 	
+	$('.stepbar.active').addClass('un_active').removeClass('active');
+	$('.stepbar[data-id="'+step+'"]').removeClass('un_active').addClass('active');
+
+	$('.progress-circle.active').addClass('prog_hide').removeClass('active');
+	$('.progress-circle[data-id="'+step+'"]').removeClass('prog_hide').addClass('active');
 	checkstep();
 })
 
@@ -1126,6 +1190,11 @@ $('#next').click(function(){
 	$('.steps.active').addClass('displaynone').removeClass('active');
 	$('.steps[data-id="'+step+'"]').removeClass('displaynone').addClass('active');
 	
+	$('.stepbar.active').addClass('un_active').removeClass('active');	
+	$('.stepbar[data-id="'+step+'"]').removeClass('un_active').addClass('active');	
+
+	$('.progress-circle.active').addClass('prog_hide').removeClass('active');	
+	$('.progress-circle[data-id="'+step+'"]').removeClass('prog_hide').addClass('active');
 	checkstep();
 })
 
@@ -1134,18 +1203,23 @@ $('#previous').click(function(){
 	$('.steps.active').addClass('displaynone').removeClass('active');
 	$('.steps[data-id="'+step+'"]').removeClass('displaynone').addClass('active');
 	
+	$('.stepbar.active').addClass('un_active').removeClass('active');	
+	$('.stepbar[data-id="'+step+'"]').removeClass('un_active').addClass('active');	
+	
+	$('.progress-circle.active').addClass('prog_hide').removeClass('active');	
+	$('.progress-circle[data-id="'+step+'"]').removeClass('prog_hide').addClass('active');
 	checkstep();
 })
 
 function checkstep(){
-	$('#next, #previous').removeClass('displaynone');
+	$('#next, #previous').removeClass('not_working');
 	
 	var step = $('.steps.active').attr('data-id');
 		
 	if(step=='1'){
-		$('#previous').addClass('displaynone');
+		$('#previous').addClass('not_working');
 	}else if(step=='6'){
-		$('#next').addClass('displaynone');
+		$('#next').addClass('not_working');
 		
 		if($('#nationality').val()=='1'){
 			var declarationidno = $('input[name="idcard"]').val();
