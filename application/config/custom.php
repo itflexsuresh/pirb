@@ -7,6 +7,12 @@ $config['assistant']	 			= 	'3';
 $config['operator']	 				= 	'4';
 $config['licensed']	 				= 	'6';
 
+$config['cocpaperwork']	 			= 	'13';
+$config['cocelectronic']	 		= 	'14';
+
+$config['postage']	 				= 	'24';
+$config['couriour']	 				= 	'17';
+$config['collectedbypirb']	 		= 	'2';
 
 $config['status'] 					= 	[
 											'' 	=> '',
@@ -310,7 +316,6 @@ $config['rejectreason'] 			= 	[
 											'4' => 'Other',
 										];			
 
-
 $config['plumberstatus'] 			= 	[
 											'0' => 'Pending',
 											'1' => 'Active',
@@ -320,6 +325,15 @@ $config['plumberstatus'] 			= 	[
 											'5' => 'Resigned',
 										];
 										
+$config['specialisations'] 			= 	[
+											'1' => 'Solar',
+											'2' => 'Gas',
+											'3' => 'Plumbing estimator',
+											'4' => 'Heat Pump',
+											'5' => 'Plumbing Training Assessor',
+											'6' => 'Plumbing Arbitrator',
+										];			
+
 $config['worktype'] 				= 	[
 											'1' => 'Maintenance - Residential',
 											'2' => 'Maintenance - Industrial',
@@ -338,13 +352,16 @@ $config['specialization'] 			= 	[
 											'5' => 'Gas',
 											'6' => 'Bathroom renovations'
 										];					
-							
 
-$config['specialisations'] 			= 	[
-											'1' => 'Solar',
-											'2' => 'Gas',
-											'3' => 'Plumbing estimator',
-											'4' => 'Heat Pump',
-											'5' => 'Plumbing Training Assessor',
-											'6' => 'Plumbing Arbitrator',
-										];			
+
+$config['purchasecocdelivery'] 		= 	[
+											'1' => 'Collected at PIRB',
+											'2' => 'By Couriour',
+											'3' => 'By Registered Post'
+										];					
+
+
+$config['coctype'] 					= 	[
+											'1' => 'Electronic',
+											'2' => 'Paper Based'
+										];
