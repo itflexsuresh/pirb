@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Index extends CC_Controller 
 {
+	// testing
 	public function __construct()
 	{
 		parent::__construct();
