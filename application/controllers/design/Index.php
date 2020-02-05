@@ -101,4 +101,11 @@ class Index extends CC_Controller
 		$this->layout2($data);
 	}
 
+	public function cocstatement()
+	{
+		$data['content'] 	= $this->load->view('design/cocstatement', (isset($pagedata) ? $pagedata : ''), true);
+		$data['plugins'] = [];
+		$this->layout2($data);
+	}
+
 }
