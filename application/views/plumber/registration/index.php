@@ -1146,7 +1146,7 @@ function checkstep(){
 	}else if(step=='6'){
 		$('#next').addClass('displaynone');
 		
-		if($('select[name="nationality"]')=='1'){
+		if($('#nationality').val()=='1'){
 			var declarationidno = $('input[name="idcard"]').val();
 		}else{
 			var declarationidno = $('input[name="otheridcard"]').val();
