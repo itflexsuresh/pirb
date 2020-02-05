@@ -130,7 +130,7 @@ class Coc_Model extends CC_Model
 	public function checkcocpermitted($userid)
 	{
 		$query = $this->db
-				->select('coc_purchase_limit, electronic_coc_log')
+				->select('coc_purchase_limit, coc_electronic')
 				->from('users_plumber')
 				->where('user_id', $userid)
 				->get()
