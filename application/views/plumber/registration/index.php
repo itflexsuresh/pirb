@@ -569,6 +569,7 @@
 							</div>
 							<?php echo $declaration; ?>
 							<div class="col-md-12 text-right">
+								<input type="hidden" name="application_received" value="<?php echo date('Y-m-d'); ?>">
 								<input type="hidden" name="usersdetailid" id="usersdetailid" value="<?php echo $usersdetailid; ?>">
 								<input type="hidden" name="usersplumberid" id="usersplumberid" value="<?php echo $usersplumberid; ?>">
 								<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Submit Application</button>

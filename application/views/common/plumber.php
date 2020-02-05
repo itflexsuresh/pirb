@@ -92,6 +92,8 @@
 	$cocpurchaselimit 		= isset($result['coc_purchase_limit']) && $result['coc_purchase_limit']!='0' ? $result['coc_purchase_limit'] : $defaultsettings['plumber_certificate'];
 	$cocelectronic 			= isset($result['coc_electronic']) ? $result['coc_electronic'] : '';
 	$message 				= isset($result['message']) ? $result['message'] : '';
+	
+	$roletype 				= isset($result['roletype']) ? $result['roletype'] : '';
 ?>
 
 <div class="row page-titles">
@@ -110,7 +112,7 @@
 
 <?php echo $notification; ?>
 
-<?php if($approval_status=='0'){ ?>
+<?php if($approval_status=='0' || $approval_status=='2'){ ?>
 	<form class="form1" method="post">
 		<div class="row">
 			<div class="col-12">
@@ -874,6 +876,7 @@ $(function(){
 	designationcondition(designation2id);
 	
 	var approvalstatus = '<?php echo $approval_status; ?>';
+	if(approvalstatus!='') $('.approvalstatus[value="'+approvalstatus+'"]').data('approvalStatusValue', true);
 	rejectwrapper(approvalstatus);
 	
 	applicationstatus();
@@ -1404,15 +1407,28 @@ function applicationstatus(){
 }
 
 $('.approvalstatus').click(function(){
-	rejectwrapper($(this).val());
+
+	var previousValue = $(this).data('approvalStatusValue');
+    if (previousValue){
+		$(this).prop('checked', !previousValue);
+		$(this).data('approvalStatusValue', !previousValue);
+    }else{
+		$(this).data('approvalStatusValue', true);
+		$(".approvalstatus:not(:checked)").data("approvalStatusValue", false);
+    }
+
+	rejectwrapper((($(this).is(':checked')) ? $(this).val() : 0));
 })
 
 function rejectwrapper(value){
-	if(value=='2'){
+	$('.reject_wrapper').addClass('displaynone');
+	$('.pending_approval_status').remove();
+	
+	if(value=='0'){
+		$('.reject_wrapper').append('<input type="hidden" value="0" name="approval_status" class="pending_approval_status">');
+	}else if(value=='2'){
 		$('.reject_wrapper').removeClass('displaynone');
-	}else{
-		$('.reject_wrapper').addClass('displaynone');
-	}	
+	}
 }
 
 $('.reject_reason').click(function(){

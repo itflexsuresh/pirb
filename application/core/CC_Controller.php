@@ -13,6 +13,9 @@ class CC_Controller extends CI_Controller
 		$this->load->model('Managearea_Model');
 		$this->load->model('Qualificationroute_Model');
 		$this->load->model('Rates_Model');
+		$this->load->model('Comment_Model');
+		$this->load->model('Systemsettings_Model');
+		
 		$this->load->library('pdf');
 		$this->load->library('phpqrcode/qrlib');
 	}
@@ -158,6 +161,71 @@ class CC_Controller extends CI_Controller
 
 		if(count($data) > 0) return ['' => 'Select City']+array_column($data, 'name', 'id');
 		else return [];
+	}
+	
+	public function plumberaction($id, $pagedata=[], $extras=[])
+	{
+		$result = $this->Plumber_Model->getList('row', ['id' => $id, 'type' => '3', 'status' => ['1']]);
+		if(!$result){
+			if($extras['redirect']) redirect($extras['redirect']); 
+			else redirect('admin/plumber/index'); 
+		}
+		
+		if($this->input->post()){
+			$requestData 			= 	$this->input->post();
+			$requestData['user_id'] = 	$id;
+			
+			$plumberdata 	=  $this->Plumber_Model->action($requestData);
+				
+			if(isset($requestData['submit']) && $requestData['submit']=='approvalsubmit'){
+				$commentdata 	=  $this->Comment_Model->action($requestData);				
+			}
+			
+			if($plumberdata || (isset($commentdata) && $commentdata)){
+				$data		= '1';
+				$message 	= 'Plumber '.(($id=='') ? 'created' : 'updated').' successfully.';
+			}
+			
+			if(isset($data)) $this->session->set_flashdata('success', $message);
+			else $this->session->set_flashdata('error', 'Try Later.');
+			
+			if($extras['redirect']) redirect($extras['redirect']); 
+			else redirect('admin/plumber/index'); 
+		}
+		
+		$userid			= 	$result['id'];
+		
+		$pagedata['notification'] 		= $this->getNotification();
+		$pagedata['province'] 			= $this->getProvinceList();
+		$pagedata['qualificationroute'] = $this->getQualificationRouteList();
+		$pagedata['plumberrates'] 		= $this->getPlumberRates();
+		$pagedata['company'] 			= $this->getCompanyList();
+		
+		$pagedata['titlesign'] 			= $this->config->item('titlesign');
+		$pagedata['gender'] 			= $this->config->item('gender');
+		$pagedata['racial'] 			= $this->config->item('racial');
+		$pagedata['yesno'] 				= $this->config->item('yesno');
+		$pagedata['othernationality'] 	= $this->config->item('othernationality');
+		$pagedata['homelanguage'] 		= $this->config->item('homelanguage');
+		$pagedata['disability'] 		= $this->config->item('disability');
+		$pagedata['citizen'] 			= $this->config->item('citizen');
+		$pagedata['deliverycard'] 		= $this->config->item('deliverycard');
+		$pagedata['employmentdetail'] 	= $this->config->item('employmentdetail');
+		$pagedata['userid'] 			= $userid;
+		$pagedata['result'] 			= $result;
+		
+		$pagedata['designation2'] 		= $this->config->item('designation2');
+		$pagedata['applicationstatus'] 	= $this->config->item('applicationstatus');
+		$pagedata['approvalstatus'] 	= $this->config->item('approvalstatus');
+		$pagedata['rejectreason'] 		= $this->config->item('rejectreason');
+		$pagedata['plumberstatus'] 		= $this->config->item('plumberstatus');
+		$pagedata['specialisations'] 	= $this->config->item('specialisations');
+		$pagedata['comments'] 			= $this->Comment_Model->getList('all', ['user_id' => $id]);
+		$pagedata['defaultsettings'] 	= $this->Systemsettings_Model->getList('row');
+		
+		$data['plugins']				= ['validation','datepicker'];
+		$data['content'] 				= $this->load->view('common/plumber', (isset($pagedata) ? $pagedata : ''), true);
+		$this->layout2($data);
 	}
 
 

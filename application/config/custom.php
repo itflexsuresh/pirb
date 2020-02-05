@@ -2,6 +2,8 @@
 
 $config['sitename']	 				= 	'Audit IT';
 
+$config['roleadmin']	 			= 	'1';
+
 $config['learner']	 				= 	'23';
 $config['assistant']	 			= 	'3';
 $config['operator']	 				= 	'4';

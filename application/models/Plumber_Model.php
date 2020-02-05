@@ -13,7 +13,7 @@ class Plumber_Model extends CC_Model
 		$usersplumber 	= 	[ 
 								'up.id as usersplumberid','up.racial','up.nationality','up.othernationality','up.idcard','up.otheridcard','up.homelanguage','up.disability','up.citizen','up.registration_card','up.delivery_card','up.employment_details','up.company_details',
 								'up.registration_no','up.registration_date','up.status as plumberstatus','up.designation','up.qualification_year','up.specialisations','up.coc_purchase_limit','up.coc_electronic','up.message',
-								'up.application_status','up.approval_status','up.reject_reason','up.reject_reason_other'
+								'up.application_received','up.application_status','up.approval_status','up.reject_reason','up.reject_reason_other'
 							];
 		
 		$this->db->select('
@@ -127,7 +127,6 @@ class Plumber_Model extends CC_Model
 		if(isset($data['delivery_card'])) 		$request2['delivery_card'] 			= $data['delivery_card'];
 		if(isset($data['employment_details'])) 	$request2['employment_details'] 	= $data['employment_details'];
 		if(isset($data['company_details'])) 	$request2['company_details'] 		= $data['company_details'];
-		if(isset($data['registration_no']) && $data['registration_no']=='') 	$request2['registration_no'] 		= $this->plumberregistrationno($data['designation2'], $data['qualification_year']);
 		if(isset($data['registration_date'])) 	$request2['registration_date'] 		= date('Y-m-d', strtotime($data['registration_date']));
 		if(isset($data['plumberstatus'])) 		$request2['status'] 				= $data['plumberstatus'];
 		if(isset($data['designation'])) 		$request2['designation'] 			= $data['designation'];
@@ -137,10 +136,15 @@ class Plumber_Model extends CC_Model
 		if(isset($data['coc_purchase_limit'])) 	$request2['coc_purchase_limit']	 	= $data['coc_purchase_limit'];
 		if(isset($data['coc_electronic'])) 		$request2['coc_electronic'] 		= $data['coc_electronic'];
 		if(isset($data['message'])) 			$request2['message'] 				= $data['message'];
+		if(isset($data['application_received']))$request2['application_received'] 	= $data['application_received'];
 		if(isset($data['application_status'])) 	$request2['application_status'] 	= implode(',', $data['application_status']);
 		if(isset($data['approval_status'])) 	$request2['approval_status'] 		= $data['approval_status'];
 		if(isset($data['reject_reason'])) 		$request2['reject_reason'] 			= implode(',', $data['reject_reason']);
 		if(isset($data['reject_reason_other'])) $request2['reject_reason_other']	= $data['reject_reason_other'];
+		
+		if(isset($data['registration_no']) && $data['registration_no']==''){
+			$request2['registration_no'] 		= $this->plumberregistrationno($data['designation2'], $data['qualification_year']);
+		}
 		
 		if(isset($data['approval_status']) && $data['approval_status']=='1'){
 			$request2['registration_date'] 	= date('Y-m-d');
