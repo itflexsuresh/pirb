@@ -65,4 +65,11 @@ class Index extends CC_Controller
 		$data['plugins'] = [];
 		$this->layout2($data);
 	}
+
+	public function employee_details()
+	{
+		$data['content'] 	= $this->load->view('design/employee_details', (isset($pagedata) ? $pagedata : ''), true);
+		$data['plugins'] = [];
+		$this->layout2($data);
+	}
 }
