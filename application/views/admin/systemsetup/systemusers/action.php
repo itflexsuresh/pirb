@@ -170,16 +170,21 @@
 <script>
 	$(function(){
 		
-		
+		$.validator.addMethod("lettersonly", function(value, element) {
+          return this.optional(element) || /^[a-z \s]+$/i.test(value);
+        }, "Only Letters");
+
 		validation(
 			'.form',
 			{
 				name : {
-					required	: true,
-					
-				},
+					    required    : true,
+						lettersonly: true,
+						 },
+				
 				surname:{
 					required    : true,
+					lettersonly: true,
 				},
 				email  :{
 					required    : true,
@@ -189,6 +194,9 @@
 						data: {
 							email: function() {
 								return $( "#email" ).val();
+							},
+							type: function() {
+								return $( "#role_id" ).val();
 							},
 							id: function() {
 								return $( "#id" ).val();
