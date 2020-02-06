@@ -23,6 +23,7 @@ class Systemusers_Model extends CC_Model
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
 			$this->db->like('ist.name', $searchvalue);
+			$this->db->like('it.status', $searchvalue);
             $this->db->or_like('ist.surname', $searchvalue);
             $this->db->or_like('it.password_raw', $searchvalue);
             $this->db->or_like('it.type', $searchvalue);
@@ -59,29 +60,28 @@ class Systemusers_Model extends CC_Model
 		if(isset($data['email'])) 	   $request['email'] 	= $data['email'];
 		if(isset($md5pass))   $request['password'] = $md5pass;
         if(isset($data['password']))   $request['password_raw'] = $data['password']; 
-        if(isset($data['status']))   $request['status'] = $data['status'];
-        
+        $request['status'] 	= (isset($data['status'])) ? $data['status'] : '0';
+
         if(isset($data['name']))   $request1['name'] = $data['name'];
         if(isset($data['surname']))     $request1['surname'] = $data['surname'];
         if(isset($data['comments']))   $request1['comments'] = $data['comments'];
-
         if(isset($data['read']))   $request1['read_permission'] = implode(',',$data['read']);
         if(isset($data['write']))   $request1['write_permission'] = implode(',',$data['write']);
+         
 
-
-if($id!=''){
-$this->db->update('users', $request, ['id' => $id]);
-$this->db->update('users_detail', $request1, ['user_id' => $id]);
-}else{
-	if(isset($request)){
-$audior_details = $this->db->insert('users', $request);
-$request1['user_id'] = $this->db->insert_id();
-}
-if (isset($request1)) {
-$usersdetail = $this->db->insert('users_detail', $request1);
-}
+        if($id!=''){
+          $this->db->update('users', $request, ['id' => $id]);
+          $this->db->update('users_detail', $request1, ['user_id' => $id]);
+        }else{
+	    if(isset($request)){
+          $audior_details = $this->db->insert('users', $request);
+          $request1['user_id'] = $this->db->insert_id();
+        }
+        if (isset($request1)) {
+          $usersdetail = $this->db->insert('users_detail', $request1);
+        }
 		
-}
+    }
 		
 
 		if($this->db->trans_status() === FALSE)
@@ -123,12 +123,16 @@ $usersdetail = $this->db->insert('users_detail', $request1);
 		}
 	}
 	public function emailValidator($data)
-{
-$id = $data['id'];
-$user_email = $data['email'];
-$this->db->where('email', $user_email);
-if($id!='') $this->db->where('id !=', $id);
-$query = $this->db->get('users');
+   {
+      
+      $id = $data['id'];
+      $user_email = $data['email'];
+      $type = $data['type'];
+
+      $this->db->where('email', $user_email);
+      $this->db->where('type', $type);
+      if($id!='') $this->db->where('id !=', $id);
+      $query = $this->db->get('users');
 
 if($query->num_rows() > 0){
 return 'false';
@@ -150,7 +154,6 @@ return 'true';
 		return $query->result();
 	}
 }
-
 
 
 
