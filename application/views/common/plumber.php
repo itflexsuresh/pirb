@@ -349,7 +349,7 @@
 											<p><?php echo $name.' '.$surname; ?></p>
 										</td>
 									</tr>
-									<tr style="background-color: #E4010C; color: #fff" >
+									<tr class="add_idcard_color" >
 										<td>
 											<img class="plum_lic" src="<?php echo base_url()?>assets/images/Plumber_License.png">
 										</td>
@@ -425,7 +425,7 @@
 								</tbody>
 								<tbody style="width: 10%; display: inline-block;">
 									<tr style="height: 300px;">
-										<td colspan="2" style="text-align: center; padding: 15px;  background-color: #e4010c; color: #fff;">
+										<td class="add_idcard_color" colspan="2" style="text-align: center; padding: 15px;">
 											<p class="back_license" style="transform: rotate(-90deg);margin: -66px;"><?php echo isset($designation2[$designation2id]) ? $designation2[$designation2id] : '-'; ?></p>
 										</td>
 									</tr>
