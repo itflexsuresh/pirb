@@ -335,7 +335,7 @@ $(function(){
 			{ "data": "inv_id" },
 			{ "data": "created_at" },
 			{ "data": "status" },
-			{ "data": "Internal_inv" },
+			{ "data": "internal_inv" },
 			{ "data": "user_id" },
 			{ "data": "coc_type" },
 			{ "data": "coc_purchase" },

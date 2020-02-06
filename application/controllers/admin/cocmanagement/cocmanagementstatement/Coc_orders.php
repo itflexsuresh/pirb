@@ -58,7 +58,7 @@ public function CocorderType()
 										'inv_id' 		=> 	$result['inv_id'],
 										'created_at'	=> 	$result['created_at'],
 										'status' 		=> 	$this->config->item('payment_status')[$result['status']],
-										'Internal_inv' 	=> 	$result['Internal_inv'],
+										'internal_inv' 	=> 	$result['internal_inv'],
 										'user_id' 		=> 	$result['name']." ".$result['surname'],
 										'coc_type' 		=> 	$this->config->item('coctype')[$result['coc_type']],
 										'coc_purchase' 	=> 	$result['coc_purchase'],
