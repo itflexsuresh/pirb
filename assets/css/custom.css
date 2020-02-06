@@ -1096,11 +1096,12 @@ span.select2-selection {
 
 
 .licensed_plumber .id_admin {
-    border: 2px solid #009b00 !important;
+    border: 2px solid #e80000 !important;
 }
-.licensed_plumber .add_idcard_color{
-    background-color: #009b00 !important;
+.licensed_plumber .add_idcard_color {
+    background-color: #e80000 !important;
 }
+
 
 .add_idcard_color {
     background-color: #E4010C; 
