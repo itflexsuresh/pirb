@@ -56,7 +56,7 @@ class Paper_Model extends CC_Model
 
 		$userid			= 	$this->getUserID();		
 		$datetime		= 	date('Y-m-d H:i:s');
-		//$id				= 	$data['id'];
+		$id				= 	$data['id'];
 
 		//if(isset($data['allocate'])) 			$request1['allocate'] 				= $data['allocate'];
 		if(isset($data['cocstock'])) 			$request1['stock'] 					= $data['cocstock'];
@@ -69,9 +69,42 @@ class Paper_Model extends CC_Model
 			$request1['created_at'] = $datetime;
 			// print_r($request1); exit;
 			$userdata = $this->db->insert('paper_stock_management_log', $request1);
-			//print_r($userdata); exit;			
+			
+			if($userdata)
+			{
+				if($data['cocstock'] > 0)
+				{
+					for($i =0; $i<$data['cocstock']; $i++)
+					{
+			$request2['user_id']= 1;
+			$request2['coc_status'] = "admin_stock";
+			$request2['audit_status'] = "refix_required";
+			$request2['type'] = "paper";
+			$request2['purchased_at'] = $datetime;
+			$request2['allocation_date'] = $datetime;
+
+			$user_stock = $this->db->insert('paper_stock_management', $request2);
+			}
+		}
+		}
+			else{
+				echo "not inserted";
+			}
+			
 			
 		}
+
+		// if(isset($data['id'])) 					$request2['id'] 					= $data['id'];
+		
+		// if(isset($request2))
+		// {	
+
+		// 	$request2['purchased_at'] = $datetime;
+		// 	// print_r($request1); exit;
+		// 	$user_stock = $this->db->insert('paper_stock_management', $request2);
+						
+			
+		// }
 		
 		if($this->db->trans_status() == FALSE)
 		{
