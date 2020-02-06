@@ -108,4 +108,32 @@ class Index extends CC_Controller
 		$this->layout2($data);
 	}
 
+	public function audit_statement()
+	{
+		$data['content'] 	= $this->load->view('design/audit_statement', (isset($pagedata) ? $pagedata : ''), true);
+		$data['plugins'] = [];
+		$this->layout2($data);
+	}
+
+	public function audit_history()
+	{
+		$data['content'] 	= $this->load->view('design/audit_history', (isset($pagedata) ? $pagedata : ''), true);
+		$data['plugins'] = [];
+		$this->layout2($data);
+	}
+
+	public function my_report()
+	{
+		$data['content'] 	= $this->load->view('design/my_report', (isset($pagedata) ? $pagedata : ''), true);
+		$data['plugins'] = [];
+		$this->layout2($data);
+	}
+
+	public function auditor_profile()
+	{
+		$data['content'] 	= $this->load->view('design/auditor_profile', (isset($pagedata) ? $pagedata : ''), true);
+		$data['plugins'] = [];
+		$this->layout2($data);
+	}
+
 }
