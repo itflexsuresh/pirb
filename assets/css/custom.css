@@ -1109,6 +1109,35 @@ span.select2-selection {
 }
 
 
+/* Only for id_card uses*/
+
+@media only screen and (min-width: 1367px) and (max-width:2000px ) {
+
+    table#id_Card, table#id_Card_back {
+        width: 100%;
+        max-width: 83%;
+    }
+
+}
+
+@media only screen and (min-width: 2001px) and (max-width: 3000px ) { 
+
+    table#id_Card, table#id_Card_back {
+        width: 100%;
+        max-width: 60%;
+    }
+
+}
+
+@media only screen and (min-width: 3001px) and (max-width: 4000px ) { 
+
+    table#id_Card, table#id_Card_back {
+        width: 100%;
+        max-width: 60%;
+    }
+
+}
+
 /* Progress Bar */
 
 .progress-circle.active {
