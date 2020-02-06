@@ -47,7 +47,7 @@ class Login extends CC_Controller
 					$message 	= 	'<div>Hi,</div>
 
 									<div>Please Click the below link to verify your account.</div>
-									<div><a href="'.base_url().'authentication/login/verification/'.$encryptid.'">Click Here</a></div>
+									<div><a href="'.base_url().'authentication/login/verification?id='.$encryptid.'">Click Here</a></div>
 									<br>
 									<div>Best Regards</div>
 									<br>
@@ -71,11 +71,19 @@ class Login extends CC_Controller
 		$this->layout1($data);
 	}
 	
-	public function verification($id)
+	public function verification()
 	{
-		$decryptid 	= $this->encryption->decrypt($id);
+		if(!$this->input->get('id')){
+			$this->session->set_flashdata('error', 'Try Later.');
+			redirect(''); 
+		}
+		
+		$decryptid 	= $this->encryption->decrypt($this->input->get('id'));
 		$data 		= $this->Users_Model->verification($decryptid);
-		$this->session->set_flashdata('success', 'Successfully Verified.');
+		
+		if($data) $this->session->set_flashdata('success', 'Successfully Verified.');
+		else $this->session->set_flashdata('error', 'Try Later.');
+		
 		redirect(''); 
 	}
 	
