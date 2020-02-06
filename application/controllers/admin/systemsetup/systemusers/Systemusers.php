@@ -58,6 +58,7 @@ class Systemusers extends CC_Controller
                                         'u_email' => $result['email'],
                                         'u_password_raw' => $result['password_raw'],
                                         'u_type' => $this->config->item('roletype')[$result['type']],
+                                        'status' 	=> 	$this->config->item('statusicon')[$result['status']],
 										'action'				=> 	'
 															<div class="table-action">
 																<a href="'.base_url().'admin/systemsetup/systemusers/systemusers/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>	
