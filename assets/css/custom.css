@@ -927,7 +927,6 @@ table#id_Card, table#id_Card_back {
 }
 
 #id_Card p.license {
-    color: #fff;
     font-size: 20px;
     text-align: center;
     font-weight: 600;
@@ -1047,6 +1046,61 @@ span.select2-selection {
     margin: 0 15px 0 15px;
 }
 
+.learner_plumber {
+    background-color: #009b00 !important;
+}
+.learn_border {
+    border: 2px solid #009b00 !important;
+}
+
+
+.qualified_border {
+    border: 2px solid #804000 !important;
+}
+.qualified_plumber {
+    background-color: #804000 !important;
+}
+
+
+.master_plumber {
+    background-color: #ff8000 !important;
+}
+.master_border {
+    border: 2px solid #ff8000 !important;
+}
+
+
+.director_plumber {
+    background-color: #ffff00 !important;
+    color: #000 !important;
+}
+.director_border {
+    border: 2px solid #ff0 !important;
+}
+
+
+.technical_assistant {
+    background-color: #00f !important;
+}
+.technical_border {
+    border: 2px solid #00f !important;
+}
+
+
+.technical_operator {
+    background-color: #800080 !important;
+}
+.technical_operator_border {
+    border: 2px solid #800080 !important;
+}
+
+
+.licensed_border {
+    border: 2px solid #009b00 !important;
+}
+.licensed_plumber {
+    background-color: #009b00 !important;
+}
 
 /* Progress Bar */
 

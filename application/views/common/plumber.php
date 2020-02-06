@@ -336,7 +336,7 @@
 
 					<div class="row add_top_value">
 						<div class="col-md-6">	
-							<table id="id_Card">
+							<table id="id_Card" style="height: 300px;">
 								<tbody>
 									<tr>
 										<td>
@@ -349,7 +349,7 @@
 											<p><?php echo $name.' '.$surname; ?></p>
 										</td>
 									</tr>
-									<tr style="background-color: #E4010C">
+									<tr style="background-color: #E4010C; color: #fff" >
 										<td>
 											<img class="plum_lic" src="<?php echo base_url()?>assets/images/Plumber_License.png">
 										</td>
@@ -375,7 +375,7 @@
 												foreach($specialisationsid as $specialisationsdata){
 													if($specialisationskey==0){
 										?>
-														<td>
+														<td class="add_width">
 															<ul>
 										<?php
 													}
@@ -394,7 +394,7 @@
 												}
 											}else{
 										?>
-												<td>-</td>
+												<td class="add_width" style="vertical-align: top;">-</td>
 										<?php 
 											}
 										?>
@@ -405,7 +405,7 @@
 											<p class="plumber_name add_style"><?php echo isset($company[$companydetailsid]) ? $company[$companydetailsid] : '-'; ?></p>
 										</td>
 										<td>
-											<p>Specialisations</p>
+											<p style="width: 100%;">Specialisations</p>
 											<?php 
 												if(count($specialisationsid) > 0){
 													foreach($specialisationsid as $specialisationsdata){
@@ -425,7 +425,7 @@
 								</tbody>
 								<tbody style="width: 10%; display: inline-block;">
 									<tr style="height: 300px;">
-										<td colspan="2" style="text-align: center; padding: 9px;  background-color: #e4010c; color: #fff;">
+										<td colspan="2" style="text-align: center; padding: 15px;  background-color: #e4010c; color: #fff;">
 											<p class="back_license" style="transform: rotate(-90deg);margin: -66px;"><?php echo isset($designation2[$designation2id]) ? $designation2[$designation2id] : '-'; ?></p>
 										</td>
 									</tr>
