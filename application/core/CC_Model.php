@@ -13,17 +13,18 @@ class CC_Model extends CI_Model
 		
 		$this->load->library('email');
 		
-		$config['protocol']    	= 'smtp';
+		$config['protocol']    	= 'mail';
         $config['smtp_host']    = 'ssl://smtp.gmail.com';
         $config['smtp_port']    = '465';
-        $config['smtp_user']    = 'manikandan@itflexsolutions.com';
-        $config['smtp_pass']    = 'mani@itf';
+        $config['smtp_user']    = 'norwin.kairo5@gmail.com';
+        $config['smtp_pass']    = 'jedczpvjwxdyhqlo';
 		$config['mailtype'] 	= 'html';
 		$config['charset'] 		= 'iso-8859-1';
+		$config['newline']      = '\r\n';
 		$config['wordwrap'] 	= TRUE;
 
 		$this->email->initialize($config);
-		$this->email->from('pirb@gmail.com', $sitename);
+		$this->email->from('norwin.kairo5@gmail.com', $sitename);
 		$this->email->to($to);
 		$this->email->subject($subject);
 		$this->email->message($message);
@@ -32,7 +33,7 @@ class CC_Model extends CI_Model
 		if($this->email->send()){
 			return 'true';
 		}else{
-			print_r($this->email->print_debugger());
+			print_r($this->email->print_debugger());die;
 			return 'false';
 		}
 	}
