@@ -8,7 +8,7 @@ class Coc_Ordermodel extends CC_Model
 		$this->db->select('t1.*,t2.name,t2.surname,t3.address');
 		$this->db->from('coc_orders t1');
 		$this->db->join('users_detail t2', 't1.user_id=t2.user_id', 'left');
-		$this->db->join('users_address t3', 't1.user_id=t3.user_id', 't3.type="3"', 'left');
+		$this->db->join('users_address t3', 't1.user_id=t3.user_id t3.type="3"', 'left');
 
 		if(isset($requestdata['status']))	$this->db->where_in('status', $requestdata['status']);
 
