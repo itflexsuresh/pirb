@@ -269,6 +269,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 
 			if (count > $(this).val()) {
 				$("#coc_purchase").val(($(this).val()));
+				alert($("#coc_purchase").val(($(this).val())));
 				$('.alert-msg').hide();
 			}else{
 				$('.alert-msg').show();
