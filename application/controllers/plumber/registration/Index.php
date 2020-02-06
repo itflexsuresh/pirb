@@ -42,7 +42,7 @@ class Index extends CC_Controller
 		$pagedata['plumberrates'] 		= $this->getPlumberRates();
 		$pagedata['company'] 			= $this->getCompanyList();
 		$userdata1						= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
-		$data['userdata1']				= 	$userdata1;
+		$data['desgnation']				= 	$userdata1;
 		
 		$pagedata['titlesign'] 			= $this->config->item('titlesign');
 		$pagedata['gender'] 			= $this->config->item('gender');
