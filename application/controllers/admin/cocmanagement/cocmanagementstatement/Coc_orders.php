@@ -59,6 +59,7 @@ public function CocorderType()
 				else{
 						$result2['new_delivery'] = $this->config->item('purchasecocdelivery')[$result['delivery_type']];
 				}
+				$result['created_at']	= 	date('d-m-Y');
 				$totalrecord[] = 	[
 										'order_id' 		=> 	$result['order_id'],
 										'inv_id' 		=> 	$result['inv_id'],
