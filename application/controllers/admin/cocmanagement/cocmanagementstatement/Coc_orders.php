@@ -53,6 +53,12 @@ public function CocorderType()
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
+				if ($result['delivery_type'] == 0) {
+						$result2['new_delivery'] = ' ';
+				}
+				else{
+						$result2['new_delivery'] = $this->config->item('purchasecocdelivery')[$result['delivery_type']];
+				}
 				$totalrecord[] = 	[
 										'order_id' 		=> 	$result['order_id'],
 										'inv_id' 		=> 	$result['inv_id'],
@@ -63,12 +69,12 @@ public function CocorderType()
 										'coc_type' 		=> 	$this->config->item('coctype')[$result['coc_type']],
 										'coc_purchase' 	=> 	$result['coc_purchase'],
 
-										 'delivery_type' 		=> 	$this->config->item('purchasecocdelivery')[$result['delivery_type']],
+										 'delivery_type' 		=> 	$result2['new_delivery'],
 										//'delivery_type' => 	$result['delivery_type'],
 
 										'address' 		=> 	$result['address'],
-										//'tracking_no' 	=> 	$result['tracking_no'],
-										'tracking_no' 		=> 	$this->config->item('payment_status')[$result['status']],
+										'tracking_no' 	=> 	$result['tracking_no'],
+										//'tracking_no' 		=> 	$this->config->item('payment_status')[$result['status']],
 										'action'	=> 	'<div class="table-action">
 																<a href="'.base_url().'admin/cocmanagement/cocmanagementstatement/coc_order_index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit">
 																<i class="fa fa-pencil-alt"></i></a>
