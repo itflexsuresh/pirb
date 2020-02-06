@@ -69,7 +69,7 @@ $formstatus = $userdata['formstatus'];
 					<li><a href="<?php echo base_url().'plumber/registration/index'; ?>">Dashboard</a></li>
 					<?php if($formstatus=='1'){ ?>
 						<li><a href="<?php echo base_url().'plumber/profile/index'; ?>">My Profile</a></li>
-						<?php if ($desgnation == '4' || $desgnation == '6') {
+						<?php if ($designation == '4' || $designation == '6') {
 							?>
 							<li><a href="<?php echo base_url().'plumber/purchasecoc/index'; ?>">Purchase COC</a></li>
 							<?php
