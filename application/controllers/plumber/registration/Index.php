@@ -41,8 +41,6 @@ class Index extends CC_Controller
 		$pagedata['qualificationroute'] = $this->getQualificationRouteList();
 		$pagedata['plumberrates'] 		= $this->getPlumberRates();
 		$pagedata['company'] 			= $this->getCompanyList();
-		$userdata1						= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
-		$data['desgnation']				= 	$userdata1;
 		
 		$pagedata['titlesign'] 			= $this->config->item('titlesign');
 		$pagedata['gender'] 			= $this->config->item('gender');

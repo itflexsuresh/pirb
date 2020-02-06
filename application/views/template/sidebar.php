@@ -1,7 +1,7 @@
 <?php 
-$designation = $desgnation;
-$type 		= $userdata['type']; 
-$formstatus = $userdata['formstatus']; 
+$designation = $userdata['designation'];
+$type 		 = $userdata['type']; 
+$formstatus  = $userdata['formstatus']; 
 ?>
 
 <aside class="left-sidebar">

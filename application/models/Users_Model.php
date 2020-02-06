@@ -73,12 +73,13 @@ class Users_Model extends CC_Model
 	
 	public function getUserDetails($type, $requestdata=[])
 	{
-		$this->db->select('*');
-		$this->db->from('users');
+		$this->db->select('u.*,up.designation');
+		$this->db->from('users u');
+		$this->db->join('users_plumber up', 'u.id=up.user_id', 'left');
 		
-		if(isset($requestdata['id'])) 		$this->db->where('id', $requestdata['id']);
-		if(isset($requestdata['type']))		$this->db->where_in('type', $requestdata['type']);
-		if(isset($requestdata['status']))	$this->db->where_in('status', $requestdata['status']);
+		if(isset($requestdata['id'])) 		$this->db->where('u.id', $requestdata['id']);
+		if(isset($requestdata['type']))		$this->db->where_in('u.type', $requestdata['type']);
+		if(isset($requestdata['status']))	$this->db->where_in('u.status', $requestdata['status']);
 		
 		$query = $this->db->get();
 		
