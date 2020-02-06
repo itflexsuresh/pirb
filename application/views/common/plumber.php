@@ -333,6 +333,77 @@
 						</div>
 					<?php } ?>
 					
+
+					<div class="row add_top_value">
+						<div class="col-md-6">	
+							<table id="id_Card">
+								<tbody>
+									<tr>
+										<td>
+											<img class="id_logo" src="<?php echo base_url();?>assets/images/pitrb-logo.png">
+											<p>Reg No: 7077/16</p>
+											<p>Renewal Date: 07/08/2020</p>
+										</td>
+										<td>
+											<img class="id_admin" src="<?php echo base_url();?>assets/images/profile.jpg">
+											<p>Admin Name</p>
+										</td>
+									</tr>
+									<tr style="background-color: #E4010C">
+										<td>
+											<img class="plum_lic" src="<?php echo base_url()?>assets/images/Plumber_License.png">
+										</td>
+										<td>
+											<p class="license">Licensed Plumber</p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div class="col-md-6">
+							<table id="id_Card_back">
+									<tbody style="width: 90%; display: inline-block;">
+										<tr>
+											<td colspan="2">
+												<p>This card holder is only entitled to purchase and issue Plumbing COC’s for the following categories of plumbing and plumbing specialisations</p>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<ul>
+													<li>Above Ground Drainage</li>
+													<li>Below Ground Drainage</li>
+													<li>Rain Water Drainage</li>
+												</ul>
+											</td>
+											<td>
+												<ul>
+													<li>Cold Water</li>
+													<li>Hot Water</li>
+												</ul>
+											</td>
+										</tr>
+										<tr style="border-top: 1px solid #000;">
+											<td style="border-right: 1px solid #000; height: 92px;">
+												<span>Current Employer: </span> <p class="plumber_name">C.W. Plumbers</p>
+											</td>
+											<td>
+												<p>Specialisations</p>
+											</td>
+										</tr>
+									</tbody>
+									<tbody style="width: 10%; display: inline-block;">
+										<tr style="height: 266px;">
+											<td colspan="2" style="text-align: center; padding: 0px;  background-color: #e4010c; color: #fff;">
+												<p class="back_license" style="transform: rotate(-90deg);margin: -66px;">Licensed Plumber</p>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+					</div>
+
 					<div class="accordion" id="plumberaccordion">
 						<div class="card">
 							<div class="card-header" id="PlumbersPersonalDetails">
@@ -787,7 +858,7 @@
 						</div>									
 					</div>
 					
-					<div class="col-md-12">
+					<div class="col-md-12 text-right">
 						<input type="hidden" name="usersdetailid" value="<?php echo $usersdetailid; ?>">
 						<input type="hidden" name="usersplumberid" value="<?php echo $usersplumberid; ?>">
 						<?php if(!isset($disablebtn)){ ?>
