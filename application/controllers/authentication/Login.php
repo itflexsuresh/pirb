@@ -54,7 +54,7 @@ class Login extends CC_Controller
 									<div>Lea Smith</div>
 									Chairman of the PIRB';
 				
-					$this->CC_Model->sentMail2($requestData['email'], $subject, $message);
+					$this->CC_Model->sentMail($requestData['email'], $subject, $message);
 				
 					$this->session->set_flashdata('success', 'Successfully Registered. Kindly check your inbox for account activation details.');
 				}else{
