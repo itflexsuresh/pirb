@@ -42,6 +42,7 @@ if(isset($result) && $result){
 								<th>Role</th>
 								<th>Email Address</th>
 								<th>Pin</th>
+								<th>Status</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -66,7 +67,8 @@ if(isset($result) && $result){
 			{ "data": "u_surname" },
 			{ "data": "u_type" },
 			{ "data": "u_email" },
-			{ "data": "u_password_raw" },							
+			{ "data": "u_password_raw" },	
+			{ "data": "status" },						
 			{ "data": "action" }
 			]
 		};
