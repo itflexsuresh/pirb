@@ -37,7 +37,7 @@ class Index extends CC_Controller
 		$pagedata['cocpermitted']	=	$this->Coc_Model->checkcocpermitted($userid);
 		$pagedata['logcoc']			=	$this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => 'admin_stock']);
 		$pagedata['cocpaperwork']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocpaperwork'), 'status' => ['1']]);
-		$pagedata['cocelectronic']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocelectronic'), 'status' => ['1']]);
+		$pagedata['cocelectronic']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('coc_electronic'), 'status' => ['1']]);
 		$pagedata['postage']			= $this->Rates_Model->getList('row', ['id' => $this->config->item('postage'), 'status' => ['1']]);
 		$pagedata['couriour']			= $this->Rates_Model->getList('row', ['id' => $this->config->item('couriour'), 'status' => ['1']]);
 		$pagedata['collectedbypirb']	= $this->Rates_Model->getList('row', ['id' => $this->config->item('collectedbypirb'), 'status' => ['1']]);
