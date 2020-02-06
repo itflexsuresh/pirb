@@ -740,6 +740,11 @@ li.five > a:before {
     color: #fff;
 }
 
+li.setp.one a:hover:before {
+    color: #fff;
+}
+
+
 h5.card_sub_title {
     font-size: 20px;
     font-weight: 500 !important;
