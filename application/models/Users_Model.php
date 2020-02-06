@@ -40,7 +40,7 @@ class Users_Model extends CC_Model
 		$this->db->select('*');
 		$this->db->from('users');
 		$this->db->where('id', $id);
-		$this->db->where('status', '1');
+		$this->db->where_in('status', ['0', '1']);
 		$query = $this->db->get();
 		
 		if($query->num_rows() > 0){
