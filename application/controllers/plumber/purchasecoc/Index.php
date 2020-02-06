@@ -35,7 +35,7 @@ class Index extends CC_Controller
 		$pagedata['coctype']		= 	$this->config->item('coctype');
 		$pagedata['settings']		= 	$this->Systemsettings_Model->getList('row');
 		$pagedata['cocpermitted']	=	$this->Coc_Model->checkcocpermitted($userid);
-		$pagedata['logcoc']			=	$this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'status' => '1', 'log_status' => '0']);
+		$pagedata['logcoc']			=	$this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => 'admin_stock']);
 		$pagedata['cocpaperwork']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocpaperwork'), 'status' => ['1']]);
 		$pagedata['cocelectronic']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocelectronic'), 'status' => ['1']]);
 		$pagedata['postage']			= $this->Rates_Model->getList('row', ['id' => $this->config->item('postage'), 'status' => ['1']]);
@@ -103,12 +103,12 @@ class Index extends CC_Controller
 			$requestData1 = $this->input->post();
 			$requestData2['user_id'] 				=	$this->getUserID();
 			$requestData['users'] 					= 	$this->Plumber_Model->getList('row', ['id' => $requestData2['user_id']]);
-			$name 									= $requestData['users']['name'];
-			$surname 								= $requestData['users']['surname'];
-			$email 									= $requestData['users']['email'];
-			$item_description 						= $requestData1['item_description']; 
-			$payment_method 						= $requestData1['payment_method'];
-			$m_payment_id 							= $requestData1['m_payment_id'];
+			$name 									= 	$requestData['users']['name'];
+			$surname 								= 	$requestData['users']['surname'];
+			$email 									= 	$requestData['users']['email'];
+			$item_description 						= 	$requestData1['item_description']; 
+			$payment_method 						= 	$requestData1['payment_method'];
+			$m_payment_id 							= 	$requestData1['m_payment_id'];
 
 			$requestData2['mobile'] 				= 	$requestData['users']['mobile_phone'];
 			$requestData2['otp'] 					= 	rand ( 10000 , 99999 );

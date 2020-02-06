@@ -7,7 +7,7 @@ $userid		 			= $username['id'];
 $log_coc 				= $logcoc;
 $VAT 					= $settings["vat_percentage"];
 $coc_purchase_limit   	= $cocpermitted["coc_purchase_limit"];
-$electronic_coc_log   	= $cocpermitted["coc_electronic"];
+$electronic_coc_log   	= $cocpermitted["electronic_coc_log"];
 $cocpaperwork 			= $cocpaperwork["amount"];
 $cocelectronic 			= $cocelectronic["amount"];
 
@@ -73,16 +73,18 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 								if($electronic_coc_log==1){								
 									foreach($coctype as $key => $type){
 										?>
-										<div class="custom-control custom-radio">
+										<div class="col-md-3">
+											<div class="custom-control custom-radio">
 												<input type="radio" id="<?php echo $key.'-'.$type; ?>" name="coc_type" value="<?php echo $key; ?>" class="coc_type custom-control-input">
 												<label class="custom-control-label" for="<?php echo $key.'-'.$type; ?>"><?php echo $type; ?></label>
 											</div>
+										</div>
 										<?php 
 									}
 								}else{ ?>
 									<div class="col-md-3">
 										<div class="custom-control custom-radio">
-											<input type="radio" name="coc_type" value="2" class="coc_type custom-control-input">
+											<input type="radio" id="2-Paper_Based" name="coc_type" value="2" class="coc_type custom-control-input">
 											<label class="custom-control-label" for="coc_type"><?php echo $coctype[2]; ?></label>
 										</div>
 									</div>
@@ -107,6 +109,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 								<input type="number" id="coc_purchase" class="form-control" min="1" name="coc_purchase" for="coc_purchase">
 							</div>
 						</div>
+						<div class="alert-msg">Your Purchase Limit is Reached</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Cost of COC Type</label>
@@ -154,9 +157,9 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 					<!---	Payment	--->
 					<input id="merchant_id" name="merchant_id" value="10016054" type="hidden">
 					<input id="merchant_key" name="merchant_key" value="uwfiy08dfb6jn" type="hidden">
-					<input id="return_url" name="return_url" value="<?php echo base_url().'plumber/purchasecoc/index/return'; ?>" type="hidden">
-					<input id="cancel_url" name="cancel_url" value="<?php echo base_url().'plumber/purchasecoc/index/cancel'; ?>" type="hidden">
-					<input id="notify_url" name="notify_url" value="<?php echo base_url().'plumber/purchasecoc/index/notify'; ?>" type="hidden">
+					<input id="return_url" name="return_url" value="http://diyesh.com/auditit_new/pirb/return" type="hidden">
+					<input id="cancel_url" name="cancel_url" value="http://diyesh.com/auditit_new/pirb/cancel" type="hidden">
+					<input id="notify_url" name="notify_url" value="http://diyesh.com/auditit_new/pirb/notify" type="hidden">
 					<input id="name_first" name="name_first" value="<?php echo $username['name']; ?>" type="hidden">
 					<input id="name_last" name="name_last" value="<?php echo $username['surname']; ?>" type="hidden">
 					<input id="email_address" name="email_address" value="<?php echo $username['email']; ?>" type="hidden">
@@ -217,6 +220,8 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 		coctype($('.coc_type:checked').val());
 		delivery($('.delivery_card').val());
 
+		$('.alert-msg').hide();
+
 		validation(
 			'.form',
 			{
@@ -264,8 +269,10 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 
 			if (count > $(this).val()) {
 				$("#coc_purchase").val(($(this).val()));
+				$('.alert-msg').hide();
 			}else{
-				alert('Greater than your Permitte');
+				$('.alert-msg').show();
+				//alert('Greater than your Permitte');
 				$("#coc_purchase").val(count);
 			}
 
@@ -289,7 +296,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 			var delivery_type = 0;
 			var cocType = 0;
 			var delivery_cost = 0;
-			if ($('.coc_type').is(":checked")) {
+			if ($('#1-Electronic').is(":checked")) {
 				delivery_type = 0;
 				delivery_cost = 0;
 				cocType = 1;
@@ -369,7 +376,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 
 	function coctype(value){
 		if(value=='1'){
-			$('.coc_cost').val('<?php echo $cocpaperwork; ?>')
+			$('.coc_cost').val('<?php echo $cocpaperwork; ?>')			
 			$('#cost_f_delivery').val('0');
 		}else if(value=='2'){
 			$('.coc_cost').val('<?php echo $cocelectronic; ?>')
