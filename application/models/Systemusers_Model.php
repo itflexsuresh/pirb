@@ -128,9 +128,10 @@ class Systemusers_Model extends CC_Model
       $id = $data['id'];
       $user_email = $data['email'];
       $type = $data['type'];
-
+      $num = array('1', '7', '8', '9');    
+      $this->db->where_in('type',$num );
       $this->db->where('email', $user_email);
-      $this->db->where('type', $type);
+      
       if($id!='') $this->db->where('id !=', $id);
       $query = $this->db->get('users');
 
