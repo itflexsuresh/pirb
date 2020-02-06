@@ -5,7 +5,7 @@ class Coc_Model extends CC_Model
 	public function getCOCList($type, $requestdata){
 		 $result = $this->db
 		 			->select('*')
-		 			->from('coc_stock')
+		 			->from('paper_stock_management')
 		 			->where($requestdata);
 		if ($type=='count') {
 			$result = $this->db->count_all_results();
@@ -17,8 +17,24 @@ class Coc_Model extends CC_Model
 	}
 
 	public function action($requestdata){
-		$result = $this->db->insert('coc_orders',$requestdata);
-		if ($result) {
+		$datetime		= 	date('Y-m-d H:i:s');
+
+		$result 		= $this->db->insert('coc_orders',$requestdata);
+		
+		if($requestdata['coc_type'] == 1) 		$requestdata2['type'] 			= 'electronic';
+		if($requestdata['coc_type'] == 2) 		$requestdata2['type'] 			= 'paper';
+		if(isset($requestdata['user_id'])) 		$requestdata2['user_id'] 		= $requestdata['user_id'];
+												$requestdata2['coc_status']		= 'admin_stock';
+												$requestdata2['audit_status']	=  NULL;
+												$request['purchased_at'] 		= $datetime;
+
+		for ($x = 1; $x <= $requestdata['coc_purchase']; $x++) {
+
+    		$stock 			= $this->db->insert('paper_stock_management',$requestdata2);
+
+		}
+
+		if ($result && $stock) {
 			return '1';
 		}else{
 			return '0';
@@ -130,7 +146,7 @@ class Coc_Model extends CC_Model
 	public function checkcocpermitted($userid)
 	{
 		$query = $this->db
-				->select('coc_purchase_limit, coc_electronic')
+				->select('coc_purchase_limit, electronic_coc_log')
 				->from('users_plumber')
 				->where('user_id', $userid)
 				->get()
