@@ -37,7 +37,7 @@ class Coc_Orders extends CC_Controller
 		$pagedata['result'] 		= $this->Coc_Ordermodel->getCocorderList('row', ['status' => ['0','1']]);
 
 
-		$data['content'] 			= 	$this->load->view('admin/cocmanagement/cocmgmtstatement/coc_order_index', (isset($pagedata) ? $pagedata : ''), true);
+		$data['content'] 			= 	$this->load->view('admin/cocmanagement/cocmanagement/coc_order_index', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$this->layout2($data);
 	}
@@ -70,7 +70,7 @@ public function CocorderType()
 										//'tracking_no' 	=> 	$result['tracking_no'],
 										'tracking_no' 		=> 	$this->config->item('payment_status')[$result['status']],
 										'action'	=> 	'<div class="table-action">
-																<a href="'.base_url().'admin/cocmanagement/cocmgmtstatement/coc_order_index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit">
+																<a href="'.base_url().'admin/cocmanagement/cocmanagement/coc_order_index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit">
 																<i class="fa fa-pencil-alt"></i></a>
 																
 															</div>
@@ -141,15 +141,4 @@ public function CocorderType()
 	}
 
 
-	public function returnURL(){
-		print_r($_REQUEST);
-	}
-
-	public function cancelURL(){
-		print_r($_REQUEST);		
-	}
-
-	public function notifylURL(){
-		print_r($_REQUEST);
-	}
 }
