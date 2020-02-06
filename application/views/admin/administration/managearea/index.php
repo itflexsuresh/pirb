@@ -12,7 +12,7 @@
 		$city           = set_value('city');
 		$suburb         = set_value('suburb');
 		$status			= set_value('status');
-		$heading		= 'Save';
+		$heading		= 'Add';
 	}
 ?>
 
@@ -73,7 +73,7 @@
 						</div>
 						<div class="col-md-6 text-right">
 							<input type="hidden" name="id" value="<?php echo $id; ?>">
-							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> </button>
+							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?>Area </button>
 							
 						</div>
 					</div>
@@ -82,7 +82,7 @@
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
 							<tr>
-								<th>Provice</th>
+								<th>Province</th>
 								<th>City</th>
 								<th>Suburb</th>
 								<th>Action</th>
