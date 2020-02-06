@@ -401,8 +401,8 @@
 									</tr>
 									<tr style="border-top: 1px solid #000;">
 										<td style="border-right: 1px solid #000; height: 92px;">
-											<span>Current Employer: </span> 
-											<p class="plumber_name"><?php echo isset($company[$companydetailsid]) ? $company[$companydetailsid] : '-'; ?></p>
+											<p class="emp_title">Current Employer: </p> 
+											<p class="plumber_name add_style"><?php echo isset($company[$companydetailsid]) ? $company[$companydetailsid] : '-'; ?></p>
 										</td>
 										<td>
 											<p>Specialisations</p>
@@ -424,8 +424,8 @@
 									</tr>
 								</tbody>
 								<tbody style="width: 10%; display: inline-block;">
-									<tr style="height: 266px;">
-										<td colspan="2" style="text-align: center; padding: 0px;  background-color: #e4010c; color: #fff;">
+									<tr style="height: 300px;">
+										<td colspan="2" style="text-align: center; padding: 9px;  background-color: #e4010c; color: #fff;">
 											<p class="back_license" style="transform: rotate(-90deg);margin: -66px;"><?php echo isset($designation2[$designation2id]) ? $designation2[$designation2id] : '-'; ?></p>
 										</td>
 									</tr>

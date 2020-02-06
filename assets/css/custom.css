@@ -980,6 +980,15 @@ p.back_license {
     font-weight: 500 !important;
 }
 
+.add_style {
+    width: 100% !important;
+    text-align: right;
+}
+
+.emp_title {
+    text-align: left;
+}
+
 
 /* add by nantha anna */
 
