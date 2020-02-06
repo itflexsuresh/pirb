@@ -413,11 +413,15 @@ a {
     content: "\f2b9";
 }
 
+.accordion .card:nth-child(4) .card-header:before {
+    content: "\f2b9";
+}
+
 .accordion .card-header:before {position: absolute;font-family: 'Fontawesome';color: #586f8e;left: 13px;top: 11px;font-size: 16px;}
 
 .accordion div#billing:before {content: "\f2b9";}
 
-.accordion .card:nth-child(4) .card-header:before {
+.accordion .card:nth-child(5) .card-header:before {
     content: "\f19d";
     left: 11px;
 }
