@@ -368,3 +368,8 @@ $config['coctype'] 					= 	[
 											'1' => 'Electronic',
 											'2' => 'Paper Based'
 										];
+										
+$config['payment_status'] 			=	[
+											'0'	=>	'Not Paid',
+											'1'	=>	'Paid'
+										];
