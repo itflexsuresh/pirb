@@ -976,8 +976,8 @@ p.plumber_name {
 }
 
 p.back_license {
-    font-size: 20px !important;
-    font-weight: 600 !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
 }
 
 
@@ -1026,6 +1026,16 @@ span.select2-selection {
 
 .select2.select2-container {
     width: 100% !important;
+}
+
+.select2.select2-container {
+    width: 100% !important;
+}
+
+#id_Card_back td div {
+    width: auto;
+    display: inline-block;
+    margin: 0 15px 0 15px;
 }
 
 
