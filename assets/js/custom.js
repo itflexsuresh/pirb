@@ -149,6 +149,11 @@ function numberonly(selector){
 	})
 }
 
+function inputmask(selector, type=''){
+	
+	if(type==1) $(selector).inputmask("(999) 999-9999")
+}
+
 function fileupload(data1=[], data2=[]){
 	
 	var selector 	= data1[1];

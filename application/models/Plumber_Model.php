@@ -143,8 +143,8 @@ class Plumber_Model extends CC_Model
 		if(isset($data['reject_reason'])) 		$request2['reject_reason'] 			= implode(',', $data['reject_reason']);
 		if(isset($data['reject_reason_other'])) $request2['reject_reason_other']	= $data['reject_reason_other'];
 		
-		if(isset($data['registration_no']) && $data['registration_no']==''){
-			$request2['registration_no'] 		= $this->plumberregistrationno($data['designation2'], $data['qualification_year']);
+		if(isset($data['registration_no']) && !isset($data['approval_status']) && isset($data['user_id']) && isset($data['designation2'])){
+			$request2['registration_no'] 		= $this->plumberregistrationno($data['user_id'], $data['designation2'], ((isset($data['qualification_year'])) ? $data['qualification_year'] : ''));
 		}
 		
 		if(isset($data['approval_status']) && $data['approval_status']=='1'){
@@ -251,9 +251,15 @@ class Plumber_Model extends CC_Model
 		return $this->db->where('id', $id)->delete('users_plumber_skill');
 	}
 	
-	public function plumberregistrationno($value, $year)
+	public function plumberregistrationno($id, $value, $year)
 	{
 		$count = $this->getList('count', ['type' => '3']);
+		$row = $this->getList('row', ['id' => $id, 'type' => '3']);
+		
+		if(isset($row['registration_no']) && $row['registration_no']!=''){
+			$exploderegno = explode('/', $row['registration_no']);
+			if(isset($exploderegno[0])) $count = $exploderegno[0];
+		}
 		
 		if($value=='1'){
 			$prefix = '/L';

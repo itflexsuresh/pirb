@@ -223,7 +223,7 @@ class CC_Controller extends CI_Controller
 		$pagedata['comments'] 			= $this->Comment_Model->getList('all', ['user_id' => $id]);
 		$pagedata['defaultsettings'] 	= $this->Systemsettings_Model->getList('row');
 		
-		$data['plugins']				= ['validation','datepicker'];
+		$data['plugins']				= ['validation','datepicker','inputmask','select2'];
 		$data['content'] 				= $this->load->view('common/plumber', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}

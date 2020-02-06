@@ -217,7 +217,7 @@
 								<div class="form-group">
 									<label>Racial Status *</label>
 									<?php
-										echo form_dropdown('racial', $racial, $racialid,['class'=>'form-control']);
+										echo form_dropdown('racial', $racial, $racialid,['id' => 'racial', 'class'=>'form-control']);
 									?>
 								</div>
 							</div>
@@ -227,7 +227,7 @@
 								<div class="form-group">
 									<label>South African National *</label>
 									<?php
-										echo form_dropdown('nationality', $yesno, $nationality,['class'=>'form-control', 'id' => 'nationality']);
+										echo form_dropdown('nationality', $yesno, $nationality,['id' => 'nationality', 'class'=>'form-control']);
 									?>
 									</div>
 							</div>
@@ -243,7 +243,7 @@
 								<div class="form-group">
 									<label>Other Nationality <span class="othernationality_required">*</span></label>
 									<?php
-										echo form_dropdown('othernationality', $othernationality, $othernationalityid, ['class'=>'form-control']);
+										echo form_dropdown('othernationality', $othernationality, $othernationalityid, ['id'=>'othernationality', 'class'=>'form-control']);
 									?>
 								</div>
 							</div>
@@ -259,7 +259,7 @@
 								<div class="form-group">
 									<label>Home Language *</label>
 									<?php
-										echo form_dropdown('homelanguage', $homelanguage, $homelanguageid, ['class'=>'form-control']);
+										echo form_dropdown('homelanguage', $homelanguage, $homelanguageid, ['id'=>'homelanguage', 'class'=>'form-control']);
 									?>
 								</div>
 							</div>
@@ -267,7 +267,7 @@
 								<div class="form-group">
 									<label>Disability *</label>
 									<?php
-									echo form_dropdown('disability', $disability, $disabilityid,['class'=>'form-control']);
+									echo form_dropdown('disability', $disability, $disabilityid,['id'=>'disability', 'class'=>'form-control']);
 									?>
 									</div>
 							</div>
@@ -277,7 +277,7 @@
 								<div class="form-group">
 									<label>Citizen Residential Status *</label>
 									<?php
-									echo form_dropdown('citizen', $citizen, $citizenid,['class'=>'form-control']);
+									echo form_dropdown('citizen', $citizen, $citizenid,['id'=>'citizen', 'class'=>'form-control']);
 									?>
 									</div>
 							</div>
@@ -331,7 +331,7 @@
 								<div class="form-group">
 									<label>Registration Card Required *</label>
 									<?php
-										echo form_dropdown('registration_card', $yesno, $registrationcard,['class'=>'form-control', 'id' => 'registration_card']);
+										echo form_dropdown('registration_card', $yesno, $registrationcard,['id' => 'registration_card', 'class'=>'form-control']);
 									?>
 									</div>
 							</div>
@@ -339,7 +339,7 @@
 								<div class="form-group">
 									<label>Method of Delivery of Card <span class="delivery_card_required">*</span></label>
 									<?php
-										echo form_dropdown('delivery_card', $deliverycard, $deliverycardid,['class'=>'form-control']);
+										echo form_dropdown('delivery_card', $deliverycard, $deliverycardid,['id' => 'delivery_card', 'class'=>'form-control']);
 									?>
 									</div>
 							</div>
@@ -434,13 +434,13 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Home Phone:</label>
-									<input type="text" class="form-control" name="home_phone" value="<?php echo $homephone; ?>">
+									<input type="text" class="form-control" name="home_phone" id="home_phone" value="<?php echo $homephone; ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Mobile Phone *</label>
-									<input type="text" class="form-control" name="mobile_phone" value="<?php echo $mobilephone; ?>">
+									<input type="text" class="form-control" name="mobile_phone" id="mobile_phone" value="<?php echo $mobilephone; ?>">
 									<p>Note all SMS and OTP notifications will be sent to this mobile number above</p>
 								</div>
 							</div>
@@ -449,7 +449,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Work Phone:</label>
-									<input type="text" class="form-control" name="work_phone" value="<?php echo $workphone; ?>">
+									<input type="text" class="form-control" name="work_phone" id="work_phone" value="<?php echo $workphone; ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -544,7 +544,7 @@
 								<div class="form-group">
 									<label>Your Employment Status</label>
 									<?php
-										echo form_dropdown('employment_details', $employmentdetail, $employmentdetailsid,['class'=>'form-control', 'id' => 'employment_details']);
+										echo form_dropdown('employment_details', $employmentdetail, $employmentdetailsid,['id' => 'employment_details', 'class'=>'form-control']);
 									?>
 								</div>
 							</div>
@@ -553,7 +553,7 @@
 								<div class="form-group">
 									<label>Company *</label>
 									<?php
-										echo form_dropdown('company_details', $company, $companydetailsid,['class'=>'form-control']);
+										echo form_dropdown('company_details', $company, $companydetailsid,['id' => 'company_details', 'class'=>'form-control']);
 									?>
 									<p>If the Compnay does not appear on this listing please ask the company to Register with the PIRB.  Once they have been apporved and registered return to the listing and select the company</p>
 									<a href="javascript:void(0)">Register Company with the PIRB</a>
@@ -676,7 +676,7 @@
 							<div class="form-group">
 								<label>Qualification/Skills Route</label>
 								<?php
-								echo form_dropdown('skill_route', $qualificationroute, '', ['class'=>'form-control skill_route']);
+								echo form_dropdown('skill_route', $qualificationroute, '', ['id' => 'skill_route', 'class'=>'form-control skill_route']);
 								?>
 							</div>
 						</div>
@@ -717,8 +717,9 @@ var pdfimg		= '<?php echo $pdfimg; ?>';
 
 $(function(){
 	checkstep();
-	datepicker('.dob');
-	datepicker('.skill_date');
+	select2('#title, #gender, #racial, #nationality, #othernationality, #homelanguage, #disability, #citizen, #registration_card, #delivery_card, #province1, #city1, #suburb1, #province2, #city2, #suburb2, #province3, #city3, #suburb3, #employment_details, #company_details, #skill_route');
+	datepicker('.dob, .skill_date');
+	inputmask('#home_phone, #work_phone, #mobile_phone', 1);
 	fileupload([ajaxfileurl, ".document_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.document', '.document_image', filepath, pdfimg]);
 	fileupload([ajaxfileurl, ".photo_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.photo', '.photo_image', filepath, pdfimg]);
 	fileupload([ajaxfileurl, ".skill_attachment_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.skill_attachment', '.skill_attachment_image', filepath, pdfimg]);
@@ -834,9 +835,7 @@ $(function(){
 				number 	: true,
 			},
 			mobile_phone : {
-				required	: true,
-				maxlength: 20,
-				minlength: 10,
+				required	: true
 			},
 			email : {
 				required	: true,
@@ -853,14 +852,6 @@ $(function(){
 			idcard : {
 				maxlength: 13,
 				minlength: 13,
-			},
-			home_phone : {
-				maxlength: 10,
-				minlength: 10,
-			},
-			work_phone : {
-				maxlength: 10,
-				minlength: 10,
 			}
 		},
 		{
@@ -941,9 +932,7 @@ $(function(){
 				number 	: "Numbers Only.",
 			},
 			mobile_phone : {
-				required	: "Mobile phone  field is required.",
-				maxlength: "Please Enter 20 Numbers Only.",
-				minlength: "Please Enter 10 Numbers Only.",
+				required	: "Mobile phone  field is required."
 			},
 			email : {
 				required	: "Email  field is required.",
@@ -953,16 +942,7 @@ $(function(){
 			idcard : {
 				maxlength: "Please Enter 13 Numbers Only.",
 				minlength: "Please Enter 13 Numbers Only.",
-			},
-			home_phone : {
-				maxlength: "Please Enter 10 Numbers Only.",
-				minlength: "Please Enter 10 Numbers Only.",
-			},
-			work_phone : {
-				maxlength: "Please Enter 10 Numbers Only.",
-				minlength: "Please Enter 10 Numbers Only.",
 			}
-
 		},
 		{
 			ignore : []

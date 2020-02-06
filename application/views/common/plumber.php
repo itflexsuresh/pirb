@@ -88,7 +88,7 @@
 	$plumberstatusid 		= isset($result['plumberstatus']) ? $result['plumberstatus'] : '';
 	$designation2id 		= isset($result['designation']) ? $result['designation'] : '';
 	$qualificationyear 		= isset($result['qualification_year']) ? $result['qualification_year'] : '';
-	$specialisationsid 		= isset($result['specialisations']) ? explode(',', $result['specialisations']) : '';
+	$specialisationsid 		= isset($result['specialisations']) ? array_filter(explode(',', $result['specialisations'])) : '';
 	$cocpurchaselimit 		= isset($result['coc_purchase_limit']) && $result['coc_purchase_limit']!='0' ? $result['coc_purchase_limit'] : $defaultsettings['plumber_certificate'];
 	$cocelectronic 			= isset($result['coc_electronic']) ? $result['coc_electronic'] : '';
 	$message 				= isset($result['message']) ? $result['message'] : '';
@@ -276,7 +276,7 @@
 									<div class="form-group">
 										<label>Status</label>
 										<?php
-											echo form_dropdown('plumberstatus', $plumberstatus, $plumberstatusid, ['class'=>'form-control']+$disabled1array+$disabled2array);
+											echo form_dropdown('plumberstatus', $plumberstatus, $plumberstatusid, ['id' => 'plumberstatus', 'class'=>'form-control']+$disabled1array+$disabled2array);
 										?>
 									</div>
 								</div>
@@ -284,7 +284,7 @@
 									<div class="form-group">
 										<label>PIRB Designation</label>
 										<?php
-											echo form_dropdown('designation2', $designation2, $designation2id, ['class' => 'form-control', 'id' => 'designation2']+$disabled1array+$disabled2array);
+											echo form_dropdown('designation2', $designation2, $designation2id, ['id' => 'designation2', 'class' => 'form-control']+$disabled1array+$disabled2array);
 										?>
 									</div>
 								</div>
@@ -341,12 +341,12 @@
 									<tr>
 										<td>
 											<img class="id_logo" src="<?php echo base_url();?>assets/images/pitrb-logo.png">
-											<p>Reg No: 7077/16</p>
-											<p>Renewal Date: 07/08/2020</p>
+											<p>Reg No: <?php echo ($registration_no!='') ? $registration_no : '-'; ?></p>
+											<p>Renewal Date: <?php echo $renewal_date; ?></p>
 										</td>
 										<td>
-											<img class="id_admin" src="<?php echo base_url();?>assets/images/profile.jpg">
-											<p>Admin Name</p>
+											<img class="id_admin" src="<?php echo $photoidimg; ?>">
+											<p><?php echo $name.' '.$surname; ?></p>
 										</td>
 									</tr>
 									<tr style="background-color: #E4010C">
@@ -354,54 +354,84 @@
 											<img class="plum_lic" src="<?php echo base_url()?>assets/images/Plumber_License.png">
 										</td>
 										<td>
-											<p class="license">Licensed Plumber</p>
+											<p class="license"><?php echo isset($designation2[$designation2id]) ? $designation2[$designation2id] : '-'; ?></p>
 										</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
-
 						<div class="col-md-6">
 							<table id="id_Card_back">
-									<tbody style="width: 90%; display: inline-block;">
-										<tr>
-											<td colspan="2">
-												<p>This card holder is only entitled to purchase and issue Plumbing COC’s for the following categories of plumbing and plumbing specialisations</p>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<ul>
-													<li>Above Ground Drainage</li>
-													<li>Below Ground Drainage</li>
-													<li>Rain Water Drainage</li>
-												</ul>
-											</td>
-											<td>
-												<ul>
-													<li>Cold Water</li>
-													<li>Hot Water</li>
-												</ul>
-											</td>
-										</tr>
-										<tr style="border-top: 1px solid #000;">
-											<td style="border-right: 1px solid #000; height: 92px;">
-												<span>Current Employer: </span> <p class="plumber_name">C.W. Plumbers</p>
-											</td>
-											<td>
-												<p>Specialisations</p>
-											</td>
-										</tr>
-									</tbody>
-									<tbody style="width: 10%; display: inline-block;">
-										<tr style="height: 266px;">
-											<td colspan="2" style="text-align: center; padding: 0px;  background-color: #e4010c; color: #fff;">
-												<p class="back_license" style="transform: rotate(-90deg);margin: -66px;">Licensed Plumber</p>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
+								<tbody style="width: 90%; display: inline-block;">
+									<tr>
+										<td colspan="2">
+											<p>This card holder is only entitled to purchase and issue Plumbing COC’s for the following categories of plumbing and plumbing specialisations</p>
+										</td>
+									</tr>
+									<tr>
+										<?php 
+											if(count($specialisationsid) > 0){
+												$specialisationskey = 0;
+												foreach($specialisationsid as $specialisationsdata){
+													if($specialisationskey==0){
+										?>
+														<td>
+															<ul>
+										<?php
+													}
+										?>
+																<li><?php echo isset($specialisations[$specialisationsdata]) ? $specialisations[$specialisationsdata] : '-'; ?></li>
+										<?php
+													if($specialisationskey==2 || (count($specialisationsid)-1)==$specialisationskey){
+										?>
+															</ul>
+														</td>
+										<?php
+													}
+													
+													$specialisationskey++;
+													if($specialisationskey==3) $specialisationskey=0;
+												}
+											}else{
+										?>
+												<td>-</td>
+										<?php 
+											}
+										?>
+									</tr>
+									<tr style="border-top: 1px solid #000;">
+										<td style="border-right: 1px solid #000; height: 92px;">
+											<span>Current Employer: </span> 
+											<p class="plumber_name"><?php echo isset($company[$companydetailsid]) ? $company[$companydetailsid] : '-'; ?></p>
+										</td>
+										<td>
+											<p>Specialisations</p>
+											<?php 
+												if(count($specialisationsid) > 0){
+													foreach($specialisationsid as $specialisationsdata){
+													
+											?>
+														<div><?php echo isset($specialisations[$specialisationsdata]) ? $specialisations[$specialisationsdata] : '-'; ?></div>
+											<?php	
+													}
+												}else{
+											?>
+													<p>-</p>
+											<?php 
+												}
+											?>
+										</td>
+									</tr>
+								</tbody>
+								<tbody style="width: 10%; display: inline-block;">
+									<tr style="height: 266px;">
+										<td colspan="2" style="text-align: center; padding: 0px;  background-color: #e4010c; color: #fff;">
+											<p class="back_license" style="transform: rotate(-90deg);margin: -66px;"><?php echo isset($designation2[$designation2id]) ? $designation2[$designation2id] : '-'; ?></p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 
 					<div class="accordion add_top_value" id="plumberaccordion">
@@ -464,7 +494,7 @@
 											<div class="form-group">
 												<label>Racial Status *</label>
 												<?php
-													echo form_dropdown('racial', $racial, $racialid,['class'=>'form-control']+$disabled2array);
+													echo form_dropdown('racial', $racial, $racialid,['id'=>'racial', 'class'=>'form-control']+$disabled2array);
 												?>
 											</div>
 										</div>
@@ -474,7 +504,7 @@
 											<div class="form-group">
 												<label>South African National *</label>
 												<?php
-													echo form_dropdown('nationality', $yesno, $nationality,['class'=>'form-control', 'id' => 'nationality']+$disabled2array);
+													echo form_dropdown('nationality', $yesno, $nationality,['id' => 'nationality', 'class'=>'form-control']+$disabled2array);
 												?>
 												</div>
 										</div>
@@ -490,7 +520,7 @@
 											<div class="form-group">
 												<label>Other Nationality <span class="othernationality_required">*</span></label>
 												<?php
-													echo form_dropdown('othernationality', $othernationality, $othernationalityid, ['class'=>'form-control']+$disabled2array);
+													echo form_dropdown('othernationality', $othernationality, $othernationalityid, ['id' => 'othernationality', 'class'=>'form-control']+$disabled2array);
 												?>
 											</div>
 										</div>
@@ -506,7 +536,7 @@
 											<div class="form-group">
 												<label>Home Language *</label>
 												<?php
-													echo form_dropdown('homelanguage', $homelanguage, $homelanguageid, ['class'=>'form-control']+$disabled2array);
+													echo form_dropdown('homelanguage', $homelanguage, $homelanguageid, ['id' => 'homelanguage', 'class'=>'form-control']+$disabled2array);
 												?>
 											</div>
 										</div>
@@ -514,7 +544,7 @@
 											<div class="form-group">
 												<label>Disability *</label>
 												<?php
-												echo form_dropdown('disability', $disability, $disabilityid,['class'=>'form-control']+$disabled2array);
+												echo form_dropdown('disability', $disability, $disabilityid,['id' => 'disability', 'class'=>'form-control']+$disabled2array);
 												?>
 												</div>
 										</div>
@@ -524,7 +554,7 @@
 											<div class="form-group">
 												<label>Citizen Residential Status *</label>
 												<?php
-												echo form_dropdown('citizen', $citizen, $citizenid,['class'=>'form-control']+$disabled2array);
+												echo form_dropdown('citizen', $citizen, $citizenid,['id' => 'citizen', 'class'=>'form-control']+$disabled2array);
 												?>
 												</div>
 										</div>
@@ -549,7 +579,7 @@
 											<div class="form-group">
 												<label>Registration Card Required *</label>
 												<?php
-													echo form_dropdown('registration_card', $yesno, $registrationcard,['class'=>'form-control', 'id' => 'registration_card']);
+													echo form_dropdown('registration_card', $yesno, $registrationcard,['id' => 'registration_card', 'class'=>'form-control', 'id' => 'registration_card']);
 												?>
 												</div>
 										</div>
@@ -557,7 +587,7 @@
 											<div class="form-group">
 												<label>Method of Delivery of Card <span class="delivery_card_required">*</span></label>
 												<?php
-													echo form_dropdown('delivery_card', $deliverycard, $deliverycardid,['class'=>'form-control']);
+													echo form_dropdown('delivery_card', $deliverycard, $deliverycardid,['id' => 'delivery_card', 'class'=>'form-control']);
 												?>
 											</div>
 										</div>
@@ -668,13 +698,13 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Home Phone:</label>
-												<input type="text" class="form-control" name="home_phone" value="<?php echo $homephone; ?>">
+												<input type="text" class="form-control" name="home_phone" id="home_phone" value="<?php echo $homephone; ?>">
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Mobile Phone *</label>
-												<input type="text" class="form-control" name="mobile_phone" value="<?php echo $mobilephone; ?>" <?php echo $disabled2; ?>>
+												<input type="text" class="form-control" name="mobile_phone" id="mobile_phone" value="<?php echo $mobilephone; ?>" <?php echo $disabled2; ?>>
 												<p>Note all SMS and OTP notifications will be sent to this mobile number above</p>
 											</div>
 										</div>
@@ -683,13 +713,13 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Work Phone:</label>
-												<input type="text" class="form-control" name="work_phone" value="<?php echo $workphone; ?>">
+												<input type="text" class="form-control" name="work_phone" id="work_phone" value="<?php echo $workphone; ?>">
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Secondary Mobile Phone</label>
-												<input type="text" class="form-control" name="mobile_phone2" value="<?php echo $mobilephone2; ?>">
+												<input type="text" class="form-control" name="mobile_phone2" id="mobile_phone2" value="<?php echo $mobilephone2; ?>">
 											</div>
 										</div>
 									</div>
@@ -807,7 +837,7 @@
 											<div class="form-group">
 												<label>Your Employment Status</label>
 												<?php
-													echo form_dropdown('employment_details', $employmentdetail, $employmentdetailsid,['class'=>'form-control', 'id' => 'employment_details']);
+													echo form_dropdown('employment_details', $employmentdetail, $employmentdetailsid,['id' => 'employment_details', 'class'=>'form-control', 'id' => 'employment_details']);
 												?>
 											</div>
 										</div>
@@ -815,7 +845,7 @@
 											<div class="form-group">
 												<label>Company *</label>
 												<?php
-													echo form_dropdown('company_details', $company, $companydetailsid,['class'=>'form-control']);
+													echo form_dropdown('company_details', $company, $companydetailsid,['id' => 'company_details', 'class'=>'form-control']);
 												?>
 											</div>
 										</div>
@@ -908,7 +938,7 @@
 							<div class="form-group">
 								<label>Qualification/Skills Route</label>
 								<?php
-								echo form_dropdown('skill_route', $qualificationroute, '', ['class'=>'form-control skill_route']);
+								echo form_dropdown('skill_route', $qualificationroute, '', ['id' => 'skill_route', 'class'=>'form-control skill_route']);
 								?>
 							</div>
 						</div>
@@ -948,8 +978,9 @@ var ajaxfileurl	= '<?php echo base_url("ajax/index/ajaxfileupload"); ?>';
 var pdfimg		= '<?php echo $pdfimg; ?>';
 
 $(function(){
-	datepicker('.dob');
-	datepicker('.skill_date');
+	select2('#plumberstatus, #designation2, #title, #gender, #racial, #nationality, #othernationality, #homelanguage, #disability, #citizen, #registration_card, #delivery_card, #province1, #city1, #suburb1, #province2, #city2, #suburb2, #province3, #city3, #suburb3, #employment_details, #company_details, #skill_route');
+	datepicker('.dob, .skill_date');
+	inputmask('#home_phone, #work_phone, #mobile_phone', 1);
 	fileupload([ajaxfileurl, ".document_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.document', '.document_image', filepath, pdfimg]);
 	fileupload([ajaxfileurl, ".photo_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.photo', '.photo_image', filepath, pdfimg]);
 	fileupload([ajaxfileurl, ".skill_attachment_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.skill_attachment', '.skill_attachment_image', filepath, pdfimg]);
@@ -1075,9 +1106,7 @@ $(function(){
 				number 	: true,
 			},
 			mobile_phone : {
-				required	: true,
-				maxlength: 20,
-				minlength: 10,
+				required	: true
 			},
 			email : {
 				required	: true,
@@ -1095,15 +1124,6 @@ $(function(){
 				maxlength: 13,
 				minlength: 13,
 			},
-			home_phone : {
-				maxlength: 10,
-				minlength: 10,
-			},
-			work_phone : {
-				maxlength: 10,
-				minlength: 10,
-			},
-			
 			company_name : {
 				required	: true,
 			},
@@ -1140,7 +1160,10 @@ $(function(){
 			qualification_year 	: {
 				required:  	function() {
 								return ($("#designation2").val() == "4" || $("#designation2").val() == "5" || $("#designation2").val() == "6");
-							}
+							},				
+				number		: true,
+				maxlength	: 4,
+				minlength	: 4
 			}
 			
 		},
@@ -1222,9 +1245,7 @@ $(function(){
 				number 	: "Numbers Only.",
 			},
 			mobile_phone : {
-				required	: "Mobile phone  field is required.",
-				maxlength: "Please Enter 20 Numbers Only.",
-				minlength: "Please Enter 10 Numbers Only.",
+				required	: "Mobile phone  field is required."
 			},
 			email : {
 				required	: "Email  field is required.",
@@ -1235,15 +1256,6 @@ $(function(){
 				maxlength: "Please Enter 13 Numbers Only.",
 				minlength: "Please Enter 13 Numbers Only.",
 			},
-			home_phone : {
-				maxlength: "Please Enter 10 Numbers Only.",
-				minlength: "Please Enter 10 Numbers Only.",
-			},
-			work_phone : {
-				maxlength: "Please Enter 10 Numbers Only.",
-				minlength: "Please Enter 10 Numbers Only.",
-			},
-			
 			company_name 	: {
 				required	: "Billing name field is required.",
 			},
@@ -1274,6 +1286,9 @@ $(function(){
 			
 			qualification_year 	: {
 				required	: "Please select qualification year.",
+				number 		: "Numbers Only",
+				maxlength	: "Please enter 4 number.",
+				minlength	: "Please enter 4 number"
 			}
 		},
 		{

@@ -61,7 +61,7 @@ class Index extends CC_Controller
 		$pagedata['userid'] 			= $userid;
 		$pagedata['result'] 			= $result;
 		
-		$data['plugins']				= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
+		$data['plugins']				= ['sweetalert', 'validation', 'datepicker', 'inputmask', 'select2'];
 		$data['content'] 				= $this->load->view('plumber/registration/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
@@ -78,38 +78,6 @@ class Index extends CC_Controller
 			$json = ['status' => '0'];
 		}
 		
-		echo json_encode($json);
-	}
-	
-	public function DTInstallationType()
-	{
-		$post 			= $this->input->post();
-		$totalcount 	= $this->Plumber_Model->getList('count', ['status' => ['0','1']]+$post);
-		$results 		= $this->Plumber_Model->getList('all', ['status' => ['0','1']]+$post);
-		
-		$totalrecord 	= [];
-		if(count($results) > 0){
-			foreach($results as $result){
-				$totalrecord[] = 	[
-										'name' 		=> 	$result['name'],
-										'status' 	=> 	$this->config->item('statusicon')[$result['status']],
-										'action'	=> 	'
-															<div class="table-action">
-																<a href="'.base_url().'plumber/registration/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-																<a href="javascript:void(0);" data-id="'.$result['id'].'" class="delete" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
-															</div>
-														'
-									];
-			}
-		}
-		
-		$json = array(
-			"draw"            => intval($post['draw']),   
-			"recordsTotal"    => intval($totalcount),  
-			"recordsFiltered" => intval($totalcount),
-			"data"            => $totalrecord
-		);
-
 		echo json_encode($json);
 	}
 }

@@ -114,6 +114,9 @@
 			if(in_array('datepicker', $plugins)){ 
 				echo '<script src="'.base_url().'assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>';
 			}
+			if(in_array('inputmask', $plugins)){ 
+				echo '<script src="'.base_url().'assets/plugins/inputmask/jquery.inputmask.bundle.min.js"></script>';
+			}
 		?>
 		
 		<script src="<?php echo base_url().'assets/js/custom.min.js'; ?>"></script>
