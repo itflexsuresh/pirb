@@ -1060,6 +1060,9 @@ span.select2-selection {
 .qualified_plumber .add_idcard_color {
     background-color: #804000 !important;
 }
+.qualified_plumber p.back_license {
+    white-space: nowrap;
+}
 
 
 .master_plumber .add_idcard_color {
@@ -1086,6 +1089,16 @@ span.select2-selection {
     border: 2px solid #00f !important;
 }
 
+.technical_assistant p.back_license {
+    white-space: nowrap;
+    margin: -132px !important;
+    font-size: 15px !important;
+}
+.technical_assistant #id_Card p.license {
+    font-size: 17px;
+}
+
+
 
 .technical_operator .add_idcard_color {
     background-color: #800080 !important;
@@ -1094,6 +1107,13 @@ span.select2-selection {
     border: 2px solid #800080 !important;
 }
 
+.technical_operator p.back_license {
+    white-space: nowrap;
+    margin: -130px !important;
+}
+
+
+
 
 .licensed_plumber .id_admin {
     border: 2px solid #e80000 !important;
@@ -1101,6 +1121,10 @@ span.select2-selection {
 .licensed_plumber .add_idcard_color {
     background-color: #e80000 !important;
 }
+.licensed_plumber p.back_license {
+    white-space: nowrap;
+}
+
 
 
 .add_idcard_color {
