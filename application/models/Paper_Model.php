@@ -90,21 +90,8 @@ class Paper_Model extends CC_Model
 			else{
 				echo "not inserted";
 			}
-			
-			
 		}
-
-		// if(isset($data['id'])) 					$request2['id'] 					= $data['id'];
 		
-		// if(isset($request2))
-		// {	
-
-		// 	$request2['purchased_at'] = $datetime;
-		// 	// print_r($request1); exit;
-		// 	$user_stock = $this->db->insert('paper_stock_management', $request2);
-						
-			
-		// }
 		
 		if($this->db->trans_status() == FALSE)
 		{
