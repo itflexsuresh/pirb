@@ -329,7 +329,7 @@ $(function(){
 $(function(){
 		
 		var options = {
-			url 	: 	'<?php echo base_url()."admin/cocmanagement/cocmgmtstatement/Coc_Orders/CocorderType"; ?>',
+			url 	: 	'<?php echo base_url()."admin/cocmanagement/cocmanagetstatement/Coc_Orders/CocorderType"; ?>',
 			columns : 	[
 			{ "data": "order_id" },
 			{ "data": "inv_id" },
