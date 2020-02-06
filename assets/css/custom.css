@@ -384,31 +384,42 @@ a {
     margin-top: 20px;
 }
 
-#accordionExample .card {
+.accordion .card {
     border: none;
     margin-bottom: 0;
     padding: 6px 0 6px 0;
 }
 
-#accordionExample .card .card-header {
+.accordion .card .card-header {
     padding: 5px 15px 5px 25px;
     background-color: #dde7f1;
 }
 
-#accordionExample .card .card-header button.btn.btn-link {
+.accordion .card .card-header button.btn.btn-link {
     color: #586f8e;
     font-weight: 500;
 }
 
-.accordion div#headingOne:before {content: "\f007";}
+.accordion .card:nth-child(1) .card-header:before {
+    content: "\f007";
+}
 
-.accordion div#headingTwo:before {content: "\f05a";}
+.accordion .card:nth-child(2) .card-header:before {
+    content: "\f05a";
+}
+
+.accordion .card:nth-child(3) .card-header:before {
+    content: "\f2b9";
+}
 
 .accordion .card-header:before {position: absolute;font-family: 'Fontawesome';color: #586f8e;left: 13px;top: 11px;font-size: 16px;}
 
 .accordion div#billing:before {content: "\f2b9";}
 
-.accordion div#headingFour:before {content: "\f19d"; left: 11px;}
+.accordion .card:nth-child(4) .card-header:before {
+    content: "\f19d";
+    left: 11px;
+}
 
 .accordion .card-header .collapsed:after {content: "\f105";position: absolute;right: 35px;top: 16px;font-family: 'Fontawesome';font-size: 14px;background-color: #89755d;width: 20px;height: 20px;text-align: center;border-radius: 10px;color: #ffff;transform: rotate(-95deg);}
 
