@@ -267,7 +267,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 
 			var count = $('#number_of_purchase_coc').val();
 
-			if (count > $(this).val()) {
+			if (count > parseInt($(this).val())) {
 				$("#coc_purchase").val(($(this).val()));
 				alert($("#coc_purchase").val(($(this).val())));
 				$('.alert-msg').hide();
