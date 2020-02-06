@@ -713,6 +713,19 @@ a.archive_link_btn {
 
 li.one > a:before {
     content: "\f2bc";
+    font-family: Fontawesome;
+    color: #019cde;
+    font-size: 16px;
+    margin-right: 10px;
+    margin-left: 6px;
+}
+
+li.one i.ti-email {
+    display: none;
+}
+
+li.step.active a:before {
+    color: #fff;
 }
 
 li.two > a:before {content: "\f013";}
