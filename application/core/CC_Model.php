@@ -24,7 +24,7 @@ class CC_Model extends CI_Model
 		$config['wordwrap'] 	= TRUE;
 
 		$this->email->initialize($config);
-		$this->email->from('norwin.kairo5@gmail.com', $sitename);
+		$this->email->from('pirb@gmail.com', $sitename);
 		$this->email->to($to);
 		$this->email->subject($subject);
 		$this->email->message($message);
@@ -33,7 +33,7 @@ class CC_Model extends CI_Model
 		if($this->email->send()){
 			return 'true';
 		}else{
-			print_r($this->email->print_debugger());die;
+			//print_r($this->email->print_debugger());die;
 			return 'false';
 		}
 	}

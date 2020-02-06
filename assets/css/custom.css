@@ -314,6 +314,7 @@ p.note_red {
 
 a {
     color: #48c7ff;
+    font-weight: 500;
 }
 
 /* login page */
@@ -412,11 +413,15 @@ a {
     content: "\f2b9";
 }
 
+.accordion .card:nth-child(4) .card-header:before {
+    content: "\f2b9";
+}
+
 .accordion .card-header:before {position: absolute;font-family: 'Fontawesome';color: #586f8e;left: 13px;top: 11px;font-size: 16px;}
 
 .accordion div#billing:before {content: "\f2b9";}
 
-.accordion .card:nth-child(4) .card-header:before {
+.accordion .card:nth-child(5) .card-header:before {
     content: "\f19d";
     left: 11px;
 }
@@ -664,6 +669,7 @@ table.table {
 
 ul.nav.nav-tabs {
     background-color: #e6ebf1;
+    margin: 0 auto;
 }
 
 a.sub_menu:after {content: "\f105";font-family: 'Fontawesome';position: absolute;right: 21px;font-size: 19px;top: 11px;transition: all 0.3s;}
@@ -837,6 +843,10 @@ h5.card_sub_title {
     margin-top: 10px;
 }
 
+.mt_7 {
+    margin-top: 7px;
+}
+
 .mt_25 a {
     font-weight: 500;
 }
@@ -877,6 +887,10 @@ table th {
 .export_pdf:before {content: "\f1c1";font-family: "Fontawesome";font-size: 54px;position: relative;left: 17px;color: #3f91c9;}
 
 .export_pdf:after {content: "";}
+
+.export_btn {
+    margin-top: 0 !important;
+}
 
 .full_width {
     width: 100% !important;
@@ -920,6 +934,7 @@ table#id_Card, table#id_Card_back {
     position: relative;
     right: 132px;
     margin-bottom: 0;
+    width: 100%;
 }
 
 #id_Card img.plum_lic {
@@ -961,8 +976,8 @@ p.plumber_name {
 }
 
 p.back_license {
-    font-size: 20px !important;
-    font-weight: 600 !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
 }
 
 
@@ -987,6 +1002,40 @@ position: absolute;
 position: relative;
    top: 50%;
 font-size: 26px;
+}
+
+img.plumber_profile {
+    width: 178px;
+    border: 1px solid rgba(0, 0, 0, 0.19);
+}
+
+span.select2-selection {
+    border-radius: 7px !important;
+    border: 1px solid #dde6ef !important;
+    height: auto !important;
+}
+
+.select2-selection__rendered {
+    padding: 9px 10px 9px 20px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    top: 6px !important;
+    right: 7px !important;
+}
+
+.select2.select2-container {
+    width: 100% !important;
+}
+
+.select2.select2-container {
+    width: 100% !important;
+}
+
+#id_Card_back td div {
+    width: auto;
+    display: inline-block;
+    margin: 0 15px 0 15px;
 }
 
 

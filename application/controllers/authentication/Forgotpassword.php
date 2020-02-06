@@ -58,6 +58,9 @@ class Forgotpassword extends CC_Controller
 			}
 		}
 		
+		$pagedata['notification'] 	= $this->getNotification();
+		
+		$data['plugins'] = ['validation'];
 		$data['content'] = $this->load->view('authentication/forgotpassword/verification', '', true);
 		$this->layout1($data);
 	}

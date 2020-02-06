@@ -25,7 +25,7 @@
 	</div>
 	<div class="col-sm-6">
 		<div class="card card-body">
-			<h4 class="card-title">Individual Registeration with the PIRB</h4>
+			<h4 class="card-title">Individual Registration with the PIRB</h4>
 			<h5 class="card-subtitle"> Register as a Individaul with the Plumbing Regsitration Board </h5>
 			<a style="cursor: pointer;">About the Registration Process</a>
 			<form method="post" action="" class="form-horizontal mt-4 register">
