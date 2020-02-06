@@ -1,6 +1,5 @@
 <?php 
-print_r($desgnation);die;
-//$designation = $userdata1;
+$designation = $desgnation;
 $type 		= $userdata['type']; 
 $formstatus = $userdata['formstatus']; 
 ?>
@@ -70,11 +69,11 @@ $formstatus = $userdata['formstatus'];
 					<li><a href="<?php echo base_url().'plumber/registration/index'; ?>">Dashboard</a></li>
 					<?php if($formstatus=='1'){ ?>
 						<li><a href="<?php echo base_url().'plumber/profile/index'; ?>">My Profile</a></li>
-						<?php //if ($designation == '4' || $designation == '6') {
+						<?php if ($desgnation == '4' || $desgnation == '6') {
 							?>
 							<li><a href="<?php echo base_url().'plumber/purchasecoc/index'; ?>">Purchase COC</a></li>
 							<?php
-						//} ?>
+						} ?>
 					<?php }elseif($formstatus=='0'){ ?>
 						<li><a href="<?php echo base_url().'plumber/registration/index'; ?>">My Profile</a></li>
 					<?php } ?>
