@@ -731,6 +731,10 @@ li.one > a:before {
     margin-left: 6px;
 }
 
+li.setp.one.active a:before {
+    color: #fff;
+}
+
 li.one i.ti-email {
     display: none;
 }
