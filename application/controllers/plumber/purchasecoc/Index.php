@@ -165,15 +165,15 @@ class Index extends CC_Controller
 	}
 
 	public function return(){
-		$userid 				=	$this->getUserID();
-		$insert_id 				= 	$this->db->select('id')->from('coc_orders')->order_by('id','desc')->get()->row_array();
-		$request['status'] 		= 	'1';
-		 if ($insert_id) {
-			$inid 				= $insert_id['id'];
-		 	$result 			= $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
+		$userid = $this->getUserID();
+		$insert_id = $this->db->select('id')->from('coc_orders')->order_by('id','desc')->get()->row_array();
+		$request['status'] = '1';
+		if ($insert_id) {
+			$inid = $insert_id['id'];
+			$result = $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
 			redirect('plumber/purchasecoc/index/notify');
-		 }
-		
+		}
+
 	}
 
 	public function cancel(){

@@ -157,9 +157,9 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 					<!---	Payment	--->
 					<input id="merchant_id" name="merchant_id" value="10016054" type="hidden">
 					<input id="merchant_key" name="merchant_key" value="uwfiy08dfb6jn" type="hidden">
-					<input id="return_url" name="return_url" value="http://diyesh.com/auditit_new/pirb/return" type="hidden">
-					<input id="cancel_url" name="cancel_url" value="http://diyesh.com/auditit_new/pirb/cancel" type="hidden">
-					<input id="notify_url" name="notify_url" value="http://diyesh.com/auditit_new/pirb/notify" type="hidden">
+					<input id="return_url" name="return_url" value="<?php echo base_url().'plumber/purchasecoc/index/return'; ?>" type="hidden">
+					<input id="cancel_url" name="cancel_url" value="<?php echo base_url().'plumber/purchasecoc/index/cancel'; ?>" type="hidden">
+					<input id="notify_url" name="notify_url" value="<?php echo base_url().'plumber/purchasecoc/index/notify'; ?>" type="hidden">
 					<input id="name_first" name="name_first" value="<?php echo $username['name']; ?>" type="hidden">
 					<input id="name_last" name="name_last" value="<?php echo $username['surname']; ?>" type="hidden">
 					<input id="email_address" name="email_address" value="<?php echo $username['email']; ?>" type="hidden">
@@ -353,17 +353,17 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 				method 		: 'POST',
 				data 		: { otp: otpver},
 				success: function(data) {
-						if (data == 0) {
-							alert('Given OTP is Invalid !');
-						}else{
+					if (data == 0) {
+						alert('Given OTP is Invalid !');
+					}else{
 							//alert($('#signature').val());
 							$('.form').prop('action','https://sandbox.payfast.co.za/eng/process');
 							$('.form').submit();
 						}
 
-					console.log(data);
-				}
-			});
+						console.log(data);
+					}
+				});
 		});
 
 
