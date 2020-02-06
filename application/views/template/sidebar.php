@@ -1,4 +1,5 @@
 <?php 
+print_r($userdata1);die;
 //$designation = $userdata1;
 $type 		= $userdata['type']; 
 $formstatus = $userdata['formstatus']; 
