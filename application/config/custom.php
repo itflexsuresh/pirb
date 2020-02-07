@@ -10,12 +10,12 @@ $config['assistant']	 			= 	'3';
 $config['operator']	 				= 	'4';
 $config['licensed']	 				= 	'6';
 
-$config['cocpaperwork'] = '13';
-$config['cocelectronic'] = '14';
+$config['cocpaperwork'] 			= 	'13';
+$config['cocelectronic'] 			= 	'14';
 
-$config['postage'] = '2';
-$config['couriour'] = '17';
-$config['collectedbypirb'] = '24';
+$config['postage'] 					= 	'2';
+$config['couriour'] 				= 	'17';
+$config['collectedbypirb'] 			= 	'24';
 
 $config['usertype1'] 				= 	[
 											'plumber' 	=> '3',
@@ -56,13 +56,11 @@ $config['messagegroup'] 			= 	[
 											'4' => 'COMPANY MESSAGE'
 										];
 
-
 $config['cpdstream'] 				= 	[
 											'1' => 'Developmental',
 											'2' => 'Work-Based',
 											'3' => 'Individual'
 										];
-
 
 
 
@@ -164,7 +162,7 @@ $config['citizen'] 					= 	[
 										
 $config['deliverycard'] 			= 	[
 											'1' => 'Postage',
-											'2' => 'Couriour',
+											'2' => 'Courier',
 											'3' => 'Collected at PIRB'
 										];
 										
@@ -245,7 +243,7 @@ $config['designation1'] 			= 	[
 
 $config['designation2'] 			= 	[ 
 											'1' => 'Learner Plumber',
-											'2' => 'Drain Technical Assistant Practitioner',
+											'2' => 'Technical Assistant Practitioner',
 											'3' => 'Technical Operator Practitioner',
 											'4' => 'Licensed Plumber',
 											'5' => 'Qualified Plumber',
@@ -371,7 +369,7 @@ $config['specialization'] 			= 	[
 
 $config['purchasecocdelivery'] 		= 	[
 											'1' => 'Collected at PIRB',
-											'2' => 'By Couriour',
+											'2' => 'By Courier',
 											'3' => 'By Registered Post'
 										];					
 
