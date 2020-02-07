@@ -56,5 +56,6 @@ $route['translate_uri_dashes'] = FALSE;
 $route['login'] 											= 'authentication/login/index';
 $route['login/verification/(:num)/([a-z]+)'] 				= 'authentication/login/verification/$1/$2';
 $route['login/([a-z]+)'] 									= 'authentication/login/index/$1';
+$route['forgotpassword'] 									= 'authentication/forgotpassword/index';
 $route['forgotpassword/verification/(:num)/([a-z]+)'] 		= 'authentication/forgotpassword/verification/$1/$2';
 $route['forgotpassword/([a-z]+)'] 							= 'authentication/forgotpassword/index/$1';

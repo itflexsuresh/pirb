@@ -53,7 +53,7 @@ class Forgotpassword extends CC_Controller
 		}
 		
 		$checkID 	= $this->Users_Model->checkEncryptUserID($id);
-	
+
 		if($checkID=='2'){
 			$this->session->set_flashdata('error', 'Try Later.');
 			redirect('login/'.$usertypename); 
@@ -82,7 +82,7 @@ class Forgotpassword extends CC_Controller
 		$pagedata['usertypename']	= $usertypename;
 		
 		$data['plugins'] 			= ['validation'];
-		$data['content'] 			= $this->load->view('authentication/forgotpassword/verification', '', true);
+		$data['content'] 			= $this->load->view('authentication/forgotpassword/verification', $pagedata, true);
 		$this->layout1($data);
 	}
 }

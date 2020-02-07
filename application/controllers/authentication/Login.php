@@ -19,16 +19,19 @@ class Login extends CC_Controller
 			
 			$usertype 		= $this->config->item('usertype1')[$usertype];
 			$usertypename 	= $this->config->item('usertype2')[$usertype];
+			$requesttype	= $usertype;
 		}else{
 			$usertype 		= '';
 			$usertypename 	= '';
+			$requesttype	= '1';
 		}
 		
 		if($this->input->post())
 		{	
 			$requestData 	= $this->input->post();
 			
-			if($requestData['submit']=='login'){				
+			if($requestData['submit']=='login'){
+				$requestData['type'] = $requesttype;		
 				$data = $this->Users_Model->login($requestData);
 				
 				$data = $this->Users_Model->getUserDetails('row', ['id' => $data['result']]);
@@ -99,8 +102,12 @@ class Login extends CC_Controller
 		
 		$data 		= $this->Users_Model->verification($id);
 		
-		if($data) $this->session->set_flashdata('success', 'Successfully Verified.');
-		else $this->session->set_flashdata('error', 'Try Later.');
+		if($data){
+			$this->session->unset_userdata('userid');
+			$this->session->set_flashdata('success', 'Successfully Verified.');
+		}else{
+			$this->session->set_flashdata('error', 'Try Later.');
+		}
 		
 		redirect('login/'.$usertypename); 
 	}

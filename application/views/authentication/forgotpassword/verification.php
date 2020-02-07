@@ -29,23 +29,23 @@
 		validation(
 			'.form',
 			{
-				password 			: {
+				newpassword 			: {
 					required	: true,
 					minlength	: 5
 				},
-				verifypassword 		: {
+				confirmnewpassword 		: {
 					required	: true,
 					equalTo		: "#newpassword"
 				}
 			},
 			{
-				password 			: {
-					required	: "Password field is required.",
-					minlength	: "Password must be minium 5 character.."
+				newpassword 			: {
+					required	: "New Password field is required.",
+					minlength	: "New Password must be minium 5 character.."
 				},
-				verifypassword 		: {
-					required	: "Verify Password field is required.",
-					equalTo		: "Password is not matched."
+				confirmnewpassword 		: {
+					required	: "Confirm Password field is required.",
+					equalTo		: "New Password is not matched."
 				}
 			}
 		);
