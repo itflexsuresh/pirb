@@ -201,6 +201,20 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 							</div>
 						</div>
 
+						<div class="col-md-6 mt_20">
+							<div class="form-group">
+								<div class="custom-control custom-checkbox">
+		                            <input type="checkbox" class="custom-control-input" id="sms_notifi">
+		                            <label class="custom-control-label" for="sms_notifi">Send a SMS Tracking Notification</label>
+		                        </div>
+
+		                        <div class="custom-control custom-checkbox">
+		                            <input type="checkbox" class="custom-control-input" id="email_trak_notifi">
+		                            <label class="custom-control-label" for="email_trak_notifi">Send an Email Tracking Notifiation</label>
+		                        </div>
+							</div>
+						</div>
+						
 						<div class="col-md-12">
 							<div class="row">
 								<div class="col-md-6">
@@ -216,19 +230,7 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 	                    	</div>
 						</div>
 
-						<div class="col-md-6 mt_20">
-							<div class="form-group">
-								<div class="custom-control custom-checkbox">
-		                            <input type="checkbox" class="custom-control-input" id="sms_notifi">
-		                            <label class="custom-control-label" for="sms_notifi">Send a SMS Tracking Notification</label>
-		                        </div>
-
-		                        <div class="custom-control custom-checkbox">
-		                            <input type="checkbox" class="custom-control-input" id="email_trak_notifi">
-		                            <label class="custom-control-label" for="email_trak_notifi">Send an Email Tracking Notifiation</label>
-		                        </div>
-							</div>
-						</div>
+						
 					</div>
 
 					<div class="row mt_20">
