@@ -1170,6 +1170,18 @@ span.select2-selection {
 
 }
 
+table td {
+    text-align: center;
+}
+
+i.fa.fa-times {
+    color: #f00;
+}
+
+i.fa.fa-check {
+    color: #69ff05;
+}
+
 
 .com_reg_page li.nav-item {
     margin: 0 auto;

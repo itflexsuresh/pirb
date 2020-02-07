@@ -193,7 +193,7 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 								<th style="text-align: center;">Performance Points</th>
 								<th style="text-align: center;">Refix Status</th>
 							</tr>
-							<tr>
+							<tr style="background-color: #00ffff;">
 								<td>No Audit Findings</td>
 								<td>Info from Auditors report</td>
 								<td></td>
@@ -203,7 +203,7 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 								<td></td>
 								<td></td>
 							</tr>
-							<tr>
+							<tr style="background-color: #9f9;">
 								<td>Compliment</td>
 								<td>Info from Auditors report</td>
 								<td>Info from Auditors report</td>
@@ -213,7 +213,7 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 								<td></td>
 								<td></td>
 							</tr>
-							<tr>
+							<tr style="background-color: #ffc;">
 								<td>Cautionary</td>
 								<td>Info from Auditors report</td>
 								<td>Info from Auditors report</td>
@@ -223,7 +223,7 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 								<td></td>
 								<td></td>
 							</tr>
-							<tr>
+							<tr style="background-color: #ffa18a;">
 								<td>Failure</td>
 								<td>Info from Auditors report</td>
 								<td>Info from Auditors report</td>
@@ -231,17 +231,23 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 								<td>Data from Auditors report selection</td>
 								<td></td>
 								<td>Data from Auditors report selection</td>
-								<td></td>
+								<td>
+									<i class="fa fa-times" aria-hidden="true"></i>
+									<p>Incomplete</p>
+								</td>
 							</tr>
-							<tr>
+							<tr style="background-color: #ffa58f;">
+								<td>Failure</td>
+								<td>Info from Auditors report</td>
+								<td>Info from Auditors report</td>
+								<td>Data from Auditors report selection</td>
+								<td>Data from Auditors report selection</td>
 								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td>Data from Auditors report selection</td>
+								<td>
+									<i class="fa fa-check" aria-hidden="true"></i>
+									<p>Complete</p>
+								</td>
 							</tr>
 						</table>
 					</div>
