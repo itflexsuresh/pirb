@@ -1186,6 +1186,17 @@ span.select2-selection {
     border-radius: 5px;
 }
 
+.mini-sidebar .sidebar-nav #sidebarnav li a:before {margin: 0;}
+
+.mini-sidebar .sidebar-nav #sidebarnav li:hover ul.collapse {
+    display: none !important;
+}
+
+.mini-sidebar .sidebar-nav #sidebarnav li a {
+    padding-left: 21px;
+    border-bottom: 1px solid #e4ebf3;
+}
+
 /* Progress Bar */
 
 .progress-circle.active {
