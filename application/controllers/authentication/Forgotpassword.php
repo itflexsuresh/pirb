@@ -56,7 +56,7 @@ class Forgotpassword extends CC_Controller
 	
 		if($checkID=='2'){
 			$this->session->set_flashdata('error', 'Try Later.');
-			redirect(''); 
+			redirect('login/'.$usertypename); 
 		}
 		
 		if($this->input->post()){

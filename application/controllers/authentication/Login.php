@@ -72,7 +72,7 @@ class Login extends CC_Controller
 				} 
 			}
 			
-			redirect('login/'.$usertype); 
+			redirect('login/'.$usertypename); 
 		}
 		
 		$pagedata['notification'] 	= $this->getNotification();

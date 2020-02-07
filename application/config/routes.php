@@ -54,6 +54,6 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['login'] 				= 'authentication/login/index';
-$route['login/(:any)'] 			= 'authentication/login/index/$1';
-$route['forgotpassword/verification/(:any)/(:any)'] = 'authentication/forgotpassword/verification/$1/$2';
-$route['forgotpassword/(:any)'] = 'authentication/forgotpassword/index/$1';
+$route['login/([a-z]+)'] 	= 'authentication/login/index/$1';
+$route['forgotpassword/verification/(:num)/([a-z]+)'] = 'authentication/forgotpassword/verification/$1/$2';
+$route['forgotpassword/([a-z]+)'] = 'authentication/forgotpassword/index/$1';
