@@ -204,6 +204,7 @@ class Users_Model extends CC_Model
 		$email 	= $data['email'];
 		
 		$this->db->where('email', $email);
+		$this->db->where('type', $type);
 		if($id!='') $this->db->where('id !=', $id);
 		$this->db->where('status !=', '2');
 		$query = $this->db->get('users');
@@ -217,13 +218,14 @@ class Users_Model extends CC_Model
 	
 	public function forgotPasswordMail($data)
 	{
-		$sitename	=	$this->config->item('sitename');
+		$sitename		=	$this->config->item('sitename');
+		$usertypename	=	$this->config->item('usertype2');
 		
 		$this->load->library('encryption');
 		
 		$id 		=	$this->encryption->encrypt($data['id']);
 		$email 		= 	$data['email'];
-		$link		=	base_url().'authentication/forgotpassword/verification?id='.$id;
+		$link		=	base_url().'forgotpassword/verification/'.$id.'/'.$usertypename;
 		
 		$subject 	= 	$sitename.' Forgot Password';
 		$message	= 	'

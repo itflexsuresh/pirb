@@ -17,6 +17,18 @@ $config['postage']	 				= 	'24';
 $config['couriour']	 				= 	'17';
 $config['collectedbypirb']	 		= 	'2';
 
+$config['usertype1'] 				= 	[
+											'plumber' 	=> '3',
+											'company' 	=> '4',
+											'resellers' => '5'
+										];
+										
+$config['usertype2'] 				= 	[
+											'3' 	=> 'plumber',
+											'4' 	=> 'company',
+											'5' 	=> 'resellers'
+										];
+
 $config['status'] 					= 	[
 											'' 	=> '',
 											'1' => 'Active',

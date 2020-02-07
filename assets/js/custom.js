@@ -226,9 +226,9 @@ function fileupload(data1=[], data2=[]){
 			if(data2[1] && data2[2]){
 				var ext 		= data.file_name.split('.').pop().toLowerCase();
 				
-				if(ext=='jpg' || ext=='jpeg' || ext=='png'){
+				if(ext=='jpg' || ext=='jpeg' || ext=='png' || ext=='tif' || ext=='tiff'){
 					$(data2[1]).attr('src', data2[2]+'/'+file);
-				}else if(ext=='pdf' || ext=='tiff'){
+				}else if(ext=='pdf'){
 					$(data2[1]).attr('src', data2[3]);
 				}
 			}
@@ -238,9 +238,11 @@ function fileupload(data1=[], data2=[]){
 	}
 }
 
-function citysuburb(data1=[], data2=[]){
-	var cityurl 		= baseurl()+"ajax/index/ajaxcity";
-	var suburburl 		= baseurl()+"ajax/index/ajaxsuburb";
+function citysuburb(data1=[], data2=[], data3=[]){
+	var cityurl 			= baseurl()+"ajax/index/ajaxcity";
+	var suburburl 			= baseurl()+"ajax/index/ajaxsuburb";
+	var cityactionurl 		= baseurl()+"ajax/index/ajaxcityaction";
+	var suburbactionurl 	= baseurl()+"ajax/index/ajaxsuburbaction";
 	
 	var cityappend		= data1[1].substr(1)+'append';
 	var suburbappend	= (data1[2]) ? data1[2].substr(1)+'append' : '';
@@ -288,6 +290,109 @@ function citysuburb(data1=[], data2=[]){
 				})
 
 				$(data1[2]).append(append);
+			}
+		}
+	}
+	
+	if(data3.length > 0){
+		$(data3[0]).click(function(){
+			$(this).parent().find('input').val('');
+			$(this).parent().find('.addcity_wrapper').removeClass('displaynone');
+			$(this).hide().after('<a href="javascript:void(0);" class="addcityremove">Hide</a>');
+		})
+		
+		$(document).on('click', data3[1], function(){
+			var inputfieldwrapper = $(this).parent().parent();
+			
+			inputfieldwrapper.parent().find('.tagline').remove();
+			
+			if($(data1[0]).val()==''){
+				inputfieldwrapper.after('<p class="tagline">Please select province.</p>');
+				return false;
+			}
+			
+			if(inputfieldwrapper.find('input').val()==''){
+				inputfieldwrapper.after('<p class="tagline">Please fill the input field.</p>');
+				return false;
+			}
+			
+			if(validation==0){
+				return false;
+			}
+			
+			ajax(cityactionurl, { id :'', province : $(data1[0]).val(), city1 : inputfieldwrapper.find('input').val() }, cityaction)
+		})
+		
+		$(document).on('click', '.addcityremove', function(){			
+			$(this).remove();
+			$(data3[0]).parent().find('.addcity_wrapper').addClass('displaynone');
+			$(data3[0]).show();
+		})
+		
+		function cityaction(data){
+			if(data.status==1){
+				var addcityid 	= data.result.id;
+				var addcityname = data.result.name;
+				
+				$(data1[1]).append('<option value="'+addcityid+'" class="'+cityappend+'">'+addcityname+'</option>');
+				$(data1[1]).val(addcityid);
+				
+				$(data3[0]).show();
+				$(data3[0]).parent().find('.addcity_wrapper').addClass('displaynone');
+				$(data3[0]).parent().find('.addcityremove').remove();
+			}else if(data.status==2){
+				$(data3[0]).parent().append('<p class="tagline">City Already Exists.</p>');
+			}
+		}
+		
+		$(data3[2]).click(function(){
+			$(this).parent().find('input').val('');
+			$(this).parent().find('.addsuburb_wrapper').removeClass('displaynone');
+			$(this).hide().after('<a href="javascript:void(0);" class="addsuburbremove">Hide</a>');
+		})
+		
+		$(document).on('click', data3[3], function(){
+			var inputfieldwrapper = $(this).parent().parent();
+			
+			inputfieldwrapper.parent().find('.tagline').remove();
+			
+			if($(data1[0]).val()==''){
+				inputfieldwrapper.after('<p class="tagline">Please select province.</p>');
+				return false;
+			}
+			
+			if($(data1[1]).val()==''){
+				inputfieldwrapper.after('<p class="tagline">Please select city.</p>');
+				return false;
+			}
+			
+			if(inputfieldwrapper.find('input').val()==''){
+				inputfieldwrapper.after('<p class="tagline">Please fill the input field.</p>');
+				return false;
+			}
+			
+			ajax(suburbactionurl, { id :'', province : $(data1[0]).val(), city : $(data1[1]).val(), suburb : inputfieldwrapper.find('input').val(), status : '1' }, suburbaction)
+		})
+		
+		$(document).on('click', '.addsuburbremove', function(){		
+			$(this).remove();	
+			$(data3[2]).parent().find('.addsuburb_wrapper').addClass('displaynone');
+			$(data3[2]).show();
+		})
+		
+		function suburbaction(data){
+			if(data.status==1){
+				var addsuburbid 	= data.result.id;
+				var addsuburbname 	= data.result.name;
+				
+				$(data1[2]).append('<option value="'+addsuburbid+'" class="'+suburbappend+'">'+addsuburbname+'</option>');
+				$(data1[2]).val(addsuburbid);
+			
+				$(data3[2]).show();
+				$(data3[2]).parent().find('.addsuburb_wrapper').addClass('displaynone');
+				$(data3[2]).parent().find('.addsuburbremove').remove();
+			}else if(data.status==2){
+				$(data3[2]).parent().append('<p class="tagline">Suburb Already Exists.</p>');
 			}
 		}
 	}

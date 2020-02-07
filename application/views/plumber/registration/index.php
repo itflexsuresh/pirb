@@ -319,7 +319,7 @@
 									<li>No sunglasses or hats</li>
 									<li>File name is your NAME and SURNAME.</li>
 								</ul>
-								<a>See Examples</a>
+								<a href="javascript:void(0);" data-toggle="modal" data-target="#photomodal">See Examples</a>
 							</div>
 						</div>
 
@@ -391,6 +391,15 @@
 									<?php 
 										echo form_dropdown('address[1][city]', [], $city1, ['id' => 'city1', 'class' => 'form-control']); 
 									?>
+									<div>
+										<a href="javascript:void(0);" id="addcity1">Add City</a>
+										<div class="input-group addcity_wrapper displaynone">
+											<input type="text" class="form-control" placeholder="Add City">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary" id="addcitysubmit1" type="button">Add</button>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -399,6 +408,15 @@
 									<?php 
 										echo form_dropdown('address[2][city]', [], $city2, ['id' => 'city2', 'class' => 'form-control']); 
 									?>
+									<div>
+										<a href="javascript:void(0);" id="addcity2">Add City</a>
+										<div class="input-group addcity_wrapper displaynone">
+											<input type="text" class="form-control" placeholder="Add City">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary" id="addcitysubmit2" type="button">Add</button>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -409,6 +427,15 @@
 									<?php
 										echo form_dropdown('address[1][suburb]', [], $suburb1, ['id' => 'suburb1', 'class'=>'form-control']);
 									?>
+									<div>
+										<a href="javascript:void(0);" id="addsuburb1">Add Suburb</a>
+										<div class="input-group addsuburb_wrapper displaynone">
+											<input type="text" class="form-control" placeholder="Add Suburb">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary" id="addsuburbsubmit1" type="button">Add</button>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 
@@ -418,6 +445,16 @@
 									<?php
 										echo form_dropdown('address[2][suburb]', [], $suburb2, ['id' => 'suburb2', 'class'=>'form-control']);
 									?>
+									
+									<div>
+										<a href="javascript:void(0);" id="addsuburb2">Add Suburb</a>
+										<div class="input-group addsuburb_wrapper displaynone">
+											<input type="text" class="form-control" placeholder="Add Suburb">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary" id="addsuburbsubmit2" type="button">Add</button>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -513,6 +550,15 @@
 									<?php 
 										echo form_dropdown('address[3][city]', [], $city3, ['id' => 'city3', 'class' => 'form-control']); 
 									?>
+									<div>
+										<a href="javascript:void(0);" id="addcity3">Add City</a>
+										<div class="input-group addcity_wrapper displaynone">
+											<input type="text" class="form-control" placeholder="Add City">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary" id="addcitysubmit3" type="button">Add</button>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -521,6 +567,15 @@
 									<?php 
 										echo form_dropdown('address[3][suburb]', [], $suburb3, ['id' => 'suburb3', 'class'=>'form-control']);
 									?>
+									<div>
+										<a href="javascript:void(0);" id="addsuburb3">Add Suburb</a>
+										<div class="input-group addsuburb_wrapper displaynone">
+											<input type="text" class="form-control" placeholder="Add Suburb">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary" id="addsuburbsubmit3" type="button">Add</button>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -554,10 +609,10 @@
 									<label>Company *</label>
 									<?php
 										echo form_dropdown('company_details', $company, $companydetailsid,['id' => 'company_details', 'class'=>'form-control']);
-									?>
-									<p>If the Compnay does not appear on this listing please ask the company to Register with the PIRB.  Once they have been apporved and registered return to the listing and select the company</p>
-									<a href="javascript:void(0)">Register Company with the PIRB</a>
+									?>									
 								</div>
+								<p>If the Compnay does not appear on this listing please ask the company to Register with the PIRB.  Once they have been apporved and registered return to the listing and select the company</p>
+								<a href="javascript:void(0)">Register Company with the PIRB</a>
 							</div>
 						</div>
 						<div class="col-md-12 text-right">
@@ -603,7 +658,7 @@
 				</div>
 				
 				<div class="steps displaynone" data-id="6">
-					<form class="form6" method="post">
+					<form class="form6" method="post" action="">
 						<div class="row">
 							<?php echo $registerprocedure; ?>
 							<label class="checkbox">
@@ -629,7 +684,8 @@
 								<input type="hidden" name="application_received" value="<?php echo date('Y-m-d'); ?>">
 								<input type="hidden" name="usersdetailid" id="usersdetailid" value="<?php echo $usersdetailid; ?>">
 								<input type="hidden" name="usersplumberid" id="usersplumberid" value="<?php echo $usersplumberid; ?>">
-								<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Submit Application</button>
+								<button type="button" name="submit" value="submit" id="submit" class="btn btn-primary">Submit Application</button>
+								<input type="submit" id="completeapplication" class="displaynone">
 							</div>
 						</div>
 					</form>
@@ -708,24 +764,62 @@
 	</div>
 </div>
 
+<div id="photomodal" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
+					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
+					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
+					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
+					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
+					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="otpmodal" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="row">
+					<p>Please confirm that you wish to sumbit your PIRB Registation Application.</p>
+					<p>A One Time Pin (OTP) was sent to the following Mobile Number: {***-*** *123}</p>
+					<div>
+						<p>Enter OTP</p>
+						<input type="text" name="otp" id="otp">
+					</div>
+				</div>
+				<button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-success resendotp">Resend</button>
+				<button type="button" class="btn btn-success verifyotp">Verify</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script type="text/javascript">
 
 var userid		= '<?php echo $userid; ?>';
 var filepath 	= '<?php echo $filepath; ?>';
 var ajaxfileurl	= '<?php echo base_url("ajax/index/ajaxfileupload"); ?>';
 var pdfimg		= '<?php echo $pdfimg; ?>';
+var randno		= '<?php echo mt_rand(0000,9999); ?>';
 
 $(function(){
 	checkstep();
 	select2('#title, #gender, #racial, #nationality, #othernationality, #homelanguage, #disability, #citizen, #registration_card, #delivery_card, #province1, #city1, #suburb1, #province2, #city2, #suburb2, #province3, #city3, #suburb3, #employment_details, #company_details, #skill_route');
 	datepicker('.dob, .skill_date');
 	inputmask('#home_phone, #work_phone, #mobile_phone', 1);
-	fileupload([ajaxfileurl, ".document_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.document', '.document_image', filepath, pdfimg]);
-	fileupload([ajaxfileurl, ".photo_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.photo', '.photo_image', filepath, pdfimg]);
-	fileupload([ajaxfileurl, ".skill_attachment_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.skill_attachment', '.skill_attachment_image', filepath, pdfimg]);
-	citysuburb(['#province1','#city1', '#suburb1'], ['<?php echo $city1; ?>', '<?php echo $suburb1; ?>']);
-	citysuburb(['#province2','#city2', '#suburb2'], ['<?php echo $city2; ?>', '<?php echo $suburb2; ?>']);
-	citysuburb(['#province3','#city3', '#suburb3'], ['<?php echo $city3; ?>', '<?php echo $suburb3; ?>']);
+	fileupload([ajaxfileurl, ".document_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.document', '.document_image', filepath, pdfimg]);
+	fileupload([ajaxfileurl, ".photo_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.photo', '.photo_image', filepath, pdfimg]);
+	fileupload([ajaxfileurl, ".skill_attachment_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.skill_attachment', '.skill_attachment_image', filepath, pdfimg]);
+	citysuburb(['#province1','#city1', '#suburb1'], ['<?php echo $city1; ?>', '<?php echo $suburb1; ?>'], ['#addcity1', '#addcitysubmit1', '#addsuburb1', '#addsuburbsubmit1']);
+	citysuburb(['#province2','#city2', '#suburb2'], ['<?php echo $city2; ?>', '<?php echo $suburb2; ?>'], ['#addcity2', '#addcitysubmit2', '#addsuburb2', '#addsuburbsubmit2']);
+	citysuburb(['#province3','#city3', '#suburb3'], ['<?php echo $city3; ?>', '<?php echo $suburb3; ?>'], ['#addcity3', '#addcitysubmit3', '#addsuburb3', '#addsuburbsubmit3']);
 	
 	var nationality = $('#nationality').val();
 	othernationalityidcardbox(nationality);
@@ -1123,7 +1217,7 @@ $(function(){
 
 $('#submit2,#submit3,#submit4,#submit5').click(function(){
 	var _this 	= $(this);
-	var data 	= _this.parent('form').serialize()+'&'+$.param({ 'usersdetailid': $('#usersdetailid').val(), 'usersplumberid': $('#usersplumberid').val() });
+	var data 	= _this.parents('form').serialize()+'&'+$.param({ 'usersdetailid': $('#usersdetailid').val(), 'usersplumberid': $('#usersplumberid').val() });
 	ajax('<?php echo base_url()."/plumber/registration/index/ajaxregistration"; ?>', data, registration, { beforesend : function(){ _this.attr('disabled','disabled') }, complete : function(){ _this.removeAttr('disabled'); sweetalertautoclose('Successfully Saved.'); } });
 })
 
@@ -1137,10 +1231,11 @@ $('#submit').click(function(e){
 	
 	if(formvalid==0){		
 		for(var i=2; i<=5; i++){		
-			var data = $('#submit'+i).parent('form').serialize()+'&'+$.param({ 'usersdetailid': $('#usersdetailid').val(), 'usersplumberid': $('#usersplumberid').val() });
+			var data = $('#submit'+i).parents('form').serialize()+'&'+$.param({ 'otp' : randno, 'usersdetailid': $('#usersdetailid').val(), 'usersplumberid': $('#usersplumberid').val() });
 			ajax('<?php echo base_url()."/plumber/registration/index/ajaxregistration"; ?>', data, registration, { asynchronous : 1 });				
 		}
 		
+		$('#otpmodal').modal('show');
 		return true;
 	}else{
 		alert('Before submitting please check the form');
@@ -1149,8 +1244,27 @@ $('#submit').click(function(e){
 	}
 })
 
+$(document).on('click', '.verifyotp', function(){
+	ajax('<?php echo base_url()."/plumber/registration/index/ajaxplumberdata"; ?>', '', verifyotp);
+})
+
+function verifyotp(data){
+	$('.error_otp').remove();
+	
+	if(data.status=='1'){
+		if($('#otp').val()==data.result.otp){
+			$('#completeapplication').click();
+		}else{
+			$('#otp').parent().append('<p class="tagline error_otp">Incorrect OTP</p>');
+		}
+	}else{
+		$('#otp').parent().append('Try Later');
+	}
+}
+
 $('.progress-circle[data-id="1"]').addClass('active');
 $('a.stepbar[data-id="1"]').addClass('active');
+
 $('.stepbar').click(function(){
 	var step = $(this).attr('data-id');
 	$('.steps.active').addClass('displaynone').removeClass('active');

@@ -3,8 +3,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Forgotpassword extends CC_Controller 
 {
-	public function index()
+	public function index($usertype='')
 	{
+		if($usertype!=''){
+			if(!isset($this->config->item('usertype1')[$usertype])){
+				redirect('');
+			}
+			
+			$usertype 		= $this->config->item('usertype1')[$usertype];
+			$usertypename 	= $this->config->item('usertype2')[$usertype];
+		}else{
+			$usertype 		= '';
+			$usertypename 	= '';
+		}
+		
 		if($this->input->post()){			
 			$requestData 	= $this->input->post();
 			$data 			= $this->Users_Model->forgotPassword($requestData);
@@ -13,26 +25,33 @@ class Forgotpassword extends CC_Controller
 			elseif($data=='3') $this->session->set_flashdata('error', 'Incorrect Email ID.');
 			else $this->session->set_flashdata('error', 'Try Later.');
 			
-			redirect('authentication/forgotpassword'); 			
+			redirect('login/'.$usertypename); 			
 		}
 		
 		$pagedata['notification'] 	= $this->getNotification();
+		$pagedata['usertype']		= $usertype;
+		$pagedata['usertypename']	= $usertypename;
 		
-		$data['plugins'] = ['validation'];
-		$data['content'] = $this->load->view('authentication/forgotpassword/index', $pagedata, true);
+		$data['plugins'] 			= ['validation'];
+		$data['content'] 			= $this->load->view('authentication/forgotpassword/index', $pagedata, true);
 		
 		$this->layout1($data);
 	}
 	
-	public function verification()
+	public function verification($id, $usertype='')
 	{
-		if(!$this->input->get('id')){
-			$this->session->set_flashdata('error', 'Try Later.');
-			redirect(''); 
+		if($usertype!=''){
+			if(!isset($this->config->item('usertype1')[$usertype])){
+				redirect('');
+			}
+			
+			$usertype 		= $this->config->item('usertype1')[$usertype];
+			$usertypename 	= $this->config->item('usertype2')[$usertype];
+		}else{
+			$usertype 		= '';
+			$usertypename 	= '';
 		}
 		
-		$this->load->library('encryption');
-		$id 		= $this->encryption->decrypt($this->input->get('id'));
 		$checkID 	= $this->Users_Model->checkEncryptUserID($id);
 	
 		if($checkID=='2'){
@@ -54,14 +73,16 @@ class Forgotpassword extends CC_Controller
 				if($data) $this->session->set_flashdata('success', 'Password changed successfully.');
 				else $this->session->set_flashdata('error', 'Try Later.');
 				
-				redirect(''); 
+				redirect('login/'.$usertypename); 
 			}
 		}
 		
 		$pagedata['notification'] 	= $this->getNotification();
+		$pagedata['usertype']		= $usertype;
+		$pagedata['usertypename']	= $usertypename;
 		
-		$data['plugins'] = ['validation'];
-		$data['content'] = $this->load->view('authentication/forgotpassword/verification', '', true);
+		$data['plugins'] 			= ['validation'];
+		$data['content'] 			= $this->load->view('authentication/forgotpassword/verification', '', true);
 		$this->layout1($data);
 	}
 }

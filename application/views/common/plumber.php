@@ -114,17 +114,29 @@
 		$disabled2 			= '';
 		$disabled2array 	= [];
 	}
+	
+	if($roletype=='1'){
+		$dynamictabtitle 	= 'Plumbers';
+		$dynamicheading 	= 'Plumber Register';
+		$dynamictitle 		= 'Plumbers Registration Details';
+	}elseif($roletype=='3'){
+		$dynamictabtitle 	= 'My';
+		$dynamicheading 	= 'My Profile';
+		$dynamictitle 		= 'My PIRB Registration Details';
+	}
+	
+	$cardcolor = ['1' => 'learner_plumber', '2' => 'technical_assistant', '3' => 'technical_operator', '4' => 'licensed_plumber', '5' => 'qualified_plumber', '6' => 'master_plumber'];
 ?>
 
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
-		<h4 class="text-themecolor">Plumber register</h4>
+		<h4 class="text-themecolor"><?php echo $dynamicheading; ?></h4>
 	</div>
 	<div class="col-md-7 align-self-center text-right">
 		<div class="d-flex justify-content-end align-items-center">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="j<?php echo base_url().'admin/dashboard'; ?>">Home</a></li>
-				<li class="breadcrumb-item active">Plumber register</li>
+				<li class="breadcrumb-item active"><?php echo $dynamicheading; ?></li>
 			</ol>
 		</div>
 	</div>
@@ -239,7 +251,7 @@
 			<div class="card">
 				<div class="card-body">
 					
-					<h4 class="card-title">Plumbers Registration Details</h4>
+					<h4 class="card-title"><?php echo $dynamictitle; ?></h4>
 					
 					<?php if(($roletype=='1' && $approval_status=='1') || $roletype=='3'){ ?>
 						<div class="col-md-12 application_field_wrapper">
@@ -334,7 +346,7 @@
 					<?php } ?>
 					
 
-					<div class="row add_top_value">
+					<div class="row add_top_value <?php echo (isset($cardcolor[$designation2id]) ? $cardcolor[$designation2id] : ''); ?>">
 						<div class="col-md-6">	
 							<table id="id_Card" style="height: 300px;">
 								<tbody>
@@ -439,7 +451,7 @@
 							<div class="card-header" id="PlumbersPersonalDetails">
 								<h2 class="mb-0">
 									<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#tab1" aria-expanded="true" aria-controls="tab1">
-										Plumbers Personal Details
+										<?php echo $dynamictabtitle; ?> Personal Details
 									</button>
 								</h2>
 							</div>
@@ -559,8 +571,8 @@
 												</div>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-md-12">
+									<div class="row add_top_value">
+										<div class="col-md-3">
 											<h4 class="card-title">Photo ID *</h4>
 											<div class="form-group">
 												<div>
@@ -571,6 +583,22 @@
 												<p>(Image/File Size Smaller than 5mb)</p>
 											</div>
 										</div>
+										<?php if($roletype=='3'){ ?>
+											<div class="col-md-3">
+												<ul class="file_up_points">
+													<li>Photos must be no more than 6 months old</li>
+													<li>Photos must be high quality</li>
+													<li>Photos must be in colour</li>
+													<li>Photos must have clear preferably white background</li>
+													<li>Photos must be in sharp focus and clear</li>
+													<li>Photo must be only of your head and shoulders</li>
+													<li>You must be looking directly at the camera</li>
+													<li>No sunglasses or hats</li>
+													<li>File name is your NAME and SURNAME.</li>
+												</ul>
+												<a href="javascript:void(0);" data-toggle="modal" data-target="#photomodal">See Examples</a>
+											</div>
+										<?php } ?>
 									</div>
 
 									<h4 class="card-title">Registration Card</h4>									
@@ -601,7 +629,7 @@
 							<div class="card-header" id="PlumbersContactDetails">
 								<h2 class="mb-0">
 									<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#tab2" aria-expanded="true" aria-controls="tab2">
-										Plumbers Contact Details
+										<?php echo $dynamictabtitle; ?> Contact Details
 									</button>
 								</h2>
 							</div>
@@ -686,7 +714,7 @@
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-md-6 col-md-offset-6">
+										<div class="col-md-6 offset-6">
 											<div class="form-group">
 												<label>Postal Code *</label>
 												<input type="text" class="form-control" name="address[2][postal_code]" value="<?php echo $postalcode2; ?>">
@@ -748,7 +776,7 @@
 							<div class="card-header" id="PlumbersBillingDetails">
 								<h2 class="mb-0">
 									<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#tab3" aria-expanded="true" aria-controls="tab3">
-										Plumbers Billing Details
+										<?php echo $dynamictabtitle; ?> Billing Details
 									</button>
 								</h2>
 							</div>
@@ -825,7 +853,7 @@
 							<div class="card-header" id="PlumbersEmloymentDetails">
 								<h2 class="mb-0">
 									<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#tab4" aria-expanded="true" aria-controls="tab4">
-										Plumbers Emloyment Details
+										<?php echo $dynamictabtitle; ?> Emloyment Details
 									</button>
 								</h2>
 							</div>
@@ -848,6 +876,10 @@
 													echo form_dropdown('company_details', $company, $companydetailsid,['id' => 'company_details', 'class'=>'form-control']);
 												?>
 											</div>
+											<?php if($roletype=='3'){ ?>
+												<p>If the Compnay does not appear on this listing please ask the company to Register with the PIRB.  Once they have been apporved and registered return to the listing and select the company</p>
+												<a href="javascript:void(0)">Register Company with the PIRB</a>
+											<?php } ?>
 										</div>
 									</div>
 									
@@ -860,7 +892,7 @@
 							<div class="card-header" id="PlumbersQualificationCertificateDetails">
 								<h2 class="mb-0">
 									<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#tab5" aria-expanded="true" aria-controls="tab5">
-										Plumbers Qualification/Certificate Details
+										<?php echo $dynamictabtitle; ?> Qualification/Certificate Details
 									</button>
 								</h2>
 							</div>
@@ -966,6 +998,23 @@
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
 			</form>
+		</div>
+	</div>
+</div>
+
+<div id="photomodal" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
+					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
+					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
+					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
+					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
+					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

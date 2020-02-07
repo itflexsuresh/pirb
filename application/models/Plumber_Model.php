@@ -13,7 +13,7 @@ class Plumber_Model extends CC_Model
 		$usersplumber 	= 	[ 
 								'up.id as usersplumberid','up.racial','up.nationality','up.othernationality','up.idcard','up.otheridcard','up.homelanguage','up.disability','up.citizen','up.registration_card','up.delivery_card','up.employment_details','up.company_details',
 								'up.registration_no','up.registration_date','up.status as plumberstatus','up.designation','up.qualification_year','up.specialisations','up.coc_purchase_limit','up.coc_electronic','up.message',
-								'up.application_received','up.application_status','up.approval_status','up.reject_reason','up.reject_reason_other'
+								'up.application_received','up.application_status','up.approval_status','up.reject_reason','up.reject_reason_other','up.otp'
 							];
 		
 		$this->db->select('
@@ -135,14 +135,16 @@ class Plumber_Model extends CC_Model
 		if(isset($data['qualification_year'])) 	$request2['qualification_year'] 	= $data['qualification_year'];
 		if(isset($data['specialisations'])) 	$request2['specialisations'] 		= implode(',', $data['specialisations']);
 		if(isset($data['coc_purchase_limit'])) 	$request2['coc_purchase_limit']	 	= $data['coc_purchase_limit'];
-		if(isset($data['coc_electronic'])) 		$request2['coc_electronic'] 		= $data['coc_electronic'];
 		if(isset($data['message'])) 			$request2['message'] 				= $data['message'];
 		if(isset($data['application_received']))$request2['application_received'] 	= $data['application_received'];
 		if(isset($data['application_status'])) 	$request2['application_status'] 	= implode(',', $data['application_status']);
 		if(isset($data['approval_status'])) 	$request2['approval_status'] 		= $data['approval_status'];
 		if(isset($data['reject_reason'])) 		$request2['reject_reason'] 			= implode(',', $data['reject_reason']);
 		if(isset($data['reject_reason_other'])) $request2['reject_reason_other']	= $data['reject_reason_other'];
+		if(isset($data['otp'])) 				$request2['otp']					= $data['otp'];
 		
+		$request2['coc_electronic'] 	= (isset($data['coc_electronic'])) ? $data['coc_electronic'] : '0';
+				
 		if(isset($data['registration_no']) && !isset($data['approval_status']) && isset($data['user_id']) && isset($data['designation2'])){
 			$request2['registration_no'] 		= $this->plumberregistrationno($data['user_id'], $data['designation2'], ((isset($data['qualification_year'])) ? $data['qualification_year'] : ''));
 		}

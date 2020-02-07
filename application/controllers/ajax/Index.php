@@ -35,6 +35,27 @@ class Index extends CC_Controller
 		echo json_encode($json);
 	}
 
+	public function ajaxcityaction()
+	{
+		$post 		= $this->input->post();
+		$checkname 	= $this->Managearea_Model->citynamevalidation(['name' => $post['city1']]);
+		
+		if($checkname=='0'){
+			$result 	= $this->Managearea_Model->action($post);
+
+			if($result){
+				$resultdata = $this->Managearea_Model->getListCity('row', ['id' => $result]);
+				$json 	= ['status' => '1', 'result' => $resultdata];
+			}else{
+				$json 	= ['status' => '0', 'result' => []];
+			}
+		}else{
+			$json 	= ['status' => '2', 'result' => []];
+		}
+		
+		echo json_encode($json);
+	}
+
 	public function ajaxsuburb()
 	{
 		$post = $this->input->post();  
@@ -45,10 +66,31 @@ class Index extends CC_Controller
 		}else{
 			$json = ['status' => '0', 'result' => []];
 		}
-
+		
 		echo json_encode($json);
 	}
 	
+	public function ajaxsuburbaction()
+	{
+		$post 	= $this->input->post();
+		$checkname 	= $this->Managearea_Model->suburbnamevalidation(['name' => $post['suburb']]);
+		
+		if($checkname=='0'){
+			$result = $this->Managearea_Model->action($post);
+
+			if($result){
+				$resultdata = $this->Managearea_Model->getListSuburb('row', ['id' => $result]);
+				$json 	= ['status' => '1', 'result' => $resultdata];
+			}else{
+				$json 	= ['status' => '0', 'result' => []];
+			}
+		}else{
+			$json 	= ['status' => '2', 'result' => []];
+		}
+		
+		echo json_encode($json);
+	}
+
 	public function ajaxskillaction()
 	{
 		$post 				= $this->input->post();

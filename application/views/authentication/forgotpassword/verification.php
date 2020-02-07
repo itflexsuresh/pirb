@@ -15,7 +15,7 @@
 					<input type="password" class="form-control" name="confirmnewpassword" id="confirmnewpassword" placeholder="Confirm New Password">
 				</div>
 				<div class="text-center">
-					<div><a href="<?php echo base_url(''); ?>">Already have an account?</a></div>
+					<div><a href="<?php echo base_url('login/'.$usertypename); ?>">Already have an account?</a></div>
 				</div>
 				<button type="submit" name="submit" class="btn btn-success">Submit</button>
 			</form>
