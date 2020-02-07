@@ -136,4 +136,32 @@ class Index extends CC_Controller
 		$this->layout2($data);
 	}
 
+	public function coc_details()
+	{
+		$data['content'] 	= $this->load->view('design/coc_details', (isset($pagedata) ? $pagedata : ''), true);
+		$data['plugins'] = [];
+		$this->layout2($data);
+	}
+
+	public function company_registration()
+	{
+		$data['content'] 	= $this->load->view('design/company_registration', (isset($pagedata) ? $pagedata : ''), true);
+		$data['plugins'] = [];
+		$this->layout2($data);
+	}
+
+	public function company_registration_pending()
+	{
+		$data['content'] 	= $this->load->view('design/company_registration_pending', (isset($pagedata) ? $pagedata : ''), true);
+		$data['plugins'] = [];
+		$this->layout2($data);
+	}
+
+	public function cpd_activity()
+	{
+		$data['content'] 	= $this->load->view('design/cpd_activity', (isset($pagedata) ? $pagedata : ''), true);
+		$data['plugins'] = [];
+		$this->layout2($data);
+	}
+
 }

@@ -274,7 +274,7 @@ input#width_alignment {
     margin-top: 20px;
 }
 
-input#file, input#file_2 {
+input#file, input#file_2, input#cancel_document {
     display: none;
 }
 
@@ -839,6 +839,10 @@ h5.card_sub_title {
     margin-bottom: 0px;
 }
 
+.mt_0 {
+    margin-top: 0px !important;
+}
+
 .mt_10 {
     margin-top: 10px;
 }
@@ -849,6 +853,10 @@ h5.card_sub_title {
 
 .mt_25 a {
     font-weight: 500;
+}
+
+.add_height {
+    height: 132px !important;
 }
 
 .btn_alter {
@@ -1124,7 +1132,7 @@ span.select2-selection {
 .licensed_plumber p.back_license {
     white-space: nowrap;
 }
-
+/* nantha anna over */
 
 
 .add_idcard_color {
@@ -1160,6 +1168,22 @@ span.select2-selection {
         max-width: 60%;
     }
 
+}
+
+
+.com_reg_page li.nav-item {
+    margin: 0 auto;
+}
+
+.com_reg_page {
+    width: 700px;
+}
+
+.add_background_color {
+    background-color: #e7f0f7;
+    border: 1px solid #e4ebf3;
+    padding: 25px;
+    border-radius: 5px;
 }
 
 /* Progress Bar */
