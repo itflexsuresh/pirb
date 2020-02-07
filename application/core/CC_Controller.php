@@ -142,7 +142,7 @@ class CC_Controller extends CI_Controller
 	{
 		$data = $this->Rates_Model->getList('row', ['id' => $id, 'status' => ['1']]);
 		
-		if(count($data) > 0) return $data['amount'];
+		if($data) return $data['amount'];
 		else return [];
 	}
 	
