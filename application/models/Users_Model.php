@@ -223,7 +223,7 @@ class Users_Model extends CC_Model
 		
 		$this->load->library('encryption');
 		
-		$id 		=	$this->encryption->encrypt($data['id']);
+		$id 		=	$data['id'];
 		$email 		= 	$data['email'];
 		$link		=	base_url().'forgotpassword/verification/'.$id.'/'.$usertypename;
 		
