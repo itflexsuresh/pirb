@@ -134,7 +134,7 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 											<img class="plum_lic" src="<?php echo base_url()?>assets/images/Plumber_License.png">
 										</td>
 										<td>
-											<p class="license">Licensed Plumber</p>
+											<p class="license" style="color: #fff;">Licensed Plumber</p>
 										</td>
 									</tr>
 								</tbody>
