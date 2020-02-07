@@ -217,7 +217,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 	$(function(){
 		$('#skillmodal').modal('hide');
 		$('#purchase').prop('disabled', true);
-		coctype($('.coc_type:checked').val());
+		coctype1($('.coc_type:checked').val());
 		delivery($('.delivery_card').val());
 
 		$('.alert-msg').hide();
@@ -249,6 +249,8 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 			}
 			);
 		$('.coc_type').click(function(){
+			calculations($("#coc_purchase").val());
+			delivery($('.delivery_card').val());
 			if ($(this).val()=='1') {
 				$('.methodofdelivery').hide();
 			}else{
@@ -262,69 +264,19 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 			$('#number_of_purchase_coc').val(coccount);
 			$("#coc_purchase").attr('max', coccount);
 		}
-
 		$("#coc_purchase").keyup(function(e){
 
-			var count = $('#number_of_purchase_coc').val();
-
-			if (count > parseInt($(this).val())) {
-				$("#coc_purchase").val(($(this).val()));
-				$('.alert-msg').hide();
-			}else{
-				$('.alert-msg').show();
-				//alert('Greater than your Permitte');
-				$("#coc_purchase").val(count);
-			}
-
-			var count 	= $(this).val();
-			var coctype = $('#coc_cost').val();
-			if (coctype!='') {
-				var vat = parseInt($(this).val())*parseInt($('#coc_cost').val())
-				var dbvat = $('#dbvat').val();
-				var allvat = parseInt(dbvat)/100*parseInt(vat);
-				$('#vat').val(allvat);
-				var total = parseInt(coctype)+parseInt(allvat)+parseInt($('#cost_f_delivery').val())
-				$('#totaldue').val(total);
-				$('#totaldue1').val(total);
-			}
+			calculations($(this).val());
+			delivery($('.delivery_card').val());
 		});
 
 
 		$('#purchase').on('click',function(){
 			if(!$('.form').valid()) return false;
-
-			var delivery_type = 0;
-			var cocType = 0;
-			var delivery_cost = 0;
-			if ($('#1-Electronic').is(":checked")) {
-				delivery_type = 0;
-				delivery_cost = 0;
-				cocType = 1;
-			}else{
-				delivery_type = $('#delivery_card').val();
-				cocType = 2;
-				delivery_cost = $('#cost_f_delivery').val();
-			}
-			//alert(delivery_cost);
-
+			ajaxotp();
 			
 			$('#skillmodal').modal('show');
-			$.ajax({
-				type  		: 'ajax',
-				url   		: '<?php echo base_url().'plumber/purchasecoc/Index/insertOrders'; ?>',
-				async 		: true,
-				dataType 	: 'json',
-				method 		: 'POST',
-				data 		: { coc_type: cocType, delivery_type: delivery_type,cost_type: $('#coc_cost').val(), coc_purchase: $('#coc_purchase').val(), vat: $('#vat').val(), total_due: $('#totaldue').val(), delivery_cost: delivery_cost, description: $('#description').val()},
-				success: function(data) {
-					if (data==1) {
-						ajaxotp();
-					}else{
-						alert('Something Went Wrong Please Try Again !');
-					}						
 
-				}
-			});
 			
 		});
 
@@ -345,6 +297,20 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 
 		$('.verify').on('click',function(){
 			var otpver = $('#otpnumber').val();
+
+			var delivery_type = 0;
+			var cocType = 0;
+			var delivery_cost = 0;
+			if ($('#1-Electronic').is(":checked")) {
+				delivery_type = 0;
+				delivery_cost = 0;
+				cocType = 1;
+			}else{
+				delivery_type = $('#delivery_card').val();
+				cocType = 2;
+				delivery_cost = $('#cost_f_delivery').val();
+			}
+
 			$.ajax({
 				type  		: 'ajax',
 				url   		: '<?php echo base_url().'plumber/purchasecoc/Index/OTPVerification'; ?>',
@@ -356,48 +322,68 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 					if (data == 0) {
 						alert('Given OTP is Invalid !');
 					}else{
-							//alert($('#signature').val());
-							$('.form').prop('action','https://sandbox.payfast.co.za/eng/process');
-							$('.form').submit();
-						}
+						ajaxInsert(delivery_type, cocType, delivery_cost);
 
-						console.log(data);
 					}
-				});
+
+					console.log(data);
+				}
+			});
 		});
 
 
 	})
 
+	function ajaxInsert(delivery_type, cocType, delivery_cost){
+		$.ajax({
+			type  		: 'ajax',
+			url   		: '<?php echo base_url().'plumber/purchasecoc/Index/insertOrders'; ?>',
+			async 		: true,
+			dataType 	: 'json',
+			method 		: 'POST',
+			data 		: { coc_type: cocType, delivery_type: delivery_type, cost_value: $('#coc_cost').val(), quantity: $('#coc_purchase').val(), vat: $('#vat').val(), total_due: $('#totaldue').val(), delivery_cost: delivery_cost,},
+			success: function(data) {
+				if (data == 1) {
+					$('.form').prop('action','https://sandbox.payfast.co.za/eng/process');
+					$('.form').submit();
+				}else{
+					alert('Something Went Wrong Please Try Again !');
+				}
+			}
+		});
+	}
+
 
 	$('.coc_type').click(function(){
-		coctype($(this).val());
+		coctype1($(this).val());
 	})
-
-	function coctype(value){
+	var coc = 0;
+	var coc_amount = 0;
+	function coctype1(value){
 		if(value=='1'){
-			$('.coc_cost').val('<?php echo $cocpaperwork; ?>')			
+			//coc_purchase
+			//$('.coc_cost').val('<?php // echo $cocelectronic; ?>')	
+			coc_amount = $('#dbcocelectronic').val()
+			//alert(coc_amount);
 			$('#cost_f_delivery').val('0');
 		}else if(value=='2'){
-			$('.coc_cost').val('<?php echo $cocelectronic; ?>')
-			$('#cost_f_delivery').val('<?php echo $cocelectronic; ?>');
+			//coc_purchase
+			coc_amount = $('#dbcocpaperwork').val()
+			//alert(coc_amount);
+			//$('.coc_cost').val('<?php // echo $cocelectronic; ?>')
+			//$('#cost_f_delivery').val('<?php //echo $cocpaperwork; ?>');
 		}
 
 	}
 
 	$('.delivery_card').change(function(){
 		delivery($(this).val());
+		calculations($(this).val(),1);
 	})
 
 	function delivery(value){
-		if(value=='1'){
-			$('.deliveryclass').val('<?php echo $postage; ?>')
-		}else if(value=='2'){
-			$('.deliveryclass').val('<?php echo $couriour; ?>')
-		}else if(value=='3'){
-			$('.deliveryclass').val('<?php echo $collectedbypirb; ?>')
-		}
 
+		$('.deliveryclass').val($('#deliveryclass'+value).val());
 	}
 
 	function ajaxotp(){
@@ -412,5 +398,66 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 					//$('#signature').val(data.signature);
 				}
 			});
+	}
+
+	function calculations(data,value){
+		if (value == 1) { 
+			var count = $('#number_of_purchase_coc').val();			
+			var numberOdCoc = parseInt($('#coc_purchase').val());
+			var cocCost = parseInt($('.deliveryclass').val())*numberOdCoc;
+			$('.coc_cost').val(cocCost);
+
+			var count 	= data;
+			var coctype = $('#coc_cost').val();
+			if (coctype!='') {
+				var cost_of_delivery = parseFloat($('#cost_f_delivery').val());
+				var coc_cost = parseFloat($('#coc_cost').val());
+				var dbvat = parseFloat($('#dbvat').val());
+				
+				var allvat = (((parseFloat($('#coc_cost').val())+parseFloat($('#cost_f_delivery').val()))*dbvat)/100);
+				$('#vat').val(allvat.toFixed(2));
+				var total = parseFloat(coctype)+parseFloat(allvat)+parseFloat($('#cost_f_delivery').val())
+				$('#totaldue').val(total.toFixed(2));
+				$('#totaldue1').val(total.toFixed(2));
+			}
+		}else{
+
+			var count = $('#number_of_purchase_coc').val();			
+			var numberOdCoc = parseFloat($('#coc_purchase').val());
+			var cocCost = parseFloat(coc_amount)*numberOdCoc;
+			$('.coc_cost').val(cocCost);
+
+			if (count > parseFloat(data)) {
+				$("#coc_purchase").val((data));
+				//console.log($("#coc_purchase").val((data)));
+				$('.alert-msg').hide();
+			}else{
+				if ($("#coc_purchase").val() != '') {
+					$('.alert-msg').show();
+				$("#coc_purchase").val(count);
+				}
+				
+			}
+
+			var count 	= data;
+			var coctype = $('#coc_cost').val();
+			if (coctype!='') {
+				var typecoc = $("input[name='coc_type']:checked").val();
+				var dbvat = parseFloat($('#dbvat').val());
+				
+				var allvat = (((parseFloat($('#coc_cost').val())+parseFloat($('#cost_f_delivery').val()))*dbvat)/100);
+
+				$('#vat').val(allvat.toFixed(2));
+				
+				var total = parseFloat(coctype)+parseFloat(allvat)+parseFloat($('#cost_f_delivery').val())
+				
+
+				$('#totaldue').val(total.toFixed(2));
+				$('#totaldue1').val(total.toFixed(2));
+			}
+
+		}
+
+
 	}
 </script>
