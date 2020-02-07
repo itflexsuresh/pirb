@@ -176,7 +176,7 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 									<tbody style="width: 10%; display: inline-block;">
 										<tr style="height: 266px;">
 											<td colspan="2" style="text-align: center; padding: 0px;  background-color: #e4010c; color: #fff;">
-												<p class="back_license" style="transform: rotate(-90deg);margin: -66px;">Licensed Plumber</p>
+												<p class="back_license" style="transform: rotate(-90deg);margin: -56px;">Licensed Plumber</p>
 											</td>
 										</tr>
 									</tbody>
