@@ -7,15 +7,13 @@ $userid		 			= $username['id'];
 $log_coc 				= $logcoc;
 $VAT 					= $settings["vat_percentage"];
 $coc_purchase_limit   	= $cocpermitted["coc_purchase_limit"];
-$electronic_coc_log   	= $cocpermitted["coc_electronic"];
+$electronic_coc_log   	= $cocpermitted["electronic_coc_log"];
 $cocpaperwork 			= $cocpaperwork["amount"];
 $cocelectronic 			= $cocelectronic["amount"];
 
 $postage 				= $postage["amount"];
 $couriour 				= $couriour["amount"];
 $collectedbypirb 		= $collectedbypirb["amount"];
-
-// echo $postage;die;
 ?>
 
 <div class="row page-titles">
@@ -113,19 +111,25 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Cost of COC Type</label>
-								<input type="text" id="coc_cost" class="form-control coc_cost" readonly name="coc_cost">
+								<input type="number" id="coc_cost" class="form-control coc_cost" readonly name="coc_cost">
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Cost of Delivery</label>
 								<input type="text" id="cost_f_delivery" class="form-control deliveryclass" readonly name="cost_f_delivery">
+								<input type="hidden" name="deliveryclass1" id="deliveryclass1" value="<?php echo $collectedbypirb; ?>">
+								<input type="hidden" name="deliveryclass2" id="deliveryclass2" value="<?php echo $couriour; ?>">
+								<input type="hidden" name="deliveryclass3" id="deliveryclass3" value="<?php echo $postage; ?>">
+
+
+
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>VAT @<?php echo $VAT; ?>%</label>
-								<input type="text" id="vat" class="form-control" readonly name="vat">
+								<input type="number" id="vat" class="form-control" readonly name="vat">
 							</div>
 						</div>
 						<div class="col-md-6">
@@ -146,7 +150,9 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 					</div>
 
 					<input type="hidden" id="dbvat" name="dbvat" value="<?php echo $VAT; ?>">
-					<input type="hidden" id="description" name="description" value="Purchase of {number} PIRB Certificate of Compliance">
+					<input type="hidden" id="dbcocpaperwork" name="dbcocpaperwork" value="<?php echo $cocpaperwork; ?>">
+					<input type="hidden" id="dbcocelectronic" name="dbcocelectronic" value="<?php echo $cocelectronic; ?>">
+					<!-- 					<input type="hidden" id="description" name="description" value="Purchase of {number} PIRB Certificate of Compliance"> -->
 					<div class="row text-right">
 						<div class="col-md-12">
 							<button type="submit" name="cancel" id="cancel" class="btn btn-block btn-primary btn-rounded">Cancel</button>
@@ -157,9 +163,9 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 					<!---	Payment	--->
 					<input id="merchant_id" name="merchant_id" value="10016054" type="hidden">
 					<input id="merchant_key" name="merchant_key" value="uwfiy08dfb6jn" type="hidden">
-					<input id="return_url" name="return_url" value="<?php echo base_url().'plumber/purchasecoc/index/return'; ?>" type="hidden">
-					<input id="cancel_url" name="cancel_url" value="<?php echo base_url().'plumber/purchasecoc/index/cancel'; ?>" type="hidden">
-					<input id="notify_url" name="notify_url" value="<?php echo base_url().'plumber/purchasecoc/index/notify'; ?>" type="hidden">
+					<input id="return_url" name="return_url" value="http://diyesh.com/auditit_new/pirb/return" type="hidden">
+					<input id="cancel_url" name="cancel_url" value="http://diyesh.com/auditit_new/pirb/cancel" type="hidden">
+					<input id="notify_url" name="notify_url" value="http://diyesh.com/auditit_new/pirb/notify" type="hidden">
 					<input id="name_first" name="name_first" value="<?php echo $username['name']; ?>" type="hidden">
 					<input id="name_last" name="name_last" value="<?php echo $username['surname']; ?>" type="hidden">
 					<input id="email_address" name="email_address" value="<?php echo $username['email']; ?>" type="hidden">
