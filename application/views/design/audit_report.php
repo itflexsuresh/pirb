@@ -174,7 +174,7 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 							</div>
 						</div>
 
-						<div class="col-md-12 add_top_value">
+						<div class="col-md-6">
 							<h4 class="card-title mb_0">Audit Report</h4>
 							<div class="export_pdf"></div>
 							<button type="submit" name="submit" value="submit" class="btn btn-primary btn_alter">Download PDF</button>
@@ -207,6 +207,36 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 								<td>Compliment</td>
 								<td>Info from Auditors report</td>
 								<td>Info from Auditors report</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>Cautionary</td>
+								<td>Info from Auditors report</td>
+								<td>Info from Auditors report</td>
+								<td>Data from Auditors report selection</td>
+								<td>Data from Auditors report selection</td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>Failure</td>
+								<td>Info from Auditors report</td>
+								<td>Info from Auditors report</td>
+								<td>Data from Auditors report selection</td>
+								<td>Data from Auditors report selection</td>
+								<td></td>
+								<td>Data from Auditors report selection</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
 								<td></td>
 								<td></td>
 								<td></td>
