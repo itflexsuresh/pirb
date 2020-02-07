@@ -384,7 +384,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 
 	$('.delivery_card').change(function(){
 		delivery($(this).val());
-		calculations($(this).val());
+		calc();
 	})
 
 	function delivery(value){
@@ -464,6 +464,34 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 
 		}
 
+
+	}
+
+	function calc(){
+		var deliverycard 	= parseFloat($('#delivery_card').val());
+		var cocelectronic 	= parseFloat($('#dbcocelectronic').val());
+		var cocpaperwork 	= parseFloat($('#dbcocpaperwork').val());
+		var costdelivery 	= parseFloat($('#cost_f_delivery').val());
+		var vat 			= parseFloat($('#dbvat').val());
+
+		var coctype = $('[name="coc_type"]:checked').val();
+		if(coctype==1){
+			var coc = cocelectronic;
+		}else if(coctype==2){
+			var coc = cocpaperwork;
+		}
+
+		var coc = parseFloat(coc);
+
+		var costtype = (deliverycard * coc).toFixed(2);
+		var vat1 = (((costtype + costdelivery) * vat)/100);
+		var total = costtype+vat1+costdelivery;
+		// console.log(total)
+		// console.log(vat1)
+		// console.log(costtype)
+		$('#coc_cost').val(costtype);
+		$('#vat').val(vat);
+		$('#totaldue').val(total);
 
 	}
 </script>
