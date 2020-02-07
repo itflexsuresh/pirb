@@ -71,19 +71,16 @@ class Index extends CC_Controller
 				if ($result1) {
 					
 				
-					unset($requestData1['total_cost']);
-			
-				$requestData2['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
-				$requestData2['user_id']			= 	$this->getUserID();
-				$requestData2['created_by']		= 	$this->getUserID();
-				$requestData2['created_at']		= 	date('Y-m-d H:i:s');
-				$requestData2['updated_at']		=	$requestData['created_at'];
-				$requestData2['status']			= 	'0';
-				$requestData2['inv_id']			= $result1;
-				$requestData2['total_due'] 	= $requestData['total_due'];
+					$requestData['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
+					$requestData['user_id']			= 	$this->getUserID();
+					$requestData['created_by']		= 	$this->getUserID();
+					$requestData['created_at']		= 	date('Y-m-d H:i:s');
+					$requestData['updated_at']		=	$requestData['created_at'];
+					$requestData['status']			= 	'0';
+					$requestData['inv_id']			= $result1;
 
-				$result = $this->Coc_Model->action($requestData2, 2);
-				echo $result;
+					$result = $this->Coc_Model->action($requestData, 2);
+					echo $result;
 				}
 				
 			}
