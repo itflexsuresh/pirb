@@ -425,7 +425,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 			// 	var total = parseFloat(coctype)+parseFloat(allvat)+parseFloat($('#cost_f_delivery').val())
 			// 	$('#totaldue').val(total.toFixed(2));
 			// 	$('#totaldue1').val(total.toFixed(2));
-			}
+			//}
 		}else{
 
 			var count = $('#number_of_purchase_coc').val();			
