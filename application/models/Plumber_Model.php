@@ -142,9 +142,7 @@ class Plumber_Model extends CC_Model
 		if(isset($data['reject_reason'])) 		$request2['reject_reason'] 			= implode(',', $data['reject_reason']);
 		if(isset($data['reject_reason_other'])) $request2['reject_reason_other']	= $data['reject_reason_other'];
 		if(isset($data['otp'])) 				$request2['otp']					= $data['otp'];
-		
-		$request2['coc_electronic'] 	= (isset($data['coc_electronic'])) ? $data['coc_electronic'] : '0';
-				
+						
 		if(isset($data['registration_no']) && !isset($data['approval_status']) && isset($data['user_id']) && isset($data['designation2'])){
 			$request2['registration_no'] 		= $this->plumberregistrationno($data['user_id'], $data['designation2'], ((isset($data['qualification_year'])) ? $data['qualification_year'] : ''));
 		}
@@ -155,7 +153,8 @@ class Plumber_Model extends CC_Model
 		}
 		
 		if(isset($request2)){
-			$usersplumberid	= $data['usersplumberid'];
+			$request2['coc_electronic'] 	= (isset($data['coc_electronic'])) ? $data['coc_electronic'] : '0';
+			$usersplumberid					= $data['usersplumberid'];
 			if(isset($data['user_id'])) $request2['user_id'] 	= $data['user_id'];
 			
 			if($usersplumberid==''){
