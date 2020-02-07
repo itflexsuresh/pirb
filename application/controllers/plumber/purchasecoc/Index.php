@@ -50,25 +50,39 @@ class Index extends CC_Controller
 	}
 
 	public function insertOrders(){
-		if ($this->input->post()) {
-			$requestData = $this->input->post();
+			if ($this->input->post()) {
 
-			$oderID 						= $this->genreateOrderID();
-			$invID 							= $this->genreateInvID();
+				$requestData = $this->input->post();
+				$user_id	= 	$this->getUserID();
 
-			$requestData['user_id']			= 	$this->getUserID();
-			$requestData['created_by']		= 	$this->getUserID();
-			$requestData['created_at']		= 	date('Y-m-d H:i:s');
-			$requestData['updated_at']		=	$requestData['created_at'];
-			$requestData['updated_by']		= 	$requestData['created_by'];
-			$requestData['status']			= 	'0';
-			$requestData['order_id']		= 	$oderID;
-			$requestData['inv_id']			= 	$invID ;
+				$requestData1['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
+				$requestData1['user_id']		= 	$user_id;
+				$requestData1['delivery_type'] 	= $requestData['delivery_type'];
+				$requestData1['total_cost'] 	= $requestData['total_due'];
 
-			$result = $this->Coc_Model->action($requestData);
-			echo $result;
+				if($requestData['coc_type'] == 1){
+					$requestData1['type'] = "electronic";
+				}else{
+					$requestData1['type'] = "paper";
+				}
+				$result1 = $this->Coc_Model->action($requestData1, 1);
+				if ($result1) {
+					
+				
+					$requestData['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
+					$requestData['user_id']			= 	$this->getUserID();
+					$requestData['created_by']		= 	$this->getUserID();
+					$requestData['created_at']		= 	date('Y-m-d H:i:s');
+					$requestData['updated_at']		=	$requestData['created_at'];
+					$requestData['status']			= 	'0';
+					$requestData['inv_id']			= $result1;
+
+					$result = $this->Coc_Model->action($requestData, 2);
+					echo $result;
+				}
+				
+			}
 		}
-	}
 
 	public function genreateOrderID(){
 		$result = $this->db->order_by('id',"desc")->get('coc_orders')->row_array();
@@ -165,15 +179,17 @@ class Index extends CC_Controller
 	}
 
 	public function return(){
-		$userid = $this->getUserID();
-		$insert_id = $this->db->select('id')->from('coc_orders')->order_by('id','desc')->get()->row_array();
-		$request['status'] = '1';
-		if ($insert_id) {
-			$inid = $insert_id['id'];
-			$result = $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
+		$userid 				=	$this->getUserID();
+		$insert_id 				= 	$this->db->select('id,inv_id')->from('coc_orders')->order_by('id','desc')->get()->row_array();
+		$request['status'] 		= 	'1';
+		 if ($insert_id) {
+			$inid 				= $insert_id['id'];
+			$inv_id 			= $insert_id['inv_id'];
+			$result 			= $this->db->update('invoice', $request, ['inv_id' => $inv_id,'user_id' => $userid]);
+		 	$result 			= $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
 			redirect('plumber/purchasecoc/index/notify');
-		}
-
+		 }
+		
 	}
 
 	public function cancel(){
