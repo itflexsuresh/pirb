@@ -53,6 +53,7 @@ $route['default_controller'] = 'authentication/login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+$route['login'] 				= 'authentication/login/index';
 $route['login/(:any)'] 			= 'authentication/login/index/$1';
-$route['forgotpassword/verification/(:any)'] = 'authentication/forgotpassword/verification/$1';
+$route['forgotpassword/verification/(:any)/(:any)'] = 'authentication/forgotpassword/verification/$1/$2';
 $route['forgotpassword/(:any)'] = 'authentication/forgotpassword/index/$1';
