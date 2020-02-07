@@ -483,15 +483,15 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 
 		var coc = parseFloat(coc);
 
-		var costtype = (deliverycard * coc).toFixed(2);
+		var costtype = (deliverycard * coc);
 		var vat1 = (((costtype + costdelivery) * vat)/100);
 		var total = costtype+vat1+costdelivery;
 		// console.log(total)
 		// console.log(vat1)
 		// console.log(costtype)
-		$('#coc_cost').val(costtype);
-		$('#vat').val(vat);
-		$('#totaldue').val(total);
+		$('#coc_cost').val(costtype.toFixed(2));
+		$('#vat').val(vat1.toFixed(2));
+		$('#totaldue').val(total.toFixed(2));
 
 	}
 </script>
