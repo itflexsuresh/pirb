@@ -10,12 +10,12 @@ $config['assistant']	 			= 	'3';
 $config['operator']	 				= 	'4';
 $config['licensed']	 				= 	'6';
 
-$config['cocpaperwork']	 			= 	'13';
-$config['cocelectronic']	 		= 	'14';
+$config['cocpaperwork'] = '13';
+$config['cocelectronic'] = '14';
 
-$config['postage']	 				= 	'24';
-$config['couriour']	 				= 	'17';
-$config['collectedbypirb']	 		= 	'2';
+$config['postage'] = '2';
+$config['couriour'] = '17';
+$config['collectedbypirb'] = '24';
 
 $config['usertype1'] 				= 	[
 											'plumber' 	=> '3',

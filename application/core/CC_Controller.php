@@ -143,7 +143,7 @@ class CC_Controller extends CI_Controller
 		$data = $this->Rates_Model->getList('row', ['id' => $id, 'status' => ['1']]);
 		
 		if($data) return $data['amount'];
-		else return [];
+		else return '';
 	}
 	
 	public function getPlumberRates()
