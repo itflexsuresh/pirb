@@ -36,11 +36,12 @@ class Users_Model extends CC_Model
 		}
 	}
 	
-	public function checkEncryptUserID($id)
+	public function checkEncryptUserID($id, $requestdata=[])
 	{
 		$this->db->select('*');
 		$this->db->from('users');
 		$this->db->where('id', $id);
+		if(isset($requestdata['type']))	$this->db->where_in('type', $requestdata['type']);
 		$this->db->where_in('status', ['0', '1']);
 		$query = $this->db->get();
 		

@@ -877,7 +877,7 @@
 												?>
 											</div>
 											<?php if($roletype=='3'){ ?>
-												<p>If the Compnay does not appear on this listing please ask the company to Register with the PIRB.  Once they have been apporved and registered return to the listing and select the company</p>
+												<p>If the Company does not appear on this listing please ask the company to Register with the PIRB. Once they have been approved and registered return to the listing and select the company</p>
 												<a href="javascript:void(0)">Register Company with the PIRB</a>
 											<?php } ?>
 										</div>
