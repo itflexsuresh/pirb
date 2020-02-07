@@ -384,7 +384,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 
 	$('.delivery_card').change(function(){
 		delivery($(this).val());
-		calculations($(this).val(),1);
+		calculations($(this).val());
 	})
 
 	function delivery(value){
@@ -408,23 +408,23 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 
 	function calculations(data,value){
 		if (value == 1) { 
-			var count = $('#number_of_purchase_coc').val();			
-			var numberOdCoc = parseInt($('#coc_purchase').val());
-			var cocCost = parseInt($('.deliveryclass').val())*numberOdCoc;
-			$('.coc_cost').val(cocCost);
+			// var count = $('#number_of_purchase_coc').val();			
+			// var numberOdCoc = parseInt($('#coc_purchase').val());
+			// var cocCost = parseInt($('.deliveryclass').val())*numberOdCoc;
+			// $('.coc_cost').val(cocCost);
 
-			var count 	= data;
-			var coctype = $('#coc_cost').val();
-			if (coctype!='') {
-				var cost_of_delivery = parseFloat($('#cost_f_delivery').val());
-				var coc_cost = parseFloat($('#coc_cost').val());
-				var dbvat = parseFloat($('#dbvat').val());
+			// var count 	= data;
+			// var coctype = $('#coc_cost').val();
+			// if (coctype!='') {
+			// 	var cost_of_delivery = parseFloat($('#cost_f_delivery').val());
+			// 	var coc_cost = parseFloat($('#coc_cost').val());
+			// 	var dbvat = parseFloat($('#dbvat').val());
 				
-				var allvat = (((parseFloat($('#coc_cost').val())+parseFloat($('#cost_f_delivery').val()))*dbvat)/100);
-				$('#vat').val(allvat.toFixed(2));
-				var total = parseFloat(coctype)+parseFloat(allvat)+parseFloat($('#cost_f_delivery').val())
-				$('#totaldue').val(total.toFixed(2));
-				$('#totaldue1').val(total.toFixed(2));
+			// 	var allvat = (((parseFloat($('#coc_cost').val())+parseFloat($('#cost_f_delivery').val()))*dbvat)/100);
+			// 	$('#vat').val(allvat.toFixed(2));
+			// 	var total = parseFloat(coctype)+parseFloat(allvat)+parseFloat($('#cost_f_delivery').val())
+			// 	$('#totaldue').val(total.toFixed(2));
+			// 	$('#totaldue1').val(total.toFixed(2));
 			}
 		}else{
 
