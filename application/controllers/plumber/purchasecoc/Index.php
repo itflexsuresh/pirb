@@ -30,6 +30,7 @@ class Index extends CC_Controller
 		$pagedata['province'] 		= 	$this->getProvinceList();		
 		$pagedata['userid']			= 	$userid;
 		$pagedata['userdata']		= 	$userdata;
+		$data['userdata1']			= 	$userdata1;
 		$pagedata['username']		= 	$userdata1;
 		$pagedata['deliverycard']	= 	$this->config->item('purchasecocdelivery');
 		$pagedata['coctype']		= 	$this->config->item('coctype');
@@ -38,9 +39,10 @@ class Index extends CC_Controller
 		$pagedata['logcoc']			=	$this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => 'admin_stock']);
 		$pagedata['cocpaperwork']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocpaperwork'), 'status' => ['1']]);
 		$pagedata['cocelectronic']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocelectronic'), 'status' => ['1']]);
-		$pagedata['postage']			= $this->Rates_Model->getList('row', ['id' => $this->config->item('postage'), 'status' => ['1']]);
-		$pagedata['couriour']			= $this->Rates_Model->getList('row', ['id' => $this->config->item('couriour'), 'status' => ['1']]);
-		$pagedata['collectedbypirb']	= $this->Rates_Model->getList('row', ['id' => $this->config->item('collectedbypirb'), 'status' => ['1']]);
+		$pagedata['postage']		= $this->Rates_Model->getList('row', ['id' => $this->config->item('postage'), 'status' => ['1']]);
+		$pagedata['couriour']		= $this->Rates_Model->getList('row', ['id' => $this->config->item('couriour'), 'status' => ['1']]);
+		$pagedata['collectedbypirb']= $this->Rates_Model->getList('row', ['id' => $this->config->item('collectedbypirb'), 'status' => ['1']]);
+		//print_r($pagedata['postage']);die;
 
 		$data['plugins']			= 	['validation', 'datepicker'];
 		//$pagedata['result'] 		= $this->Coc_Model->getList('row', ['id' => $userid, 'status' => ['0','1']]);
