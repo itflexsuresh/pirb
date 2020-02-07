@@ -65,7 +65,7 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 
 			                	<div class="col-md-3">
 				                    <div class="custom-control custom-radio">
-				                        <input type="radio" id="reseller" name="reseller" class="custom-control-input">
+				                        <input type="radio" id="reseller" name="plumber" class="custom-control-input">
 				                        <label class="custom-control-label" for="reseller">Reseller</label>
 				                    </div>
 				                </div>
@@ -131,14 +131,14 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 										<div class="row">
 											<div class="col-md-5">
 												<div class="custom-control custom-radio">
-							                        <input type="radio" id="electronic" name="electronic" class="custom-control-input">
+							                        <input type="radio" id="electronic" name="type_coc" class="custom-control-input">
 							                        <label class="custom-control-label" for="electronic">Electronic</label>
 							                    </div>
 						                	</div>
 
 						                	<div class="col-md-5">
 							                    <div class="custom-control custom-radio">
-							                        <input type="radio" id="paper_based" name="paper_based" class="custom-control-input">
+							                        <input type="radio" id="paper_based" name="type_coc" class="custom-control-input">
 							                        <label class="custom-control-label" for="paper_based">Paper Based</label>
 							                    </div>
 							                </div>
@@ -170,14 +170,14 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 										<div class="row">
 											<div class="col-md-5">
 												<div class="custom-control custom-radio">
-							                        <input type="radio" id="paid" name="paid" class="custom-control-input">
+							                        <input type="radio" id="paid" name="payment_status" class="custom-control-input">
 							                        <label class="custom-control-label" for="paid">Paid</label>
 							                    </div>
 						                	</div>
 
 						                	<div class="col-md-5">
 							                    <div class="custom-control custom-radio">
-							                        <input type="radio" id="unpaid" name="unpaid" class="custom-control-input">
+							                        <input type="radio" id="unpaid" name="payment_status" class="custom-control-input">
 							                        <label class="custom-control-label" for="unpaid">Unpaid</label>
 							                    </div>
 							                </div>
@@ -214,7 +214,7 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 		                        </div>
 							</div>
 						</div>
-						
+
 						<div class="col-md-12">
 							<div class="row">
 								<div class="col-md-6">
