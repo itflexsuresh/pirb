@@ -219,7 +219,12 @@ class Users_Model extends CC_Model
 	public function forgotPasswordMail($data)
 	{
 		$sitename		=	$this->config->item('sitename');
-		$usertypename	=	$this->config->item('usertype2');
+		
+		if($data['type']!='1'){
+			$usertypename	=	$this->config->item('usertype2')[$data['type']];
+		}else{
+			$usertypename	= '';
+		}
 		
 		$this->load->library('encryption');
 		
