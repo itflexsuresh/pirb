@@ -35,7 +35,7 @@ class Index extends CC_Controller
 		$pagedata['deliverycard']	= 	$this->config->item('purchasecocdelivery');
 		$pagedata['coctype']		= 	$this->config->item('coctype');
 		$pagedata['settings']		= 	$this->Systemsettings_Model->getList('row');
-		$pagedata['cocpermitted']	=	$this->Coc_Model->checkcocpermitted($userid);
+		$pagedata['cocpermitted']	=	$userdata1['coc_electronic'];
 		
 		$pagedata['logcoc']			=	$this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => '1']);
 		$pagedata['cocpaperwork']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocpaperwork')]);
