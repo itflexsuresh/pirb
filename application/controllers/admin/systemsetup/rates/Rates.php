@@ -23,9 +23,18 @@ class Rates extends CC_Controller
 		
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
-
 			if($requestData['submit']=='submit'){
-				$data 	=  $this->Rates_Model->action($requestData);
+
+            $validfrom=  strtotime($result['validfrom']);
+            $futurefrom= strtotime($requestData['validfrom']);
+
+            if($validfrom < $futurefrom){
+            	$data 	=  $this->Rates_Model->actionfuture($requestData);
+            }
+            else{
+            	$data 	=  $this->Rates_Model->action($requestData);
+            }
+              				
 				if($data) $message = 'RatesModel '.(($id=='') ? 'created' : 'updated').' successfully.';
 			}else{
 				$data 			= 	$this->Rates_Model->changestatus($requestData);
