@@ -150,51 +150,61 @@ $postalcode2 			= isset($postaladdress[6]) ? $postaladdress[6] : '';
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
+							<label>Province *</label>							
+							<?php 
+								echo form_dropdown('address[1][province]', $province, $province1, ['id' => 'province1', 'class' => 'form-control']); 
+							?>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Province *</label>
+							<?php
+								echo form_dropdown('address[2][province]', $province, $province2, ['id' => 'province2', 'class'=>'form-control']);
+							?>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>City *</label>
+							<?php 
+								echo form_dropdown('address[1][city]', [], $city1, ['id' => 'city1', 'class' => 'form-control']); 
+							?>							
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>City *</label>
+							<?php 
+								echo form_dropdown('address[2][city]', [], $city2, ['id' => 'city2', 'class' => 'form-control']); 
+							?>							
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
 							<label>Suburb *</label>
-							<input type="text" class="form-control" name="address[1][suburb]" value="<?php echo $suburb1; ?>">
+							<?php
+								echo form_dropdown('address[1][suburb]', [], $suburb1, ['id' => 'suburb1', 'class'=>'form-control']);
+							?>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Suburb *</label>
-							<input type="text" class="form-control" name="address[2][suburb]" value="<?php echo $suburb2; ?>">
+							<?php
+								echo form_dropdown('address[2][suburb]', [], $suburb2, ['id' => 'suburb2', 'class'=>'form-control']);
+							?>
 						</div>
 					</div>					
 				</div>
 
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>City *</label>
-							<input type="text" class="form-control" name="address[1][city]" value="<?php echo $city1; ?>">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>City *</label>
-							<input type="text" class="form-control" name="address[2][city]" value="<?php echo $city2; ?>">
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>Province *</label>
-							<?php
-							echo form_dropdown('address[1][province]', $province, $province1,['class'=>'form-control']);
-							?>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>Province *</label>
-							<?php
-							echo form_dropdown('address[2][province]', $province, $province2,['class'=>'form-control']);
-							?>
-						</div>
-					</div>
-				</div>
+				
 
 				<div class="row">					
 					<div class="col-md-6">
@@ -275,6 +285,11 @@ $postalcode2 			= isset($postaladdress[6]) ? $postaladdress[6] : '';
 
 
 $(function(){
+
+	// select2('#plumberstatus, #designation2, #title, #gender, #racial, #nationality, #othernationality, #homelanguage, #disability, #citizen, #registration_card, #delivery_card, #province1, #city1, #suburb1, #province2, #city2, #suburb2, #province3, #city3, #suburb3, #employment_details, #company_details, #skill_route');
+
+	citysuburb(['#province1','#city1', '#suburb1'], ['<?php echo $city1; ?>', '<?php echo $suburb1; ?>']);
+	citysuburb(['#province2','#city2', '#suburb2'], ['<?php echo $city2; ?>', '<?php echo $suburb2; ?>']);
 	
 	validation(
 		'.resellers',
@@ -298,15 +313,12 @@ $(function(){
 				required	: true,
 				email		: true,
 				remote		: 	{
-									url	: "<?php echo base_url().'authentication/login/emailvalidation'; ?>",
-									type: "post",
-									async: false,
-									data: {
-										email: function() {
-											return $( "#email" ).val();
-										},
-										
-									}
+									url		: 	"<?php echo base_url().'authentication/login/emailvalidation'; ?>",
+									type	: 	"post",
+									async	: 	false,
+									data	: 	{
+													id : userid
+												}
 								}
 			},
 			home_phone : {
@@ -346,8 +358,9 @@ $(function(){
 				minlength: "Please Enter 10 Numbers Only.",
 			},
 			email : {
-				required: "Email field is required.",
-				remote: "Email field already exists.",
+				required	: "Email  field is required.",
+				email       : "Please Enter Valid Mail",
+				remote		: "Email already exists."
 			},
 			home_phone : {
 				maxlength: "Please Enter 20 Numbers Only.",
