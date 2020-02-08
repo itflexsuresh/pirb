@@ -146,7 +146,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 								<input type="number" id="coc_cost" class="form-control coc_cost" readonly name="coc_cost">
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-6 deliverygroupdiv">
 							<div class="form-group">
 								<label>Cost of Delivery</label>
 								<input type="text" id="cost_f_delivery" class="form-control deliveryclass" readonly name="cost_f_delivery">
@@ -257,6 +257,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 
 <script type="text/javascript">
 	$(function(){
+		$('.deliverygroupdiv').hide();
 		$('#skillmodal').modal('hide');
 		$('#purchase').prop('disabled', true);
 		coctype1($('.coc_type:checked').val());
@@ -420,12 +421,14 @@ if (in_array($plumberstatus, $plumber_status)) {
 		if(value=='1'){
 			//coc_purchase
 			//$('.coc_cost').val('<?php // echo $cocelectronic; ?>')	
-			coc_amount = $('#dbcocelectronic').val()
+			coc_amount = $('#dbcocelectronic').val();
+			$('.deliverygroupdiv').hide();
 			//alert(coc_amount);
 			$('#cost_f_delivery').val('0');
 		}else if(value=='2'){
 			//coc_purchase
-			coc_amount = $('#dbcocpaperwork').val()
+			coc_amount = $('#dbcocpaperwork').val();
+			$('.deliverygroupdiv').show();
 			//alert(coc_amount);
 			//$('.coc_cost').val('<?php // echo $cocelectronic; ?>')
 			//$('#cost_f_delivery').val('<?php //echo $cocpaperwork; ?>');
