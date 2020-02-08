@@ -30,13 +30,11 @@ class Index extends CC_Controller
 		$pagedata['province'] 		= 	$this->getProvinceList();		
 		$pagedata['userid']			= 	$userid;
 		$pagedata['userdata']		= 	$userdata;
-		$data['userdata1']			= 	$userdata1;
+		$pagedata['userdata1']		= 	$userdata1;
 		$pagedata['username']		= 	$userdata1;
 		$pagedata['deliverycard']	= 	$this->config->item('purchasecocdelivery');
 		$pagedata['coctype']		= 	$this->config->item('coctype');
 		$pagedata['settings']		= 	$this->Systemsettings_Model->getList('row');
-		$pagedata['cocpermitted']	=	$userdata1['coc_electronic'];
-		
 		$pagedata['logcoc']			=	$this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => '1']);
 		$pagedata['cocpaperwork']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocpaperwork')]);
 		$pagedata['cocelectronic']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocelectronic')]);

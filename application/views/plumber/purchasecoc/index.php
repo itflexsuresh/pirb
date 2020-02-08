@@ -6,8 +6,8 @@ $mobile_phone 			= $username['mobile_phone'];
 $userid		 			= $username['id'];
 $log_coc 				= $logcoc;
 $VAT 					= $settings["vat_percentage"];
-$coc_purchase_limit   	= $cocpermitted["coc_purchase_limit"];
-$electronic_coc_log   	= $cocpermitted["coc_electronic"];
+$coc_purchase_limit   	= $username["coc_purchase_limit"];
+$electronic_coc_log   	= $username["coc_electronic"];
 $cocpaperwork 			= $cocpaperwork["amount"];
 $cocelectronic 			= $cocelectronic["amount"];
 
