@@ -296,6 +296,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 			ajaxotp();
 			
 			$('#skillmodal').modal('show');
+			$('.invalidOTP').hide();
 
 			
 		});

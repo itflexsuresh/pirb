@@ -24,10 +24,6 @@ class Coc_Model extends CC_Model
 			$inv_id 		= $this->db->insert_id();
 			return $inv_id;
 		}else{
-			// if($requestdata['coc_type'] == 1) 		$requestdata2['type'] 			= 'electronic';
-			// if($requestdata['coc_type'] == 2) 		$requestdata2['type'] 			= 'paper';
-			if($requestdata['type']) 		$requestdata2['type'] 			= $requestdata['type'];
-			if(isset($requestdata['user_id'])) 		$requestdata2['user_id'] 		= $requestdata['user_id'];
 			$result 		= $this->db->insert('coc_orders',$requestdata);
 			if ($result) {
 				return '1';
