@@ -58,7 +58,7 @@ $heading = 'Update';
 																	<label>SMS</label>
 																		<div class="form-group">
 																		
-																		<textarea rows="10" cols="30" class="sms_body" name="sms_body"><?php echo $result['sms_body']; ?></textarea>
+																		<textarea rows="30" cols="100" class="sms_body" name="sms_body"><?php echo $result['sms_body']; ?></textarea>
 																	</div>
 																</div>
 															</div>
