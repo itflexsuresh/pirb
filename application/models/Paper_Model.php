@@ -28,7 +28,7 @@ class Paper_Model extends CC_Model
 	public function getCount($type, $requestdata=[])
 	{ 
 		
-		$query5 = $this->db->query("SELECT COUNT(coc_status) as total FROM paper_stock_management WHERE coc_status = 'admin_stock' ");
+		$query5 = $this->db->query("SELECT COUNT(coc_status) as total FROM paper_stock_management WHERE coc_status = 1 ");
 		$result = $data['count_admin'] = $query5->row_array();	
 		 
 		return $result;
