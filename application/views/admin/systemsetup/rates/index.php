@@ -1,4 +1,5 @@
 <?php
+
 if(isset($result) && $result){
 	$id 			= $result['id'];
 	$supplyitem     = (set_value('supplyitem')) ? set_value('supplyitem') : $result['supplyitem'];
@@ -55,16 +56,19 @@ if(isset($result) && $result){
 							<label for="name">Valid From Date</label>
 							<input type="text" autocomplete="off" class="form-control" id="valid-from" name="validfrom" placeholder="Enter Date *" value="<?php echo $validfrom; ?>">
 						</div>
-
+                        <?php if($futuredate!=''){?>
                         <div class="form-group col-md-6">
 							<label for="name">Future Date</label></br>
-							<?php echo $futuredate; ?>
+
+							<?php $fdate=date('d-m-Y',strtotime($futuredate)); echo $fdate; ?>
 						</div>
+					<?php }?>
+					<?php if($futureamount!=''){?>
 						 <div class="form-group col-md-6">
 							<label for="name">Future Amount</label></br>
-							<?php echo $futureamount; ?>
+							<?php  echo $futureamount; ?>
 						</div>
-
+                    <?php }?>
 						<div class="col-md-1 text-right">
 								<input type="hidden" name="id" value="<?php echo $id; ?>">
 								<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php// echo $heading; ?> Update</button>
