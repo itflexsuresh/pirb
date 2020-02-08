@@ -39,7 +39,7 @@ $formstatus  = $userdata['formstatus'];
 							<li> 
 								<a class="sub_menu" href="javascript:void(0)" aria-expanded="false"><span class="hide-menu">Coc Management (Statement)</span></a>
 								<ul aria-expanded="false" class="collapse">
-									<li><a href="<?php echo base_url().''; ?>">Coc Management (Statement)</a></li>
+									<li><a href="<?php echo base_url().'admin/cocmanagement/cocmanagementstatement/coc_details'; ?>">Coc Details</a></li>
 									<li><a href="<?php echo base_url().'admin/cocmanagement/cocmanagementstatement/coc_orders/index'; ?>">Coc Orders</a></li>
 								</ul>
 							</li>
