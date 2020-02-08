@@ -34,7 +34,7 @@ class Coc_details extends CC_Controller
 				$totalrecord[] = 	[
 										'cocno' 		=> 	$result['id'],
 										'coctype' 		=> 	$this->config->item('coctype')[$result['type']],
-										'status' 		=> 	'-',
+										'status' 		=> 	$this->config->item('cocstatus')[$result['coc_status']],
 										'plumber' 		=> 	($result['usertype']=='3') ? $result['name'] : '-',
 										'reseller' 		=> 	($result['usertype']=='6') ? $result['name'] : '-',
 										'auditor' 		=> 	($result['usertype']=='5') ? $result['name'] : '-',
