@@ -5,7 +5,7 @@ class Paper_Model extends CC_Model
 	public function getList($type, $requestdata=[])
 	{ 	
 		
-		$query2 = $this->db->query("SELECT id FROM paper_stock_management ORDER BY id DESC LIMIT 0,1");	    
+		$query2 = $this->db->query("SELECT id FROM stock_management ORDER BY id DESC LIMIT 0,1");	    
 	    $result = $data['non_all'] = $query2->row_array();
 	    return $result;
 		
@@ -28,7 +28,7 @@ class Paper_Model extends CC_Model
 	public function getCount($type, $requestdata=[])
 	{ 
 		
-		$query5 = $this->db->query("SELECT COUNT(coc_status) as total FROM paper_stock_management WHERE coc_status = 1 ");
+		$query5 = $this->db->query("SELECT COUNT(coc_status) as total FROM stock_management WHERE coc_status = 1 ");
 		$result = $data['count_admin'] = $query5->row_array();	
 		 
 		return $result;
@@ -68,7 +68,7 @@ class Paper_Model extends CC_Model
 
 			$request1['created_at'] = $datetime;
 			// print_r($request1); exit;
-			$userdata = $this->db->insert('paper_stock_management_log', $request1);
+			$userdata = $this->db->insert('stock_management_log', $request1);
 			
 			if($userdata)
 			{
@@ -83,7 +83,7 @@ class Paper_Model extends CC_Model
 			$request2['purchased_at'] = $datetime;
 			$request2['allocation_date'] = $datetime;
 
-			$user_stock = $this->db->insert('paper_stock_management', $request2);
+			$user_stock = $this->db->insert('stock_management', $request2);
 			}
 		}
 		}
