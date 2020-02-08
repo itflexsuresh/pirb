@@ -11,9 +11,15 @@ $heading = 'Update';
 } 
 ?>
 
+<!doctype html>
+<html>
+<head>
+    <!-- TinyMCE script -->
+    <script src='<?= base_url() ?>resources/tinymce/js/tinymce/tinymce.min.js'></script>
+      <script>tinymce.init({selector:'.email_body'});</script>
 
-
-
+  </head>
+<body>
 <div class="row">
 	<div class="col-12">
 		<div class="card">
@@ -52,7 +58,7 @@ $heading = 'Update';
 														<div class="row">
 															<div class="col-md-6">
 																<div class="form-group">
-																	<textarea rows="10" cols="50" name="email_body"><?php echo $result['email_body']; ?></textarea>
+																	<textarea rows="10" cols="50" class="email_body" name="email_body"><?php echo $result['email_body']; ?></textarea>
 
 																</div>	
 															</div>
@@ -61,7 +67,7 @@ $heading = 'Update';
 																	<label>SMS</label>
 																		<div class="form-group">
 																		
-																		<textarea rows="10" cols="30" name="sms_body"><?php echo $result['sms_body']; ?></textarea>
+																		<textarea rows="10" cols="30" class="sms_body" name="sms_body"><?php echo $result['sms_body']; ?></textarea>
 																	</div>
 																</div>
 															</div>
@@ -81,4 +87,6 @@ $heading = 'Update';
 										</div>
 									</div>
 								</div>
-							</div>
+							</div>							
+						</body>
+							</html>
