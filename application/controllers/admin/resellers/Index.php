@@ -37,7 +37,7 @@ class Index extends CC_Controller
 										'name' 			=> 	$result['name'],
 										'email' 		=> 	$result['email'],										
 										'contactnumber' 		=> 	$result['mobile_phone'],
-										'stockcount' 		=> 	$result['purchaseno'],
+										'stockcount' 		=> 	$result['coc_purchase_limit'],
 										'action'		=> 	'
 																<div class="table-action">
 																	<a href="'.base_url().'admin/resellers/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>

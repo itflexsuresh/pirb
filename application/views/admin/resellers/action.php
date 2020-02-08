@@ -17,7 +17,7 @@ $paddress 				= isset($result['paddress']) ? $result['paddress'] : '';
 $reg_no 				= isset($result['reg_no']) ? $result['reg_no'] : '';
 $vat_no 				= isset($result['vat_no']) ? $result['vat_no'] : '';
 $vatreg 				= isset($result['vatreg']) ? $result['vatreg'] : '';
-$purchaseno 				= isset($result['purchaseno']) ? $result['purchaseno'] : '';
+$coc_purchase_limit 				= isset($result['coc_purchase_limit']) ? $result['coc_purchase_limit'] : '';
 $status 				= isset($result['status']) ? $result['status'] : '';
 $vat_vendor 				= isset($result['vat_vendor']) ? $result['vat_vendor'] : '';
 
@@ -102,7 +102,7 @@ $postalcode2 			= isset($postaladdress[6]) ? $postaladdress[6] : '';
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Primary Email</label>
-							<input type="text" class="form-control"  name="email"  value="<?php echo $email; ?>">
+							<input type="text" class="form-control" id="email" name="email"  value="<?php echo $email; ?>">
 							</div>
 					</div>
 				</div>
@@ -118,7 +118,7 @@ $postalcode2 			= isset($postaladdress[6]) ? $postaladdress[6] : '';
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Active</label>														
-							<input type="checkbox" class="form-control"  name="status"  value="1" <?php if($status == '1'){?> checked <?php } ?>>
+							<input type="checkbox" class="form-control"  name="status"  value="1" <?php if($status == '1'){?> checked <?php } ?> checked>
 							</div>
 					</div>
 				</div>
@@ -253,7 +253,7 @@ $postalcode2 			= isset($postaladdress[6]) ? $postaladdress[6] : '';
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Number of CoC's Able to purchase number</label>	
-							<input type="text" class="form-control"  name="purchaseno"  value="<?php echo $purchaseno; ?>">
+							<input type="text" class="form-control"  name="coc_purchase_limit"  value="<?php echo $coc_purchase_limit; ?>">
 							</div>						
 							</div>
 					</div>
@@ -280,14 +280,15 @@ $(function(){
 		'.resellers',
 		{
 			
-			name : {
+			company : {
 				required	: true,
 			},
+			name : {
+				required	: true,
+			},			
 			surname : {
 				required	: true,
 			},
-			
-			
 			mobile_phone : {
 				required	: true,
 				maxlength: 20,
@@ -304,7 +305,7 @@ $(function(){
 										email: function() {
 											return $( "#email" ).val();
 										},
-										id : '<?php echo $id; ?>'
+										
 									}
 								}
 			},
@@ -312,18 +313,33 @@ $(function(){
 				maxlength: 20,
 				minlength: 10,
 			},
+			password : {
+				required	: true,
+			},
 			company_name : {
+				required	: true,
+			},
+			reg_no : {
+				required	: true,
+			},
+			vat_no : {
+				required	: true,
+			},
+			coc_purchase_limit : {
 				required	: true,
 			}
 		},
 		{
 			
 			name 	: {
-				required	: "Name field is required."
-			}
+				required	: "Company Name field is required.",
+			},
+			name 	: {
+				required	: "Name field is required.",
+			},
 			surname : {
 				required	: "Surname field is required.",
-			}
+			},
 			mobile_phone : {
 				required	: "Mobile phone field is required.",
 				maxlength: "Please Enter 20 Numbers Only.",
@@ -331,7 +347,7 @@ $(function(){
 			},
 			email : {
 				required: "Email field is required.",
-				required: "Email field already exists.",
+				remote: "Email field already exists.",
 			},
 			home_phone : {
 				maxlength: "Please Enter 20 Numbers Only.",
@@ -339,6 +355,18 @@ $(function(){
 			},
 			company_name 	: {
 				required	: "Billing name field is required.",
+			},
+			password 	: {
+				required	: "Password field is required.",
+			},
+			reg_no 	: {
+				required	: "Company Reg Number field is required.",
+			},
+			vat_no 	: {
+				required	: "Company Vat field is required.",
+			},
+			coc_purchase_limit 	: {
+				required	: "Purchase number field is required.",
 			}
 		},
 		{

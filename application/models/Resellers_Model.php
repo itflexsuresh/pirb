@@ -13,7 +13,7 @@ class Resellers_Model extends CC_Model
 								'u.id','u.email','u.formstatus','u.status' ,'u.password_raw'
 							];
 		$usersdetail 	= 	[ 
-								'ud.id as usersdetailid','ud.user_id as usersid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.company','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.purchaseno', 'ud.vat_vendor'
+								'ud.id as usersdetailid','ud.user_id as usersid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.company','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit', 'ud.vat_vendor'
 							];
 
 		$this->db->select('
@@ -105,7 +105,7 @@ class Resellers_Model extends CC_Model
 		if(isset($data['mobile_phone2'])) 		$request1['mobile_phone2'] 		= $data['mobile_phone2'];
 		if(isset($data['email2'])) 				$request1['email2'] 			= $data['email2'];
 		if(isset($data['company'])) 				$request1['company'] 			= $data['company'];
-		if(isset($data['purchaseno'])) 				$request1['purchaseno'] 			= $data['purchaseno'];
+		if(isset($data['coc_purchase_limit'])) 				$request1['coc_purchase_limit'] 			= $data['coc_purchase_limit'];
 
 		$request1['vat_vendor'] = (isset($data['vat_vendor'])) ? $data['vat_vendor'] : '0';
 		
