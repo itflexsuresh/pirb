@@ -75,6 +75,8 @@ class Resellers_Model extends CC_Model
 		$request['status'] = (isset($data['status'])) ? $data['status'] : '0';
 
 		$request['type'] = '6';
+		$request['mailstatus'] = '1';
+		$request['formstatus'] = '1';
 		
 		if(isset($request)){	
 			$usersid	= 	$data['usersid'];			

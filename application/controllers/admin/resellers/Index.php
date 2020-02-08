@@ -59,44 +59,49 @@ class Index extends CC_Controller
 
 	public function action($id='')
 	{
-			
-		if($id!=''){
-			$result = $this->Resellers_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
-			if($result){
-				$pagedata['result'] = $result;
-
-			}else{
-				$this->session->set_flashdata('error', 'No Record Found.');
-				redirect('admin/resellers/index'); 
-			}
-		}
-		
-		if($this->input->post()){
-			$requestData 	= 	$this->input->post();
-
-			if($requestData['submit']=='submit'){
-				$data 	=  $this->Resellers_Model->action($requestData);
-				if($data) $message = 'Resellers '.(($id=='') ? 'created' : 'updated').' successfully.';
-			}else{
-				$data 			= 	$this->Resellers_Model->changestatus($requestData);
-				$message		= 	'Resellers deleted successfully.';
-			}
-
-			if(isset($data)) $this->session->set_flashdata('success', $message);
-			else $this->session->set_flashdata('error', 'Try Later.');
-			
-			redirect('admin/resellers/index'); 
-		}
-		
-		$pagedata['notification'] 	= $this->getNotification();
-		$pagedata['province'] 		= $this->getProvinceList();
-		// $pagedata['city'] 		= $this->getCityList();
-		// $pagedata['suburb'] 		= $this->getSuburbList();
-		
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','inputmask'];
-		$data['content'] 			= $this->load->view('admin/resellers/action', (isset($pagedata) ? $pagedata : ''), true);
-		$this->layout2($data);
+		$this->resellersprofile($id, ['roletype' => $this->config->item('roleadmin'), 'pagetype' => 'applications'], ['redirect' => 'admin/resellers/index']);
 	}
+	
+	// public function action($id='')
+	// {
+			
+	// 	if($id!=''){
+	// 		$result = $this->Resellers_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
+	// 		if($result){
+	// 			$pagedata['result'] = $result;
+
+	// 		}else{
+	// 			$this->session->set_flashdata('error', 'No Record Found.');
+	// 			redirect('admin/resellers/index'); 
+	// 		}
+	// 	}
+		
+	// 	if($this->input->post()){
+	// 		$requestData 	= 	$this->input->post();
+
+	// 		if($requestData['submit']=='submit'){
+	// 			$data 	=  $this->Resellers_Model->action($requestData);
+	// 			if($data) $message = 'Resellers '.(($id=='') ? 'created' : 'updated').' successfully.';
+	// 		}else{
+	// 			$data 			= 	$this->Resellers_Model->changestatus($requestData);
+	// 			$message		= 	'Resellers deleted successfully.';
+	// 		}
+
+	// 		if(isset($data)) $this->session->set_flashdata('success', $message);
+	// 		else $this->session->set_flashdata('error', 'Try Later.');
+			
+	// 		redirect('admin/resellers/index'); 
+	// 	}
+		
+	// 	$pagedata['notification'] 	= $this->getNotification();
+	// 	$pagedata['province'] 		= $this->getProvinceList();
+	// 	// $pagedata['city'] 		= $this->getCityList();
+	// 	// $pagedata['suburb'] 		= $this->getSuburbList();
+		
+	// 	$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','inputmask'];
+	// 	$data['content'] 			= $this->load->view('admin/resellers/action', (isset($pagedata) ? $pagedata : ''), true);
+	// 	$this->layout2($data);
+	// }
 	
 }
 
