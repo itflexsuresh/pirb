@@ -14,7 +14,7 @@ class Index extends CC_Controller
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['company'] 		= $this->getCompanyList();
 		
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'datepicker'];
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'datepicker', 'inputmask'];
 		$data['content'] 			= $this->load->view('admin/resellers/index', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$this->layout2($data);		
@@ -32,12 +32,12 @@ class Index extends CC_Controller
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){				
-
+				$stockcount = 0;
 				$totalrecord[] = 	[										
 										'name' 			=> 	$result['name'],
 										'email' 		=> 	$result['email'],										
 										'contactnumber' 		=> 	$result['mobile_phone'],
-										'stockcount' 		=> 	$result['coc_purchase_limit'],
+										'stockcount' 		=> 	$stockcount,
 										'action'		=> 	'
 																<div class="table-action">
 																	<a href="'.base_url().'admin/resellers/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
@@ -93,7 +93,7 @@ class Index extends CC_Controller
 		// $pagedata['city'] 		= $this->getCityList();
 		// $pagedata['suburb'] 		= $this->getSuburbList();
 		
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','inputmask'];
 		$data['content'] 			= $this->load->view('admin/resellers/action', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}

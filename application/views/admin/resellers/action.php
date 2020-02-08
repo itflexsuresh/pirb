@@ -63,7 +63,7 @@ $postalcode2 			= isset($postaladdress[6]) ? $postaladdress[6] : '';
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Company Name *</label>
-							<input type="text" class="form-control"  name="company"  value="<?php echo $company; ?>">
+							<input type="text" class="form-control"  name="company" id="company"  value="<?php echo $company; ?>">
 							</div>
 					</div>
 				</div>
@@ -71,29 +71,14 @@ $postalcode2 			= isset($postaladdress[6]) ? $postaladdress[6] : '';
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>Contact Person Name</label>
-							<input type="text" class="form-control"  name="name"  value="<?php echo $name; ?>">
+							<label>Contact Person Name *</label>
+							<input type="text" class="form-control"  name="name" id="name"  value="<?php echo $name; ?>">
 							</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>Contact Person Surname</label>
-							<input type="text" class="form-control"  name="surname"  value="<?php echo $surname; ?>">
-							</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>Phone (Work)</label>
-							<input type="text" class="form-control"  name="home_phone"  value="<?php echo $home_phone; ?>">
-							</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>Primary Contact Mobile Number</label>
-							<input type="text" class="form-control"  name="mobile_phone"  value="<?php echo $mobile_phone; ?>">
+							<label>Contact Person Surname *</label>
+							<input type="text" class="form-control"  name="surname" id="surname"  value="<?php echo $surname; ?>">
 							</div>
 					</div>
 				</div>
@@ -101,7 +86,22 @@ $postalcode2 			= isset($postaladdress[6]) ? $postaladdress[6] : '';
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>Primary Email</label>
+							<label>Phone (Work) *</label>
+							<input type="text" class="form-control"  name="home_phone" id="home_phone"  value="<?php echo $home_phone; ?>">
+							</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Primary Contact Mobile Number *</label>
+							<input type="text" class="form-control"  name="mobile_phone" id="mobile_phone" value="<?php echo $mobile_phone; ?>">
+							</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Primary Email *</label>
 							<input type="text" class="form-control" id="email" name="email"  value="<?php echo $email; ?>">
 							</div>
 					</div>
@@ -110,106 +110,103 @@ $postalcode2 			= isset($postaladdress[6]) ? $postaladdress[6] : '';
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>Password</label>
-							<input type="text" class="form-control"  name="password"  value="<?php echo $password; ?>">
+							<label>Password *</label>
+							<input type="text" class="form-control"  name="password" id="password"  value="<?php echo $password; ?>">
 							</div>
 					</div>
 
 					<div class="col-md-6">
-						<div class="form-group">
-							<label>Active</label>														
-							<input type="checkbox" class="form-control"  name="status"  value="1" <?php if($status == '1'){?> checked <?php } ?> checked>
-							</div>
+						<div class="form-group">							
+							<input type="checkbox" class="custom-control-input" id="status" name="status" value="1" <?php echo ($status=='1') ? 'checked="checked"' : ''; ?> checked>
+							<label class="custom-control-label" for="status">Active</label>
+						</div>
 					</div>
 				</div>
 
 				<div class="row">
-
-					<div class="col-md-6">
-						<h4 class="card-title">Physical Address</h4>
-						<!-- <p class="tagline">Note all delivery services will be sent to this address</p> -->
-						<div class="form-group">
-							<label>Physical Address *</label>
-							<input type="hidden" class="form-control" name="address[1][id]" value="<?php echo $addressid1; ?>">
-							<input type="hidden" class="form-control" name="address[1][type]" value="1">
-							<input type="text" class="form-control" name="address[1][address]"  value="<?php echo $address1; ?>">
-						</div>
-					</div>
 					<div class="col-md-6">
 						<h4 class="card-title">Postal Address</h4>
 						<!-- <p class="tagline">Note all postal services will be sent to this address</p> -->
 						<div class="form-group">
-							<label>Postal Address *</label>
+							<label>Postal Address</label>
 							<input type="hidden" class="form-control" name="address[2][id]" value="<?php echo $addressid2; ?>">
 							<input type="hidden" class="form-control" name="address[2][type]" value="2">
 							<input type="text" class="form-control" name="address[2][address]" value="<?php echo $address2; ?>">
 						</div>
+					</div>
+					<div class="col-md-6">
+						<h4 class="card-title">Physical Address</h4>
+						<!-- <p class="tagline">Note all delivery services will be sent to this address</p> -->
+						<div class="form-group">
+							<label>Physical Address</label>
+							<input type="hidden" class="form-control" name="address[1][id]" value="<?php echo $addressid1; ?>">
+							<input type="hidden" class="form-control" name="address[1][type]" value="1">
+							<input type="text" class="form-control" name="address[1][address]"  value="<?php echo $address1; ?>">
+						</div>
 					</div>					
 				</div>
 
-				<div class="row">
+				<div class="row">					
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>Province *</label>							
-							<?php 
-								echo form_dropdown('address[1][province]', $province, $province1, ['id' => 'province1', 'class' => 'form-control']); 
-							?>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>Province *</label>
+							<label>Province</label>
 							<?php
 								echo form_dropdown('address[2][province]', $province, $province2, ['id' => 'province2', 'class'=>'form-control']);
 							?>
 						</div>
 					</div>
-				</div>
-
-				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>City *</label>
+							<label>Province</label>							
 							<?php 
-								echo form_dropdown('address[1][city]', [], $city1, ['id' => 'city1', 'class' => 'form-control']); 
-							?>							
+								echo form_dropdown('address[1][province]', $province, $province1, ['id' => 'province1', 'class' => 'form-control']); 
+							?>
 						</div>
 					</div>
+				</div>
+
+				<div class="row">					
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>City *</label>
+							<label>City</label>
 							<?php 
 								echo form_dropdown('address[2][city]', [], $city2, ['id' => 'city2', 'class' => 'form-control']); 
 							?>							
 						</div>
 					</div>
-				</div>
-
-				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>Suburb *</label>
+							<label>City</label>
+							<?php 
+								echo form_dropdown('address[1][city]', [], $city1, ['id' => 'city1', 'class' => 'form-control']); 
+							?>							
+						</div>
+					</div>
+				</div>
+
+				<div class="row">					
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Suburb</label>
 							<?php
-								echo form_dropdown('address[1][suburb]', [], $suburb1, ['id' => 'suburb1', 'class'=>'form-control']);
+								echo form_dropdown('address[2][suburb]', [], $suburb2, ['id' => 'suburb2', 'class'=>'form-control']);
 							?>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>Suburb *</label>
+							<label>Suburb</label>
 							<?php
-								echo form_dropdown('address[2][suburb]', [], $suburb2, ['id' => 'suburb2', 'class'=>'form-control']);
+								echo form_dropdown('address[1][suburb]', [], $suburb1, ['id' => 'suburb1', 'class'=>'form-control']);
 							?>
 						</div>
 					</div>					
 				</div>
 
-				
-
-				<div class="row">					
+				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>Postal Code *</label>
+							<label>Postal Code</label>
 							<input type="text" class="form-control" name="address[2][postal_code]" value="<?php echo $postalcode2; ?>">
 						</div>
 					</div>
@@ -226,19 +223,19 @@ $postalcode2 			= isset($postaladdress[6]) ? $postaladdress[6] : '';
 				<div class="row">
 					<div class="col-md-3">
 						<div class="form-group">
-							<label>Billing Name</label>
+							<label>Billing Name *</label>
 							<input type="text" class="form-control"  name="company_name"  value="<?php echo $company_name; ?>">
 							</div>
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
-							<label>Company Reg Number</label>
+							<label>Company Reg Number *</label>
 							<input type="text" class="form-control"  name="reg_no"  value="<?php echo $reg_no; ?>">
 							</div>
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
-							<label>Company Vat</label>
+							<label>Company Vat *</label>
 							<input type="text" class="form-control"  name="vat_no"  value="<?php echo $vat_no; ?>">
 							</div>
 					</div>
@@ -253,16 +250,16 @@ $postalcode2 			= isset($postaladdress[6]) ? $postaladdress[6] : '';
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
-							<label>Company Vat Registered</label>
-							<input type="checkbox" class="form-control" name="vat_vendor"  value="1"  <?php if($vat_vendor == '1'){?> checked <?php } ?>>
-							</div>
+							<input type="checkbox" class="custom-control-input" id="vat_vendor" name="vat_vendor" value="1" <?php echo ($vat_vendor=='1') ? 'checked="checked"' : ''; ?>>
+							<label class="custom-control-label" for="vat_vendor">Company Vat Registered</label>
+						</div>
 					</div>
 				</div>
 
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>Number of CoC's Able to purchase number</label>	
+							<label>Number of CoC's Able to purchase number *</label>	
 							<input type="text" class="form-control"  name="coc_purchase_limit"  value="<?php echo $coc_purchase_limit; ?>">
 							</div>						
 							</div>
@@ -285,9 +282,9 @@ $postalcode2 			= isset($postaladdress[6]) ? $postaladdress[6] : '';
 
 
 $(function(){
-
+	var userid		= '<?php echo $usersid; ?>';
 	// select2('#plumberstatus, #designation2, #title, #gender, #racial, #nationality, #othernationality, #homelanguage, #disability, #citizen, #registration_card, #delivery_card, #province1, #city1, #suburb1, #province2, #city2, #suburb2, #province3, #city3, #suburb3, #employment_details, #company_details, #skill_route');
-
+	inputmask('#home_phone, #mobile_phone', 1);
 	citysuburb(['#province1','#city1', '#suburb1'], ['<?php echo $city1; ?>', '<?php echo $suburb1; ?>']);
 	citysuburb(['#province2','#city2', '#suburb2'], ['<?php echo $city2; ?>', '<?php echo $suburb2; ?>']);
 	
@@ -322,6 +319,7 @@ $(function(){
 								}
 			},
 			home_phone : {
+				required	: true,
 				maxlength: 20,
 				minlength: 10,
 			},
