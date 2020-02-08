@@ -60,13 +60,7 @@ class Index extends CC_Controller
 				$requestData1['user_id']		= 	$user_id;
 				$requestData1['delivery_type'] 	= $requestData['delivery_type'];
 				$requestData1['total_cost'] 	= $requestData['total_due'];
-
-				// if($requestData['coc_type'] == 1){
-				// 	$requestData1['type'] = "electronic";
-				// }else{
-				// 	$requestData1['type'] = "paper";
-				// }
-				$requestData1['type'] = $requestData['coc_type'];
+				
 				$result1 = $this->Coc_Model->action($requestData1, 1);
 				if ($result1) {
 					
