@@ -39,10 +39,10 @@ class Rates extends CC_Controller
             	$data 	=  $this->Rates_Model->action($requestData);
             }
               				
-				if($data) $message = 'RatesModel '.(($id=='') ? 'created' : 'updated').' successfully.';
+				if($data) $message = 'Rates '.(($id=='') ? 'created' : 'updated').' successfully.';
 			}else{
 				$data 			= 	$this->Rates_Model->changestatus($requestData);
-				$message		= 	'RatesModel deleted successfully.';
+				$message		= 	'Rates deleted successfully.';
 			}
 
 			if(isset($data)) $this->session->set_flashdata('success', $message);
