@@ -1,21 +1,19 @@
 <?php
 if(isset($result) && $result){
 	$id 			= $result['id'];
-	//$msgid 			= (set_value('groups')) ? set_value('groups') : $result['groups'];
 	$supplyitem     = (set_value('supplyitem')) ? set_value('supplyitem') : $result['supplyitem'];
 	$amount 	    = (set_value('amount')) ? set_value('amount') : $result['amount'];
 	$validfrom 		= (set_value('validfrom')) ? set_value('validfrom') : $result['validfrom'];
 	$status 		= (set_value('status')) ? set_value('status') : $result['status'];
-	
+	$futuredate     = (set_value('futuredate')) ? set_value('futuredate') : $result['futuredate'];
+    $futureamount   = (set_value('futureammount')) ? set_value('futureammount') : $result['futureammount'];
 	$heading		= 'Update';
 }else{
 	$id 			= '';
-	// $msgid			= set_value('groups');		
 	$supplyitem			= set_value('supplyitem');
 	$amount		    = set_value('amount');
 	$validfrom		= set_value('validfrom');
 	$status			= set_value('status');
-
 	$heading		= 'Add';
 }
 ?>
@@ -57,6 +55,16 @@ if(isset($result) && $result){
 							<label for="name">Valid From Date</label>
 							<input type="text" autocomplete="off" class="form-control" id="valid-from" name="validfrom" placeholder="Enter Date *" value="<?php echo $validfrom; ?>">
 						</div>
+
+                        <div class="form-group col-md-6">
+							<label for="name">Future Date</label></br>
+							<?php echo $futuredate; ?>
+						</div>
+						 <div class="form-group col-md-6">
+							<label for="name">Future Amount</label></br>
+							<?php echo $futureamount; ?>
+						</div>
+
 						<div class="col-md-1 text-right">
 								<input type="hidden" name="id" value="<?php echo $id; ?>">
 								<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php// echo $heading; ?> Update</button>
@@ -115,15 +123,24 @@ if(isset($result) && $result){
 					validfrom : {
 						required	: true,
 					}
+					// ,
+					// futurefrom : {
+					// 	required	: true,
+					// }
 				},
 				{				
 					validfrom 	: {
 						required	: "validfrom field is required."
 					}
+					// ,
+					// futurefrom 	: {
+					// 	required	: "futurefrom field is required."
+					// }
 				}
 				);
 
 			datepicker('#valid-from', ['currentdate'])		
+			// datepicker('#future-from', ['currentdate'])
 	});
 
 
