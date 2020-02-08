@@ -26,7 +26,7 @@
 			</form>
 		</div>
 	</div>
-	<?php if($usertype!=''){ ?>
+	<?php if($usertype!='' && $usertype!='4'){ ?>
 		<div class="col-sm-6">
 			<div class="card card-body">
 				<h4 class="card-title">Individual Registration with the PIRB</h4>
