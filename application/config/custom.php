@@ -20,13 +20,15 @@ $config['collectedbypirb'] 			= 	'24';
 $config['usertype1'] 				= 	[
 											'plumber' 	=> '3',
 											'company' 	=> '4',
-											'resellers' => '5'
+											'auditor' 	=> '5',
+											'resellers' => '6'
 										];
 										
 $config['usertype2'] 				= 	[
 											'3' 	=> 'plumber',
 											'4' 	=> 'company',
-											'5' 	=> 'resellers'
+											'5' 	=> 'auditor',
+											'6' 	=> 'resellers'
 										];
 
 $config['status'] 					= 	[
