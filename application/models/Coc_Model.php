@@ -40,8 +40,17 @@ class Coc_Model extends CC_Model
 	}
 
 	public function ajaxOTP($requestdata){
-		$result = $this->db->insert('otp',$requestdata);
+		$query = $this->db->get_where('otp', array('user_id' => $requestdata['user_id']) );
+		$count = $query->num_rows();
+		if ($count == 1) {
+			$this->db->set('otp',$requestdata['otp']);
+			$this->db->where('user_id', $requestdata['user_id']);
+			$this->db->update('otp');
+		}else{
+			$result = $this->db->insert('otp',$requestdata);
 
+		}
+		
 	}
 
 	public function OTPVerification($requestdata){

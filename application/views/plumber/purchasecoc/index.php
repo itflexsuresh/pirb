@@ -195,6 +195,8 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 										</div>
 										<div class="col-md-12">
 											<div class="form-group">
+												<input id="sampleOtp" type="text" class="form-control skill_training" readonly>
+												<div class="invalidOTP" style="color: red;"> Given OTP is Invalid ! </div>
 												<label>Enter OTP</label>
 												<input name="otpnumber" id="otpnumber" type="text" class="form-control skill_training">
 											</div>
@@ -326,7 +328,8 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 				data 		: { otp: otpver},
 				success: function(data) {
 					if (data == 0) {
-						alert('Given OTP is Invalid !');
+						$('.invalidOTP').show();
+						//alert('Given OTP is Invalid !');
 					}else{
 						ajaxInsert(delivery_type, cocType, delivery_cost);
 
