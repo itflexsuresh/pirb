@@ -75,12 +75,12 @@ class Communication_Model extends CC_Model
 		$id				= 	$data['id'];
 
 		
-		//if(isset($data['password'])) 			$request1['email_active'] 		= $data['password'];
-		//if(isset($data['password'])) 			$request1['sms_active'] 		= $data['password'];
+		if(isset($data['sms_notify'])) 			$request['sms_active'] 			= $data['sms_notify'];
 		if(isset($data['subject'])) 			$request['subject'] 			= $data['subject'];
 		if(isset($data['email_body'])) 			$request['email_body'] 			= $data['email_body'];
 		if(isset($data['sms_body'])) 			$request['sms_body'] 			= $data['sms_body'];
-
+		$request['email_active'] 		= (isset($data['email_notify'])) ? $data['email_notify'] : '0';
+		$request['sms_active'] 			= (isset($data['sms_notify'])) ? $data['sms_notify'] : '0';
 		
 		
 			if($id != '')

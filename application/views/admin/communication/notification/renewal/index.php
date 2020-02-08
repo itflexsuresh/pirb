@@ -37,8 +37,16 @@ $heading = 'Update';
 														</div>
 													</div>
 													<div class="col-md-6">
-															<input type="checkbox" name="active" value="">
-															<label>Active</label>
+															
+														
+
+															<input type="checkbox" name="email_notify" id="email_notification" value="1"  <?php echo ($result['email_active'] == '1') ? 'checked="checked"' : ''; ?>>
+															<label>Email Active</label>
+
+															
+															<input type="checkbox" name="sms_notify" id="sms_notification" value="1" <?php echo ($result['sms_active'] == '1') ? 'checked="checked"' : ''; ?>>
+															<label>Email Active</label>
+															
 													</div>
 
 												</div>
