@@ -60,7 +60,7 @@ if(isset($result) && $result){
                         <div class="form-group col-md-6">
 							<label for="name">Future Date</label></br>
 
-							<?php $fdate=date('d-m-Y',strtotime($futuredate)); echo $fdate; ?>
+							<?php $fdate=date('m/d/Y',strtotime($futuredate)); echo $fdate; ?>
 						</div>
 					<?php }?>
 					<?php if($futureamount!=''){?>
