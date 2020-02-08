@@ -77,6 +77,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 								</div>
 								<?php
 								if($electronic_coc_log==1){	
+									$methodof_delivery = 'style="display:none;"';
 									$i = 1;							
 									foreach($coctype as $key => $type){
 										if ($i == 1) {
@@ -87,14 +88,24 @@ if (in_array($plumberstatus, $plumber_status)) {
 										?>
 										<div class="col-md-3">
 											<div class="custom-control custom-radio">
-												<input type="radio" id="<?php echo $key.'-'.$type; ?>" name="coc_type" <?php echo $check; ?> value="<?php echo $key; ?>" class="coc_type custom-control-input">
+												<input type="radio" id="<?php echo $key.'-'.$type; ?>" name="coc_type" <?php echo $check; ?> value="<?php echo $key; ?>" class="coc_type custom-control-input" onclick="typeclick();">
 												<label class="custom-control-label" for="<?php echo $key.'-'.$type; ?>"><?php echo $type; ?></label>
 											</div>
 										</div>
 										<?php 
 										$i++;
 									}
-								}else{ ?>
+									?>
+										<script> 
+										$(document).ready(function(){
+											typeclick();
+										}); 
+									</script>
+									<?php
+									
+								}else{ 
+									$methodof_delivery = '';
+									?>
 									<div class="col-md-3">
 										<div class="custom-control custom-radio">
 											<input type="radio" id="2-Paper_Based" checked="checked" name="coc_type" value="2" class="coc_type custom-control-input">
@@ -113,7 +124,8 @@ if (in_array($plumberstatus, $plumber_status)) {
 					</div>
 
 					<div class="row">
-						<div class="col-md-6 methodofdelivery">
+
+						<div class="col-md-6 methodofdelivery" <?php echo $methodof_delivery; ?>>
 							<div class="form-group">
 								<label>Method Of Delivery</label>
 								<?php 
@@ -278,16 +290,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 				},
 			}
 			);
-		$('.coc_type').click(function(){
-			calculations($("#coc_purchase").val());
-			delivery($('.delivery_card').val());
-			if ($(this).val()=='1') {
-				$('.methodofdelivery').hide();
-			}else{
-				$('.methodofdelivery').show();
-			}
-		})
-
+		
 		if ($('#log_coc').val()!='') {
 			var coccount = 0
 			coccount = Math.abs(parseInt($('#log_coc').val())-parseInt($('#coc_permitted').val()));
@@ -364,7 +367,20 @@ if (in_array($plumberstatus, $plumber_status)) {
 		});
 
 
-	})
+	});
+
+	function typeclick(){
+			calculations($("#coc_purchase").val());
+			delivery($('.delivery_card').val());
+			var coc_types = $("input[name='coc_type']:checked").val();
+			
+			if (coc_types == '1') {
+				$('.methodofdelivery').hide();
+			}else{
+				$('.methodofdelivery').show();
+			}
+		}
+
 
 	function ajaxInsert(delivery_type, cocType, delivery_cost){
 		$.ajax({
