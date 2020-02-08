@@ -2,6 +2,7 @@
 // 
 // echo "<pre>";
 // print_r(base_url());die;
+$plumberstatus 			= $userdata1['plumberstatus'];
 $mobile_phone 			= $username['mobile_phone'];
 $userid		 			= $username['id'];
 $log_coc 				= $logcoc;
