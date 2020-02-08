@@ -16,7 +16,12 @@ $heading = 'Update';
 <head>
     <!-- TinyMCE script -->
     <script src='<?= base_url() ?>resources/tinymce/js/tinymce/tinymce.min.js'></script>
-      <script>tinymce.init({selector:'.email_body'});</script>
+      <script>tinymce.init({
+      selector:'.email_body',
+       height : "480",
+       width : "470"
+  })
+  ;</script>
 
   </head>
 <body>
