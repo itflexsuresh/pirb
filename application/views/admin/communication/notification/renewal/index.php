@@ -11,22 +11,6 @@ $heading = 'Update';
 } 
 ?>
 
-<!doctype html>
-<html>
-<head>
-    
-    <script src='<?= base_url() ?>assets/plugins/tinymce/js/tinymce.min.js'></script>
-      <script>
-      	tinymce.init({
-      	selector:'.email_body',
-       	height : "480",
-       	width : "470"
-  });
-
-</script>
-
-  </head>
-<body>
 <div class="row">
 	<div class="col-12">
 		<div class="card">
@@ -94,6 +78,9 @@ $heading = 'Update';
 										</div>
 									</div>
 								</div>
-							</div>							
-						</body>
-							</html>
+							</div>		
+							<script type="text/javascript">
+								$(function(){
+									editor('.email_body')
+								})
+							</script>
