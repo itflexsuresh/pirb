@@ -50,7 +50,7 @@ class Rates_Model extends CC_Model
 		if(isset($data['supplyitem'])) 	$request['supplyitem'] 		= $data['supplyitem'];
 		if(isset($data['amount'])) 		$request['amount'] 		= $data['amount'];
 		if(isset($data['validfrom'])) 	$request['validfrom'] 	= date('Y-m-d',strtotime($data['validfrom'])); 
-		
+		$request['status'] 	= (isset($data['status'])) ? $data['status'] : '0';
 	
 		if($id==''){
 			$request['created_at'] = $datetime;
