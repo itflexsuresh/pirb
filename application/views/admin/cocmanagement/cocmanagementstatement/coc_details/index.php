@@ -24,19 +24,19 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 				<form class="form" method="post">
 
 					<h4 class="card-title">COC Statement</h4>
-
 					<h5 class="card_sub_title">COC Range</h5>
+					
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Start COC Range</label>
-								<input type="number" class="form-control" name="">
+								<input type="number" class="form-control" name="startrange">
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>End COC Range</label>
-								<input type="number" class="form-control" name="">
+								<input type="number" class="form-control" name="endrange">
 							</div>
 						</div>
 					</div>
@@ -119,56 +119,79 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 					</div>
 
 					<div class="row text-right">
-						<button type="submit" name="submit" value="submit" class="btn btn-primary">Apply Filters</button>
+						<button type="button" name="submit" id="filter" class="btn btn-primary">Apply Filters</button>
 					</div>
+				</form>
+				
+				<div class="row add_top_value">
+					<table class="table table-bordered table-striped datatables fullwidth">
+						<tr>
+							<th style="text-align: center;">CoC Number</th>
+							<th style="text-align: center;">CoC Types</th>
+							<th style="text-align: center;">Status</th>
+							<th style="text-align: center;">Plumber</th>
+							<th style="text-align: center;">Reseller</th>
+							<th style="text-align: center;">Auditor</th>
+							<th style="text-align: center;"></th>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>
+								<div style="text-align: center;" class="table-action">
+									<a href="#"><i class="fa fa-pencil-alt"></i></a>
+								</div>
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</table>
+				</div>
+			</div>	
+			
 
-					<div class="row add_top_value">
-						<table class="table table-bordered table-striped datatables fullwidth">
-							<tr>
-								<th style="text-align: center;">CoC Number</th>
-								<th style="text-align: center;">CoC Types</th>
-								<th style="text-align: center;">Status</th>
-								<th style="text-align: center;">Plumber</th>
-								<th style="text-align: center;">Reseller</th>
-								<th style="text-align: center;">Auditor</th>
-								<th style="text-align: center;"></th>
-							</tr>
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td>
-									<div style="text-align: center;" class="table-action">
-										<a href="#"><i class="fa fa-pencil-alt"></i></a>
-									</div>
-								</td>
-								<td></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-						</table>
-					</div>
-				</div>	
-			</form>
-
-			</div>
 		</div>
 	</div>
 </div>
-
 
 <script type="text/javascript">
 $(function(){
 	datepicker('.startdate, .enddate');
 	citysuburb(['#province','#city'], ['<?php echo ''; ?>']);
 })
+
+$('.search').on('click',function(){		
+	datatable(1);
+});
+	
+function datatable(destroy=0){
+
+	var options = {
+		url 	: 	'<?php echo base_url()."admin/plumber/index/DTPlumber"; ?>',
+		data    :   $('form').serialize(),  			
+		destroy :   destroy,  			
+		columns : 	[
+						{ "data": "reg_no" },
+						{ "data": "name" },
+						{ "data": "surname" },
+						{ "data": "designation" },
+						{ "data": "email" },
+						{ "data": "status" },
+						{ "data": "action" }
+					]
+	};
+	
+	ajaxdatatables('.datatables', options);
+}
 </script>
