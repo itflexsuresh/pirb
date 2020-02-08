@@ -21,14 +21,18 @@ class Rates extends CC_Controller
 			}
 		}
 		
+
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
 			if($requestData['submit']=='submit'){
 
             $validfrom=  strtotime($result['validfrom']);
             $futurefrom= strtotime($requestData['validfrom']);
-
-            if($validfrom < $futurefrom){
+            
+            if(strtotime(date('Y-m-d')) == $futurefrom){
+           $data 	=  $this->Rates_Model->action($requestData);
+            }
+            elseif($validfrom < $futurefrom){
             	$data 	=  $this->Rates_Model->actionfuture($requestData);
             }
             else{
