@@ -160,7 +160,6 @@ function editor(selector, validation='', height=300){
 		height		: 	height,
 		menubar		:	false,
 		statusbar	: 	false,
-		theme		: 	'modern',
 		plugins		: 	'hr textcolor table code preview',
 		toolbar1	: 	'formatselect | bold italic underline strikethrough superscript subscript hr | forecolor backcolor | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | table | preview code',
 		content_css	: 	[
