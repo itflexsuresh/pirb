@@ -149,10 +149,36 @@
     webpack-dev-server "^3.2.1"
     xml-writer "^1.6.0"
 
+"@ephox/boulder@^3.3.39":
+  version "3.3.39"
+  resolved "https://registry.yarnpkg.com/@ephox/boulder/-/boulder-3.3.39.tgz#921165edb167bd21d617a0b185afad2844d116af"
+  integrity sha512-zJyW03vMiNLzHs1/svkFuUGhhhK3Rn54D3XX1jothtzeavStgBgCqya5fPUlyvPIEvuFcqEA+iuq8Hs6MSn9kQ==
+  dependencies:
+    "@ephox/katamari" "^4.0.5"
+    "@ephox/sand" "^3.1.3"
+
 "@ephox/dom-globals@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@ephox/dom-globals/-/dom-globals-1.1.2.tgz#cb181a7652c1f097c9920fcf551c1fe202f70041"
   integrity sha512-wTcfYP5FH4n5tzVMaE8a7T6XqdTFiGfGAC6LiuCYPBh4mOeIEN5WkiPuAy+trJBl0wRdlwKl+XmhIW06Xf4tpg==
+
+"@ephox/jax@^4.1.28":
+  version "4.1.28"
+  resolved "https://registry.yarnpkg.com/@ephox/jax/-/jax-4.1.28.tgz#6d2e3a5cc2dc24ea53215e40a665768357f8efbf"
+  integrity sha512-L7d37P6v3NSMTj1zLOdD06fExfnGXEkieCSGCHfFxxzROmtJ60mCTFgmtr0KbVpdkBKLhy4BTSmEYMucdWgFrA==
+  dependencies:
+    "@ephox/dom-globals" "^1.1.2"
+    "@ephox/katamari" "^4.0.5"
+    tslib "^1.9.3"
+
+"@ephox/katamari@^4.0.5":
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/@ephox/katamari/-/katamari-4.0.5.tgz#7fc11889bcd1ec92e5d709b3806915bdb427b4c7"
+  integrity sha512-hCGYoiCGmtFdup9y1JIXaLnWk/cUfVqkllPoHH3V2pIS/P4X3QbMgg55ul9Hm/yrat/z5erD+BKQuwuYe6vANw==
+  dependencies:
+    "@ephox/dom-globals" "^1.1.2"
+    "@ephox/wrap-promise-polyfill" "^2.2.0"
+    tslib "^1.9.3"
 
 "@ephox/oxide-icons-tools@^2.0.2":
   version "2.0.2"
@@ -169,6 +195,23 @@
     tslib "^1.9.3"
     vinyl "^2.2.0"
     xmldom "^0.1.27"
+
+"@ephox/sand@^3.1.3":
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@ephox/sand/-/sand-3.1.3.tgz#2b5acea3618f6190d83845db0c1f0864c5ad53ce"
+  integrity sha512-tAwq2W1rZ62yL1V5v/ppCTYqxgs0GTqGq48+leRyAJCWrph7xGkXuQrzoXedM+IgLJXU8jqKoOQW/5adDKIKuA==
+  dependencies:
+    "@ephox/dom-globals" "^1.1.2"
+    "@ephox/katamari" "^4.0.5"
+
+"@ephox/sugar@^5.0.20":
+  version "5.0.20"
+  resolved "https://registry.yarnpkg.com/@ephox/sugar/-/sugar-5.0.20.tgz#41faab3898703d2bd91c318cedab6a6504c71211"
+  integrity sha512-fXipaSiaWXY0xymZ8m/zgXQqdkySETFel24lGdGwouaU7Yysp7Fyi+Vv+PV5v2QSMSzvlFxD/LUWtrAg8mufkA==
+  dependencies:
+    "@ephox/dom-globals" "^1.1.2"
+    "@ephox/katamari" "^4.0.5"
+    "@ephox/sand" "^3.1.3"
 
 "@ephox/swag@^4.1.4":
   version "4.1.4"
@@ -2807,7 +2850,7 @@ commander@^2.12.1, commander@~2.20.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.0.tgz#d58bb2b5c1ee8f87b0d340027e9e94e222c5a422"
   integrity sha512-7j2y+40w61zy6YC2iRNpUe/NwhNyoXrYpHMrSunaMG64nRnaf96zO/KMQR4OyN/UnE5KLyEBnKHd4aG3rskjpQ==
 
-commander@^2.20.0:
+commander@^2.20.0, commander@~2.20.3:
   version "2.20.3"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
@@ -5133,9 +5176,9 @@ handle-thing@^2.0.0:
   integrity sha512-d4sze1JNC454Wdo2fkuyzCr6aHcbL6PGGuFAz0Li/NcOm1tCHGnWDRmJP85dh9IhQErTc2svWFEX5xHIOo//kQ==
 
 handlebars@^4.1.0:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.1.2.tgz#b6b37c1ced0306b221e094fc7aca3ec23b131b67"
-  integrity sha512-nvfrjqvt9xQ8Z/w0ijewdD/vvWDTOweBUm96NTr66Wfvo1mJenBLwcYmPs3TIBP5ruzYGD7Hx/DaM9RmhroGPw==
+  version "4.7.3"
+  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.7.3.tgz#8ece2797826886cf8082d1726ff21d2a022550ee"
+  integrity sha512-SRGwSYuNfx8DwHD/6InAPzD6RgeruWLT+B8e8a7gGs8FWgHzlExpTFMEq2IA6QpAfOClpKHy6+8IqTjeBCu6Kg==
   dependencies:
     neo-async "^2.6.0"
     optimist "^0.6.1"
@@ -10151,7 +10194,15 @@ uglify-js@^2.8.22:
   optionalDependencies:
     uglify-to-browserify "~1.0.0"
 
-uglify-js@^3.1.4, uglify-js@^3.5.0:
+uglify-js@^3.1.4:
+  version "3.7.7"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.7.7.tgz#21e52c7dccda80a53bf7cde69628a7e511aec9c9"
+  integrity sha512-FeSU+hi7ULYy6mn8PKio/tXsdSXN35lm4KgV2asx00kzrLU9Pi3oAslcJT70Jdj7PHX29gGUPOT6+lXGBbemhA==
+  dependencies:
+    commander "~2.20.3"
+    source-map "~0.6.1"
+
+uglify-js@^3.5.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.6.0.tgz#704681345c53a8b2079fb6cec294b05ead242ff5"
   integrity sha512-W+jrUHJr3DXKhrsS7NUVxn3zqMOFn0hL/Ei6v0anCIMoKC93TjcflTagwIHLW7SfMFfiQuktQyFVCFHGUE0+yg==
