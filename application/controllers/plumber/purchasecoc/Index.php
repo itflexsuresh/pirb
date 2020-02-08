@@ -66,7 +66,7 @@ class Index extends CC_Controller
 				// }else{
 				// 	$requestData1['type'] = "paper";
 				// }
-				$requestData1['type'] = $requestData['coc_type']
+				$requestData1['type'] = $requestData['coc_type'];
 				$result1 = $this->Coc_Model->action($requestData1, 1);
 				if ($result1) {
 					
