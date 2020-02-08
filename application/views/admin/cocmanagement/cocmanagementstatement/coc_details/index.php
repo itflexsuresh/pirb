@@ -30,13 +30,13 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Start COC Range</label>
-								<input type="number" class="form-control" name="startrange">
+								<input type="number" class="form-control" name="startrange" id="startrange">
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>End COC Range</label>
-								<input type="number" class="form-control" name="endrange">
+								<input type="number" class="form-control" name="endrange" id="endrange">
 							</div>
 						</div>
 					</div>
@@ -46,7 +46,7 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 							<h5 class="card_sub_title">COC Status</h5>
 							<?php foreach($cocstatus as $key => $value){ ?>
 								<div class="custom-control custom-checkbox">
-									<input type="checkbox" class="custom-control-input" name="cocstatus[]" id="<?php echo $key.'-'.$value; ?>">
+									<input type="checkbox" class="custom-control-input cocstatus" name="cocstatus[]" value="<?php echo $key; ?>" id="<?php echo $key.'-'.$value; ?>">
 									<label class="custom-control-label" for="<?php echo $key.'-'.$value; ?>"><?php echo $value; ?></label>
 								</div>
 							<?php } ?>
@@ -56,7 +56,7 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 							<h5 class="card_sub_title">Audit Status</h5>
 							<?php foreach($auditstatus as $key => $value){ ?>
 								<div class="custom-control custom-checkbox">
-									<input type="checkbox" class="custom-control-input" name="auditstatus[]" id="<?php echo $key.'-'.$value; ?>">
+									<input type="checkbox" class="custom-control-input auditstatus" name="auditstatus[]" value="<?php echo $key; ?>" id="<?php echo $key.'-'.$value; ?>">
 									<label class="custom-control-label" for="<?php echo $key.'-'.$value; ?>"><?php echo $value; ?></label>
 								</div>
 							<?php } ?>
@@ -66,7 +66,7 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 							<h5 class="card_sub_title">COC Type</h5>
 							<?php foreach($coctype as $key => $value){ ?>
 								<div class="custom-control custom-checkbox">
-									<input type="checkbox" class="custom-control-input" name="coctype[]" id="<?php echo $key.'-'.$value; ?>">
+									<input type="checkbox" class="custom-control-input coctype" name="coctype[]" value="<?php echo $key; ?>" id="<?php echo $key.'-'.$value; ?>">
 									<label class="custom-control-label" for="<?php echo $key.'-'.$value; ?>"><?php echo $value; ?></label>
 								</div>
 							<?php } ?>
@@ -79,7 +79,7 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 							<div class="form-group">
 								<label>Start Date Range</label>
 								<div class="input-group">
-									<input type="text" class="form-control startdate" name="startdate" value="">
+									<input type="text" class="form-control startdate" name="startdate" id="startdate">
 									<div class="input-group-append">
 										<span class="input-group-text"><i class="icon-calender"></i></span>
 									</div>
@@ -91,7 +91,7 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 							<div class="form-group">
 								<label>End Date Range</label>
 								<div class="input-group">
-									<input type="text" class="form-control enddate" name="enddate" value="">
+									<input type="text" class="form-control enddate" name="enddate" id="enddate">
 									<div class="input-group-append">
 										<span class="input-group-text"><i class="icon-calender"></i></span>
 									</div>
@@ -123,39 +123,19 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 					</div>
 				</form>
 				
-				<div class="row add_top_value">
+				<div class="row add_top_value table_wrapper displaynone">
 					<table class="table table-bordered table-striped datatables fullwidth">
-						<tr>
-							<th style="text-align: center;">CoC Number</th>
-							<th style="text-align: center;">CoC Types</th>
-							<th style="text-align: center;">Status</th>
-							<th style="text-align: center;">Plumber</th>
-							<th style="text-align: center;">Reseller</th>
-							<th style="text-align: center;">Auditor</th>
-							<th style="text-align: center;"></th>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td>
-								<div style="text-align: center;" class="table-action">
-									<a href="#"><i class="fa fa-pencil-alt"></i></a>
-								</div>
-							</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
+						<thead>
+							<tr>
+								<th style="text-align: center;">CoC Number</th>
+								<th style="text-align: center;">CoC Types</th>
+								<th style="text-align: center;">Status</th>
+								<th style="text-align: center;">Plumber</th>
+								<th style="text-align: center;">Reseller</th>
+								<th style="text-align: center;">Auditor</th>
+								<th style="text-align: center;"></th>
+							</tr>
+						</thead>
 					</table>
 				</div>
 			</div>	
@@ -168,26 +148,38 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 <script type="text/javascript">
 $(function(){
 	datepicker('.startdate, .enddate');
-	citysuburb(['#province','#city'], ['<?php echo ''; ?>']);
+	citysuburb(['#province','#city']);
 })
 
-$('.search').on('click',function(){		
+$('#filter').on('click',function(){		
+	$('.table_wrapper').removeClass('displaynone');
 	datatable(1);
 });
 	
 function datatable(destroy=0){
-
+	var data = {
+		startrange 	: $('#startrange').val(),
+		endrange 	: $('#endrange').val(),
+		cocstatus 	: $('.cocstatus:checked').map(function(){return $(this).val();}).get(),            
+		auditstatus : $('.auditstatus:checked').map(function(){return $(this).val();}).get(),
+		coctype 	: $('.coctype:checked').map(function(){return $(this).val();}).get(),
+		startdate 	: $('#startdate').val(),
+		enddate 	: $('#enddate').val(),
+		province 	: $('#province').val(),
+		city 		: $('#city').val()
+	};
+	console.log(data);
 	var options = {
-		url 	: 	'<?php echo base_url()."admin/plumber/index/DTPlumber"; ?>',
-		data    :   $('form').serialize(),  			
+		url 	: 	'<?php echo base_url()."admin/cocmanagement/cocmanagementstatement/coc_details/DTCocDetails"; ?>',
+		data    :   data,  			
 		destroy :   destroy,  			
 		columns : 	[
-						{ "data": "reg_no" },
-						{ "data": "name" },
-						{ "data": "surname" },
-						{ "data": "designation" },
-						{ "data": "email" },
+						{ "data": "cocno" },
+						{ "data": "coctype" },
 						{ "data": "status" },
+						{ "data": "plumber" },
+						{ "data": "reseller" },
+						{ "data": "auditor" },
 						{ "data": "action" }
 					]
 	};
