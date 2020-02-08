@@ -55,10 +55,10 @@ $heading = 'Update';
 															</div>
 															
 																<div class="col-md-6">
-																	<label>SMS</label>
+																	<label><b>SMS</b></label>
 																		<div class="form-group">
 																		
-																		<textarea rows="30" cols="100" class="sms_body" name="sms_body"><?php echo $result['sms_body']; ?></textarea>
+																		<textarea rows="10" cols="60" class="sms_body" name="sms_body"><?php echo $result['sms_body']; ?></textarea>
 																	</div>
 																</div>
 															</div>
