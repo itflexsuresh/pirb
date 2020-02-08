@@ -11,9 +11,12 @@ class Coc_details extends CC_Controller
 	
 	public function index()
 	{
-		
 		$pagedata['notification'] 	= $this->getNotification();
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
+		$pagedata['province'] 		= $this->getProvinceList();
+		$pagedata['coctype'] 		= $this->config->item('coctype');	
+		$pagedata['cocstatus'] 		= $this->config->item('cocstatus');	
+		$pagedata['auditstatus'] 	= $this->config->item('auditstatus');	
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'validation', 'datepicker'];
 		$data['content'] 			= $this->load->view('admin/cocmanagement/cocmanagementstatement/coc_details/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}

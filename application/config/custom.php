@@ -383,3 +383,19 @@ $config['payment_status'] 			=	[
 											'0'	=>	'Not Paid',
 											'1'	=>	'Paid'
 										];
+								
+$config['cocstatus'] 			=		[
+											'1'	=>	'Admin Stock',
+											'2'	=>	'Logged',
+											'3'	=>	'Allocated (Reseller)',
+											'4'	=>	'Allocated (Plumber)',
+											'5'	=>	'Non-Logged Allocated (Customer)',
+											'6'	=>	'Recalled (unallocated)'
+										];
+										
+$config['auditstatus'] 			=		[
+											'1'		=>	'Audited (Completed)',
+											'2'		=>	'Auditor allocated',
+											'3'		=>	'Refix Required',
+											'4'		=>	'Refix Reneged'
+										];

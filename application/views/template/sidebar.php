@@ -65,6 +65,7 @@ $formstatus  = $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'admin/company/index'; ?>">Company</a></li>
 						</ul>
 					</li>
+					<li><a href="<?php echo base_url().'admin/resellers/index'; ?>">Resellers</a></li>
 				<?php }elseif($type=='3'){ ?>
 					<li><a href="<?php echo base_url().'plumber/registration/index'; ?>">Dashboard</a></li>
 					<?php if($formstatus=='1'){ ?>
@@ -83,8 +84,10 @@ $formstatus  = $userdata['formstatus'];
 				<?php }elseif($type=='5'){ ?>
 					<li><a href="javascript:void(0);">Dashboard</a></li>
 					<li><a href="<?php echo base_url().'auditor/profile/index'; ?>">My Profile</a></li>
-				<?php } ?>
-				<li><a href="<?php echo base_url().'admin/resellers/index'; ?>">Resellers</a></li>
+				<?php }elseif($type=='6'){ ?>
+					<li><a href="javascript:void(0);">Dashboard</a></li>
+					<li><a href="<?php echo base_url().'auditor/profile/index'; ?>">My Profile</a></li>
+				<?php } ?>				
 			</ul>
 		</nav>
 	</div>

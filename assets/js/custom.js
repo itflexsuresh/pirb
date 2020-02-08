@@ -154,6 +154,25 @@ function inputmask(selector, type=''){
 	if(type==1) $(selector).inputmask("(999) 999-9999")
 }
 
+function editor(selector, validation='', height=300){
+	tinymce.init({
+		selector	: 	selector,
+		height		: 	height,
+		menubar		:	false,
+		statusbar	: 	false,
+		theme		: 	'modern',
+		plugins		: 	'hr textcolor table code preview',
+		toolbar1	: 	'formatselect | bold italic underline strikethrough superscript subscript hr | forecolor backcolor | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | table | preview code',
+		content_css	: 	[
+							'//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+							'//www.tinymce.com/css/codepen.min.css'
+						],
+		setup		: 	function(editor){
+							
+						}
+	});
+}
+
 function fileupload(data1=[], data2=[]){
 	
 	var selector 	= data1[1];
@@ -269,11 +288,11 @@ function citysuburb(data1=[], data2=[], data3=[]){
 			$(data1[1]).append(append);
 			
 			var suburbdata  = { provinceid : $(data1[0]).val(), cityid : $(data1[1]).val() };
-			if(data1[2].length > 0) ajax(suburburl, suburbdata, suburb);
+			if(data1[2]) ajax(suburburl, suburbdata, suburb);
 		}
 	}
 
-	if(data1[2].length > 0){
+	if(data1[2]){
 		$(document).on('change', data1[1], function(){
 			var suburbdata  = { provinceid : $(data1[0]).val(), cityid : $(this).val() };
 			ajax(suburburl, suburbdata, suburb);
