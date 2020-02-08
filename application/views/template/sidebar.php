@@ -84,6 +84,7 @@ $formstatus  = $userdata['formstatus'];
 					<li><a href="javascript:void(0);">Dashboard</a></li>
 					<li><a href="<?php echo base_url().'auditor/profile/index'; ?>">My Profile</a></li>
 				<?php } ?>
+				<li><a href="<?php echo base_url().'admin/resellers/index'; ?>">Resellers</a></li>
 			</ul>
 		</nav>
 	</div>
