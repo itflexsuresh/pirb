@@ -258,11 +258,11 @@ td {
 </html>';
 
           
-			 $pdfFilePath = "download.pdf";
-			 $this->pdf->loadHtml($html);
-			 $this->pdf->setPaper('A4', 'portrait');
-			 $this->pdf->render();
-			 $this->pdf->stream($pdfFilePath);
+                $pdfFilePath = "download.pdf";
+				$this->pdf->loadHtml($html);
+				$this->pdf->setPaper('A4', 'portrait');
+				$this->pdf->render();
+				$this->pdf->stream($pdfFilePath);
 			//}
 		}		
 	}
