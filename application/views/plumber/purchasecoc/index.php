@@ -90,7 +90,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 									<div class="col-md-3">
 										<div class="custom-control custom-radio">
 											<input type="radio" id="2-Paper_Based" checked="checked" name="coc_type" value="2" class="coc_type custom-control-input">
-											<label class="custom-control-label" for="coc_type">Paper</label>
+											<label class="custom-control-label" for="coc_type">Paper Based</label>
 										</div>
 									</div>
 									<script> 

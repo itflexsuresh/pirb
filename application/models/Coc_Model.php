@@ -5,7 +5,7 @@ class Coc_Model extends CC_Model
 	public function getCOCList($type, $requestdata){
 		$result = $this->db
 		->select('*')
-		->from('paper_stock_management')
+		->from('stock_management')
 		->where($requestdata);
 		if ($type=='count') {
 			$result = $this->db->count_all_results();
