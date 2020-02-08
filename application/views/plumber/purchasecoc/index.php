@@ -508,6 +508,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 
 		$('#vat').val(vat1.toFixed(2));
 		$('#totaldue').val(total.toFixed(2));
+		$('#totaldue1').val(total.toFixed(2));
 
 	}
 
