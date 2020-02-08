@@ -9,6 +9,7 @@ class Index extends CC_Controller
 		$this->load->model('Coc_Model');
 		$this->load->model('Rates_Model');
 		$this->load->model('Systemsettings_Model');
+		$this->load->model('CC_Model');
 		$this->load->model('Plumber_Model');
 	}
 	
@@ -185,9 +186,14 @@ class Index extends CC_Controller
 			$result 			= $this->db->update('invoice', $request, ['inv_id' => $inv_id,'user_id' => $userid]);
 		 	$result 			= $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
 		 	$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
+		 	$orders = $this->db->select('*')->from('coc_orders')->where(['user_id' => $userid])->get()->row_array();
+		 	
+		 	 $array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}'];
+		$array2 = [$userdata1['name']." ".$userdata1['surname'], $orders['created_at'], $orders['quantity'], $orders['quantity']];
+		$body = str_replace($array1, $array2, $template['email_body']);
 		 	if ($template['email_active'] == '1') {
 
-		 		mail($userdata1['email'],$template['subject'],$template['email_body']);
+		 		$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body);
 		 	}
 			redirect('plumber/purchasecoc/index/notify');
 		 }
