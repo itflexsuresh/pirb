@@ -87,7 +87,7 @@ class Index extends CC_Controller
 
 		$pagedata['result'] 		= $edit;
 		$pagedata['notification'] 	= $this->getNotification();
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker','tinymce'];
 		$data['content'] 			= $this->load->view('admin/communication/notification/renewal/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 
