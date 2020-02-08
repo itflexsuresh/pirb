@@ -1,13 +1,13 @@
 <?php echo $notification; ?>
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
-		<h4 class="text-themecolor">My Profile</h4>
+		<h4 class="text-themecolor">Notification and SMS Templates</h4>
 	</div>
 	<div class="col-md-7 align-self-center text-right">
 		<div class="d-flex justify-content-end align-items-center">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="<?php echo base_url().'admin/dashboard'; ?>">Home</a></li>
-				<li class="breadcrumb-item active">My Profile</li>
+				<li class="breadcrumb-item active">Notification and SMS Templates</li>
 			</ol>
 		</div>
 	</div>
