@@ -15,6 +15,13 @@ $postage 				= $postage["amount"];
 $couriour 				= $couriour["amount"];
 $collectedbypirb 		= $collectedbypirb["amount"];
 ?>
+<?php
+$plumber_status = array(3, 4, 5);
+if (in_array($plumberstatus, $plumber_status)) {
+	echo " Access denied ";
+}else{
+
+?>
 
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
@@ -151,6 +158,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 							</div>
 						</div>
 					</div>
+					<?php if ($plumberstatus != 2) { ?>
 					
 					<h4 class="card-title add_top_value">Disclaimer</h4>
 					<div class="custom-control custom-checkbox">
@@ -222,6 +230,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 									<button type="button" class="btn btn-success resend">Resend</button>
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 								</div>
+								<?php } ?>
 							</form>
 						</div>
 					</div>
@@ -511,3 +520,8 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 
 	}
 </script>
+
+<?php
+
+	}
+?>
