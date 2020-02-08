@@ -54,7 +54,7 @@ if(isset($result) && $result){
 						<div class="row">
 						<div class="form-group col-md-6">
 							<label for="name">Valid From Date</label>
-							<input type="text" autocomplete="off" class="form-control" id="valid-from" name="validfrom" placeholder="Enter Date *" value="<?php $vdate=date('d-m-Y',strtotime($validfrom)); echo $vdate; ?>">
+							<input type="text" autocomplete="off" class="form-control" id="valid-from" name="validfrom" placeholder="Enter Date *" value="<?php $vdate=date('d/m/Y',strtotime($validfrom)); echo $vdate; ?>">
 						</div>
                         <?php if($futuredate!=''){?>
                         <div class="form-group col-md-6">
