@@ -183,8 +183,11 @@ class Index extends CC_Controller
 			$inv_id 			= $insert_id['inv_id'];
 			$result 			= $this->db->update('invoice', $request, ['inv_id' => $inv_id,'user_id' => $userid]);
 		 	$result 			= $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
-		 	$template = $this->db->select('id,email_active,category_id,email_body')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
-		 	print_r($template);die;
+		 	$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17']);
+		 	if ($template['email_active'] == '1') {
+
+		 		mail($userdata1['email'],$template['subject'],$template['email_body']);
+		 	}
 			redirect('plumber/purchasecoc/index/notify');
 		 }
 		
