@@ -79,8 +79,8 @@ class Communication_Model extends CC_Model
 		if(isset($data['subject'])) 			$request['subject'] 			= $data['subject'];
 		if(isset($data['email_body'])) 			$request['email_body'] 			= $data['email_body'];
 		if(isset($data['sms_body'])) 			$request['sms_body'] 			= $data['sms_body'];
-		$request['email_active'] 		= (isset($data['email_notify'])) ? $data['email_notify'] : '0';
-		$request['sms_active'] 			= (isset($data['sms_notify'])) ? $data['sms_notify'] : '0';
+		$request['email_active'] 				= (isset($data['email_notify'])) ? $data['email_notify'] : '0';
+		$request['sms_active'] 					= (isset($data['sms_notify'])) ? $data['sms_notify'] : '0';
 		
 		
 			if($id != '')
