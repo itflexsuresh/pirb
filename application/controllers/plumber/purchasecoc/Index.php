@@ -397,7 +397,7 @@ td {
 
 		 	if ($template['email_active'] == '1') {
 
-		 		$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body);
+		 		$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body,$filePath.$pdfFilePath);
 		 	}
 			redirect('plumber/purchasecoc/index/notify');
 		 }
