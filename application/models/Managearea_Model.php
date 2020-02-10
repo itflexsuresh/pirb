@@ -4,10 +4,10 @@ class Managearea_Model extends CC_Model
 {
 	public function getList($type, $requestdata=[])
 	{
-		$this->db->select('t1.*,t2.id,t2.name city_name,t3.id,t3.name province_name');
+		$query=$this->db->select('t1.*,t2.name city_name,t3.name province_name');
 		$this->db->from('suburb t1');
-		$this->db->join('city t2','t2.id=t1.province_id','left');
-		$this->db->join('province t3','t3.id=t1.city_id','left');
+		$this->db->join('city t2','t2.province_id=t1.province_id AND t2.id=t1.city_id','left');
+		$this->db->join('province t3','t3.id=t1.province_id','left');
 		
 		if(isset($requestdata['id'])) 		$this->db->where('t1.id',$requestdata['id']);
 		if(isset($requestdata['status']))	$this->db->where_in('t1.status', $requestdata['status']);
@@ -16,7 +16,7 @@ class Managearea_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['t1.id', 't1.name', 't1.status'];
+			$column = ['t1.id', 't1.name', 't1.status','t3.name','t2.name'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
@@ -69,7 +69,7 @@ class Managearea_Model extends CC_Model
 			if(isset($data['province'])) 	$request2['province_id'] 		= $data['province'];
 			if(isset($data['city'])) 		$request2['city_id'] 			= $data['city'];
 			if(isset($data['suburb'])) 		$request2['name'] 				= $data['suburb'];
-			if(isset($data['status'])) 		$request2['status'] 			= '1';
+			$request['status'] 												= (isset($data['status'])) ? $data['status'] : '0';
 	        
 			if($id==''){
 				$request2['created_at'] = $datetime;
@@ -104,13 +104,13 @@ class Managearea_Model extends CC_Model
 		
 		$this->db->trans_begin();
 		
-		$delete 	= 	$this->db->update(
-							'province', 
-							['status' => $status, 'name' => $name], 
-							['id' => $id]
-						);
+	
 
-		
+
+		$this->db->select('*');
+		$this->db->where('id', $id);
+       $delete=$this->db->delete('suburb');   
+    
 		if(!$delete || $this->db->trans_status() === FALSE)
 		{
 			$this->db->trans_rollback();
