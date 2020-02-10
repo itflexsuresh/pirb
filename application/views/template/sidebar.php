@@ -14,13 +14,6 @@ $formstatus  = $userdata['formstatus'];
 						<ul aria-expanded="false" class="collapse">
 							<li><a href="<?php echo base_url().'admin/administration/installationtype'; ?>">Installation Type</a></li>
 							<li><a href="<?php echo base_url().'admin/administration/subtype'; ?>">Sub Type</a></li>
-							<li><a href="<?php echo base_url().'admin/administration/managearea/managearea'; ?>">Manage Area</a></li>
-						</ul>
-					</li>
-					<li class="setp one"> 
-						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Communication Management</span></a>
-						<ul aria-expanded="false" class="collapse">
-							<li><a href="<?php echo base_url().'admin/communication/notification/index'; ?>">Notification and SMS Templates</a></li>
 						</ul>
 					</li>
 					<li class="step two"> 
@@ -41,14 +34,13 @@ $formstatus  = $userdata['formstatus'];
 					</li>
 
 					<li class="step coc_manage"> 
-						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu" style="white-space: nowrap;">COC Management</span></a>
+						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu" style="white-space: nowrap;">Coc Management</span></a>
 						<ul aria-expanded="false" class="collapse">							
 							<li> 
-								<a class="sub_menu" href="javascript:void(0)" aria-expanded="false"><span class="hide-menu">COC Management (Statement)</span></a>
+								<a class="sub_menu" href="javascript:void(0)" aria-expanded="false"><span class="hide-menu">Coc Management (Statement)</span></a>
 								<ul aria-expanded="false" class="collapse">
-									<li><a href="<?php echo base_url().'admin/cocmanagement/cocmanagementstatement/coc_details'; ?>">COC Details</a></li>
-									<li><a href="<?php echo base_url().'admin/cocstatement/papermanagement/index'; ?>">Paper Certificate Stock Management</a></li>
-									<li><a href="<?php echo base_url().'admin/cocmanagement/cocmanagementstatement/coc_orders/index'; ?>">COC Orders</a></li>
+									<li><a href="<?php echo base_url().'admin/cocmanagement/cocmanagementstatement/coc_details'; ?>">Coc Details</a></li>
+									<li><a href="<?php echo base_url().'admin/cocmanagement/cocmanagementstatement/coc_orders/index'; ?>">Coc Orders</a></li>
 								</ul>
 							</li>
 						</ul>						
@@ -58,12 +50,6 @@ $formstatus  = $userdata['formstatus'];
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">CPD</span></a>
 						<ul aria-expanded="false" class="collapse">
 							<li><a href="<?php echo base_url().'admin/cpd/cpdtypesetup'; ?>">CPD Types</a></li>							
-						</ul>
-					</li>
-				<li class="step three"> 
-						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Accounts</span></a>
-						<ul aria-expanded="false" class="collapse">
-							<li><a href="<?php echo base_url().'admin/accounts/Accounts'; ?>">Plumber COC Invocies</a></li>							
 						</ul>
 					</li>
 					<li class="step four"> 
@@ -92,7 +78,6 @@ $formstatus  = $userdata['formstatus'];
 						<?php if ($designation == '4' || $designation == '6') {
 							?>
 							<li><a href="<?php echo base_url().'plumber/purchasecoc/index'; ?>">Purchase COC</a></li>
-							<li><a href="<?php echo base_url().'plumber/cocstatement/index'; ?>">COC Statement</a></li>
 							<?php
 						} ?>
 					<?php }elseif($formstatus=='0'){ ?>
@@ -106,7 +91,8 @@ $formstatus  = $userdata['formstatus'];
 					<li><a href="<?php echo base_url().'auditor/profile/index'; ?>">My Profile</a></li>
 				<?php }elseif($type=='6'){ ?>
 					<li><a href="javascript:void(0);">Dashboard</a></li>
-					<li><a href="<?php echo base_url().'auditor/profile/index'; ?>">My Profile</a></li>
+					<li><a href="<?php echo base_url().'resellers/profile/index'; ?>">My Profile</a></li>
+					<li><a href="<?php echo base_url().'resellers/allocatecoc/index'; ?>">Allocate COC</a></li>
 				<?php } ?>				
 			</ul>
 		</nav>
