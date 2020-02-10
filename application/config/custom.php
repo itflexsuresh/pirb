@@ -3,7 +3,11 @@
 $config['sitename']	 				= 	'Audit IT';
 
 $config['roleadmin']	 			= 	'1';
+$config['rolesubadmin']	 			= 	'2';
 $config['roleplumber']	 			= 	'3';
+$config['rolecompany']	 			= 	'4';
+$config['roleauditor']	 			= 	'5';
+$config['roleresellers']	 		= 	'6';
 
 $config['learner']	 				= 	'23';
 $config['assistant']	 			= 	'3';
@@ -20,13 +24,15 @@ $config['collectedbypirb'] 			= 	'24';
 $config['usertype1'] 				= 	[
 											'plumber' 	=> '3',
 											'company' 	=> '4',
-											'resellers' => '5'
+											'auditor' 	=> '5',
+											'resellers' => '6'
 										];
 										
 $config['usertype2'] 				= 	[
 											'3' 	=> 'plumber',
 											'4' 	=> 'company',
-											'5' 	=> 'resellers'
+											'5' 	=> 'auditor',
+											'6' 	=> 'resellers'
 										];
 
 $config['status'] 					= 	[
@@ -382,4 +388,20 @@ $config['coctype'] 					= 	[
 $config['payment_status'] 			=	[
 											'0'	=>	'Not Paid',
 											'1'	=>	'Paid'
+										];
+								
+$config['cocstatus'] 			=		[
+											'1'	=>	'Admin Stock',
+											'2'	=>	'Logged',
+											'3'	=>	'Allocated (Reseller)',
+											'4'	=>	'Allocated (Plumber)',
+											'5'	=>	'Non-Logged Allocated (Customer)',
+											'6'	=>	'Recalled (unallocated)'
+										];
+										
+$config['auditstatus'] 			=		[
+											'1'		=>	'Audited (Completed)',
+											'2'		=>	'Auditor allocated',
+											'3'		=>	'Refix Required',
+											'4'		=>	'Refix Reneged'
 										];

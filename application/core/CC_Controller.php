@@ -227,6 +227,44 @@ class CC_Controller extends CI_Controller
 		$data['content'] 				= $this->load->view('common/plumber', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
+	
+	public function resellersprofile($id, $pagedata=[], $extras=[])
+	{
+		if($id!=''){
+			$result = $this->Resellers_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
+			if($result){
+				$pagedata['result'] = $result;
 
+			}else{
+				$this->session->set_flashdata('error', 'No Record Found.');
+				redirect('admin/resellers/index'); 
+			}
+		}
+		
+		if($this->input->post()){
+			$requestData 	= 	$this->input->post();
+
+			if($requestData['submit']=='submit'){
+				$data 	=  $this->Resellers_Model->action($requestData);
+				if($data) $message = 'Resellers '.(($id=='') ? 'created' : 'updated').' successfully.';
+			}else{
+				$data 			= 	$this->Resellers_Model->changestatus($requestData);
+				$message		= 	'Resellers deleted successfully.';
+			}
+
+			if(isset($data)) $this->session->set_flashdata('success', $message);
+			else $this->session->set_flashdata('error', 'Try Later.');
+			
+			if($extras['redirect']) redirect($extras['redirect']); 
+			else redirect('admin/resellers/index');
+		}
+		
+		$pagedata['notification'] 	= $this->getNotification();
+		$pagedata['province'] 		= $this->getProvinceList();
+		
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','inputmask'];
+		$data['content'] 			= $this->load->view('common/resellers', (isset($pagedata) ? $pagedata : ''), true);
+		$this->layout2($data);
+	}
 
 }

@@ -2,18 +2,26 @@
 // 
 // echo "<pre>";
 // print_r(base_url());die;
+$plumberstatus 			= $userdata1['plumberstatus'];
 $mobile_phone 			= $username['mobile_phone'];
 $userid		 			= $username['id'];
 $log_coc 				= $logcoc;
 $VAT 					= $settings["vat_percentage"];
-$coc_purchase_limit   	= $cocpermitted["coc_purchase_limit"];
-$electronic_coc_log   	= $cocpermitted["coc_electronic"];
+$coc_purchase_limit   	= $username["coc_purchase_limit"];
+$electronic_coc_log   	= $username["coc_electronic"];
 $cocpaperwork 			= $cocpaperwork["amount"];
 $cocelectronic 			= $cocelectronic["amount"];
 
 $postage 				= $postage["amount"];
 $couriour 				= $couriour["amount"];
 $collectedbypirb 		= $collectedbypirb["amount"];
+?>
+<?php
+$plumber_status = array(3, 4, 5);
+if (in_array($plumberstatus, $plumber_status)) {
+	echo " Access denied ";
+}else{
+
 ?>
 
 <div class="row page-titles">
@@ -68,24 +76,47 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 									<label style="margin-left: 16px;">Select type of COC you wish to purchase</label>
 								</div>
 								<?php
-								if($electronic_coc_log==1){								
+								if($electronic_coc_log==1){	
+									$methodof_delivery = 'style="display:none;"';
+									$i = 1;							
 									foreach($coctype as $key => $type){
+										if ($i == 1) {
+											$check  = 'checked="checked"';
+										}else{
+											$check  = '';
+										}
 										?>
 										<div class="col-md-3">
 											<div class="custom-control custom-radio">
-												<input type="radio" id="<?php echo $key.'-'.$type; ?>" name="coc_type" value="<?php echo $key; ?>" class="coc_type custom-control-input">
+												<input type="radio" id="<?php echo $key.'-'.$type; ?>" name="coc_type" <?php echo $check; ?> value="<?php echo $key; ?>" class="coc_type custom-control-input" onclick="typeclick();">
 												<label class="custom-control-label" for="<?php echo $key.'-'.$type; ?>"><?php echo $type; ?></label>
 											</div>
 										</div>
 										<?php 
+										$i++;
 									}
-								}else{ ?>
+									?>
+										<script> 
+										$(document).ready(function(){
+											typeclick();
+										}); 
+									</script>
+									<?php
+									
+								}else{ 
+									$methodof_delivery = '';
+									?>
 									<div class="col-md-3">
 										<div class="custom-control custom-radio">
-											<input type="radio" id="2-Paper_Based" name="coc_type" value="2" class="coc_type custom-control-input">
-											<label class="custom-control-label" for="coc_type"><?php echo $coctype[2]; ?></label>
+											<input type="radio" id="2-Paper_Based" checked="checked" name="coc_type" value="2" class="coc_type custom-control-input">
+											<label class="custom-control-label" for="coc_type">Paper Based</label>
 										</div>
 									</div>
+									<script> 
+										$(document).ready(function(){
+											coctype1(2);
+										}); 
+									</script>
 								<?php }
 								?>
 							</div>
@@ -93,7 +124,8 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 					</div>
 
 					<div class="row">
-						<div class="col-md-6 methodofdelivery">
+
+						<div class="col-md-6 methodofdelivery" <?php echo $methodof_delivery; ?>>
 							<div class="form-group">
 								<label>Method Of Delivery</label>
 								<?php 
@@ -104,7 +136,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Number of COC's You wish to Purchase</label>
-								<input type="number" id="coc_purchase" class="form-control" min="1" name="coc_purchase" for="coc_purchase">
+								<input onchange="modifycost();" type="number" id="coc_purchase" class="form-control" min="1" value="1" name="coc_purchase" for="coc_purchase" max="<?php echo $coc_purchase_limit; ?>">
 							</div>
 						</div>
 						<div class="alert-msg">Your Purchase Limit is Reached</div>
@@ -114,7 +146,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 								<input type="number" id="coc_cost" class="form-control coc_cost" readonly name="coc_cost">
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-6 deliverygroupdiv">
 							<div class="form-group">
 								<label>Cost of Delivery</label>
 								<input type="text" id="cost_f_delivery" class="form-control deliveryclass" readonly name="cost_f_delivery">
@@ -139,6 +171,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 							</div>
 						</div>
 					</div>
+					<?php if ($plumberstatus != 2) { ?>
 					
 					<h4 class="card-title add_top_value">Disclaimer</h4>
 					<div class="custom-control custom-checkbox">
@@ -163,9 +196,9 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 					<!---	Payment	--->
 					<input id="merchant_id" name="merchant_id" value="10016054" type="hidden">
 					<input id="merchant_key" name="merchant_key" value="uwfiy08dfb6jn" type="hidden">
-					<input id="return_url" name="return_url" value="http://diyesh.com/auditit_new/pirb/return" type="hidden">
-					<input id="cancel_url" name="cancel_url" value="http://diyesh.com/auditit_new/pirb/cancel" type="hidden">
-					<input id="notify_url" name="notify_url" value="http://diyesh.com/auditit_new/pirb/notify" type="hidden">
+					<input id="return_url" name="return_url" value="<?php echo base_url().'plumber/purchasecoc/index/return'; ?>" type="hidden">
+					<input id="cancel_url" name="cancel_url" value="<?php echo base_url().'plumber/purchasecoc/index/cancel'; ?>" type="hidden">
+					<input id="notify_url" name="notify_url" value="<?php echo base_url().'plumber/purchasecoc/index/notify'; ?>" type="hidden">
 					<input id="name_first" name="name_first" value="<?php echo $username['name']; ?>" type="hidden">
 					<input id="name_last" name="name_last" value="<?php echo $username['surname']; ?>" type="hidden">
 					<input id="email_address" name="email_address" value="<?php echo $username['email']; ?>" type="hidden">
@@ -195,6 +228,8 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 										</div>
 										<div class="col-md-12">
 											<div class="form-group">
+												<input id="sampleOtp" type="text" class="form-control skill_training" readonly>
+												<div class="invalidOTP" style="color: red;"> Given OTP is Invalid ! </div>
 												<label>Enter OTP</label>
 												<input name="otpnumber" id="otpnumber" type="text" class="form-control skill_training">
 											</div>
@@ -208,6 +243,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 									<button type="button" class="btn btn-success resend">Resend</button>
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 								</div>
+								<?php } ?>
 							</form>
 						</div>
 					</div>
@@ -221,6 +257,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 
 <script type="text/javascript">
 	$(function(){
+		$('.deliverygroupdiv').hide();
 		$('#skillmodal').modal('hide');
 		$('#purchase').prop('disabled', true);
 		coctype1($('.coc_type:checked').val());
@@ -254,16 +291,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 				},
 			}
 			);
-		$('.coc_type').click(function(){
-			calculations($("#coc_purchase").val());
-			delivery($('.delivery_card').val());
-			if ($(this).val()=='1') {
-				$('.methodofdelivery').hide();
-			}else{
-				$('.methodofdelivery').show();
-			}
-		})
-
+		
 		if ($('#log_coc').val()!='') {
 			var coccount = 0
 			coccount = Math.abs(parseInt($('#log_coc').val())-parseInt($('#coc_permitted').val()));
@@ -272,7 +300,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 		}
 		$("#coc_purchase").keyup(function(e){
 
-			calculations($(this).val());
+			calc();
 			delivery($('.delivery_card').val());
 		});
 
@@ -282,6 +310,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 			ajaxotp();
 			
 			$('#skillmodal').modal('show');
+			$('.invalidOTP').hide();
 
 			
 		});
@@ -326,7 +355,8 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 				data 		: { otp: otpver},
 				success: function(data) {
 					if (data == 0) {
-						alert('Given OTP is Invalid !');
+						$('.invalidOTP').show();
+						//alert('Given OTP is Invalid !');
 					}else{
 						ajaxInsert(delivery_type, cocType, delivery_cost);
 
@@ -337,8 +367,32 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 			});
 		});
 
+		$('.coc_type').click(function(){
+		coctype1($(this).val());
+	});
 
-	})
+			$('.delivery_card').change(function(){
+				delivery($(this).val());
+				
+			});
+
+	});
+
+	function typeclick(){
+			
+			
+			
+			var coc_types = $("input[name='coc_type']:checked").val();
+			
+			if (coc_types == '1') {
+				$('.methodofdelivery').hide();
+			}else{
+				$('.methodofdelivery').show();
+			}
+
+			delivery($('.delivery_card').val());
+		}
+
 
 	function ajaxInsert(delivery_type, cocType, delivery_cost){
 		$.ajax({
@@ -360,21 +414,21 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 	}
 
 
-	$('.coc_type').click(function(){
-		coctype1($(this).val());
-	})
+	
 	var coc = 0;
 	var coc_amount = 0;
 	function coctype1(value){
 		if(value=='1'){
 			//coc_purchase
 			//$('.coc_cost').val('<?php // echo $cocelectronic; ?>')	
-			coc_amount = $('#dbcocelectronic').val()
+			coc_amount = $('#dbcocelectronic').val();
+			$('.deliverygroupdiv').hide();
 			//alert(coc_amount);
 			$('#cost_f_delivery').val('0');
 		}else if(value=='2'){
 			//coc_purchase
-			coc_amount = $('#dbcocpaperwork').val()
+			coc_amount = $('#dbcocpaperwork').val();
+			$('.deliverygroupdiv').show();
 			//alert(coc_amount);
 			//$('.coc_cost').val('<?php // echo $cocelectronic; ?>')
 			//$('#cost_f_delivery').val('<?php //echo $cocpaperwork; ?>');
@@ -382,15 +436,9 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 
 	}
 
-	$('.delivery_card').change(function(){
-		delivery($(this).val());
-		calc();
-	})
 
-	function delivery(value){
 
-		$('.deliveryclass').val($('#deliveryclass'+value).val());
-	}
+
 
 	function ajaxotp(){
 		$.ajax({
@@ -401,97 +449,97 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 			method 	: 'POST',
 			data: {generate:'otp', ammount: $('#totaldue1').val(), item_description: $('#item_description').val(),payment_method: $('#payment_method').val(), m_payment_id: $('#m_payment_id').val(), },
 			success: function(data) {
-					//$('#signature').val(data.signature);
-				}
-			});
+				$('#sampleOtp').val(data.otp);
+			}
+		});
 	}
 
-	function calculations(data,value){
-		if (value == 1) { 
-			// var count = $('#number_of_purchase_coc').val();			
-			// var numberOdCoc = parseInt($('#coc_purchase').val());
-			// var cocCost = parseInt($('.deliveryclass').val())*numberOdCoc;
-			// $('.coc_cost').val(cocCost);
+	// function calculations(data,value){
+		
 
-			// var count 	= data;
-			// var coctype = $('#coc_cost').val();
-			// if (coctype!='') {
-			// 	var cost_of_delivery = parseFloat($('#cost_f_delivery').val());
-			// 	var coc_cost = parseFloat($('#coc_cost').val());
-			// 	var dbvat = parseFloat($('#dbvat').val());
+	// 		var count = $('#number_of_purchase_coc').val();			
+	// 		var numberOdCoc = parseFloat($('#coc_purchase').val());
+	// 		var cocCost = parseFloat(coc_amount)*numberOdCoc;
+	// 		$('.coc_cost').val(cocCost);
+
+	// 		if (count > parseFloat(data)) {
+	// 			$("#coc_purchase").val((data));
+	// 			//console.log($("#coc_purchase").val((data)));
+	// 			$('.alert-msg').hide();
+	// 		}else{
+	// 			if ($("#coc_purchase").val() != '') {
+	// 				$('.alert-msg').show();
+	// 				$("#coc_purchase").val(count);
+	// 			}
 				
-			// 	var allvat = (((parseFloat($('#coc_cost').val())+parseFloat($('#cost_f_delivery').val()))*dbvat)/100);
-			// 	$('#vat').val(allvat.toFixed(2));
-			// 	var total = parseFloat(coctype)+parseFloat(allvat)+parseFloat($('#cost_f_delivery').val())
-			// 	$('#totaldue').val(total.toFixed(2));
-			// 	$('#totaldue1').val(total.toFixed(2));
-			//}
-		}else{
+	// 		}
 
-			var count = $('#number_of_purchase_coc').val();			
-			var numberOdCoc = parseFloat($('#coc_purchase').val());
-			var cocCost = parseFloat(coc_amount)*numberOdCoc;
-			$('.coc_cost').val(cocCost);
-
-			if (count > parseFloat(data)) {
-				$("#coc_purchase").val((data));
-				//console.log($("#coc_purchase").val((data)));
-				$('.alert-msg').hide();
-			}else{
-				if ($("#coc_purchase").val() != '') {
-					$('.alert-msg').show();
-				$("#coc_purchase").val(count);
-				}
+	// 		var count 	= data;
+	// 		var coctype = $('#coc_cost').val();
+	// 		if (coctype!='') {
+	// 			var typecoc = $("input[name='coc_type']:checked").val();
+	// 			var dbvat = parseFloat($('#dbvat').val());
 				
-			}
+	// 			var allvat = (((parseFloat($('#coc_cost').val())+parseFloat($('#cost_f_delivery').val()))*dbvat)/100);
 
-			var count 	= data;
-			var coctype = $('#coc_cost').val();
-			if (coctype!='') {
-				var typecoc = $("input[name='coc_type']:checked").val();
-				var dbvat = parseFloat($('#dbvat').val());
+	// 			$('#vat').val(allvat.toFixed(2));
 				
-				var allvat = (((parseFloat($('#coc_cost').val())+parseFloat($('#cost_f_delivery').val()))*dbvat)/100);
-
-				$('#vat').val(allvat.toFixed(2));
-				
-				var total = parseFloat(coctype)+parseFloat(allvat)+parseFloat($('#cost_f_delivery').val())
+	// 			var total = parseFloat(coctype)+parseFloat(allvat)+parseFloat($('#cost_f_delivery').val())
 				
 
-				$('#totaldue').val(total.toFixed(2));
-				$('#totaldue1').val(total.toFixed(2));
-			}
+	// 			$('#totaldue').val(total.toFixed(2));
+	// 			$('#totaldue1').val(total.toFixed(2));
+	// 		}
 
-		}
+	// 	}
 
 
-	}
+
 
 	function calc(){
-		var deliverycard 	= parseFloat($('#delivery_card').val());
-		var cocelectronic 	= parseFloat($('#dbcocelectronic').val());
-		var cocpaperwork 	= parseFloat($('#dbcocpaperwork').val());
+		
+
+		var coc_cost 	= parseFloat($('#coc_cost').val());
 		var costdelivery 	= parseFloat($('#cost_f_delivery').val());
+
 		var vat 			= parseFloat($('#dbvat').val());
 
-		var coctype = $('[name="coc_type"]:checked').val();
-		if(coctype==1){
-			var coc = cocelectronic;
-		}else if(coctype==2){
-			var coc = cocpaperwork;
-		}
 
-		var coc = parseFloat(coc);
+		var vat1 = (((costdelivery + coc_cost ) * vat) / 100);
 
-		var costtype = (deliverycard * coc);
-		var vat1 = (((costtype + costdelivery) * vat)/100);
-		var total = costtype+vat1+costdelivery;
-		// console.log(total)
-		// console.log(vat1)
-		// console.log(costtype)
-		$('#coc_cost').val(costtype.toFixed(2));
+		var total = vat1 + coc_cost + costdelivery;
+
 		$('#vat').val(vat1.toFixed(2));
 		$('#totaldue').val(total.toFixed(2));
+		$('#totaldue1').val(total.toFixed(2));
+
+	}
+
+	function modifycost()
+	{
+		
+		var quan = $("#coc_purchase").val();
+
+		var coc_types = $("input[name='coc_type']:checked").val();
+		if(coc_types == 1)
+			var cost = parseFloat($("#dbcocelectronic").val());
+		else
+		var cost = parseFloat($("#dbcocpaperwork").val());
+		var total = cost * quan;
+		$("#coc_cost").val(total.toFixed(2));
+
+		calc();
+	}
+
+		function delivery(value){
+
+		$('.deliveryclass').val($('#deliveryclass'+value).val());
+		modifycost();
 
 	}
 </script>
+
+<?php
+
+	}
+?>

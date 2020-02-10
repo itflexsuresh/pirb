@@ -47,7 +47,7 @@ class Rates_Model extends CC_Model
 								'updated_by' 		=> $userid
 							];
 							
-		if(isset($data['supplyitem'])) 		$request['supplyitem'] 		= $data['supplyitem'];
+		if(isset($data['supplyitem'])) 	$request['supplyitem'] 		= $data['supplyitem'];
 		if(isset($data['amount'])) 		$request['amount'] 		= $data['amount'];
 		if(isset($data['validfrom'])) 	$request['validfrom'] 	= date('Y-m-d',strtotime($data['validfrom'])); 
 		$request['status'] 	= (isset($data['status'])) ? $data['status'] : '0';
@@ -59,6 +59,38 @@ class Rates_Model extends CC_Model
 		}else{
 			$this->db->update('rates', $request, ['id' => $id]);
 		}
+			
+		if($this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+			return false;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
+
+	public function actionfuture($data)
+	{
+		$this->db->trans_begin();
+		
+		$userid			= 	$this->getUserID();
+		$id 			= 	$data['id'];
+		$datetime		= 	date('Y-m-d H:i:s');
+		
+		$request		=	[
+								'updated_at' 		=> $datetime,
+								'updated_by' 		=> $userid
+							];
+							
+		if(isset($data['supplyitem'])) 	$request['supplyitem'] 		= $data['supplyitem'];
+		if(isset($data['amount'])) 		$request['futureammount'] 		= $data['amount'];
+		if(isset($data['validfrom'])) 	$request['futuredate'] 	= date('Y-m-d',strtotime($data['validfrom'])); 
+	
+			$this->db->update('rates', $request, ['id' => $id]);
+		
 			
 		if($this->db->trans_status() === FALSE)
 		{

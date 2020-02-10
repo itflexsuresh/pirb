@@ -9,6 +9,7 @@ class Index extends CC_Controller
 		$this->load->model('Coc_Model');
 		$this->load->model('Rates_Model');
 		$this->load->model('Systemsettings_Model');
+		$this->load->model('CC_Model');
 		$this->load->model('Plumber_Model');
 	}
 	
@@ -30,18 +31,17 @@ class Index extends CC_Controller
 		$pagedata['province'] 		= 	$this->getProvinceList();		
 		$pagedata['userid']			= 	$userid;
 		$pagedata['userdata']		= 	$userdata;
-		$data['userdata1']			= 	$userdata1;
+		$pagedata['userdata1']		= 	$userdata1;
 		$pagedata['username']		= 	$userdata1;
 		$pagedata['deliverycard']	= 	$this->config->item('purchasecocdelivery');
 		$pagedata['coctype']		= 	$this->config->item('coctype');
 		$pagedata['settings']		= 	$this->Systemsettings_Model->getList('row');
-		$pagedata['cocpermitted']	=	$this->Coc_Model->checkcocpermitted($userid);
-		$pagedata['logcoc']			=	$this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => 'admin_stock']);
-		$pagedata['cocpaperwork']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocpaperwork'), 'status' => ['1']]);
-		$pagedata['cocelectronic']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocelectronic'), 'status' => ['1']]);
-		$pagedata['postage']		= $this->Rates_Model->getList('row', ['id' => $this->config->item('postage'), 'status' => ['1']]);
-		$pagedata['couriour']		= $this->Rates_Model->getList('row', ['id' => $this->config->item('couriour'), 'status' => ['1']]);
-		$pagedata['collectedbypirb']= $this->Rates_Model->getList('row', ['id' => $this->config->item('collectedbypirb'), 'status' => ['1']]);
+		$pagedata['logcoc']			=	$this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => '1']);
+		$pagedata['cocpaperwork']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocpaperwork')]);
+		$pagedata['cocelectronic']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocelectronic')]);
+		$pagedata['postage']		= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('postage')]);
+		$pagedata['couriour']		= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('couriour')]);
+		$pagedata['collectedbypirb']= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('collectedbypirb')]);
 		//print_r($pagedata['postage']);die;
 
 		$data['plugins']			= 	['validation', 'datepicker'];
@@ -61,12 +61,7 @@ class Index extends CC_Controller
 				$requestData1['user_id']		= 	$user_id;
 				$requestData1['delivery_type'] 	= $requestData['delivery_type'];
 				$requestData1['total_cost'] 	= $requestData['total_due'];
-
-				if($requestData['coc_type'] == 1){
-					$requestData1['type'] = "electronic";
-				}else{
-					$requestData1['type'] = "paper";
-				}
+				
 				$result1 = $this->Coc_Model->action($requestData1, 1);
 				if ($result1) {
 					
@@ -183,12 +178,23 @@ class Index extends CC_Controller
 	public function return(){
 		$userid 				=	$this->getUserID();
 		$insert_id 				= 	$this->db->select('id,inv_id')->from('coc_orders')->order_by('id','desc')->get()->row_array();
+		$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
 		$request['status'] 		= 	'1';
 		 if ($insert_id) {
 			$inid 				= $insert_id['id'];
 			$inv_id 			= $insert_id['inv_id'];
 			$result 			= $this->db->update('invoice', $request, ['inv_id' => $inv_id,'user_id' => $userid]);
 		 	$result 			= $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
+		 	$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
+		 	$orders = $this->db->select('*')->from('coc_orders')->where(['user_id' => $userid])->get()->row_array();
+		 	
+		 	 $array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}'];
+		$array2 = [$userdata1['name']." ".$userdata1['surname'], $orders['created_at'], $orders['quantity'], $orders['coc_type']];
+		$body = str_replace($array1, $array2, $template['email_body']);
+		 	if ($template['email_active'] == '1') {
+
+		 		$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body);
+		 	}
 			redirect('plumber/purchasecoc/index/notify');
 		 }
 		

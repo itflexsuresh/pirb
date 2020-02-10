@@ -2,7 +2,7 @@
 	<div class="col-sm-12">
 		<?php echo $notification; ?>
 	</div>
-	<div class="col-sm-6 <?php if($usertype==''){ echo 'offset-3';} ?>">
+	<div class="col-sm-6 <?php if($usertype=='' || $usertype=='5' || $usertype=='6'){ echo 'offset-3';} ?>">
 		<div class="card card-body">
 			<h4 class="card-title">Already Registered</h4>
 			<h5 class="card-subtitle"> If you are already registered please enter your login details </h5>
@@ -26,7 +26,7 @@
 			</form>
 		</div>
 	</div>
-	<?php if($usertype!=''){ ?>
+	<?php if($usertype!='' && $usertype!='5' && $usertype!='6'){ ?>
 		<div class="col-sm-6">
 			<div class="card card-body">
 				<h4 class="card-title">Individual Registration with the PIRB</h4>

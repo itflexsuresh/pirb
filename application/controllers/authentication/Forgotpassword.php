@@ -47,12 +47,14 @@ class Forgotpassword extends CC_Controller
 			
 			$usertype 		= $this->config->item('usertype1')[$usertype];
 			$usertypename 	= $this->config->item('usertype2')[$usertype];
+			$requesttype	= $usertype;
 		}else{
 			$usertype 		= '';
 			$usertypename 	= '';
+			$requesttype	= '1';
 		}
 		
-		$checkID 	= $this->Users_Model->checkEncryptUserID($id);
+		$checkID 	= $this->Users_Model->checkEncryptUserID($id, ['type' => $requesttype]);
 
 		if($checkID=='2'){
 			$this->session->set_flashdata('error', 'Try Later.');

@@ -21,15 +21,28 @@ class Rates extends CC_Controller
 			}
 		}
 		
+
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
-
 			if($requestData['submit']=='submit'){
-				$data 	=  $this->Rates_Model->action($requestData);
-				if($data) $message = 'RatesModel '.(($id=='') ? 'created' : 'updated').' successfully.';
+
+            $validfrom=  strtotime($result['validfrom']);
+            $futurefrom= strtotime($requestData['validfrom']);
+            
+            if(strtotime(date('Y-m-d')) == $futurefrom){
+           $data 	=  $this->Rates_Model->action($requestData);
+            }
+            elseif($validfrom < $futurefrom){
+            	$data 	=  $this->Rates_Model->actionfuture($requestData);
+            }
+            else{
+            	$data 	=  $this->Rates_Model->action($requestData);
+            }
+              				
+				if($data) $message = 'Rates '.(($id=='') ? 'created' : 'updated').' successfully.';
 			}else{
 				$data 			= 	$this->Rates_Model->changestatus($requestData);
-				$message		= 	'RatesModel deleted successfully.';
+				$message		= 	'Rates deleted successfully.';
 			}
 
 			if(isset($data)) $this->session->set_flashdata('success', $message);

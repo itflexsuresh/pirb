@@ -39,7 +39,7 @@ $formstatus  = $userdata['formstatus'];
 							<li> 
 								<a class="sub_menu" href="javascript:void(0)" aria-expanded="false"><span class="hide-menu">Coc Management (Statement)</span></a>
 								<ul aria-expanded="false" class="collapse">
-									<li><a href="<?php echo base_url().''; ?>">Coc Management (Statement)</a></li>
+									<li><a href="<?php echo base_url().'admin/cocmanagement/cocmanagementstatement/coc_details'; ?>">Coc Details</a></li>
 									<li><a href="<?php echo base_url().'admin/cocmanagement/cocmanagementstatement/coc_orders/index'; ?>">Coc Orders</a></li>
 								</ul>
 							</li>
@@ -65,6 +65,12 @@ $formstatus  = $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'admin/company/index'; ?>">Company</a></li>
 						</ul>
 					</li>
+					<li class="step five"> 
+						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Resellers</span></a>
+						<ul aria-expanded="false" class="collapse">
+							<li><a href="<?php echo base_url().'admin/resellers/index'; ?>">Resellers</a></li>
+						</ul>
+					</li>
 				<?php }elseif($type=='3'){ ?>
 					<li><a href="<?php echo base_url().'plumber/registration/index'; ?>">Dashboard</a></li>
 					<?php if($formstatus=='1'){ ?>
@@ -83,7 +89,10 @@ $formstatus  = $userdata['formstatus'];
 				<?php }elseif($type=='5'){ ?>
 					<li><a href="javascript:void(0);">Dashboard</a></li>
 					<li><a href="<?php echo base_url().'auditor/profile/index'; ?>">My Profile</a></li>
-				<?php } ?>
+				<?php }elseif($type=='6'){ ?>
+					<li><a href="javascript:void(0);">Dashboard</a></li>
+					<li><a href="<?php echo base_url().'auditor/profile/index'; ?>">My Profile</a></li>
+				<?php } ?>				
 			</ul>
 		</nav>
 	</div>
