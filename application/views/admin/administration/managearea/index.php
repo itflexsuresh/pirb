@@ -85,8 +85,8 @@
 								<th>Province</th>
 								<th>City</th>
 								<th>Suburb</th>
-								<th>Status</th>
-								<th>Action</th>
+								<th>Active</th>
+								<th></th>
 							</tr>
 						</thead>
 					</table>
