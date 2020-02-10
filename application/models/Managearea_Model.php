@@ -94,7 +94,13 @@ class Managearea_Model extends CC_Model
 			return $insertid;
 		}
 	}
-	
+	function checkUsername($username) {
+
+        $this->db->select()->from('city')->where('name', $username);
+        $query = $this->db->get();
+
+        return $query->first_row('array'); // returns first row if has record in db
+    }
 	public function changestatus($data)
 	{
 		$userid		= 	$this->getUserID();
