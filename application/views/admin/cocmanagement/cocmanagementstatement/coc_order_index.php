@@ -454,7 +454,6 @@ $("#user_limit").val(limit);
 }
 
 
-
 $(function(){
   $("#user_limit, #quantity").on("keyup", function () {
     var fst=$("#user_limit").val();
