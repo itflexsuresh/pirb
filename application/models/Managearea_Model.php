@@ -101,6 +101,19 @@ class Managearea_Model extends CC_Model
 
         return $query->first_row('array'); // returns first row if has record in db
     }
+	  function checkUsername1($requestData1) {
+    	$requestData1['province'];
+    	$requestData1['city'];
+        $this->db->select('*');
+        $this->db->from('suburb');
+        $this->db->where('name', $requestData1['suburb']);
+         $this->db->where('province_id',$requestData1['province']);
+          $this->db->where('city_id',$requestData1['city']);
+        $query = $this->db->get();
+
+
+        return $query->first_row('array'); // returns first row if has record in db
+    }
 	public function changestatus($data)
 	{
 		$userid		= 	$this->getUserID();
