@@ -389,11 +389,13 @@ td {
 				file_put_contents($filePath.$pdfFilePath, $output);
 				//$this->pdf->stream($pdfFilePath);
 			 $cocTypes = $orders['coc_type'];
+			 $mail_date = date("d-m-Y", strtotime($orders['created_at']));
+			  
 		 	
 		 	 $array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}'];
 			 
 
-			$array2 = [$userdata1['name']." ".$userdata1['surname'], $orders['created_at'], $orders['quantity'], $this->config->item('coctype')[$cocTypes]];
+			$array2 = [$userdata1['name']." ".$userdata1['surname'], $mail_date, $orders['quantity'], $this->config->item('coctype')[$cocTypes]];
 
 			$body = str_replace($array1, $array2, $template['email_body']);
 
