@@ -84,8 +84,6 @@ class Index extends CC_Controller
 
            			$invoiceDate 	= date("d-m-Y", strtotime($rowData['created_at']));
 
-           			print_r($rowData);die;
-
 					$result = $this->Coc_Model->action($requestData, 2);
 					echo $result;
 				}
