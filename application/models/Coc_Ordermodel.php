@@ -16,8 +16,8 @@ class Coc_Ordermodel extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['id', 'order_id', 'inv_id','created_at','status','internal_inv','user_id','coc_type','coc_purchase','delivery_type','tracking_no'];
-			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+			$column = ['id','inv_id','created_at','status','user_id','coc_type','delivery_type'];
+			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);	
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
@@ -37,98 +37,152 @@ class Coc_Ordermodel extends CC_Model
 		return $result;
 	}
 
-	public function adminadd($requestdata){
-		$result = $this->db->insert('coc_orders',$requestdata);
-		if ($result) {
-			return '1';
-		}else{
-			return '0';
+	public function adminadd($data){
+
+		// if(isset($data['created_at'])) 		$requestdata['created_at'] 		= date('Y-m-d H:i:s');
+		if(isset($data['created_at'])){ 
+			$created_at 	= date('Y-m-d H:i:s');			
+			$requestdata['created_at'] 	= $created_at;
+			$requestdata1['created_at'] 	= $created_at;
 		}
+
+		// if(isset($data['user_id'])) 		$requestdata['user_id'] 		= $data['user_id'];
+		if(isset($data['user_id'])){ 
+			$user_id 	= $data['user_id'];			
+			$requestdata['user_id'] 	= $user_id;
+			$requestdata1['user_id'] 	= $user_id;
+		}
+
+
+		//if(isset($data['coc_type'])) 		$requestdata['type'] 		= $data['coc_type'];
+		if(isset($data['coc_type'])){ 
+			$coc_type 	= $data['coc_type'];			
+			$requestdata['type'] 	= $coc_type;
+			$requestdata1['coc_type'] 	= $coc_type;
+		}
+		
+		//if(isset($data['delivery_type'])) 	$requestdata['delivery_type'] 	= $data['delivery_type'];
+		if(isset($data['delivery_type'])){ 
+			$delivery_type 	= $data['delivery_type'];			
+			$requestdata['delivery_type'] 	= $delivery_type;
+			$requestdata1['delivery_type'] 	= $delivery_type;
+		}
+		
+
+		//if(isset($data['status'])) 			$requestdata['status'] 			= $data['status'];
+		if(isset($data['status'])){ 
+			$status 	= $data['status'];			
+			$requestdata['status'] 	= $status;
+			$requestdata1['status'] 	= $status;
+		}
+		
+		//if(isset($data['internal_inv'])) 	$requestdata['internal_inv'] 	= $data['internal_inv'];
+
+		if(isset($data['internal_inv'])){ 
+			$internal_inv 	= $data['internal_inv'];			
+			$requestdata['internal_inv'] 	= $internal_inv;
+			$requestdata1['internal_inv'] 	= $internal_inv;
+		}
+
+		//if(isset($data['tracking_no'])) 	$requestdata['tracking_no'] 	= $data['tracking_no'];
+
+		if(isset($data['tracking_no'])){ 
+			$tracking_no 	= $data['tracking_no'];			
+			$requestdata['tracking_no'] 	= $tracking_no;
+			$requestdata1['tracking_no'] 	= $tracking_no;
+		}
+
+		//if(isset($data['updated_at'])) 		$requestdata['updated_at'] 		= date('Y-m-d H:i:s');
+		if(isset($data['updated_at'])){ 
+			$updated_at 	= date('Y-m-d H:i:s');	
+			$requestdata['updated_at'] 	= $updated_at;
+			$requestdata1['updated_at'] 	= $updated_at;
+		}
+		if(isset($requestdata)){
+
+			// if($requestdata['user_id']==''){
+			$result1 = $this->db->insert('invoice', $requestdata);
+
+			$inv_id 		= $this->db->insert_id();
+
+			
+			// if(isset($data['coc_type'])) 		$requestdata1['coc_type'] 		= $data['coc_type'];
+
+			$requestdata1['inv_id']=$inv_id;
+			
+			if(isset($data['quantity'])) 		$requestdata1['quantity'] 		= $data['quantity'];
+
+			$result = $this->db->insert('coc_orders', $requestdata1);
+
+			// }else{
+			// 	$result  = $this->db->update('coc_orders', $requestdata, ['user_id' => $requestdata['user_id']]);
+			// }
+		}
+
+// 		if(isset($data['created_at'])) 		$requestdata['created_at'] 		= date('Y-m-d H:i:s');
+
+// 		if(isset($data['inv_id'])) 			$requestdata['inv_id'] 			= $data['inv_id'];
+
+// 		if(isset($data['user_id'])) 		$requestdata['user_id'] 		= $data['user_id'];
+
+// 		if(isset($data['coc_type'])) 		$requestdata['coc_type'] 		= $data['type'];
+
+// 		if(isset($data['delivery_type'])) 	$requestdata['delivery_type'] 	= $data['delivery_type'];
+
+// 		if(isset($data['status'])) 			$requestdata['status'] 			= $data['status'];
+
+// 		if(isset($data['internal_inv'])) 	$requestdata['internal_inv'] 	= $data['internal_inv'];
+// 		if(isset($data['tracking_no'])) 	$requestdata['tracking_no'] 	= $data['tracking_no'];
+
+// 		if(isset($data['updated_at'])) 		$requestdata['updated_at'] 		= date('Y-m-d H:i:s');
+
+// 		if(isset($requestdata)){
+
+// 			 if($requestdata['user_id']==''){
+// 				$result = $this->db->insert('invoice', $requestdata);
+// 		}
+// }
+		// $result = $this->db->insert('coc_orders',$requestdata);
+		// if ($result) {
+		// 	return '1';
+		// }else{
+		// 	return '0';
+		// }
 	}
 
 	
-	
-	// public function action($data)
-	// {	
-	// 	$this->db->trans_begin();
+	public function autosearchPlumber($postData){
 		
-	// 	$userid			= 	$this->getUserID();
-	// 	$datetime		= 	date('Y-m-d H:i:s');
+		$this->db->select('u1.name,u1.surname,u2.id,u1.coc_purchase_limit');
+		$this->db->from('users_detail u1');
+		$this->db->join('users u2', 'u1.user_id=u2.id and u2.type="3" and u2.status="1"','inner');
+		$this->db->like('u1.name',$postData['search_keyword']);
+		$this->db->or_like('u1.surname',$postData['search_keyword']);
+		$this->db->group_by("u1.id");
 		
+			$query = $this->db->get();
+			$result = $query->result_array();
+			// echo $this->db->last_query();
+		return $result;
 
+	}
 
-	// 	if(isset($data['name'])) 	         $request['name'] 	    =    $data['name'];
-	// 	if(isset($data['surname'])) 	     $request['surname'] 	=    $data['surname'];
-	// 	// if(isset($data['idnumber'])) 	     $request[''] 			= 	 $data['idnumber'];
-	// 	if(isset($data['auditor_picture']))  $request['file1'] 		= 	 $data['auditor_picture'];
-	// 	if(isset($data['email'])) 			 $request['email']		= 	 $data['email'];		
-	// 	if(isset($data['phonework'])) 		 $request['work_phone'] = 	 $data['phonework'];
-	// 	if(isset($data['phonemobile'])) 	$request['mobile_phone']=    $data['phonemobile'];
-	// 	if(isset($data['billingname'])) 	$request['company_name']=    $data['billingname'];
-	// 	if(isset($data['regnumber'])) 		$request['reg_no'] 		= 	 $data['regnumber'];
-	// 	if(isset($data['vat'])) 		    $request['vat_no'] 	    = 	 $data['vat'];
-	// 	if(isset($data['comp_photo'])) 		$request['file2'] 		= 	 $data['comp_photo'];
+	public function autosearchReseller($postData){
 		
+		$this->db->select('u1.company as name,u2.id,u1.coc_purchase_limit');
+		$this->db->from('users_detail u1');
+		$this->db->join('users u2', 'u1.user_id=u2.id and u2.type="6" and u2.status="1"','inner');
+		$this->db->like('u1.name',$postData['search_keyword']);
+		$this->db->or_like('u1.surname',$postData['search_keyword']);
+		$this->db->or_like('u1.company',$postData['search_keyword']);
+		$this->db->group_by("u1.id");
 		
-	// 	if(isset($data['billingaddress'])) 	$request1['address'] 	= 	 $data['billingaddress'];
-	// 	if(isset($data['province'])) 		$request1['province'] 	= 	 $data['province'];
-	// 	if(isset($data['city'])) 			$request1['city'] 		= 	 $data['city'];
-	// 	if(isset($data['suburb'])) 	 		$request1['suburb']     = 	 $data['suburb'];
-	// 	if(isset($data['postalcode'])) 	    $request1['postal_code']=    $data['postalcode'];
-
-		
-	// 	if(isset($data['bankname'])) 		$request2['bank_name'] 	=    $data['bankname'];
-	// 	if(isset($data['accountname'])) 	$request2['account_name']=   $data['accountname'];
-	// 	if(isset($data['branchcode'])) 		$request2['branch_code'] =   $data['branchcode'];
-	// 	if(isset($data['accountnumber'])) 	$request2['account_no']  =   $data['accountnumber'];
-	// 	if(isset($data['accounttype'])) 	$request2['account_type'] =  $data['accounttype'];
-
-	// 	if(isset($data['email'])) 			 $request3['email']		= 	 $data['email'];
-	// 	if(isset($data['pass'])) 		 	 $request3['password']	=    $data['pass'];
-
-	// 	//$request['status'] 	= (isset($data['status'])) ? $data['status'] : '0';
-
-
-	// 		if(isset($request)){
+			$query = $this->db->get();
+			$result = $query->result_array();
 			
-	// 		$request['user_id'] 	= $userid;
-	// 			$audior_details = $this->db->insert('users_detail', $request);
-	// 		}
+		return $result;
 
-			
+	}
 
-	// 		if(isset($request1)){
-			
-	// 		$request1['user_id'] 	= $userid;
-	// 			$audior_details = $this->db->insert('users_address', $request1);
-	// 		}
-
-	// 		if(isset($request2)){
-			
-	// 		$request2['user_id'] 	= $userid;
-	// 			$audior_details = $this->db->insert('users_bank', $request2);
-	// 		}
-			
-	// 		if(isset($request3)){
-			
-	// 		//$request3['user_id'] 	= $userid;
-	// 			$audior_details = $this->db->insert('users', $request3);
-	// 		}
-		
-
-	// 	if($this->db->trans_status() === FALSE)
-	// 	{
-	// 		$this->db->trans_rollback();
-	// 		return false;
-	// 	}
-	// 	else
-	// 	{
-	// 		$this->db->trans_commit();
-	// 		return true;
-	// 	}
-	// }
-	
-	
-	
 	
 }
