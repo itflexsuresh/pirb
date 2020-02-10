@@ -381,7 +381,7 @@ td {
 
           
                 $pdfFilePath = ''.$inv_id.'.pdf';
-                $filePath = FCPATH.'assets/qrcode/';
+                $filePath = FCPATH.'assets/inv_pdf/';
 				$this->pdf->loadHtml($html);
 				$this->pdf->setPaper('A4', 'portrait');
 				$this->pdf->render();
