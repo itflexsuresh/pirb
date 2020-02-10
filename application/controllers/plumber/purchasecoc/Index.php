@@ -380,7 +380,7 @@ td {
 
           
                 $pdfFilePath = ''.$requestData['inv_id'].'.pdf';
-                $filePath = $_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/inv_pdf/';
+                $filePath = FCPATH.'assets/inv_pdf/';
 				$this->pdf->loadHtml($html);
 				$this->pdf->setPaper('A4', 'portrait');
 				$this->pdf->render();
