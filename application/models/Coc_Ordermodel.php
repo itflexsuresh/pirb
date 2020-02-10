@@ -150,7 +150,6 @@ class Coc_Ordermodel extends CC_Model
 		// }
 	}
 
-	
 	public function autosearchPlumber($postData){
 		
 		$this->db->select('u1.name,u1.surname,u2.id,u1.coc_purchase_limit');
