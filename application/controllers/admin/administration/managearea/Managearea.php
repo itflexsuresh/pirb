@@ -25,6 +25,14 @@ class Managearea extends CC_Controller
 			$requestData 	= 	$this->input->post();
 
 			if($requestData['submit']=='submit'){
+		  $username	= 	$requestData['city1'];
+                  $data=$this->Managearea_Model->checkUsername($username);
+                  if($data)
+                  { 
+                	$this->session->set_flashdata('error', 'city name already exists.');
+                	redirect('admin/administration/managearea/managearea'); 
+               
+                   }  
 				$data 	=  $this->Managearea_Model->action($requestData);
 				if($data) $message = 'Managearea Type '.(($id=='') ? 'created' : 'updated').' successfully.';
 			}else{
