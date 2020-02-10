@@ -421,7 +421,7 @@ function search_func(value)
 
     req = $.ajax({
         type: "POST",
-        url: '<?php echo base_url()."admin/cocmanagement/cocmanagementstatement/Coc_Orders/userDetails"; ?>',
+        url: '<?php echo base_url()."admin/cocmanagement/cocmanagementstatement/coc_orders/userDetails"; ?>',
         data: {'search_keyword' : value,type:$('[name="purchaser_type"]:checked').val()},        
         beforeSend: function(){
 			$("#plumber_name").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
