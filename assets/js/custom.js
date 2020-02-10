@@ -432,19 +432,18 @@ function citysuburb(data1=[], data2=[], data3=[]){
 	}
 }
 
-function subtype(data=[]){
+function subtype(data1=[], data2=[]){
 	var subtypeurl 		= baseurl()+"ajax/index/ajaxsubtype";
+	var subtypedata 	= { installationid : $(data1[0]).val() };
 	
-	var cityappend		= (data1[1]) ? data1[1].substr(1)+'append' : '';
-	
-	ajax(cityurl, citydata, city)
+	ajax(subtypeurl, data[1], subtype)
 
-	$(document).on('change', data1[0], function(){
-		citydata.provinceid = $(this).val();
-		ajax(cityurl, citydata, city)
+	$(document).on('change', data[0], function(){
+		subtypedata.installationid = $(this).val();
+		ajax(subtypeurl, subtypedata, subtype)
 	})
 
-	function city(data){
+	function subtype(data){
 		$('.subtypeappend').remove();
 
 		if(data.status=='1'){
@@ -455,9 +454,6 @@ function subtype(data=[]){
 			})
 
 			$(data1[1]).append(append);
-			
-			var suburbdata  = { provinceid : $(data1[0]).val(), cityid : $(data1[1]).val() };
-			if(data1[2]) ajax(suburburl, suburbdata, suburb);
 		}
 	}
 }

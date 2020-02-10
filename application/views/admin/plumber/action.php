@@ -900,8 +900,8 @@ $(function(){
 	datepicker('.next_renewal_date');
 	datepicker('.skill_date');
 	datepicker('.dob');
-	fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".photo_file", "./assets/uploads/plumber/<?php echo $id; ?>/",['jpg','gif','jpeg','png','pdf','tiff']], ['.photo', '.photo_image', '<?php echo base_url()."assets/uploads/plumber/".$id; ?>', '<?php echo base_url()."assets/images/pdf.png"?>']);
-	fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".skill_attachment_file", "./assets/uploads/plumber/<?php echo $id; ?>/",['jpg','gif','jpeg','png','pdf','tiff']], ['.skill_attachment', '.skill_attachment_image', '<?php echo base_url()."assets/uploads/plumber/".$id; ?>', '<?php echo base_url()."assets/images/pdf.png"?>']);
+	fileupload([".photo_file", "./assets/uploads/plumber/<?php echo $id; ?>/",['jpg','gif','jpeg','png','pdf','tiff']], ['.photo', '.photo_image', '<?php echo base_url()."assets/uploads/plumber/".$id; ?>', '<?php echo base_url()."assets/images/pdf.png"?>']);
+	fileupload([".skill_attachment_file", "./assets/uploads/plumber/<?php echo $id; ?>/",['jpg','gif','jpeg','png','pdf','tiff']], ['.skill_attachment', '.skill_attachment_image', '<?php echo base_url()."assets/uploads/plumber/".$id; ?>', '<?php echo base_url()."assets/images/pdf.png"?>']);
 	
 	var nationality = '<?php echo $nationality; ?>';
 	othernationalityidcardbox(nationality);

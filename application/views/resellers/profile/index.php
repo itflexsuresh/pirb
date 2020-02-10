@@ -192,7 +192,7 @@ $(function(){
 	checkstep();
 	datepicker('.dob');
 	datepicker('.skill_date');
-	fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".document_file", "./assets/uploads/plumber/<?php echo $userid; ?>/"], ['.document', '.document_image', '<?php echo base_url()."assets/uploads/plumber/".$userid; ?>']);
+	fileupload([".document_file", "./assets/uploads/plumber/<?php echo $userid; ?>/"], ['.document', '.document_image', '<?php echo base_url()."assets/uploads/plumber/".$userid; ?>']);
 	
 	
 	validation(
