@@ -408,7 +408,6 @@ $(".method").hide();
 
 $(".comments").hide();
 $(".order_cancelled").hide();
-
 </script>
 
 <script type="text/javascript">	
