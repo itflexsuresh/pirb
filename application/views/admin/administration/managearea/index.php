@@ -73,7 +73,7 @@
 						</div>
 						<div class="col-md-6 text-right">
 							<input type="hidden" name="id" value="<?php echo $id; ?>">
-							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?>Area </button>
+							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> Area </button>
 							
 						</div>
 					</div>
@@ -104,8 +104,8 @@
 		var options = {
 			url 	: 	'<?php echo base_url()."admin/administration/managearea/managearea/DTManagearea"; ?>',
 			columns : 	[
-							{ "data": "province" },
-                            {"data" :"city"},
+							{ "data": "province_id" },
+                            {"data" :"city_id"},
                             {"data" :"name"},
 							{ "data": "action" }
 						]
@@ -116,7 +116,7 @@
 		validation(
 			'.form',
 			{
-				name : {
+				province : {
 					required	: true,
 				},
 				city : {
@@ -131,7 +131,7 @@
 				
 			},
 			{
-				name 	: {
+				province 	: {
 					required	: "Please Select the province ."
 				},
 				city : {
