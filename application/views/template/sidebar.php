@@ -46,6 +46,7 @@ $formstatus  = $userdata['formstatus'];
 								<a class="sub_menu" href="javascript:void(0)" aria-expanded="false"><span class="hide-menu">COC Management (Statement)</span></a>
 								<ul aria-expanded="false" class="collapse">
 									<li><a href="<?php echo base_url().'admin/cocmanagement/cocmanagementstatement/coc_details'; ?>">COC Details</a></li>
+									<li><a href="<?php echo base_url().'admin/cocstatement/papermanagement/index'; ?>">Paper Certificate Stock Management</a></li>
 									<li><a href="<?php echo base_url().'admin/cocmanagement/cocmanagementstatement/coc_orders/index'; ?>">COC Orders</a></li>
 								</ul>
 							</li>
