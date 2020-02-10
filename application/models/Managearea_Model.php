@@ -69,7 +69,7 @@ class Managearea_Model extends CC_Model
 			if(isset($data['province'])) 	$request2['province_id'] 		= $data['province'];
 			if(isset($data['city'])) 		$request2['city_id'] 			= $data['city'];
 			if(isset($data['suburb'])) 		$request2['name'] 				= $data['suburb'];
-			$request['status'] 												= (isset($data['status'])) ? $data['status'] : '0';
+			$request2['status'] 												= (isset($data['status'])) ? $data['status'] : '0';
 	        
 			if($id==''){
 				$request2['created_at'] = $datetime;
