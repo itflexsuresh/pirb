@@ -4,11 +4,19 @@ class Coc_Model extends CC_Model
 {
 	public function getCOCList($type, $requestdata=[])
 	{ 
-		$this->db->select('sm.*, concat(ud.name, " ", ud.surname) as name, u.type as usertype');
+		$this->db->select('
+			sm.*, 
+			concat(ud.name, " ", ud.surname) as name, 
+			u.type as usertype,
+			ua.address,
+			concat(pd.name, " ", pd.surname) as company 
+		');
 		$this->db->from('stock_management sm');
 		$this->db->join('users_address ua', 'ua.user_id=sm.user_id and ua.type="3"', 'left');
 		$this->db->join('users_detail ud', 'ud.user_id=sm.user_id', 'left');
 		$this->db->join('users u', 'u.id=sm.user_id', 'left');
+		$this->db->join('users_plumber p', 'p.user_id=sm.user_id', 'left');
+		$this->db->join('users_detail pd', 'pd.user_id=p.company_details', 'left');
 		
 		if(isset($requestdata['auditstatus']) && count($requestdata['auditstatus']) > 0)	$this->db->where_in('sm.audit_status', $requestdata['auditstatus']);
 		if(isset($requestdata['coctype']) && count($requestdata['coctype']) > 0)			$this->db->where_in('sm.type', $requestdata['coctype']);
@@ -266,6 +274,80 @@ class Coc_Model extends CC_Model
 			return $query;
 		}else{
 			return '0';
+		}
+	}
+	
+	public function getCOCLog($type, $requestdata=[])
+	{ 
+		$this->db->select('*');
+		$this->db->from('coc_log');
+	
+		if(isset($requestdata['id']))		$this->db->where('id', $requestdata['id']);
+		if(isset($requestdata['coc_id']))	$this->db->where('coc_id', $requestdata['coc_id']);
+						
+		if($type=='count'){
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		return $result;
+	}
+	
+	public function actionCocLog($data)
+	{
+		$this->db->trans_begin();
+		
+		$userid			= 	$this->getUserID();
+		$id 			= 	$data['id'];
+		$datetime		= 	date('Y-m-d H:i:s');
+		
+		$request		=	[
+			'updated_at' 		=> $datetime,
+			'updated_by' 		=> $userid
+		];
+
+		if(isset($data['coc_id'])) 				$request['coc_id'] 					= $data['coc_id'];
+		if(isset($data['completion_date'])) 	$request['completion_date'] 		= date('Y-m-d', strtotime($data['completion_date']));
+		if(isset($data['order_no'])) 			$request['order_no'] 				= $data['order_no'];
+		if(isset($data['name'])) 				$request['name'] 					= $data['name'];
+		if(isset($data['address'])) 			$request['address'] 				= $data['address'];
+		if(isset($data['street'])) 				$request['street'] 					= $data['street'];
+		if(isset($data['number'])) 				$request['number'] 					= $data['number'];
+		if(isset($data['province'])) 			$request['province'] 				= $data['province'];
+		if(isset($data['city'])) 				$request['city'] 					= $data['city'];
+		if(isset($data['suburb'])) 				$request['suburb'] 					= $data['suburb'];
+		if(isset($data['contact_no'])) 			$request['contact_no'] 				= $data['contact_no'];
+		if(isset($data['alternate_no'])) 		$request['alternate_no'] 			= $data['alternate_no'];
+		if(isset($data['email'])) 				$request['email'] 					= $data['email'];
+		if(isset($data['installationtype'])) 	$request['installationtype'] 		= implode(',', $data['installationtype']);
+		if(isset($data['specialisations'])) 	$request['specialisations'] 		= implode(',', $data['specialisations']);
+		if(isset($data['installation_detail'])) $request['installation_detail'] 	= $data['installation_detail'];
+		if(isset($data['file1'])) 				$request['file1'] 					= $data['file1'];
+		if(isset($data['agreement'])) 			$request['agreement'] 				= implode(',', $data['agreement']);
+		
+		$request['file2'] 					= (isset($data['file2'])) ? implode(',', $data['file2']) : '';
+		
+		if($id==''){
+			$request['created_at'] = $datetime;
+			$request['created_by'] = $userid;
+			$this->db->insert('coc_log', $request);
+		}else{
+			$this->db->update('coc_log', $request, ['id' => $id]);
+		}
+
+		if($this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+			return false;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return true;
 		}
 	}
 	
