@@ -15,6 +15,7 @@ class Index extends CC_Controller
 	
 	public function index()
 	{
+		echo FCPATH;die;
 
 		$userid 					=	$this->getUserID();
 		$userdata					= 	$this->getUserDetails();
@@ -70,6 +71,7 @@ class Index extends CC_Controller
 					$requestData['inv_id']			= $result1;
 
 					$result = $this->Coc_Model->action($requestData, 2);
+					
 					echo $result;
 
 
