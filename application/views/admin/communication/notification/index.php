@@ -47,8 +47,7 @@
 											</tr>
 
 											<?php																		foreach($val['data'] as $k=>$v)
-											{ 
-
+											{
 												?>
 												<tr>
 
