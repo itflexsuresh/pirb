@@ -15,7 +15,6 @@ class Index extends CC_Controller
 	
 	public function index()
 	{
-		echo FCPATH;die;
 
 		$userid 					=	$this->getUserID();
 		$userdata					= 	$this->getUserDetails();
@@ -382,7 +381,7 @@ td {
 
           
                 $pdfFilePath = ''.$requestData['inv_id'].'.pdf';
-                $filePath = FCPATH.'assets/inv_pdf/';
+                $filePath = FCPATH.'assets/qrcode/';
 				$this->pdf->loadHtml($html);
 				$this->pdf->setPaper('A4', 'portrait');
 				$this->pdf->render();
