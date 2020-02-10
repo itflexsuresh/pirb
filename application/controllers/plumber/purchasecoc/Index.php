@@ -11,6 +11,7 @@ class Index extends CC_Controller
 		$this->load->model('Systemsettings_Model');
 		$this->load->model('CC_Model');
 		$this->load->model('Plumber_Model');
+		$this->load->model('Accounts_Model');
 	}
 	
 	public function index()
@@ -36,7 +37,7 @@ class Index extends CC_Controller
 		$pagedata['deliverycard']	= 	$this->config->item('purchasecocdelivery');
 		$pagedata['coctype']		= 	$this->config->item('coctype');
 		$pagedata['settings']		= 	$this->Systemsettings_Model->getList('row');
-		$pagedata['logcoc']			=	$this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => '1']);
+		$pagedata['logcoc']			=	$this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => ['1']]);
 		$pagedata['cocpaperwork']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocpaperwork')]);
 		$pagedata['cocelectronic']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocelectronic')]);
 		$pagedata['postage']		= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('postage')]);
@@ -73,6 +74,17 @@ class Index extends CC_Controller
 					$requestData['updated_at']		=	$requestData['created_at'];
 					$requestData['status']			= 	'0';
 					$requestData['inv_id']			= $result1;
+
+					$rowData = $this->Accounts_Model->getList('row', ['id' => $requestData['inv_id'], 'status' => ['0','1','7','8','9']]);
+
+					$rowData1 = $this->Accounts_Model->getPermissions('row', ['id' => $requestData['inv_id'], 'status' => ['0','1','7','8','9']]);
+					$rowData2 = $this->Accounts_Model->getPermissions1('row', ['id' => $requestData['inv_id'], 'status' => ['0','1','7','8','9']]);
+
+           			$amount 		=	$rowData['total_due']*$rowData['quantity'];
+
+           			$invoiceDate 	= date("d-m-Y", strtotime($rowData['created_at']));
+
+           			print_r($rowData);die;
 
 					$result = $this->Coc_Model->action($requestData, 2);
 					echo $result;
@@ -185,12 +197,17 @@ class Index extends CC_Controller
 			$inv_id 			= $insert_id['inv_id'];
 			$result 			= $this->db->update('invoice', $request, ['inv_id' => $inv_id,'user_id' => $userid]);
 		 	$result 			= $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
+
 		 	$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
+
 		 	$orders = $this->db->select('*')->from('coc_orders')->where(['user_id' => $userid])->get()->row_array();
 		 	
 		 	 $array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}'];
-		$array2 = [$userdata1['name']." ".$userdata1['surname'], $orders['created_at'], $orders['quantity'], $orders['coc_type']];
-		$body = str_replace($array1, $array2, $template['email_body']);
+
+			$array2 = [$userdata1['name']." ".$userdata1['surname'], $orders['created_at'], $orders['quantity'], $orders['coc_type']];
+
+			$body = str_replace($array1, $array2, $template['email_body']);
+
 		 	if ($template['email_active'] == '1') {
 
 		 		$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body);
