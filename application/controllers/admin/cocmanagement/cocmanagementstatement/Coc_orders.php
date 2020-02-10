@@ -54,8 +54,9 @@ class Coc_Orders extends CC_Controller
 	}
 
 
-public function CocorderType()
-	{
+public function cocorderType()
+	{ 
+
 		$post 			= $this->input->post();
 		$totalcount 	= $this->Coc_Ordermodel->getCocorderList('count', ['status' => ['0','1']]+$post);
 

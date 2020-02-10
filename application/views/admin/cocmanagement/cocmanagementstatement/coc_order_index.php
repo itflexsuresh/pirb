@@ -364,7 +364,7 @@ $(function(){
 $(function(){
 		
 		var options = {
-			url 	: 	'<?php echo base_url()."admin/cocmanagement/cocmanagementstatement/Coc_Orders/CocorderType"; ?>',
+			url 	: 	'<?php echo base_url()."admin/cocmanagement/cocmanagementstatement/Coc_Orders/cocorderType"; ?>',
 			columns : 	[
 			{ "data": "id" },
 			{ "data": "inv_id" },
