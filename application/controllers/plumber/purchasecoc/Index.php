@@ -413,7 +413,7 @@ td {
 	}
 
 	public function notify(){
-		$this->session->set_flashdata('COC Purchase Sucessfully.');
+		$this->session->set_flashdata('success','COC Purchase Sucessfully.');
 		redirect('plumber/profile/Index');
 	}
 }
