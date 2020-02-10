@@ -98,8 +98,8 @@
 <div class="suburb"></div>
 <script>
 	$(function(){
-
-    	citysuburb(['<?php echo base_url()."ajax/index/ajaxcity"; ?>', {provinceid : $('.province_name').val()}, '.city_name', '<?php echo $city; ?>']);
+		
+		citysuburb(['#province','#city'], ['<?php echo $city; ?>']);
 
 		var options = {
 			url 	: 	'<?php echo base_url()."admin/administration/managearea/managearea/DTManagearea"; ?>',
