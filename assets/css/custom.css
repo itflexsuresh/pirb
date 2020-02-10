@@ -1402,3 +1402,16 @@ i.fa.fa-check {
 
 /* Progress Bar End */
 
+
+.multipleupload{
+	position: relative;
+    display: inline-block;
+}
+
+.multipleupload i{
+	position: absolute;
+    top: -5px;
+    right: -5px;
+	cursor: pointer;
+}
+

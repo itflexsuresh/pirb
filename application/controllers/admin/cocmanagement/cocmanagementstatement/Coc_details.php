@@ -6,7 +6,7 @@ class Coc_details extends CC_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Coc_Details_Model');
+		$this->load->model('Coc_Model');
 	}
 	
 	public function index()
@@ -25,8 +25,8 @@ class Coc_details extends CC_Controller
 	{
 		$post 			= $this->input->post();
 		
-		$totalcount 	= $this->Coc_Details_Model->getList('count', ['status' => ['0','1']]+$post);
-		$results 		= $this->Coc_Details_Model->getList('all', ['status' => ['0','1']]+$post);
+		$totalcount 	= $this->Coc_Model->getCOCList('count', ['status' => ['0','1']]+$post);
+		$results 		= $this->Coc_Model->getCOCList('all', ['status' => ['0','1']]+$post);
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){

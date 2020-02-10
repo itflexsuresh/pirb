@@ -5,11 +5,14 @@ class Installationtype_Model extends CC_Model
 	public function getList($type, $requestdata=[])
 	{
 		$this->db->select('*');
-		$this->db->from('installationtype')->order_by("id", "desc");
-		//$this->db->order_by("id", "desc");
+		$this->db->from('installationtype');
+		$this->db->order_by("id", "desc");
 		
-		if(isset($requestdata['id'])) 		$this->db->where('id', $requestdata['id']);
-		if(isset($requestdata['status']))	$this->db->where_in('status', $requestdata['status']);
+		if(isset($requestdata['id'])) 				$this->db->where('id', $requestdata['id']);
+		if(isset($requestdata['designation'])) 		$this->db->where_in('designation', $requestdata['designation']);
+		if(isset($requestdata['specialisations']) && count($requestdata['specialisations']) > 0) 	$this->db->where_in('specialisations', $requestdata['specialisations']);
+		if(isset($requestdata['specialisations']) && count($requestdata['specialisations']) == 0) 	$this->db->where('specialisations', '');
+		if(isset($requestdata['status']))			$this->db->where_in('status', $requestdata['status']);
 		
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);

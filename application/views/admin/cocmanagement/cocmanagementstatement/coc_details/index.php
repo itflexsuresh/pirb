@@ -160,7 +160,7 @@ function datatable(destroy=0){
 	var data = {
 		startrange 	: $('#startrange').val(),
 		endrange 	: $('#endrange').val(),
-		cocstatus 	: $('.cocstatus:checked').map(function(){return $(this).val();}).get(),            
+		coc_status 	: $('.cocstatus:checked').map(function(){return $(this).val();}).get(),            
 		auditstatus : $('.auditstatus:checked').map(function(){return $(this).val();}).get(),
 		coctype 	: $('.coctype:checked').map(function(){return $(this).val();}).get(),
 		startdate 	: $('#startdate').val(),
