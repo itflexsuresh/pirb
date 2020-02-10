@@ -58,7 +58,7 @@
 														{ 
 															?>
 
-															<input type="checkbox" name="email_notification" id="email_notification" value="" checked="checked">
+															<input type="checkbox" disabled="disabled" name="email_notification" id="email_notification" value="" checked="checked">
 														<?php } else { ?>
 															<input type="checkbox" name="email_notification" id="email_notification" value="">
 														<?php } ?>
@@ -69,7 +69,7 @@
 														{ 
 															?>
 
-															<input type="checkbox" name="sms_notification" id="sms_notification" checked="checked" >
+															<input type="checkbox" disabled="disabled" name="sms_notification" id="sms_notification" checked="checked" >
 
 														<?php } else { ?>
 															<input type="checkbox" name="sms_notification" id="sms_notification" >
