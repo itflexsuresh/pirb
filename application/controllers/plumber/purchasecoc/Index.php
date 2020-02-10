@@ -414,6 +414,6 @@ td {
 
 	public function notify(){
 		$this->session->set_flashdata('COC Purchase Sucessfully.');
-		redirect('plumber/registration/index');
+		redirect('plumber/profile/Index');
 	}
 }
