@@ -119,7 +119,7 @@ public function CocorderType()
 		{
  
 		  $postData = $this->input->post();
-
+print_r($postData);die;
 		  $this->load->model('Coc_Ordermodel');
 
 		  if($postData['type'] == 3)
