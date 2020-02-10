@@ -436,8 +436,7 @@ function search_func(value)
 			$("#reseller_suggestion").html(data);
 			$("#plumber_name").css("background","#FFF");
 			$("#reseller_name").css("background","#FFF");
-
-		
+	
         }
     });
 }
