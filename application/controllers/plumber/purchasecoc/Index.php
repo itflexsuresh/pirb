@@ -198,7 +198,7 @@ class Index extends CC_Controller
 
 		 	$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
 
-		 	$orders = $this->db->select('*')->from('coc_orders')->where(['user_id' => $userid])->get()->row_array();
+		 	$orders = $this->db->select('*')->from('coc_orders')->where(['user_id' => $userid])->order_by('id','DESC')->get()->row_array();
 		 	
 		 	 $array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}'];
 
