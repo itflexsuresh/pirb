@@ -401,6 +401,7 @@ td {
 
 		 		$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body,$filePath.$pdfFilePath);
 		 	}
+			 
 			redirect('plumber/purchasecoc/index/notify');
 		 }
 		
@@ -412,7 +413,7 @@ td {
 	}
 
 	public function notify(){
-		echo "Your Payement Sucessfully Done.";
+		$this->session->set_flashdata('COC Purchase Sucessfully.');
 		redirect('plumber/registration/index');
 	}
 }
