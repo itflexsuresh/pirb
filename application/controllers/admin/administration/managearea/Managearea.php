@@ -29,6 +29,7 @@ class Managearea extends CC_Controller
 				if($data) $message = 'Managearea Type '.(($id=='') ? 'created' : 'updated').' successfully.';
 			}else{
 				$data 			= 	$this->Managearea_Model->changestatus($requestData);
+				
 				$message		= 	'Managearea Type deleted successfully.';
 			}
 
@@ -57,8 +58,8 @@ class Managearea extends CC_Controller
 			foreach($results as $result){
 				$totalrecord[] = 	[
 										'name' 		=> 	$result['name'],
-										'city' 		=> 	$result['city_name'],
-										'province'  =>  $result['province_name'],
+										'city_id' 		=> 	$result['city_name'],
+										'province_id'  =>  $result['province_name'],
 										'action'	=> 	'
 															<div class="table-action">
 																<a href="'.base_url().'admin/administration/managearea/managearea/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
