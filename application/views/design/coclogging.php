@@ -132,8 +132,8 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 								<td style="text-align: center;">1</td>
 								<td style="text-align: center;">
 									<div class="custom-control custom-checkbox">
-			                            <input type="checkbox" class="custom-control-input" id="induction_completed">
-			                            <label class="custom-control-label" for="induction_completed"></label>
+			                            <input type="checkbox" class="custom-control-input" id="checkbox_1">
+			                            <label class="custom-control-label" for="checkbox_1"></label>
 		                        	</div>
 								</td>
 							</tr>
@@ -142,8 +142,8 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 								<td style="text-align: center;">2</td>
 								<td style="text-align: center;">
 									<div class="custom-control custom-checkbox">
-			                            <input type="checkbox" class="custom-control-input" id="induction_completed">
-			                            <label class="custom-control-label" for="induction_completed"></label>
+			                            <input type="checkbox" class="custom-control-input" id="checkbox_2">
+			                            <label class="custom-control-label" for="checkbox_2"></label>
 		                        	</div>
 								</td>
 							</tr>
@@ -161,8 +161,8 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 								<td style="text-align: center;">4</td>
 								<td style="text-align: center;">
 									<div class="custom-control custom-checkbox">
-			                            <input type="checkbox" class="custom-control-input" id="induction_completed">
-			                            <label class="custom-control-label" for="induction_completed"></label>
+			                            <input type="checkbox" class="custom-control-input" id="checkbox_3">
+			                            <label class="custom-control-label" for="checkbox_3"></label>
 		                        	</div>
 								</td>
 							</tr>
@@ -171,8 +171,8 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 								<td style="text-align: center;">8</td>
 								<td style="text-align: center;">
 									<div class="custom-control custom-checkbox">
-			                            <input type="checkbox" class="custom-control-input" id="induction_completed">
-			                            <label class="custom-control-label" for="induction_completed"></label>
+			                            <input type="checkbox" class="custom-control-input" id="checkbox_4">
+			                            <label class="custom-control-label" for="checkbox_4"></label>
 		                        	</div>
 								</td>
 							</tr>
@@ -232,7 +232,7 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 									<img src="<?php echo ($file1!='') ? $filepath.$file1 : base_url().'assets/images/profile.jpg'; ?>" class="document_image" width="100">
 								</div>
 								<input type="file" id="file" class="document_file">
-								<label for="file" class="choose_file">Choose File</label>
+								<label for="file" class="choose_file">Add Images</label>
 								<input type="hidden" name="image1" class="document" value="<?php echo $file1; ?>">
 								<p>(Image/File Size Smaller than 5mb)</p>
 							</div>
@@ -241,6 +241,13 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 						<div class="col-md-6">
 							<h4 class="card-title add_top_value">Installation Images</h4>
 							<div class="form-group">
+								<div>
+									<img src="<?php echo ($file1!='') ? $filepath.$file1 : base_url().'assets/images/profile.jpg'; ?>" class="document_image" width="100">
+								</div>
+								<input type="file" id="file" class="document_file">
+								<label for="file" class="choose_file">Add Images</label>
+								<input type="hidden" name="image1" class="document" value="<?php echo $file1; ?>">
+								<p>(Image/File Size Smaller than 5mb)</p>
 							</div>
 						</div>
 					</div>
@@ -256,8 +263,8 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 								<td style="text-align: center;">
 									<div class="table-action">
 										<div class="custom-control custom-radio">
-					                        <input type="radio" id="approve" name="approve" class="custom-control-input">
-					                        <label class="custom-control-label" for="approve"></label>
+					                        <input type="radio" id="custom_radio" name="status" class="custom-control-input">
+					                        <label class="custom-control-label" for="custom_radio"></label>
 					                    </div>
 									</div>	
 								</td>
@@ -267,8 +274,8 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 								<td style="text-align: center;">
 									<div class="table-action">
 										<div class="custom-control custom-radio">
-					                        <input type="radio" id="approve" name="approve" class="custom-control-input">
-					                        <label class="custom-control-label" for="approve"></label>
+					                        <input type="radio" id="custom_radio_1" name="status" class="custom-control-input">
+					                        <label class="custom-control-label" for="custom_radio_1"></label>
 					                    </div>
 									</div>	
 								</td>
