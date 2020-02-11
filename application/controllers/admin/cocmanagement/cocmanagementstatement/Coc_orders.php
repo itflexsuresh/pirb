@@ -8,6 +8,11 @@ class Coc_Orders extends CC_Controller
 		parent::__construct();
 		$this->load->model('Coc_Ordermodel');
 		$this->load->model('CC_Model');
+		$this->load->model('Rates_Model');
+		$this->load->model('Systemsettings_Model');
+		$this->load->model('Plumber_Model');
+		$this->load->model('Coc_Model');
+
 	}
 	
 	public function index()
@@ -15,27 +20,10 @@ class Coc_Orders extends CC_Controller
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
 
-//echo '<pre>';print_r($requestData ); die;
+					//echo '<pre>';print_r($requestData ); die;
 
-				$this->form_validation->set_rules('created_at', '* Date','required');
-				// $this->form_validation->set_rules('inv_id', '* Invoice No','required');
-				$this->form_validation->set_rules('purchaser_type', '* Plumber or Reseller','required');
-				$this->form_validation->set_rules('plumber_name', '* Fill name','required');
-				$this->form_validation->set_rules('reseller_name', '* Fill name','required');
-				$this->form_validation->set_rules('quantity', '* No of Coc','required');
-				//$this->form_validation->set_rules('coc_type', '* Coc Type is','required');
-				//$this->form_validation->set_rules('delivery_type', '* Delivary Type','required');
-				
-				$this->form_validation->set_rules('status', '* Payment Status','required');
-				$this->form_validation->set_rules('internal_inv', '* Internal Invoice','required');
-				$this->form_validation->set_rules('tracking_no', '* Tracking No is','required');
-				
-				if($this->form_validation->run() != FALSE)
-				{
-					
-			//echo '<pre>';print_r($requestData ); die;
 					$data 				=  	$this->Coc_Ordermodel->adminadd($requestData);			
-				}
+				
 	}
 
 		$userid 					=	$this->getUserID();
@@ -44,6 +32,21 @@ class Coc_Orders extends CC_Controller
 		$pagedata['province'] 		= 	$this->getProvinceList();		
 		$pagedata['userid']			= 	$userid;
 		$pagedata['userdata']		= 	$userdata;
+		$userdata1					= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
+		$pagedata['userid']			= 	$userid;
+		$pagedata['userdata']		= 	$userdata;
+		$pagedata['userdata1']		= 	$userdata1;
+		$pagedata['username']		= 	$userdata1;
+		$pagedata['deliverycard']	= 	$this->config->item('purchasecocdelivery');
+		$pagedata['coctype']		= 	$this->config->item('coctype');
+		$pagedata['settings']		= 	$this->Systemsettings_Model->getList('row');
+		$pagedata['logcoc']			=	$this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => '1']);
+		$pagedata['cocpaperwork']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocpaperwork')]);
+		$pagedata['cocelectronic']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocelectronic')]);
+		$pagedata['postage']		= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('postage')]);
+		$pagedata['couriour']		= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('couriour')]);
+		$pagedata['collectedbypirb']= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('collectedbypirb')]);
+
 		$data['plugins']			= 	['validation', 'datepicker','datatables', 'datatablesresponsive', 'sweetalert'];
 
 		$pagedata['result'] 		= $this->Coc_Ordermodel->getCocorderList('row', ['status' => ['0','1']]);
@@ -139,11 +142,9 @@ public function cocorderType()
 			<ul id="name-list">
 			<?php
 			foreach($data as $key=>$val) {
-				$name = $val["name"];
-				if(isset($val["surname"]))
-					$name = $name.' '.$val["surname"];
+				$name = $val["name"].' '.$val["surname"];
 			?>
-			<li onClick="selectuser('<?php echo $val["name"]; ?>','<?php echo $val["id"]; ?>','<?php echo $val["coc_purchase_limit"]; ?>');"><?php echo $name; ?></li>
+				<li onClick="selectuser('<?php echo $name; ?>','<?php echo $val["id"]; ?>','<?php echo $val["coc_purchase_limit"]; ?>');"><?php echo $name; ?></li>
 			<?php } ?>
 			</ul>
 			<?php } 

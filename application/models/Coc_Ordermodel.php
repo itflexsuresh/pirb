@@ -4,7 +4,6 @@ class Coc_Ordermodel extends CC_Model
 {
 	public function getCocorderList($type, $requestdata){
 
-		//print_r($requestdata);die;
 		$this->db->select('t1.*,t2.name,t2.surname,t3.type, t3.address');
 		$this->db->from('coc_orders t1');
 		$this->db->join('users_detail t2', 't1.user_id=t2.user_id', 'left');
@@ -23,8 +22,7 @@ class Coc_Ordermodel extends CC_Model
 			$searchvalue = $requestdata['search']['value'];
 			$this->db->like('name', $searchvalue);
 		}
-		
-		 			
+			 			
 		if ($type=='count') {
 			$result = $this->db->count_all_results();
 		}
@@ -39,117 +37,62 @@ class Coc_Ordermodel extends CC_Model
 
 	public function adminadd($data){
 
-		// if(isset($data['created_at'])) 		$requestdata['created_at'] 		= date('Y-m-d H:i:s');
-		if(isset($data['created_at'])){ 
-			$created_at 	= date('Y-m-d H:i:s');			
-			$requestdata['created_at'] 	= $created_at;
-			$requestdata1['created_at'] 	= $created_at;
-		}
-
-		// if(isset($data['user_id'])) 		$requestdata['user_id'] 		= $data['user_id'];
-		if(isset($data['user_id'])){ 
-			$user_id 	= $data['user_id'];			
-			$requestdata['user_id'] 	= $user_id;
-			$requestdata1['user_id'] 	= $user_id;
-		}
 
 
-		//if(isset($data['coc_type'])) 		$requestdata['type'] 		= $data['coc_type'];
-		if(isset($data['coc_type'])){ 
-			$coc_type 	= $data['coc_type'];			
-			$requestdata['type'] 	= $coc_type;
-			$requestdata1['coc_type'] 	= $coc_type;
-		}
+		if(isset($data['created_at'])) 	    $requestdata['created_at'] 	= date('Y-m-d H:i:s', strtotime($data['created_at']));
+
+		if(isset($data['user_id']))			$requestdata['user_id'] 	= $data['user_id'];	
+
+		if(isset($data['coc_type'])) 		$requestdata['type'] 		= $data['coc_type'];
+
+		if(isset($data['delivery_type'])) 	$requestdata['delivery_type'] 	= $data['delivery_type'];
+
+		if(isset($data['status'])) 			$requestdata['status'] 		= $data['status'];
 		
-		//if(isset($data['delivery_type'])) 	$requestdata['delivery_type'] 	= $data['delivery_type'];
-		if(isset($data['delivery_type'])){ 
-			$delivery_type 	= $data['delivery_type'];			
-			$requestdata['delivery_type'] 	= $delivery_type;
-			$requestdata1['delivery_type'] 	= $delivery_type;
-		}
+		if(isset($data['internal_inv'])) 	$requestdata['internal_inv'] = $data['internal_inv'];
+
+		if(isset($data['totaldue'])) 		$requestdata['total_cost'] 	 = $data['totaldue'];
+
+		if(isset($data['tracking_no'])) 	$requestdata['tracking_no']  = $data['tracking_no'];
+
 		
-
-		//if(isset($data['status'])) 			$requestdata['status'] 			= $data['status'];
-		if(isset($data['status'])){ 
-			$status 	= $data['status'];			
-			$requestdata['status'] 	= $status;
-			$requestdata1['status'] 	= $status;
-		}
 		
-		//if(isset($data['internal_inv'])) 	$requestdata['internal_inv'] 	= $data['internal_inv'];
-
-		if(isset($data['internal_inv'])){ 
-			$internal_inv 	= $data['internal_inv'];			
-			$requestdata['internal_inv'] 	= $internal_inv;
-			$requestdata1['internal_inv'] 	= $internal_inv;
-		}
-
-		//if(isset($data['tracking_no'])) 	$requestdata['tracking_no'] 	= $data['tracking_no'];
-
-		if(isset($data['tracking_no'])){ 
-			$tracking_no 	= $data['tracking_no'];			
-			$requestdata['tracking_no'] 	= $tracking_no;
-			$requestdata1['tracking_no'] 	= $tracking_no;
-		}
-
-		//if(isset($data['updated_at'])) 		$requestdata['updated_at'] 		= date('Y-m-d H:i:s');
-		if(isset($data['updated_at'])){ 
-			$updated_at 	= date('Y-m-d H:i:s');	
-			$requestdata['updated_at'] 	= $updated_at;
-			$requestdata1['updated_at'] 	= $updated_at;
-		}
+		
+		// $requestdata1['coc_type'] 	= $coc_type;
+		
+		.0
+//print_r($requestdata);die;
 		if(isset($requestdata)){
 
-			// if($requestdata['user_id']==''){
+			
 			$result1 = $this->db->insert('invoice', $requestdata);
 
 			$inv_id 		= $this->db->insert_id();
 
-			
-			// if(isset($data['coc_type'])) 		$requestdata1['coc_type'] 		= $data['coc_type'];
-
+unset($requestdata['type']);
+unset($requestdata['total_cost']);
+			$requestdata1=$requestdata;
+		
 			$requestdata1['inv_id']=$inv_id;
+
+			if(isset($data['coc_type'])) 		$requestdata1['coc_type'] 		= $data['coc_type'];
 			
 			if(isset($data['quantity'])) 		$requestdata1['quantity'] 		= $data['quantity'];
 
+			if(isset($data['coc_cost'])) 		$requestdata1['cost_value'] 	= $data['coc_cost'];
+
+			if(isset($data['cost_f_delivery'])) $requestdata1['delivery_cost'] 	= $data['cost_f_delivery'];
+
+			if(isset($data['vat'])) 		    $requestdata1['vat'] 			= $data['vat'];
+
+			if(isset($data['totaldue'])) 		$requestdata1['total_due'] 		= $data['totaldue'];
+
 			$result = $this->db->insert('coc_orders', $requestdata1);
 
-			// }else{
-			// 	$result  = $this->db->update('coc_orders', $requestdata, ['user_id' => $requestdata['user_id']]);
-			// }
 		}
-
-// 		if(isset($data['created_at'])) 		$requestdata['created_at'] 		= date('Y-m-d H:i:s');
-
-// 		if(isset($data['inv_id'])) 			$requestdata['inv_id'] 			= $data['inv_id'];
-
-// 		if(isset($data['user_id'])) 		$requestdata['user_id'] 		= $data['user_id'];
-
-// 		if(isset($data['coc_type'])) 		$requestdata['coc_type'] 		= $data['type'];
-
-// 		if(isset($data['delivery_type'])) 	$requestdata['delivery_type'] 	= $data['delivery_type'];
-
-// 		if(isset($data['status'])) 			$requestdata['status'] 			= $data['status'];
-
-// 		if(isset($data['internal_inv'])) 	$requestdata['internal_inv'] 	= $data['internal_inv'];
-// 		if(isset($data['tracking_no'])) 	$requestdata['tracking_no'] 	= $data['tracking_no'];
-
-// 		if(isset($data['updated_at'])) 		$requestdata['updated_at'] 		= date('Y-m-d H:i:s');
-
-// 		if(isset($requestdata)){
-
-// 			 if($requestdata['user_id']==''){
-// 				$result = $this->db->insert('invoice', $requestdata);
-// 		}
-// }
-		// $result = $this->db->insert('coc_orders',$requestdata);
-		// if ($result) {
-		// 	return '1';
-		// }else{
-		// 	return '0';
-		// }
 	}
 
+	
 	public function autosearchPlumber($postData){
 		
 		$this->db->select('u1.name,u1.surname,u2.id,u1.coc_purchase_limit');
@@ -181,5 +124,7 @@ class Coc_Ordermodel extends CC_Model
 			
 		return $result;
 
-	}	
+	}
+
+	
 }
