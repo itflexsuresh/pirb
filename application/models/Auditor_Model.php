@@ -43,6 +43,61 @@ class Auditor_Model extends CC_Model
 		
 		return $result;	
 	}
+	
+
+	// Admin Auditor 
+
+	public function getAuditorList($type, $requestdata=[]){
+		$users 			= 	[ 
+								'u.id','u.email','u.formstatus','u.status' ,'u.password_raw'
+							];
+		$usersdetail 	= 	[ 
+								'ud.id as usersdetailid','ud.user_id as usersid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.company','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit', 'ud.vat_vendor'
+							];
+
+		$this->db->select('
+			'.implode(',', $users).',
+			'.implode(',', $usersdetail).',
+			concat_ws("@-@", ua1.id, ua1.user_id, ua1.address, ua1.suburb, ua1.city, ua1.province, ua1.postal_code, ua1.type)  as physicaladdress,
+			concat_ws("@-@", ua2.id, ua2.user_id, ua2.address, ua2.suburb, ua2.city, ua2.province, ua2.postal_code, ua2.type)  as postaladdress,
+			concat_ws("@-@", ua3.id, ua3.user_id, ua3.address, ua3.suburb, ua3.city, ua3.province, ua3.postal_code, ua3.type)  as billingaddress');
+
+		$this->db->from('users u');
+		$this->db->join('users_detail ud', 'ud.user_id=u.id', 'left');
+		$this->db->join('users_address ua1', 'ua1.user_id=u.id and ua1.type="1"', 'left');
+		$this->db->join('users_address ua2', 'ua2.user_id=u.id and ua2.type="2"', 'left');
+		$this->db->join('users_address ua3', 'ua3.user_id=u.id and ua3.type="3"', 'left');		
+		
+		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);
+		if(isset($requestdata['type'])) 				$this->db->where('u.type', $requestdata['type']);
+
+		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
+			$this->db->limit($requestdata['length'], $requestdata['start']);
+		}
+		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
+			$column = ['ud.name', 'ud.home_phone', 'ud.surname', 'ud.mobile_phone'];
+			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+		}
+		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
+			$searchvalue = $requestdata['search']['value'];
+			$this->db->like('ud.name', $searchvalue);
+			$this->db->or_like('ud.surname', $searchvalue);
+			$this->db->or_like('ud.home_phone', $searchvalue);
+			$this->db->or_like('ud.mobile_phone', $searchvalue);
+		}
+
+		if($type=='count'){
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		return $result;
+
+	}
 
 	public function action($data)
 	{
@@ -55,11 +110,17 @@ class Auditor_Model extends CC_Model
 		if(isset($data['email'])) 				$request1['email'] 				= $data['email'];
 		if(isset($data['password'])) 			$request1['password_raw'] 		= $data['password'];
 		if(isset($data['password'])) 			$request1['password'] 			= md5($data['password']);
+
 		
 		if(isset($request1)){
 			if($id==''){
+				$request1['type']	 		= 5;
+				$request1['created_at']		= 	date('Y-m-d H:i:s');
+
 				$userdata = $this->db->insert('users', $request1);
+				$id = $this->db->insert_id();
 			}else{
+				$request1['updated_at']		= 	date('Y-m-d H:i:s');
 				$userdata = $this->db->update('users', $request1, ['id' => $id]);
 			}
 		}
@@ -114,7 +175,6 @@ class Auditor_Model extends CC_Model
 		if(isset($data['account_no'])) 				$request4['account_no'] 	= $data['account_no'];
 		if(isset($data['account_type'])) 			$request4['account_type'] 	= $data['account_type']; 
 		
-		        
 
 		if(isset($request4)){
 			$request4['user_id'] 	= $id;
