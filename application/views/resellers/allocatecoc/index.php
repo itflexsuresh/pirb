@@ -1,6 +1,7 @@
 <?php
 //Reseller View File
 // print_r($result);
+
 $id = isset($result['id']) ? $result['id'] : '';
 $search_reg_no = isset($result['registration_no']) ? $result['registration_no'] : '';
 $name = isset($result['name']) ? $result['name'] : '';
@@ -25,6 +26,14 @@ if(isset($id) && $id >0)
 
 $startrange= isset($result['startrange']) ? $result['startrange'] : '';
 $endrange= isset($result['endrange']) ? $result['endrange'] : '';
+
+if(isset($id) && $id >0)
+{
+	if($user_id_hide == '1')
+		$searchbox = $name;
+	else
+		$searchbox = $search_reg_no;
+}
 ?>
 
 <div class="row page-titles">
@@ -51,12 +60,18 @@ $endrange= isset($result['endrange']) ? $result['endrange'] : '';
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-group">
-								<label>Plumber / Reg Number</label>
+								<label>Plumber / Reg Number</label>  
+								
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
-								<input type="text" class="form-control"  name="search_reg_no" id="search_reg_no"  value="<?php echo $search_reg_no;?>" placeholder="Type in Plumbers reg number; name or surname">
+								<input type="search" autocomplete="off" class="form-control"  name="search_reg_no" id="search_reg_no"  value="<?php if(isset($id) && $id >0){ echo $searchbox; }?>" placeholder="Type in Plumbers reg number; name or surname" onkeyup="search_func(this.value);">
+								<input type="hidden" id="user_id_hide" name="user_id_hide" value="0">
+								<div id="plumber_suggesstion" style="display: none;"></div>
+								<!-- <div class="search_icon">
+									<i class="fa fa-search" aria-hidden="true"></i>
+								</div> -->
 							</div>
 						</div>
 						<div class="col-md-5">
@@ -257,7 +272,36 @@ $endrange= isset($result['endrange']) ? $result['endrange'] : '';
 
 <script type="text/javascript">
 
+var req = null;
+function search_func(value)
+{
+    if (req != null) req.abort();
+    
+    var type1 = 3;
+    req = $.ajax({
+        type: "POST",
+        url: '<?php echo base_url()."resellers/allocatecoc/Index/userDetails"; ?>',
+        data: {'search_keyword' : value,type:type1},        
+        beforeSend: function(){
+			// $("#search_reg_no").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
+		},
+        success: function(data){  
+        	$("#plumber_suggesstion").html('');
+        	$("#plumber_suggesstion").show();      	
+			$("#plumber_suggesstion").html(data);
+			$("#search_reg_no").css("background","#FFF");
+        }
+    });
+}
+
+function selectuser(val,id,limit) {
+	$("#search_reg_no").val(val);
+	$("#user_id_hide").val(id);
+	$("#plumber_suggesstion").hide();
+}
+
 $(function(){
+
 	validation(
 		'.form',
 		{	

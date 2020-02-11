@@ -17,14 +17,15 @@ class Index extends CC_Controller
 		if($this->input->post()){						
 			$requestData 	= 	$this->input->post();
 
-			if(isset($requestData['submit'])=='submit'){
-				$pagedata['result'] 	=  $this->Plumber_Model->getList('row',$requestData);				
-				if(isset($pagedata['result']) && count($pagedata['result']) > 0){}
-				else{
-					$requestData1['customsearch'] = 'listsearch2';
-					$requestData1['name'] = $requestData['search_reg_no'];
-					$requestData1['surname'] = $requestData['search_reg_no'];					
+			if(isset($requestData['submit'])=='submit'){								
+				if($requestData['user_id_hide'] > 0){
+					$requestData1['id'] = $requestData['user_id_hide'];
 					$pagedata['result'] 	=  $this->Plumber_Model->getList('row',$requestData1);
+					$pagedata['user_id_hide'] = '1';
+				}
+				else{
+					$pagedata['user_id_hide'] = '0';
+					$pagedata['result'] 	=  $this->Plumber_Model->getList('row',$requestData);
 				}
 				$resultid['user_id'] = $pagedata['result']['id'];						
 				$pagedata['array_orderqty']	=  $this->Resellers_allocatecoc_Model->getqty('row',$resultid);
@@ -129,5 +130,30 @@ class Index extends CC_Controller
 			
 		}
 	}
+
+	public function userDetails()
+	{
+
+		$postData = $this->input->post();		  
+		if($postData['type'] == 3)
+		{
+			$data 	=   $this->Resellers_allocatecoc_Model->autosearchPlumber($postData);
+		}
+	  	// echo json_encode($data); exit;
+
+		if(!empty($data)) {
+		?>
+			<ul id="name-list">
+			<?php
+			foreach($data as $key=>$val) {
+				$name = $val["name"];
+				if(isset($val["surname"]))
+					$name = $name.' '.$val["surname"];
+			?>
+			<li onClick="selectuser('<?php echo $val["name"]; ?>','<?php echo $val["id"]; ?>','<?php echo $val["coc_purchase_limit"]; ?>');"><?php echo $name; ?></li>
+			<?php } ?>
+			</ul>
+		<?php } 
+		}
 	
 }
