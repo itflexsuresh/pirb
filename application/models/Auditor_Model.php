@@ -114,10 +114,12 @@ class Auditor_Model extends CC_Model
 		
 		if(isset($request1)){
 			if($id==''){
-				$request1['type']	 		= 5;
+				$request1['type']	 		= '5';
 				$request1['created_at']		= 	date('Y-m-d H:i:s');
 
+
 				$userdata = $this->db->insert('users', $request1);
+				//print_r($request1);die;
 				$id = $this->db->insert_id();
 			}else{
 				$request1['updated_at']		= 	date('Y-m-d H:i:s');

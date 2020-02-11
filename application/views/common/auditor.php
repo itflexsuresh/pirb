@@ -1,10 +1,11 @@
 <?php
 // echo "<pre>";
-// print_r($result);die;
+// print_r($audit_status);die;
 
 	$id 			= isset($result['id']) ? $result['id'] : '';
 	$email  		= isset($result['email']) ? $result['email'] : set_value ('email');
 	$password  		= isset($result['password_raw']) ? $result['password_raw'] : set_value ('password_raw');
+	$allocation_number = isset($result['password_raw']) ? $result['password_raw'] : set_value ('password_raw');
 	
 	$userdetailid 	= isset($result['userdetailid']) ? $result['userdetailid'] : '';
 	$name 			= isset($result['name']) ? $result['name'] : set_value ('name');
@@ -64,8 +65,31 @@
 				<form class="form" method="post" enctype="multipart/form-data">
 
 					<h4 class="card-title">My Profile</h4>
+					<?php
+									$i = 1;							
+									foreach($audit_status as $key => $valse){
+										if ($i == 1) {
+											$check  = 'checked="checked"';
+										}else{
+											$check  = '';
+										}
+										
+										?>
+										<div class="row">
+										<div class="col-md-3">
+											<div class="custom-control custom-radio">
+												<input type="radio" id="<?php echo $key.'-'.$valse; ?>" name="coc_type" <?php echo $check; ?> value="<?php echo $key; ?>" class="coc_type custom-control-input">
+												<label class="custom-control-label" for="<?php echo $key.'-'.$valse; ?>"><?php echo $valse; ?></label>
+											</div>
+										</div>
+										<?php 
+										$i++;
+									}
+									?>
+								</div>
 					<div class="row">
 						<div class="col-md-12">
+
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
@@ -243,6 +267,13 @@
 							</div>
 						</div>
 					</div>
+					<h4 class="card-title add_top_value">My Auditting Areas</h4>
+					<div class="col-md-6">
+							<div class="form-group">
+								<label>Maximum number of Open COC Allocations allowed:</label>
+								<input type="number" class="form-control" name="allowed" value="<?php echo $allocation_number; ?>">
+							</div>
+						</div>
 					
 					<h4 class="card-title add_top_value">My Auditting Areas</h4>
 					<div class="row">
