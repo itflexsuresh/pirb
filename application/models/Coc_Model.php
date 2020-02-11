@@ -293,6 +293,8 @@ class Coc_Model extends CC_Model
 		}
 	}
 	
+	// Coc Log
+	
 	public function getCOCLog($type, $requestdata=[])
 	{ 
 		$this->db->select('*');
