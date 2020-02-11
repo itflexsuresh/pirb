@@ -295,7 +295,8 @@ class CC_Controller extends CI_Controller
 
 		$pagedata['notification'] = $this->getNotification();
 		$pagedata['provincelist'] = $this->getProvinceList();
-
+		$pagedata['audit_status'] = $this->config->item('audits_status1');
+		
 		$data['plugins'] = ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','inputmask'];
 		$data['content'] = $this->load->view('common/auditor', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
