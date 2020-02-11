@@ -15,6 +15,7 @@ class CC_Controller extends CI_Controller
 		$this->load->model('Rates_Model');
 		$this->load->model('Comment_Model');
 		$this->load->model('Systemsettings_Model');
+		$this->load->model('Auditor_Model');
 		
 		$this->load->library('pdf');
 		$this->load->library('phpqrcode/qrlib');
