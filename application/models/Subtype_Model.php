@@ -8,8 +8,9 @@ class Subtype_Model extends CC_Model
 		$this->db->from('installationsubtype as ist');
 		$this->db->join('installationtype as it', 'it.id = ist.installationtype_id', 'left');
 		
-		if(isset($requestdata['id'])) 		$this->db->where('ist.id', $requestdata['id']);
-		if(isset($requestdata['status']))	$this->db->where_in('ist.status', $requestdata['status']);
+		if(isset($requestdata['id'])) 						$this->db->where('ist.id', $requestdata['id']);
+		if(isset($requestdata['installationtypeid'])) 		$this->db->where('ist.installationtype_id', $requestdata['installationtypeid']);
+		if(isset($requestdata['status']))					$this->db->where_in('ist.status', $requestdata['status']);
 		
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);

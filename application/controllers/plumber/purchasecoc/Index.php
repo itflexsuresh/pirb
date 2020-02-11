@@ -242,6 +242,8 @@ class Index extends CC_Controller
         	$paid_status = "UNPAID";
         	
         }
+        $stringaarr = explode("@@@",$rowData['areas']);
+        $addrpirb = explode("@@@",$rowData2['provincesettings']);
 
 				$html = '<!DOCTYPE html>
 <html>
@@ -272,11 +274,11 @@ td {
 				<div style="border: 1px solid; width: 70%; margin-top: 40px; margin-left: 20px;">
 					<p style="border-bottom: 1px solid #000; margin-top: 10px; padding: 0 10px 10px 10px; font-weight: 600;">Company Details</p>
 					<p>'.$rowData2['address'].'</p>
+					<p>'.$addrpirb[1].'</p>
 					<p>'.$rowData2['suburb'].'</p>
 					<p>'.$rowData2['city'].'</p>
-					<p>'.$rowData1['email'].'</p>
 					<p>'.$rowData1['work_phone'].'</p>
-					<p>'.$rowData1['email'].'</p>
+					<p>'.$rowData1['email'].'</p>					
 					<p>'.$rowData1['reg_no'].'</p>
 					<p>'.$rowData1['vat_no'].'</p>
 				</div>
@@ -292,8 +294,9 @@ td {
 				<div style="border: 1px solid; width: 70%; margin-top: 40px; margin-left: 20px;">
 					<p style="border-bottom: 1px solid #000; margin-top: 10px; padding: 0 10px 10px 10px; font-weight: 600;">Billing Details</p>
 					<p>'.$rowData['address'].'</p>
-					<p>'.$rowData['suburb'].'</p>
-					<p>'.$rowData['city'].'</p>
+					<p>'.$stringaarr[6].'</p>
+					<p>'.$stringaarr[5].'</p>
+					<p>'.$stringaarr[4].'</p>
 					<p>'.$rowData['email2'].'</p>
 					<p>'.$rowData['reg_no'].'</p>
 					<p>'.$rowData['vat_no'].'</p>
@@ -388,17 +391,22 @@ td {
 				$output = $this->pdf->output();
 				file_put_contents($filePath.$pdfFilePath, $output);
 				//$this->pdf->stream($pdfFilePath);
+			 $cocTypes = $orders['coc_type'];
+			 $mail_date = date("d-m-Y", strtotime($orders['created_at']));
+			  
 		 	
 		 	 $array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}'];
+			 
 
-			$array2 = [$userdata1['name']." ".$userdata1['surname'], $orders['created_at'], $orders['quantity'], $orders['coc_type']];
+			$array2 = [$userdata1['name']." ".$userdata1['surname'], $mail_date, $orders['quantity'], $this->config->item('coctype')[$cocTypes]];
 
 			$body = str_replace($array1, $array2, $template['email_body']);
 
 		 	if ($template['email_active'] == '1') {
 
-		 		$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body);
+		 		$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body,$filePath.$pdfFilePath);
 		 	}
+			 
 			redirect('plumber/purchasecoc/index/notify');
 		 }
 		
@@ -410,7 +418,7 @@ td {
 	}
 
 	public function notify(){
-		echo "Your Payement Sucessfully Done.";
-		redirect('plumber/registration/index');
+		$this->session->set_flashdata('success','COC Purchase Sucessfully.');
+		redirect('plumber/profile/Index');
 	}
 }

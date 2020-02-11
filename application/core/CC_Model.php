@@ -7,7 +7,7 @@ class CC_Model extends CI_Model
 		parent::__construct();
 	}
 	
-	public function sentMail($to, $subject, $message)
+	public function sentMail($to, $subject, $message,$file='')
 	{
 		$sitename	=	$this->config->item('sitename');
 		
@@ -28,6 +28,8 @@ class CC_Model extends CI_Model
 		$this->email->to($to);
 		$this->email->subject($subject);
 		$this->email->message($message);
+		if($file!="")
+$this->email->attach($file);
 
 
 		if($this->email->send()){

@@ -316,9 +316,9 @@
 
 	$(function(){
 		
-		fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".auditor_image", "./assets/uploads/auditor/<?php echo $userid; ?>/"], ['.auditor_picture', '.auditor_photo', '<?php echo base_url()."assets/uploads/auditor/".$userid; ?>']);
+		fileupload([".auditor_image", "./assets/uploads/auditor/<?php echo $userid; ?>/"], ['.auditor_picture', '.auditor_photo', '<?php echo base_url()."assets/uploads/auditor/".$userid; ?>']);
 	
-		fileupload(["<?php echo base_url('ajax/index/ajaxfileupload'); ?>", ".comp_emb", "./assets/uploads/auditor/<?php echo $userid; ?>/"], ['.comp_photo', '.comp_logo', '<?php echo base_url()."assets/uploads/auditor/".$userid; ?>']);
+		fileupload([".comp_emb", "./assets/uploads/auditor/<?php echo $userid; ?>/"], ['.comp_photo', '.comp_logo', '<?php echo base_url()."assets/uploads/auditor/".$userid; ?>']);
 
 		citysuburb(['<?php echo base_url()."ajax/index/ajaxcity"; ?>', {provinceid : $("#province").val()}, '#city', '<?php echo $city; ?>'], ['<?php echo base_url()."ajax/index/ajaxsuburb"; ?>', {provinceid : $("#province").val(),cityid : '<?php echo $city; ?>'}, '#suburb', '<?php echo $suburb; ?>']);
 

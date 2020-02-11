@@ -805,7 +805,6 @@
 
 var userid		= '<?php echo $userid; ?>';
 var filepath 	= '<?php echo $filepath; ?>';
-var ajaxfileurl	= '<?php echo base_url("ajax/index/ajaxfileupload"); ?>';
 var pdfimg		= '<?php echo $pdfimg; ?>';
 var randno		= '<?php echo mt_rand(0000,9999); ?>';
 
@@ -814,9 +813,9 @@ $(function(){
 	select2('#title, #gender, #racial, #nationality, #othernationality, #homelanguage, #disability, #citizen, #registration_card, #delivery_card, #province1, #city1, #suburb1, #province2, #city2, #suburb2, #province3, #city3, #suburb3, #employment_details, #company_details, #skill_route');
 	datepicker('.dob, .skill_date');
 	inputmask('#home_phone, #work_phone, #mobile_phone', 1);
-	fileupload([ajaxfileurl, ".document_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.document', '.document_image', filepath, pdfimg]);
-	fileupload([ajaxfileurl, ".photo_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.photo', '.photo_image', filepath, pdfimg]);
-	fileupload([ajaxfileurl, ".skill_attachment_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.skill_attachment', '.skill_attachment_image', filepath, pdfimg]);
+	fileupload([".document_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.document', '.document_image', filepath, pdfimg]);
+	fileupload([".photo_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.photo', '.photo_image', filepath, pdfimg]);
+	fileupload([".skill_attachment_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.skill_attachment', '.skill_attachment_image', filepath, pdfimg]);
 	citysuburb(['#province1','#city1', '#suburb1'], ['<?php echo $city1; ?>', '<?php echo $suburb1; ?>'], ['#addcity1', '#addcitysubmit1', '#addsuburb1', '#addsuburbsubmit1']);
 	citysuburb(['#province2','#city2', '#suburb2'], ['<?php echo $city2; ?>', '<?php echo $suburb2; ?>'], ['#addcity2', '#addcitysubmit2', '#addsuburb2', '#addsuburbsubmit2']);
 	citysuburb(['#province3','#city3', '#suburb3'], ['<?php echo $city3; ?>', '<?php echo $suburb3; ?>'], ['#addcity3', '#addcitysubmit3', '#addsuburb3', '#addsuburbsubmit3']);

@@ -32,7 +32,8 @@ class Plumber_Model extends CC_Model
 		$this->db->join('users_address ua3', 'ua3.user_id=u.id and ua3.type="3"', 'left');
 		$this->db->join('users_plumber up', 'up.user_id=u.id', 'left');
 		$this->db->join('users_plumber_skill ups', 'ups.user_id=u.id', 'left');
-		$this->db->join('qualificationroute qr', 'qr.id=ups.skills', 'left');
+		$this->db->join('qualificationroute qr', 'qr.id=ups.skills', 'left'); 
+		
 		
 		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);
 		if(isset($requestdata['type'])) 				$this->db->where('u.type', $requestdata['type']);
@@ -61,6 +62,12 @@ class Plumber_Model extends CC_Model
 				if(isset($requestdata['search_mobile_phone']) && $requestdata['search_mobile_phone']!='') $this->db->like('ud.mobile_phone', $requestdata['search_mobile_phone']);
 				if(isset($requestdata['search_dob']) && $requestdata['search_dob']!='') $this->db->like('ud.dob', date('Y-m-d', strtotime($requestdata['search_dob'])));
 				if(isset($requestdata['search_company_details']) && $requestdata['search_company_details']!='') $this->db->like('up.company_details', $requestdata['search_company_details']);
+			}
+			elseif($requestdata['customsearch']=='listsearch2'){
+				if(isset($requestdata['name'])|| $requestdata['surname']!='') {
+					$this->db->like('ud.name', $requestdata['name']);
+					$this->db->or_like('ud.surname', $requestdata['surname']);
+				}
 			}
 		}
 		

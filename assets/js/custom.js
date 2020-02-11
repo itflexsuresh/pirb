@@ -171,7 +171,7 @@ function editor(selector, validation='', height=300){
 						}
 	});
 }
-
+/*
 function fileupload(data1=[], data2=[]){
 	
 	var selector 	= data1[1];
@@ -212,12 +212,13 @@ function fileupload(data1=[], data2=[]){
 		
 		$(selector).val('');
 	}
-}
+}*/
 
-function fileupload(data1=[], data2=[]){
+function fileupload(data1=[], data2=[], multiple=''){
+	var ajaxurl 	= baseurl()+"ajax/index/ajaxfileupload";
 	
-	var selector 	= data1[1];
-	var extension 	= data1[3] ? data1[3] : ['jpg','jpeg','png'];
+	var selector 	= data1[0];
+	var extension 	= data1[2] ? data1[2] : ['jpg','jpeg','png'];
 	
 	$(document).on('change', selector, function(){
 		var name 		= $(this).val();
@@ -226,10 +227,10 @@ function fileupload(data1=[], data2=[]){
 		if($.inArray(ext, extension) !== -1){
 			var form_data 	= new FormData();
 			form_data.append("file", $(selector)[0].files[0]);
-			form_data.append("path", data1[2]);
+			form_data.append("path", data1[1]);
 			form_data.append("type", extension.join('|'));
 			
-			ajax(data1[0], form_data, fileappend, { contenttype : 1, processdata : 1});
+			ajax(ajaxurl, form_data, fileappend, { contenttype : 1, processdata : 1});
 		}else{
 			$(selector).val('');
 			alert('Supported file format are '+extension.join(','));
@@ -239,21 +240,36 @@ function fileupload(data1=[], data2=[]){
 	function fileappend(data){
 		if(data.file_name && data2.length){
 			var file 		= data.file_name;
-			$(data2[0]).val(file);
 			
 			if(data2[1] && data2[2]){
-				var ext 		= data.file_name.split('.').pop().toLowerCase();
+				var ext = data.file_name.split('.').pop().toLowerCase();
 				
 				if(ext=='jpg' || ext=='jpeg' || ext=='png' || ext=='tif' || ext=='tiff'){
-					$(data2[1]).attr('src', data2[2]+'/'+file);
+					var filesrc = data2[2]+'/'+file;
 				}else if(ext=='pdf'){
-					$(data2[1]).attr('src', data2[3]);
+					var filesrc = data2[3];
+				}
+			}
+			
+			if(multiple==''){
+				$(data2[0]).val(file);
+				
+				if(filesrc){
+					$(data2[1]).attr('src', filesrc);
+				}				
+			}else{
+				if(filesrc){
+					$(data2[1]).append('<div class="multipleupload"><input type="hidden" value="'+file+'" name="'+data2[0]+'"><img src="'+filesrc+'" width="100"><i class="fa fa-times"></i></div>');
 				}
 			}
 		}
 		
 		$(selector).val('');
 	}
+	
+	$(document).on('click', '.multipleupload i', function(){
+		$(this).parent().remove();
+	})
 }
 
 function citysuburb(data1=[], data2=[], data3=[]){
@@ -262,7 +278,7 @@ function citysuburb(data1=[], data2=[], data3=[]){
 	var cityactionurl 		= baseurl()+"ajax/index/ajaxcityaction";
 	var suburbactionurl 	= baseurl()+"ajax/index/ajaxsuburbaction";
 	
-	var cityappend		= data1[1].substr(1)+'append';
+	var cityappend		= (data1[1]) ? data1[1].substr(1)+'append' : '';
 	var suburbappend	= (data1[2]) ? data1[2].substr(1)+'append' : '';
 	
 	var citydata 		= { provinceid : $(data1[0]).val() };
@@ -413,5 +429,44 @@ function citysuburb(data1=[], data2=[], data3=[]){
 				$(data3[2]).parent().append('<p class="tagline">Suburb Already Exists.</p>');
 			}
 		}
+	}
+}
+
+function subtype(data1=[], data2=[]){
+	var subtypeurl 		= baseurl()+"ajax/index/ajaxsubtype";
+	var subtypedata 	= { installationtypeid : $(data1[0]).val() };
+	
+	ajax(subtypeurl, subtypedata, subtypefn)
+
+	$(document).on('change', data1[0], function(){
+		subtypedata.installationtypeid = $(this).val();
+		ajax(subtypeurl, subtypedata, subtypefn)
+	})
+
+	function subtypefn(data){
+		$('.subtypeappend').remove();
+
+		if(data.status=='1'){
+			var append = [];
+			$(data.result).each(function(i, v){
+				var selected = (data2[0] && data2[0]==v.id) ? 'selected="selected"' : '';
+				append.push('<option value="'+v.id+'" '+selected+' class="subtypeappend">'+v.name+'</option>');
+			})
+
+			$(data1[1]).append(append);
+		}
+	}
+}
+
+function localstorage(type, name, value){
+	console.log(type)
+	console.log(name)
+	console.log(value)
+	if(type=='set'){
+		localStorage.setItem(name, value);
+	}else if(type=='get'){
+		localStorage.getItem(name);
+	}else if(type=='remove'){
+		localStorage.removeItem(name);
 	}
 }
