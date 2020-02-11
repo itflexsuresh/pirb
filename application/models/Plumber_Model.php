@@ -62,6 +62,12 @@ class Plumber_Model extends CC_Model
 				if(isset($requestdata['search_dob']) && $requestdata['search_dob']!='') $this->db->like('ud.dob', date('Y-m-d', strtotime($requestdata['search_dob'])));
 				if(isset($requestdata['search_company_details']) && $requestdata['search_company_details']!='') $this->db->like('up.company_details', $requestdata['search_company_details']);
 			}
+			elseif($requestdata['customsearch']=='listsearch2'){
+				if(isset($requestdata['name'])|| $requestdata['surname']!='') {
+					$this->db->like('ud.name', $requestdata['name']);
+					$this->db->or_like('ud.surname', $requestdata['surname']);
+				}
+			}
 		}
 		
 		$this->db->group_by('u.id');

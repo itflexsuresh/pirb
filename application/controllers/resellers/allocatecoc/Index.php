@@ -18,8 +18,15 @@ class Index extends CC_Controller
 			$requestData 	= 	$this->input->post();
 
 			if(isset($requestData['submit'])=='submit'){
-				$pagedata['result'] 	=  $this->Plumber_Model->getList('row',$requestData);
-				$resultid['user_id'] = $pagedata['result']['id'];				
+				$pagedata['result'] 	=  $this->Plumber_Model->getList('row',$requestData);				
+				if(isset($pagedata['result']) && count($pagedata['result']) > 0){}
+				else{
+					$requestData1['customsearch'] = 'listsearch2';
+					$requestData1['name'] = $requestData['search_reg_no'];
+					$requestData1['surname'] = $requestData['search_reg_no'];					
+					$pagedata['result'] 	=  $this->Plumber_Model->getList('row',$requestData1);
+				}
+				$resultid['user_id'] = $pagedata['result']['id'];						
 				$pagedata['array_orderqty']	=  $this->Resellers_allocatecoc_Model->getqty('row',$resultid);
 
 				$Array_rangeData['coc_status']=['3'];
