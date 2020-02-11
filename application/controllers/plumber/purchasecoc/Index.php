@@ -354,6 +354,7 @@ td {
 					<p>'.$rowData1['bank_name'].'</p>            
 					<p>'.$rowData1['branch_code'].'</p>
 					<p>'.$rowData2['address'].'</p>
+					<p>'.$rowData2['province'].'</p>
 					<p>'.$rowData2['suburb'].'</p>
 					<p>'.$rowData2['city'].'</p>
 				</div>
