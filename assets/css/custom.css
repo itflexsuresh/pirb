@@ -1415,3 +1415,70 @@ i.fa.fa-check {
 	cursor: pointer;
 }
 
+
+
+
+/* media query */
+
+@media only screen and (max-width: 800px) {
+
+    table#id_Card tr, table#id_Card_back tr {
+        width: 100%;
+        display: inline-block;
+        height: auto !important;
+    }
+
+    table#id_Card tr td, table#id_Card_back tr td {
+        width: 100%;
+        display: inline-block;
+        height: auto !important;
+        border: none !important;
+    }
+
+    table#id_Card, table#id_Card_back {
+        table-layout: fixed;
+        width: 100%;
+        height: auto !important;
+        margin-bottom: 30px;
+    }
+
+    #id_Card p.license {
+        position: initial;
+        margin: 0;
+    }
+
+    #id_Card img.id_logo {
+        width: 80%;
+    }
+
+    #id_Card_back tbody {
+        width: 100% !important;
+    }
+
+    p.back_license {transform: none !important;margin: 0 !important;}
+
+    #id_Card p {
+        margin: 0 0 10px 0;
+    }
+
+    #id_Card img.id_admin {
+        width: 70%;
+        margin-left: 0;
+    }
+
+    #id_Card_back p {
+        margin-left: 0 !important;
+        text-align: center;
+    }
+
+    #id_Card_back ul li {
+        text-align: left;
+    }
+
+    #id_Card_back td div {margin-top: 8px;}
+
+    .accordion .card-header button.btn.btn-link:after {
+        right: 8px;
+    }
+
+}
