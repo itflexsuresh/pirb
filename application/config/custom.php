@@ -405,3 +405,8 @@ $config['auditstatus'] 			=		[
 											'3'		=>	'Refix Required',
 											'4'		=>	'Refix Reneged'
 										];
+										
+$config['audits_status1'] 		= 		[
+											'1' => 'Available',
+											'2' => 'Unavailable'
+										];
