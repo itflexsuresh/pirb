@@ -164,26 +164,34 @@ class Renewal_Model extends CC_Model
 	// 		$this->db->update('cpdtypes', ['status' => '0'], ['id' => $value['id']]);
 	// 	}
 	// }
-	public function getCronDate($data)
+	public function getCronDate($id)
 		{
 
-		$userid			= 	$this->getUserID();
-		//$inv_id 			= 	$data['inv_id'];
-		$datetime		= 	date('Y-m-d H:i:s');
-		//$inv_id 		= 	$data['inv_id'];
-		$this->db->select('*');		
-		$this->db->from('invoice');
-		// $this->db->where('date(`created_at`) <', date('Y-m-d'));
-		$this->db->where('created_at <', date('Y-m-d'));
-		$query = $this->db->get()->result_array();
 		
-		foreach ($query as $key => $value) 
+		
+		//$datetime	= 	date('Y-m-d H:i:s');		
+		$this->db->select('created_at');		
+		$this->db->from('users');
+		$this->db->where('id', $id);
+		
+		$query11 = $this->db->get()->result_array();
+		$end_date = date('Y-m-d', strtotime("+11 months", strtotime($query11[0]['created_at'])));
+		//print($end_date); exit;
+		//$query = $this->db->get()->result_array();
+
+		
+
+		$this->db->select('amount');
+		$this->db->from('rates');
+		$this->db->where('id', $id);
+		$rate = $this->db->get()->result_array();
+		// print_r($rate); exit;
+
+
+		foreach ($query11 as $key => $value) 
 		{	
-			// echo '<pre>';
-			// print_r($value);
-			// echo '</pre>'; 
-			// exit;	
-			$this->db->insert('invoice', ['user_id' => 8, 'type'=>"paper", 'description' => "Registration Fee", 'status' => "Unpaid", 'inv_type' => 2, 'total_cost' => 50, 'created_at' => $datetime]);
+				
+			$this->db->insert('invoice', ['user_id' => $id, 'type'=>"paper", 'description' => "Registration Fee", 'status' => "Unpaid", 'inv_type' => 2, 'total_cost' => 50, 'created_at' => $end_date]);
 		}
 
 

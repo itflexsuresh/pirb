@@ -89,6 +89,7 @@ if(isset($result) && $result){
 			{ "data": "description" },
 			{ "data": "total_cost" },
 			{ "data": "action" },			
+			{ "data": "status" },
 			{ "data": "internal_inv" }
 			
 			],
