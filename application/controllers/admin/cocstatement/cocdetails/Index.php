@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Coc_details extends CC_Controller 
+class Index extends CC_Controller 
 {
 	public function __construct()
 	{
@@ -17,7 +17,7 @@ class Coc_details extends CC_Controller
 		$pagedata['cocstatus'] 		= $this->config->item('cocstatus');	
 		$pagedata['auditstatus'] 	= $this->config->item('auditstatus');	
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'validation', 'datepicker'];
-		$data['content'] 			= $this->load->view('admin/cocmanagement/cocmanagementstatement/coc_details/index', (isset($pagedata) ? $pagedata : ''), true);
+		$data['content'] 			= $this->load->view('admin/cocstatement/cocdetails/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
 	
@@ -40,7 +40,7 @@ class Coc_details extends CC_Controller
 										'auditor' 		=> 	($result['usertype']=='5') ? $result['name'] : '-',
 										'action'		=> 	'
 																<div class="table-action">
-																	<a href="'.base_url().'admin/cocmanagement/cocmanagementstatement/coc_details/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+																	<a href="'.base_url().'admin/cocstatement/cocdetails/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
 																</div>
 															'
 									];
@@ -62,7 +62,7 @@ class Coc_details extends CC_Controller
 	{
 		$pagedata['notification'] 	= $this->getNotification();
 		$data['plugins']			= ['validation'];
-		$data['content'] 			= $this->load->view('admin/cocmanagement/cocmanagementstatement/coc_details/action', (isset($pagedata) ? $pagedata : ''), true);
+		$data['content'] 			= $this->load->view('admin/cocstatement/cocdetails/action', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
 	

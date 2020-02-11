@@ -55,7 +55,7 @@ class Index extends CC_Controller
 				$requestData1['total_cost'] 	= 	$requestData['total_due'];
 				$requestData1['created_at']		= 	date('Y-m-d H:i:s');
 				$requestData1['inv_type']		= 	1;
-				$requestData1['type']			= 	$requestData['coc_type'];
+				$requestData1['coc_type']		= 	$requestData['coc_type'];
 				
 				$result1 = $this->Coc_Model->action($requestData1, 1);
 				if ($result1) {

@@ -49,9 +49,10 @@ class Index extends CC_Controller
 
 	public function Cron()
 	{
-		$data['content'] ='hi';
-		$current_date = date('Y-m-d');
-		$this->Renewal_Model->getCronDate($data);
+		$id			= 	$this->getUserID();
+		//$data['content'] ='hi';
+		//$current_date = date('Y-m-d');
+		$this->Renewal_Model->getCronDate($id);
 	}
 	
 	public function DTAccounts()
