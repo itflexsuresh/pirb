@@ -191,7 +191,7 @@ class Renewal_Model extends CC_Model
 		foreach ($query11 as $key => $value) 
 		{	
 				
-			$this->db->insert('invoice', ['user_id' => $id, 'type'=>"paper", 'description' => "Registration Fee", 'status' => "Unpaid", 'inv_type' => 2, 'total_cost' => 50, 'created_at' => $end_date]);
+			$this->db->insert('invoice', ['user_id' => $id, 'coc_type'=>"paper", 'description' => "Registration Fee", 'status' => "Unpaid", 'inv_type' => 2, 'total_cost' => 50, 'created_at' => $end_date]);
 		}
 
 
