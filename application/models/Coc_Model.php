@@ -367,5 +367,62 @@ class Coc_Model extends CC_Model
 		}
 	}
 	
+	// Coc Count
+	
+	public function getCOCCount($type, $requestdata=[])
+	{ 
+		$this->db->select('*');
+		$this->db->from('coc_count');
+	
+		if(isset($requestdata['id']))		$this->db->where('id', $requestdata['id']);
+		if(isset($requestdata['user_id']))	$this->db->where('user_id', $requestdata['user_id']);
+						
+		if($type=='count'){
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		return $result;
+	}
+	
+	public function actionCocCount($data)
+	{
+		$this->db->trans_begin();
+		
+		$userid			= 	$this->getUserID();
+		$datetime		= 	date('Y-m-d H:i:s');
+		
+		$request		=	[
+			'count' 			=> $data['count'],
+			'user_id' 			=> $data['user_id'],
+			'updated_at' 		=> $datetime,
+			'updated_by' 		=> $userid
+		];
+
+		$count = $this->getCOCCount('count', ['user_id' => $userid]);
+		
+		if($count=='0'){
+			$request['created_at'] = $datetime;
+			$request['created_by'] = $userid;
+			$this->db->insert('coc_count', $request);
+		}else{
+			$this->db->update('coc_count', $request, ['user_id' => $data['user_id']]);
+		}
+
+		if($this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+			return false;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
 	
 }
