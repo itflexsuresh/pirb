@@ -128,10 +128,13 @@ function ajax(url, data, method, extras=[]){
 	if(extras['beforesend'])	options['beforeSend'] 	=	extras['beforesend'];
 	if(extras['complete']) 		options['complete'] 	=	extras['complete'];
 	
-	options['success'] 		=	function(data){ 
-									method(data);
-								}
-		
+	if(extras['success']){
+ 		options['success'] 		=	extras['success'];
+	}else{
+		options['success'] 		=	function(data){ 
+										method(data);
+									}
+	}	
 	$.ajax(options);
 }
 
@@ -459,13 +462,10 @@ function subtype(data1=[], data2=[]){
 }
 
 function localstorage(type, name, value){
-	console.log(type)
-	console.log(name)
-	console.log(value)
 	if(type=='set'){
 		localStorage.setItem(name, value);
 	}else if(type=='get'){
-		localStorage.getItem(name);
+		return localStorage.getItem(name);
 	}else if(type=='remove'){
 		localStorage.removeItem(name);
 	}
