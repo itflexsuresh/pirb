@@ -237,7 +237,8 @@ class CC_Controller extends CI_Controller
 
 			}else{
 				$this->session->set_flashdata('error', 'No Record Found.');
-				redirect('admin/resellers/index'); 
+				if($extras['redirect']) redirect($extras['redirect']); 
+				else redirect('admin/resellers/index'); 
 			}
 		}
 		
@@ -264,6 +265,38 @@ class CC_Controller extends CI_Controller
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','inputmask'];
 		$data['content'] 			= $this->load->view('common/resellers', (isset($pagedata) ? $pagedata : ''), true);
+		$this->layout2($data);
+	}
+	
+	public function auditorprofile($id,$extras=[])
+	{
+		if($id!=''){
+			$result = $this->Auditor_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
+			if($result){
+				$pagedata['result'] = $result;
+			}else{
+				$this->session->set_flashdata('error', 'No Record Found.');
+				if($extras['redirect']) redirect($extras['redirect']); 
+				else redirect('admin/audits/index'); 
+			}
+		}
+
+		if($this->input->post()){
+			$requestData 	= $this->input->post();			
+			$data 			= $this->Auditor_Model->action($requestData);
+			
+			if($data) $this->session->set_flashdata('success', 'Auditor '.(($id=='') ? 'created' : 'updated').' successfully.');
+			else $this->session->set_flashdata('error', 'Try Later.');
+			
+			if($extras['redirect']) redirect($extras['redirect']); 
+			else redirect('admin/audits/index');
+		}
+
+		$pagedata['notification'] = $this->getNotification();
+		$pagedata['provincelist'] = $this->getProvinceList();
+
+		$data['plugins'] = ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','inputmask'];
+		$data['content'] = $this->load->view('common/auditor', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
 
