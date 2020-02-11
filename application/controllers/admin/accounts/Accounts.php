@@ -27,10 +27,10 @@ class Accounts extends CC_Controller
 
 			if($requestData['submit']=='submit'){
 				$data 	=  $this->Accounts_Model->action($requestData);
-				if($data) $message = 'Managearea Type '.(($id=='') ? 'created' : 'updated').' successfully.';
+				if($data) $message = 'Plumber COC Invoices Type '.(($id=='') ? 'created' : 'updated').' successfully.';
 			}else{
 				$data 			= 	$this->Accounts_Model->changestatus($requestData);
-				$message		= 	'Managearea Type deleted successfully.';
+				$message		= 	'Plumber COC Invoices deleted successfully.';
 			}
 
 			if(isset($data)) $this->session->set_flashdata('success', $message);
