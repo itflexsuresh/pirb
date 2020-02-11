@@ -19,28 +19,21 @@ class Index extends CC_Controller
 	{
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
-
-					//echo '<pre>';print_r($requestData ); die;
-
-					$data 				=  	$this->Coc_Ordermodel->adminadd($requestData);			
+			$data 				=  	$this->Coc_Ordermodel->adminadd($requestData);			
 				
-	}
+		}
 
 		$userid 					=	$this->getUserID();
 		$userdata					= 	$this->getUserDetails();	
 		$pagedata['notification'] 	= 	$this->getNotification();
-		$pagedata['province'] 		= 	$this->getProvinceList();		
+		$pagedata['province'] 		= 	$this->getProvinceList();
+		
 		$pagedata['userid']			= 	$userid;
 		$pagedata['userdata']		= 	$userdata;
-		$userdata1					= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
-		$pagedata['userid']			= 	$userid;
-		$pagedata['userdata']		= 	$userdata;
-		$pagedata['userdata1']		= 	$userdata1;
-		$pagedata['username']		= 	$userdata1;
+		$pagedata['plumberdata']	= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
+		$pagedata['settings']		= 	$this->Systemsettings_Model->getList('row');
 		$pagedata['deliverycard']	= 	$this->config->item('purchasecocdelivery');
 		$pagedata['coctype']		= 	$this->config->item('coctype');
-		$pagedata['settings']		= 	$this->Systemsettings_Model->getList('row');
-		$pagedata['logcoc']			=	$this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => ['1']]);
 		$pagedata['cocpaperwork']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocpaperwork')]);
 		$pagedata['cocelectronic']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocelectronic')]);
 		$pagedata['postage']		= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('postage')]);
@@ -48,9 +41,6 @@ class Index extends CC_Controller
 		$pagedata['collectedbypirb']= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('collectedbypirb')]);
 
 		$data['plugins']			= 	['validation', 'datepicker','datatables', 'datatablesresponsive', 'sweetalert'];
-
-		$pagedata['result'] 		= $this->Coc_Ordermodel->getCocorderList('row', ['status' => ['0','1']]);
- 		
 		$data['content'] 			= 	$this->load->view('admin/cocstatement/cocorders/index', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$this->layout2($data);
