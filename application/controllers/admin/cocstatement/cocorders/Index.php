@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Coc_Orders extends CC_Controller 
+class Index extends CC_Controller 
 {
 	public function __construct()
 	{
@@ -40,7 +40,7 @@ class Coc_Orders extends CC_Controller
 		$pagedata['deliverycard']	= 	$this->config->item('purchasecocdelivery');
 		$pagedata['coctype']		= 	$this->config->item('coctype');
 		$pagedata['settings']		= 	$this->Systemsettings_Model->getList('row');
-		$pagedata['logcoc']			=	$this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => '1']);
+		$pagedata['logcoc']			=	$this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => ['1']]);
 		$pagedata['cocpaperwork']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocpaperwork')]);
 		$pagedata['cocelectronic']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocelectronic')]);
 		$pagedata['postage']		= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('postage')]);
@@ -51,13 +51,13 @@ class Coc_Orders extends CC_Controller
 
 		$pagedata['result'] 		= $this->Coc_Ordermodel->getCocorderList('row', ['status' => ['0','1']]);
  		
-		$data['content'] 			= 	$this->load->view('admin/cocmanagement/cocmanagementstatement/coc_order_index', (isset($pagedata) ? $pagedata : ''), true);
+		$data['content'] 			= 	$this->load->view('admin/cocstatement/cocorders/index', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$this->layout2($data);
 	}
 
 
-public function cocorderType()
+public function DTCocOrder()
 	{ 
 
 		$post 			= $this->input->post();

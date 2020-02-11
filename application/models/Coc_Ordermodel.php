@@ -60,7 +60,7 @@ class Coc_Ordermodel extends CC_Model
 		
 		// $requestdata1['coc_type'] 	= $coc_type;
 		
-		.0
+		
 //print_r($requestdata);die;
 		if(isset($requestdata)){
 

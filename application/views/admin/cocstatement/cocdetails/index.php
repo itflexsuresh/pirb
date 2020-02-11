@@ -170,7 +170,7 @@ function datatable(destroy=0){
 	};
 	console.log(data);
 	var options = {
-		url 	: 	'<?php echo base_url()."admin/cocmanagement/cocmanagementstatement/coc_details/DTCocDetails"; ?>',
+		url 	: 	'<?php echo base_url()."admin/cocstatement/cocdetails/index/DTCocDetails"; ?>',
 		data    :   data,  			
 		destroy :   destroy,  			
 		columns : 	[
