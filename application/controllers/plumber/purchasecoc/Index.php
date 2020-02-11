@@ -243,6 +243,7 @@ class Index extends CC_Controller
         	
         }
         $stringaarr = explode("@@@",$rowData['areas']);
+        $addrpirb = explode("@@@",$rowData2['provincesettings']);
 
 				$html = '<!DOCTYPE html>
 <html>
@@ -273,11 +274,11 @@ td {
 				<div style="border: 1px solid; width: 70%; margin-top: 40px; margin-left: 20px;">
 					<p style="border-bottom: 1px solid #000; margin-top: 10px; padding: 0 10px 10px 10px; font-weight: 600;">Company Details</p>
 					<p>'.$rowData2['address'].'</p>
+					<p>'.$addrpirb[1].'</p>
 					<p>'.$rowData2['suburb'].'</p>
 					<p>'.$rowData2['city'].'</p>
-					<p>'.$rowData1['email'].'</p>
 					<p>'.$rowData1['work_phone'].'</p>
-					<p>'.$rowData1['email'].'</p>
+					<p>'.$rowData1['email'].'</p>					
 					<p>'.$rowData1['reg_no'].'</p>
 					<p>'.$rowData1['vat_no'].'</p>
 				</div>

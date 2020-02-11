@@ -107,8 +107,7 @@ class Coc_Model extends CC_Model
 	public function getPermissions($type1)
 	{ 
 		$this->db->select('*');
-		$this->db->from('settings_details');
-		
+		$this->db->from('settings_details ');		
       if($type1=='count'){
 			$result = $this->db->count_all_results();
 			
@@ -125,8 +124,11 @@ class Coc_Model extends CC_Model
 
 	 public function getPermissions1($type2)
 	{ 
-		$this->db->select('*');
-		$this->db->from('settings_address');
+		$this->db->select('st1.*, p1.id, p1.name');
+		$this->db->select('
+			group_concat(concat_ws("@@@", st1.province, p1.name) separator "@-@") as provincesettings');
+		$this->db->from('settings_address st1');
+		$this->db->join('province p1', 'p1.id = st1.province AND st1.type="2"', 'left');
 		
       if($type2=='count'){
 			$result = $this->db->count_all_results();
