@@ -8,11 +8,11 @@ class Plumber_Model extends CC_Model
 								'u.id','u.email','u.formstatus','u.status' 
 							];
 		$usersdetail 	= 	[ 
-								'ud.id as usersdetailid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit'
+								'ud.id as usersdetailid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit','ud.specialisations'
 							];
 		$usersplumber 	= 	[ 
 								'up.id as usersplumberid','up.racial','up.nationality','up.othernationality','up.idcard','up.otheridcard','up.homelanguage','up.disability','up.citizen','up.registration_card','up.delivery_card','up.employment_details','up.company_details',
-								'up.registration_no','up.registration_date','up.status as plumberstatus','up.designation','up.qualification_year','up.specialisations','up.coc_electronic','up.message',
+								'up.registration_no','up.registration_date','up.status as plumberstatus','up.designation','up.qualification_year','up.coc_electronic','up.message',
 								'up.application_received','up.application_status','up.approval_status','up.reject_reason','up.reject_reason_other','up.otp'
 							];
 		
@@ -108,6 +108,7 @@ class Plumber_Model extends CC_Model
 		if(isset($data['mobile_phone2'])) 		$request1['mobile_phone2'] 		= $data['mobile_phone2'];
 		if(isset($data['email2'])) 				$request1['email2'] 			= $data['email2'];
 		if(isset($data['coc_purchase_limit'])) 	$request1['coc_purchase_limit']	= $data['coc_purchase_limit'];
+		if(isset($data['specialisations'])) 	$request1['specialisations'] 	= implode(',', $data['specialisations']);
 		
 		if(isset($request1)){
 			$usersdetailid	= 	$data['usersdetailid'];
@@ -141,7 +142,6 @@ class Plumber_Model extends CC_Model
 		if(isset($data['designation'])) 		$request2['designation'] 			= $data['designation'];
 		if(isset($data['designation2'])) 		$request2['designation'] 			= $data['designation2'];
 		if(isset($data['qualification_year'])) 	$request2['qualification_year'] 	= $data['qualification_year'];
-		if(isset($data['specialisations'])) 	$request2['specialisations'] 		= implode(',', $data['specialisations']);
 		if(isset($data['message'])) 			$request2['message'] 				= $data['message'];
 		if(isset($data['application_received']))$request2['application_received'] 	= $data['application_received'];
 		if(isset($data['application_status'])) 	$request2['application_status'] 	= implode(',', $data['application_status']);

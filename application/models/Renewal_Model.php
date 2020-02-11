@@ -1,0 +1,256 @@
+<?php
+
+class Renewal_Model extends CC_Model
+{
+	public function getList($type, $requestdata=[])
+	{
+		
+        $query=$this->db->select ('t1.*,t1.inv_id, t1.description, t1.status, t1.created_at,
+        	 t3.reg_no, t3.id, t3.name name, t3.surname surname, t3.company_name company_name, t3.vat_no vat_no, t3.email2, t3.home_phone, t5.supplyitem');
+
+        //$effectiveDate = date('Y-m-d', strtotime("-1 month", strtotime($effectiveDate)));
+        // print_r($effectiveDate); exit;
+        // t2.inv_id, t2.total_due, t2.quantity, t2.cost_value, t2.delivery_cost, t2.total_due,
+        //t4.address, t4.suburb, t4.city, 
+        
+        $this->db->from('invoice t1');
+        // $this->db->join('coc_orders t2','t2.user_id = t1.user_id', 'left');        
+        $this->db->join('users_detail t3', 't3.user_id = t1.user_id', 'left');
+        //$this->db->join('users_address t4', 't4.user_id = t1.user_id', 'left');
+        $this->db->join('rates t5','t5.id = t1.user_id', 'left');
+   
+       if(isset($requestdata['id'])) $this->db->where('t1.inv_id', $requestdata['id']);
+       
+		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
+			$this->db->limit($requestdata['length'], $requestdata['start']);
+		}
+		
+		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
+			$column = ['t1.inv_id','t1.status','t1.total_due','t1.total_cost','t1.created_at', 't1.internal_inv','t1.description','t2.inv_id','t2.total_due','t2.quantity','t2.cost_value','t2.delivery_cost','t3.name','t3.surname','t3.company_name','t3.reg_no','t3.vat_no','t3.email2','t3.home_phone','t4.address','t4.city','t4.suburb'];
+			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+		}
+
+
+		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
+			$searchvalue = $requestdata['search']['value'];
+			
+			$this->db->like('t1.inv_id', $searchvalue);
+			$this->db->like('t1.created_at', $searchvalue);
+			$this->db->like('t1.total_cost', $searchvalue);
+			$this->db->or_like('t1.internal_inv', $searchvalue);
+			$this->db->or_like('t1.description', $searchvalue);
+            $this->db->or_like('t1.status', $searchvalue);
+            $this->db->or_like('t2.inv_id', $searchvalue);  
+           
+            
+            $this->db->or_like('t2.total_due', $searchvalue);        
+            $this->db->or_like('t2.quantity', $searchvalue);
+            $this->db->or_like('t2.cost_value', $searchvalue);
+            $this->db->or_like('t2.delivery_cost', $searchvalue);
+
+			$this->db->or_like('t3.name', $searchvalue);
+			$this->db->or_like('t3.surname', $searchvalue);
+			$this->db->or_like('t3.company_name', $searchvalue);
+			$this->db->or_like('t3.reg_no', $searchvalue);
+			$this->db->or_like('t3.vat_no', $searchvalue);
+			$this->db->or_like('t3.email2', $searchvalue);
+			$this->db->or_like('t3.home_phone', $searchvalue);
+		
+		}
+		
+		if($type=='count'){
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		return $result;
+	}
+
+    public function getPermissions($type1)
+	{ 
+		$this->db->select('*');
+		$this->db->from('settings_details');
+		
+      if($type1=='count'){
+			$result = $this->db->count_all_results();
+			
+		}else{
+			$query = $this->db->get();
+			
+			
+			if($type1=='all') 		$result = $query->result_array();
+			elseif($type1=='row') 	$result = $query->row_array();
+		}
+		
+		return $result;
+	}
+
+	 public function getPermissions1($type2)
+	{ 
+		$this->db->select('*');
+		$this->db->from('settings_address');
+		
+      if($type2=='count'){
+			$result = $this->db->count_all_results();
+			
+		}else{
+			$query = $this->db->get();
+			
+			
+			if($type2=='all') 		$result = $query->result_array();
+			elseif($type2=='row') 	$result = $query->row_array();
+		}
+		
+		return $result;
+	}
+
+
+
+	
+	//public function action($data)
+	//{
+	// 	//print_r($data);die;
+	// 	$this->db->trans_begin();
+		
+	// 	$userid			= 	$this->getUserID();
+	// 	$id 			= 	$data['id'];
+	// 	$datetime		= 	date('Y-m-d H:i:s');
+		
+	// 	$request		=	[
+	// 		'updated_at' 		=> $datetime,
+	// 		'updated_by' 		=> $userid
+	// 	];
+	// 						//print_r($data);die;
+		
+	// 	if(isset($data['activity'])) 		$request['activity'] 		= $data['activity'];
+	// 	if(isset($data['points'])) 			$request['points'] 			= $data['points'];
+	// 	if(isset($data['productcode'])) 	$request['productcode'] 	= $data['productcode'];
+	// 	if(isset($data['cpdstream'])) 		$request['cpdstream'] 		= $data['cpdstream'];
+	// 	if(isset($data['qrcode'])) 			$request['qrcode'] 			= $data['qrcode'];
+	// 	$request['status'] 												= (isset($data['status'])) ? $data['status'] : '0';
+	// 	if(isset($data['startdate'])) 		$request['startdate'] 		= date('Y-m-d',strtotime($data['startdate'])); 
+	// 	if(isset($data['enddate'])) 		$request['enddate'] 		= date('Y-m-d',strtotime($data['enddate']));
+		
+	// 	if($id==''){
+	// 		$request['created_at'] = $datetime;
+	// 		$request['created_by'] = $userid;
+	// 		$this->db->insert('cpdtypes', $request);
+	// 	}else{
+	// 		$this->db->update('cpdtypes', $request, ['id' => $id]);
+	// 	}
+		
+	// 	if($this->db->trans_status() === FALSE)
+	// 	{
+	// 		$this->db->trans_rollback();
+	// 		return false;
+	// 	}
+	// 	else
+	// 	{
+	// 		$this->db->trans_commit();
+	// 		return true;
+	// 	}
+	// }
+	// public function getCronDate(){
+	// 	$this->db->select('id, enddate, status');
+	// 	$this->db->from('cpdtypes');
+	// 	$this->db->where('enddate <', date('Y-m-d'));
+	// 	$query = $this->db->get()->result_array();
+	// 	foreach ($query as $key => $value) {
+	// 		//print_r($value);
+	// 		$this->db->update('cpdtypes', ['status' => '0'], ['id' => $value['id']]);
+	// 	}
+	// }
+	public function getCronDate($data)
+		{
+
+		$userid			= 	$this->getUserID();
+		//$inv_id 			= 	$data['inv_id'];
+		$datetime		= 	date('Y-m-d H:i:s');
+		//$inv_id 		= 	$data['inv_id'];
+		$this->db->select('*');		
+		$this->db->from('invoice');
+		// $this->db->where('date(`created_at`) <', date('Y-m-d'));
+		$this->db->where('created_at <', date('Y-m-d'));
+		$query = $this->db->get()->result_array();
+		
+		foreach ($query as $key => $value) 
+		{	
+			// echo '<pre>';
+			// print_r($value);
+			// echo '</pre>'; 
+			// exit;	
+			$this->db->insert('invoice', ['user_id' => 8, 'type'=>"paper", 'description' => "Registration Fee", 'status' => "Unpaid", 'inv_type' => 2, 'total_cost' => 50, 'created_at' => $datetime]);
+		}
+
+
+		// $userid			= 	$this->getUserID();
+		// $id 				= 	$data['id'];
+		// $datetime		= 	date('Y-m-d H:i:s');
+		
+		// $request		=	[
+		// 	'updated_at' 		=> $datetime,
+		// 	'updated_by' 		=> $userid
+		// ];
+		// 					//print_r($data);die;
+		
+		// if(isset($data['user_id'])) 		$request1['user_id'] 		= $data['user_id'];
+		// if(isset($data['description'])) 	$request1['description'] 	= $data['description'];
+		// if(isset($data['status'])) 			$request1['status'] 			= $data['status'];
+		// if(isset($data['internal_inv'])) 	$request1['internal_inv'] 	= $data['internal_inv'];
+		// if(isset($data['total_cost'])) 		$request1['total_cost'] 			= $data['total_cost'];
+		
+
+		// $request['status']					= (isset($data['status'])) ? $data['status'] : '0';
+
+		// if(isset($data['startdate'])) 		$request['startdate'] 		= date('Y-m-d',strtotime($data['startdate'])); 
+		// if(isset($data['enddate'])) 		$request['enddate'] 		= date('Y-m-d',strtotime($data['enddate']));
+		
+		// if($id=='')
+		// {
+		// 	$request['created_at'] = $datetime;
+		// 	$request['created_by'] = $userid;
+		// 	$this->db->insert('invoice', $request1);
+		// }
+		// else
+		// {
+		// 	$this->db->update('invoice', $request1, ['id' => $id]);
+		// }
+	
+		
+	}
+	
+	public function changestatus($data)
+	{
+		$userid		= 	$this->getUserID();
+		$id			= 	$data['id'];
+		$status		= 	$data['status'];
+		$datetime	= 	date('Y-m-d H:i:s');
+		
+		$this->db->trans_begin();
+		
+		$delete 	= 	$this->db->update(
+			'installationtype', 
+			['status' => $status, 'updated_at' => $datetime, 'updated_by' => $userid], 
+			['id' => $id]
+		);
+
+		if(!$delete || $this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+			return false;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return true;
+		}
+
+
+		}
+
+		
+}

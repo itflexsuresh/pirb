@@ -62,7 +62,7 @@ class Coc_Model extends CC_Model
 
 	public function getListPDF($type, $requestdata=[]){
 		        $query=$this->db->select('t1.*,t1.status,t1.created_at,
-        	t2.inv_id, t2.total_due, t2.quantity, t2.cost_value,t2.vat, t2.delivery_cost, t2.total_due, t3.reg_no, t3.id, t3.name name, t3.surname surname, t3.company_name company_name, t3.vat_no vat_no, t3.email2, t3.home_phone, t4.address, t4.suburb, t4.city,t4.province, t5.id, t5.name,t6.id, t6.province_id, t6.name,t7.id, t7.province_id, t7.city_id, t7.name ');
+        	t2.inv_id, t2.total_due, t2.quantity, t2.cost_value,t2.vat, t2.delivery_cost, t2.total_due, t3.reg_no, t3.id, t3.name name, t3.surname surname, t3.company_name company_name, t3.vat_no vat_no, t3.email2, t3.home_phone, t4.address, t4.suburb, t4.city,t4.province, t5.id, t5.name,t6.id, t6.province_id, t6.name,t7.id, t7.province_id, t7.city_id, t7.name,t8.registration_no ');
 		        $this->db->select('
 			group_concat(concat_ws("@@@", t4.id, t4.suburb, t4.city,t4.province, t5.name, t6.name, t7.name) separator "@-@") as areas'
 		);
@@ -74,6 +74,8 @@ class Coc_Model extends CC_Model
         $this->db->join('users_detail t3', 't3.user_id = t1.user_id', 'left');
 
         $this->db->join('users_address t4', 't4.user_id = t1.user_id AND t4.type="3"', 'left');
+		
+	$this->db->join('users_plumber t8', 't8.user_id = t1.user_id', 'left');
 
         $this->db->join('province t5', 't5.id=t4.province', 'left');
 
@@ -291,6 +293,8 @@ class Coc_Model extends CC_Model
 		}
 	}
 	
+	// Coc Log
+	
 	public function getCOCLog($type, $requestdata=[])
 	{ 
 		$this->db->select('*');
@@ -365,5 +369,62 @@ class Coc_Model extends CC_Model
 		}
 	}
 	
+	// Coc Count
+	
+	public function getCOCCount($type, $requestdata=[])
+	{ 
+		$this->db->select('*');
+		$this->db->from('coc_count');
+	
+		if(isset($requestdata['id']))		$this->db->where('id', $requestdata['id']);
+		if(isset($requestdata['user_id']))	$this->db->where('user_id', $requestdata['user_id']);
+						
+		if($type=='count'){
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		return $result;
+	}
+	
+	public function actionCocCount($data)
+	{
+		$this->db->trans_begin();
+		
+		$userid			= 	$this->getUserID();
+		$datetime		= 	date('Y-m-d H:i:s');
+		
+		$request		=	[
+			'count' 			=> $data['count'],
+			'user_id' 			=> $data['user_id'],
+			'updated_at' 		=> $datetime,
+			'updated_by' 		=> $userid
+		];
+
+		$count = $this->getCOCCount('count', ['user_id' => $userid]);
+		
+		if($count=='0'){
+			$request['created_at'] = $datetime;
+			$request['created_by'] = $userid;
+			$this->db->insert('coc_count', $request);
+		}else{
+			$this->db->update('coc_count', $request, ['user_id' => $data['user_id']]);
+		}
+
+		if($this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+			return false;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
 	
 }
