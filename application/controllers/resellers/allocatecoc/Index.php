@@ -32,7 +32,7 @@ class Index extends CC_Controller
 
 				$Array_rangeData['coc_status']=['3'];
 			 	$Array_rangeData['coctype']=['2'];			 	
-			 	$Array_rangeData['userid'] = $this->getUserID();
+			 	$Array_rangeData['user_id'] = $this->getUserID();
 
 				$pagedata['array_range'] =  $this->Coc_Model->getCOCList('all',$Array_rangeData);				
 				$pagedata['rangedata']= ['' => 'Select Range']+array_column($pagedata['array_range'], 'id', 'id');
@@ -118,6 +118,8 @@ class Index extends CC_Controller
 				$requestData2['created_by']		= 	$this->getUserID();
 				$requestData2['created_at']		= 	date('Y-m-d H:i:s');
 				$requestData2['status']			= 	'0';
+				$requestData2['coc_type']			= 	'2';
+				$requestData2['delivery_type']			= 	'3';
 				$requestData2['inv_id']			= $result1;
 				$requestData2['quantity'] = $range;
 				$requestData2['cost_value'] = $amount;
