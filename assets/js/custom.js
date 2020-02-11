@@ -171,7 +171,7 @@ function editor(selector, validation='', height=300){
 						}
 	});
 }
-
+/*
 function fileupload(data1=[], data2=[]){
 	
 	var selector 	= data1[1];
@@ -212,7 +212,7 @@ function fileupload(data1=[], data2=[]){
 		
 		$(selector).val('');
 	}
-}
+}*/
 
 function fileupload(data1=[], data2=[], multiple=''){
 	var ajaxurl 	= baseurl()+"ajax/index/ajaxfileupload";
@@ -434,16 +434,16 @@ function citysuburb(data1=[], data2=[], data3=[]){
 
 function subtype(data1=[], data2=[]){
 	var subtypeurl 		= baseurl()+"ajax/index/ajaxsubtype";
-	var subtypedata 	= { installationid : $(data1[0]).val() };
+	var subtypedata 	= { installationtypeid : $(data1[0]).val() };
 	
-	ajax(subtypeurl, data[1], subtype)
+	ajax(subtypeurl, subtypedata, subtypefn)
 
-	$(document).on('change', data[0], function(){
-		subtypedata.installationid = $(this).val();
-		ajax(subtypeurl, subtypedata, subtype)
+	$(document).on('change', data1[0], function(){
+		subtypedata.installationtypeid = $(this).val();
+		ajax(subtypeurl, subtypedata, subtypefn)
 	})
 
-	function subtype(data){
+	function subtypefn(data){
 		$('.subtypeappend').remove();
 
 		if(data.status=='1'){
@@ -455,5 +455,18 @@ function subtype(data1=[], data2=[]){
 
 			$(data1[1]).append(append);
 		}
+	}
+}
+
+function localstorage(type, name, value){
+	console.log(type)
+	console.log(name)
+	console.log(value)
+	if(type=='set'){
+		localStorage.setItem(name, value);
+	}else if(type=='get'){
+		localStorage.getItem(name);
+	}else if(type=='remove'){
+		localStorage.removeItem(name);
 	}
 }

@@ -221,40 +221,16 @@
 							</tr>
 						</table>
 
-						<table class="table table-bordered table-striped datatables fullwidth add_top_value_v2">
+						<table class="table table-bordered table-striped datatables fullwidth add_top_value_v2 noncompliancetable">
 							<tr>
 								<th colspan="3">Pre- Existing Non Compliance Conditions</th>			
 							</tr>
-							<tr>
-								<td colspan="2">Non compliance details</td>
-								<td style="text-align: center;">
-									<div class="table-action">
-										<a href="#"><i class="fa fa-pencil-alt"></i></a>
-										<a href="#"><i class="fa fa-trash"></i></a>
-									</div>	
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2">Non compliance details</td>	
-								<td style="text-align: center;">
-									<div class="table-action">
-										<a href="#"><i class="fa fa-pencil-alt"></i></a>
-										<a href="#"><i class="fa fa-trash"></i></a>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2">Non compliance details</td>	
-								<td style="text-align: center;">
-									<div class="table-action">
-										<a href="#"><i class="fa fa-pencil-alt"></i></a>
-										<a href="#"><i class="fa fa-trash"></i></a>
-									</div>
-								</td>
+							<tr class="noncompliancenotfound">
+								<td colspan="3">No Record Found</td>			
 							</tr>
 						</table>
 						<div class="row text-right">
-							<button type="submit" name="submit" value="submit" class="btn btn-primary">Add a Non Compliance</button>
+							<button type="button" data-toggle="modal" data-target="#noncompliancemodal" class="btn btn-primary">Add a Non Compliance</button>
 						</div>
 					</div>
 
@@ -333,8 +309,9 @@
 					<div class="ro text-right">
 						<input type="hidden" value="<?php echo $id; ?>" name="id">
 						<input type="hidden" value="<?php echo $cocid; ?>" name="coc_id">
-						<button type="submit" name="submit" value="submit" class="btn btn-primary">Save COC</button>
-						<button type="submit" name="submit" value="submit" class="btn btn-primary">Log  COC</button>
+						<input type="submit" value="log" name="submit" id="completelog" class="displaynone">
+						<button type="submit" name="submit" value="save" class="btn btn-primary">Save COC</button>
+						<button type="button" data-toggle="modal" data-target="#otpmodal" class="btn btn-primary">Log  COC</button>
 					</div>
 				</form>
 
@@ -343,19 +320,131 @@
 	</div>
 </div>
 
+<div id="noncompliancemodal" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<form class="noncomplianceform">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Non Compliance</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Installation Type</label>
+								<?php
+									echo form_dropdown('installationtype', $installationtype, '', ['id' => 'nc_installationtype', 'class'=>'form-control']);
+								?>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Sub Type</label>
+								<?php
+									echo form_dropdown('subtype', [], '', ['id' => 'nc_subtype', 'class'=>'form-control']);
+								?>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label>Statement</label>
+								<textarea name="statement" rows="6" class="form-control" id="nc_statement"></textarea>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label>Non compliance details</label>
+								<textarea name="details" rows="6" class="form-control" id="nc_details"></textarea>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label>Possible remedial actions</label>
+								<textarea name="action" rows="6" class="form-control" id="nc_action"></textarea>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label>SANS/Regulation/Bylaw Reference</label>
+								<textarea name="reference" rows="6" class="form-control" id="nc_reference"></textarea>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<div>
+									<img src="<?php echo $profileimg; ?>" width="100">
+								</div>
+								<input type="file" id="nc_file">
+								<p>(Image/File Size Smaller than 5mb)</p>
+								<div class="ncfileappend"></div>
+							</div>						
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" name="id" id="nc_id">
+					<input type="hidden" name="user_id" value="<?php echo $userid; ?>">
+					<button type="button" class="btn btn-success noncompliancesubmit">Submit</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div id="otpmodal" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="row">
+					<div>
+						<h3>IMPORTANCE NOTICE</h3>
+						<ul>
+							<li>An incorrect statement of fact, including an omission, is an offence in terms of the PIRB Code of conduct, and will be subjected to PIRB disciplinary procedures.</li>
+							<li>A completed Certifcate of Compliance must be provided to the owner/consumer within 5 days of the completion of the plumbing works.</li>
+							<li>The relevant plumbing work that was certifed as complaint through the issuing of this certifcate may be possibly be audited by a PIRB Auditor for compliance to the regulations, workmanship and health and safety of the plumbing works.</li>
+							<li>If this Certifcate of Compliance has been chosen for an audit you must cooperated fully with the PIRB Auditor in allowing them to carry out the relevant audit.</li>
+						</ul>
+					</div>
+					<p>A One Time Pin (OTP) was sent to the Licensed Plumber with the following Mobile Number:</p>
+					<p><?php echo $userdata['name'].' '.$userdata['surname']; ?> - <?php echo $userdata['mobile_phone']; ?></p>
+					<div>
+						<p>Enter OTP</p>
+						<div class="testotp"></div>
+						<input type="text" name="otp" id="otp">
+					</div>
+				</div>
+				<button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-success resendotp">Resend</button>
+				<button type="button" class="btn btn-success verifyotp">Verify</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script type="text/javascript">
 
 var userid		= '<?php echo $userid; ?>';
 var filepath 	= '<?php echo $filepath; ?>';
-var ajaxfileurl	= '<?php echo base_url("ajax/index/ajaxfileupload"); ?>';
 var pdfimg		= '<?php echo $pdfimg; ?>';
+var randno		= '<?php echo mt_rand(0000,9999); ?>';
 
 $(function(){
 	datepicker('.completion_date');
-	citysuburb(['#province','#city', '#suburb'], ['<?php echo ''; ?>', '<?php echo ''; ?>']);
+	citysuburb(['#province','#city', '#suburb'], ['<?php echo $cityid; ?>', '<?php echo $suburbid; ?>']);
 	fileupload([".file1_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.file1', '.file1_img', filepath, pdfimg]);
 	fileupload([".file2_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file2[]', '.file2append', filepath, pdfimg], 'multiple');
+	fileupload(["#nc_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.ncfileappend', filepath, pdfimg], 'multiple');
+	subtype(['#nc_installationtype','#nc_subtype'], ['']);
+	
+	var noncompliancelists = $.parseJSON('<?php echo json_encode($noncompliance); ?>');
+	if(noncompliancelists.length > 0){
+		$(noncompliancelists).each(function(i, v){
+			var noncompliancedata 	= {status : 1, result : { id: v.id, details: v.details }}
+			noncompliance(noncompliancedata);
+		})
+	}
 	
 	validation(
 		'.form',
@@ -419,13 +508,175 @@ $(function(){
 			}
 		}
 	);
+	
+	validation(
+		'.noncomplianceform',
+		{
+			installationtype: {
+				required	: true
+			},
+			subtype: {
+				required    : true
+			},
+			statement: {
+				required    : true
+			},
+			details:{
+				required    : true
+			},
+			action:{
+				required    : true
+			},
+			reference:{
+				required    : true
+			}
+			
+		},
+		{
+			installationtype 	: {
+				required	: "Please select installation type"
+			},
+			subtype : {
+				required    : "Please select subtype"
+			},
+			statement : {
+				required    : "Please fill the statement"
+			},
+			details:{
+				required    : "Please fill the non compliance details"
+			},
+			action:{
+				required    : "Please fill the possible remedial actions"
+			},
+			reference:{
+				required    : "Please fill the SANS/Regulation/Bylaw Reference"
+			}
+		}
+	);
 })
 
 $('.file2_file').click(function(e){
-	if($(document).find('.multipleupload').length >= 4){
+	if($(document).find('.file2append .multipleupload').length >= 4){
 		$(this).val('');
 		sweetalertautoclose('Reached maxmium limit.');
 		return false;
 	}
 })
+
+
+$('#otpmodal').on('show.bs.modal', function () {
+	localstorage('set', 'logotp', randno);
+    if(localstorage('get', 'logotp')=='undefined'){
+		localstorage('set', 'logotp', randno);
+	}
+	console.log(localstorage('get', 'logotp'));
+	$('.testotp').text(localstorage('get', 'logotp'));
+})
+
+$(document).on('click', '.verifyotp', function(){
+	$('.error_otp').remove();
+	
+	if($('#otp').val()==localstorage('get', 'logotp')){
+		$('#completelog').click();
+	}else{
+		$('#otp').parent().append('<p class="tagline error_otp">Incorrect OTP</p>');
+	}
+})
+
+$('#noncompliancemodal').on('hidden.bs.modal', function () {
+    noncomplianceclear();
+})
+
+$('.noncompliancesubmit').click(function(){
+	if($('.noncomplianceform').valid())
+	{
+		var data = $('.noncomplianceform').serialize();
+		ajax('<?php echo base_url()."ajax/index/ajaxnoncomplianceaction"; ?>', data, noncompliance);
+	}
+})
+
+function noncompliance(data){
+	if(data.status==1){		
+		var result 		= 	data.result; 
+		
+		$(document).find('.noncomplianceappend[data-id="'+result.id+'"]').remove();
+		
+		var appenddata 	= 	'\
+								<tr class="noncomplianceappend" data-id="'+result.id+'">\
+									<td>'+result.details+'</td>\
+									<td>\
+										<a href="javascript:void(0);" class="noncomplianceedit" data-id="'+result.id+'"><i class="fa fa-pencil-alt"></i></a>\
+										<a href="javascript:void(0);" class="noncomplianceremove" data-id="'+result.id+'"><i class="fa fa-trash"></i></a>\
+									</td>\
+								</tr>\
+							';
+					
+		$('.noncompliancetable').append(appenddata);
+	}
+	
+	$('#noncompliancemodal').modal('hide');
+	
+	noncomplianceextras();
+}
+
+$(document).on('click', '.noncomplianceedit', function(){
+	ajax('<?php echo base_url()."ajax/index/ajaxnoncomplianceaction"; ?>', {'id' : $(this).attr('data-id'), 'action' : 'edit'}, noncomplianceedit);
+})
+
+function noncomplianceedit(data){
+	if(data.status==1){
+		var result 	= 	data.result;
+		
+		$('#nc_installationtype').val(result.installationtype);		
+		$('#nc_statement').val(result.statement);
+		$('#nc_details').val(result.details);
+		$('#nc_action').val(result.action);
+		$('#nc_reference').val(result.reference);
+		$('#nc_id').val(result.id);
+		
+		subtype(['#nc_installationtype','#nc_subtype'], [result.subtype]);
+		
+		if(result.file!=''){
+			var filesplit = result.file.split(',');
+			
+			$(filesplit).each(function(i, v){
+				
+				var ext 		= v.split('.').pop().toLowerCase();
+				if(ext=='jpg' || ext=='jpeg' || ext=='png'){
+					var filesrc = filepath+v;	
+				}else if(ext=='pdf'){
+					var filesrc = '<?php echo base_url()."assets/images/pdf.png"?>';	
+				}
+				
+				$('.ncfileappend').append('<div class="multipleupload"><input type="hidden" value="'+v+'" name="file[]"><img src="'+filesrc+'" width="100"><i class="fa fa-times"></i></div>');
+			})
+			
+		} 
+		
+		$('#noncompliancemodal').modal('show');
+	} 
+}
+
+$(document).on('click', '.noncomplianceremove', function(){
+	ajax('<?php echo base_url()."ajax/index/ajaxnoncomplianceaction"; ?>', {'id' : $(this).attr('data-id'), 'action' : 'delete'}, noncomplianceremove);
+	$(this).parent().parent().remove();
+	noncomplianceextras();
+})
+
+function noncomplianceremove(data){}
+
+function noncomplianceclear(){
+	$('#nc_installationtype,#nc_subtype,#nc_statement,#nc_details,#nc_action,#nc_reference,#nc_id').val('');
+	$('.ncfileappend .multipleupload').remove();
+	$('.noncomplianceform').find("p.error_class_1").remove();
+	$('.noncomplianceform').find(".error_class_1").removeClass('error_class_1');
+}
+
+function noncomplianceextras(){
+	if($(document).find('.noncomplianceappend').length){
+		$('.noncompliancenotfound').hide();
+	}else{
+		$('.noncompliancenotfound').show();
+	}
+}
 </script>

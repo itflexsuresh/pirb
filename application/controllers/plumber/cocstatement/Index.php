@@ -84,8 +84,10 @@ class Index extends CC_Controller
 		$pagedata['cocid'] 				= $id;
 		$pagedata['notification'] 		= $this->getNotification();
 		$pagedata['province'] 			= $this->getProvinceList();
+		$pagedata['installationtype']	= $this->getInstallationTypeList();
 		$pagedata['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => [$userdata['designation']], 'specialisations' => []]);
 		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => [$userdata['designation']], 'specialisations' => $specialisations]);
+		$pagedata['noncompliance']		= $this->Noncompliance_Model->getList('all', ['user_id' => $userdata['id']]);
 		$pagedata['result']				= $this->Coc_Model->getCOCLog('row', ['coc_id' => $id]);
 	
 		$data['plugins']				= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];

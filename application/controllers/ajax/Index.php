@@ -9,6 +9,8 @@ class Index extends CC_Controller
 		$this->load->model('CC_Model');
 		$this->load->model('Plumber_Model');
 		$this->load->model('Managearea_Model');
+		$this->load->model('Subtype_Model');
+		$this->load->model('Noncompliance_Model');
 	}
 	
 	public function ajaxfileupload()
@@ -21,6 +23,20 @@ class Index extends CC_Controller
 		echo json_encode($result);
 	}
 	
+	public function ajaxsubtype()
+	{
+		$post = $this->input->post();
+		$result = $this->Subtype_Model->getList('all', $post);
+
+		if(count($result)){
+			$json = ['status' => '1', 'result' => $result];
+		}else{
+			$json = ['status' => '0', 'result' => []];
+		}
+
+		echo json_encode($json);
+	}
+
 	public function ajaxcity()
 	{
 		$post = $this->input->post();
@@ -107,6 +123,31 @@ class Index extends CC_Controller
 			}
 			
 			$result = $this->Plumber_Model->getSkillList('row', ['id' => $result['skillid']]);
+		}
+		
+		if($result){
+			$json = ['status' => '1', 'result' => $result];
+		}else{
+			$json = ['status' => '0'];
+		}
+		
+		echo json_encode($json);
+	}
+	
+	public function ajaxnoncomplianceaction()
+	{
+		$post 				= $this->input->post();
+		
+		if(isset($post['action']) && $post['action']=='delete'){
+			$result = $this->Noncompliance_Model->delete($post['id']);
+		}else{
+			if(isset($post['action']) && $post['action']=='edit'){
+				$result = $post['id'];
+			}else{
+				$result = $this->Noncompliance_Model->action($post);
+			}
+			
+			$result = $this->Noncompliance_Model->getList('row', ['id' => $result]);
 		}
 		
 		if($result){

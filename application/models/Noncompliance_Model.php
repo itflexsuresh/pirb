@@ -52,6 +52,7 @@ class Noncompliance_Model extends CC_Model
 		if(isset($data['subtype'])) 			$request['subtype'] 			= $data['subtype'];
 		if(isset($data['statement'])) 			$request['statement'] 			= $data['statement'];
 		if(isset($data['details'])) 			$request['details'] 			= $data['details'];
+		if(isset($data['action'])) 				$request['action'] 				= $data['action'];
 		if(isset($data['reference'])) 			$request['reference'] 			= $data['reference'];
 		
 		$request['file'] 	= (isset($data['file'])) ? implode(',', $data['file']) : '';
@@ -61,8 +62,10 @@ class Noncompliance_Model extends CC_Model
 			$request['created_at'] = $datetime;
 			$request['created_by'] = $userid;
 			$this->db->insert('noncompliance', $request);
+			$insertid = $this->db->insert_id();
 		}else{
 			$this->db->update('noncompliance', $request, ['id' => $id]);
+			$insertid = $id;
 		}
 
 		if($this->db->trans_status() === FALSE)
@@ -73,7 +76,12 @@ class Noncompliance_Model extends CC_Model
 		else
 		{
 			$this->db->trans_commit();
-			return true;
+			return $insertid;
 		}
+	}
+	
+	public function delete($id)
+	{
+		return $this->db->where('id', $id)->delete('noncompliance');
 	}
 }

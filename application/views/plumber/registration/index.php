@@ -805,7 +805,6 @@
 
 var userid		= '<?php echo $userid; ?>';
 var filepath 	= '<?php echo $filepath; ?>';
-var ajaxfileurl	= '<?php echo base_url("ajax/index/ajaxfileupload"); ?>';
 var pdfimg		= '<?php echo $pdfimg; ?>';
 var randno		= '<?php echo mt_rand(0000,9999); ?>';
 
