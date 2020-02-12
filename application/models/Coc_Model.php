@@ -132,8 +132,8 @@ class Coc_Model extends CC_Model
 		$this->db->select('st1.*, p1.id, p1.name');
 		$this->db->select('
 			group_concat(concat_ws("@@@", st1.province, p1.name) separator "@-@") as provincesettings');
-		$this->db->from('settings_address st1');
-		$this->db->join('province p1', 'p1.id = st1.province AND st1.type="2"', 'left');
+		$this->db->from('settings_address st1', 'st1.type="2"');
+		$this->db->join('province p1', 'p1.id = st1.province', 'left');
 		
       if($type2=='count'){
 			$result = $this->db->count_all_results();
