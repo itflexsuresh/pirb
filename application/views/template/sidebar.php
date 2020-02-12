@@ -100,8 +100,9 @@ $formstatus  = $userdata['formstatus'];
 					<li><a href="<?php echo base_url().'auditor/profile/index'; ?>">My Profile</a></li>
 				<?php }elseif($type=='6'){ ?>
 					<li><a href="javascript:void(0);">Dashboard</a></li>
-					<li><a href="<?php echo base_url().'resellers/profile/index'; ?>">My Profile</a></li>
+					<li><a href="<?php echo base_url().'resellers/cocstatement/index'; ?>">COC Statement</a></li>
 					<li><a href="<?php echo base_url().'resellers/allocatecoc/index'; ?>">Allocate COC</a></li>
+					<li><a href="<?php echo base_url().'resellers/profile/index'; ?>">My Profile</a></li>
 				<?php } ?>				
 			</ul>
 		</nav>
