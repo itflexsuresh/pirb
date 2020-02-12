@@ -261,6 +261,7 @@ class CC_Controller extends CI_Controller
 			else redirect('admin/resellers/index');
 		}
 		
+		$pagedata['adminvalue']   = $extras['adminvalue'];
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['province'] 		= $this->getProvinceList();
 		
@@ -293,7 +294,7 @@ class CC_Controller extends CI_Controller
 			else redirect('admin/audits/index');
 		}
 
-		$pagedata['adminvalue']   = $extras['adminvalue'];
+		
 		$pagedata['notification'] = $this->getNotification();
 		$pagedata['provincelist'] = $this->getProvinceList();
 		$pagedata['audit_status'] = $this->config->item('audits_status1');
