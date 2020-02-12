@@ -70,6 +70,9 @@ class Index extends CC_Controller
 					$requestData['inv_id']			= $result1;
 
 					$result = $this->Coc_Model->action($requestData, 2);
+
+					
+					
 					echo $result;
 
 
@@ -242,8 +245,7 @@ class Index extends CC_Controller
         	
         }
         $stringaarr = explode("@@@",$rowData['areas']);
-         $provincesettings1 = explode("@@@",$rowData2['provincesettings']);
-        $provincesettings = explode("@-@",$provincesettings1[2]);
+        $provincesettings = explode("@@@",$rowData2['provincesettings']);
 
 
 
@@ -296,7 +298,7 @@ td {
 			<td>
 				<div style="border: 1px solid; width: 70%; margin-top: 40px; margin-left: 20px;">
 					<p style="border-bottom: 1px solid #000; margin-top: 10px; padding: 0 10px 10px 10px; font-weight: 600;">Billing Details</p>
-					<p>'.$rowData['address'].'</p>
+					<p>'.$rowData['company_name'].'</p>
 					<p>'.$stringaarr[6].'</p>
 					<p>'.$stringaarr[5].'</p>
 					<p>'.$stringaarr[4].'</p>
@@ -360,7 +362,7 @@ td {
 					<p>'.$rowData1['account_no'].'</p>
 					<p>'.$rowData1['account_type'].'</p>
 					<p>'.$rowData2['address'].'</p>
-					<p>'.$provincesettings[0].'</p>
+					<p>'.$provincesettings[1].'</p>
 					<p>'.$rowData2['suburb'].'</p>
 					<p>'.$rowData2['city'].'</p>
 				</div>
