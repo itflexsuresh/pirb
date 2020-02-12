@@ -2,7 +2,7 @@
 // print_r($result);
 $usersdetailid 			= isset($result['usersdetailid']) ? $result['usersdetailid'] : '';
 $usersid 			= isset($result['usersid']) ? $result['usersid'] : '';
-
+$coccountid 			= isset($result['coccountid']) ? $result['coccountid'] : '';
 $company_name 				= isset($result['company_name']) ? $result['company_name'] : '';	
 $company 				= isset($result['company']) ? $result['company'] : '';
 $name 				= isset($result['name']) ? $result['name'] : '';	
@@ -42,6 +42,7 @@ $postalcode2 			= isset($postaladdress[6]) ? $postaladdress[6] : '';
 $roletype 				= isset($roletype) ? $roletype : '';
 $pagetype 				= isset($pagetype) ? $pagetype : '';
 
+$adminvalue 				= isset($adminvalue) ? $adminvalue : '';
 // if($roletype=='1'){
 // 	$dynamictabtitle 	= 'Plumbers';
 // 	$dynamicheading 	= 'Reseller Details';
@@ -281,13 +282,32 @@ $pagetype 				= isset($pagetype) ? $pagetype : '';
 
 				<div class="col-md-12 text-right">
 					<input type="hidden" name="usersdetailid" id="usersdetailid" value="<?php echo $usersdetailid; ?>">	
-					<input type="hidden" name="usersid" id="usersid" value="<?php echo $usersid; ?>">				
+					<input type="hidden" name="coccountid" id="coccountid" value="<?php echo $coccountid; ?>">
+					<input type="hidden" name="usersid" id="usersid" value="<?php echo $usersid; ?>">			
 					<input type="submit" name="submit" id="submit" value="submit" class="btn btn-primary">
 				</div>				
-			</form>			
-		</div>
-	</div>
+			</form>
+<?php if($adminvalue==0){}
+else { ?>
+			<div class="table-responsive m-t-40">
+				<table class="table table-bordered table-striped datatables fullwidth">
+					<thead>
+						<tr>
+							<th>COC Number</th>
+							<th>Status</th>
+							<th>Date and Time of </br> Allocation</th>
+							<th>Plumber Name/Surname</th>
+							<th>Plumber Company</th>
+							<th>Reg Number</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+<?php } ?>
+		</div>		
+	</div>	
 </div>
+
 
 
 
@@ -295,6 +315,8 @@ $pagetype 				= isset($pagetype) ? $pagetype : '';
 
 
 $(function(){
+	datatable();
+
 	var userid		= '<?php echo $usersid; ?>';
 	// select2('#plumberstatus, #designation2, #title, #gender, #racial, #nationality, #othernationality, #homelanguage, #disability, #citizen, #registration_card, #delivery_card, #province1, #city1, #suburb1, #province2, #city2, #suburb2, #province3, #city3, #suburb3, #employment_details, #company_details, #skill_route');
 	inputmask('#home_phone, #mobile_phone', 1);
@@ -395,8 +417,30 @@ $(function(){
 		
 	})
 
-
 });
+
+$('.search').on('click',function(){		
+	datatable(1);
+});
+
+function datatable(destroy=0){
+	var user_id		= $('#usersid').val();
+	var options = {
+		url 	: 	'<?php echo base_url()."resellers/cocstatement/index/DTResellers"; ?>',
+		data    :   { customsearch : 'listsearch1',user_id : user_id,search_reg_no:$('#reg_no').val(), search_plumberstatus:$('#plumberstatus').val(), search_idcard:$('#idcard').val(), search_mobile_phone:$('#mobile_phone').val(), search_dob:$('#dob').val(), search_company_details:$('#company_details').val()},  			
+		destroy :   destroy,  			
+		columns : 	[							
+						{ "data": "cocno" },
+						{ "data": "status" },
+						{ "data": "datetime" },
+						{ "data": "name" },
+						{ "data": "company" },
+						{ "data": "registration_no" }
+					]
+	};
+	
+	ajaxdatatables('.datatables', options);
+}
 
 
 </script>

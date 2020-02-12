@@ -15,11 +15,16 @@ class Plumber_Model extends CC_Model
 								'up.registration_no','up.registration_date','up.designation','up.qualification_year','up.coc_electronic','up.message',
 								'up.application_received','up.application_status','up.approval_status','up.reject_reason','up.reject_reason_other','up.otp'
 							];
+
+		$companyname			= 	[ 
+								'concat(pd.name, " ", pd.surname) as companyname' 
+							];
 		
 		$this->db->select('
 			'.implode(',', $users).',
 			'.implode(',', $usersdetail).',
 			'.implode(',', $usersplumber).',
+			'.implode(',', $companyname).',
 			concat_ws("@-@", ua1.id, ua1.user_id, ua1.address, ua1.suburb, ua1.city, ua1.province, ua1.postal_code, ua1.type)  as physicaladdress,
 			concat_ws("@-@", ua2.id, ua2.user_id, ua2.address, ua2.suburb, ua2.city, ua2.province, ua2.postal_code, ua2.type)  as postaladdress,
 			concat_ws("@-@", ua3.id, ua3.user_id, ua3.address, ua3.suburb, ua3.city, ua3.province, ua3.postal_code, ua3.type)  as billingaddress,
@@ -33,6 +38,7 @@ class Plumber_Model extends CC_Model
 		$this->db->join('users_plumber up', 'up.user_id=u.id', 'left');
 		$this->db->join('users_plumber_skill ups', 'ups.user_id=u.id', 'left');
 		$this->db->join('qualificationroute qr', 'qr.id=ups.skills', 'left'); 
+		$this->db->join('users_detail pd', 'pd.user_id=up.company_details', 'left');
 		
 		
 		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);

@@ -27,6 +27,8 @@ class Index extends CC_Controller
 					$pagedata['user_id_hide'] = '0';
 					$pagedata['result'] 	=  $this->Plumber_Model->getList('row',$requestData);
 				}
+
+				// echo '<pre>'; print_r($pagedata['result']); exit;
 				$resultid['user_id'] = $pagedata['result']['id'];						
 				$pagedata['array_orderqty']	=  $this->Resellers_allocatecoc_Model->getqty('row',$resultid);
 
@@ -44,6 +46,8 @@ class Index extends CC_Controller
 				$this->insertOrders();
 				$data 	=  $this->Resellers_allocatecoc_Model->action($requestData);
 				if($data) $message = 'Resellers Allocated Coc'.(($plumberid=='') ? 'created' : 'updated').' successfully.';
+				redirect('resellers/cocstatement/index');
+
 			}
 
 		}
@@ -92,7 +96,7 @@ class Index extends CC_Controller
 			$plumberid = $requestData['plumberid'];
 			$requestData1['user_id']		= 	$plumberid;
 
-			$requestData1['type'] 	= 'paper';
+			$requestData1['coc_type'] 	= '2';
 			$requestData1['delivery_type'] 	= '3';
 			$requestData1['status'] 	= 'unpaid';
 

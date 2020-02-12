@@ -2,6 +2,7 @@
 
 class Resellers_allocatecoc_Model extends CC_Model
 {
+	
 	public function autosearchPlumber($postData){ 
 		
 		
@@ -19,11 +20,63 @@ class Resellers_allocatecoc_Model extends CC_Model
 
 	}
 
+	public function getstockList($type, $requestdata=[]){ 		
+
+		$this->db->select('sm.*,ud.name as name,ud.surname as surname,up.registration_no as registration_no,pa.invoiceno as invoiceno,concat(pd.name, " ", pd.surname) as company ');
+		$this->db->from('stock_management sm');
+		$this->db->join('plumberallocate pa', 'pa.stockid=sm.id','left');
+		$this->db->join('users_detail ud', 'ud.user_id=sm.user_id','left');
+		$this->db->join('users_plumber up', 'up.user_id=sm.user_id','left');
+		$this->db->join('users_detail pd', 'pd.user_id=up.company_details', 'left');
+		$this->db->where('sm.type', '2');
+
+		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
+			$this->db->limit($requestdata['length'], $requestdata['start']);
+		}
+		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
+			$column = ['sm.id'];
+			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+		}
+		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
+			$searchvalue = strtolower((trim($requestdata['search']['value'])));
+			if($searchvalue === 'allocated'){
+				$this->db->where('sm.allocatedby',$requestdata['user_id']);
+			}
+			elseif($searchvalue === 'in stock'){
+				$this->db->where('sm.user_id',$requestdata['user_id']);
+			}
+			else{
+				$this->db->like('sm.id', $searchvalue);
+				$this->db->or_like('pa.invoiceno', $searchvalue);
+				$this->db->or_like('ud.name', $searchvalue);
+				$this->db->or_like('ud.surname', $searchvalue);
+				$this->db->or_like('up.registration_no', $searchvalue);
+				$this->db->or_like('pd.name', $searchvalue);
+			}
+		}
+		else{
+			$this->db->where('sm.user_id',$requestdata['user_id']);
+			$this->db->or_where('sm.allocatedby',$requestdata['user_id']);
+		}
+
+
+		if($type=='count'){
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}		
+		return $result;
+
+	}
+
 	public function getqty($type, $requestdata=[])
 	{ 
 		
-		$this->db->select('sum(quantity) as sumqty');
-		$this->db->from('coc_orders');
+		$this->db->select('count as sumqty');
+		$this->db->from('coc_count');
 
 		if(isset($requestdata['user_id']))	$this->db->where('user_id', $requestdata['user_id']);
 
@@ -76,22 +129,34 @@ class Resellers_allocatecoc_Model extends CC_Model
 		if(isset($data['endrange'])) 			$request['endrange'] 			= $data['endrange'];
 		if(isset($data['invoiceno'])) 			$request['invoiceno'] 			= $data['invoiceno'];
 		
-		if(isset($request)){					
-			$users = $this->db->insert('plumberallocate', $request);
-			$usersid = $this->db->insert_id();
-			$idarray['usersdetailid'] = $usersid;
-			
-			$range = $data['rangebalace_coc'];
-			$startrange = $data['startrange'];
-			// echo  $range;		
+		if(isset($request)){
+			$range = $data['rangebalace_coc'];	
+			$startrange = $data['startrange'];	
+
+			for($i=0; $i < $range; $i++){	
+				$request['stockid'] =	$startrange + $i;
+				$users = $this->db->insert('plumberallocate', $request);
+				$usersid = $this->db->insert_id();
+				// $idarray['usersdetailid'] = $usersid;
+			}			
+						
 			for($i=0; $i < $range; $i++){
 				$request2['coc_status'] = '4';
 				$request2['user_id'] = $data['plumberid'];
+				$request2['allocation_date'] = $datetime;
+				$request2['allocatedby'] = $this->getUserID();
 				$updateid = $startrange + $i;	
-				echo  $updateid.",";	
 				$users1 = $this->db->update('stock_management', $request2, ['id' => $updateid]);
 
 			}
+
+			
+			$balace_coc = $data['balace_coc'];
+			$rangebalace_coc = $data['rangebalace_coc'];
+			$coccount = $balace_coc-$rangebalace_coc;
+			$cocupdateid = $data['plumberid'];
+			$request10['count'] = $coccount;
+			$users10 = $this->db->update('coc_count', $request10, ['user_id' => $cocupdateid]);
 			
 		}			
 				

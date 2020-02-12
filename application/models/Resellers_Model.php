@@ -15,6 +15,77 @@ class Resellers_Model extends CC_Model
 		$usersdetail 	= 	[ 
 								'ud.id as usersdetailid','ud.user_id as usersid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.company','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit', 'ud.vat_vendor'
 							];
+		$coccountnt 			= 	[ 
+								'cc.id as coccountid'
+							];
+
+		$this->db->select('
+			'.implode(',', $users).',
+			'.implode(',', $usersdetail).',
+			'.implode(',', $coccountnt).',
+			concat_ws("@-@", ua1.id, ua1.user_id, ua1.address, ua1.suburb, ua1.city, ua1.province, ua1.postal_code, ua1.type)  as physicaladdress,
+			concat_ws("@-@", ua2.id, ua2.user_id, ua2.address, ua2.suburb, ua2.city, ua2.province, ua2.postal_code, ua2.type)  as postaladdress,
+			concat_ws("@-@", ua3.id, ua3.user_id, ua3.address, ua3.suburb, ua3.city, ua3.province, ua3.postal_code, ua3.type)  as billingaddress');
+
+		$this->db->from('users u');
+		$this->db->join('users_detail ud', 'ud.user_id=u.id', 'left');
+		$this->db->join('users_address ua1', 'ua1.user_id=u.id and ua1.type="1"', 'left');
+		$this->db->join('users_address ua2', 'ua2.user_id=u.id and ua2.type="2"', 'left');
+		$this->db->join('users_address ua3', 'ua3.user_id=u.id and ua3.type="3"', 'left');	
+		$this->db->join('coc_count cc', 'cc.user_id=u.id', 'left');	
+		
+		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);
+
+		$this->db->where('u.type', '6');
+
+		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
+			$this->db->limit($requestdata['length'], $requestdata['start']);
+		}
+		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
+			$column = ['ud.name' ];
+			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+		}
+		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
+			$searchvalue = $requestdata['search']['value'];
+			$this->db->like('ud.name', $searchvalue);
+			$this->db->or_like('u.email', $searchvalue);
+			$this->db->or_like('ud.mobile_phone', $searchvalue);
+		}
+
+		// if(isset($requestdata['customsearch'])){
+		// 	if($requestdata['customsearch']=='listsearch1'){
+		// 		if(isset($requestdata['search_reg_no']) && $requestdata['search_reg_no']!='') $this->db->like('up.registration_no', $requestdata['search_reg_no']);
+		// 		if(isset($requestdata['search_plumberstatus']) && $requestdata['search_plumberstatus']!='') $this->db->like('up.status', $requestdata['search_plumberstatus']);
+		// 		if(isset($requestdata['search_idcard']) && $requestdata['search_idcard']!='') $this->db->like('up.idcard', $requestdata['search_idcard']);
+		// 		if(isset($requestdata['search_mobile_phone']) && $requestdata['search_mobile_phone']!='') $this->db->like('ud.mobile_phone', $requestdata['search_mobile_phone']);
+		// 		if(isset($requestdata['search_dob']) && $requestdata['search_dob']!='') $this->db->like('ud.dob', date('Y-m-d', strtotime($requestdata['search_dob'])));
+		// 		if(isset($requestdata['search_company_details']) && $requestdata['search_company_details']!='') $this->db->like('up.company_details', $requestdata['search_company_details']);
+		// 	}
+		// }
+
+		// $this->db->group_by('u.id');
+
+		if($type=='count'){
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		return $result;
+	}
+
+	public function getCocList($type, $requestdata=[])
+	{ 
+
+		$users 			= 	[ 
+								'u.id','u.email','u.formstatus','u.status' ,'u.password_raw'
+							];
+		$usersdetail 	= 	[ 
+								'ud.id as usersdetailid','ud.user_id as usersid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.company','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit', 'ud.vat_vendor'
+							];
 
 		$this->db->select('
 			'.implode(',', $users).',
@@ -32,19 +103,6 @@ class Resellers_Model extends CC_Model
 		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);
 
 		$this->db->where('u.type', '6');
-
-		// if(isset($requestdata['customsearch'])){
-		// 	if($requestdata['customsearch']=='listsearch1'){
-		// 		if(isset($requestdata['search_reg_no']) && $requestdata['search_reg_no']!='') $this->db->like('up.registration_no', $requestdata['search_reg_no']);
-		// 		if(isset($requestdata['search_plumberstatus']) && $requestdata['search_plumberstatus']!='') $this->db->like('up.status', $requestdata['search_plumberstatus']);
-		// 		if(isset($requestdata['search_idcard']) && $requestdata['search_idcard']!='') $this->db->like('up.idcard', $requestdata['search_idcard']);
-		// 		if(isset($requestdata['search_mobile_phone']) && $requestdata['search_mobile_phone']!='') $this->db->like('ud.mobile_phone', $requestdata['search_mobile_phone']);
-		// 		if(isset($requestdata['search_dob']) && $requestdata['search_dob']!='') $this->db->like('ud.dob', date('Y-m-d', strtotime($requestdata['search_dob'])));
-		// 		if(isset($requestdata['search_company_details']) && $requestdata['search_company_details']!='') $this->db->like('up.company_details', $requestdata['search_company_details']);
-		// 	}
-		// }
-
-		// $this->db->group_by('u.id');
 
 		if($type=='count'){
 			$result = $this->db->count_all_results();
@@ -82,12 +140,11 @@ class Resellers_Model extends CC_Model
 			$usersid	= 	$data['usersid'];			
 			if($usersid==''){					
 				$users = $this->db->insert('users', $request);
-				$usersid = $this->db->insert_id();
+				$usersid = $this->db->insert_id();				
 			}
 			else{
 				$users = $this->db->update('users', $request, ['id' => $usersid]);
-			}
-					
+			}					
 		}
 		
 		if(isset($data['title'])) 				$request1['title'] 				= $data['title'];
@@ -115,7 +172,7 @@ class Resellers_Model extends CC_Model
 			$usersdetailid	= 	$data['usersdetailid'];
 			
 			$request1['user_id'] = $usersid;
-			
+			$request1['status'] = (isset($data['status'])) ? $data['status'] : '0';			
 			if($usersdetailid==''){
 				$usersdetail = $this->db->insert('users_detail', $request1);
 				$usersdetailinsertid = $this->db->insert_id();
@@ -142,6 +199,21 @@ class Resellers_Model extends CC_Model
 			}
 			
 			$idarray['usersaddressinsertid'] = $usersaddressinsertids;
+		}
+
+
+		$request10['count']  = $data['coc_purchase_limit'];
+		$request10['user_id'] = $usersid;
+		$request10['created_by'] = $usersid;
+		$request10['created_at'] = $datetime;
+		$coccountid	= 	$data['coccountid'];
+		// echo $request10; exit;
+		if($coccountid==''){
+			$coccount = $this->db->insert('coc_count', $request10);
+			$coccountinsertid = $this->db->insert_id();
+		}else{
+			$coccount = $this->db->update('coc_count', $request10, ['id' => $coccountid]);
+			$coccountinsertid = $coccountid;
 		}
 				
 		// if(isset($data['province'])) 				$request3['province'] 			= $data['province'];

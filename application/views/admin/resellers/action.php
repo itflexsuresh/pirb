@@ -2,7 +2,7 @@
 // print_r($result);
 $usersdetailid 			= isset($result['usersdetailid']) ? $result['usersdetailid'] : '';
 $usersid 			= isset($result['usersid']) ? $result['usersid'] : '';
-
+$coccountid 			= isset($result['coccountid']) ? $result['coccountid'] : '';
 $company_name 				= isset($result['company_name']) ? $result['company_name'] : '';	
 $company 				= isset($result['company']) ? $result['company'] : '';
 $name 				= isset($result['name']) ? $result['name'] : '';	
@@ -268,7 +268,8 @@ $postalcode2 			= isset($postaladdress[6]) ? $postaladdress[6] : '';
 
 				<div class="col-md-12 text-right">
 					<input type="hidden" name="usersdetailid" id="usersdetailid" value="<?php echo $usersdetailid; ?>">	
-					<input type="hidden" name="usersid" id="usersid" value="<?php echo $usersid; ?>">				
+					<input type="hidden" name="usersid" id="usersid" value="<?php echo $usersid; ?>">
+					<input type="text" name="coccountid" id="coccountid" value="<?php echo $coccountid; ?>">				
 					<input type="submit" name="submit" id="submit" value="submit" class="btn btn-primary">
 				</div>				
 			</form>			
