@@ -70,6 +70,8 @@ class Index extends CC_Controller
 					$requestData['inv_id']			= $result1;
 
 					$result = $this->Coc_Model->action($requestData, 2);
+
+					
 					
 					echo $result;
 
@@ -187,6 +189,8 @@ class Index extends CC_Controller
 
 		 	$orders = $this->db->select('*')->from('coc_orders')->where(['user_id' => $userid])->order_by('id','desc')->get()->row_array();
 
+
+
 		 	// invoice PDF
 
 		 	$rowData = $this->Coc_Model->getListPDF('row', ['id' => $inv_id, 'status' => ['0','1']]);
@@ -198,39 +202,45 @@ class Index extends CC_Controller
 
            			$invoiceDate 	= date("d-m-Y", strtotime($rowData['created_at']));
 
+           			print_r($rowData);die;
+
            			
 
-           			if ($rowData['type'] == 'electronic') {
-           				$coc_type_id = 14;
-           				$PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
-           			}
-           			else{
+           			
 
-           				if ($rowData['type'] == 'paper' && $rowData['delivery_type'] == 2) {
-           				$del_method = 17;
-	           				
-	           			}elseif($rowData['type'] == 'paper' && $rowData['delivery_type'] == 3){
-	           				$del_method = 2;
-	           				// $db_paper_type = $this->db->select('amount')->from('rates')->where('id',$del_method)->get()->row_array();
-	           			}else{
-	           				$db_paper_type['amount'] = 0;
-	           				
-	           				$db_paper_type['amount'] = 0;
+           			
+
+           			if ($rowData['coc_type'] == '1') {
+           				$coc_type_id = 13;
+           				$delivery_rate['amount'] = 0;
+           				$PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
+
+           			}elseif($rowData['coc_type'] == '2'){
+           				$coc_type_id = 14;
+           				if ($rowData['delivery_type'] == '1') {
+           					$delivery_method = 24;
+           				}elseif ($rowData['delivery_type'] == '2') {
+           					$delivery_method = 17;
+           				}elseif ($rowData['delivery_type'] == '3') {
+           					$delivery_method = 2;
            				}
 
-           				$coc_type_id = 13;
            				$PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
-           				$db_paper_type = $this->db->select('amount')->from('rates')->where('id',$del_method)->get()->row_array();
-           				$total_pdf = ($rowData['cost_value']+$db_paper_type['amount']);
-           				
+           				$delivery_rate =  $this->db->select('amount')->from('rates')->where('id',$delivery_method)->get()->row_array();
+
+
            			}
+           			$total_subtotal = $delivery_rate['amount']+$rowData['cost_value'];
+
+           				
+           			
            			
 
            			$base_url= base_url();
 
          
 
-        if($rowData["status"]=='paid'){
+        if($rowData["status"]=='1'){
 
         	 $paid = "<img style='width: 290px' src='".$_SERVER['DOCUMENT_ROOT']."/auditit_new/pirb/assets/images/paid.jpg>";
         	 $paid_status = "PAID";
@@ -243,7 +253,10 @@ class Index extends CC_Controller
         	
         }
         $stringaarr = explode("@@@",$rowData['areas']);
-        $addrpirb = explode("@@@",$rowData2['provincesettings']);
+        $provincesettings = explode("@@@",$rowData2['provincesettings']);
+
+
+
 
 				$html = '<!DOCTYPE html>
 <html>
@@ -309,7 +322,7 @@ td {
 					<p style="width: 89px; display: inline-block; margin: 0px 5px 0 5px; padding: 10px;    font-size: 14px; font-weight: 600;">Invoice Date</p>
 				</div>
 				<div style="border: 1px solid #000; margin-top: -1px;">
-					<p style="width: 140px; display: inline-block; margin: 0px 5px 0 5px; padding: 10px;   font-size: 14px; border-right: 1px solid #000; text-align: center;">'.$rowData['registration_no'].'</p>
+					<p style="width: 140px; display: inline-block; margin: 0px 5px 0 5px; padding: 10px;   font-size: 14px; border-right: 1px solid #000; text-align: center;">'.$rowData['reg_no'].'</p>
 					<p style="width: 110px; display: inline-block; margin: 0px 5px 0 5px; padding: 10px;   font-size: 14px; border-right: 1px solid #000;">'.$rowData['vat_no'].'</p>
 					<p style="width: 89px; display: inline-block; margin: 0px 5px 0 5px; padding: 10px;   font-size: 14px;">'.$invoiceDate.'</p>
 				</div>
@@ -341,8 +354,8 @@ td {
 					<div style="padding: 0 20px 0 20px;">
 						<p style="width: 50%; display: inline-block; border-right: 1px solid #000; margin: 0;    padding: 10px 0 10px 0;">Courier/Regsitered Post Fee</p>
 						<p style="width: 10%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000;text-align: center;">1</p>
-						<p style="width: 19%;display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000; text-align: center;">'.$db_paper_type['amount'].'</p>
-						<p style="width: 18%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$db_paper_type['amount'].'</p>
+						<p style="width: 19%;display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000; text-align: center;">'.$delivery_rate['amount'].'</p>
+						<p style="width: 18%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$delivery_rate['amount'].'</p>
 					</div>
 				</div>
 			</td>
@@ -353,8 +366,11 @@ td {
 					<p style="font-weight: 600;">Banking Detail</p>
 					<p>'.$rowData1['bank_name'].'</p>            
 					<p>'.$rowData1['branch_code'].'</p>
+					<p>'.$rowData1['account_name'].'</p>
+					<p>'.$rowData1['account_no'].'</p>
+					<p>'.$rowData1['account_type'].'</p>
 					<p>'.$rowData2['address'].'</p>
-					<p>'.$rowData2['province'].'</p>
+					<p>'.$provincesettings[1].'</p>
 					<p>'.$rowData2['suburb'].'</p>
 					<p>'.$rowData2['city'].'</p>
 				</div>
@@ -363,7 +379,7 @@ td {
 				<p style="text-align: center; border: 1px solid #000; width: 50%; float: right; margin-right: 20px;">
 					<p style="border-bottom: 1px solid #000;">
 						<p style="width: auto; display: inline-block; margin: 0; padding: 6px 0 6px 0;    border-right: 1px solid #000;">Sub Total</p>
-						<p style="width: 50%; display: inline-block; margin: 0; padding: 6px 0 6px 0;">'.$total_pdf.'</p>
+						<p style="width: 50%; display: inline-block; margin: 0; padding: 6px 0 6px 0;">'.$total_subtotal.'</p>
 					</p>
 					<p style="border-bottom: 1px solid #000;">
 						<p style="width: auto; display: inline-block; margin: 0; padding: 6px 0 6px 0;    border-right: 1px solid #000;">VAT Total</p>
@@ -392,6 +408,7 @@ td {
 				$output = $this->pdf->output();
 				file_put_contents($filePath.$pdfFilePath, $output);
 				//$this->pdf->stream($pdfFilePath);
+
 			 $cocTypes = $orders['coc_type'];
 			 $mail_date = date("d-m-Y", strtotime($orders['created_at']));
 			  
