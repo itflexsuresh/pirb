@@ -202,14 +202,6 @@ class Index extends CC_Controller
 
            			$invoiceDate 	= date("d-m-Y", strtotime($rowData['created_at']));
 
-           			print_r($rowData);die;
-
-           			
-
-           			
-
-           			
-
            			if ($rowData['coc_type'] == '1') {
            				$coc_type_id = 13;
            				$delivery_rate['amount'] = 0;
