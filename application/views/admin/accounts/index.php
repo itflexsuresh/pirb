@@ -84,7 +84,7 @@ if(isset($result) && $result){
 			{ "data": "inv_id" },
 			{ "data": "created_at" },
 			{ "data": "name" },
-			{ "data": "reg_no" },
+			{ "data": "registration_no" },
 			{ "data": "description" },
 			{ "data": "total_cost" },
 			{ "data": "action" },
