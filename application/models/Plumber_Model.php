@@ -40,7 +40,7 @@ class Plumber_Model extends CC_Model
 		if(isset($requestdata['formstatus']))			$this->db->where_in('u.formstatus', $requestdata['formstatus']);
 		if(isset($requestdata['status']))				$this->db->where_in('u.status', $requestdata['status']);
 		if(isset($requestdata['approvalstatus']))		$this->db->where_in('up.approval_status', $requestdata['approvalstatus']);
-		if(isset($requestdata['plumberstatus']))		$this->db->where_in('up.status', $requestdata['plumberstatus']);
+		if(isset($requestdata['plumberstatus']))		$this->db->where_in('ud.status', $requestdata['plumberstatus']);
 		
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
@@ -111,6 +111,10 @@ class Plumber_Model extends CC_Model
 		if(isset($data['specialisations'])) 	$request1['specialisations'] 	= implode(',', $data['specialisations']);	
 		if(isset($data['plumberstatus'])) 		$request1['status'] 			= $data['plumberstatus'];
 		
+		if(isset($data['approval_status']) && $data['approval_status']=='1'){
+			$request1['status'] 	= '1';
+		}
+		
 		if(isset($request1)){
 			$usersdetailid	= 	$data['usersdetailid'];
 			if(isset($data['user_id'])) $request1['user_id'] = $data['user_id'];
@@ -156,7 +160,6 @@ class Plumber_Model extends CC_Model
 		
 		if(isset($data['approval_status']) && $data['approval_status']=='1'){
 			$request2['registration_date'] 	= date('Y-m-d');
-			$request2['status'] 			= '1';
 		}
 		
 		if(isset($request2)){
