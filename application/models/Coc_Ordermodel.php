@@ -35,7 +35,7 @@ class Coc_Ordermodel extends CC_Model
 
 	public function action($data){
 
-		if(isset($data['description']))		$requestdata['description'] 	= $data['description'];	
+		if(isset($data['quantity'])) 		$requestdata['description'] 	= 'Purchase of '.$requestdata['quantity'].' PIRB Certificate of Compliance';	
 		if(isset($data['created_at'])) 	    $requestdata['created_at'] 		= date('Y-m-d H:i:s', strtotime($data['created_at']));
 		if(isset($data['user_id']))			$requestdata['user_id'] 		= $data['user_id'];	
 		if(isset($data['coc_type'])) 		$requestdata['coc_type'] 		= $data['coc_type'];

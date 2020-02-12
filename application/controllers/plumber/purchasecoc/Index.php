@@ -70,6 +70,9 @@ class Index extends CC_Controller
 					$requestData['inv_id']			= $result1;
 
 					$result = $this->Coc_Model->action($requestData, 2);
+
+					
+					
 					echo $result;
 
 
@@ -242,8 +245,7 @@ class Index extends CC_Controller
         	
         }
         $stringaarr = explode("@@@",$rowData['areas']);
-         $provincesettings1 = explode("@@@",$rowData2['provincesettings']);
-        $provincesettings = explode("@-@",$provincesettings1[2]);
+        $provincesettings = explode("@@@",$rowData2['provincesettings']);
 
 
 
@@ -359,10 +361,6 @@ td {
 					<p>'.$rowData1['account_name'].'</p>
 					<p>'.$rowData1['account_no'].'</p>
 					<p>'.$rowData1['account_type'].'</p>
-					<p>'.$rowData2['address'].'</p>
-					<p>'.$provincesettings[0].'</p>
-					<p>'.$rowData2['suburb'].'</p>
-					<p>'.$rowData2['city'].'</p>
 				</div>
 			</td>
 			<td>

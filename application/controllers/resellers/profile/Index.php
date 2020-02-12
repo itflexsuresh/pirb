@@ -12,7 +12,7 @@ class Index extends CC_Controller
 	
 	public function index()
 	{
-		$id = $this->getUserID();
-		$this->resellersprofile($id, ['roletype' => $this->config->item('roleresellers'), 'pagetype' => 'profile'], ['redirect' => 'resellers/profile/index']);
+		$id = $this->getUserID();		
+		$this->resellersprofile($id, ['roletype' => $this->config->item('roleresellers'), 'pagetype' => 'profile'], ['redirect' => 'resellers/profile/index','adminvalue' => '0']);
 	}
 }

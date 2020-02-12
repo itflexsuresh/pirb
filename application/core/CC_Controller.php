@@ -91,7 +91,7 @@ class CC_Controller extends CI_Controller
 		}
 		
 		if(isset($userid)){
-			$result = $this->Users_Model->getUserDetails('row', ['id' => $userid, 'status' => ['0','1','3']]);
+			$result = $this->Users_Model->getUserDetails('row', ['id' => $userid, 'status' => ['0','1']]);
 			
 			if($result){
 				return $result;
@@ -261,6 +261,7 @@ class CC_Controller extends CI_Controller
 			else redirect('admin/resellers/index');
 		}
 		
+		$pagedata['adminvalue']   = $extras['adminvalue'];
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['province'] 		= $this->getProvinceList();
 		
@@ -293,6 +294,7 @@ class CC_Controller extends CI_Controller
 			else redirect('admin/audits/index');
 		}
 
+		
 		$pagedata['notification'] = $this->getNotification();
 		$pagedata['provincelist'] = $this->getProvinceList();
 		$pagedata['audit_status'] = $this->config->item('audits_status1');
