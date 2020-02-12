@@ -310,7 +310,7 @@ $(function(){
 			},
 			tracking_no : {
 				required:  	function() {
-								return ($("#designation2").val() == "2" || $("#designation2").val() == "3");
+								return ($("#delivery_type").val() == "2" || $("#delivery_type").val() == "3");
 							}			
 			},
 			purchase_type : {
@@ -397,7 +397,6 @@ function user_search(value)
 
 function user_search_result(data)
 {
-	console.log(data);
 	var result = [];
 	
 	$(data).each(function(i, v){
@@ -457,10 +456,11 @@ $('.form').submit(function(){
 function coccalculation(){
 	var coctype = $('.coc_type:checked').val();
 	var deliverytype = $('.delivery_type').val();
+	var quantity = $('#quantity').val();
 	
 	var coctypeval = 0;
-	if(coctype==1) coctypeval = parseFloat(cocelectronic);
-	else if(coctype==2) coctypeval = parseFloat(cocpaperwork);
+	if(coctype==1) coctypeval = parseFloat(cocelectronic) * quantity;
+	else if(coctype==2) coctypeval = parseFloat(cocpaperwork) * quantity;
 	
 	var deliverytypeval = 0;
 	if(coctype==2){

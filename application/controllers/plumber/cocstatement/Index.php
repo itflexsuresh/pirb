@@ -30,10 +30,10 @@ class Index extends CC_Controller
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
-				if($result['coc_status']=='2'){
-					$action = '<a href="'.base_url().'plumber/cocstatement/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>';
-				}elseif($result['coc_status']=='5'){
-					$action = '<a href="'.base_url().'plumber/cocstatement/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
+				if($result['coc_status']=='5'){
+					$action = '<a href="'.base_url().'plumber/cocstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>';
+				}elseif($result['coc_status']=='2'){
+					$action = '<a href="'.base_url().'plumber/cocstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
 				}
 				
 				$totalrecord[] = 	[
@@ -41,8 +41,8 @@ class Index extends CC_Controller
 										'cocstatus' 		=> 	$this->config->item('cocstatus')[$result['coc_status']],
 										'purchased' 		=> 	date('d-m-Y', strtotime($result['purchased_at'])),
 										'coctype' 			=> 	$this->config->item('coctype')[$result['type']],
-										'customer' 			=> 	$result['name'],
-										'address' 			=> 	$result['address'],
+										'customer' 			=> 	$result['customer_name'],
+										'address' 			=> 	$result['customer_address'],
 										'company' 			=> 	$result['company'],
 										'action'			=> 	'
 																	<div class="table-action">
@@ -63,17 +63,27 @@ class Index extends CC_Controller
 		echo json_encode($json);
 	}
 	
+	public function view($id)
+	{
+		$this->coclogaction($id, ['pagetype' => 'view'], ['redirect' => 'plumber/cocstatement/index']);
+	}
+	
 	public function action($id)
+	{
+		$this->coclogaction($id, ['pagetype' => 'action'], ['redirect' => 'plumber/cocstatement/index']);
+	}
+	
+	public function coclogaction($id, $pagedata=[], $extras=[])
 	{
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
 
 			$data 	=  $this->Coc_Model->actionCocLog($requestData);
 		
-			if(isset($data)) $this->session->set_flashdata('success', 'Log '.(($id=='') ? 'created' : 'updated').' successfully.');
+			if($data) $this->session->set_flashdata('success', 'Log '.(($id=='') ? 'created' : 'updated').' successfully.');
 			else $this->session->set_flashdata('error', 'Try Later.');
 		
-			redirect('plumber/cocstatement/index'); 
+			redirect($extras['redirect']); 
 		}
 		
 		$userid							= $this->getUserID();
@@ -84,10 +94,12 @@ class Index extends CC_Controller
 		$pagedata['cocid'] 				= $id;
 		$pagedata['notification'] 		= $this->getNotification();
 		$pagedata['province'] 			= $this->getProvinceList();
+		$pagedata['designation2'] 		= $this->config->item('designation2');
 		$pagedata['installationtype']	= $this->getInstallationTypeList();
 		$pagedata['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => [$userdata['designation']], 'specialisations' => []]);
 		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => [$userdata['designation']], 'specialisations' => $specialisations]);
 		$pagedata['noncompliance']		= $this->Noncompliance_Model->getList('all', ['user_id' => $userdata['id']]);
+		$pagedata['coclist']			= $this->Coc_Model->getCOCList('row', ['id' => $id]);
 		$pagedata['result']				= $this->Coc_Model->getCOCLog('row', ['coc_id' => $id]);
 	
 		$data['plugins']				= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];

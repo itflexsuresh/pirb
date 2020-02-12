@@ -9,7 +9,9 @@ class Coc_Model extends CC_Model
 			concat(ud.name, " ", ud.surname) as name, 
 			u.type as usertype,
 			ua.address,
-			concat(pd.name, " ", pd.surname) as company 
+			concat(pd.name, " ", pd.surname) as company,
+			cl.name as customer_name,
+			cl.address as customer_address
 		');
 		$this->db->from('stock_management sm');
 		$this->db->join('users_address ua', 'ua.user_id=sm.user_id and ua.type="3"', 'left');
@@ -17,6 +19,7 @@ class Coc_Model extends CC_Model
 		$this->db->join('users u', 'u.id=sm.user_id', 'left');
 		$this->db->join('users_plumber p', 'p.user_id=sm.user_id', 'left');
 		$this->db->join('users_detail pd', 'pd.user_id=p.company_details', 'left');
+		$this->db->join('coc_log cl', 'cl.coc_id=sm.id', 'left');
 		
 		if(isset($requestdata['auditstatus']) && count($requestdata['auditstatus']) > 0)	$this->db->where_in('sm.audit_status', $requestdata['auditstatus']);
 		if(isset($requestdata['coctype']) && count($requestdata['coctype']) > 0)			$this->db->where_in('sm.type', $requestdata['coctype']);
@@ -359,7 +362,13 @@ class Coc_Model extends CC_Model
 		}else{
 			$this->db->update('coc_log', $request, ['id' => $id]);
 		}
-
+		
+		if(isset($data['submit'])){
+			if($data['submit']=='save'){
+				$this->db->update('stock_management', ['coc_status' => '2'], ['id' => $data['coc_id']]);
+			}
+		}
+		
 		if($this->db->trans_status() === FALSE)
 		{
 			$this->db->trans_rollback();
