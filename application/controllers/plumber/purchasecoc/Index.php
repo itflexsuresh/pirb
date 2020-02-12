@@ -361,10 +361,6 @@ td {
 					<p>'.$rowData1['account_name'].'</p>
 					<p>'.$rowData1['account_no'].'</p>
 					<p>'.$rowData1['account_type'].'</p>
-					<p>'.$rowData2['address'].'</p>
-					<p>'.$provincesettings[1].'</p>
-					<p>'.$rowData2['suburb'].'</p>
-					<p>'.$rowData2['city'].'</p>
 				</div>
 			</td>
 			<td>
