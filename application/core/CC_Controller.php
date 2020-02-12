@@ -16,6 +16,7 @@ class CC_Controller extends CI_Controller
 		$this->load->model('Comment_Model');
 		$this->load->model('Systemsettings_Model');
 		$this->load->model('Auditor_Model');
+		$this->load->model('Coc_Model');
 		
 		$this->load->library('pdf');
 		$this->load->library('phpqrcode/qrlib');
@@ -156,6 +157,7 @@ class CC_Controller extends CI_Controller
 			'4' => $this->getRates($this->config->item('licensed'))
 		];
 	}
+	
 	public function getCityList()
 	{
 		$data = $this->Managearea_Model->getListCity('all', ['status' => ['1']]);
@@ -181,6 +183,8 @@ class CC_Controller extends CI_Controller
 			if(isset($requestData['submit']) && $requestData['submit']=='approvalsubmit'){
 				$commentdata 	=  $this->Comment_Model->action($requestData);				
 			}
+			
+			if(isset($requestData['coc_purchase_limit'])) $this->Coc_Model->actionCocCount(['count' => $requestData['coc_purchase_limit'], 'user_id' => $id]);
 			
 			if($plumberdata || (isset($commentdata) && $commentdata)){
 				$data		= '1';
@@ -246,15 +250,11 @@ class CC_Controller extends CI_Controller
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
 
-			if($requestData['submit']=='submit'){
-				$data 	=  $this->Resellers_Model->action($requestData);
-				if($data) $message = 'Resellers '.(($id=='') ? 'created' : 'updated').' successfully.';
-			}else{
-				$data 			= 	$this->Resellers_Model->changestatus($requestData);
-				$message		= 	'Resellers deleted successfully.';
-			}
-
-			if(isset($data)) $this->session->set_flashdata('success', $message);
+			$data 	=  $this->Resellers_Model->action($requestData);
+		
+			if(isset($requestData['coc_purchase_limit'])) $this->Coc_Model->actionCocCount(['count' => $requestData['coc_purchase_limit'], 'user_id' => $id]);
+			
+			if($data) $this->session->set_flashdata('success', 'Resellers '.(($id=='') ? 'created' : 'updated').' successfully.');
 			else $this->session->set_flashdata('error', 'Try Later.');
 			
 			if($extras['redirect']) redirect($extras['redirect']); 

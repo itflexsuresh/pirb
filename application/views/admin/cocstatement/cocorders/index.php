@@ -122,7 +122,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 											?>
 													<div class="col-md-5">
 														<div class="custom-control custom-radio">
-															<input type="radio" name="coc_type" id="<?php echo $key.'-'.$value; ?>" class="custom-control-input coc_type" value="<?php echo $key; ?>">
+															<input type="radio" name="coc_type" id="<?php echo $key.'-'.$value; ?>" class="custom-control-input coc_type <?php if($key=='1'){ echo 'electronic_radio';} ?>" value="<?php echo $key; ?>">
 															<label class="custom-control-label" for="<?php echo $key.'-'.$value; ?>"><?php echo $value; ?></label>
 														</div>
 													</div>
@@ -176,13 +176,11 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 								<input type="text" autocomplete="off" class="form-control" name="internal_inv">
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-12 tracking_wrapper displaynone">
 							<div class="form-group col-md-6 row">
 								<label>Tracking No</label>
 								<input type="text" autocomplete="off" class="form-control" name="tracking_no">
 							</div>
-						</div>
-						<div class="col-md-6 mt_20">
 							<div class="form-group">
 								<div class="custom-control custom-checkbox">
 									<input type="checkbox" class="custom-control-input" id="sms_notifi" name="sms_track" value="1">
@@ -311,7 +309,9 @@ $(function(){
 				required	: true,
 			},
 			tracking_no : {
-				required	: true,
+				required:  	function() {
+								return ($("#designation2").val() == "2" || $("#designation2").val() == "3");
+							}			
 			},
 			purchase_type : {
 				required	: true,
@@ -372,7 +372,6 @@ $(function(){
 	
 	ajaxdatatables('.datatables', options);
 
-
 	$(".comments, .order_cancelled").hide();
 });
 
@@ -398,24 +397,27 @@ function user_search(value)
 
 function user_search_result(data)
 {
+	console.log(data);
 	var result = [];
 	
 	$(data).each(function(i, v){
-		var name = $.trim(v.name+' '+v.surname);
-		var fn = "user_select('"+name+"', '"+v.id+"', '"+v.coc_purchase_limit+"')";
-		result.push('<li onclick="'+fn+'">'+name+'</li>');
+		var fn = "user_select('"+v.name+"', '"+v.id+"', '"+v.count+"', '"+v.coc_electronic+"')";
+		result.push('<li onclick="'+fn+'">'+v.name+'</li>');
 	})
 	
 	var append = '<ul class="autocomplete_list">'+result.join('')+'</ul>';
 	$("#user_suggestion").html('').removeClass('displaynone').html(append);
 }
 
-function user_select(val, id, limit) {
+function user_select(name, id, limit, electronic) {
 	$("#user_suggestion").html('');
-	$("#user_search").val(val);
+	$("#user_search").val(name);
 	$("#user_id").val(id);
 	$("#user_limit").val(limit);
 	$('#quantity').attr('max', limit);
+	
+	if(electronic=='1') $('.electronic_radio').parent().parent().show();
+	else $('.electronic_radio').parent().parent().hide();
 }
 
 $('#quantity').keyup(function(e){
@@ -433,6 +435,18 @@ function deliverytype(value){
 		$('.delivery_type_wrapper').removeClass('displaynone');
 	}else{
 		$('.delivery_type_wrapper').addClass('displaynone');
+	}
+}
+
+$(".delivery_type").change(function(){
+	trackingno($(this).val())
+});
+
+function trackingno(value){
+	if(value==1){
+		$('.tracking_wrapper').addClass('displaynone');
+	}else{
+		$('.tracking_wrapper').removeClass('displaynone');
 	}
 }
 

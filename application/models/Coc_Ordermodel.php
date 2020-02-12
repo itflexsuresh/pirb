@@ -7,7 +7,7 @@ class Coc_Ordermodel extends CC_Model
 		$this->db->select('t1.*,t2.name,t2.surname,t3.type, t3.address');
 		$this->db->from('coc_orders t1');
 		$this->db->join('users_detail t2', 't1.user_id=t2.user_id', 'left');
-		$this->db->join('users_address t3', 't1.user_id=t3.user_id AND t3.type="3"', 'left');
+		$this->db->join('users_address t3', 't1.user_id=t3.user_id AND t3.type="2"', 'left');
 
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
@@ -62,42 +62,45 @@ class Coc_Ordermodel extends CC_Model
 
 			
 			$result = $this->db->insert('coc_orders', $requestdata1);
-
 		}
 	}
 
 	
 	public function autosearchPlumber($postData){
 		
-		$this->db->select('u1.name,u1.surname,u2.id,u1.coc_purchase_limit');
-		$this->db->from('users_detail u1');
-		$this->db->join('users u2', 'u1.user_id=u2.id and u2.type="3" and u2.status="1"','inner');
-		$this->db->like('u1.name',$postData['search_keyword']);
-		$this->db->or_like('u1.surname',$postData['search_keyword']);
-		$this->db->group_by("u1.id");
+		$this->db->select('concat(ud.name, " ", ud.surname) as name,cc.count,u.id,up.coc_electronic');
+		$this->db->from('users_detail ud');
+		$this->db->join('users u', 'u.id=ud.user_id','inner');
+		$this->db->join('users_plumber up', 'up.user_id=ud.user_id','inner');
+		$this->db->join('coc_count cc', 'cc.user_id=ud.user_id','inner');
+		$this->db->where(['ud.status' => '1', 'u.type' => '3']);
+		$this->db->where_in('up.designation', ['4','5','6']);
+		$this->db->like('ud.name',$postData['search_keyword']);
+		$this->db->or_like('ud.surname',$postData['search_keyword']);
+		$this->db->group_by("ud.id");
 		
-			$query = $this->db->get();
-			$result = $query->result_array();
-			// echo $this->db->last_query();
+		$query = $this->db->get();
+		$result = $query->result_array();
+		
 		return $result;
-
 	}
 
 	public function autosearchReseller($postData){
 		
-		$this->db->select('u1.company as name,u2.id,u1.coc_purchase_limit');
-		$this->db->from('users_detail u1');
-		$this->db->join('users u2', 'u1.user_id=u2.id and u2.type="6" and u2.status="1"','inner');
-		$this->db->like('u1.name',$postData['search_keyword']);
-		$this->db->or_like('u1.surname',$postData['search_keyword']);
-		$this->db->or_like('u1.company',$postData['search_keyword']);
-		$this->db->group_by("u1.id");
+		$this->db->select('ud.company as name,cc.count,u.id, "0" as coc_electronic');
+		$this->db->from('users_detail ud');
+		$this->db->join('users u', 'u.id=ud.user_id','inner');
+		$this->db->join('coc_count cc', 'cc.user_id=ud.user_id','inner');
+		$this->db->where(['ud.status' => '1', 'u.type' => '6']);
+		$this->db->like('ud.name',$postData['search_keyword']);
+		$this->db->or_like('ud.surname',$postData['search_keyword']);
+		$this->db->or_like('ud.company',$postData['search_keyword']);
+		$this->db->group_by("ud.id");
 		
-			$query = $this->db->get();
-			$result = $query->result_array();
+		$query = $this->db->get();
+		$result = $query->result_array();
 			
 		return $result;
-
 	}
 
 	
