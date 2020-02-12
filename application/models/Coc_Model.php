@@ -61,8 +61,9 @@ class Coc_Model extends CC_Model
 	*/
 
 	public function getListPDF($type, $requestdata=[]){
+		//print_r($requestdata);die;
 		        $query=$this->db->select('t1.*,t1.status,t1.created_at,
-        	t2.inv_id, t2.total_due, t2.quantity, t2.cost_value,t2.vat, t2.delivery_cost, t2.total_due, t3.reg_no, t3.id, t3.name name, t3.surname surname, t3.company_name company_name, t3.vat_no vat_no, t3.email2, t3.home_phone, t4.address, t4.suburb, t4.city,t4.province, t5.id, t5.name,t6.id, t6.province_id, t6.name,t7.id, t7.province_id, t7.city_id, t7.name,t8.registration_no ');
+        	t2.inv_id, t2.total_due, t2.quantity, t2.cost_value,t2.vat, t2.delivery_cost, t2.total_due, t3.reg_no, t3.id, t3.name name, t3.surname surname, t3.company_name company_name, t3.vat_no vat_no, t3.email2, t3.home_phone, t4.company_name, t4.suburb, t4.city,t4.province, t5.id, t5.name,t6.id, t6.province_id, t6.name,t7.id, t7.province_id, t7.city_id, t7.name,t8.registration_no ');
 		        $this->db->select('
 			group_concat(concat_ws("@@@", t4.id, t4.suburb, t4.city,t4.province, t5.name, t6.name, t7.name) separator "@-@") as areas'
 		);
@@ -75,7 +76,7 @@ class Coc_Model extends CC_Model
 
         $this->db->join('users_address t4', 't4.user_id = t1.user_id AND t4.type="3"', 'left');
 		
-	$this->db->join('users_plumber t8', 't8.user_id = t1.user_id', 'left');
+		$this->db->join('users_plumber t8', 't8.user_id = t1.user_id', 'left');
 
         $this->db->join('province t5', 't5.id=t4.province', 'left');
 
@@ -84,6 +85,8 @@ class Coc_Model extends CC_Model
         $this->db->join('suburb t7', 't7.id=t4.suburb', 'left');
    
        if(isset($requestdata['id'])) $this->db->where('t1.inv_id', $requestdata['id']);
+
+
        
 		// if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 		// 	$this->db->limit($requestdata['length'], $requestdata['start']);
@@ -129,8 +132,8 @@ class Coc_Model extends CC_Model
 		$this->db->select('st1.*, p1.id, p1.name');
 		$this->db->select('
 			group_concat(concat_ws("@@@", st1.province, p1.name) separator "@-@") as provincesettings');
-		$this->db->from('settings_address st1');
-		$this->db->join('province p1', 'p1.id = st1.province AND st1.type="2"', 'left');
+		$this->db->from('settings_address st1', 'st1.type="2"');
+		$this->db->join('province p1', 'p1.id = st1.province', 'left');
 		
       if($type2=='count'){
 			$result = $this->db->count_all_results();

@@ -56,14 +56,14 @@ if(isset($result) && $result){
 							<label for="name">Valid From Date</label>
 							<input type="text" autocomplete="off" class="form-control" id="valid-from" name="validfrom" placeholder="Enter Date *" value="<?php $vdate=date('d/m/Y',strtotime($validfrom)); echo $vdate; ?>">
 						</div>
-                        <?php if($futuredate!=''){?>
+                        <?php if($futuredate!=0){?>
                         <div class="form-group col-md-6">
 							<label for="name">Future Date</label></br>
 
 							<?php $fdate=date('m/d/Y',strtotime($futuredate)); echo $fdate; ?>
 						</div>
 					<?php }?>
-					<?php if($futureamount!=''){?>
+					<?php if($futureamount!=0){?>
 						 <div class="form-group col-md-6">
 							<label for="name">Future Amount</label></br>
 							<?php  echo $futureamount; ?>

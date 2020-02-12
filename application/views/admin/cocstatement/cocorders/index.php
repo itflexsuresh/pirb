@@ -1,18 +1,10 @@
 <?php
-
-$id 			= '';
-$userid		 			= $username['id'];
-$VAT 					= $settings["vat_percentage"];
-$coc_purchase_limit   	= $username["coc_purchase_limit"];
-$electronic_coc_log   	= $username["coc_electronic"];
+$vat 					= $settings["vat_percentage"];
 $cocpaperwork 			= $cocpaperwork["amount"];
 $cocelectronic 			= $cocelectronic["amount"];
-
 $postage 				= $postage["amount"];
 $couriour 				= $couriour["amount"];
 $collectedbypirb 		= $collectedbypirb["amount"];
-
-
 ?>
 
 <div class="row page-titles">
@@ -37,11 +29,11 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 				<form class="form" method="post">
 					<h4 class="card-title">COC Orders</h4>
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group">
 								<label>Date of Order</label>
 								<div class="input-group">
-									<input type="text" autocomplete="off" class="form-control created_at" name="created_at" value="">
+									<input type="text" autocomplete="off" class="form-control created_at" name="created_at" data-date="datepicker" value="">
 									<div class="input-group-append">
 										<span class="input-group-text"><i class="icon-calender"></i></span>
 									</div>
@@ -54,16 +46,16 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 								<input type="text" class="form-control" name=""  readonly>
 							</div>
 						</div>
-					</div>
-					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Inv Number</label>
 								<input type="text"class="form-control" name="inv_id" readonly>
 							</div>
 						</div>
+					</div>
+					<div class="row">
 						<div class="col-md-6">
-							<div class="row add_top_value">
+							<div class="row form-group">
 								<div class="col-md-3">
 									<div class="custom-control custom-radio">
 				                        <input type="radio" id="plumber" name="purchase_type" class="custom-control-input" value="3">
@@ -79,30 +71,17 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 			            	</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-6 plumber">
-							<div class="form-group" >
-								<label>Plumber</label>
-								<input type="search" autocomplete="off" class="form-control" name="plumber_name" id="plumber_name">
-								<div id="plumber_suggesstion" style="display: none;"></div>
-								<div class="search_icon">
-									<i class="fa fa-search" aria-hidden="true"></i>
-								</div>
-							</div>
-							<input type="hidden" name="user_id" id="user_id">
-							<input type="hidden" name="id" id="id" value="<?php echo $id; ?>">
-						</div>
-						<div class="col-md-6 reseller">
+					<div class="row user_wrapper displaynone">
+						<div class="col-md-6">
 							<div class="form-group">
-								<label>Reseller</label>
-								<input type="search" autocomplete="off" class="form-control" name="reseller_name" id="reseller_name">
-								<div id="reseller_suggestion" style="display: none;"></div>
+								<label></label>
+								<input type="search" autocomplete="off" class="form-control" name="user_search" id="user_search">
+								<div id="user_suggestion" class="displaynone"></div>
 								<div class="search_icon">
 									<i class="fa fa-search" aria-hidden="true"></i>
 								</div>
+								<input type="hidden" id="user_id" name="user_id">
 							</div>
-							<input type="hidden" name="user_id_hide" id="user_id_hide" value="0">
-							<input type="hidden" name="id" id="id" value="<?php echo $id; ?>">
 						</div>
 					</div>
 
@@ -130,7 +109,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 
 					<div class="row add_top_value">
 						<h4 class="card-title add_left_value">Type of COC</h4>
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group">
 								<div class="row mt_40">
 									<div class="col-md-4">
@@ -138,47 +117,36 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 									</div>
 									<div class="col-md-8">
 										<div class="row">
-											<div class="col-md-5">
-												<div class="custom-control custom-radio">
-							                        <input type="radio" id="electronic" name="coc_type" class="custom-control-input" value="1">
-							                        <label class="custom-control-label" for="electronic">Electronic</label>
-							                    </div>
-						                	</div>
-						                	<div class="col-md-5">
-							                    <div class="custom-control custom-radio">
-							                        <input type="radio" id="paper_based" name="coc_type" class="custom-control-input" value="2">
-							                        <label class="custom-control-label" for="paper_based">Paper Based</label>
-							                    </div>
-							                </div>
-						            	</div>
+											<?php
+												foreach($coctype as $key => $value){
+											?>
+													<div class="col-md-5">
+														<div class="custom-control custom-radio">
+															<input type="radio" name="coc_type" id="<?php echo $key.'-'.$value; ?>" class="custom-control-input coc_type <?php if($key=='1'){ echo 'electronic_radio';} ?>" value="<?php echo $key; ?>">
+															<label class="custom-control-label" for="<?php echo $key.'-'.$value; ?>"><?php echo $value; ?></label>
+														</div>
+													</div>
+											<?php
+												}
+											?>
+										</div>
 					            	</div>
 					            </div>
 				        	</div>
 						</div>
 
-						<div class="col-md-6 method">
-							<div class="form-group" >
+						<div class="col-md-12 delivery_type_wrapper displaynone">
+							<div class="form-group col-md-6 row">
 								<label>Method Of Delivery</label>
 								<?php 
 									echo form_dropdown('delivery_type', $deliverycard, '', ['id' => 'delivery_type', 'class' => 'form-control delivery_type']); 
 								?>
 							</div>
 						</div>
-
-						<input type="hidden" id="cost_f_delivery" class="form-control deliveryclass" name="cost_f_delivery">
-						<input type="hidden" name="deliveryclass1" id="deliveryclass1" value="<?php echo $collectedbypirb; ?>">
-						<input type="hidden" name="deliveryclass2" id="deliveryclass2" value="<?php echo $couriour; ?>">
-						<input type="hidden" name="deliveryclass3" id="deliveryclass3" value="<?php echo $postage; ?>">
-						<input type="hidden" id="coc_cost" class="form-control coc_cost" readonly name="coc_cost">
-						<input type="hidden" id="vat" class="form-control" name="vat">
-						<input type="hidden" id="totaldue" class="form-control" name="totaldue">
-						<input type="hidden" id="dbvat" name="dbvat" value="<?php echo $VAT; ?>">
-						<input type="hidden" id="dbcocpaperwork" name="dbcocpaperwork" value="<?php echo $cocpaperwork; ?>">
-						<input type="hidden" id="dbcocelectronic" name="dbcocelectronic" value="<?php echo $cocelectronic; ?>">
-
-						<div class="col-md-6">
+						
+						<div class="col-md-12">
 							<div class="form-group">
-								<div class="row mt_40">
+								<div class="row">
 									<div class="col-md-4">
 										<label>Payment Status</label>
 									</div>								
@@ -202,51 +170,51 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 					        	</div>
 				        	</div>
 						</div>
-						<div class="col-md-6">
-							<div class="form-group">
+						<div class="col-md-12">
+							<div class="form-group col-md-6 row">
 								<label>Internal Acc Invocie Number</label>
 								<input type="text" autocomplete="off" class="form-control" name="internal_inv">
 							</div>
 						</div>
-						<div class="col-md-6">
-							<div class="form-group">
+						<div class="col-md-12 tracking_wrapper displaynone">
+							<div class="form-group col-md-6 row">
 								<label>Tracking No</label>
 								<input type="text" autocomplete="off" class="form-control" name="tracking_no">
 							</div>
+							<div class="form-group">
+								<div class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input" id="sms_notifi" name="sms_track" value="1">
+									<label class="custom-control-label" for="sms_notifi">Send a SMS Tracking Notification</label>
+								</div>
+
+								<div class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input" id="email_trak_notifi" name="email_track" value="1">
+									<label class="custom-control-label" for="email_trak_notifi">Send an Email Tracking Notifiation</label>
+								</div>
+							</div>
 						</div>
-						<div class="col-md-12" >
+						<div class="col-md-12">
 							<div class="row">
-								<div class="col-md-6 order_cancelled">
+								<div class="col-md-12 row order_cancelled">
 									<div class="custom-control custom-checkbox">
-				                            <input type="checkbox" class="custom-control-input" id="email_notifi" name="order_canceld">
-				                            <label class="custom-control-label" for="email_notifi">Order Cancelled</label>
+										<input type="checkbox" class="custom-control-input" id="email_notifi" name="order_canceld">
+										<label class="custom-control-label" for="email_notifi">Order Cancelled</label>
 			                        </div>
 		                    	</div>
-		                    	<div class="col-md-6 text-right">
-		                    		<button type="submit" name="" value="" class="btn btn-primary">Update/Add</button>
+		                    	<div class="col-md-12 row">
+		                    		<button type="submit" name="submit" value="submit" class="btn btn-primary">Update/Add</button>
 		                    	</div>
 	                    	</div>
 						</div>					
 					</div>
-				
-
-					<div class="col-md-6 mt_20">
-						<div class="form-group">
-							<div class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input" id="sms_notifi" name="sms_track">
-								<label class="custom-control-label" for="sms_notifi">Send a SMS Tracking Notification</label>
-							</div>
-
-							<div class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input" id="email_trak_notifi" name="email_track">
-								<label class="custom-control-label" for="email_trak_notifi">Send an Email Tracking Notifiation</label>
-							</div>
-						</div>
-					</div>
+					<input type="hidden" id="cost_value" class="form-control" name="cost_value">
+					<input type="hidden" id="delivery_cost" class="form-control" name="delivery_cost">
+					<input type="hidden" id="vat" class="form-control" name="vat">
+					<input type="hidden" id="total_due" class="form-control" name="total_due">
 				</form>
 
 				<form>
-					<div class="row mt_20" style="display:none">
+					<div class="row mt_20 displaynone">
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Certificate Start Range</label>
@@ -312,6 +280,13 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 </div>
 
 <script type="text/javascript">
+var vatpercentage 	= '<?php echo $vat; ?>';
+var cocpaperwork 	= '<?php echo $cocpaperwork; ?>';
+var cocelectronic 	= '<?php echo $cocelectronic; ?>';
+var postage 		= '<?php echo $postage; ?>';
+var couriour 		= '<?php echo $couriour; ?>';
+var collectedbypirb = '<?php echo $collectedbypirb; ?>';
+
 $(function(){
 	datepicker('.created_at');
 
@@ -324,23 +299,26 @@ $(function(){
 			quantity : {
 				required	: true,
 			},
-			
 			coc_type : {
 				required	: true,
 			},
-
 			status : {
 				required	: true,
 			},
-
 			internal_inv : {
 				required	: true,
 			},
 			tracking_no : {
+				required:  	function() {
+								return ($("#designation2").val() == "2" || $("#designation2").val() == "3");
+							}			
+			},
+			purchase_type : {
 				required	: true,
 			},
-
-			
+			user_id : {
+				required	: true,
+			}			
 		},
 		{
 			created_at 	: {
@@ -348,109 +326,163 @@ $(function(){
 			},
 			quantity 	: {
 				required	: "Number of COC wish to Purchase field is required."
-			},
-			
+			},			
 			coc_type 	: {
 				required	: "Please Select Your COC Type."
 			},
-
 			status 	: {
 				required	: "Please Select Your Payment Type."
 			},
-
 			internal_inv 	: {
 				required	: "Internal In voice Number is required."
 			},
 			tracking_no 	: {
 				required	: "Tracking Number is required."
 			},
+			purchase_type 	: {
+				required	: "Please select user."
+			},
+			user_id 	: {
+				required	: "Please select user."
+			}
+		},
+		{
+			ignore : []
 		}
 	);
-
 
 
 	var options = {
 		url 	: 	'<?php echo base_url()."admin/cocstatement/cocorders/index/DTCocOrder"; ?>',
 		columns : 	[
-		{ "data": "id" },
-		{ "data": "inv_id" },
-		{ "data": "created_at" },
-		{ "data": "status" },
-		{ "data": "internal_inv" },
-		{ "data": "user_id" },
-		{ "data": "coc_type" },
-		{ "data": "quantity" },
-		{ "data": "delivery_type" },
-		{ "data": "address" },
-		{ "data": "tracking_no" },
-		{ "data": "action" }
-		]
+						{ "data": "id" },
+						{ "data": "inv_id" },
+						{ "data": "created_at" },
+						{ "data": "status" },
+						{ "data": "internal_inv" },
+						{ "data": "user_id" },
+						{ "data": "coc_type" },
+						{ "data": "quantity" },
+						{ "data": "delivery_type" },
+						{ "data": "address" },
+						{ "data": "tracking_no" },
+						{ "data": "action" }
+					]
 	};
+	
 	ajaxdatatables('.datatables', options);
 
-
-	$(".plumber, .reseller, .method, .comments, .order_cancelled").hide();
+	$(".comments, .order_cancelled").hide();
 });
 
 
-$("#plumber").click(function(){
-	$(".plumber").show();
-	$(".reseller").hide();
-	$('#plumber_name, #reseller_name').val('');
+$("#plumber, #reseller").click(function(){
+	userwrapper($(this).val())
 });
 
+function userwrapper(value){
+	var title = (value==3) ? 'Plumber' : 'Reseller'; 
+	$(".user_wrapper").removeClass('displaynone').find('label').text(title);
+	$("#user_search, #user_id").val('');
+}
 
-$("#reseller").click(function(){
-	$(".reseller").show();
-	$(".plumber").hide();
-	$('#plumber_name, #reseller_name').val('');
-});
-
-
-$("#paper_based").click(function(){
-	$(".method").show();
-});
-
-$("#electronic").click(function(){
-	$(".method").hide();
-});
-
-$('#plumber_name, #reseller_name').keyup(function(){
-	search_func($(this).val())
+$('#user_search').keyup(function(){
+	user_search($(this).val())
 })
 
-function search_func(value)
+function user_search(value)
 {
-	ajax('<?php echo base_url()."admin/cocmanagement/cocmanagementstatement/coc_orders/userDetails"; ?>', {'search_keyword' : value,type:$('[name="purchase_type"]:checked').val()}, search_func_result);
+	ajax('<?php echo base_url()."admin/cocstatement/cocorders/index/userDetails"; ?>', {'search_keyword' : value, type : $('[name="purchase_type"]:checked').val()}, user_search_result);
 }
 
-function search_func_result(data){
-	console.log(data)
-	$("#plumber_suggesstion").html('');
-	$("#reseller_suggestion").html('');
-    $("#plumber_suggesstion").show();
-    $("#reseller_suggestion").show();
-	$("#plumber_suggesstion").html(data);
-	$("#reseller_suggestion").html(data);
-	$("#plumber_name").css("background","#FFF");
-	$("#reseller_name").css("background","#FFF");
+function user_search_result(data)
+{
+	console.log(data);
+	var result = [];
+	
+	$(data).each(function(i, v){
+		var fn = "user_select('"+v.name+"', '"+v.id+"', '"+v.count+"', '"+v.coc_electronic+"')";
+		result.push('<li onclick="'+fn+'">'+v.name+'</li>');
+	})
+	
+	var append = '<ul class="autocomplete_list">'+result.join('')+'</ul>';
+	$("#user_suggestion").html('').removeClass('displaynone').html(append);
 }
 
-function selectuser(val,id,limit) {
-	$("#plumber_name").val(val);
-	$("#plumber_suggesstion").hide();
+function user_select(name, id, limit, electronic) {
+	$("#user_suggestion").html('');
+	$("#user_search").val(name);
 	$("#user_id").val(id);
-	$("#reseller_name").val(val);
-	$("#reseller_suggestion").hide();
-	$("#user_id_hide").val(id);
 	$("#user_limit").val(limit);
 	$('#quantity').attr('max', limit);
+	
+	if(electronic=='1') $('.electronic_radio').parent().parent().show();
+	else $('.electronic_radio').parent().parent().hide();
 }
 
 $('#quantity').keyup(function(e){
-	if($(this).val() > $('#user_limit').val()){
+	if(parseInt($(this).val()) > $('#user_limit').val()){
 		$(this).val($('#user_limit').val())
 	} 
 })	
+
+$(".coc_type").click(function(){
+	deliverytype($(this).val())
+});
+
+function deliverytype(value){
+	if(value==2){
+		$('.delivery_type_wrapper').removeClass('displaynone');
+	}else{
+		$('.delivery_type_wrapper').addClass('displaynone');
+	}
+}
+
+$(".delivery_type").change(function(){
+	trackingno($(this).val())
+});
+
+function trackingno(value){
+	if(value==1){
+		$('.tracking_wrapper').addClass('displaynone');
+	}else{
+		$('.tracking_wrapper').removeClass('displaynone');
+	}
+}
+
+$('.form').submit(function(){
+	coccalculation();
+})
+
+function coccalculation(){
+	var coctype = $('.coc_type:checked').val();
+	var deliverytype = $('.delivery_type').val();
+	
+	var coctypeval = 0;
+	if(coctype==1) coctypeval = parseFloat(cocelectronic);
+	else if(coctype==2) coctypeval = parseFloat(cocpaperwork);
+	
+	var deliverytypeval = 0;
+	if(coctype==2){
+		if(deliverytype==1) deliverytypeval = parseFloat(collectedbypirb);
+		else if(deliverytype==2) deliverytypeval = parseFloat(couriour);
+		else if(deliverytype==3) deliverytypeval = parseFloat(postage);
+	}
+	
+	var vat 	= parseFloat(vatpercentage);
+	var vatval 	= 0;
+	if(coctypeval!=0){
+		vatval = parseFloat(((coctypeval + deliverytypeval) * vat)/100);
+	}
+	
+	var totalval = parseFloat(coctypeval + deliverytypeval + vatval);
+	
+	$('#cost_value').val(coctypeval.toFixed(2));
+	$('#delivery_cost').val(deliverytypeval.toFixed(2));
+	$('#vat').val(vatval.toFixed(2));
+	$('#total_due').val(totalval.toFixed(2));
+}
+
+
 </script>
 

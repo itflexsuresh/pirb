@@ -11,17 +11,19 @@ $designation2 = "";
 if(isset($designation) && $designation > 0) {
 	$designation2	=	$this->config->item('designation2')[$designation];
 }
-
+$companyname = isset($result['companyname']) ? $result['companyname'] : '';
 $balace_coc = 0 ;
-$orderqty = 0;
-$coc_purchase_limit = 0;
-$coc_purchase_limit = isset($result['coc_purchase_limit']) ? $result['coc_purchase_limit'] : '';
-if(isset($id) && $id >0)
-{	
-	$orderqty = $array_orderqty['sumqty'];
-	$balace_coc = $coc_purchase_limit - $orderqty;
+// $orderqty = 0;
+// $coc_purchase_limit = 0;
+// $coc_purchase_limit = isset($result['coc_purchase_limit']) ? $result['coc_purchase_limit'] : '';
+// if(isset($id) && $id >0)
+// {	
+// 	$orderqty = $array_orderqty['sumqty'];
+// 	$balace_coc = $coc_purchase_limit - $orderqty;
+// }
+if(isset($id) && $id >0){
+	$balace_coc = $array_orderqty['sumqty'];
 }
-
 
 
 $startrange= isset($result['startrange']) ? $result['startrange'] : '';
@@ -30,7 +32,7 @@ $endrange= isset($result['endrange']) ? $result['endrange'] : '';
 if(isset($id) && $id >0)
 {
 	if($user_id_hide == '1')
-		$searchbox = $name;
+		$searchbox = $name." ".$surname;
 	else
 		$searchbox = $search_reg_no;
 }
@@ -115,12 +117,24 @@ if(isset($id) && $id >0)
 				<div class="row">
 					<div class="col-md-3">
 						<div class="form-group">
+							<label>Company : </label>
+						</div>
+					</div>
+					<div class="col-md-9">
+						<div class="form-group">
+							<label><?php echo $companyname;?></label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<div class="form-group">
 							<label>Number of COC's Permitted to be allocated to the Plumber : </label>
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<input type="text" class="form-control"  name="balace_coc" id="balace_coc"  value="<?php echo $balace_coc;?>">
+							<input type="text" class="form-control"  name="balace_coc" id="balace_coc"  value="<?php echo $balace_coc;?>" disabled>
 						</div>
 					</div>
 				</div>

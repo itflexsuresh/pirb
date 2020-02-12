@@ -790,6 +790,7 @@
 					<p>A One Time Pin (OTP) was sent to the following Mobile Number: {***-*** *123}</p>
 					<div>
 						<p>Enter OTP</p>
+						<p class="enterotp"></p>
 						<input type="text" name="otp" id="otp">
 					</div>
 				</div>
@@ -1249,7 +1250,7 @@ $(document).on('click', '.verifyotp', function(){
 
 function verifyotp(data){
 	$('.error_otp').remove();
-	
+	$('.enterotp').html(data.result.otp);
 	if(data.status=='1'){
 		if($('#otp').val()==data.result.otp){
 			$('#completeapplication').click();

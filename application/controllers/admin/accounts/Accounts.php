@@ -67,7 +67,7 @@ class Accounts extends CC_Controller
 										'inv_id' 		=> 	$result['inv_id'],
 										'created_at'    =>  $newDate,
 										'name' 		    => 	$result['name'].' '.$result['surname'],
-										'reg_no' 		=> 	$result['reg_no'],
+										'registration_no' 		=> 	$result['registration_no'],
 										'description'   =>  $result['description'],
 										'total_cost'    => 	$result['total_cost'],						
 							     		'action'	    => 	'
