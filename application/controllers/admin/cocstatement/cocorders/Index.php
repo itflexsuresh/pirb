@@ -12,15 +12,18 @@ class Index extends CC_Controller
 		$this->load->model('Systemsettings_Model');
 		$this->load->model('Plumber_Model');
 		$this->load->model('Coc_Model');
-
 	}
 	
 	public function index()
 	{
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
-			$data 				=  	$this->Coc_Ordermodel->adminadd($requestData);			
-				
+			$data 			=  	$this->Coc_Ordermodel->action($requestData);	
+
+			if($data) $this->session->set_flashdata('success', 'order saved successfully.');
+			else $this->session->set_flashdata('error', 'Try Later.');
+		
+			redirect('admin/cocstatement/cocorders/index'); 			
 		}
 
 		$userid 					=	$this->getUserID();
@@ -30,10 +33,9 @@ class Index extends CC_Controller
 		
 		$pagedata['userid']			= 	$userid;
 		$pagedata['userdata']		= 	$userdata;
-		$pagedata['plumberdata']	= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
-		$pagedata['settings']		= 	$this->Systemsettings_Model->getList('row');
 		$pagedata['deliverycard']	= 	$this->config->item('purchasecocdelivery');
 		$pagedata['coctype']		= 	$this->config->item('coctype');
+		$pagedata['settings']		= 	$this->Systemsettings_Model->getList('row');
 		$pagedata['cocpaperwork']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocpaperwork')]);
 		$pagedata['cocelectronic']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocelectronic')]);
 		$pagedata['postage']		= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('postage')]);
@@ -47,53 +49,37 @@ class Index extends CC_Controller
 	}
 
 
-public function DTCocOrder()
+	public function DTCocOrder()
 	{ 
-
 		$post 			= $this->input->post();
 		$totalcount 	= $this->Coc_Ordermodel->getCocorderList('count', ['status' => ['0','1']]+$post);
-
 		$results 		= $this->Coc_Ordermodel->getCocorderList('all', ['status' => ['0','1']]+$post);
-
 
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
 				
 				$coctype = isset($this->config->item('coctype')[$result['coc_type']]) ? $this->config->item('coctype')[$result['coc_type']] : '';
+				$deliverytype = isset($this->config->item('deliverytype')[$result['delivery_type']]) ? $this->config->item('coctype')[$result['delivery_type']] : '';
 
-				if ($result['delivery_type'] == 0) {
-						$result2['new_delivery'] = ' ';
-				}
-				else{
-						$result2['new_delivery'] = $this->config->item('purchasecocdelivery')[$result['delivery_type']];
-				}
-				$result['created_at']	= 	date('d-m-Y');
-				$totalrecord[] = 	[
+				$totalrecord[] 	= 	[
 										'id' 			=> 	$result['id'],
-
 										'user_id' 		=> 	$result['name']." ".$result['surname'],
-										//'coc_type'	=> 	$result['coc_type'],
 										'coc_type' 		=> 	$coctype,
-
-										'delivery_type'=> 	$result2['new_delivery'],
-
-										 'quantity' 	=> 	$result['quantity'],	
-										 'status' 		=> 	$this->config->item('payment_status')[$result['status']],
+										'delivery_type'	=> 	$deliverytype,
+										'quantity' 		=> 	$result['quantity'],	
+										'status' 		=> 	$this->config->item('payment_status')[$result['status']],
 										'inv_id' 		=> 	$result['inv_id'],
-										'internal_inv' 	=> 	$result['internal_inv'],
-									
-										'created_at'	=> 	$result['created_at'],
-
+										'internal_inv' 	=> 	$result['internal_inv'],									
+										'created_at'	=> 	date('d-m-Y', strtotime($result['created_at'])),
 										'address' 		=> 	$result['address'],
-										'tracking_no' 	=> 	$result['tracking_no'],
-																				
-										'action'	=> 	'<div class="table-action">
-																<a href="'.base_url().'admin/cocmanagement/cocmanagementstatement/coc_order_index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit">
-																<i class="fa fa-pencil-alt"></i></a>
-																
-															</div>
-														'
+										'tracking_no' 	=> 	$result['tracking_no'],																				
+										'action'		=> 	'
+																<div class="table-action">
+																	<a href="'.base_url().'admin/cocstatement/cocorders/index/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit">
+																	<i class="fa fa-pencil-alt"></i></a>																	
+																</div>
+															'
 									];
 			}
 		}
@@ -109,35 +95,17 @@ public function DTCocOrder()
 		
 	}
 
-		public function userDetails()
-		{
- 
-		  $postData = $this->input->post();
+	public function userDetails()
+	{ 
+		$post = $this->input->post();
 
-		  $this->load->model('Coc_Ordermodel');
-
-		  if($postData['type'] == 3)
-		  {
-		  	$data 	=   $this->Coc_Ordermodel->autosearchPlumber($postData);
-		  }
-		  else
-		   $data 	=   $this->Coc_Ordermodel->autosearchReseller($postData);
-
-		//print_r($data); exit;
-
-		  //echo json_encode($data);
-
-		   if(!empty($data)) {
-			?>
-			<ul id="name-list">
-			<?php
-			foreach($data as $key=>$val) {
-				$name = $val["name"].' '.$val["surname"];
-			?>
-				<li onClick="selectuser('<?php echo $name; ?>','<?php echo $val["id"]; ?>','<?php echo $val["coc_purchase_limit"]; ?>');"><?php echo $name; ?></li>
-			<?php } ?>
-			</ul>
-			<?php } 
+		if($post['type']== 3){
+			$data 	=   $this->Coc_Ordermodel->autosearchPlumber($post);
+		}else{
+			$data 	=   $this->Coc_Ordermodel->autosearchReseller($post);
 		}
-
+		
+		echo json_encode($data);
 	}
+
+}
