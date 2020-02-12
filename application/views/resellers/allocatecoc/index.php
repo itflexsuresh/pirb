@@ -9,7 +9,7 @@ $surname = isset($result['surname']) ? $result['surname'] : '';
 $designationtemp = isset($result['designation']) ? $result['designation'] : '';
 $designation = "";
 if(isset($designationtemp) && $designationtemp > 0) {
-	$designation	=	$this->config->item('designation2')[$designation];
+	$designation	=	$this->config->item('designation2')[$designationtemp];
 }
 $companyname = isset($result['companyname']) ? $result['companyname'] : '';
 $balace_coc = 0 ;
