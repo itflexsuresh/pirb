@@ -1,6 +1,6 @@
 <?php
 // echo "<pre>";
-// print_r($audit_status);die;
+// print_r($image);die;
 
 	$id 			= isset($result['id']) ? $result['id'] : '';
 	$email  		= isset($result['email']) ? $result['email'] : set_value ('email');
@@ -20,7 +20,12 @@
 	$complogo 		= isset($result['file2']) ? $result['file2'] : set_value ('file2');
 	$idno 			= isset($result['identity_no']) ? $result['identity_no'] : set_value ('idno');
 
+	$auditoravaid 			= isset($result['available']) ? $result['available'] : '';
+	$audit_status1 			= isset($result['status']) ? $result['status'] : '';
+	$allocation_allowed 	= isset($result['allocation_allowed']) ? $result['allocation_allowed'] : '';
+
 	$useraddressid 	= isset($result['useraddressid']) ? $result['useraddressid'] : '';
+	
 	$billaddress 	= isset($result['address']) ? $result['address'] : set_value ('address');
 	$province 		= isset($result['province']) ? $result['province'] : set_value ('province');
 	$city 			= isset($result['city']) ? $result['city'] : set_value ('city');
@@ -36,7 +41,7 @@
 
 	$areas 			= isset($result['areas']) ? explode('@-@', $result['areas']) : [];
 
-	$heading 		= isset($result['id']) ? 'Save' : 'Update';   
+	$heading 		= isset($result['id']) ? 'Update' : 'Save';   
 
 	$filepath 		= base_url().'assets/uploads/auditor/'.$id.'/';
 	$filepath1		= (isset($result['file1']) && $result['file1']!='') ? $filepath.$result['file1'] : base_url().'assets/images/auditor/profile.jpg';
@@ -66,19 +71,23 @@
 
 					<h4 class="card-title">My Profile</h4>
 					<?php
-									$i = 1;							
+									$i = 1;
+									$availability = '';
+									$nonavailability = '';							
 									foreach($audit_status as $key => $valse){
-										if ($i == 1) {
-											$check  = 'checked="checked"';
+										if ($audit_status1 == 1 && $i==1) {
+											$availability  = 'checked="checked"';
+											$nonavailability = '';
 										}else{
-											$check  = '';
+											$availability  = '';
+											$nonavailability  = 'checked="checked"';
 										}
 										
 										?>
 										<div class="row">
 										<div class="col-md-3">
 											<div class="custom-control custom-radio">
-												<input type="radio" id="<?php echo $key.'-'.$valse; ?>" name="coc_type" <?php echo $check; ?> value="<?php echo $key; ?>" class="coc_type custom-control-input">
+												<input type="radio" id="<?php echo $key.'-'.$valse; ?>" name="auditstatus" <?php echo $availability.$nonavailability; ?> value="<?php echo $key; ?>" class="auditstatus custom-control-input">
 												<label class="custom-control-label" for="<?php echo $key.'-'.$valse; ?>"><?php echo $valse; ?></label>
 											</div>
 										</div>
@@ -331,6 +340,7 @@
 						<input type="hidden" name="id" value="<?php echo $id; ?>">
 						<input type="hidden" name="userdetailid" value="<?php echo $userdetailid; ?>">
 						<input type="hidden" name="useraddressid" value="<?php echo $useraddressid; ?>">
+						<input type="hidden" name="auditoravaid" value="<?php echo $auditoravaid; ?>">
 						<input type="hidden" name="userbankid" value="<?php echo $userbankid; ?>">
 
 						<div class="col-md-2">
@@ -349,9 +359,9 @@
 
 	$(function(){
 		
-		fileupload([".auditor_image", "./assets/uploads/auditor/<?php echo $id; ?>/"], ['.auditor_picture', '.auditor_photo', '<?php echo base_url()."assets/uploads/auditor/".$id; ?>']);
+		fileupload([".auditor_image", "./assets/uploads/temp/"], ['.auditor_picture', '.auditor_photo', '<?php echo base_url()."assets/uploads/auditor/".$id; ?>']);
 	
-		fileupload([".comp_emb", "./assets/uploads/auditor/<?php echo $id; ?>/"], ['.comp_photo', '.comp_logo', '<?php echo base_url()."assets/uploads/auditor/".$id; ?>']);
+		fileupload([".comp_emb", "./assets/uploads/temp/"], ['.comp_photo', '.comp_logo', '<?php echo base_url()."assets/uploads/auditor/".$id; ?>']);
 
 		
 		citysuburb(['#province','#city', '#suburb'], ['<?php echo $city; ?>', '<?php echo $suburb; ?>']);
@@ -376,6 +386,7 @@
 					remote		: 	{
 										url	: "<?php echo base_url().'authentication/login/emailvalidation'; ?>",
 										type: "post",
+										async: false,
 										data: {
 											id : '<?php echo $id; ?>'
 										}

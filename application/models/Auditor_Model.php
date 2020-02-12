@@ -10,11 +10,13 @@ class Auditor_Model extends CC_Model
 		$useraddress 	= ['ua.id as useraddressid', 'ua.address', 'ua.province', 'ua.city', 'ua.suburb', 'ua.postal_code'];
 
 		$userbank 		= ['ub.id as userbankid', 'ub.bank_name', 'ub.branch_code', 'ub.account_name', 'ub.account_no', 'account_type'];
+		$auditor 		= ['ub1.id as available', 'ub1.user_id', 'ub1.allocation_allowed', 'ub1.status'];
 
 		$this->db->select('
 			'.implode(',', $user).',
 			'.implode(',', $usersdetail).',
 			'.implode(',', $useraddress).',
+			'.implode(',', $auditor).',
 			'.implode(',', $userbank).',
 			group_concat(concat_ws("@@@", uaa.id, uaa.province, uaa.city, uaa.suburb, p.name, c.name, s.name, uaa.city) separator "@-@") as areas'
 		);
@@ -22,6 +24,7 @@ class Auditor_Model extends CC_Model
 		$this->db->join('users_detail as ud','ud.user_id=u.id', 'left');
 		$this->db->join('users_address as ua', 'ua.user_id=u.id and ua.type="3"', 'left');		
 		$this->db->join('users_bank as ub', 'ub.user_id=u.id', 'left');
+		$this->db->join('auditor_availability as ub1', 'ub1.user_id=u.id', 'left');
 		$this->db->join('users_auditor_area as uaa', 'uaa.user_id=u.id', 'left');
 		$this->db->join('province as p', 'p.id=uaa.province', 'left');
 		$this->db->join('city as c', 'c.id=uaa.city', 'left');
@@ -117,13 +120,27 @@ class Auditor_Model extends CC_Model
 				$request1['type']	 		= '5';
 				$request1['created_at']		= 	date('Y-m-d H:i:s');
 
-
 				$userdata = $this->db->insert('users', $request1);
 				//print_r($request1);die;
 				$id = $this->db->insert_id();
 			}else{
 				$request1['updated_at']		= 	date('Y-m-d H:i:s');
 				$userdata = $this->db->update('users', $request1, ['id' => $id]);
+			}
+		}
+
+		if(isset($id)) 							$request0['user_id'] 			= $id;
+		if(isset($data['allowed'])) 			$request0['allocation_allowed']	= $data['allowed'];
+		if(isset($data['coc_type'])) 			$request0['status'] 			= $data['coc_type'];
+												
+		if (isset($request0)) {
+			$auditoravaid			= $data['auditoravaid'];
+			if($auditoravaid==''){
+				$request0['created_at'] 		= $datetime;
+				$auditoravaid1 = $this->db->insert('auditor_availability', $request0);
+			}else{
+				$request0['updated_at'] 		= $datetime;
+				$auditoravaid1 = $this->db->update('auditor_availability', $request0, ['id' => $auditoravaid]);
 			}
 		}
 	
