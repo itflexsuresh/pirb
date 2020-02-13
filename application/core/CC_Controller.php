@@ -173,7 +173,7 @@ class CC_Controller extends CI_Controller
 		$data['specialisations'] 	= $this->config->item('specialisations');
 		
 		$data['result'] = $this->Plumber_Model->getList('row', ['id' => $userid]);
-		$this->load->view('common/card', $data) ;
+		return $this->load->view('common/card', $data, true) ;
 	}
 	
 	public function plumberprofile($id, $pagedata=[], $extras=[])
