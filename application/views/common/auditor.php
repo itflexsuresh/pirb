@@ -1,8 +1,9 @@
 <?php
 // echo "<pre>";
-// print_r($image);die;
+// print_r($result);die;
 
 	$id 			= isset($result['id']) ? $result['id'] : '';
+	$usertype 		= isset($result['type']) ? $result['type'] : '';
 	$email  		= isset($result['email']) ? $result['email'] : set_value ('email');
 	$password  		= isset($result['password_raw']) ? $result['password_raw'] : set_value ('password_raw');
 	$allocation_number = isset($result['password_raw']) ? $result['password_raw'] : set_value ('password_raw');
@@ -19,6 +20,7 @@
 	$image 			= isset($result['file1']) ? $result['file1'] : set_value ('file1');	
 	$complogo 		= isset($result['file2']) ? $result['file2'] : set_value ('file2');
 	$idno 			= isset($result['identity_no']) ? $result['identity_no'] : set_value ('idno');
+
 
 	$auditoravaid 			= isset($result['available']) ? $result['available'] : '';
 	$audit_status1 			= isset($result['status']) ? $result['status'] : '';
@@ -167,7 +169,7 @@
 						<div class="col-md-4">
 							<div class="form-group">
 								<label>Billing Name</label>
-								<input type="text" class="form-control" name="company_name" value="<?php echo $billingname; ?>">
+								<input type="text" id="billingname" class="form-control" name="company_name" value="<?php echo $billingname; ?>" for="billingname">
 							</div>
 						</div>
 						<div class="col-md-4">
@@ -280,7 +282,7 @@
 					<div class="col-md-6">
 							<div class="form-group">
 								<label>Maximum number of Open COC Allocations allowed:</label>
-								<input type="number" class="form-control" name="allowed" value="<?php echo $allocation_number; ?>">
+								<input type="number" class="form-control" min="1" name="allowed" value="<?php echo $allocation_number; ?>">
 							</div>
 						</div>
 					
@@ -341,6 +343,7 @@
 						<input type="hidden" name="userdetailid" value="<?php echo $userdetailid; ?>">
 						<input type="hidden" name="useraddressid" value="<?php echo $useraddressid; ?>">
 						<input type="hidden" name="auditoravaid" value="<?php echo $auditoravaid; ?>">
+						<input type="hidden" name="usertype" value="<?php echo $usertype; ?>">
 						<input type="hidden" name="userbankid" value="<?php echo $userbankid; ?>">
 
 						<div class="col-md-2">
@@ -380,6 +383,9 @@
 				idno : {
 					required	: true,
 				},
+				company_name : {
+					required	: true,
+				},
 				email : {
 					required	: true,
 					email		: true,
@@ -388,7 +394,8 @@
 										type: "post",
 										async: false,
 										data: {
-											id : '<?php echo $id; ?>'
+											id 		: '<?php echo $id; ?>',
+											type 	: '<?php echo $usertype; ?>'
 										}
 									}
 								},
@@ -396,6 +403,9 @@
 					required	: true,
 				},
 				phonework : {
+					required	: true,
+				},
+				billingname : {
 					required	: true,
 				},
 				phonemobile : {
@@ -448,11 +458,18 @@
 					required	: "Please enter the email",					
 					remote		: "Email already exists."
 				},
+				company_name : {
+					required	: "Please enter the email",					
+					remote		: "Email already exists."
+				},
 				pass : {
 					required	: "Please enter the password"
 				},
 				phonework : {
 					required	: "Please enter the work phone"
+				},
+				billingname : {
+					required	: "Please enter the billing name"
 				},
 				phonemobile : {
 					required	: "Please enter the mobile phone"

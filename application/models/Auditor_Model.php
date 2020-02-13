@@ -5,7 +5,7 @@ class Auditor_Model extends CC_Model
 	public function getList($type, $requestdata=[])
 	{ 
 		
-		$user 			= ['u.id as id', 'u.email', 'u.password_raw'];
+		$user 			= ['u.id as id', 'u.email','u.type', 'u.password_raw'];
 		$usersdetail 	= ['ud.id as userdetailid','ud.name','ud.surname','ud.company_name','ud.reg_no','ud.vat_no','ud.vat_vendor','ud.mobile_phone','ud.work_phone','ud.file1','ud.file2','ud.identity_no'];		
 		$useraddress 	= ['ua.id as useraddressid', 'ua.address', 'ua.province', 'ua.city', 'ua.suburb', 'ua.postal_code'];
 
