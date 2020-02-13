@@ -152,13 +152,13 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Phone (Work)</label>
-								<input type="text" class="form-control"  name="work_phone" value="<?php echo $workphone; ?>">
+								<input type="text" class="form-control" id="work_phone" name="work_phone" value="<?php echo $workphone; ?>">
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Phone (Mobile)</label>
-								<input type="text" class="form-control"  name="mobile_phone" value="<?php echo $mobile; ?>">
+								<input type="text" class="form-control" id="mobile_phone" name="mobile_phone" value="<?php echo $mobile; ?>">
 							</div>
 							<p>Note: all SMS and OTP notifications will be sent to this mobile number above</p>
 						</div>
@@ -368,6 +368,7 @@
 
 		
 		citysuburb(['#province','#city', '#suburb'], ['<?php echo $city; ?>', '<?php echo $suburb; ?>']);
+		inputmask('#work_phone, #mobile_phone', 1);
 
 
 
