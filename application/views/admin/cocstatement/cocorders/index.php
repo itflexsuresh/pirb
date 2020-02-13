@@ -5,6 +5,12 @@ $cocelectronic 			= $cocelectronic["amount"];
 $postage 				= $postage["amount"];
 $couriour 				= $couriour["amount"];
 $collectedbypirb 		= $collectedbypirb["amount"];
+
+$coc_type 				= isset($result['coc_type']) ? $result['coc_type'] : '';
+$delivery_type 			= isset($result['delivery_type']) ? $result['delivery_type'] : '';
+$quantity 				= isset($result['quantity']) ? $result['quantity'] : '1';
+$status 				= isset($result['status']) ? $result['status'] : '';
+$email 					= isset($result['email']) ? $result['email'] : '';
 ?>
 
 <div class="row page-titles">
@@ -14,7 +20,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 	<div class="col-md-7 align-self-center text-right">
 		<div class="d-flex justify-content-end align-items-center">
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="j<?php echo base_url().'admin/dashboard'; ?>">Home</a></li>
+				<li class="breadcrumb-item"><a href="<?php echo base_url().'admin/dashboard'; ?>">Home</a></li>
 				<li class="breadcrumb-item active">COC Orders</li>
 			</ol>
 		</div>
@@ -93,7 +99,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 							</div>
 							<div class="form-group">
 								<label>Number Of COC's Requested</label>
-								<input onchange="modifycost();" type="number" id="quantity" class="form-control" min="1" value="1" name="quantity" for="quantity">							  
+								<input type="number" id="quantity" class="form-control" min="<?php echo $quantity; ?>" value="1" name="quantity" for="quantity" <?php echo $quantity; ?>>							  
 							</div>
 						</div>
 						
@@ -122,7 +128,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 											?>
 													<div class="col-md-5">
 														<div class="custom-control custom-radio">
-															<input type="radio" name="coc_type" id="<?php echo $key.'-'.$value; ?>" class="custom-control-input coc_type <?php if($key=='1'){ echo 'electronic_radio';} ?>" value="<?php echo $key; ?>">
+															<input type="radio" name="coc_type" id="<?php echo $key.'-'.$value; ?>" class="custom-control-input coc_type <?php if($key=='1'){ echo 'electronic_radio';} ?>" value="<?php echo $key; ?>" <?php if($coc_type==$key){ echo 'checked="checked"'; } ?>>
 															<label class="custom-control-label" for="<?php echo $key.'-'.$value; ?>"><?php echo $value; ?></label>
 														</div>
 													</div>
@@ -139,7 +145,7 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 							<div class="form-group col-md-6 row">
 								<label>Method Of Delivery</label>
 								<?php 
-									echo form_dropdown('delivery_type', $deliverycard, '', ['id' => 'delivery_type', 'class' => 'form-control delivery_type']); 
+									echo form_dropdown('delivery_type', $deliverycard, $delivery_type, ['id' => 'delivery_type', 'class' => 'form-control delivery_type']); 
 								?>
 							</div>
 						</div>
@@ -154,14 +160,14 @@ $collectedbypirb 		= $collectedbypirb["amount"];
 										<div class="row">
 											<div class="col-md-5">
 												<div class="custom-control custom-radio">
-							                        <input type="radio" id="paid" name="status" class="custom-control-input" value="1">
+							                        <input type="radio" id="paid" name="status" class="custom-control-input" value="1" <?php if($status=='1'){ echo 'checked="checked"'; } ?>>
 							                        <label class="custom-control-label" for="paid">Paid</label>
 							                    </div>
 						                	</div>
 
 						                	<div class="col-md-5">
 							                    <div class="custom-control custom-radio">
-							                        <input type="radio" id="unpaid" name="status" class="custom-control-input" value="0">	
+							                        <input type="radio" id="unpaid" name="status" class="custom-control-input" value="0" <?php if($status=='0'){ echo 'checked="checked"'; } ?>>	
 							                        <label class="custom-control-label" for="unpaid">Unpaid</label>
 							                    </div>
 							                </div>
@@ -310,7 +316,7 @@ $(function(){
 			},
 			tracking_no : {
 				required:  	function() {
-								return ($("#designation2").val() == "2" || $("#designation2").val() == "3");
+								return ($("#delivery_type").val() == "2" || $("#delivery_type").val() == "3");
 							}			
 			},
 			purchase_type : {
@@ -397,7 +403,6 @@ function user_search(value)
 
 function user_search_result(data)
 {
-	console.log(data);
 	var result = [];
 	
 	$(data).each(function(i, v){
@@ -457,10 +462,11 @@ $('.form').submit(function(){
 function coccalculation(){
 	var coctype = $('.coc_type:checked').val();
 	var deliverytype = $('.delivery_type').val();
+	var quantity = $('#quantity').val();
 	
 	var coctypeval = 0;
-	if(coctype==1) coctypeval = parseFloat(cocelectronic);
-	else if(coctype==2) coctypeval = parseFloat(cocpaperwork);
+	if(coctype==1) coctypeval = parseFloat(cocelectronic) * quantity;
+	else if(coctype==2) coctypeval = parseFloat(cocpaperwork) * quantity;
 	
 	var deliverytypeval = 0;
 	if(coctype==2){

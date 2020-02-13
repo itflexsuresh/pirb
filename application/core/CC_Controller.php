@@ -91,7 +91,7 @@ class CC_Controller extends CI_Controller
 		}
 		
 		if(isset($userid)){
-			$result = $this->Users_Model->getUserDetails('row', ['id' => $userid, 'status' => ['0','1','3']]);
+			$result = $this->Users_Model->getUserDetails('row', ['id' => $userid, 'status' => ['0','1']]);
 			
 			if($result){
 				return $result;
@@ -164,6 +164,16 @@ class CC_Controller extends CI_Controller
 
 		if(count($data) > 0) return ['' => 'Select City']+array_column($data, 'name', 'id');
 		else return [];
+	}
+	
+	public function plumbercard($userid)
+	{
+		$data['company'] 			= $this->getCompanyList();
+		$data['designation2'] 		= $this->config->item('designation2');
+		$data['specialisations'] 	= $this->config->item('specialisations');
+		
+		$data['result'] = $this->Plumber_Model->getList('row', ['id' => $userid]);
+		$this->load->view('common/card', $data) ;
 	}
 	
 	public function plumberprofile($id, $pagedata=[], $extras=[])
@@ -261,6 +271,7 @@ class CC_Controller extends CI_Controller
 			else redirect('admin/resellers/index');
 		}
 		
+		$pagedata['adminvalue']   = $extras['adminvalue'];
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['province'] 		= $this->getProvinceList();
 		
@@ -293,6 +304,7 @@ class CC_Controller extends CI_Controller
 			else redirect('admin/audits/index');
 		}
 
+		
 		$pagedata['notification'] = $this->getNotification();
 		$pagedata['provincelist'] = $this->getProvinceList();
 		$pagedata['audit_status'] = $this->config->item('audits_status1');

@@ -14,8 +14,18 @@ class Index extends CC_Controller
 		$this->load->model('Coc_Model');
 	}
 	
-	public function index()
+	public function index($id='')
 	{
+		if($id!=''){
+			$result = $this->Coc_Ordermodel->getCocorderList('row', ['id' => $id]);
+			if($result){
+				$pagedata['result'] = $result;
+			}else{
+				$this->session->set_flashdata('error', 'No Record Found.');
+				redirect('admin/cocstatement/cocorders/index'); 
+			}
+		}
+		
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
 			$data 			=  	$this->Coc_Ordermodel->action($requestData);	

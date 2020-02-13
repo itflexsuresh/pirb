@@ -54,6 +54,8 @@ class Index extends CC_Controller
 
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['company'] 		= $this->getCompanyList();
+		$data['designation2'] 		= $this->config->item('designation2');
+		$data['specialisations'] 	= $this->config->item('specialisations');
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'datepicker', 'inputmask', 'validation'];
 		$data['content'] 			= $this->load->view('resellers/allocatecoc/index', (isset($pagedata) ? $pagedata : ''), true);

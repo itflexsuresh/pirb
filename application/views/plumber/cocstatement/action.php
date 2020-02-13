@@ -32,17 +32,27 @@
 	}else{
 		$file1img 		= $profileimg;
 	}
+	
+	$coctypeid 				= isset($coclist['type']) ? $coclist['type'] : '';
+	
+	if($pagetype=='action'){
+		$heading 	= 'Log ';
+		$actionbtn 	= '1';
+	}elseif($pagetype=='view'){
+		$heading 	= 'View ';
+		$actionbtn 	= '0';
+	}
 ?>
 
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
-		<h4 class="text-themecolor">Log COC</h4>
+		<h4 class="text-themecolor"><?php echo $heading; ?> COC</h4>
 	</div>
 	<div class="col-md-7 align-self-center text-right">
 		<div class="d-flex justify-content-end align-items-center">
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="j<?php echo base_url().'admin/dashboard'; ?>">Home</a></li>
-				<li class="breadcrumb-item active">Log COC</li>
+				<li class="breadcrumb-item"><a href="<?php echo base_url().'admin/dashboard'; ?>">Home</a></li>
+				<li class="breadcrumb-item active"><?php echo $heading; ?> COC</li>
 			</ol>
 		</div>
 	</div>
@@ -54,15 +64,15 @@
 			<div class="card-body">
 				<form class="form" method="post">
 
-					<h4 class="card-title">Log COC</h4>
-					<h4 class="sup_title">Certificate: <label>2222</label></h4>
+					<h4 class="card-title"><?php echo $heading; ?> COC</h4>
+					<h4 class="sup_title">Certificate: <label><?php echo $coclist['id']; ?></label></h4>
 
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Plumbing Work Completion Date *</label>
 								<div class="input-group">
-									<input type="text" class="form-control completion_date" name="completion_date" value="<?php echo $completiondate; ?>">
+									<input type="text" class="form-control completion_date" name="completion_date" data-date="datepicker" value="<?php echo $completiondate; ?>">
 									<div class="input-group-append">
 										<span class="input-group-text"><i class="icon-calender"></i></span>
 									</div>
@@ -160,9 +170,12 @@
 					<div class="row add_top_value">
 						<table class="table table-bordered table-striped datatables fullwidth">
 							<tr>
-								<th colspan="2">Type of Installation Carried Out by Licensed Plumber</th>
+								<th colspan="2">Type of Installation Carried Out by <?php echo $designation2[$userdata['designation']]; ?></th>
 								<th style="text-align: center;">Code</th>
 								<th style="text-align: center;">Tick</th>
+							</tr>
+							<tr>
+								<td colspan="4">(Clearly tick the appropriate Installation Category Code and complete the installation details below)</td>
 							</tr>
 							<?php
 								foreach ($installation as $key => $value) {
@@ -172,8 +185,8 @@
 										<td style="text-align: center;"><?php echo $value['code']; ?></td>
 										<td style="text-align: center;">
 											<div class="custom-control custom-checkbox">
-												<input type="checkbox" name="installationtype[]" class="custom-control-input" id="<?php echo $key.'-'.$value['code']; ?>" value="<?php echo $key; ?>" <?php echo (in_array($key, $installationtypeid)) ? 'checked="checked"' : ''; ?>>
-												<label class="custom-control-label" for="<?php echo $key.'-'.$value['code']; ?>"></label>
+												<input type="checkbox" name="installationtype[]" class="custom-control-input" id="<?php echo 'installationtype-'.$key.'-'.$value['code']; ?>" value="<?php echo $key; ?>" <?php echo (in_array($key, $installationtypeid)) ? 'checked="checked"' : ''; ?>>
+												<label class="custom-control-label" for="<?php echo 'installationtype-'.$key.'-'.$value['code']; ?>"></label>
 											</div>
 										</td>
 									</tr>
@@ -185,9 +198,12 @@
 
 						<table class="table table-bordered table-striped datatables fullwidth add_top_value_v2">
 							<tr>
-								<th colspan="2">Specialisations: To be Carried Out by Licensed Plumber Only Registered to do the Specialised work</th>
+								<th colspan="2">Specialisations: To be Carried Out by <?php echo $designation2[$userdata['designation']]; ?> Only Registered to do the Specialised work</th>
 								<th style="text-align: center;">Code</th>
 								<th style="text-align: center;">Tick</th>
+							</tr>
+							<tr>
+								<td colspan="4">(Clearly tick the appropriate Installation Category Code and complete the installation details below)</td>
 							</tr>
 							<?php
 								foreach ($specialisations as $key => $value) {
@@ -197,8 +213,8 @@
 										<td style="text-align: center;"><?php echo $value['code']; ?></td>
 										<td style="text-align: center;">
 											<div class="custom-control custom-checkbox">
-												<input type="checkbox" name="specialisations[]" class="custom-control-input" id="<?php echo $key.'-'.$value['code']; ?>" value="<?php echo $key; ?>" <?php echo (in_array($key, $specialisationsid)) ? 'checked="checked"' : ''; ?>>
-												<label class="custom-control-label" for="<?php echo $key.'-'.$value['code']; ?>"></label>
+												<input type="checkbox" name="specialisations[]" class="custom-control-input" id="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>" value="<?php echo $key; ?>" <?php echo (in_array($key, $specialisationsid)) ? 'checked="checked"' : ''; ?>>
+												<label class="custom-control-label" for="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>"></label>
 											</div>
 										</td>
 									</tr>
@@ -229,9 +245,11 @@
 								<td colspan="3">No Record Found</td>			
 							</tr>
 						</table>
-						<div class="row text-right">
-							<button type="button" data-toggle="modal" data-target="#noncompliancemodal" class="btn btn-primary">Add a Non Compliance</button>
-						</div>
+						<?php if($actionbtn=='1'){ ?>
+							<div class="row text-right">
+								<button type="button" data-toggle="modal" data-target="#noncompliancemodal" class="btn btn-primary">Add a Non Compliance</button>
+							</div>
+						<?php } ?>
 					</div>
 
 					<div class="row">
@@ -309,9 +327,12 @@
 					<div class="ro text-right">
 						<input type="hidden" value="<?php echo $id; ?>" name="id">
 						<input type="hidden" value="<?php echo $cocid; ?>" name="coc_id">
-						<input type="submit" value="log" name="submit" id="completelog" class="displaynone">
-						<button type="submit" name="submit" value="save" class="btn btn-primary">Save COC</button>
-						<button type="button" data-toggle="modal" data-target="#otpmodal" class="btn btn-primary">Log  COC</button>
+						<input type="hidden" id="coctypeid" value="<?php echo $coctypeid; ?>">
+						<?php if($actionbtn=='1'){ ?>
+							<input type="submit" value="" name="submit" id="submitbtn" class="displaynone">
+							<button type="button" class="btn btn-primary savecocbtn">Save COC</button>
+							<button type="button" class="btn btn-primary logcocbtn">Log  COC</button>
+						<?php } ?>
 					</div>
 				</form>
 
@@ -425,13 +446,15 @@
 
 <script type="text/javascript">
 
-var userid		= '<?php echo $userid; ?>';
-var filepath 	= '<?php echo $filepath; ?>';
-var pdfimg		= '<?php echo $pdfimg; ?>';
-var randno		= '<?php echo mt_rand(0000,9999); ?>';
+var actionbtn					= '<?php echo $actionbtn; ?>';
+var userid						= '<?php echo $userid; ?>';
+var filepath 					= '<?php echo $filepath; ?>';
+var pdfimg						= '<?php echo $pdfimg; ?>';
+var installationcount			= '<?php echo count($installation); ?>';
+var specialisationscount		= '<?php echo count($specialisations); ?>';
 
 $(function(){
-	datepicker('.completion_date');
+	datepicker('.completion_date', ['currentdate']);
 	citysuburb(['#province','#city', '#suburb'], ['<?php echo $cityid; ?>', '<?php echo $suburbid; ?>']);
 	fileupload([".file1_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.file1', '.file1_img', filepath, pdfimg]);
 	fileupload([".file2_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file2[]', '.file2append', filepath, pdfimg], 'multiple');
@@ -452,7 +475,7 @@ $(function(){
 			completion_date : {
 				required	: true
 			},
-			owner_name : {
+			name : {
 				required    : true
 			},
 			street:{
@@ -473,8 +496,23 @@ $(function(){
 			contact_no:{
 				required    : true
 			},
-			'agreement[]':{
+			installation_detail:{
 				required    : true
+			},
+			file1:{
+				required:  	function() {
+								return ($("#coctypeid").val() == "2");
+							}			
+			},
+			'installationtype[]':{
+				required    : true
+			},
+			'specialisations[]':{
+				required    : true
+			},
+			'agreement[]':{
+				required    : true,
+				maxlength	: 2
 			}
 			
 		},
@@ -482,11 +520,11 @@ $(function(){
 			completion_date 	: {
 				required	: "Please select completion date"
 			},
-			owner_name : {
+			name : {
 				required    : "Please fill the owner name"
 			},
 			street : {
-				required    : "Please fill the street field"
+				required    : "Please fill the street"
 			},
 			number:{
 				required    : "Please fill the number"
@@ -503,9 +541,27 @@ $(function(){
 			contact_no:{
 				required    : "Please fill the contact no"
 			},
+			installation_detail:{
+				required    : "Please fill the installation details"
+			},
+			file1:{
+				required    : "Please select the coc"
+			},
+			'installationtype[]':{
+				required    : "Please check the installation type",
+				maxlength	: "Please check the installation type"
+			},
+			'specialisations[]':{
+				required    : "Please check the specialisations",
+				maxlength	: "Please check the specialisations"
+			},
 			'agreement[]':{
-				required    : "Please check the agreement"
+				required    : "Please check the agreement",
+				maxlength   : "Please check the agreement"
 			}
+		},
+		{
+			ignore : []
 		}
 	);
 	
@@ -556,28 +612,48 @@ $(function(){
 })
 
 $('.file2_file').click(function(e){
-	if($(document).find('.file2append .multipleupload').length >= 4){
+	if($(document).find('.file2append .multipleupload').length >= 10){
 		$(this).val('');
 		sweetalertautoclose('Reached maxmium limit.');
 		return false;
 	}
 })
 
+$(document).on('click', '.savecocbtn', function(){
+	$('#submitbtn').attr('name', 'save').click();
+})
 
-$('#otpmodal').on('show.bs.modal', function () {
-	localstorage('set', 'logotp', randno);
-    if(localstorage('get', 'logotp')=='undefined'){
+$(document).on('click', '.logcocbtn', function(){
+	if($('.form').valid()){
+		$('#otpmodal').modal('show');
+	}
+})
+
+function otpgeneration(type=''){
+	var randno = Math.floor(1000 + Math.random() * 9000);
+	if(localstorage('get', 'logotp')!=null && type==''){
+		localstorage('set', 'logotp', randno);
+	}else{
 		localstorage('set', 'logotp', randno);
 	}
-	console.log(localstorage('get', 'logotp'));
+
 	$('.testotp').text(localstorage('get', 'logotp'));
+}
+
+$('#otpmodal').on('show.bs.modal', function () {
+	otpgeneration();
+})
+
+$(document).on('click', '.resendotp', function(){
+	$('.error_otp').remove();
+	otpgeneration(1);
 })
 
 $(document).on('click', '.verifyotp', function(){
 	$('.error_otp').remove();
 	
 	if($('#otp').val()==localstorage('get', 'logotp')){
-		$('#completelog').click();
+		$('#submitbtn').attr('name', 'log').click();
 	}else{
 		$('#otp').parent().append('<p class="tagline error_otp">Incorrect OTP</p>');
 	}
@@ -597,17 +673,24 @@ $('.noncompliancesubmit').click(function(){
 
 function noncompliance(data){
 	if(data.status==1){		
+		if(actionbtn=='1'){
+			var complianceaction 	= 	'<td>\
+											<a href="javascript:void(0);" class="noncomplianceedit" data-id="'+result.id+'"><i class="fa fa-pencil-alt"></i></a>\
+											<a href="javascript:void(0);" class="noncomplianceremove" data-id="'+result.id+'"><i class="fa fa-trash"></i></a>\
+										</td>';
+			var detailcol			=	'1';
+		}else{
+			var complianceaction 	= 	'';
+			var detailcol			=	'2';
+		}
+		
 		var result 		= 	data.result; 
 		
 		$(document).find('.noncomplianceappend[data-id="'+result.id+'"]').remove();
 		
 		var appenddata 	= 	'\
 								<tr class="noncomplianceappend" data-id="'+result.id+'">\
-									<td>'+result.details+'</td>\
-									<td>\
-										<a href="javascript:void(0);" class="noncomplianceedit" data-id="'+result.id+'"><i class="fa fa-pencil-alt"></i></a>\
-										<a href="javascript:void(0);" class="noncomplianceremove" data-id="'+result.id+'"><i class="fa fa-trash"></i></a>\
-									</td>\
+									<td colspan="'+detailcol+'">'+result.details+'</td>'+complianceaction+'\
 								</tr>\
 							';
 					

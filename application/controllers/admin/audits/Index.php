@@ -35,8 +35,8 @@ class Index extends CC_Controller
 			foreach($results as $result){				
 				$stockcount = 0;
 				$totalrecord[] = 	[										
-										'name' 			=> 	$result['name'],
-										'email' 		=> 	$result['home_phone'],										
+										'name' 			=> 	$result['name']." ".$result['surname'],
+										'email' 		=> 	$result['work_phone'],										
 										'contactnumber' 		=> 	$result['mobile_phone'],
 										'action'		=> 	'
 																<div class="table-action">

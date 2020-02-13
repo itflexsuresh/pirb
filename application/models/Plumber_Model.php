@@ -16,8 +16,8 @@ class Plumber_Model extends CC_Model
 								'up.application_received','up.application_status','up.approval_status','up.reject_reason','up.reject_reason_other','up.otp'
 							];
 
-		$companyname			= 	[ 
-								'concat(pd.name, " ", pd.surname) as companyname' 
+		$companyname	= 	[ 
+								'c.company_name as companyname' 
 							];
 		
 		$this->db->select('
@@ -38,7 +38,7 @@ class Plumber_Model extends CC_Model
 		$this->db->join('users_plumber up', 'up.user_id=u.id', 'left');
 		$this->db->join('users_plumber_skill ups', 'ups.user_id=u.id', 'left');
 		$this->db->join('qualificationroute qr', 'qr.id=ups.skills', 'left'); 
-		$this->db->join('users_detail pd', 'pd.user_id=up.company_details', 'left');
+		$this->db->join('users_detail c', 'c.user_id=up.company_details', 'left');
 		
 		
 		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);
