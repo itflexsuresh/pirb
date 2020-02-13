@@ -70,6 +70,15 @@ class CC_Controller extends CI_Controller
 			return '0';
 		}
 	}
+
+	public function getAuditorPageStatus($pagestatus='')
+	{
+		if($pagestatus=='' || $pagestatus=='1'){
+		return '1';
+		}else{
+		return '2';
+		}
+	}
 	
 	public function getUserID($id='')
 	{
@@ -173,7 +182,7 @@ class CC_Controller extends CI_Controller
 		$data['specialisations'] 	= $this->config->item('specialisations');
 		
 		$data['result'] = $this->Plumber_Model->getList('row', ['id' => $userid]);
-		$this->load->view('common/card', $data) ;
+		return $this->load->view('common/card', $data, true) ;
 	}
 	
 	public function plumberprofile($id, $pagedata=[], $extras=[])
@@ -215,6 +224,7 @@ class CC_Controller extends CI_Controller
 		$pagedata['qualificationroute'] = $this->getQualificationRouteList();
 		$pagedata['plumberrates'] 		= $this->getPlumberRates();
 		$pagedata['company'] 			= $this->getCompanyList();
+		$pagedata['card'] 				= $this->plumbercard($userid);
 		
 		$pagedata['titlesign'] 			= $this->config->item('titlesign');
 		$pagedata['gender'] 			= $this->config->item('gender');

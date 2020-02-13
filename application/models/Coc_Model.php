@@ -365,8 +365,12 @@ class Coc_Model extends CC_Model
 		
 		if(isset($data['submit'])){
 			if($data['submit']=='save'){
-				$this->db->update('stock_management', ['coc_status' => '2'], ['id' => $data['coc_id']]);
+				$cocstatus = '5';
+			}elseif($data['submit']=='log'){
+				$cocstatus = '2';
 			}
+			
+			if(isset($cocstatus)) $this->db->update('stock_management', ['coc_status' => $cocstatus], ['id' => $data['coc_id']]);
 		}
 		
 		if($this->db->trans_status() === FALSE)

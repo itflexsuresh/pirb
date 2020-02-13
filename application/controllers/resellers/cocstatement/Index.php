@@ -33,18 +33,21 @@ class Index extends CC_Controller
 			foreach($results as $result){				
 				if($result['allocatedby'] > 0){
 					$status = "Allocated";
-					$name = $result['name'].$result['surname'];
+					$name = $result['name']." ".$result['surname'];
 				}
 				else{
 					$status = "In stock";
 					$name = "";
 				}
 
+				$timestamp = strtotime($result['allocation_date']);
+				$newDate = date('d-F-Y h:i:s', $timestamp);
+
 				$stockcount = 0;				
 				$totalrecord[] = 	[										
 										'cocno' 		=> 	$result['id'],
 										'status' 		=> 	$status,										
-										'datetime' 		=> 	$result['allocation_date'],
+										'datetime' 		=> 	$newDate,
 										'invoiceno' 	=> 	$result['invoiceno'],
 										'name' 			=> 	$name,
 										'registration_no'=> $result['registration_no'],
