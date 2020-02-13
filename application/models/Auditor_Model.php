@@ -51,28 +51,38 @@ class Auditor_Model extends CC_Model
 	// Admin Auditor 
 
 	public function getAuditorList($type, $requestdata=[]){
+		//print_r($requestdata);die;
 		$users 			= 	[ 
-								'u.id','u.email','u.formstatus','u.status' ,'u.password_raw'
-							];
+			'u.id','u.email','u.formstatus','u.status' ,'u.password_raw'
+		];
+		$auditor 		= ['av.id as auditavailable', 'av.user_id', 'av.allocation_allowed', 'av.status'];
 		$usersdetail 	= 	[ 
-								'ud.id as usersdetailid','ud.user_id as usersid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.company','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit', 'ud.vat_vendor'
-							];
+			'ud.id as usersdetailid','ud.user_id as usersid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.company','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit', 'ud.vat_vendor'
+		];
 
 		$this->db->select('
 			'.implode(',', $users).',
+			'.implode(',', $auditor).',
 			'.implode(',', $usersdetail).',
 			concat_ws("@-@", ua1.id, ua1.user_id, ua1.address, ua1.suburb, ua1.city, ua1.province, ua1.postal_code, ua1.type)  as physicaladdress,
 			concat_ws("@-@", ua2.id, ua2.user_id, ua2.address, ua2.suburb, ua2.city, ua2.province, ua2.postal_code, ua2.type)  as postaladdress,
 			concat_ws("@-@", ua3.id, ua3.user_id, ua3.address, ua3.suburb, ua3.city, ua3.province, ua3.postal_code, ua3.type)  as billingaddress');
 
 		$this->db->from('users u');
+
 		$this->db->join('users_detail ud', 'ud.user_id=u.id', 'left');
+
 		$this->db->join('users_address ua1', 'ua1.user_id=u.id and ua1.type="1"', 'left');
+
+		$this->db->join('auditor_availability as av', 'av.user_id=u.id', 'left');
+
 		$this->db->join('users_address ua2', 'ua2.user_id=u.id and ua2.type="2"', 'left');
+
 		$this->db->join('users_address ua3', 'ua3.user_id=u.id and ua3.type="3"', 'left');		
 		
 		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);
 		if(isset($requestdata['type'])) 				$this->db->where('u.type', $requestdata['type']);
+		if(isset($requestdata['pagestatus'])) 			$this->db->where('av.status', $requestdata['pagestatus']);
 
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
@@ -104,6 +114,9 @@ class Auditor_Model extends CC_Model
 
 	public function action($data)
 	{
+		//print_r($data);die;
+
+		
 		$this->db->trans_begin();
 
 		$userid			= 	$this->getUserID();		
@@ -121,8 +134,16 @@ class Auditor_Model extends CC_Model
 				$request1['created_at']		= 	date('Y-m-d H:i:s');
 
 				$userdata = $this->db->insert('users', $request1);
-				//print_r($request1);die;
 				$id = $this->db->insert_id();
+
+				// $source = './assets/uploads/temp/';
+				// $destination = './assets/uploads/'.$id;
+				// $image = $data['file1'];
+
+				// if(is_file($source.$image)){
+				// 	rename($source.$image, $destination.$image);
+				// }
+
 			}else{
 				$request1['updated_at']		= 	date('Y-m-d H:i:s');
 				$userdata = $this->db->update('users', $request1, ['id' => $id]);
@@ -131,8 +152,8 @@ class Auditor_Model extends CC_Model
 
 		if(isset($id)) 							$request0['user_id'] 			= $id;
 		if(isset($data['allowed'])) 			$request0['allocation_allowed']	= $data['allowed'];
-		if(isset($data['coc_type'])) 			$request0['status'] 			= $data['coc_type'];
-												
+		if(isset($data['auditstatus'])) 			$request0['status'] 			= $data['auditstatus'];
+
 		if (isset($request0)) {
 			$auditoravaid			= $data['auditoravaid'];
 			if($auditoravaid==''){
@@ -140,10 +161,11 @@ class Auditor_Model extends CC_Model
 				$auditoravaid1 = $this->db->insert('auditor_availability', $request0);
 			}else{
 				$request0['updated_at'] 		= $datetime;
+				//print_r($request0);die();
 				$auditoravaid1 = $this->db->update('auditor_availability', $request0, ['id' => $auditoravaid]);
 			}
 		}
-	
+
 		
 		if(isset($data['name'])) 				$request2['name'] 				= $data['name'];
 		if(isset($data['surname'])) 			$request2['surname'] 			= $data['surname'];
@@ -167,7 +189,7 @@ class Auditor_Model extends CC_Model
 				$userdetaildata = $this->db->update('users_detail', $request2, ['id' => $userdetailid]);
 			}
 		}
-	
+
 
 		if(isset($data['address'])) 			$request3['address'] 		= $data['address'];
 		if(isset($data['province'])) 			$request3['province'] 		= $data['province'];

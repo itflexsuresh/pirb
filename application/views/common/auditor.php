@@ -1,6 +1,6 @@
 <?php
-// echo "<pre>";
-// print_r($result);die;
+//echo "<pre>";
+//print_r($audit_status1);die;		
 
 	$id 			= isset($result['id']) ? $result['id'] : '';
 	$usertype 		= isset($result['type']) ? $result['type'] : '';
@@ -24,6 +24,7 @@
 
 	$auditoravaid 			= isset($result['available']) ? $result['available'] : '';
 	$audit_status1 			= isset($result['status']) ? $result['status'] : '';
+
 	$allocation_allowed 	= isset($result['allocation_allowed']) ? $result['allocation_allowed'] : '';
 
 	$useraddressid 	= isset($result['useraddressid']) ? $result['useraddressid'] : '';
@@ -73,18 +74,15 @@
 
 					<h4 class="card-title">My Profile</h4>
 					<?php
-									$i = 1;
+									$z = 1;
 									$availability = '';
-									$nonavailability = '';							
+									$nonavailability = '';		
+												
 									foreach($audit_status as $key => $valse){
-										if ($audit_status1 == 1 && $i==1) {
+										if ($audit_status1 ==  $key) {
 											$availability  = 'checked="checked"';
 											$nonavailability = '';
-										}else{
-											$availability  = '';
-											$nonavailability  = 'checked="checked"';
 										}
-										
 										?>
 										<div class="row">
 										<div class="col-md-3">
@@ -94,7 +92,9 @@
 											</div>
 										</div>
 										<?php 
-										$i++;
+										$availability = '';
+									$nonavailability = '';	
+										$z++;
 									}
 									?>
 								</div>

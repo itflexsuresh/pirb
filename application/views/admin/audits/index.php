@@ -21,6 +21,11 @@
 					<!-- <input type="hidden" name="id" value="<?php //echo $id; ?>"> -->
 					<button type="button" name="submit" value="submit" onclick="window.location.href='<?php echo base_url().'admin/audits/index/action'; ?>';" class="btn btn-primary">Add New</button>
 				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<a href="<?php echo base_url().'admin/audits/index/index/1'; ?>" class="active_link_btn">Active</a>  <a href="<?php echo base_url().'admin/audits/index/index/2'; ?>" class="archive_link_btn">Archive</a>
+					</div>					
+				</div>
 				<div class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
@@ -58,7 +63,8 @@
 							{ "data": "email" },
 							{ "data": "contactnumber" },
 							{ "data": "action" }
-						]
+						],
+						data : {pagestatus : '<?php echo $pagestatus; ?>'}
 		};
 		
 		ajaxdatatables('.datatables', options);
