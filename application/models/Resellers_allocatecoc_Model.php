@@ -15,7 +15,7 @@ class Resellers_allocatecoc_Model extends CC_Model
 		// $this->db->or_like('u1.surname',$postData['search_keyword']);
 		$this->db->group_by("u1.id");		
 		$query = $this->db->get();
-		$result1 = $query->result_array();
+		$result1 = $query->result_array(); 
 
 		if (empty($result1)) {
 			$this->db->select('u1.name,u1.surname,u2.id,u1.coc_purchase_limit');
@@ -34,7 +34,7 @@ class Resellers_allocatecoc_Model extends CC_Model
 
 		// print_r($result);
 		// echo $this->db->last_query();
-		
+
 		return $result;
 
 	}
