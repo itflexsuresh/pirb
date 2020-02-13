@@ -221,7 +221,7 @@ function fileupload(data1=[], data2=[], multiple=''){
 	var ajaxurl 	= baseurl()+"ajax/index/ajaxfileupload";
 	
 	var selector 	= data1[0];
-	var extension 	= data1[2] ? data1[2] : ['jpg','jpeg','png'];
+	var extension = data1[2] ? data1[2] : ['jpg','jpeg','png','tiff'];
 	
 	$(document).on('change', selector, function(){
 		var name 		= $(this).val();
