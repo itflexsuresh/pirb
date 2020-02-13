@@ -389,6 +389,9 @@
 				company_name : {
 					required	: true,
 				},
+				allowed : {
+					required	: true,
+				},
 				email : {
 					required	: true,
 					email		: true,
@@ -463,6 +466,9 @@
 				email : {
 					required	: "Please enter the email",					
 					remote		: "Email already exists."
+				},
+				allowed : {
+					required	: "Please enter maximum number of open COC allocations allowed"
 				},
 				auditstatus : {
 					required	: "Please select auditor availability",					
