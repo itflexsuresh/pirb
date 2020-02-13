@@ -15,6 +15,7 @@ $formstatus  = $userdata['formstatus'];
 						<ul aria-expanded="false" class="collapse">
 							<li><a href="<?php echo base_url().'admin/administration/installationtype'; ?>">Installation Type</a></li>
 							<li><a href="<?php echo base_url().'admin/administration/subtype'; ?>">Sub Type</a></li>
+							<li><a href="<?php echo base_url().'admin/administration/managearea/managearea'; ?>">Manage Area</a></li>
 						</ul>
 					</li>
 					
@@ -73,7 +74,12 @@ $formstatus  = $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'admin/company/index'; ?>">Company</a></li>
 						</ul>
 					</li>
-					
+					<li class="setp one"> 
+						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Accounts</span></a>
+						<ul aria-expanded="false" class="collapse">
+							<li><a href="<?php echo base_url().'admin/accounts/accounts'; ?>">Plumber COC Invoices</a></li>
+						</ul>
+					</li>
 					
 					<li class="step five"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Resellers</span></a>
