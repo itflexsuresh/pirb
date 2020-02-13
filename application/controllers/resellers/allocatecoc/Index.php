@@ -39,7 +39,7 @@ class Index extends CC_Controller
 				$pagedata['array_range'] =  $this->Coc_Model->getCOCList('all',$Array_rangeData);				
 				$pagedata['rangedata']= ['' => 'Select Range']+array_column($pagedata['array_range'], 'id', 'id');
 
-				$pagedata['card'] 	= $this->plumbercard($requestData['user_id_hide']);
+				$pagedata['card'] 	= $this->plumbercard($resultid['user_id']);
 			}
 
 			if(isset($requestData['plumberid']) > 0){
