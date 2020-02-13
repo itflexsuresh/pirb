@@ -215,6 +215,7 @@ class CC_Controller extends CI_Controller
 		$pagedata['qualificationroute'] = $this->getQualificationRouteList();
 		$pagedata['plumberrates'] 		= $this->getPlumberRates();
 		$pagedata['company'] 			= $this->getCompanyList();
+		$pagedata['card'] 				= $this->plumbercard($userid);
 		
 		$pagedata['titlesign'] 			= $this->config->item('titlesign');
 		$pagedata['gender'] 			= $this->config->item('gender');
