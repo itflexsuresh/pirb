@@ -300,20 +300,27 @@ function search_func(value)
     if (req != null) req.abort();
     
     var type1 = 3;
-    req = $.ajax({
-        type: "POST",
-        url: '<?php echo base_url()."resellers/allocatecoc/Index/userDetails"; ?>',
-        data: {'search_keyword' : value,type:type1},        
-        beforeSend: function(){
-			// $("#search_reg_no").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
-		},
-        success: function(data){  
-        	$("#plumber_suggesstion").html('');
-        	$("#plumber_suggesstion").show();      	
-			$("#plumber_suggesstion").html(data);
-			$("#search_reg_no").css("background","#FFF");
-        }
-    });
+    var strlength = $.trim($('#search_reg_no').val()).length;
+    if(strlength > 0)  { 
+	    req = $.ajax({
+	        type: "POST",
+	        url: '<?php echo base_url()."resellers/allocatecoc/Index/userDetails"; ?>',
+	        data: {'search_keyword' : value,type:type1},        
+	        beforeSend: function(){
+				// $("#search_reg_no").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
+			},
+	        success: function(data){          	
+	        	$("#plumber_suggesstion").html('');
+	        	$("#plumber_suggesstion").show();      	
+				$("#plumber_suggesstion").html(data);			
+				$("#search_reg_no").css("background","#FFF");
+	        }
+	    });
+	}
+	else{
+		console.log(strlength);
+		$("#plumber_suggesstion").hide();
+	}
 }
 
 function selectuser(val,id,limit) {

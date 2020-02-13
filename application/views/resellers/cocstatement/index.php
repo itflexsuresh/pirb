@@ -60,7 +60,7 @@
 							{ "data": "datetime" },
 							{ "data": "invoiceno" },
 							{ "data": "name" },
-							{ "data": "registration_no" },
+							{ "data": "company" },
 						]
 		};
 		

@@ -5,7 +5,7 @@ class Resellers_allocatecoc_Model extends CC_Model
 	
 	public function autosearchPlumber($postData){ 
 		
-		$designations = array('5', '6' );
+		$designations = array('4', '5', '6' );
 		$this->db->select('u1.name,u1.surname,u2.id,u1.coc_purchase_limit');
 		$this->db->from('users_detail u1');
 		$this->db->join('users u2', 'u1.user_id=u2.id and u2.type="3" and u2.status="1"','inner');
@@ -13,18 +13,35 @@ class Resellers_allocatecoc_Model extends CC_Model
 		$this->db->where_in('up.designation', $designations);
 		$this->db->like('u1.name',$postData['search_keyword']);
 		// $this->db->or_like('u1.surname',$postData['search_keyword']);
-		$this->db->group_by("u1.id");
-		
+		$this->db->group_by("u1.id");		
+		$query = $this->db->get();
+		$result1 = $query->result_array(); 
+
+		if (empty($result1)) {
+			$this->db->select('u1.name,u1.surname,u2.id,u1.coc_purchase_limit');
+			$this->db->from('users_detail u1');
+			$this->db->join('users u2', 'u1.user_id=u2.id and u2.type="3" and u2.status="1"','inner');
+			$this->db->join('users_plumber up', 'up.user_id=u1.user_id','inner');
+			$this->db->where_in('up.designation', $designations);
+			$this->db->like('u1.surname',$postData['search_keyword']);
+			$this->db->group_by("u1.id");		
 			$query = $this->db->get();
 			$result = $query->result_array();
-			// echo $this->db->last_query();
+		}
+		else{
+			$result = $result1;
+		}
+
+		// print_r($result);
+		// echo $this->db->last_query();
+
 		return $result;
 
 	}
 
 	public function getstockList($type, $requestdata=[]){ 		
 
-		$this->db->select('sm.*,ud.name as name,ud.surname as surname,up.registration_no as registration_no,pa.invoiceno as invoiceno,concat(pd.name, " ", pd.surname) as company ');
+		$this->db->select('sm.*,ud.name as name,ud.surname as surname,up.registration_no as registration_no,pa.invoiceno as invoiceno,pd.company_name as company ');
 		$this->db->from('stock_management sm');
 		$this->db->join('plumberallocate pa', 'pa.stockid=sm.id','left');
 		$this->db->join('users_detail ud', 'ud.user_id=sm.user_id','left');
