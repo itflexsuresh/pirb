@@ -46,7 +46,7 @@
 
 	$heading 		= isset($result['id']) ? 'Update' : 'Save';   
 
-	$filepath 		= base_url().'assets/uploads/auditor/'.$id.'/';
+	$filepath 		= base_url().'assets/uploads/auditor/';
 	$filepath1		= (isset($result['file1']) && $result['file1']!='') ? $filepath.$result['file1'] : base_url().'assets/images/auditor/profile.jpg';
 	$filepath2		= (isset($result['file2']) && $result['file2']!='')  ? $filepath.$result['file2'] : base_url().'assets/images/auditor/profile.jpg';	
 ?>
@@ -362,9 +362,9 @@
 
 	$(function(){
 		
-		fileupload([".auditor_image", "./assets/uploads/temp/"], ['.auditor_picture', '.auditor_photo', '<?php echo base_url()."assets/uploads/auditor/".$id; ?>']);
+		fileupload([".auditor_image", "./assets/uploads/auditor/"], ['.auditor_picture', '.auditor_photo', '<?php echo base_url()."assets/uploads/auditor/".$id; ?>']);
 	
-		fileupload([".comp_emb", "./assets/uploads/temp/"], ['.comp_photo', '.comp_logo', '<?php echo base_url()."assets/uploads/auditor/".$id; ?>']);
+		fileupload([".comp_emb", "./assets/uploads/auditor/"], ['.comp_photo', '.comp_logo', '<?php echo base_url()."assets/uploads/auditor/".$id; ?>']);
 
 		
 		citysuburb(['#province','#city', '#suburb'], ['<?php echo $city; ?>', '<?php echo $suburb; ?>']);
