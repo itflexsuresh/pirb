@@ -1,43 +1,37 @@
-<?php 
-// admin company edit view file
+<?php // admin company edit view file 
 if(isset($edit)){
-	foreach ($edit as $key => $value) {
- 	if($value['id']){
- 	$id          	 =	isset($value['id']) ? $value['id'] : '';
-	$company_name 	 = isset($value['company_name']) ? $value['company_name'] : '';
-	$reg_no		  	 = isset($value['reg_no']) ? $value['reg_no'] : '';
-	$vat_no		   	 = isset($value['vat_no']) ? $value['vat_no'] : '';
-	$contact_person	 = isset($value['contact_person']) ? $value['contact_person'] : '';
-	$mobile_phone 	 = isset($value['mobile_phone']) ? $value['mobile_phone'] : '';
-	$work_phone   	 = isset($value['work_phone']) ? $value['work_phone'] : '';
-	$email 		  	 = isset($value['email']) ? $value['email'] : '';
-	$user_id 	 	 = isset($value['user_id']) ? $value['user_id'] : '';
-	}
- } 
- if(isset($id)){
-	foreach ($user_detail as $key => $result) {
-		if($result['type']==1){
-
-			$address1 	 = $result['address'];
-			$suburb1 	 = $result['suburb'];
-			$city1 		 = $result['city'];
-			$province1	 = $result['province'];
-			
-		}elseif ($result['type']==2) {
-			$address2 	 = $result['address'];
-			$suburb2 	 = $result['suburb'];
-			$city2 		 = $result['city'];
-			$province2	 = $result['province'];
-			$postal_code2 = $result['postal_code'];
-		}
-		
-	}
- }
-}
-	
+	 foreach ($edit as $key=>$value) {
+		  if($value['id']){
+			   $id 					= isset($value['id']) ? $value['id'] : '';
+			   $company_name 		= isset($value['company_name']) ? $value['company_name'] : ''; 
+			   $company_message 	= isset($value['comments']) ? $value['comments'] : ''; 
+			   $reg_no 				= isset($value['reg_no']) ? $value['reg_no'] : ''; 
+			   $vat_no 				= isset($value['vat_no']) ? $value['vat_no'] : ''; 
+			   $contact_person 		= isset($value['contact_person']) ? $value['contact_person'] : ''; 
+			   $mobile_phone 		= isset($value['mobile_phone']) ? $value['mobile_phone'] : ''; 
+			   $work_phone 			= isset($value['work_phone']) ? $value['work_phone'] : ''; 
+			   $email 				= isset($value['email']) ? $value['email'] : ''; 
+			   $user_id 			= isset($value['user_id']) ? $value['user_id'] : ''; 
+			   $work_type 			= isset($value['work_type']) ? explode(',',$value['work_type']) : ''; 
+			   $specialisations 	= isset($value['specialisations']) ? explode(',',$value['specialisations']) : ''; 
+			   $date 				= date("d-m-Y", strtotime($register_date['created_at'])); 
+			   $email 				= isset($register_date['email']) ? $register_date['email'] : ''; 
+			   $status 				= isset($value['status']) ? $value['status'] : ''; 
+			} 
+			} if(isset($id)){
+				 foreach ($user_detail as $key => $result) {
+					  if($result['type']==1){
+						   $address1 = $result['address']; 
+							$suburb1 = $result['suburb']; $city1 = $result['city']; $province1 = $result['province']; 
+						}
+						elseif ($result['type']==2) {
+							 $address2 = $result['address']; $suburb2 = $result['suburb']; $city2 = $result['city']; $province2 = $result['province']; $postal_code2 = $result['postal_code']; 
+						}
+				 } 
+			} 
+		} 
 // echo '<pre>';
 // print_r($edit);
-// print_r($user_detail);
 // die;
 
 ?>
@@ -55,11 +49,7 @@ if(isset($edit)){
 	</div>
 </div>
 <?php echo $notification; ?>
-<div class="row">
-	<div class="col-12">
-		<div class="card">
-			<div class="card-body">
-				<?php echo $company_status ?>
+
 <!-- 				<div class="col-md-12">
 					<a href="javascript:void(0);" id="previous">Previous</a>
 					<a href="javascript:void(0);" id="next">Next</a>
@@ -67,9 +57,46 @@ if(isset($edit)){
 <!-- 								<div class="steps active" data-id="1">
 					<h4 class="card-title">Registered Company Details</h4>
 				</div> -->
-				
-				<div class="steps active" data-id="1">
+				<ul class="nav nav-pills">
+					<li class="active"><a data-toggle="pill" href="#home">Company Profile</a></li>
+					<li><a data-toggle="pill" href="#menu1">Employee Listings 1</a></li>
+				</ul>
+				<div class="tab-content">
+				<div id="home" class="tab-pane fade in active">
 					<form class="form" method="post" action="">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>PIRB Company ID:</label>
+								<input type="text" class="form-control"  name="comapany_id" 
+								value="<?php if(isset($id)){echo $id;} ?>" disabled="disabled">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Registration Date:</label>
+								<input type="text" class="form-control" disabled="disabled"  name="reg_date" value="<?php if(isset($date)){echo $date;} ?>">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Status</label>
+								<?php
+									echo form_dropdown('status', ['' => 'Select Status']+$companystatus, "$status", ['id'=>'companystatus', 'class'=>'form-control']);
+								?>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="specific_mgs">Specific Message to Company</label>
+								<textarea class="form-control" name="company_message"><?php echo $company_message	?></textarea>		
+							</div>
+						</div>
+					</div>
 						<h4 class="card-title">Company Details</h4>
 						<div class="row">
 							<div class="col-md-6">
@@ -104,7 +131,7 @@ if(isset($edit)){
 						</div>
 						<div class="row">
 							<div class="col-md-6">
-								<h4 class="card-title">Physical Address</br>
+								<h4 class="card-title">Physical Address<br>
 								<small class="tagline">Note all delivery services will be sent to this address</small>	
 								</h4>
 								
@@ -115,7 +142,7 @@ if(isset($edit)){
 							</div>
 							<div class="col-md-6">
 								<h4 class="card-title">Postal Address
-</br>
+<br>
 								<small class="tagline">Note all delivery services will be sent to this address</small>	
 								</h4>
 								
@@ -158,7 +185,7 @@ if(isset($edit)){
 								<div class="form-group">
 									<label>Province *</label>
 									<?php
-									echo form_dropdown('address[1][province]', $province, '',['class'=>'form-control']);
+									echo form_dropdown('address[1][province]', $province, "$province1",['class'=>'form-control']);
 									?>
 								</div>
 							</div>
@@ -166,7 +193,7 @@ if(isset($edit)){
 								<div class="form-group">
 									<label>Province *</label>
 									<?php
-									echo form_dropdown('address[2][province]', $province, '',['class'=>'form-control']);
+									echo form_dropdown('address[2][province]', $province, "$province2",['class'=>'form-control']);
 									?>
 								</div>
 							</div>
@@ -182,7 +209,6 @@ if(isset($edit)){
 						<div class="row">
 						<div class="col-md-6">
 								<h4 class="card-title">Contact Details:</h4>
-
 						</div>
 						</div>
 						<div class="row">
@@ -197,19 +223,18 @@ if(isset($edit)){
 								<div class="form-group">
 									<label>Mobile Phone of Primary Contact *</label>
 									<input type="text" class="form-control"  name="primary_phone" value="<?php echo $mobile_phone; ?>">
-										</br>
+										<br>
 										<small class="tagline">Note: all sms and OTP notifications will be sent to this mobile number above</small>
 								</div>
 							</div>
 						</div>
 						<div class="row">
-
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Email Address *
 									</label>
-									<input type="text" class="form-control" name="email_address" value="<?php echo $email; ?>">
-										</br>
+									<input type="text" class="form-control" name="email_address" disabled="disabled" value="<?php echo $email; ?>">
+										<br>
 										<small class="tagline">Note: this email will be used as your user profile name and all emails notifications will be sent to it</small>
 								</div>
 							</div>
@@ -219,16 +244,17 @@ if(isset($edit)){
 							<h4 class="card-title">Type of work Company Undertakes</h4>
 							<div class="col-md-6">
 							<?php foreach ($worktype as $key => $value) {?>
-								<input type="checkbox" name="worktype[]" value="<?php echo $key ?>"> <?php echo $value ?><br>
+								<input type="checkbox" name="worktype[]" value="<?php echo $key ?>"<?php echo (in_array($key, $work_type)) ? 'checked="checked"' : ''; ?> > <?php echo $value ?><br>
 							<?php };?>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<h4 class="card-title">Specilisations</h4>
 							<div class="col-md-6">
-							<?php foreach ($specialization as $key => $value) {?>
-								<input type="checkbox" name="specilisations[]" value="<?php echo $key ?>"> <?php echo $value ?><br>
-							<?php };?>
+							<?php foreach ($specialization as $key => $value) { 
+								?>
+								<input type="checkbox" name="specilisations[]" value="<?php echo $key ?>"<?php echo (in_array($key, $specialisations)) ? 'checked="checked"' : ''; ?>> <?php echo $value ?><br>
+							<?php }; ?>
 								
 							</div>
 						</div>
@@ -239,13 +265,27 @@ if(isset($edit)){
 						</div>
 					</form>
 				</div>
-				
+
+			<div id="menu1" class="tab-pane fade">
+				<div class="table-responsive m-t-40">
+					<table class="table table-bordered table-striped datatables fullwidth">
+						<thead>
+							<tr>
+								<th>Registration Number</th>
+								<th>Designation</th>
+								<th>Status</th>
+								<th>Plumbers Name and Surname</th>
+								<th>CPD Status</th>
+								<th>Performance Status</th>
+								<th>Overall Industry Rating</th>
+								<th>View</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
 			</div>
-		</div>
-	</div>
-</div>
-
-
+			
+		</div>	
 <script type="text/javascript">
 $(function(){
 	checkstep();
@@ -279,6 +319,24 @@ function checkstep(){
 	}
 }
 $(function(){
+	var id = "<?php echo $id ?>"
+	var options = {
+			url 	: 	'<?php echo base_url()."admin/company/index/plumber_list_DT/"; ?>',
+			type: "post",
+            data: {id: id},
+			columns : 	[
+							{ "data": "regnum" },
+							{ "data": "designation" },
+							{ "data": "status" },
+							{ "data": "name" },
+							{ "data": "cpd" },
+							{ "data": "Performance" },
+							{ "data": "rating" },
+							{ "data": "action" }
+						]
+		};
+		
+		ajaxdatatables('.datatables', options);
 
 			validation(
 				'.form',
