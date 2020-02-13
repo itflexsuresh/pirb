@@ -37,6 +37,15 @@
 								<th>Total Invoice Value</th>
 								<th></th>
 								<th>Payment Status</th>
+								<!-- <div class="form-group">
+
+									<?php $attributes = 'class="form-control" id="store"';
+									echo form_dropdown('status', $store, set_value('store',$store),$attributes);?>
+									<span class="text-danger"><?php echo form_error('store');?></span>
+								</div> -->
+
+
+
 								<th>Internal Inv Number</th>			
 							</tr>
 						</thead>
@@ -57,7 +66,7 @@
 			{ "data": "inv_id" },
 			{ "data": "created_at" },
 			{ "data": "name" },
-			{ "data": "reg_no" },
+			{ "data": "registration_no" },
 			{ "data": "description" },
 			{ "data": "total_cost" },
 			{ "data": "action" },			

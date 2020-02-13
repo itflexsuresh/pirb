@@ -77,17 +77,18 @@ class Index extends CC_Controller
 										'inv_id' 		=> 	$result['inv_id'],
 										'created_at'    =>  $newDate,
 										'name' 		    => 	$result['name'].' '.$result['surname'],
-										'reg_no' 		=> 	$result['reg_no'],
+										'registration_no' => $result['registration_no'],
 										'description'   =>  $result['description'],
 										'total_cost'    => 	$result['total_cost'],
 							     		'action'	    => 	'
        
                                                         <div class="col-md-6">
-								                      <a  href="' .base_url().'admin/accounts/renewal_plumber/index/return/'.$result['inv_id'].'.pdf" >
+								                      <a  href="' .base_url().'admin/accounts/renewal_plumber/index/getpdf/'.$result['inv_id'].'.pdf" >
 													   <img src="'.base_url().'assets/images/pdf.png" height="50" width="50">
 							                            </div></a>
+
 														',
-														
+										
 										'status'    		=> 	$result['status'],
 										'internal_inv' 		=> 	$result['internal_inv']
 										
@@ -110,7 +111,7 @@ class Index extends CC_Controller
 
 // 	// invoice PDF
 
-// 		 	$rowData = $this->Coc_Model->getListPDF('row', ['id' => $inv_id, 'status' => ['0','1']]);
+// 		 			$rowData = $this->Coc_Model->getListPDF('row', ['id' => $inv_id, 'status' => ['0','1']]);
 
 // 					$rowData1 = $this->Coc_Model->getPermissions('row', ['id' => $inv_id, 'status' => ['0','1']]);
 // 					$rowData2 = $this->Coc_Model->getPermissions1('row', ['id' => $inv_id, 'status' => ['0','1']]);

@@ -6,15 +6,17 @@ class Renewal_Model extends CC_Model
 	{
 		
         $query=$this->db->select ('t1.*,t1.user_id, t1.inv_id, t1.description, t1.status, t1.created_at, t2.id,
-        	 t3.reg_no, t3.id, t3.name name, t3.surname surname, t5.supplyitem, t5.amount');
+        	 t3.reg_no, t3.id, t3.name name, t3.surname surname, t4.registration_no, t5.supplyitem, t5.amount');
 
         $this->db->from('invoice t1');
+        $this->db->order_by("inv_id", "desc");
 
         $this->db->join('users as t2', 't2.id=t1.user_id', 'left');
         // $this->db->join('coc_orders t2','t2.user_id = t1.user_id', 'left');        
         $this->db->join('users_detail t3', 't3.user_id = t2.id', 'left');
+        $this->db->join('users_plumber t4', 't4.user_id = t3.user_id', 'left');
         //$this->db->join('users_address t4', 't4.user_id = t1.user_id', 'left');
-        $this->db->join('rates t5','t5.id = t3.user_id', 'left');
+        $this->db->join('rates t5','t5.id = t4.user_id', 'left');
    
        if(isset($requestdata['id'])) $this->db->where('t1.inv_id', $requestdata['id']);
        
@@ -78,7 +80,9 @@ class Renewal_Model extends CC_Model
 		//$this->db->where('id', $id);
 		$this->db->where('type', '3' );
 		$query11 = $this->db->get()->result_array();
-		
+		// echo '<pre>';
+		// print_r($query11); 
+		// echo '</pre>';exit;
 		
 		$this->db->select('amount');
 		$this->db->from('rates');
@@ -103,14 +107,10 @@ class Renewal_Model extends CC_Model
 		// echo '</pre>';
 		// exit;
 
-		$sd = $this->db->insert('invoice', ['description' => "Registration Fee", 'user_id' => $value['id'], 'status' => 1, 'inv_type' => 2,  'total_cost' => $rate[0]['amount'], 'vat'=>$total, 'created_at' => $end_date]) ;
-		
-
+		$sd = $this->db->insert('invoice', ['description' => "Registration Fee", 'user_id' => $value['id'], 'status' => '0', 'inv_type' => '2',  'total_cost' => $rate[0]['amount'], 'vat'=>$total, 'created_at' => $end_date]) ;
 		$invid= $this->db->insert_id();
-
 		
-		$this->db->insert('coc_orders', ['user_id' => $value['id'], 'description' => "Registration Fee",  'status' => 1, 'total_due' => $rate[0]['amount'], 'vat'=>$total, 'inv_id' => $invid, 'created_at' => $end_date, 
-			'created_by' => $value['id']]);
+		$this->db->insert('coc_orders', ['user_id' => $value['id'], 'description' => "Registration Fee",  'status' => '0', 'total_due' => $rate[0]['amount'], 'vat'=>$total, 'inv_id' => $invid, 'created_at' => $end_date, 'created_by' => $value['id']]);
 		}
 	}
 	
