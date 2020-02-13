@@ -70,6 +70,15 @@ class CC_Controller extends CI_Controller
 			return '0';
 		}
 	}
+
+	public function getAuditorPageStatus($pagestatus='')
+	{
+		if($pagestatus=='' || $pagestatus=='1'){
+		return '1';
+		}else{
+		return '2';
+		}
+	}
 	
 	public function getUserID($id='')
 	{
