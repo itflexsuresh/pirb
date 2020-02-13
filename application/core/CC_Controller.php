@@ -166,6 +166,16 @@ class CC_Controller extends CI_Controller
 		else return [];
 	}
 	
+	public function plumbercard($userid)
+	{
+		$data['company'] 			= $this->getCompanyList();
+		$data['designation2'] 		= $this->config->item('designation2');
+		$data['specialisations'] 	= $this->config->item('specialisations');
+		
+		$data['result'] = $this->Plumber_Model->getList('row', ['id' => $userid]);
+		$this->load->view('common/card', $data) ;
+	}
+	
 	public function plumberprofile($id, $pagedata=[], $extras=[])
 	{
 		$result = $this->Plumber_Model->getList('row', ['id' => $id, 'type' => '3', 'status' => ['1']]);
