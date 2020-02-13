@@ -38,6 +38,8 @@ class Index extends CC_Controller
 
 				$pagedata['array_range'] =  $this->Coc_Model->getCOCList('all',$Array_rangeData);				
 				$pagedata['rangedata']= ['' => 'Select Range']+array_column($pagedata['array_range'], 'id', 'id');
+
+				$pagedata['card'] 	= $this->plumbercard($requestData['user_id_hide']);
 			}
 
 			if(isset($requestData['plumberid']) > 0){
@@ -54,8 +56,10 @@ class Index extends CC_Controller
 
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['company'] 		= $this->getCompanyList();
-		$data['designation2'] 		= $this->config->item('designation2');
-		$data['specialisations'] 	= $this->config->item('specialisations');
+		$pagedata['designation2'] 		= $this->config->item('designation2');
+		$pagedata['specialisations'] 	= $this->config->item('specialisations');
+
+		
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'datepicker', 'inputmask', 'validation'];
 		$data['content'] 			= $this->load->view('resellers/allocatecoc/index', (isset($pagedata) ? $pagedata : ''), true);

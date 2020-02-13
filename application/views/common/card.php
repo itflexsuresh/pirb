@@ -1,6 +1,6 @@
 <?php
 
-	$userid					='id';
+	$userid					=isset($result['id']) ? $result['id'] : '';
 
 	$name 					= isset($result['name']) ? $result['name'] : '';
 	$surname 				= isset($result['surname']) ? $result['surname'] : '';
