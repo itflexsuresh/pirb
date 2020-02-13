@@ -545,6 +545,24 @@
 	});
 
     function areadata(data1, data2){
+		var checkarea = 0;
+		$(document).find('.areaprovince').each(function(i, v){
+			var count = $(this).attr('data-count');
+			var province = $(this).val();
+			var city = $('.areacity[data-count="'+count+'"]').val();
+			var suburb = $('.areasuburb[data-count="'+count+'"]').val();
+			
+			if(province==data1[0] && province==data1[1] && province==data1[2]){
+				checkarea = 1;
+				return false;
+			}
+		})
+		
+		if(checkarea==1){
+			sweetalertautoclose('Area already exists.');
+			return false;
+		}
+		
     	var append			= 	'\
         							<tr class="">\
         								<td>'+data2[0]+'</td>\
@@ -552,10 +570,10 @@
         								<td>'+data2[2]+'</td>\
         								<td>\
         									<a href="javascript:void(0);" class="area_remove"><i class="fa fa-trash"></i></a>\
-        									<input type="hidden" value="'+data1[0]+'" name="area['+areacount+'][province]">\
-        									<input type="hidden" value="'+data1[1]+'" name="area['+areacount+'][city]">\
-        									<input type="hidden" value="'+data1[2]+'" name="area['+areacount+'][suburb]">\
-        									<input type="hidden" value="'+((data1[3]) ? data1[3] : "")+'" name="area['+areacount+'][id]">\
+        									<input type="hidden" data-count="'+areacount+'" class="areaprovince" value="'+data1[0]+'" name="area['+areacount+'][province]">\
+        									<input type="hidden" data-count="'+areacount+'" class="areacity" value="'+data1[1]+'" name="area['+areacount+'][city]">\
+        									<input type="hidden" data-count="'+areacount+'" class="areasuburb" value="'+data1[2]+'" name="area['+areacount+'][suburb]">\
+        									<input type="hidden" data-count="'+areacount+'" class="areaid" value="'+((data1[3]) ? data1[3] : "")+'" name="area['+areacount+'][id]">\
         								</td>\
         							</tr>\
         						';
