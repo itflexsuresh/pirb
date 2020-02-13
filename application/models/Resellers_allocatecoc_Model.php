@@ -70,7 +70,7 @@ class Resellers_allocatecoc_Model extends CC_Model
 				$this->db->or_like('ud.name', $searchvalue);
 				$this->db->or_like('ud.surname', $searchvalue);
 				$this->db->or_like('up.registration_no', $searchvalue);
-				$this->db->or_like('pd.name', $searchvalue);
+				$this->db->or_like('pd.company_name', $searchvalue);
 			}
 		}
 		else{
