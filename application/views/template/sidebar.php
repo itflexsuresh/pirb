@@ -26,7 +26,7 @@ $formstatus  = $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'admin/systemsetup/systemsettings/systemsettings'; ?>">System Settings</a></li>
 							<li><a href="<?php echo base_url().'admin/systemsetup/qualificationroutes/qualificationroute'; ?>">Qualification Routes</a></li>
 							<li><a href="<?php echo base_url().'admin/systemsetup/message/message'; ?>">Messages</a></li>
-                             <textarea name="Messages" id="Messages"><?php echo $value['message'];?></textarea>
+                             
 							<li> 
 								
 								<a href="javascript:void(0)" aria-expanded="false" class="sub_menu">Performance Settings</a>
