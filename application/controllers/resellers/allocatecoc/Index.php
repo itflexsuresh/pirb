@@ -342,7 +342,7 @@ class Index extends CC_Controller
 	</html>';
 	          
                 $pdfFilePath = ''.$inv_id.'.pdf';
-                $filePath = FCPATH.'assets/reseller_pdf/';
+                $filePath = FCPATH.'assets/inv_pdf/';
 				$this->pdf->loadHtml($html);
 				$this->pdf->setPaper('A4', 'portrait');
 				$this->pdf->render();
@@ -364,7 +364,7 @@ class Index extends CC_Controller
 			 		$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body,$filePath.$pdfFilePath);
 			 	}			
 			 }
-			 
+
 			
 		}
 	}
