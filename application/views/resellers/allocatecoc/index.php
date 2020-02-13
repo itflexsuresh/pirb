@@ -1,6 +1,5 @@
 <?php
 //Reseller View File
-
 $id = isset($result['id']) ? $result['id'] : '';
 $search_reg_no = isset($result['registration_no']) ? $result['registration_no'] : '';
 $name = isset($result['name']) ? $result['name'] : '';
@@ -11,6 +10,7 @@ if(isset($designationtemp) && $designationtemp > 0) {
 	$designation	=	$this->config->item('designation2')[$designationtemp];
 }
 $companyname = isset($result['companyname']) ? $result['companyname'] : '';
+$company_details = isset($result['company_details']) ? $result['company_details'] : '';
 $balace_coc = 0 ;
 // $orderqty = 0;
 // $coc_purchase_limit = 0;
@@ -123,6 +123,7 @@ if(isset($id) && $id >0)
 					<div class="col-md-9">
 						<div class="form-group">
 							<label><?php echo $companyname;?></label>
+							<input type="hidden" name="company_details" value="<?php echo $company_details; ?>">
 						</div>
 					</div>
 				</div>
@@ -136,6 +137,7 @@ if(isset($id) && $id >0)
 					<div class="col-md-4">
 						<div class="form-group">
 							<input type="text" class="form-control"  name="balace_coc" id="balace_coc"  value="<?php echo $balace_coc;?>" disabled>
+							<input type="hidden" class="form-control"  name="balace_coc1" id="balace_coc1"  value="<?php echo $balace_coc;?>">
 						</div>
 					</div>
 				</div>

@@ -46,7 +46,7 @@ class Resellers_allocatecoc_Model extends CC_Model
 		$this->db->join('plumberallocate pa', 'pa.stockid=sm.id','left');
 		$this->db->join('users_detail ud', 'ud.user_id=sm.user_id','left');
 		$this->db->join('users_plumber up', 'up.user_id=sm.user_id','left');
-		$this->db->join('users_detail pd', 'pd.user_id=up.company_details', 'left');
+		$this->db->join('users_detail pd', 'pd.user_id=pa.company_details', 'left');
 		$this->db->where('sm.type', '2');
 
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
@@ -147,6 +147,7 @@ class Resellers_allocatecoc_Model extends CC_Model
 		if(isset($data['startrange'])) 			$request['startrange'] 			= $data['startrange'];
 		if(isset($data['endrange'])) 			$request['endrange'] 			= $data['endrange'];
 		if(isset($data['invoiceno'])) 			$request['invoiceno'] 			= $data['invoiceno'];
+		if(isset($data['company_details'])) 			$request['company_details'] 			= $data['company_details'];
 		
 		if(isset($request)){
 			$range = $data['rangebalace_coc'];	
@@ -170,7 +171,7 @@ class Resellers_allocatecoc_Model extends CC_Model
 			}
 
 			
-			$balace_coc = $data['balace_coc'];
+			$balace_coc = $data['balace_coc1'];
 			$rangebalace_coc = $data['rangebalace_coc'];
 			$coccount = $balace_coc-$rangebalace_coc;
 			$cocupdateid = $data['plumberid'];
