@@ -282,7 +282,7 @@
 					<div class="col-md-6">
 							<div class="form-group">
 								<label>Maximum number of Open COC Allocations allowed:</label>
-								<input type="number" class="form-control" min="1" name="allowed" value="<?php echo $allocation_number; ?>">
+								<input type="number" class="form-control" min="1" name="allowed" value="<?php echo $allocation_allowed; ?>">
 							</div>
 						</div>
 					
