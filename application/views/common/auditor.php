@@ -47,8 +47,10 @@
 	$heading 		= isset($result['id']) ? 'Update' : 'Save';   
 
 	$filepath 		= base_url().'assets/uploads/auditor/';
-	$filepath1		= (isset($result['file1']) && $result['file1']!='') ? $filepath.$result['file1'] : base_url().'assets/images/auditor/profile.jpg';
-	$filepath2		= (isset($result['file2']) && $result['file2']!='')  ? $filepath.$result['file2'] : base_url().'assets/images/auditor/profile.jpg';	
+	$filepath1		= (isset($result['file1']) && $result['file1']!='') ? $filepath.$result['file1'] : base_url().'assets/uploads/auditor/profile.jpg';
+	$filepath2		= (isset($result['file2']) && $result['file2']!='')  ? $filepath.$result['file2'] : base_url().'assets/uploads/auditor/profile.jpg';	
+
+
 ?>
 
 <div class="row page-titles">
@@ -362,9 +364,9 @@
 
 	$(function(){
 		
-		fileupload([".auditor_image", "./assets/uploads/auditor/"], ['.auditor_picture', '.auditor_photo', '<?php echo base_url()."assets/uploads/auditor/".$id; ?>']);
+		fileupload([".auditor_image", "./assets/uploads/auditor/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.auditor_picture', '.auditor_photo', '<?php echo base_url()."assets/uploads/auditor/"; ?>']);
 	
-		fileupload([".comp_emb", "./assets/uploads/auditor/"], ['.comp_photo', '.comp_logo', '<?php echo base_url()."assets/uploads/auditor/".$id; ?>']);
+		fileupload([".comp_emb", "./assets/uploads/auditor/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.comp_photo', '.comp_logo', '<?php echo base_url()."assets/uploads/auditor/"; ?>']);
 
 		
 		citysuburb(['#province','#city', '#suburb'], ['<?php echo $city; ?>', '<?php echo $suburb; ?>']);
@@ -460,8 +462,7 @@
 					remote		: "Email already exists."
 				},
 				company_name : {
-					required	: "Please enter the email",					
-					remote		: "Email already exists."
+					required	: "Please enter billing name",	
 				},
 				pass : {
 					required	: "Please enter the password"
