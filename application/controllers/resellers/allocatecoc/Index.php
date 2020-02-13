@@ -26,6 +26,10 @@ class Index extends CC_Controller
 				else{
 					$pagedata['user_id_hide'] = '0';
 					$pagedata['result'] 	=  $this->Plumber_Model->getList('row',$requestData);
+					if(empty($pagedata['result']))
+						$pagedata['emptyvalue'] = 0;
+					else
+						$pagedata['emptyvalue'] = 1;
 				}
 
 				// echo '<pre>'; print_r($pagedata['result']); exit;
@@ -385,10 +389,11 @@ class Index extends CC_Controller
 			<?php
 			foreach($data as $key=>$val) {
 				$name = $val["name"];
-				if(isset($val["surname"]))
+				if(isset($val["surname"])){
 					$name = $name.' '.$val["surname"];
+				}
 			?>
-			<li onClick="selectuser('<?php echo $val["name"]; ?>','<?php echo $val["id"]; ?>','<?php echo $val["coc_purchase_limit"]; ?>');"><?php echo $name; ?></li>
+			<li onClick="selectuser('<?php echo $name; ?>','<?php echo $val["id"]; ?>','<?php echo $val["coc_purchase_limit"]; ?>');"><?php echo $name; ?></li>
 			<?php } ?>
 			</ul>
 <?php 	} 

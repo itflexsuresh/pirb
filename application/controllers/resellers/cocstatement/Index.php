@@ -34,14 +34,16 @@ class Index extends CC_Controller
 				if($result['allocatedby'] > 0){
 					$status = "Allocated";
 					$name = $result['name']." ".$result['surname'];
+					$timestamp = strtotime($result['allocation_date']);
+					$newDate = date('d-F-Y h:i', $timestamp);
 				}
 				else{
 					$status = "In stock";
 					$name = "";
+					$newDate = "";
 				}
 
-				$timestamp = strtotime($result['allocation_date']);
-				$newDate = date('d-F-Y h:i:s', $timestamp);
+				
 
 				$stockcount = 0;				
 				$totalrecord[] = 	[										
