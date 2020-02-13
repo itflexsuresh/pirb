@@ -41,7 +41,7 @@ class Resellers_allocatecoc_Model extends CC_Model
 
 	public function getstockList($type, $requestdata=[]){ 		
 
-		$this->db->select('sm.*,ud.name as name,ud.surname as surname,up.registration_no as registration_no,pa.invoiceno as invoiceno,concat(pd.name, " ", pd.surname) as company ');
+		$this->db->select('sm.*,ud.name as name,ud.surname as surname,up.registration_no as registration_no,pa.invoiceno as invoiceno,pd.company_name as company ');
 		$this->db->from('stock_management sm');
 		$this->db->join('plumberallocate pa', 'pa.stockid=sm.id','left');
 		$this->db->join('users_detail ud', 'ud.user_id=sm.user_id','left');
