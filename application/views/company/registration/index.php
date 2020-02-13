@@ -165,8 +165,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="row">
-
+						<!-- <div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Email Address *
@@ -176,7 +175,7 @@
 										<small class="tagline">Note: this email will be used as your user profile name and all emails notifications will be sent to it</small>
 								</div>
 							</div>
-						</div>
+						</div> -->
 						<div class="row">
 						<div class="col-md-6">
 							<h4 class="card-title">Type of work Company Undertakes</h4>

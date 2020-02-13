@@ -80,15 +80,15 @@ class Index extends CC_Controller
 										'reg_no' 		=> 	$result['reg_no'],
 										'description'   =>  $result['description'],
 										'total_cost'    => 	$result['total_cost'],
-										'status'    	=> 	$result['status'],
 							     		'action'	    => 	'
        
                                                         <div class="col-md-6">
-								                      <a  href="' .base_url().'assets/inv_pdf/'.$result['inv_id'].'.pdf" >
+								                      <a  href="' .base_url().'admin/accounts/renewal_plumber/index/return/'.$result['inv_id'].'.pdf" >
 													   <img src="'.base_url().'assets/images/pdf.png" height="50" width="50">
 							                            </div></a>
 														',
-										'payment_status' 	=> 	$result['internal_inv'],
+														
+										'status'    		=> 	$result['status'],
 										'internal_inv' 		=> 	$result['internal_inv']
 										
 									];
@@ -104,180 +104,223 @@ class Index extends CC_Controller
 
 		echo json_encode($json);
 	}
-	public function getPDF1($id)
-	{
-		
- 
-		if($id!=''){
-		
-			$rowData = $this->Renewal_Model->getList('row', ['id' => $id, 'status' => ['0','1','7','8','9']]);
 
-			$rowData1 = $this->Renewal_Model->getPermissions('row', ['id' => $id, 'status' => ['0','1','7','8','9']]);
-			$rowData2 = $this->Renewal_Model->getPermissions1('row', ['id' => $id, 'status' => ['0','1','7','8','9']]);
+// 	public function getpdf()
+// 	{
 
-           $amount=$rowData['total_due']*$rowData['quantity'];
+// 	// invoice PDF
 
-           $invoiceDate = date("d-m-Y", strtotime($rowData['created_at']));
+// 		 	$rowData = $this->Coc_Model->getListPDF('row', ['id' => $inv_id, 'status' => ['0','1']]);
+
+// 					$rowData1 = $this->Coc_Model->getPermissions('row', ['id' => $inv_id, 'status' => ['0','1']]);
+// 					$rowData2 = $this->Coc_Model->getPermissions1('row', ['id' => $inv_id, 'status' => ['0','1']]);
+
+//            			$amount 		=	$rowData['total_due']*$rowData['quantity'];
+
+//            			$invoiceDate 	= date("d-m-Y", strtotime($rowData['created_at']));
+
+//            			if ($rowData['coc_type'] == '1') {
+//            				$coc_type_id = 13;
+//            				$delivery_rate['amount'] = 0;
+//            				$PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
+
+//            			}elseif($rowData['coc_type'] == '2'){
+//            				$coc_type_id = 14;
+//            				if ($rowData['delivery_type'] == '1') {
+//            					$delivery_method = 24;
+//            				}elseif ($rowData['delivery_type'] == '2') {
+//            					$delivery_method = 17;
+//            				}elseif ($rowData['delivery_type'] == '3') {
+//            					$delivery_method = 2;
+//            				}
+
+//            				$PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
+//            				$delivery_rate =  $this->db->select('amount')->from('rates')->where('id',$delivery_method)->get()->row_array();
 
 
-           $base_url= base_url();
+//            			}
+//            			$total_subtotal = $delivery_rate['amount']+$rowData['cost_value'];
+
+           				
+           			
+           			
+
+//            			$base_url= base_url();
 
          
 
-        if($rowData["status"]=='paid'){
+//         if($rowData["status"]=='1'){
 
-        	 $paid = "<img src='".$base_url."/assets/images/paid.jpg'>";
+//         	 $paid = "<img style='width: 290px' src='".$_SERVER['DOCUMENT_ROOT']."/auditit_new/pirb/assets/images/paid.jpg>";
+//         	 $paid_status = "PAID";
         	
-        }
-        else{
+//         }
+//         else{
 
-        	$paid ="<img style='width: 290px' src='".$base_url."/assets/images/unpaid.jpg'>";
+//         	$paid ="<img style='width: 290px' src='".$_SERVER['DOCUMENT_ROOT']."/auditit_new/pirb/assets/images/unpaid2.jpg>";
+//         	$paid_status = "UNPAID";
         	
-        }
+//         }
+//         $stringaarr = explode("@@@",$rowData['areas']);
+//         $provincesettings = explode("@@@",$rowData2['provincesettings']);
 
-				$html = '<!DOCTYPE html>
-<html>
-<head>
-	<title>PDF Invoice Plumber COC</title>
-</head>
 
-<style type="text/css">
-td {
-    width: 50%;
-}
-</style>
-<body>
 
-<table style="width: 70%; margin: 0 auto; border: 1px solid #000; padding: 0 10px 0 10px;">
-	<tbody>
-		<tr>
-			<td style="text-align: left;">
-				<img class="logo" style="width: 250px;" src="'.$base_url.'/assets/images/pitrb-logo.png">
-			</td>
-			<td style="text-align: right;">
-					<p style="width: auto; display: inline-block; border: 1px solid #000; padding: 8px 30px 8px 30px;">Invoice Number</p>
-					<p style="width: auto; display: inline-block; padding: 8px 30px 8px 30px; border: 1px solid #000; margin-left: -5px; border-left: none;">'.$rowData['inv_id'].'</p>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<div style="border: 1px solid; width: 70%; margin-top: 40px; margin-left: 20px;">
-					<p style="border-bottom: 1px solid #000; margin-top: 10px; padding: 0 10px 10px 10px; font-weight: 600;">Company Details</p>
-					<p>'.$rowData2['address'].'</p>
-					<p>'.$rowData2['suburb'].'</p>
-					<p>'.$rowData2['city'].'</p>
-					<p>'.$rowData1['email'].'</p>
-					<p>'.$rowData1['work_phone'].'</p>
-					<p>'.$rowData1['email'].'</p>
-					<p>'.$rowData1['reg_no'].'</p>
-					<p>'.$rowData1['vat_no'].'</p>
-				</div>
-			</td>
-			<td style="text-align: right;">
-           '.$paid.'
+
+// 				$html = '<!DOCTYPE html>
+// <html>
+// <head>
+// 	<title>PDF Invoice Plumber COC</title>
+// </head>
+
+// <style type="text/css">
+// td {
+//     width: 50%;
+// }
+// </style>
+// <body>
+
+// <table style="width: 100%; margin: 0 auto; border: 1px solid #000; padding: 0 10px 0 10px;">
+// 	<tbody>
+// 		<tr>
+// 			<td style="text-align: left;">
+// 				<img class="logo" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/pitrb-logo.png">
+// 			</td>
+// 			<td style="text-align: right;">
+// 					<p style="width: auto; display: inline-block; border: 1px solid #000; padding: 8px 30px 8px 30px;">Invoice Number</p>
+// 					<p style="width: auto; display: inline-block; padding: 8px 30px 8px 30px; border: 1px solid #000; margin-left: -5px; border-left: none;">'.$rowData['inv_id'].'</p>
+// 			</td>
+// 		</tr>
+// 		<tr>
+// 			<td>
+// 				<div style="border: 1px solid; width: 70%; margin-top: 40px; margin-left: 20px;">
+// 					<p style="border-bottom: 1px solid #000; margin-top: 10px; padding: 0 10px 10px 10px; font-weight: 600;">Company Details</p>
+// 					<p>'.$rowData2['address'].'</p>
+// 					<p>'.$addrpirb[1].'</p>
+// 					<p>'.$rowData2['suburb'].'</p>
+// 					<p>'.$rowData2['city'].'</p>
+// 					<p>'.$rowData1['work_phone'].'</p>
+// 					<p>'.$rowData1['email'].'</p>					
+// 					<p>'.$rowData1['reg_no'].'</p>
+// 					<p>'.$rowData1['vat_no'].'</p>
+// 				</div>
+// 			</td>
+// 			<td style="text-align: right;">
+//            '.$paid_status.'
         
-        </td>
+//         </td>
 
-		</tr>
-		<tr>
-			<td>
-				<div style="border: 1px solid; width: 70%; margin-top: 40px; margin-left: 20px;">
-					<p style="border-bottom: 1px solid #000; margin-top: 10px; padding: 0 10px 10px 10px; font-weight: 600;">Billing Details</p>
-					<p>'.$rowData['address'].'</p>
-					<p>'.$rowData['suburb'].'</p>
-					<p>'.$rowData['city'].'</p>
-					<p>'.$rowData['email2'].'</p>
-					<p>'.$rowData['reg_no'].'</p>
-					<p>'.$rowData['vat_no'].'</p>
-				</div>
-			</td>
-			<td style="vertical-align: top;">
-				<div style="margin-top: 40px; border: 1px solid #000;">
-					<p style="width: 140px; display: inline-block; margin: 0px 5px 0 5px; padding: 10px;   font-size: 14px; font-weight: 600; border-right: 1px solid #000; text-align: center;">Customer Compnay Reg</p>
-					<p style="width: 110px; display: inline-block; margin: 0px 5px 0 5px; padding: 10px;    font-size: 14px; font-weight: 600; border-right: 1px solid #000;">Customer VAT Reg</p>
-					<p style="width: 89px; display: inline-block; margin: 0px 5px 0 5px; padding: 10px;    font-size: 14px; font-weight: 600;">Invoice Date</p>
-				</div>
-				<div style="border: 1px solid #000; margin-top: -1px;">
-					<p style="width: 140px; display: inline-block; margin: 0px 5px 0 5px; padding: 10px;   font-size: 14px; border-right: 1px solid #000; text-align: center;">'.$rowData['reg_no'].'</p>
-					<p style="width: 110px; display: inline-block; margin: 0px 5px 0 5px; padding: 10px;   font-size: 14px; border-right: 1px solid #000;">'.$rowData['vat_no'].'</p>
-					<p style="width: 89px; display: inline-block; margin: 0px 5px 0 5px; padding: 10px;   font-size: 14px;">'.$invoiceDate.'</p>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<div style="margin-left: 20px; border: 1px solid; width: 30%; margin-top: 20px; text-align: center;">
-					<p style="padding: 3px; margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid #000;">Terms</p>
-					<p style="padding: 3px; margin-top: 0; margin-bottom: 10px;">COD</p>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<div style="border: 1px solid #000; margin: 20px;">
-					<div style="border-bottom: 1px solid #000; padding: 0 20px 0 20px;">
-						<p style="width: 50%; display: inline-block; border-right: 1px solid #000; margin: 0;    padding: 10px 0 10px 0;">Description</p>
-						<p style="    width: 10%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000;text-align: center;">QTY</p>
-						<p style="width: 19%;display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000; text-align: center;">Rate</p>
-						<p style="width: 18%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    text-align: center;">Amount</p>
-					</div>
-					<div style="border-bottom: 1px solid #000; padding: 0 20px 0 20px;">
-						<p style="width: 50%; display: inline-block; border-right: 1px solid #000; margin: 0;    padding: 10px 0 10px 0;">Purchase of {number} PIRB Certificate of Compliance</p>
-						<p style="width: 10%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000;text-align: center;">'.$rowData['quantity'].'</p>
-						<p style="width: 19%;display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000; text-align: center;">'.$rowData['total_due'].'</p>
-						<p style="width: 18%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$amount.'</p>
-					</div>
-					<div style="padding: 0 20px 0 20px;">
-						<p style="width: 50%; display: inline-block; border-right: 1px solid #000; margin: 0;    padding: 10px 0 10px 0;">Courier/Regsitered Post Fee</p>
-						<p style="width: 10%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000;text-align: center;"></p>
-						<p style="width: 19%;display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000; text-align: center;"></p>
-						<p style="width: 18%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    text-align: center;"></p>
-					</div>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<div style="margin-left: 20px;">
-					<p style="font-weight: 600;">Banking Detail</p>
-					<p>'.$rowData1['bank_name'].'</p>            
-					<p>'.$rowData1['branch_code'].'</p>
-					<p>'.$rowData2['address'].'</p>
-					<p>'.$rowData2['suburb'].'</p>
-					<p>'.$rowData2['city'].'</p>
-				</div>
-			</td>
-			<td>
-				<div style="text-align: center; border: 1px solid #000; width: 50%; float: right; margin-right: 20px;">
-					<div style="border-bottom: 1px solid #000;">
-						<p style="width: 47%; display: inline-block; margin: 0; padding: 6px 0 6px 0;    border-right: 1px solid #000;">Sub Total</p>
-						<p style="width: 50%; display: inline-block; margin: 0; padding: 6px 0 6px 0;"></p>
-					</div>
-					<div style="border-bottom: 1px solid #000;">
-						<p style="width: 47%; display: inline-block; margin: 0; padding: 6px 0 6px 0;    border-right: 1px solid #000;">VAT Total</p>
-						<p style="width: 50%; display: inline-block; margin: 0; padding: 6px 0 6px 0;"></p>
-					</div>
-					<div>
-						<p style="width: 47%; display: inline-block; margin: 0; padding: 6px 0 6px 0;    border-right: 1px solid #000;">Total</p>
-						<p style="width: 50%; display: inline-block; margin: 0; padding: 6px 0 6px 0;">'.$amount.'</p>
-					</div>
-				</div>
-			</td>
-		</tr>
-	</tbody>
-</table>
+// 		</tr>
+// 		<tr>
+// 			<td>
+// 				<div style="border: 1px solid; width: 70%; margin-top: 40px; margin-left: 20px;">
+// 					<p style="border-bottom: 1px solid #000; margin-top: 10px; padding: 0 10px 10px 10px; font-weight: 600;">Billing Details</p>
+// 					<p>'.$rowData['address'].'</p>
+// 					<p>'.$stringaarr[6].'</p>
+// 					<p>'.$stringaarr[5].'</p>
+// 					<p>'.$stringaarr[4].'</p>
+// 					<p>'.$rowData['email2'].'</p>
+// 					<p>'.$rowData['reg_no'].'</p>
+// 					<p>'.$rowData['vat_no'].'</p>
+// 				</div>
+// 			</td>
+// 			<td style="vertical-align: top;">
+// 				<div style="margin-top: 40px; border: 1px solid #000;">
+// 					<p style="width: 140px; display: inline-block; margin: 0px 5px 0 5px; padding: 10px;   font-size: 14px; font-weight: 600; border-right: 1px solid #000; text-align: center;">Customer Compnay Reg</p>
+// 					<p style="width: 110px; display: inline-block; margin: 0px 5px 0 5px; padding: 10px;    font-size: 14px; font-weight: 600; border-right: 1px solid #000;">Customer VAT Reg</p>
+// 					<p style="width: 89px; display: inline-block; margin: 0px 5px 0 5px; padding: 10px;    font-size: 14px; font-weight: 600;">Invoice Date</p>
+// 				</div>
+// 				<div style="border: 1px solid #000; margin-top: -1px;">
+// 					<p style="width: 140px; display: inline-block; margin: 0px 5px 0 5px; padding: 10px;   font-size: 14px; border-right: 1px solid #000; text-align: center;">'.$rowData['reg_no'].'</p>
+// 					<p style="width: 110px; display: inline-block; margin: 0px 5px 0 5px; padding: 10px;   font-size: 14px; border-right: 1px solid #000;">'.$rowData['vat_no'].'</p>
+// 					<p style="width: 89px; display: inline-block; margin: 0px 5px 0 5px; padding: 10px;   font-size: 14px;">'.$invoiceDate.'</p>
+// 				</div>
+// 			</td>
+// 		</tr>
+// 		<tr>
+// 			<td>
+// 				<div style="margin-left: 20px; border: 1px solid; width: 30%; margin-top: 20px; text-align: center;">
+// 					<p style="padding: 3px; margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid #000;">Terms</p>
+// 					<p style="padding: 3px; margin-top: 0; margin-bottom: 10px;">COD</p>
+// 				</div>
+// 			</td>
+// 		</tr>
+// 		<tr>
+// 			<td colspan="2">
+// 				<div style="border: 1px solid #000; margin: 20px;">
+// 					<div style="border-bottom: 1px solid #000; padding: 0 20px 0 20px;">
+// 						<p style="width: 50%; display: inline-block; border-right: 1px solid #000; margin: 0;    padding: 10px 0 10px 0;">Description</p>
+// 						<p style="    width: 10%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000;text-align: center;">QTY</p>
+// 						<p style="width: 19%;display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000; text-align: center;">Rate</p>
+// 						<p style="width: 18%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    text-align: center;">Amount</p>
+// 					</div>
+// 					<div style="border-bottom: 1px solid #000; padding: 0 20px 0 20px;">
+// 						<p style="width: 50%; display: inline-block; border-right: 1px solid #000; margin: 0;    padding: 10px 0 10px 0;">Purchase of '.$rowData['quantity'].' PIRB Certificate of Compliance</p>
+// 						<p style="width: 10%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000;text-align: center;">'.$rowData['quantity'].'</p>
+// 						<p style="width: 19%;display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000; text-align: center;">'.$PDF_rate['amount'].'</p>
+// 						<p style="width: 18%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</p>
+// 					</div>
+// 					<div style="padding: 0 20px 0 20px;">
+// 						<p style="width: 50%; display: inline-block; border-right: 1px solid #000; margin: 0;    padding: 10px 0 10px 0;">Courier/Regsitered Post Fee</p>
+// 						<p style="width: 10%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000;text-align: center;">1</p>
+// 						<p style="width: 19%;display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000; text-align: center;">'.$delivery_rate['amount'].'</p>
+// 						<p style="width: 18%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$delivery_rate['amount'].'</p>
+// 					</div>
+// 				</div>
+// 			</td>
+// 		</tr>
+// 		<tr>
+// 			<td>
+// 				<div style="margin-left: 20px;">
+// 					<p style="font-weight: 600;">Banking Detail</p>
+// 					<p>'.$rowData1['bank_name'].'</p>            
+// 					<p>'.$rowData1['branch_code'].'</p>
+// 					<p>'.$rowData1['account_name'].'</p>
+// 					<p>'.$rowData1['account_no'].'</p>
+// 					<p>'.$rowData1['account_type'].'</p>
+// 				</div>
+// 			</td>
+// 			<td>
+// 				<p style="text-align: center; border: 1px solid #000; width: 50%; float: right; margin-right: 20px;">
+// 					<p style="border-bottom: 1px solid #000;">
+// 						<p style="width: auto; display: inline-block; margin: 0; padding: 6px 0 6px 0;    border-right: 1px solid #000;">Sub Total</p>
+// 						<p style="width: 50%; display: inline-block; margin: 0; padding: 6px 0 6px 0;">'.$total_subtotal.'</p>
+// 					</p>
+// 					<p style="border-bottom: 1px solid #000;">
+// 						<p style="width: auto; display: inline-block; margin: 0; padding: 6px 0 6px 0;    border-right: 1px solid #000;">VAT Total</p>
+// 						<p style="width: 50%; display: inline-block; margin: 0; padding: 6px 0 6px 0;">'.$rowData['vat'].'</p>
+// 					</p>
+// 					<p>
+// 						<p style="width: auto; display: inline-block; margin: 0; padding: 6px 0 6px 0;    border-right: 1px solid #000;">Total</p>
+// 						<p style="width: 50%; display: inline-block; margin: 0; padding: 6px 0 6px 0;">'.$rowData['total_due'].'</p>
+// 					</p>
+// 				</p>
+// 			</td>
+// 		</tr>
+// 	</tbody>
+// </table>
 
 
-</body>
-</html>';
+// </body>
+// </html>';
 
           
-                $pdfFilePath = "download.pdf";
-				$this->pdf->loadHtml($html);
-				$this->pdf->setPaper('A4', 'portrait');
-				$this->pdf->render();
-				$this->pdf->stream($pdfFilePath);
-			//}
-		}		
-	}
-}
+//                 $pdfFilePath = ''.$inv_id.'.pdf';
+//                 $filePath = FCPATH.'assets/inv_pdf/';
+// 				$this->pdf->loadHtml($html);
+// 				$this->pdf->setPaper('A4', 'portrait');
+// 				$this->pdf->render();
+// 				$output = $this->pdf->output();
+// 				file_put_contents($filePath.$pdfFilePath, $output);
+// 				//$this->pdf->stream($pdfFilePath);
+
+	
+
+
+// }
+
+
+	
+ }
+
+

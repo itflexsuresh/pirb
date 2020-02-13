@@ -6,11 +6,13 @@ $postage 				= $postage["amount"];
 $couriour 				= $couriour["amount"];
 $collectedbypirb 		= $collectedbypirb["amount"];
 
+$created_at 			= (isset($result['created_at']) && date('d-m-Y', strtotime($result['created_at']))!='01-01-1970') ? date('d-m-Y', strtotime($result['created_at'])) : '';
 $coc_type 				= isset($result['coc_type']) ? $result['coc_type'] : '';
 $delivery_type 			= isset($result['delivery_type']) ? $result['delivery_type'] : '';
 $quantity 				= isset($result['quantity']) ? $result['quantity'] : '1';
+$internalinv 			= isset($result['internal_inv']) ? $result['internal_inv'] : '';
+$trackingno 			= isset($result['tracking_no']) ? $result['tracking_no'] : '';
 $status 				= isset($result['status']) ? $result['status'] : '';
-$email 					= isset($result['email']) ? $result['email'] : '';
 ?>
 
 <div class="row page-titles">
@@ -39,7 +41,7 @@ $email 					= isset($result['email']) ? $result['email'] : '';
 							<div class="form-group">
 								<label>Date of Order</label>
 								<div class="input-group">
-									<input type="text" autocomplete="off" class="form-control created_at" name="created_at" data-date="datepicker" value="">
+									<input type="text" autocomplete="off" class="form-control created_at" name="created_at" data-date="datepicker" value="<?php echo $created_at; ?>">
 									<div class="input-group-append">
 										<span class="input-group-text"><i class="icon-calender"></i></span>
 									</div>
@@ -179,13 +181,13 @@ $email 					= isset($result['email']) ? $result['email'] : '';
 						<div class="col-md-12">
 							<div class="form-group col-md-6 row">
 								<label>Internal Acc Invocie Number</label>
-								<input type="text" autocomplete="off" class="form-control" name="internal_inv">
+								<input type="text" autocomplete="off" class="form-control" name="internal_inv" value="<?php echo $internalinv; ?>">
 							</div>
 						</div>
 						<div class="col-md-12 tracking_wrapper displaynone">
 							<div class="form-group col-md-6 row">
 								<label>Tracking No</label>
-								<input type="text" autocomplete="off" class="form-control" name="tracking_no">
+								<input type="text" autocomplete="off" class="form-control" name="tracking_no" value="<?php echo $trackingno; ?>">
 							</div>
 							<div class="form-group">
 								<div class="custom-control custom-checkbox">

@@ -5,23 +5,21 @@ class Renewal_Model extends CC_Model
 	public function getList($type, $requestdata=[])
 	{
 		
-        $query=$this->db->select ('t1.*,t1.inv_id, t1.description, t1.status, t1.created_at,
-        	 t3.reg_no, t3.id, t3.name name, t3.surname surname, t3.company_name company_name, t3.vat_no vat_no, t3.email2, t3.home_phone, t5.supplyitem');
+        $query=$this->db->select ('t1.*,t1.user_id, t1.inv_id, t1.description, t1.status, t1.created_at, t2.id,
+        	 t3.reg_no, t3.id, t3.name name, t3.surname surname, t5.supplyitem, t5.amount');
 
-        //$effectiveDate = date('Y-m-d', strtotime("-1 month", strtotime($effectiveDate)));
-        // print_r($effectiveDate); exit;
-        // t2.inv_id, t2.total_due, t2.quantity, t2.cost_value, t2.delivery_cost, t2.total_due,
-        //t4.address, t4.suburb, t4.city, 
-        
         $this->db->from('invoice t1');
+
+        $this->db->join('users as t2', 't2.id=t1.user_id', 'left');
         // $this->db->join('coc_orders t2','t2.user_id = t1.user_id', 'left');        
-        $this->db->join('users_detail t3', 't3.user_id = t1.user_id', 'left');
+        $this->db->join('users_detail t3', 't3.user_id = t2.id', 'left');
         //$this->db->join('users_address t4', 't4.user_id = t1.user_id', 'left');
-        $this->db->join('rates t5','t5.id = t1.user_id', 'left');
+        $this->db->join('rates t5','t5.id = t3.user_id', 'left');
    
        if(isset($requestdata['id'])) $this->db->where('t1.inv_id', $requestdata['id']);
        
-		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
+		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length']))
+		{
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		
@@ -69,166 +67,51 @@ class Renewal_Model extends CC_Model
 		
 		return $result;
 	}
-
-    public function getPermissions($type1)
-	{ 
-		$this->db->select('*');
-		$this->db->from('settings_details');
-		
-      if($type1=='count'){
-			$result = $this->db->count_all_results();
-			
-		}else{
-			$query = $this->db->get();
-			
-			
-			if($type1=='all') 		$result = $query->result_array();
-			elseif($type1=='row') 	$result = $query->row_array();
-		}
-		
-		return $result;
-	}
-
-	 public function getPermissions1($type2)
-	{ 
-		$this->db->select('*');
-		$this->db->from('settings_address');
-		
-      if($type2=='count'){
-			$result = $this->db->count_all_results();
-			
-		}else{
-			$query = $this->db->get();
-			
-			
-			if($type2=='all') 		$result = $query->result_array();
-			elseif($type2=='row') 	$result = $query->row_array();
-		}
-		
-		return $result;
-	}
-
-
-
 	
-	//public function action($data)
-	//{
-	// 	//print_r($data);die;
-	// 	$this->db->trans_begin();
-		
-	// 	$userid			= 	$this->getUserID();
-	// 	$id 			= 	$data['id'];
-	// 	$datetime		= 	date('Y-m-d H:i:s');
-		
-	// 	$request		=	[
-	// 		'updated_at' 		=> $datetime,
-	// 		'updated_by' 		=> $userid
-	// 	];
-	// 						//print_r($data);die;
-		
-	// 	if(isset($data['activity'])) 		$request['activity'] 		= $data['activity'];
-	// 	if(isset($data['points'])) 			$request['points'] 			= $data['points'];
-	// 	if(isset($data['productcode'])) 	$request['productcode'] 	= $data['productcode'];
-	// 	if(isset($data['cpdstream'])) 		$request['cpdstream'] 		= $data['cpdstream'];
-	// 	if(isset($data['qrcode'])) 			$request['qrcode'] 			= $data['qrcode'];
-	// 	$request['status'] 												= (isset($data['status'])) ? $data['status'] : '0';
-	// 	if(isset($data['startdate'])) 		$request['startdate'] 		= date('Y-m-d',strtotime($data['startdate'])); 
-	// 	if(isset($data['enddate'])) 		$request['enddate'] 		= date('Y-m-d',strtotime($data['enddate']));
-		
-	// 	if($id==''){
-	// 		$request['created_at'] = $datetime;
-	// 		$request['created_by'] = $userid;
-	// 		$this->db->insert('cpdtypes', $request);
-	// 	}else{
-	// 		$this->db->update('cpdtypes', $request, ['id' => $id]);
-	// 	}
-		
-	// 	if($this->db->trans_status() === FALSE)
-	// 	{
-	// 		$this->db->trans_rollback();
-	// 		return false;
-	// 	}
-	// 	else
-	// 	{
-	// 		$this->db->trans_commit();
-	// 		return true;
-	// 	}
-	// }
-	// public function getCronDate(){
-	// 	$this->db->select('id, enddate, status');
-	// 	$this->db->from('cpdtypes');
-	// 	$this->db->where('enddate <', date('Y-m-d'));
-	// 	$query = $this->db->get()->result_array();
-	// 	foreach ($query as $key => $value) {
-	// 		//print_r($value);
-	// 		$this->db->update('cpdtypes', ['status' => '0'], ['id' => $value['id']]);
-	// 	}
-	// }
 	public function getCronDate($id)
 		{
-
-		
-		
+			
+		$id			= 	$this->getUserID();
 		//$datetime	= 	date('Y-m-d H:i:s');		
-		$this->db->select('created_at');		
-		$this->db->from('users');
-		$this->db->where('id', $id);
-		
+		$this->db->select('id, created_at');		
+		$this->db->from('users');	
+		//$this->db->where('id', $id);
+		$this->db->where('type', '3' );
 		$query11 = $this->db->get()->result_array();
-		$end_date = date('Y-m-d', strtotime("+11 months", strtotime($query11[0]['created_at'])));
-		//print($end_date); exit;
-		//$query = $this->db->get()->result_array();
-
 		
-
+		
 		$this->db->select('amount');
 		$this->db->from('rates');
-		$this->db->where('id', $id);
-		$rate = $this->db->get()->result_array();
-		// print_r($rate); exit;
+		$this->db->where('supplyitem', 'Registration Rates');
+		//$this->db->where('type', '3');
+		$rate = $this->db->get()->result_array(); 
+		
 
+		$this->db->select('vat_percentage');
+		$this->db->from('settings_details');
+		$this->db->where('vat_percentage', '11');
+		$vat = $this->db->get()->result_array();
+		
+		$total = $rate[0]['amount'] * $vat[0]['vat_percentage'] / 100;
 
 		foreach ($query11 as $key => $value) 
 		{	
-				
-			$this->db->insert('invoice', ['user_id' => $id, 'coc_type'=>"paper", 'description' => "Registration Fee", 'status' => "Unpaid", 'inv_type' => 2, 'total_cost' => 50, 'created_at' => $end_date]);
+		$end_date = date('Y-m-d', strtotime("+11 months", strtotime($value['created_at'])));
+		echo $end_date;
+		// echo '<pre>';
+		// print_r($end_date); 
+		// echo '</pre>';
+		// exit;
+
+		$sd = $this->db->insert('invoice', ['description' => "Registration Fee", 'user_id' => $value['id'], 'status' => 1, 'inv_type' => 2,  'total_cost' => $rate[0]['amount'], 'vat'=>$total, 'created_at' => $end_date]) ;
+		
+
+		$invid= $this->db->insert_id();
+
+		
+		$this->db->insert('coc_orders', ['user_id' => $value['id'], 'description' => "Registration Fee",  'status' => 1, 'total_due' => $rate[0]['amount'], 'vat'=>$total, 'inv_id' => $invid, 'created_at' => $end_date, 
+			'created_by' => $value['id']]);
 		}
-
-
-		// $userid			= 	$this->getUserID();
-		// $id 				= 	$data['id'];
-		// $datetime		= 	date('Y-m-d H:i:s');
-		
-		// $request		=	[
-		// 	'updated_at' 		=> $datetime,
-		// 	'updated_by' 		=> $userid
-		// ];
-		// 					//print_r($data);die;
-		
-		// if(isset($data['user_id'])) 		$request1['user_id'] 		= $data['user_id'];
-		// if(isset($data['description'])) 	$request1['description'] 	= $data['description'];
-		// if(isset($data['status'])) 			$request1['status'] 			= $data['status'];
-		// if(isset($data['internal_inv'])) 	$request1['internal_inv'] 	= $data['internal_inv'];
-		// if(isset($data['total_cost'])) 		$request1['total_cost'] 			= $data['total_cost'];
-		
-
-		// $request['status']					= (isset($data['status'])) ? $data['status'] : '0';
-
-		// if(isset($data['startdate'])) 		$request['startdate'] 		= date('Y-m-d',strtotime($data['startdate'])); 
-		// if(isset($data['enddate'])) 		$request['enddate'] 		= date('Y-m-d',strtotime($data['enddate']));
-		
-		// if($id=='')
-		// {
-		// 	$request['created_at'] = $datetime;
-		// 	$request['created_by'] = $userid;
-		// 	$this->db->insert('invoice', $request1);
-		// }
-		// else
-		// {
-		// 	$this->db->update('invoice', $request1, ['id' => $id]);
-		// }
-	
-		
 	}
 	
 	public function changestatus($data)

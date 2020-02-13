@@ -1,6 +1,6 @@
 <?php
-
-	$userid					='id';
+	
+	$userid					=isset($result['id']) ? $result['id'] : '';
 
 	$name 					= isset($result['name']) ? $result['name'] : '';
 	$surname 				= isset($result['surname']) ? $result['surname'] : '';
@@ -10,7 +10,10 @@
 	$registration_date 		= isset($result['registration_date']) && $result['registration_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['registration_date'])) : '';
 	$renewal_date 			= $registration_date!='' ? date('d-m-Y', strtotime($result['registration_date']. ' +365 days')) : '';
 	$specialisationsid 		= isset($result['specialisations']) ? array_filter(explode(',', $result['specialisations'])) : '';
-	$companydetailsid		= isset($result['company_details']) ? $result['company_details'] : '';
+	$companyname		= isset($result['companyname']) ? $result['companyname'] : '';
+
+	
+
 	$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/';
 	$pdfimg 				= base_url().'assets/images/pdf.png';
 	$profileimg 			= base_url().'assets/images/profile.jpg';
@@ -99,7 +102,7 @@
 				<tr style="border-top: 1px solid #000;">
 					<td style="border-right: 1px solid #000; height: 92px;">
 						<p class="emp_title">Current Employer: </p> 
-						<p class="plumber_name add_style"><?php echo isset($company[$companydetailsid]) ? $company[$companydetailsid] : '-'; ?></p>
+						<p class="plumber_name add_style"><?php echo  $companyname; ?></p>
 					</td>
 					<td>
 						<p style="width: 100%;">Specialisations</p>
