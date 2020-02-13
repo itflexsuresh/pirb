@@ -39,6 +39,8 @@ if(isset($id) && $id >0)
 
 ?>
 
+
+
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
 		<h4 class="text-themecolor">Allocate COC</h4>
@@ -90,6 +92,7 @@ if(isset($id) && $id >0)
 			{ 
 		?>
 			<form form class="mt-4 form2" action="" method="post">
+				
 				<input type="hidden" class="form-control"  name="plumberid" id="plumberid"  value="<?php echo $id;?>" >	
 				<div class="row">
 					<div class="col-md-3">
@@ -103,11 +106,10 @@ if(isset($id) && $id >0)
 						</div>
 					</div>
 				</div>
-
-
-				<?php echo $card; ?>
-
-
+				<div class="row">
+					<?php echo $card ;?>
+				</div>
+			</br>
 				<div class="row">
 					<div class="col-md-3">
 						<div class="form-group">

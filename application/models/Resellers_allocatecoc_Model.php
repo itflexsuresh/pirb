@@ -5,12 +5,14 @@ class Resellers_allocatecoc_Model extends CC_Model
 	
 	public function autosearchPlumber($postData){ 
 		
-		
+		$designations = array('5', '6' );
 		$this->db->select('u1.name,u1.surname,u2.id,u1.coc_purchase_limit');
 		$this->db->from('users_detail u1');
 		$this->db->join('users u2', 'u1.user_id=u2.id and u2.type="3" and u2.status="1"','inner');
+		$this->db->join('users_plumber up', 'up.user_id=u1.user_id','inner');
+		$this->db->where_in('up.designation', $designations);
 		$this->db->like('u1.name',$postData['search_keyword']);
-		$this->db->or_like('u1.surname',$postData['search_keyword']);
+		// $this->db->or_like('u1.surname',$postData['search_keyword']);
 		$this->db->group_by("u1.id");
 		
 			$query = $this->db->get();
