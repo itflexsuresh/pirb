@@ -408,6 +408,9 @@
 				phonework : {
 					required	: true,
 				},
+				auditstatus : {
+					required	: true,
+				},
 				billingname : {
 					required	: true,
 				},
@@ -460,6 +463,9 @@
 				email : {
 					required	: "Please enter the email",					
 					remote		: "Email already exists."
+				},
+				auditstatus : {
+					required	: "Please select auditor availability",					
 				},
 				company_name : {
 					required	: "Please enter billing name",	
