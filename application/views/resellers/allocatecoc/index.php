@@ -9,7 +9,7 @@ $designation = "";
 if(isset($designationtemp) && $designationtemp > 0) {
 	$designation	=	$this->config->item('designation2')[$designationtemp];
 }
-$companyname = isset($result['companyname']) ? $result['companyname'] : '';
+$companyname = isset($result['companyname']) ? $result['companyname'] : 'Unemployed';
 $company_details = isset($result['company_details']) ? $result['company_details'] : '';
 $balace_coc = 0 ;
 // $orderqty = 0;

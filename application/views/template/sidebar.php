@@ -162,9 +162,11 @@ $formstatus  = $userdata['formstatus'];
                        }
 				 ?>
 					<li><a href="javascript:void(0);">Dashboard</a></li>
-				        <li><a href="<?php echo base_url().'resellers/cocstatement/index'; ?>">COC Statement</a></
+			        
+			        <li><a href="<?php echo base_url().'resellers/cocstatement/index'; ?>">COC Statement</a></li>
 					<li><a href="<?php echo base_url().'resellers/allocatecoc/index'; ?>">Allocate COC</a></li>
-				        <li><a href="<?php echo base_url().'resellers/profile/index'; ?>">My Profile</a></li>
+					<li><a href="<?php echo base_url().'resellers/profile/index'; ?>">My Profile</a></li>
+
 					<textarea name="Messages" id="Messages"><?php echo $value['message'];?></textarea>
 					
 					

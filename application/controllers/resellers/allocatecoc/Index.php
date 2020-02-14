@@ -144,6 +144,7 @@ class Index extends CC_Controller
 				
 			}
 
+			
 
 			//pdf generation
 			$userid 				=	$plumberid;
@@ -156,7 +157,8 @@ class Index extends CC_Controller
 
 				$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
 
-				$orders = $this->db->select('*')->from('coc_orders')->where(['id' => $cocorderid])->order_by('id','desc')->get()->row_array();
+				$orders = $this->db->select('*')->from('coc_orders')->where(['inv_id' => $invoiceid])->get()->row_array();
+				
 
 				// invoice PDF
 				$rowData = $this->Coc_Model->getListPDF('row', ['id' => $inv_id, 'status' => ['0','1']]);
