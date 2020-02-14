@@ -24,7 +24,7 @@ class Index extends CC_Controller
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();		
 			$id				=	$requestData['id'];		
-			$data 			=  	$this->Auditor_Model->action($requestData);			
+			$data 			=  	$this->Auditor_Model->profileAction($requestData);			
 
 			if(isset($data)) $this->session->set_flashdata('success', 'Records '.(($id=='') ? 'created' : 'updated').' successfully.');
 			else $this->session->set_flashdata('error', 'Try Later.');

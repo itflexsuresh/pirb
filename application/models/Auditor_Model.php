@@ -134,8 +134,156 @@ class Auditor_Model extends CC_Model
 		if(isset($data['email'])) 				$request1['email'] 				= $data['email'];
 		if(isset($data['password'])) 			$request1['password_raw'] 		= $data['password'];
 		if(isset($data['password'])) 			$request1['password'] 			= md5($data['password']);
+		if(isset($data['status'])) 				$request1['status'] 			= $data['status'];
+		$request1['status'] 					= isset($data['status']) ? $data['status'] : '0';
+		
+		
 
-		$request1['status'] 				= isset($data['status']) ? $data['status'] : '0';
+		
+		if(isset($request1)){
+			if($id==''){
+				$request1['type']	 		= '5';
+				$request1['created_at']		= 	date('Y-m-d H:i:s');
+
+				$userdata = $this->db->insert('users', $request1);
+				$id = $this->db->insert_id();
+
+				// $source = './assets/uploads/temp/';
+				// $destination = './assets/uploads/'.$id;
+				// $image = $data['file1'];
+
+				// if(is_file($source.$image)){
+				// 	rename($source.$image, $destination.$image);
+				// }
+
+			}else{
+				$request1['updated_at']		= 	date('Y-m-d H:i:s');
+				$userdata = $this->db->update('users', $request1, ['id' => $id]);
+			}
+		}
+
+		if(isset($id)) 							$request0['user_id'] 			= $id;
+		if(isset($data['allowed'])) 			$request0['allocation_allowed']	= $data['allowed'];
+		if(isset($data['auditstatus'])) 			$request0['status'] 			= $data['auditstatus'];
+
+		if (isset($request0)) {
+			$auditoravaid			= $data['auditoravaid'];
+			if($auditoravaid==''){
+				$request0['created_at'] 		= $datetime;
+				$auditoravaid1 = $this->db->insert('auditor_availability', $request0);
+			}else{
+				$request0['updated_at'] 		= $datetime;
+				//print_r($request0);die();
+				$auditoravaid1 = $this->db->update('auditor_availability', $request0, ['id' => $auditoravaid]);
+			}
+		}
+
+		
+		if(isset($data['name'])) 				$request2['name'] 				= $data['name'];
+		if(isset($data['surname'])) 			$request2['surname'] 			= $data['surname'];
+		if(isset($data['company_name'])) 		$request2['company_name'] 		= $data['company_name'];
+		if(isset($data['reg_no'])) 				$request2['reg_no'] 			= $data['reg_no']; 
+		if(isset($data['vat_no'])) 				$request2['vat_no'] 			= $data['vat_no'];
+
+		$request2['vat_vendor'] 				= isset($data['vat_vendor']) ? $data['vat_vendor'] : '0';
+
+		if(isset($data['work_phone'])) 			$request2['work_phone'] 		= $data['work_phone'];
+		if(isset($data['mobile_phone'])) 		$request2['mobile_phone'] 		= $data['mobile_phone'];	
+		if(isset($data['file1'])) 				$request2['file1'] 				= $data['file1'];
+		if(isset($data['file2'])) 				$request2['file2'] 				= $data['file2'];
+		if(isset($data['idno'])) 				$request2['identity_no'] 		= $data['idno'];
+		
+		if(isset($request2)){
+			$request2['user_id'] 	= $id;
+			$userdetailid			= $data['userdetailid'];
+
+			if($userdetailid==''){
+				$userdetaildata = $this->db->insert('users_detail', $request2);
+			}else{
+				$userdetaildata = $this->db->update('users_detail', $request2, ['id' => $userdetailid]);
+			}
+		}
+
+
+		if(isset($data['address'])) 			$request3['address'] 		= $data['address'];
+		if(isset($data['province'])) 			$request3['province'] 		= $data['province'];
+		if(isset($data['city'])) 				$request3['city'] 			= $data['city'];		
+		if(isset($data['suburb'])) 				$request3['suburb'] 		= $data['suburb'];
+		if(isset($data['postal_code'])) 		$request3['postal_code'] 	= $data['postal_code']; 
+		
+		if(isset($request3)){
+			$request3['user_id'] 	= $id;
+			$request3['type'] 		= '3'; 
+			$useraddressid			= $data['useraddressid'];
+
+			if($useraddressid==''){
+				$useraddressdata = $this->db->insert('users_address', $request3);
+			}else{
+				$useraddressdata = $this->db->update('users_address', $request3, ['id' => $useraddressid]);
+			}
+		}
+
+		
+		if(isset($data['bank_name'])) 				$request4['bank_name'] 		= $data['bank_name'];
+		if(isset($data['branch_code'])) 			$request4['branch_code'] 	= $data['branch_code'];
+		if(isset($data['account_name'])) 			$request4['account_name'] 	= $data['account_name'];	
+		if(isset($data['account_no'])) 				$request4['account_no'] 	= $data['account_no'];
+		if(isset($data['account_type'])) 			$request4['account_type'] 	= $data['account_type']; 
+		
+
+		if(isset($request4)){
+			$request4['user_id'] 	= $id;
+			$userbankid				= $data['userbankid'];
+
+			if($userbankid==''){
+				$userbankdata = $this->db->insert('users_bank', $request4);
+			}else{
+				$userbankdata = $this->db->update('users_bank', $request4, ['id' => $userbankid]);
+			}
+		}
+
+		if(isset($data['area']) && count($data['area'])){
+			$auditorids = array_column($data['area'], 'id');
+			$this->db->where('user_id', $id)->where_not_in('id', $auditorids)->delete('users_auditor_area');
+
+			foreach($data['area'] as $key => $request5){
+				$request5['user_id'] = $id;
+
+				if($request5['id']==''){
+					$usersarea = $this->db->insert('users_auditor_area', $request5);
+				}else{
+					$usersarea = $this->db->update('users_auditor_area', $request5, ['id' => $request5['id']]);
+				}
+			}
+		}
+		
+		if((!isset($userdata) && !isset($userdetaildata) && !isset($useraddressdata) && !isset($userbankdata) && !isset($usersarea)) && $this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+			return false;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
+
+	public function profileAction($data)
+	{
+		//print_r($data);die;
+
+		
+		$this->db->trans_begin();
+
+		$userid			= 	$this->getUserID();		
+		$datetime		= 	date('Y-m-d H:i:s');
+		$id				= 	$data['id'];
+
+		if(isset($data['email'])) 				$request1['email'] 				= $data['email'];
+		if(isset($data['password'])) 			$request1['password_raw'] 		= $data['password'];
+		if(isset($data['password'])) 			$request1['password'] 			= md5($data['password']);
+		if(isset($data['status'])) 				$request1['status'] 			= $data['status'];		
 
 		
 		if(isset($request1)){
