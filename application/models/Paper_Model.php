@@ -76,7 +76,7 @@ class Paper_Model extends CC_Model
 				{
 					for($i =0; $i<$data['cocstock']; $i++)
 					{
-			$request2['user_id']= 1;
+			// $request2['user_id']= 1;
 			$request2['coc_status'] = "admin_stock";
 			$request2['audit_status'] = "refix_required";
 			$request2['type'] = "paper";
