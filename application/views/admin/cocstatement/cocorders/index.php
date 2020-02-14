@@ -261,7 +261,7 @@ $allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<div class="<?php if($coc_type=='1'){echo 'displaynone';} ?>">
+								<div class="<?php if($coc_type=='1'){echo '';} ?>">
 									<label>Certificate End Range</label>
 									<input type="text" value="<?php echo $allocate_end; ?>" disabled>
 									<input type="hidden" name="allocate_end" value="<?php echo $allocate_end; ?>">
