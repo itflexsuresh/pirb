@@ -88,27 +88,40 @@ $formstatus  = $userdata['formstatus'];
 						</ul>
 					</li>
 				<?php }elseif($type=='3'){ 
- 
-                       $this->db->select('*');
-                       $this->db->from('messages');                  
-                       $this->db->where('groups','1');
-                       $query=$this->db->get();
-                       $data= $query->result_array();
-                       $msg = "";
-                       foreach ($data as $key => $value) {
-                       		$msg = $msg.$value['message'].',';        				            
-         
-                       }
+
 					?>
 					<li><a href="<?php echo base_url().'plumber/registration/index'; ?>">Dashboard</a></li>
 					
 					<?php if($formstatus=='1'){ ?>
 						<li><a href="<?php echo base_url().'plumber/profile/index'; ?>">My Profile</a></li>
+					<?php 
+                        
+                       $this->db->select('*');
+                       $this->db->from('messages');                  
+                       $this->db->where("groups='1' AND status='1'");
+                       $query=$this->db->get();
+                       $data= $query->result_array();
+                       $msg = "";
+                       foreach ($data as $key => $value) {
+                       		       				            
+                       $currentDate = date('Y-m-d');
+                       $startdate   = date('Y-m-d',strtotime($value['startdate']));
+                       $enddate = date('Y-m-d',strtotime($value['enddate']));
+                       if ($enddate>=$currentDate){
+                       	$msg = $msg.$value['message'].',</br>'; 
+							
+                            }
+                       }
+                    ?>
+                       <div id="message">
+							<?php echo $msg;?>
+						</div>
+						
 						<?php if ($designation == '4' || $designation == '6') {
 							?>
 							<li><a href="<?php echo base_url().'plumber/purchasecoc/index'; ?>">Purchase COC</a></li>
 							<li><a href="<?php echo base_url().'plumber/cocstatement/index'; ?>">COC Statement</a></li>
-							<textarea name="Messages" id="Messages"><?php echo $msg;?></textarea>
+							
 							<?php
 						} ?>
 					<?php }elseif($formstatus=='0'){ ?>
@@ -117,54 +130,82 @@ $formstatus  = $userdata['formstatus'];
 					<?php } ?>
 				<?php }elseif($type=='4'){
 
+				 ?>
+					<li><a href="javascript:void(0);">Dashboard</a></li>
+					<li><a href="<?php echo base_url().'company/registration/company'; ?>">My Profile</a></li>
+                    <?php 
+                        
                        $this->db->select('*');
                        $this->db->from('messages');                  
-                       $this->db->where('groups','4');
+                       $this->db->where("groups='4' AND status='1'");
                        $query=$this->db->get();
                        $data= $query->result_array();
                        $msg = "";
                        foreach ($data as $key => $value) {
-                       		$msg = $msg.$value['message'].',';      				            
-         
+                       		       				            
+                       $currentDate = date('Y-m-d');
+                       $startdate   = date('Y-m-d',strtotime($value['startdate']));
+                       $enddate = date('Y-m-d',strtotime($value['enddate']));
+                       if ($enddate>=$currentDate){
+                       	$msg = $msg.$value['message'].',</br>'; 
+							
+                            }
                        }
-				 ?>
-					<li><a href="javascript:void(0);">Dashboard</a></li>
-					<li><a href="<?php echo base_url().'company/registration/company'; ?>">My Profile</a></li>
-					<textarea name="Messages" id="Messages"><?php echo $msg;?></textarea>
+                    
+						?>
+						<div id="message">
+							<?php echo $msg;?>
+						</div>
+						 
 				<?php }elseif($type=='5'){ 
-
                       $this->db->select('*');
                        $this->db->from('messages');                  
-                       $this->db->where('groups','2');
+                       $this->db->where("groups='2' AND status='1'");
                        $query=$this->db->get();
                        $data= $query->result_array();
-                        $msg = "";
+                       $msg = "";
                        foreach ($data as $key => $value) {
-                       $msg = $msg.$value['message'].',';          
+                       		       				            
+                       $currentDate = date('Y-m-d');
+                       $startdate   = date('Y-m-d',strtotime($value['startdate']));
+                       $enddate = date('Y-m-d',strtotime($value['enddate']));
+                       if ($enddate>=$currentDate){
+                       	$msg = $msg.$value['message'].',</br>'; 
+							
+                            }
                        }
 					?>
 					<li><a href="javascript:void(0);">Dashboard</a></li>
 					<li><a href="<?php echo base_url().'auditor/profile/index'; ?>">My Profile</a></li>
-					<textarea name="Messages" id="Messages"><?php echo $msg;?></textarea>
+					<div id="message">
+							<?php echo $msg;?>
+					</div>
 				<?php }elseif($type=='6'){
 					
                       $this->db->select('*');
                        $this->db->from('messages');                  
-                       $this->db->where('groups','3');
+                       $this->db->where("groups='3' AND status='1'");
                        $query=$this->db->get();
                        $data= $query->result_array();
-                        $msg = "";
+                       $msg = "";
                        foreach ($data as $key => $value) {
-                       		$msg = $msg.$value['message'].',';        				            
-         
+                       		       				            
+                       $currentDate = date('Y-m-d');
+                       $startdate   = date('Y-m-d',strtotime($value['startdate']));
+                       $enddate = date('Y-m-d',strtotime($value['enddate']));
+                       if ($enddate>=$currentDate){
+                       	$msg = $msg.$value['message'].',</br>'; 
+							
+                            }
                        }
 				 ?>
 					<li><a href="javascript:void(0);">Dashboard</a></li>
                     <li><a href="<?php echo base_url().'resellers/cocstatement/index'; ?>">COC Statement</a></li>
 					<li><a href="<?php echo base_url().'resellers/allocatecoc/index'; ?>">Allocate COC</a></li>
 					<li><a href="<?php echo base_url().'resellers/profile/index'; ?>">My Profile</a></li>
-					<textarea name="Messages" id="Messages"><?php echo $msg;?></textarea>
-					
+					<div id="message">
+							<?php echo $msg;?>
+					</div>
 					
 				<?php } ?>	
 							
