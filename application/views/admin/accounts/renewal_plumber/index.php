@@ -18,11 +18,8 @@
 			<div class="card-body">
 				<h4 class="card-title">Renewal Plumber Registration Invoices</h4>
 				<form class="mt-4 form" action="" method="post">
-					<div class="col-md-6">
-					
-			    	</div>
-					
-					
+					<div class="col-md-6">					
+			    	</div>					
 				</form>
 				
 				<div id="active" class="table-responsive m-t-40">

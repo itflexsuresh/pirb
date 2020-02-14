@@ -120,15 +120,15 @@ class Renewal_Model extends CC_Model
 		$currentdate = date('Y-m-d h:i:s');
 
 		
-		$this->db->insert('invoice', ['description' => "Registration Fee", 'user_id' => $userid, 'status' => '1', 'inv_type' => '2',  'coc_type' => '2',  'delivery_type' => '2', 'total_cost' => $rate, 'vat'=>$vat_amount, 'created_at' => $currentdate]) ;
+		$this->db->insert('invoice', ['description' => "Registration Fee", 'user_id' => $userid, 'status' => '0', 'inv_type' => '2',  'coc_type' => '2',  'delivery_type' => '2', 'total_cost' => $rate, 'vat'=>$vat_amount, 'created_at' => $currentdate]) ;
 		$result['invoice_id'] = $this->db->insert_id();
 		
-		$this->db->insert('coc_orders', ['user_id' => $userid, 'description' => "Registration Fee",'quantity' => '1', 'status' => '1',  'cost_value' => $rate, 'coc_type' => '2',  'delivery_type' => '2', 'total_due' => $total, 'vat'=>$vat_amount, 'inv_id' => $result['invoice_id'], 'created_at' => $currentdate, 'created_by' => $userid]);
+		$this->db->insert('coc_orders', ['user_id' => $userid, 'description' => "Registration Fee",'quantity' => '1', 'status' => '0',  'cost_value' => $rate, 'coc_type' => '2',  'delivery_type' => '2', 'total_due' => $total, 'vat'=>$vat_amount, 'inv_id' => $result['invoice_id'], 'created_at' => $currentdate, 'created_by' => $userid]);
 		$result['cocorder_id']  = $this->db->insert_id();	
 		
-		$this->db->set('created_at',$currentdate);
-		$this->db->where('id', $userid);
-		$this->db->update('users');
+		// $this->db->set('created_at',$currentdate);
+		// $this->db->where('id', $userid);
+		// $this->db->update('users');
 
 		return $result;
 
@@ -151,6 +151,21 @@ class Renewal_Model extends CC_Model
 		}
 		
 		return $result;
+	}
+
+	public function deleteid($id)
+	{ 
+		$this->db->where('inv_id', $id);		
+		$result = $this->db->delete('invoice');
+
+		$this->db->where('inv_id', $id);		
+		$result1 = $this->db->delete('coc_orders');
+
+		$deletefile = base_url()."assets/inv_pdf/".$id.".pdf";
+		unlink($deletefile);
+
+		return $result;
+
 	}
 
 
