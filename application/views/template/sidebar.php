@@ -113,15 +113,15 @@ $formstatus  = $userdata['formstatus'];
                             }
                        }
                     ?>
-                       <div id="message">
-							<?php echo $msg;?>
-						</div>
+                      
 						
 						<?php if ($designation == '4' || $designation == '6') {
 							?>
 							<li><a href="<?php echo base_url().'plumber/purchasecoc/index'; ?>">Purchase COC</a></li>
 							<li><a href="<?php echo base_url().'plumber/cocstatement/index'; ?>">COC Statement</a></li>
-							
+							 <div id="message">
+							<?php echo $msg;?>
+						</div>
 							<?php
 						} ?>
 					<?php }elseif($formstatus=='0'){ ?>
