@@ -86,16 +86,20 @@ class Renewal_Model extends CC_Model
 		foreach($result as $rows)
 		{	
 			$createdate = $rows['created_at'];
-			$userid = $rows['id'];			
-			$datetime1 = new DateTime($createdate);
-			$datetime2 = new DateTime($currentdate);
-			$interval = $datetime1->diff($datetime2);
-			$month = $interval->format('%m');
-
-			if($month > 10){
-				$userid_array[] = $userid; 
+			if($createdate == '0000-00-00 00:00:00'){}
+			else{
+				$userid = $rows['id'];			
+				$datetime1 = new DateTime($createdate);
+				$datetime2 = new DateTime($currentdate);
+				$interval = $datetime1->diff($datetime2);
+				$month = $interval->format('%m');
+				$year = $interval->format('%y')*12;
+				$monthcount = $month+$year;
+				if($monthcount > 10){					
+					$userid_array[] = $userid; 
+				}
 			}
-		}
+		}		
 
 		$result = array();
 		if(!empty($userid_array)){

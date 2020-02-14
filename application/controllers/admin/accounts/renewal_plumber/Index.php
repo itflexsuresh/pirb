@@ -1,8 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
+require_once APPPATH.'libraries/dompdf/autoload.inc.php';
+use Dompdf\Dompdf;
+
 class Index extends CC_Controller 
 {
+	
 	public function __construct()
 	{
 		parent::__construct();
@@ -51,7 +56,8 @@ class Index extends CC_Controller
 
 	public function Cron()
 	{	
-		$result = $this->Renewal_Model->getUserids();					
+		$result = $this->Renewal_Model->getUserids();
+		// print_r($result); die;					
 		foreach($result as $data)
 		{
 			$userid = $data['id'];
@@ -103,13 +109,7 @@ class Index extends CC_Controller
 				}
 				$total_subtotal = $rowData['total_due'];
 
-
-
-
-
 				$base_url= base_url();
-
-
 
 				if($rowData["status"]=='1'){
 
@@ -125,9 +125,6 @@ class Index extends CC_Controller
 				}
 				$stringaarr = explode("@@@",$rowData['areas']);
 				$provincesettings = explode("@@@",$rowData2['provincesettings']);
-
-
-
 				
 				$html = '<!DOCTYPE html>
 				<html>
@@ -273,22 +270,25 @@ class Index extends CC_Controller
 				</body>
 				</html>';
 
-				
-				$pdfFilePath = ''.$inv_id.'.pdf';
+								
+
+				$pdfFilePath = $inv_id.'.pdf';
 				$filePath = FCPATH.'assets/inv_pdf/';
-				$this->pdf->loadHtml($html);
-				$this->pdf->setPaper('A4', 'portrait');
-				$this->pdf->render();
-				$output = $this->pdf->output();
+		
+				$dompdf = new DOMPDF();
+
+				$dompdf->loadHtml($html);
+				$dompdf->setPaper('A4', 'portrait');
+				$dompdf->render();
+				$output = $dompdf->output();
 				file_put_contents($filePath.$pdfFilePath, $output);
 				//$this->pdf->stream($pdfFilePath);
 
+								
 				$cocTypes = $orders['coc_type'];
 				$mail_date = date("d-m-Y", strtotime($orders['created_at']));
 
-
 				$array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}'];
-
 
 				$array2 = [$userdata1['name']." ".$userdata1['surname'], $mail_date, $orders['quantity'], $this->config->item('coctype')[$cocTypes]];
 
