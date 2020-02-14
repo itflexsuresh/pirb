@@ -5,59 +5,39 @@ class Renewal_Model extends CC_Model
 	public function getList($type, $requestdata=[])
 	{
 		
-        $query=$this->db->select ('t1.*,t1.user_id, t1.inv_id, t1.description, t1.status, t1.created_at, t2.id,
-        	 t3.reg_no, t3.id, t3.name name, t3.surname surname, t3.email2, t3.vat_no, t4.registration_no, t5.supplyitem, t5.amount, t6.total_due, t6.quantity, t6.cost_value, t6.delivery_cost, t7.address, t7.province, t7.city, t7.suburb');
-         
-
-        $this->db->from('invoice t1');
-        $this->db->order_by("inv_id", "desc");
-
-        $this->db->join('users as t2', 't2.id=t1.user_id', 'left');        
-        $this->db->join('users_detail t3', 't3.user_id = t2.id', 'left');
-        $this->db->join('users_plumber t4', 't4.user_id = t3.user_id', 'left');        
-        $this->db->join('rates t5','t5.id = t4.user_id', 'left');
-   		$this->db->join('coc_orders t6','t6.user_id = t4.user_id', 'left');        
-   		$this->db->join('users_address t7', 't7.user_id = t6.user_id AND t7.type="3"', 'left');
-
-
-       if(isset($requestdata['id'])) $this->db->where('t1.inv_id', $requestdata['id']);
-       
+        $this->db->select ('inv.*, ud.name, ud.surname, up.registration_no');
+        $this->db->from('invoice inv');
+        $this->db->order_by("inv.inv_id", "desc");     
+        $this->db->join('users_detail ud', 'ud.user_id = inv.user_id', 'left');
+        $this->db->join('users_plumber up', 'up.user_id = inv.user_id', 'left');        
+     
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length']))
 		{
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['t1.inv_id','t1.status','t1.total_due','t1.total_cost','t1.created_at', 't1.internal_inv','t1.description','t2.inv_id','t2.total_due','t2.quantity','t2.cost_value','t2.delivery_cost','t3.name','t3.surname','t3.company_name','t3.reg_no','t3.vat_no','t3.email2','t3.home_phone','t4.address','t4.city','t4.suburb'];
+			$column = ['inv.inv_id'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 
-
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
-			$searchvalue = $requestdata['search']['value'];
-			
-			$this->db->like('t1.inv_id', $searchvalue);
-			$this->db->like('t1.created_at', $searchvalue);
-			$this->db->like('t1.total_cost', $searchvalue);
-			$this->db->or_like('t1.internal_inv', $searchvalue);
-			$this->db->or_like('t1.description', $searchvalue);
-            $this->db->or_like('t1.status', $searchvalue);
-            $this->db->or_like('t2.inv_id', $searchvalue);  
-           
-            
-            $this->db->or_like('t2.total_due', $searchvalue);        
-            $this->db->or_like('t2.quantity', $searchvalue);
-            $this->db->or_like('t2.cost_value', $searchvalue);
-            $this->db->or_like('t2.delivery_cost', $searchvalue);
-
-			$this->db->or_like('t3.name', $searchvalue);
-			$this->db->or_like('t3.surname', $searchvalue);
-			$this->db->or_like('t3.company_name', $searchvalue);
-			$this->db->or_like('t3.reg_no', $searchvalue);
-			$this->db->or_like('t3.vat_no', $searchvalue);
-			$this->db->or_like('t3.email2', $searchvalue);
-			$this->db->or_like('t3.home_phone', $searchvalue);
-		
+			$searchvalue = trim($requestdata['search']['value']);
+			if($searchvalue == 'Paid'){
+				$this->db->where('inv.status', '1');
+			}
+			elseif($searchvalue == 'Unpaid'){
+				$this->db->where('inv.status', '0');	
+			}
+			else{
+				$this->db->like('inv.inv_id', $searchvalue);
+				$this->db->or_like('ud.name', $searchvalue);
+				$this->db->or_like('ud.surname', $searchvalue);		
+				$this->db->or_like('up.registration_no', $searchvalue);
+				$this->db->or_like('inv.description', $searchvalue);
+				$this->db->or_like('inv.total_cost', $searchvalue);
+				$this->db->or_like('inv.internal_inv', $searchvalue);
+			}
 		}
 		
 		if($type=='count'){
@@ -140,10 +120,10 @@ class Renewal_Model extends CC_Model
 		$currentdate = date('Y-m-d h:i:s');
 
 		
-		$this->db->insert('invoice', ['description' => "Registration Fee", 'user_id' => $userid, 'status' => '0', 'inv_type' => '2',  'coc_type' => '2',  'delivery_type' => '2', 'total_cost' => $rate, 'vat'=>$vat_amount, 'created_at' => $currentdate]) ;
+		$this->db->insert('invoice', ['description' => "Registration Fee", 'user_id' => $userid, 'status' => '1', 'inv_type' => '2',  'coc_type' => '2',  'delivery_type' => '2', 'total_cost' => $rate, 'vat'=>$vat_amount, 'created_at' => $currentdate]) ;
 		$result['invoice_id'] = $this->db->insert_id();
 		
-		$this->db->insert('coc_orders', ['user_id' => $userid, 'description' => "Registration Fee",'quantity' => '1', 'status' => '0',  'cost_value' => $rate, 'coc_type' => '2',  'delivery_type' => '2', 'total_due' => $total, 'vat'=>$vat_amount, 'inv_id' => $result['invoice_id'], 'created_at' => $currentdate, 'created_by' => $userid]);
+		$this->db->insert('coc_orders', ['user_id' => $userid, 'description' => "Registration Fee",'quantity' => '1', 'status' => '1',  'cost_value' => $rate, 'coc_type' => '2',  'delivery_type' => '2', 'total_due' => $total, 'vat'=>$vat_amount, 'inv_id' => $result['invoice_id'], 'created_at' => $currentdate, 'created_by' => $userid]);
 		$result['cocorder_id']  = $this->db->insert_id();	
 		
 		$this->db->set('created_at',$currentdate);

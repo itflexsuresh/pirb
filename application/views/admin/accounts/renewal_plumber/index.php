@@ -39,9 +39,9 @@
 								<th>Payment Status</th>
 								<!-- <div class="form-group">
 
-									<?php $attributes = 'class="form-control" id="store"';
-									echo form_dropdown('status', $store, set_value('store',$store),$attributes);?>
-									<span class="text-danger"><?php echo form_error('store');?></span>
+									<?php //$attributes = 'class="form-control" id="store"';
+									//echo form_dropdown('status', $store, set_value('store',$store),$attributes);?>
+									<span class="text-danger"><?php //echo form_error('store');?></span>
 								</div> -->
 
 
