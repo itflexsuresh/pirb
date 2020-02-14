@@ -57,8 +57,8 @@ class Message extends CC_Controller
 			foreach($results as $result){
 				$totalrecord[] = 	[
 										'groups' 		=> 	$this->config->item('messagegroup')[$result['groups']],
-										'start_date' 	=>  date('m-d-Y',strtotime($result['startdate'])),
-										'end_date' 		=>  date('m-d-Y',strtotime($result['enddate'])),
+										'start_date' 	=>  date('d-m-Y',strtotime($result['startdate'])),
+										'end_date' 		=>  date('d-m-Y',strtotime($result['enddate'])),
 										'message' 		=>  $result['message'],
 										'status' 		=> 	$this->config->item('status')[$result['status']],
 										'action'		=> 	'
