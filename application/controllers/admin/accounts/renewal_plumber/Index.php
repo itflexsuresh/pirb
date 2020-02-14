@@ -78,12 +78,13 @@ class Index extends CC_Controller
 			$inv_type = '1';
 			$userid = $data['id'];
 			$checkinv_result = $this->Renewal_Model->checkinv($userid);						
-						
+
 			if(!empty($checkinv_result)){				
 				foreach($checkinv_result as $checkinv_data){					
 					$inv_type = $checkinv_data['inv_type'];
 				}
 			}
+			
 
 			if($inv_type == '2'){
 				continue;

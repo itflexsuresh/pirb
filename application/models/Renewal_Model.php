@@ -92,6 +92,7 @@ class Renewal_Model extends CC_Model
 		return $result;
 	}
 
+
 	public function checkinv($userid)
 	{
 			$this->db->select('*');		
