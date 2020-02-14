@@ -1449,3 +1449,6 @@ p.back_license {transform: none !important;margin: 0 !important;}
 .accordion .card-header button.btn.btn-link:after {right: 8px;}
 
 }
+.datepicker.datepicker-dropdown.dropdown-menu.datepicker-orient-left.datepicker-orient-top {
+   top: 328px !important;
+}

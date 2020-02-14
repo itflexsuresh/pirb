@@ -42,10 +42,7 @@ class Index extends CC_Controller
 			$requestData 	= 	$this->input->post();
 			if($this->input->post('submit')){
 
-				$data 			=  	$this->Coc_Ordermodel->action($requestData);	
-
-				$this->Coc_Ordermodel->order_mail($data);
-				exit;
+				$data 			=  	$this->Coc_Ordermodel->action($requestData);
 
 				if($data) $this->session->set_flashdata('success', 'order saved successfully.');
 				else $this->session->set_flashdata('error', 'Try Later.');
