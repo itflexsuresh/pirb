@@ -1,10 +1,8 @@
 <?php 
-$id          = $userdata['id'];
 $designation = $userdata['designation'];
 $type 		 = $userdata['type']; 
 $formstatus  = $userdata['formstatus']; 
 ?>
-
 <aside class="left-sidebar">
 	<div class="scroll-sidebar">
 		<nav class="sidebar-nav">
@@ -33,6 +31,7 @@ $formstatus  = $userdata['formstatus'];
 								<a href="javascript:void(0)" aria-expanded="false" class="sub_menu">Performance Settings</a>
 								<ul aria-expanded="false" class="collapse">
 									<li><a href="<?php echo base_url().'admin/systemsetup/performancesettings/plumberperformance'; ?>">Plumber Performance Settings</a></li>
+
 								</ul>
 
 							</li>
@@ -74,12 +73,7 @@ $formstatus  = $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'admin/company/index'; ?>">Company</a></li>
 						</ul>
 					</li>
-					<li class="setp one"> 
-						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Accounts</span></a>
-						<ul aria-expanded="false" class="collapse">
-							<li><a href="<?php echo base_url().'admin/accounts/accounts'; ?>">Plumber COC Invoices</a></li>
-						</ul>
-					</li>
+					
 					
 					<li class="step five"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Resellers</span></a>
@@ -87,7 +81,7 @@ $formstatus  = $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'admin/resellers/index'; ?>">Resellers</a></li>
 						</ul>
 					</li>
-				<li class="step five"> 
+					<li class="step five"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Audits</span></a>
 						<ul aria-expanded="false" class="collapse">
 							<li><a href="<?php echo base_url().'admin/audits/index'; ?>">Manage Auditors</a></li>
@@ -97,77 +91,80 @@ $formstatus  = $userdata['formstatus'];
  
                        $this->db->select('*');
                        $this->db->from('messages');                  
-                       $this->db->where('messages.groups',$type);
+                       $this->db->where('groups','1');
                        $query=$this->db->get();
                        $data= $query->result_array();
-
+                       $msg = "";
                        foreach ($data as $key => $value) {
-
-                       $value['message'];        
-                      
+                       		$msg = $msg.$value['message'].',';        				            
+         
                        }
 					?>
 					<li><a href="<?php echo base_url().'plumber/registration/index'; ?>">Dashboard</a></li>
 					
 					<?php if($formstatus=='1'){ ?>
 						<li><a href="<?php echo base_url().'plumber/profile/index'; ?>">My Profile</a></li>
+						<textarea name="Messages" id="Messages"><?php echo $msg;?></textarea>
 						<?php if ($designation == '4' || $designation == '6') {
 							?>
 							<li><a href="<?php echo base_url().'plumber/purchasecoc/index'; ?>">Purchase COC</a></li>
-							
 							<li><a href="<?php echo base_url().'plumber/cocstatement/index'; ?>">COC Statement</a></li>
+							
 							<?php
 						} ?>
 					<?php }elseif($formstatus=='0'){ ?>
 						<li><a href="<?php echo base_url().'plumber/registration/index'; ?>">My Profile</a></li>
-						<textarea name="Messages" id="Messages"><?php echo $value['message'];?></textarea>
+						
 					<?php } ?>
 				<?php }elseif($type=='4'){
 
                        $this->db->select('*');
                        $this->db->from('messages');                  
-                       $this->db->where('messages.groups',$type);
+                       $this->db->where('groups','4');
                        $query=$this->db->get();
                        $data= $query->result_array();
+                       $msg = "";
                        foreach ($data as $key => $value) {
-                       $value['message'];        
+                       		$msg = $msg.$value['message'].',';      				            
+         
                        }
 				 ?>
 					<li><a href="javascript:void(0);">Dashboard</a></li>
 					<li><a href="<?php echo base_url().'company/registration/company'; ?>">My Profile</a></li>
-					<textarea name="Messages" id="Messages"><?php echo $value['message'];?></textarea>
+					<textarea name="Messages" id="Messages"><?php echo $msg;?></textarea>
 				<?php }elseif($type=='5'){ 
 
                       $this->db->select('*');
                        $this->db->from('messages');                  
-                       $this->db->where('messages.groups',$type);
+                       $this->db->where('groups','2');
                        $query=$this->db->get();
                        $data= $query->result_array();
+                        $msg = "";
                        foreach ($data as $key => $value) {
-                       $value['message'];        
+                       $msg = $msg.$value['message'].',';          
                        }
 					?>
 					<li><a href="javascript:void(0);">Dashboard</a></li>
 					<li><a href="<?php echo base_url().'auditor/profile/index'; ?>">My Profile</a></li>
-					<textarea name="Messages" id="Messages"><?php echo $value['message'];?></textarea>
+					<textarea name="Messages" id="Messages"><?php echo $msg;?></textarea>
 				<?php }elseif($type=='6'){
 					
                       $this->db->select('*');
                        $this->db->from('messages');                  
-                       $this->db->where('messages.groups',$type);
+                       $this->db->where('groups','3');
                        $query=$this->db->get();
                        $data= $query->result_array();
+                        $msg = "";
                        foreach ($data as $key => $value) {
-                       $value['message'];        
+                       		$msg = $msg.$value['message'].',';        				            
+         
                        }
 				 ?>
 					<li><a href="javascript:void(0);">Dashboard</a></li>
-			        
-			        <li><a href="<?php echo base_url().'resellers/cocstatement/index'; ?>">COC Statement</a></li>
+                    <li><a href="<?php echo base_url().'resellers/cocstatement/index'; ?>">COC Statement</a></li>
 					<li><a href="<?php echo base_url().'resellers/allocatecoc/index'; ?>">Allocate COC</a></li>
 					<li><a href="<?php echo base_url().'resellers/profile/index'; ?>">My Profile</a></li>
-
-					<textarea name="Messages" id="Messages"><?php echo $value['message'];?></textarea>
+					<textarea name="Messages" id="Messages"><?php echo $msg;?></textarea>
 					
 					
 				<?php } ?>	
