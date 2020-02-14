@@ -7,7 +7,7 @@ class Coc_Ordermodel extends CC_Model
 		$this->db->select('t1.*');
 		// $this->db->select('t1.*,t2.name,t2.surname,t3.type, t3.address, t4.type, cc.count');
 		$this->db->from('coc_orders t1');
-		// $this->db->join('users_detail t2', 't1.user_id=t2.user_id', 'inner');
+		$this->db->join('users_detail t2', 't1.user_id=t2.user_id', 'inner');
 		// $this->db->join('users_address t3', 't1.user_id=t3.user_id AND t3.type="2"', 'left');
 		// $this->db->join('users t4', 't1.user_id=t4.id', 'inner');
 		// $this->db->join('coc_count cc', 'cc.user_id=t2.user_id','inner');		
