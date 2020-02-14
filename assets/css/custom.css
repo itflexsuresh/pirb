@@ -1452,3 +1452,8 @@ p.back_license {transform: none !important;margin: 0 !important;}
 .datepicker.datepicker-dropdown.dropdown-menu.datepicker-orient-left.datepicker-orient-top {
    top: 328px !important;
 }
+#message {
+    padding: 10px 20px 10px 20px;
+    background-color: #fff;
+    border: 1px solid #00000038;
+}
