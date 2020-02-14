@@ -46,7 +46,7 @@ class Resellers_allocatecoc_Model extends CC_Model
 		$this->db->join('plumberallocate pa', 'pa.stockid=sm.id','left');
 		$this->db->join('users_detail ud', 'ud.user_id=sm.user_id','left');
 		$this->db->join('users_plumber up', 'up.user_id=sm.user_id','left');
-		$this->db->join('users_detail pd', 'pd.user_id=pa.company_details', 'left');
+		$this->db->join('users_detail pd', 'pd.id=pa.company_details', 'left');
 		$this->db->where('sm.type', '2');
 
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
