@@ -153,7 +153,6 @@ class Renewal_Model extends CC_Model
 		return $result;
 
 	}
-
 	
 	public function getPermissions($type1)
 	{ 

@@ -15,7 +15,7 @@ class Index extends CC_Controller
 		$this->load->model('Plumber_Model');
 	 	$this->load->model('Coc_Model');
 	}
-	
+		
 	public function index($pagestatus='',$id='')
 	{
 		if($id!=''){
