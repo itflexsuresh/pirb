@@ -97,7 +97,7 @@ class Index extends CC_Controller
 					}
 
 					$PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
-					//$delivery_rate =  $this->db->select('amount')->from('rates')->where('id',$delivery_method)->get()->row_array();
+					$delivery_rate =  $this->db->select('amount')->from('rates')->where('id',$delivery_method)->get()->row_array();
 					$late_fee = $this->db->select('amount')->from('rates')->where('id', $coc_type_id)->get()->row_array();
 
 				}
