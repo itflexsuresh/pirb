@@ -56,12 +56,16 @@ class Index extends CC_Controller
 
 	public function Deletefunc($id)
 	{
+
 		$result = $this->Renewal_Model->deleteid($id);
 		if($result == '1')
 			$this->session->set_flashdata('success', 'Record was Deleted');
 		else
 			$this->session->set_flashdata('error', 'Error to delete the Record.');
 
+		$url = base_url()."assets/inv_pdf/".$id.".pdf";
+		unlink($url);
+		
 		$this->index();
 	}
 
