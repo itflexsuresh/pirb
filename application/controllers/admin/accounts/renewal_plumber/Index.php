@@ -15,7 +15,7 @@ class Index extends CC_Controller
 		$this->load->model('Plumber_Model');
 	 	$this->load->model('Coc_Model');
 	}
-		
+
 	public function index($pagestatus='',$id='')
 	{
 		if($id!=''){
@@ -311,20 +311,22 @@ class Index extends CC_Controller
 	public function DTAccounts()
 	{
 		$post 			= $this->input->post();
-		// print_r($post);exit();
-		$totalcount 	= $this->Renewal_Model->getList('count', ['status' => ['0','1','7','8','9']]+$post);
-		$results 		= $this->Renewal_Model->getList('all', ['status' => ['0','1','7','8','9']]+$post);
+		$post['status'] = '1';
+		$totalcount 	= $this->Renewal_Model->getList('count',$post);
+		$results 		= $this->Renewal_Model->getList('all', $post);
 		
 		$totalrecord 	= [];
 		if(count($results) > 0)
-		{
+		{	
 			foreach($results as $result)
 			{
 
 				$originalDate=$result['created_at'];
 				$newDate = date("d-m-Y", strtotime($originalDate));
-
-				// $date=date("d-m-Y",);
+				if($result['status'] == '1')
+					$status = "Paid";
+				else
+					$status = "Unpaid";
 				
 				$totalrecord[] = 	[      
 					'inv_id' 		=> 	$result['inv_id'],
@@ -342,7 +344,7 @@ class Index extends CC_Controller
 
 					',
 
-					'status'    		=> 	$result['status'],
+					'status'    		=> 	$status,
 					'internal_inv' 		=> 	$result['internal_inv']
 
 				];
