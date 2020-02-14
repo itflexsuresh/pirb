@@ -97,22 +97,22 @@ class Index extends CC_Controller
 
 				$totalrecord[] 	= 	[
 										'id' 			=> 	$result['id'],
-										'user_id' 		=> 	$result['name']." ".$result['surname'],
-										'coc_type' 		=> 	$coctype,
-										'delivery_type'	=> 	$deliverytype,
-										'quantity' 		=> 	$result['quantity'],	
-										'status' 		=> 	$this->config->item('payment_status')[$result['status']],
-										'inv_id' 		=> 	$result['inv_id'],
-										'internal_inv' 	=> 	$result['internal_inv'],									
-										'created_at'	=> 	date('d-m-Y', strtotime($result['created_at'])),
-										'address' 		=> 	$result['address'],
-										'tracking_no' 	=> 	$result['tracking_no'],																				
-										'action'		=> 	'
-																<div class="table-action">
-																	<a href="'.base_url().'admin/cocstatement/cocorders/index/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit">
-																	<i class="fa fa-pencil-alt"></i></a>																	
-																</div>
-															'
+										// 'user_id' 		=> 	$result['name']." ".$result['surname'],
+										// 'coc_type' 		=> 	$coctype,
+										// 'delivery_type'	=> 	$deliverytype,
+										// 'quantity' 		=> 	$result['quantity'],	
+										// 'status' 		=> 	$this->config->item('payment_status')[$result['status']],
+										// 'inv_id' 		=> 	$result['inv_id'],
+										// 'internal_inv' 	=> 	$result['internal_inv'],									
+										// 'created_at'	=> 	date('d-m-Y', strtotime($result['created_at'])),
+										// 'address' 		=> 	$result['address'],
+										// 'tracking_no' 	=> 	$result['tracking_no'],																				
+										// 'action'		=> 	'
+										// 						<div class="table-action">
+										// 							<a href="'.base_url().'admin/cocstatement/cocorders/index/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit">
+										// 							<i class="fa fa-pencil-alt"></i></a>																	
+										// 						</div>
+										// 					'
 									];
 			}
 		}
