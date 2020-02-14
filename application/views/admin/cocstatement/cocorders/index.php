@@ -47,6 +47,7 @@ $allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
 		</div>
 	</div>
 </div>
+<?php echo $notification; ?>
 
 <div class="row">
 	<div class="col-12">
@@ -241,11 +242,11 @@ $allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
 					<input type="hidden" id="total_due" class="form-control" name="total_due">
 				</form>
 
-				<form method="POST">
+				<form method="POST" class="allocate_form">
 					<div class="row mt_20 <?php if($id!=''){}else {echo 'displaynone'; }?>">
 						<div class="col-md-6">
 							<div class="form-group">
-								<div class="<?php if($coc_type=='1'){echo '';} ?>">
+								<div class="cert_start_range">
 									<label>Certificate Start Range</label>
 									<input type="text" value="<?php echo $allocate_start; ?>" disabled>
 									<input type="hidden" name="allocate_start" value="<?php echo $allocate_start; ?>">
@@ -261,7 +262,7 @@ $allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<div class="<?php if($coc_type=='1'){echo '';} ?>">
+								<div class="cert_end_range">
 									<label>Certificate End Range</label>
 									<input type="text" value="<?php echo $allocate_end; ?>" disabled>
 									<input type="hidden" name="allocate_end" value="<?php echo $allocate_end; ?>">
@@ -413,6 +414,8 @@ $(function(){
 
 	// $(".order_cancelled").hide();
 	// $(".comments, .order_cancelled").hide();
+	allocation_show();
+	cert_range_show();
 });
 
 
@@ -420,8 +423,28 @@ $("#plumber, #reseller").click(function(){
 	userwrapper($(this).val())
 });
 
+$('input[name="status"]').click(function(){
+	allocation_show();
+})
+
+$('input[name="coc_type"]').click(function(){
+	cert_range_show();
+})
+
+function cert_range_show(){
+	$('.cert_start_range, .cert_end_range').hide();
+	paid_status = $('input[name="coc_type"]:checked').val();
+	if(paid_status==2){
+		$('.cert_start_range, .cert_end_range').show();
+	}
+}
+
 function allocation_show(){
-	
+	$('.allocate_form').hide();
+	paid_status = $('input[name="status"]:checked').val();
+	if(paid_status==1){
+		$('.allocate_form').show();
+	}
 }
 
 function userwrapper(value){

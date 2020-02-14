@@ -54,6 +54,7 @@ class Stock_Model extends CC_Model
 			}
 			$this->db->update('coc_orders', $requestdata1, ['id' => $data['order_id']]);			
 		}
+		return $result1;
 	}
 
 }
