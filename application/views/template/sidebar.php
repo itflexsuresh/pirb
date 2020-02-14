@@ -104,12 +104,11 @@ $formstatus  = $userdata['formstatus'];
 					
 					<?php if($formstatus=='1'){ ?>
 						<li><a href="<?php echo base_url().'plumber/profile/index'; ?>">My Profile</a></li>
-						<textarea name="Messages" id="Messages"><?php echo $msg;?></textarea>
 						<?php if ($designation == '4' || $designation == '6') {
 							?>
 							<li><a href="<?php echo base_url().'plumber/purchasecoc/index'; ?>">Purchase COC</a></li>
 							<li><a href="<?php echo base_url().'plumber/cocstatement/index'; ?>">COC Statement</a></li>
-							
+							<textarea name="Messages" id="Messages"><?php echo $msg;?></textarea>
 							<?php
 						} ?>
 					<?php }elseif($formstatus=='0'){ ?>
