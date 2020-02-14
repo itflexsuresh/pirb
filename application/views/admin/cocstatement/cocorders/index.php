@@ -7,12 +7,31 @@ $couriour 				= $couriour["amount"];
 $collectedbypirb 		= $collectedbypirb["amount"];
 
 $created_at 			= (isset($result['created_at']) && date('d-m-Y', strtotime($result['created_at']))!='01-01-1970') ? date('d-m-Y', strtotime($result['created_at'])) : '';
+
 $coc_type 				= isset($result['coc_type']) ? $result['coc_type'] : '';
+$id 					= isset($result['id']) ? $result['id'] : '';
+$inv_id 				= isset($result['inv_id']) && $result['created_by']!='' ? $result['inv_id'] : '';
 $delivery_type 			= isset($result['delivery_type']) ? $result['delivery_type'] : '';
 $quantity 				= isset($result['quantity']) ? $result['quantity'] : '1';
 $internalinv 			= isset($result['internal_inv']) ? $result['internal_inv'] : '';
 $trackingno 			= isset($result['tracking_no']) ? $result['tracking_no'] : '';
 $status 				= isset($result['status']) ? $result['status'] : '';
+
+$type 					= isset($result['type']) ? $result['type'] : '';
+$full_name				= isset($result['name']) && isset($result['surname']) ? $result['name'].' '.$result['surname'] : '';
+$user_id				= isset($result['user_id']) ? $result['user_id'] : '';
+$count					= isset($result['count']) ? $result['count'] : '';
+
+$comment_all = '';
+if(!empty($comments)){
+	foreach($comments as $key=>$val){
+		$comment_all .=  $val['comment'].PHP_EOL;
+	}
+}
+
+$allocate_start			= isset($stock['id']) ? $stock['id'] : 0;
+$allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
+
 ?>
 
 <div class="row page-titles">
@@ -51,13 +70,13 @@ $status 				= isset($result['status']) ? $result['status'] : '';
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Order ID</label>
-								<input type="text" class="form-control" name=""  readonly>
+								<input type="text" class="form-control" name="order_id" id="order_id" value="<?php echo $id; ?>" readonly>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Inv Number</label>
-								<input type="text"class="form-control" name="inv_id" readonly>
+								<input type="text"class="form-control" name="inv_id" value="<?php echo $inv_id; ?>" readonly>
 							</div>
 						</div>
 					</div>
@@ -66,29 +85,30 @@ $status 				= isset($result['status']) ? $result['status'] : '';
 							<div class="row form-group">
 								<div class="col-md-3">
 									<div class="custom-control custom-radio">
-				                        <input type="radio" id="plumber" name="purchase_type" class="custom-control-input" value="3">
+
+				                        <input type="radio" id="plumber" name="purchase_type" class="custom-control-input" value="3" <?php if($type=='3'){ echo 'checked="checked"'; } if($id!=''){ echo 'disabled'; } ?>>
 				                        <label class="custom-control-label" for="plumber">Plumber</label>
 				                    </div>
 			                	</div>
 			                	<div class="col-md-3">
 				                    <div class="custom-control custom-radio">
-				                        <input type="radio" id="reseller" name="purchase_type" class="custom-control-input" value="6">
+				                        <input type="radio" id="reseller" name="purchase_type" class="custom-control-input" value="6" <?php if($type=='6'){ echo 'checked="checked"'; } if($id!=''){ echo 'disabled'; } ?>>
 				                        <label class="custom-control-label" for="reseller">Reseller</label>
 				                    </div>
 				                </div>
 			            	</div>
 						</div>
 					</div>
-					<div class="row user_wrapper displaynone">
+					<div class="row user_wrapper <?php if(!isset($id)){ echo 'displaynone'; } ?>">
 						<div class="col-md-6">
 							<div class="form-group">
 								<label></label>
-								<input type="search" autocomplete="off" class="form-control" name="user_search" id="user_search">
-								<div id="user_suggestion" class="displaynone"></div>
+								<input type="search" autocomplete="off" class="form-control" name="user_search" id="user_search" <?php if($id!=''){ echo 'disabled'; } ?> value="<?php echo $full_name; ?>">
+								<div id="user_suggestion" class="<?php if(!isset($id)){ echo 'displaynone'; } ?>"></div>
 								<div class="search_icon">
 									<i class="fa fa-search" aria-hidden="true"></i>
 								</div>
-								<input type="hidden" id="user_id" name="user_id">
+								<input type="hidden" id="user_id" name="user_id" value="<?php echo $user_id; ?>">
 							</div>
 						</div>
 					</div>
@@ -97,20 +117,20 @@ $status 				= isset($result['status']) ? $result['status'] : '';
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Number of COC's Permitted to be allocated</label>
-								<input type="text" class="form-control" id="user_limit" name="user_limit" readonly>
+								<input type="text" class="form-control" id="user_limit" name="user_limit" readonly value="<?php echo $count; ?>">
 							</div>
 							<div class="form-group">
 								<label>Number Of COC's Requested</label>
-								<input type="number" id="quantity" class="form-control" min="<?php echo $quantity; ?>" value="1" name="quantity" for="quantity" <?php echo $quantity; ?>>							  
+								<input type="number" id="quantity" class="form-control" min="<?php echo $quantity; ?>" value="<?php echo $quantity; ?>" name="quantity" for="quantity">							  
 							</div>
 						</div>
 						
-						<div class="col-md-6 comments">							
+						<div class="col-md-6 comments <?php if($id!=''){}else {echo 'displaynone'; }?>">							
 							<div class="form-group coment_section">
 								<label>Comments</label>
-								<textarea class="form-control" id="comments" name="comments" disabled="" placeholder=""></textarea>
-								<input type="text" class="form-control" placeholder="Type your Comment here" name="">
-								<button type="button" name="comment_btn" value="" class="btn btn-primary">Add Comment</button>
+								<textarea class="form-control" id="comments" name="comments" disabled="" placeholder=""><?php echo $comment_all; ?></textarea>
+								<input type="text" class="form-control" placeholder="Type your Comment here" name="comment" id="comment">
+								<button type="button" id="comment_btn" name="comment_btn" value="" class="btn btn-primary">Add Comment</button>
 							</div>							
 						</div>					
 					</div>
@@ -143,7 +163,7 @@ $status 				= isset($result['status']) ? $result['status'] : '';
 				        	</div>
 						</div>
 
-						<div class="col-md-12 delivery_type_wrapper displaynone">
+						<div class="col-md-12 delivery_type_wrapper <?php if($coc_type==2){ echo ''; } else { echo 'displaynone'; } ?>">
 							<div class="form-group col-md-6 row">
 								<label>Method Of Delivery</label>
 								<?php 
@@ -184,7 +204,7 @@ $status 				= isset($result['status']) ? $result['status'] : '';
 								<input type="text" autocomplete="off" class="form-control" name="internal_inv" value="<?php echo $internalinv; ?>">
 							</div>
 						</div>
-						<div class="col-md-12 tracking_wrapper displaynone">
+						<div class="col-md-12 tracking_wrapper <?php  if(!isset($deliverytype) || $delivery_type=='1'){ echo 'displaynone'; } else { echo ''; }  ?>">
 							<div class="form-group col-md-6 row">
 								<label>Tracking No</label>
 								<input type="text" autocomplete="off" class="form-control" name="tracking_no" value="<?php echo $trackingno; ?>">
@@ -203,9 +223,9 @@ $status 				= isset($result['status']) ? $result['status'] : '';
 						</div>
 						<div class="col-md-12">
 							<div class="row">
-								<div class="col-md-12 row order_cancelled">
+								<div class="col-md-12 row order_cancelled <?php if($id!=''){}else { echo 'displaynone'; } ?>">
 									<div class="custom-control custom-checkbox">
-										<input type="checkbox" class="custom-control-input" id="email_notifi" name="order_canceld">
+										<input type="checkbox" class="custom-control-input" id="email_notifi" name="admin_status">
 										<label class="custom-control-label" for="email_notifi">Order Cancelled</label>
 			                        </div>
 		                    	</div>
@@ -221,14 +241,16 @@ $status 				= isset($result['status']) ? $result['status'] : '';
 					<input type="hidden" id="total_due" class="form-control" name="total_due">
 				</form>
 
-				<form>
-					<div class="row mt_20 displaynone">
+				<form method="POST">
+					<div class="row mt_20 <?php if($id!=''){}else {echo 'displaynone'; }?>">
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Certificate Start Range</label>
-								<select name="designation" class="form-control">
+								<input type="text" value="<?php echo $allocate_start; ?>" disabled>
+								<input type="hidden" name="allocate_start" value="<?php echo $allocate_start; ?>">
+								<!-- <select name="designation" class="form-control">
 									<option value="1">Select from COC data range</option>
-								</select>
+								</select> -->
 								<div class="custom-control custom-checkbox">
 		                            <input type="checkbox" class="custom-control-input" id="start_notifi">
 		                            <label class="custom-control-label" for="start_notifi">Send a SMS COC Allocation Notification</label>
@@ -238,9 +260,11 @@ $status 				= isset($result['status']) ? $result['status'] : '';
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Certificate End Range</label>
-								<select name="designation" class="form-control">
+								<input type="text" value="<?php echo $allocate_end; ?>" disabled>
+								<input type="hidden" name="allocate_end" value="<?php echo $allocate_end; ?>">
+								<!-- <select name="designation" class="form-control">
 									<option value="1">Select from COC data range</option>
-								</select>
+								</select> -->
 								<div class="custom-control custom-checkbox">
 		                            <input type="checkbox" class="custom-control-input" id="end_notifi">
 		                            <label class="custom-control-label" for="end_notifi">Send an Email Tracking Notifiation</label>
@@ -248,7 +272,10 @@ $status 				= isset($result['status']) ? $result['status'] : '';
 							</div>
 						</div>
 						<div class="row text-right">
-							<button type="submit" name="submit" value="submit" class="btn btn-primary">Allocate Certificates</button>
+							<input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+							<input type="hidden" class="form-control" name="order_id" id="order_id" value="<?php echo $id; ?>">
+							<input type="hidden" name="coc_type" value="<?php echo $coc_type; ?>">
+							<button type="submit" name="allocate_certificate" value="submit" class="btn btn-primary">Allocate Certificates</button>
 						</div>
 					</div>					
 				</form>
@@ -380,7 +407,8 @@ $(function(){
 	
 	ajaxdatatables('.datatables', options);
 
-	$(".comments, .order_cancelled").hide();
+	// $(".order_cancelled").hide();
+	// $(".comments, .order_cancelled").hide();
 });
 
 
@@ -398,6 +426,8 @@ $('#user_search').keyup(function(){
 	user_search($(this).val())
 })
 
+
+
 function user_search(value)
 {
 	ajax('<?php echo base_url()."admin/cocstatement/cocorders/index/userDetails"; ?>', {'search_keyword' : value, type : $('[name="purchase_type"]:checked').val()}, user_search_result);
@@ -414,6 +444,28 @@ function user_search_result(data)
 	
 	var append = '<ul class="autocomplete_list">'+result.join('')+'</ul>';
 	$("#user_suggestion").html('').removeClass('displaynone').html(append);
+}
+
+$('#comment_btn').click(function(){
+	if($('#comment').val()!=''){
+		add_comments();
+	}
+})
+
+function add_comments()
+{
+	ajax('<?php echo base_url()."admin/cocstatement/cocorders/index/add_comments"; ?>', {'comment' : $('#comment').val(), 'order_id' : $('#order_id').val()}, comments_display);
+}
+
+function comments_display(data){	
+	comments_txt = $('#comments').text();
+	comment = $('#comment').val();
+	new_line = '';
+	if(comments_txt!=''){
+		new_line = '\n';
+	}
+	comment_all = comments_txt+new_line+comment;
+	$('#comments').text(comment_all);
 }
 
 function user_select(name, id, limit, electronic) {

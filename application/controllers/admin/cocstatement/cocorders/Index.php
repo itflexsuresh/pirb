@@ -12,12 +12,24 @@ class Index extends CC_Controller
 		$this->load->model('Systemsettings_Model');
 		$this->load->model('Plumber_Model');
 		$this->load->model('Coc_Model');
+		$this->load->model('Ordercomments_Model');
+		$this->load->model('Stock_Model');
 	}
 	
 	public function index($id='')
 	{
 		if($id!=''){
 			$result = $this->Coc_Ordermodel->getCocorderList('row', ['id' => $id]);
+			$comments = $this->Ordercomments_Model->getCommentsList('all', ['order_id' => $id]);
+			
+			$stock = $this->Stock_Model->getRange('row',[]);
+
+			if($comments){
+				$pagedata['comments'] = $comments;
+			}
+			if($stock){
+				$pagedata['stock'] = $stock;
+			}
 			if($result){
 				$pagedata['result'] = $result;
 			}else{
@@ -28,12 +40,26 @@ class Index extends CC_Controller
 		
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
-			$data 			=  	$this->Coc_Ordermodel->action($requestData);	
+			if($this->input->post('submit')){
 
-			if($data) $this->session->set_flashdata('success', 'order saved successfully.');
-			else $this->session->set_flashdata('error', 'Try Later.');
-		
-			redirect('admin/cocstatement/cocorders/index'); 			
+				$data 			=  	$this->Coc_Ordermodel->action($requestData);	
+
+				$this->Coc_Ordermodel->order_mail($data);
+				exit;
+
+				if($data) $this->session->set_flashdata('success', 'order saved successfully.');
+				else $this->session->set_flashdata('error', 'Try Later.');
+			
+				redirect('admin/cocstatement/cocorders/index'); 			
+			} 
+			if($this->input->post('allocate_certificate')){
+				$data 			=  	$this->Stock_Model->action($requestData);	
+
+				if($data) $this->session->set_flashdata('success', 'order allocated successfully.');
+				else $this->session->set_flashdata('error', 'Try Later.');
+			
+				redirect('admin/cocstatement/cocorders/index'); 			
+			}
 		}
 
 		$userid 					=	$this->getUserID();
@@ -114,6 +140,14 @@ class Index extends CC_Controller
 		}else{
 			$data 	=   $this->Coc_Ordermodel->autosearchReseller($post);
 		}
+		
+		echo json_encode($data);
+	}
+
+	public function add_comments()
+	{ 
+		$post = $this->input->post();		
+		$data 	=   $this->Ordercomments_Model->action($post);
 		
 		echo json_encode($data);
 	}
