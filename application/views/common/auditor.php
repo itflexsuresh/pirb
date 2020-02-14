@@ -1,9 +1,9 @@
 <?php
-//echo "<pre>";
-//print_r($audit_status1);die;		
+// echo "<pre>";
+// print_r($result);die;
 
 	$id 			= isset($result['id']) ? $result['id'] : '';
-	$usertype 		= isset($result['type']) ? $result['type'] : '';
+	$usertype 		= isset($result['type']) ? $result['type'] : '5';
 	$email  		= isset($result['email']) ? $result['email'] : set_value ('email');
 	$password  		= isset($result['password_raw']) ? $result['password_raw'] : set_value ('password_raw');
 	$allocation_number = isset($result['password_raw']) ? $result['password_raw'] : set_value ('password_raw');
@@ -20,6 +20,7 @@
 	$image 			= isset($result['file1']) ? $result['file1'] : set_value ('file1');	
 	$complogo 		= isset($result['file2']) ? $result['file2'] : set_value ('file2');
 	$idno 			= isset($result['identity_no']) ? $result['identity_no'] : set_value ('idno');
+	$user_status1 	= isset($result['usstatus']) ? $result['usstatus'] : '';
 
 
 	$auditoravaid 			= isset($result['available']) ? $result['available'] : '';
@@ -45,11 +46,31 @@
 	$areas 			= isset($result['areas']) ? explode('@-@', $result['areas']) : [];
 
 	$heading 		= isset($result['id']) ? 'Update' : 'Save';   
+	$profileimg 			= base_url().'assets/images/profile.jpg';
 
 	$filepath 		= base_url().'assets/uploads/auditor/';
 	$filepath1		= (isset($result['file1']) && $result['file1']!='') ? $filepath.$result['file1'] : base_url().'assets/uploads/auditor/profile.jpg';
 	$filepath2		= (isset($result['file2']) && $result['file2']!='')  ? $filepath.$result['file2'] : base_url().'assets/uploads/auditor/profile.jpg';	
+	$pdfimg 		= base_url().'assets/uploads/auditor/pdf.png';
 
+	if($image!=''){
+		$explodefile2 	= explode('.', $image);
+		$extfile2 		= array_pop($explodefile2);
+		$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath1;
+	}else{
+		$photoidimg 	= $profileimg;
+	}	
+
+		if($complogo!=''){
+		$explodefile21 	= explode('.', $complogo);
+		$extfile21 		= array_pop($explodefile21);
+		$photoidimg1 	= (in_array($extfile21, ['pdf', 'tiff'])) ? $pdfimg : $filepath2;
+		//print_r($photoidimg1);die;
+	}else{
+		$photoidimg1 	= $profileimg;
+	}
+
+//print_r($photoidimg1);die;
 
 ?>
 
@@ -126,7 +147,7 @@
 									<div class="form-group">
 										<label>Photo</label>
 										<div>
-											<img src="<?php echo $filepath1; ?>" class="auditor_photo" width="100">
+											<img src="<?php echo $photoidimg; ?>" class="auditor_photo" width="100">
 										</div>
 										<input type="file" class="auditor_image">
 										<input type="hidden" name="file1" class="auditor_picture" value="<?php echo $image; ?>">
@@ -233,7 +254,7 @@
 							<div class="form-group">
 								<label>Company Logo</label>
 								<div>
-									<img src="<?php echo $filepath2; ?>" class="comp_logo" width="100">
+									<img src="<?php echo $photoidimg1; ?>" class="comp_logo" width="100">
 								</div>
 								<input type="file" class="comp_emb">
 								<input type="hidden" name="file2" class="comp_photo" value="<?php echo $complogo; ?>">
@@ -279,6 +300,14 @@
 								<input type="text" class="form-control" name="account_type" value="<?php echo $type; ?>">
 							</div>
 						</div>
+						<div class="col-md-4">
+							<div class="form-group">	
+								<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">	
+									<input type="checkbox" class="custom-control-input" <?php echo ($user_status1=='1') ? 'checked="checked"' : ''; ?> value="1" name="status" id="status">
+									<label class="custom-control-label" for="status">Active</label>
+								</div>
+							</div>
+						</div>
 					</div>
 					<h4 class="card-title add_top_value">My Auditting Areas</h4>
 					<div class="col-md-6">
@@ -288,7 +317,7 @@
 							</div>
 						</div>
 					
-					<h4 class="card-title add_top_value">My Auditting Areas</h4>
+					<h4 class="card-title add_top_value"></h4>
 					<div class="row">
 						<div class="col-md-12">							
 							<table id="area_table" class="table table-bordered table-striped datatables fullwidth">
@@ -525,6 +554,7 @@
 		if(areas.length){
 			$(areas).each(function(i, v){
 				var areadatas = v.split('@@@');
+				console.log(areadatas);
 				areadata([areadatas[1],areadatas[2],areadatas[3],areadatas[0]], [areadatas[4],areadatas[5],areadatas[6]]);
 			})			
 		}
@@ -557,16 +587,16 @@
 	});
 
     function areadata(data1, data2){
+
 		var checkarea = 0;
 		$(document).find('.areaprovince').each(function(i, v){
+
 			var count = $(this).attr('data-count');
 			var province = $(this).val();
 			var city = $('.areacity[data-count="'+count+'"]').val();
 			var suburb = $('.areasuburb[data-count="'+count+'"]').val();
-			
-			if(province==data1[0] && province==data1[1] && province==data1[2]){
+			if(province==data1[0] && city==data1[1] && suburb==data1[2]){
 				checkarea = 1;
-				return false;
 			}
 		})
 		

@@ -5,7 +5,7 @@ class Auditor_Model extends CC_Model
 	public function getList($type, $requestdata=[])
 	{ 
 		
-		$user 			= ['u.id as id', 'u.email','u.type', 'u.password_raw'];
+		$user 			= ['u.id as id', 'u.email','u.type','u.status as usstatus', 'u.password_raw'];
 		$usersdetail 	= ['ud.id as userdetailid','ud.name','ud.surname','ud.company_name','ud.reg_no','ud.vat_no','ud.vat_vendor','ud.mobile_phone','ud.work_phone','ud.file1','ud.file2','ud.identity_no'];		
 		$useraddress 	= ['ua.id as useraddressid', 'ua.address', 'ua.province', 'ua.city', 'ua.suburb', 'ua.postal_code'];
 
@@ -51,9 +51,9 @@ class Auditor_Model extends CC_Model
 	// Admin Auditor 
 
 	public function getAuditorList($type, $requestdata=[]){
-		//print_r($requestdata);die;
+		//print_r($requestdata['type']);die;
 		$users 			= 	[ 
-			'u.id','u.email','u.formstatus','u.status' ,'u.password_raw'
+			'u.id','u.email','u.formstatus','u.status' ,'u.password_raw','u.type'
 		];
 		$auditor 		= ['av.id as auditavailable', 'av.user_id', 'av.allocation_allowed', 'av.status'];
 		$usersdetail 	= 	[ 
@@ -72,32 +72,39 @@ class Auditor_Model extends CC_Model
 
 		$this->db->join('users_detail ud', 'ud.user_id=u.id', 'left');
 
-		$this->db->join('users_address ua1', 'ua1.user_id=u.id and ua1.type="1"', 'left');
+		$this->db->join('users_address ua1', 'ua1.user_id=u.id', 'left');
 
 		$this->db->join('auditor_availability as av', 'av.user_id=u.id', 'left');
 
 		$this->db->join('users_address ua2', 'ua2.user_id=u.id and ua2.type="2"', 'left');
 
-		$this->db->join('users_address ua3', 'ua3.user_id=u.id and ua3.type="3"', 'left');		
+		$this->db->join('users_address ua3', 'ua3.user_id=u.id and ua3.type="3"', 'left');
+		//$this->db->where('u.type', '5');
 		
 		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);
 		if(isset($requestdata['type'])) 				$this->db->where('u.type', $requestdata['type']);
-		if(isset($requestdata['pagestatus'])) 			$this->db->where('av.status', $requestdata['pagestatus']);
+		//$this->db->where('u.type', '5');
+		if(isset($requestdata['pagestatus'])) 			$this->db->where('u.status', $requestdata['pagestatus']);
 
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['ud.name', 'ud.home_phone', 'ud.surname', 'ud.mobile_phone'];
+			$column = ['ud.name', 'ud.work_phone', 'ud.surname', 'ud.mobile_phone'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
+			$this->db->group_start();
 			$this->db->like('ud.name', $searchvalue);
 			$this->db->or_like('ud.surname', $searchvalue);
-			$this->db->or_like('ud.home_phone', $searchvalue);
+			$this->db->or_like('ud.work_phone', $searchvalue);
 			$this->db->or_like('ud.mobile_phone', $searchvalue);
+			$this->db->group_end();
+
 		}
+
+		//$this->db->where('u.type', '5');
 
 		if($type=='count'){
 			$result = $this->db->count_all_results();
@@ -107,6 +114,7 @@ class Auditor_Model extends CC_Model
 			if($type=='all') 		$result = $query->result_array();
 			elseif($type=='row') 	$result = $query->row_array();
 		}
+		//print_r($this->db->last_query());die;
 		
 		return $result;
 
@@ -126,6 +134,8 @@ class Auditor_Model extends CC_Model
 		if(isset($data['email'])) 				$request1['email'] 				= $data['email'];
 		if(isset($data['password'])) 			$request1['password_raw'] 		= $data['password'];
 		if(isset($data['password'])) 			$request1['password'] 			= md5($data['password']);
+
+		$request1['status'] 				= isset($data['status']) ? $data['status'] : '0';
 
 		
 		if(isset($request1)){
@@ -172,7 +182,9 @@ class Auditor_Model extends CC_Model
 		if(isset($data['company_name'])) 		$request2['company_name'] 		= $data['company_name'];
 		if(isset($data['reg_no'])) 				$request2['reg_no'] 			= $data['reg_no']; 
 		if(isset($data['vat_no'])) 				$request2['vat_no'] 			= $data['vat_no'];
-		if(isset($data['vat_vendor'])) 			$request2['vat_vendor'] 		= $data['vat_vendor'];
+
+		$request2['vat_vendor'] 				= isset($data['vat_vendor']) ? $data['vat_vendor'] : '0';
+
 		if(isset($data['work_phone'])) 			$request2['work_phone'] 		= $data['work_phone'];
 		if(isset($data['mobile_phone'])) 		$request2['mobile_phone'] 		= $data['mobile_phone'];	
 		if(isset($data['file1'])) 				$request2['file1'] 				= $data['file1'];
