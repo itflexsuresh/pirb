@@ -92,6 +92,15 @@ class Renewal_Model extends CC_Model
 		return $result;
 	}
 
+	public function checkinv($userid)
+	{
+			$this->db->select('*');		
+			$this->db->from('invoice');			
+			$this->db->where_in('user_id', $userid );		
+			$result = $this->db->get()->result_array();
+			return $result;
+	}
+
 	public function insertdata($userid,$designation)
 	{
 		$this->db->select('amount');

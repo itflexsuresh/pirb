@@ -63,9 +63,9 @@ class Index extends CC_Controller
 		else
 			$this->session->set_flashdata('error', 'Error to delete the Record.');
 
-		$url = base_url()."assets/inv_pdf/".$id.".pdf";
+		$url = FCPATH."assets/inv_pdf/".$id.".pdf";
 		unlink($url);
-		
+
 		$this->index();
 	}
 
@@ -75,7 +75,21 @@ class Index extends CC_Controller
 		// print_r($result); die;					
 		foreach($result as $data)
 		{
+			$inv_type = '1';
 			$userid = $data['id'];
+			$checkinv_result = $this->Renewal_Model->checkinv($userid);						
+						
+			if(!empty($checkinv_result)){				
+				foreach($checkinv_result as $checkinv_data){					
+					$inv_type = $checkinv_data['inv_type'];
+				}
+			}
+
+			if($inv_type == '2'){
+				continue;
+			}
+			else{
+
 			$designation = $data['designation'];
 			$result = $this->Renewal_Model->insertdata($userid,$designation);
 			$invoice_id = $result['invoice_id'];
@@ -96,11 +110,8 @@ class Index extends CC_Controller
 				$rowData1 = $this->Coc_Model->getPermissions('row', ['id' => $inv_id, 'status' => ['0','1']]);
 				$rowData2 = $this->Coc_Model->getPermissions1('row', ['id' => $inv_id, 'status' => ['0','1']]);
 				
-				$inv_type = $rowData['inv_type'];
-				if($inv_type == '2'){
-					continue;
-				}
-				else{
+							
+				
 					$amount =	$rowData['total_due']*$rowData['quantity'];
 					$invoiceDate = date("d-m-Y", strtotime($rowData['created_at']));
 
