@@ -347,7 +347,7 @@ class Index extends CC_Controller
 	</body>
 	</html>';
 	          
-                $pdfFilePath = ''.$inv_id.'_ReselCoc.pdf'; 
+                $pdfFilePath = ''.$inv_id.'.pdf'; 
                 $filePath = FCPATH.'assets/inv_pdf/';
 				$this->pdf->loadHtml($html);
 				$this->pdf->setPaper('A4', 'portrait');
