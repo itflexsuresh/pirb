@@ -12,6 +12,7 @@ class Coc_Ordermodel extends CC_Model
 		$this->db->join('users t4', 't1.user_id=t4.id', 'left');
 		$this->db->join('coc_count cc', 'cc.user_id=t1.user_id','left');		
 
+
 		if(isset($requestdata['id'])) 				$this->db->where('inv_id', $requestdata['id']);
 		$this->db->where('admin_status', '0');
 
