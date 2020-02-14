@@ -245,7 +245,7 @@ $allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
 					<div class="row mt_20 <?php if($id!=''){}else {echo 'displaynone'; }?>">
 						<div class="col-md-6">
 							<div class="form-group">
-								<div class="<?php if($coc_type=='1'){echo 'displaynone';} ?>">
+								<div class="<?php if($coc_type=='1'){echo '';} ?>">
 									<label>Certificate Start Range</label>
 									<input type="text" value="<?php echo $allocate_start; ?>" disabled>
 									<input type="hidden" name="allocate_start" value="<?php echo $allocate_start; ?>">
@@ -419,6 +419,10 @@ $(function(){
 $("#plumber, #reseller").click(function(){
 	userwrapper($(this).val())
 });
+
+function allocation_show(){
+	
+}
 
 function userwrapper(value){
 	var title = (value==3) ? 'Plumber' : 'Reseller'; 
