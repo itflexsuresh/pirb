@@ -155,14 +155,14 @@ class Renewal_Model extends CC_Model
 
 	public function deleteid($id)
 	{ 
+		$deletefile = base_url()."assets/inv_pdf/".$id.".pdf";
+		unlink($deletefile);
+
 		$this->db->where('inv_id', $id);		
 		$result = $this->db->delete('invoice');
 
 		$this->db->where('inv_id', $id);		
-		$result1 = $this->db->delete('coc_orders');
-
-		$deletefile = base_url()."assets/inv_pdf/".$id.".pdf";
-		unlink($deletefile);
+		$result1 = $this->db->delete('coc_orders');		
 
 		return $result;
 
