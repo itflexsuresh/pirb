@@ -245,9 +245,11 @@ $allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
 					<div class="row mt_20 <?php if($id!=''){}else {echo 'displaynone'; }?>">
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>Certificate Start Range</label>
-								<input type="text" value="<?php echo $allocate_start; ?>" disabled>
-								<input type="hidden" name="allocate_start" value="<?php echo $allocate_start; ?>">
+								<div class="<?php if($coc_type=='1'){echo 'displaynone';} ?>">
+									<label>Certificate Start Range</label>
+									<input type="text" value="<?php echo $allocate_start; ?>" disabled>
+									<input type="hidden" name="allocate_start" value="<?php echo $allocate_start; ?>">
+								</div>
 								<!-- <select name="designation" class="form-control">
 									<option value="1">Select from COC data range</option>
 								</select> -->
@@ -259,9 +261,11 @@ $allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>Certificate End Range</label>
-								<input type="text" value="<?php echo $allocate_end; ?>" disabled>
-								<input type="hidden" name="allocate_end" value="<?php echo $allocate_end; ?>">
+								<div class="<?php if($coc_type=='1'){echo 'displaynone';} ?>">
+									<label>Certificate End Range</label>
+									<input type="text" value="<?php echo $allocate_end; ?>" disabled>
+									<input type="hidden" name="allocate_end" value="<?php echo $allocate_end; ?>">
+								</div>
 								<!-- <select name="designation" class="form-control">
 									<option value="1">Select from COC data range</option>
 								</select> -->
@@ -293,7 +297,7 @@ $allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
 					<thead>
 						<tr>
 							<th>OrderID</th>
-							<!-- <th>Inv Number</th>
+							<th>Inv Number</th>
 							<th>Date of order</th>
 							<th>Payment Status</th>
 							<th>Internal Inv Number</th>
@@ -303,7 +307,7 @@ $allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
 							<th>Delivery Method</th>
 							<th>Delivery Address</th>
 							<th>Tracking Number</th>
-							<th>Action</th> -->
+							<th>Action</th>
 						</tr>
 					</thead>
 				</table>
@@ -391,17 +395,17 @@ $(function(){
 		url 	: 	'<?php echo base_url()."admin/cocstatement/cocorders/index/DTCocOrder"; ?>',
 		columns : 	[
 						{ "data": "id" },
-						// { "data": "inv_id" },
-						// { "data": "created_at" },
-						// { "data": "status" },
-						// { "data": "internal_inv" },
-						// { "data": "user_id" },
-						// { "data": "coc_type" },
-						// { "data": "quantity" },
-						// { "data": "delivery_type" },
-						// { "data": "address" },
-						// { "data": "tracking_no" },
-						// { "data": "action" }
+						{ "data": "inv_id" },
+						{ "data": "created_at" },
+						{ "data": "status" },
+						{ "data": "internal_inv" },
+						{ "data": "user_id" },
+						{ "data": "coc_type" },
+						{ "data": "quantity" },
+						{ "data": "delivery_type" },
+						{ "data": "address" },
+						{ "data": "tracking_no" },
+						{ "data": "action" }
 					]
 	};
 	
