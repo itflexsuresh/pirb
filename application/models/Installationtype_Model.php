@@ -6,7 +6,6 @@ class Installationtype_Model extends CC_Model
 	{
 		$this->db->select('*');
 		$this->db->from('installationtype');
-		$this->db->order_by("id", "desc");
 		
 		if(isset($requestdata['id'])) 				$this->db->where('id', $requestdata['id']);
 		if(isset($requestdata['designation'])) 		$this->db->where("FIND_IN_SET('".$requestdata['designation']."', designation)");
@@ -15,7 +14,7 @@ class Installationtype_Model extends CC_Model
 		
 		if(isset($requestdata['specialisations']) && count($requestdata['specialisations']) > 0){
 			foreach($requestdata['specialisations'] as $specialisations){
-				$this->db->where("FIND_IN_SET('".$specialisations."', specialisations)");
+				$this->db->or_where("FIND_IN_SET('".$specialisations."', specialisations)");
 			}
 		}
 		
