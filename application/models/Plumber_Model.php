@@ -20,22 +20,16 @@ class Plumber_Model extends CC_Model
 								'c.company_name as companyname' 
 							];
 		
-		$workphone		=[
-								's.work_phone as workphone1'
-							];
-
 		$this->db->select('
 			'.implode(',', $users).',
 			'.implode(',', $usersdetail).',
 			'.implode(',', $usersplumber).',
 			'.implode(',', $companyname).',
-			'.implode(',', $workphone).',
 			concat_ws("@-@", ua1.id, ua1.user_id, ua1.address, ua1.suburb, ua1.city, ua1.province, ua1.postal_code, ua1.type)  as physicaladdress,
 			concat_ws("@-@", ua2.id, ua2.user_id, ua2.address, ua2.suburb, ua2.city, ua2.province, ua2.postal_code, ua2.type)  as postaladdress,
 			concat_ws("@-@", ua3.id, ua3.user_id, ua3.address, ua3.suburb, ua3.city, ua3.province, ua3.postal_code, ua3.type)  as billingaddress,
 			group_concat(concat_ws("@@@", ups.id, ups.user_id, ups.date, ups.certificate, ups.skills, ups.training, ups.attachment, qr.name) separator "@-@") as skills
 		');
-		$this->db->from('settings_details s');
 		$this->db->from('users u');
 		$this->db->join('users_detail ud', 'ud.user_id=u.id', 'left');
 		$this->db->join('users_address ua1', 'ua1.user_id=u.id and ua1.type="1"', 'left');
