@@ -155,7 +155,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Alternate Contact</label>
-								<input type="text" class="form-control" name="alternate_no" value="<?php echo $alternateno; ?>">
+								<input type="text" class="form-control" name="alternate_no" id="alternate_no" value="<?php echo $alternateno; ?>">
 							</div>
 						</div>
 
@@ -461,7 +461,7 @@ $(function(){
 	fileupload([".file2_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file2[]', '.file2append', filepath, pdfimg], 'multiple');
 	fileupload(["#nc_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.ncfileappend', filepath, pdfimg], 'multiple');
 	subtype(['#nc_installationtype','#nc_subtype'], ['']);
-	inputmask('#contact_no', 1);
+	inputmask('#contact_no, #alternate_no', 1);
 	
 	var noncompliancelists = $.parseJSON('<?php echo json_encode($noncompliance); ?>');
 	if(noncompliancelists.length > 0){
