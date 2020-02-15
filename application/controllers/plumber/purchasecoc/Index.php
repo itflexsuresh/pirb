@@ -155,7 +155,7 @@ class Index extends CC_Controller
 				 //print_r($requestData);die;
 
 				$requestData1['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
-				$requestData1['user_id']		= 	$user_id;
+				$requestData1['user_id']		= 	$userid;
 				$requestData1['vat']			= 	$requestData['vat'];
 				$requestData1['delivery_type'] 	= 	$requestData['delivery_type'];
 				$requestData1['total_cost'] 	= 	$requestData['total_due'];
