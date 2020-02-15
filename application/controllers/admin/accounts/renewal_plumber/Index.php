@@ -378,11 +378,6 @@ class Index extends CC_Controller
 
 		echo json_encode($json);
 	}
-
-
-	
-
-
 	
 }
 
