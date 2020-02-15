@@ -96,8 +96,8 @@ class Index extends CC_Controller
 		$pagedata['province'] 			= $this->getProvinceList();
 		$pagedata['designation2'] 		= $this->config->item('designation2');
 		$pagedata['installationtype']	= $this->getInstallationTypeList();
-		$pagedata['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => [$userdata['designation']], 'specialisations' => []]);
-		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => [$userdata['designation']], 'specialisations' => $specialisations]);
+		$pagedata['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => []]);
+		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations]);
 		$pagedata['noncompliance']		= $this->Noncompliance_Model->getList('all', ['user_id' => $userdata['id']]);
 		$pagedata['coclist']			= $this->Coc_Model->getCOCList('row', ['id' => $id]);
 		$pagedata['result']				= $this->Coc_Model->getCOCLog('row', ['coc_id' => $id]);
