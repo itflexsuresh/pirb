@@ -288,7 +288,7 @@ $allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
 					</div>					
 				</form>
 
-				<div class="row add_top_value add_scroll">
+				<div class="row add_top_value">
 					<div class="row mb_20">
 						<a href="<?php echo base_url(); ?>/admin/cocstatement/cocorders/index" class="active_link_btn">PENDING</a>
 						<a href="<?php echo base_url(); ?>/admin/cocstatement/cocorders/index/index/closed" class="archive_link_btn">CLOSED</a>
