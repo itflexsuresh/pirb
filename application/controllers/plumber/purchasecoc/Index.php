@@ -325,11 +325,12 @@ td {
 
 			$body = str_replace($array1, $array2, $template['email_body']);
 
-		 	if ($template['email_active'] == '1') {
+		 	//if ($template['email_active'] == '1') {
 
 		 		$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body,$filePath.$pdfFilePath);
-		 	}
+		 	//}
 			 	}
+			 	print_r($template);
 			 	die;
 					echo $result0;
 
