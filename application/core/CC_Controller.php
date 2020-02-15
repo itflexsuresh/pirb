@@ -222,7 +222,7 @@ class CC_Controller extends CI_Controller
 								$body 	= str_replace(['{Plumbers Name and Surname}', '{email}'], [$result['name'].' '.$result['surname'], $result['email']], $notificationdata['email_body']);
 								$this->CC_Model->sentMail($plumberdata['email'], $notificationdata['subject'], $body);
 							}
-						}elseif($requestData['approvalstatus']=='1'){
+						}elseif($requestData['approvalstatus']=='2'){
 							$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '6', 'emailstatus' => '1']);
 				
 							if($notificationdata){
