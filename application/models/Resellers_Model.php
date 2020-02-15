@@ -93,9 +93,6 @@ class Resellers_Model extends CC_Model
 		$users 			= 	[ 
 								'u.id','u.email','u.formstatus','u.status' ,'u.password_raw'
 							];
-		$count 			= 	[ 
-								'cc.count as cccount'
-							];
 		$usersdetail 	= 	[ 
 								'ud.id as usersdetailid','ud.user_id as usersid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.company','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit', 'ud.vat_vendor'
 							];
@@ -103,7 +100,6 @@ class Resellers_Model extends CC_Model
 		$this->db->select('
 			'.implode(',', $users).',
 			'.implode(',', $usersdetail).',
-			'.implode(',', $count).',
 			concat_ws("@-@", ua1.id, ua1.user_id, ua1.address, ua1.suburb, ua1.city, ua1.province, ua1.postal_code, ua1.type)  as physicaladdress,
 			concat_ws("@-@", ua2.id, ua2.user_id, ua2.address, ua2.suburb, ua2.city, ua2.province, ua2.postal_code, ua2.type)  as postaladdress,
 			concat_ws("@-@", ua3.id, ua3.user_id, ua3.address, ua3.suburb, ua3.city, ua3.province, ua3.postal_code, ua3.type)  as billingaddress');
@@ -112,8 +108,7 @@ class Resellers_Model extends CC_Model
 		$this->db->join('users_detail ud', 'ud.user_id=u.id', 'left');
 		$this->db->join('users_address ua1', 'ua1.user_id=u.id and ua1.type="1"', 'left');
 		$this->db->join('users_address ua2', 'ua2.user_id=u.id and ua2.type="2"', 'left');
-		$this->db->join('users_address ua3', 'ua3.user_id=u.id and ua3.type="3"', 'left');	
-		$this->db->join('coc_count cc', 'cc.user_id=u.id', 'left');	
+		$this->db->join('users_address ua3', 'ua3.user_id=u.id and ua3.type="3"', 'left');		
 		
 		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);
 
@@ -229,19 +224,19 @@ class Resellers_Model extends CC_Model
 		}
 
 
-		$request10['count']  = $data['coc_purchase_limit'];
-		$request10['user_id'] = $usersid;
-		$request10['created_by'] = $usersid;
-		$request10['created_at'] = $datetime;
-		$coccountid	= 	$data['coccountid'];
+		// $request10['count']  = $data['coc_purchase_limit'];
+		// $request10['user_id'] = $usersid;
+		// $request10['created_by'] = $usersid;
+		// $request10['created_at'] = $datetime;
+		// $coccountid	= 	$data['coccountid'];
 		// echo $request10; exit;
-		if($coccountid==''){
-			$coccount = $this->db->insert('coc_count', $request10);
-			$coccountinsertid = $this->db->insert_id();
-		}else{
-			$coccount = $this->db->update('coc_count', $request10, ['id' => $coccountid]);
-			$coccountinsertid = $coccountid;
-		}
+		// if($coccountid==''){
+		// 	$coccount = $this->db->insert('coc_count', $request10);
+		// 	$coccountinsertid = $this->db->insert_id();
+		// }else{
+		// 	$coccount = $this->db->update('coc_count', $request10, ['id' => $coccountid]);
+		// 	$coccountinsertid = $coccountid;
+		// }
 				
 		// if(isset($data['province'])) 				$request3['province'] 			= $data['province'];
 		// if(isset($data['city'])) 				$request3['city'] 			= $data['city'];
