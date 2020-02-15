@@ -98,10 +98,18 @@ class Index extends CC_Controller
 		$pagedata['installationtype']	= $this->getInstallationTypeList();
 		$pagedata['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => []]);
 		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations]);
-		$pagedata['noncompliance']		= $this->Noncompliance_Model->getList('all', ['user_id' => $userdata['id']]);
 		$pagedata['coclist']			= $this->Coc_Model->getCOCList('row', ['id' => $id]);
 		$pagedata['result']				= $this->Coc_Model->getCOCLog('row', ['coc_id' => $id]);
-	
+		
+		$noncompliance					= $this->Noncompliance_Model->getList('all', ['user_id' => $userdata['id']]);		
+		$pagedata['noncompliance']		= [];
+		foreach($noncompliance as $compliance){
+			$pagedata['noncompliance'][] = [
+				'id' 		=> $compliance['id'],
+				'details' 	=> str_replace("\n","\\n", $compliance['details'])
+			];
+		}
+		
 		$data['plugins']				= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker', 'inputmask'];
 		$data['content'] 				= $this->load->view('plumber/cocstatement/action', (isset($pagedata) ? $pagedata : ''), true);
 		

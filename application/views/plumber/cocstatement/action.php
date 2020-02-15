@@ -463,7 +463,7 @@ $(function(){
 	subtype(['#nc_installationtype','#nc_subtype'], ['']);
 	inputmask('#contact_no', 1);
 	
-	var noncompliancelists = $.parseJSON('<?php echo json_encode((count($noncompliance) > 0 ? $noncompliance : [])); ?>');
+	var noncompliancelists = $.parseJSON('<?php echo json_encode($noncompliance); ?>');
 	if(noncompliancelists.length > 0){
 		$(noncompliancelists).each(function(i, v){
 			var noncompliancedata 	= {status : 1, result : { id: v.id, details: v.details }}
