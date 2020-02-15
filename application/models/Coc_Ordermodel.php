@@ -339,8 +339,8 @@ class Coc_Ordermodel extends CC_Model
 
 	public function autosearchReseller($postData){
 		
-		$this->db->select('concat(ud.name, " ", ud.surname) as name,cc.count,u.id, "0" as coc_electronic');
-		// $this->db->select('ud.company as name,cc.count,u.id, "0" as coc_electronic');
+		// $this->db->select('concat(ud.name, " ", ud.surname) as name,cc.count,u.id, "0" as coc_electronic');
+		$this->db->select('ud.company as name,cc.count,u.id, "0" as coc_electronic');
 		$this->db->from('users_detail ud');
 		$this->db->join('users u', 'u.id=ud.user_id','inner');
 		$this->db->join('coc_count cc', 'cc.user_id=ud.user_id','inner');
