@@ -1,7 +1,8 @@
 <?php 
-$designation = $userdata['designation'];
-$type 		 = $userdata['type']; 
-$formstatus  = $userdata['formstatus']; 
+$designation 	= $userdata['designation'];
+$approvalstatus = $userdata['approvalstatus'];
+$type 		 	= $userdata['type']; 
+$formstatus  	= $userdata['formstatus']; 
 ?>
 <aside class="left-sidebar">
 	<div class="scroll-sidebar">
@@ -115,7 +116,7 @@ $formstatus  = $userdata['formstatus'];
                     ?>
                       
 						
-						<?php if ($designation == '4' || $designation == '6') {
+						<?php if (($designation == '4' || $designation == '6') && $approvalstatus=='1') {
 							?>
 							<li><a href="<?php echo base_url().'plumber/purchasecoc/index'; ?>">Purchase COC</a></li>
 							<li><a href="<?php echo base_url().'plumber/cocstatement/index'; ?>">COC Statement</a></li>
