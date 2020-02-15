@@ -181,6 +181,7 @@ class CC_Controller extends CI_Controller
 		$data['company'] 			= $this->getCompanyList();
 		$data['designation2'] 		= $this->config->item('designation2');
 		$data['specialisations'] 	= $this->config->item('specialisations');
+		$data['settings'] 			= $this->Systemsettings_Model->getList();
 		
 		$data['result'] = $this->Plumber_Model->getList('row', ['id' => $userid]);
 		return $this->load->view('common/card', $data, true) ;
@@ -214,15 +215,15 @@ class CC_Controller extends CI_Controller
 			if(isset($data)){
 				
 				if(isset($requestData['submit']) && $requestData['submit']=='approvalsubmit'){
-					if(isset($requestData['approvalstatus'])){
-						if($requestData['approvalstatus']=='1'){
+					if(isset($requestData['approval_status'])){
+						if($requestData['approval_status']=='1'){
 							$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '5', 'emailstatus' => '1']);
 				
 							if($notificationdata){
 								$body 	= str_replace(['{Plumbers Name and Surname}', '{email}'], [$result['name'].' '.$result['surname'], $result['email']], $notificationdata['email_body']);
 								$this->CC_Model->sentMail($plumberdata['email'], $notificationdata['subject'], $body);
 							}
-						}elseif($requestData['approvalstatus']=='2'){
+						}elseif($requestData['approval_status']=='2'){
 							$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '6', 'emailstatus' => '1']);
 				
 							if($notificationdata){
