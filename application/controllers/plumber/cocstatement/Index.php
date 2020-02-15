@@ -29,6 +29,7 @@ class Index extends CC_Controller
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
+			$action = '';
 			foreach($results as $result){
 				if($result['coc_status']=='5'){
 					$action = '<a href="'.base_url().'plumber/cocstatement/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>';
