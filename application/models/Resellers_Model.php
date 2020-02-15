@@ -128,7 +128,7 @@ class Resellers_Model extends CC_Model
 	
 	public function action($data)
 	{
-		$this->db->trans_begin();
+		// $this->db->trans_begin();
 
 		// print_r($data); exit;
 		
@@ -151,6 +151,7 @@ class Resellers_Model extends CC_Model
 			if($usersid==''){					
 				$users = $this->db->insert('users', $request);
 				$usersid = $this->db->insert_id();
+				// echo $usersid; die;
 
 				if(isset($data['coc_purchase_limit']) && ($data['coc_purchase_limit'] > 0) ) {
 					$count = $data['coc_purchase_limit'];
@@ -159,7 +160,7 @@ class Resellers_Model extends CC_Model
 						$updata['type'] = '2';	
 						$updata['coc_status']='3';		
 						$this->db->limit(1);
-						$this->db->update('stock_management', $updata, ['user_id' => '0']);
+						$stock_management = $this->db->update('stock_management', $updata, ['user_id' => '0']);
 					}
 				}
 
@@ -224,19 +225,19 @@ class Resellers_Model extends CC_Model
 		}
 
 
-		// $request10['count']  = $data['coc_purchase_limit'];
-		// $request10['user_id'] = $usersid;
-		// $request10['created_by'] = $usersid;
-		// $request10['created_at'] = $datetime;
-		// $coccountid	= 	$data['coccountid'];
+		$request10['count']  = $data['coc_purchase_limit'];
+		$request10['user_id'] = $usersid;
+		$request10['created_by'] = $usersid;
+		$request10['created_at'] = $datetime;
+		$coccountid	= 	$data['coccountid'];
 		// echo $request10; exit;
-		// if($coccountid==''){
-		// 	$coccount = $this->db->insert('coc_count', $request10);
-		// 	$coccountinsertid = $this->db->insert_id();
-		// }else{
-		// 	$coccount = $this->db->update('coc_count', $request10, ['id' => $coccountid]);
-		// 	$coccountinsertid = $coccountid;
-		// }
+		if($coccountid==''){
+			$coccount = $this->db->insert('coc_count', $request10);
+			$coccountinsertid = $this->db->insert_id();
+		}else{
+			$coccount = $this->db->update('coc_count', $request10, ['id' => $coccountid]);
+			$coccountinsertid = $coccountid;
+		}
 				
 		// if(isset($data['province'])) 				$request3['province'] 			= $data['province'];
 		// if(isset($data['city'])) 				$request3['city'] 			= $data['city'];
@@ -267,11 +268,12 @@ class Resellers_Model extends CC_Model
 		// 	$usersaddress1 = $this->db->update('users_address', $request4, ['id' => $request4['id']]);
 		// 	$usersaddressinsertids[$request4['type']] = $request4['id'];
 		// }
-		// $idarray['usersaddressinsertid1'] = $usersaddressinsertids;
+		// $idarray['usersaddressinsertid1'] = $usersaddressinsertids; 
+
 		
 				
 				
-		if((isset($usersdetail) || isset($usersaddress) || isset($usersaddress1) || isset($users)) && $this->db->trans_status() === FALSE)
+		if($this->db->trans_status() === FALSE)
 		{
 			$this->db->trans_rollback();
 			return false;
