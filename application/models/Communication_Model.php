@@ -9,6 +9,9 @@ class Communication_Model extends CC_Model
 			t2.id,
 			t2.category_id,
 			t2.name,
+			t2.subject,
+			t2.email_body,
+			t2.sms_body,
 			t2.email_active,
 			t2.sms_active');
 		$this->db->from('email_notification_category t1');
