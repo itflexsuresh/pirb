@@ -13,18 +13,18 @@
 	$specialisationsid 		= isset($result['specialisations']) ? array_filter(explode(',', $result['specialisations'])) : '';
 	$companyname		= isset($result['companyname']) ? $result['companyname'] : '';
 
-	$workphone			= isset($result['workphone1']) ? $result['workphone1'] : '';
+	$work_phone			= isset($settings['work_phone']) ? $settings['work_phone'] : '';
 
 	$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/';
 	$pdfimg 				= base_url().'assets/images/pdf.png';
 	$profileimg 			= base_url().'assets/images/profile.jpg';
-	$logo  					= base_url().'assets/images/logo.png';
-	$spl1  					= base_url().'assets/images/Solar.png';
-	$spl2  					= base_url().'assets/images/Gas.png';
-	$spl3  					= base_url().'assets/images/Estimator.png';
-	$spl4  					= base_url().'assets/images/Heatpump.png';
-	$spl5  					= base_url().'assets/images/Training Assessor.png';
-	$spl6  					= base_url().'assets/images/Arbitrator.png';
+	$logo  					= base_url().'assets/images/card/logo.png';
+	$spl1  					= base_url().'assets/images/card/Solar.png';
+	$spl2  					= base_url().'assets/images/card/Gas.png';
+	$spl3  					= base_url().'assets/images/card/Estimator.png';
+	$spl4  					= base_url().'assets/images/card/Heatpump.png';
+	$spl5  					= base_url().'assets/images/card/Training Assessor.png';
+	$spl6  					= base_url().'assets/images/card/Arbitrator.png';
 
 
 	$file2 					= isset($result['file2']) ? $result['file2'] : '';
@@ -135,7 +135,7 @@
 					<td style="border-right: 1px solid #000; height: 92px;">
 						<p class="emp_title">Current Employer: </p> 
 						<p class="plumber_name add_style"><?php echo  $companyname; ?></p>
-						<p style="width: 100%;">Lost or Found <?php echo $workphone; ?> <br>
+						<p style="width: 100%;">Lost or Found <?php echo $work_phone; ?> <br>
 						Verification can be done via www.pirb.co.za</p>
 					</td>
 					<?php if($designation2id != '1' and $designation2id != '2' and $designation2id != '3'){ ?>
