@@ -270,7 +270,9 @@ class Plumber_Model extends CC_Model
 	
 	public function plumberregistrationno($id, $value, $year)
 	{
-		$count = $this->getList('count', ['type' => '3']);
+		$count = $this->getList('count', ['type' => '3', 'approvalstatus' => ['1']]);
+		$count = $count+1;
+		
 		$row = $this->getList('row', ['id' => $id, 'type' => '3']);
 		
 		if(isset($row['registration_no']) && $row['registration_no']!=''){
