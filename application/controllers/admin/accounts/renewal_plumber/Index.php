@@ -112,7 +112,7 @@ class Index extends CC_Controller
 				$rowData2 = $this->Coc_Model->getPermissions1('row', ['id' => $inv_id, 'status' => ['0','1']]);
 				$amount =	$rowData['total_due']*$rowData['quantity'];
 				$invoiceDate = date("d-m-Y", strtotime($rowData['created_at']));
-
+				
 				if ($rowData['coc_type'] == '1') {
 					$coc_type_id = 13;
 					$delivery_rate['amount'] = 0;
@@ -180,7 +180,7 @@ class Index extends CC_Controller
 					<div style="border: 1px solid; width: 70%; margin-top: 40px; margin-left: 20px;">
 					<p style="border-bottom: 1px solid #000; margin-top: 10px; padding: 0 10px 10px 10px; font-weight: 600;">Company Details</p>
 					<p>'.$rowData2['address'].'</p>
-					<p>'.$addrpirb[1].'</p>
+					<p>'.$rowData2['name'].'</p>
 					<p>'.$rowData2['suburb'].'</p>
 					<p>'.$rowData2['city'].'</p>
 					<p>'.$rowData1['work_phone'].'</p>
