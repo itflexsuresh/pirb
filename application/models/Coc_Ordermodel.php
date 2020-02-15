@@ -355,6 +355,5 @@ class Coc_Ordermodel extends CC_Model
 			
 		return $result;
 	}
-
 	
 }
