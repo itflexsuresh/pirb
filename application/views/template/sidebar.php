@@ -107,8 +107,8 @@ $formstatus  = $userdata['formstatus'];
                        $currentDate = date('Y-m-d');
                        $startdate   = date('Y-m-d',strtotime($value['startdate']));
                        $enddate = date('Y-m-d',strtotime($value['enddate']));
-                       if ($enddate>=$currentDate && $enddate<=$currentDate){
-                       	$msg = $msg.$value['message'].',</br>'; 
+                       if $currentDate>= $startdate && $startdate<=$currentDate && $enddate>=$currentDate){
+                       	$msg = $msg.$value['message'].'</br></br>'; 
 							
                             }
                        }
@@ -119,9 +119,12 @@ $formstatus  = $userdata['formstatus'];
 							?>
 							<li><a href="<?php echo base_url().'plumber/purchasecoc/index'; ?>">Purchase COC</a></li>
 							<li><a href="<?php echo base_url().'plumber/cocstatement/index'; ?>">COC Statement</a></li>
-							 <div id="message">
+
+							<?php if($msg!=''){?>
+						<div id="message">
 							<?php echo $msg;?>
-						</div>
+						</div><?php }?>
+
 							<?php
 						} ?>
 					<?php }elseif($formstatus=='0'){ ?>
@@ -146,16 +149,18 @@ $formstatus  = $userdata['formstatus'];
                        $currentDate = date('Y-m-d');
                        $startdate   = date('Y-m-d',strtotime($value['startdate']));
                        $enddate = date('Y-m-d',strtotime($value['enddate']));
-                       if ($enddate>=$currentDate && $enddate<=$currentDate){
-                       	$msg = $msg.$value['message'].',</br>'; 
+                       if ($currentDate>= $startdate && $startdate<=$currentDate && $enddate>=$currentDate){
+                       	$msg = $msg.$value['message'].'</br></br>'; 
 							
                             }
                        }
                     
 						?>
+						<?php if($msg!=''){?>
+
 						<div id="message">
 							<?php echo $msg;?>
-						</div>
+						</div><?php }?>
 						 
 				<?php }elseif($type=='5'){ 
                       $this->db->select('*');
@@ -169,17 +174,19 @@ $formstatus  = $userdata['formstatus'];
                        $currentDate = date('Y-m-d');
                        $startdate   = date('Y-m-d',strtotime($value['startdate']));
                        $enddate = date('Y-m-d',strtotime($value['enddate']));
-                       if ($enddate>=$currentDate && $enddate<=$currentDate){
-                       	$msg = $msg.$value['message'].',</br>'; 
+                       if ($currentDate>= $startdate && $startdate<=$currentDate && $enddate>=$currentDate){
+                       	$msg = $msg.$value['message'].'</br></br>'; 
 							
                             }
                        }
 					?>
 					<li><a href="javascript:void(0);">Dashboard</a></li>
 					<li><a href="<?php echo base_url().'auditor/profile/index'; ?>">My Profile</a></li>
-					<div id="message">
+					<?php if($msg!=''){?>
+						<div id="message">
 							<?php echo $msg;?>
-					</div>
+						</div><?php }?>
+
 				<?php }elseif($type=='6'){
 					
                       $this->db->select('*');
@@ -193,8 +200,8 @@ $formstatus  = $userdata['formstatus'];
                        $currentDate = date('Y-m-d');
                        $startdate   = date('Y-m-d',strtotime($value['startdate']));
                        $enddate = date('Y-m-d',strtotime($value['enddate']));
-                       if ($enddate>=$currentDate && $enddate<=$currentDate){
-                       	$msg = $msg.$value['message'].',</br>'; 
+                       if ($currentDate>= $startdate && $startdate<=$currentDate && $enddate>=$currentDate){
+                       	$msg = $msg.$value['message'].'</br></br>'; 
 							
                             }
                        }
@@ -203,9 +210,11 @@ $formstatus  = $userdata['formstatus'];
                     <li><a href="<?php echo base_url().'resellers/cocstatement/index'; ?>">COC Statement</a></li>
 					<li><a href="<?php echo base_url().'resellers/allocatecoc/index'; ?>">Allocate COC</a></li>
 					<li><a href="<?php echo base_url().'resellers/profile/index'; ?>">My Profile</a></li>
-					<div id="message">
+					 <?php if($msg!=''){?>
+
+						<div id="message">
 							<?php echo $msg;?>
-					</div>
+						</div><?php }?>
 					
 				<?php } ?>	
 							
