@@ -673,6 +673,8 @@ $('.noncompliancesubmit').click(function(){
 
 function noncompliance(data){
 	if(data.status==1){		
+		var result 		= 	data.result; 
+		
 		if(actionbtn=='1'){
 			var complianceaction 	= 	'<td>\
 											<a href="javascript:void(0);" class="noncomplianceedit" data-id="'+result.id+'"><i class="fa fa-pencil-alt"></i></a>\
@@ -683,8 +685,6 @@ function noncompliance(data){
 			var complianceaction 	= 	'';
 			var detailcol			=	'2';
 		}
-		
-		var result 		= 	data.result; 
 		
 		$(document).find('.noncomplianceappend[data-id="'+result.id+'"]').remove();
 		
