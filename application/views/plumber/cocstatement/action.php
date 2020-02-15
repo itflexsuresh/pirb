@@ -148,7 +148,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Contact Mobile *</label>
-								<input type="text" class="form-control" name="contact_no" value="<?php echo $contactno; ?>">
+								<input type="text" class="form-control" name="contact_no" id="contact_no" value="<?php echo $contactno; ?>">
 							</div>
 						</div>
 
@@ -195,34 +195,35 @@
 							?>
 						</table>
 
-
-						<table class="table table-bordered table-striped datatables fullwidth add_top_value_v2">
-							<tr>
-								<th colspan="2">Specialisations: To be Carried Out by <?php echo $designation2[$userdata['designation']]; ?> Only Registered to do the Specialised work</th>
-								<th style="text-align: center;">Code</th>
-								<th style="text-align: center;">Tick</th>
-							</tr>
-							<tr>
-								<td colspan="4">(Clearly tick the appropriate Installation Category Code and complete the installation details below)</td>
-							</tr>
-							<?php
-								foreach ($specialisations as $key => $value) {
-							?>
-									<tr>
-										<td colspan="2"><?php echo $value['name']; ?></td>
-										<td style="text-align: center;"><?php echo $value['code']; ?></td>
-										<td style="text-align: center;">
-											<div class="custom-control custom-checkbox">
-												<input type="checkbox" name="specialisations[]" class="custom-control-input" id="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>" value="<?php echo $key; ?>" <?php echo (in_array($key, $specialisationsid)) ? 'checked="checked"' : ''; ?>>
-												<label class="custom-control-label" for="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>"></label>
-											</div>
-										</td>
-									</tr>
-							<?php
-								}
-							?>
-						</table>
-
+						<?php if(count($specialisations) > 0){ ?>
+							<table class="table table-bordered table-striped datatables fullwidth add_top_value_v2">
+								<tr>
+									<th colspan="2">Specialisations: To be Carried Out by <?php echo $designation2[$userdata['designation']]; ?> Only Registered to do the Specialised work</th>
+									<th style="text-align: center;">Code</th>
+									<th style="text-align: center;">Tick</th>
+								</tr>
+								<tr>
+									<td colspan="4">(Clearly tick the appropriate Installation Category Code and complete the installation details below)</td>
+								</tr>
+								<?php
+									foreach ($specialisations as $key => $value) {
+								?>
+										<tr>
+											<td colspan="2"><?php echo $value['name']; ?></td>
+											<td style="text-align: center;"><?php echo $value['code']; ?></td>
+											<td style="text-align: center;">
+												<div class="custom-control custom-checkbox">
+													<input type="checkbox" name="specialisations[]" class="custom-control-input" id="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>" value="<?php echo $key; ?>" <?php echo (in_array($key, $specialisationsid)) ? 'checked="checked"' : ''; ?>>
+													<label class="custom-control-label" for="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>"></label>
+												</div>
+											</td>
+										</tr>
+								<?php
+									}
+								?>
+							</table>
+						<?php } ?>
+						
 						<table class="table table-bordered table-striped datatables fullwidth add_top_value_v2">
 							<tr>
 								<th colspan="2">Installation Details</th>
@@ -454,12 +455,13 @@ var installationcount			= '<?php echo count($installation); ?>';
 var specialisationscount		= '<?php echo count($specialisations); ?>';
 
 $(function(){
-	datepicker('.completion_date', ['currentdate']);
+	datepicker('.completion_date', ['enddate']);
 	citysuburb(['#province','#city', '#suburb'], ['<?php echo $cityid; ?>', '<?php echo $suburbid; ?>']);
 	fileupload([".file1_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.file1', '.file1_img', filepath, pdfimg]);
 	fileupload([".file2_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file2[]', '.file2append', filepath, pdfimg], 'multiple');
 	fileupload(["#nc_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.ncfileappend', filepath, pdfimg], 'multiple');
 	subtype(['#nc_installationtype','#nc_subtype'], ['']);
+	inputmask('#contact_no', 1);
 	
 	var noncompliancelists = $.parseJSON('<?php echo json_encode($noncompliance); ?>');
 	if(noncompliancelists.length > 0){
@@ -495,6 +497,9 @@ $(function(){
 			},
 			contact_no:{
 				required    : true
+			},
+			email:{
+				email : true
 			},
 			installation_detail:{
 				required    : true
@@ -540,6 +545,9 @@ $(function(){
 			},
 			contact_no:{
 				required    : "Please fill the contact no"
+			},
+			email:{
+				email : 'Please fill email with valid email address'
 			},
 			installation_detail:{
 				required    : "Please fill the installation details"

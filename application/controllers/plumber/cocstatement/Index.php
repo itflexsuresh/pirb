@@ -80,7 +80,7 @@ class Index extends CC_Controller
 
 			$data 	=  $this->Coc_Model->actionCocLog($requestData);
 		
-			if($data) $this->session->set_flashdata('success', 'Log '.(($id=='') ? 'created' : 'updated').' successfully.');
+			if($data) $this->session->set_flashdata('success', 'Thanks for Logging the COC.');
 			else $this->session->set_flashdata('error', 'Try Later.');
 		
 			redirect($extras['redirect']); 
@@ -102,7 +102,7 @@ class Index extends CC_Controller
 		$pagedata['coclist']			= $this->Coc_Model->getCOCList('row', ['id' => $id]);
 		$pagedata['result']				= $this->Coc_Model->getCOCLog('row', ['coc_id' => $id]);
 	
-		$data['plugins']				= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
+		$data['plugins']				= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker', 'inputmask'];
 		$data['content'] 				= $this->load->view('plumber/cocstatement/action', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$this->layout2($data);

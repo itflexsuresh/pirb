@@ -106,6 +106,7 @@ function datepicker(selector, extras=[]){
 	options['format'] = 'dd-mm-yyyy';
 	options['autoclose'] = true;
 	if($.inArray('currentdate', extras) != -1) options['startDate'] = new Date();
+	if($.inArray('enddate', extras) != -1) options['endDate'] = new Date();
 	
 	$(selector).datepicker(options);
 }
