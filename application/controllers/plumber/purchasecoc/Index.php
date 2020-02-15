@@ -331,6 +331,9 @@ td {
 		 	//}
 			 	}
 			 	print_r($userdata1['email']);
+			 	print_r($template['subject']);
+			 	print_r($body);
+			 	print_r($filePath.$pdfFilePath);
 			 	die;
 					echo $result0;
 
