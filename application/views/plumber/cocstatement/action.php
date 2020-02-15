@@ -18,7 +18,7 @@
 	$specialisationsid 		= isset($result['specialisations']) ? explode(',', $result['specialisations']) : [];
 	$installationdetail 	= isset($result['installation_detail']) ? $result['installation_detail'] : '';
 	$file1 					= isset($result['file1']) ? $result['file1'] : '';
-	$file2 					= isset($result['file2']) ? explode(',', $result['file2']) : [];
+	$file2 					= isset($result['file2']) ? array_filter(explode(',', $result['file2'])) : [];
 	$agreementid 			= isset($result['agreement']) ? explode(',', $result['agreement']) : [];
 	
 	$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/log/';
@@ -254,18 +254,19 @@
 					</div>
 
 					<div class="row">
-						<div class="col-md-6">
-							<h4 class="card-title add_top_value">Image of COC (Paper)</h4>
-							<div class="form-group">
-								<div>
-									<img src="<?php echo $file1img; ?>" class="file1_img" width="100">
+						<?php if($coctypeid=='2'){ ?>
+							<div class="col-md-6">
+								<h4 class="card-title add_top_value">Image of COC (Paper)</h4>
+								<div class="form-group">
+									<div>
+										<img src="<?php echo $file1img; ?>" class="file1_img" width="100">
+									</div>
+									<input type="file" id="file1_file" class="file1_file">
+									<input type="hidden" name="file1" class="file1" value="<?php echo $file1; ?>">
+									<p>(Image/File Size Smaller than 5mb)</p>
 								</div>
-								<input type="file" id="file1_file" class="file1_file">
-								<input type="hidden" name="file1" class="file1" value="<?php echo $file1; ?>">
-								<p>(Image/File Size Smaller than 5mb)</p>
 							</div>
-						</div>
-
+						<?php } ?>
 						<div class="col-md-12">
 							<h4 class="card-title add_top_value">Installation Images</h4>
 							<div class="form-group">
@@ -628,7 +629,7 @@ $('.file2_file').click(function(e){
 })
 
 $(document).on('click', '.savecocbtn', function(){
-	$('#submitbtn').attr('name', 'save').click();
+	$('#submitbtn').attr('value', 'save').click();
 })
 
 $(document).on('click', '.logcocbtn', function(){
@@ -661,7 +662,7 @@ $(document).on('click', '.verifyotp', function(){
 	$('.error_otp').remove();
 	
 	if($('#otp').val()==localstorage('get', 'logotp')){
-		$('#submitbtn').attr('name', 'log').click();
+		$('#submitbtn').attr('value', 'log').click();
 	}else{
 		$('#otp').parent().append('<p class="tagline error_otp">Incorrect OTP</p>');
 	}
