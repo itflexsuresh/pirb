@@ -107,7 +107,7 @@ $formstatus  = $userdata['formstatus'];
                        $currentDate = date('Y-m-d');
                        $startdate   = date('Y-m-d',strtotime($value['startdate']));
                        $enddate = date('Y-m-d',strtotime($value['enddate']));
-                       if $currentDate>= $startdate && $startdate<=$currentDate && $enddate>=$currentDate){
+                       if ($currentDate>= $startdate && $startdate<=$currentDate && $enddate>=$currentDate){
                        	$msg = $msg.$value['message'].'</br></br>'; 
 							
                             }
