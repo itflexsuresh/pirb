@@ -1,7 +1,6 @@
 <?php
 // 
-// echo "<pre>";
-// print_r(base_url());die;
+
 $plumberstatus 			= $userdata1['plumberstatus'];
 $mobile_phone 			= $username['mobile_phone'];
 $userid		 			= $username['id'];
@@ -11,6 +10,10 @@ $coc_purchase_limit   	= $username["coc_purchase_limit"];
 $electronic_coc_log   	= $username["coc_electronic"];
 $cocpaperwork 			= $cocpaperwork["amount"];
 $cocelectronic 			= $cocelectronic["amount"];
+
+$coc_counts 			= $coc_count['count'];
+// echo "<pre>";
+// print_r($coc_counts);die;
 
 $postage 				= $postage["amount"];
 $couriour 				= $couriour["amount"];
@@ -65,7 +68,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 						<div class="col-md-4">
 							<div class="form-group">
 								<label class="add_max_height">Number of Permitted COC's that you are able to purchase</label>
-								<input type="text" class="form-control" id="number_of_purchase_coc" name="number_of_purchase_coc" readonly>
+								<input type="text" class="form-control" id="number_of_purchase_coc" name="number_of_purchase_coc" readonly value="<?php echo $coc_counts; ?>">
 							</div>
 						</div>
 					</div>					
@@ -136,7 +139,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Number of COC's You wish to Purchase</label>
-								<input onchange="modifycost();" type="number" id="coc_purchase" class="form-control" min="1" value="1" name="coc_purchase" for="coc_purchase" max="<?php echo $coc_purchase_limit; ?>">
+								<input onchange="modifycost();" type="number" id="coc_purchase" class="form-control" min="1" value="1" name="coc_purchase" for="coc_purchase" max="<?php echo $coc_counts; ?>">
 							</div>
 						</div>
 						<div class="alert-msg">Your Purchase Limit is Reached</div>
@@ -295,8 +298,8 @@ if (in_array($plumberstatus, $plumber_status)) {
 		if ($('#log_coc').val()!='') {
 			var coccount = 0
 			coccount = Math.abs(parseInt($('#log_coc').val())-parseInt($('#coc_permitted').val()));
-			$('#number_of_purchase_coc').val(coccount);
-			$("#coc_purchase").attr('max', coccount);
+			//$('#number_of_purchase_coc').val(coccount);
+			//$("#coc_purchase").attr('max', coccount);
 		}
 		$("#coc_purchase").keyup(function(e){
 
@@ -401,7 +404,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 			async 		: true,
 			dataType 	: 'json',
 			method 		: 'POST',
-			data 		: { coc_type: cocType, delivery_type: delivery_type, cost_value: $('#coc_cost').val(), quantity: $('#coc_purchase').val(), vat: $('#vat').val(), total_due: $('#totaldue').val(), delivery_cost: delivery_cost,},
+			data 		: { coc_type: cocType, delivery_type: delivery_type, cost_value: $('#coc_cost').val(), quantity: $('#coc_purchase').val(), vat: $('#vat').val(), total_due: $('#totaldue').val(), delivery_cost: delivery_cost,permittedcoc: $('#number_of_purchase_coc').val(),},
 			success: function(data) {
 				if (data == 1) {
 					$('.form').prop('action','https://sandbox.payfast.co.za/eng/process');

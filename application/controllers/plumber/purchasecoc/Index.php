@@ -19,6 +19,7 @@ class Index extends CC_Controller
 		$userid 					=	$this->getUserID();
 		$userdata					= 	$this->getUserDetails();
 		$userdata1					= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
+		$userdatacoc_count			= 	$this->Coc_Model->COCcount(['user_id' => $userid]);
 
 		$pagedata['notification'] 	= 	$this->getNotification();
 		$pagedata['province'] 		= 	$this->getProvinceList();		
@@ -26,6 +27,7 @@ class Index extends CC_Controller
 		$pagedata['userdata']		= 	$userdata;
 		$pagedata['userdata1']		= 	$userdata1;
 		$pagedata['username']		= 	$userdata1;
+		$pagedata['coc_count']		= 	$userdatacoc_count;
 		$pagedata['deliverycard']	= 	$this->config->item('purchasecocdelivery');
 		$pagedata['coctype']		= 	$this->config->item('coctype');
 		$pagedata['settings']		= 	$this->Systemsettings_Model->getList('row');
@@ -47,6 +49,9 @@ class Index extends CC_Controller
 			if ($this->input->post()) {
 
 				$requestData = $this->input->post();
+				// $requestData0['count'] = $requestData['permittedcoc'] - $requestData['quantity'];
+				
+				// print_r($requestData0['count']);die;
 				$user_id	= 	$this->getUserID();
 
 				$requestData1['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
@@ -58,25 +63,28 @@ class Index extends CC_Controller
 				$requestData1['coc_type']		= 	$requestData['coc_type'];
 				
 				$result1 = $this->Coc_Model->action($requestData1, 1);
-				if ($result1) {
 					
 				
-					$requestData['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
-					$requestData['user_id']			= 	$this->getUserID();
-					$requestData['created_by']		= 	$this->getUserID();
-					$requestData['created_at']		= 	date('Y-m-d H:i:s');
-					$requestData['updated_at']		=	$requestData['created_at'];
-					$requestData['status']			= 	'0';
-					$requestData['inv_id']			= $result1;
+					$requestData2['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
+					$requestData2['user_id']			= 	$this->getUserID();
+					$requestData2['created_by']		= 	$this->getUserID();
+					$requestData2['created_at']		= 	date('Y-m-d H:i:s');
+					$requestData2['updated_at']		=	$requestData2['created_at'];
+					$requestData2['status']			= 	'0';
+					$requestData2['inv_id']			= $result1;
 
-					$result = $this->Coc_Model->action($requestData, 2);
+					$result = $this->Coc_Model->action($requestData2, 2);
+				
+					$requestData0['count'] 			= 	$requestData['permittedcoc'] - $requestData['quantity'];
+					$requestData0['user_id']		= 	$this->getUserID();
+					$requestData0['created_by']		= 	$this->getUserID();
+					$requestData0['created_at']		= 	date('Y-m-d H:i:s');
+
+			
+					$result0 = $this->Coc_Model->action($requestData0, 3);
+					echo $result0;
 
 					
-					
-					echo $result;
-
-
-				}
 				
 			}
 		}

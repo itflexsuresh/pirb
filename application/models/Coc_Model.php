@@ -62,7 +62,12 @@ class Coc_Model extends CC_Model
 		return $result;
 	}
 	*/
+	public function COCcount($requestdata=[]){
+		$query = $this->db->select('*')->from('coc_count')->where('user_id', $requestdata['user_id'])->get()->row_array();
+		//print_r($query);die;
+		return $query;
 
+	}
 	public function getListPDF($type, $requestdata=[]){
 		//print_r($requestdata);die;
 		        $query=$this->db->select('t1.*,t1.status,t1.created_at,
@@ -159,8 +164,11 @@ class Coc_Model extends CC_Model
 			$result 		= $this->db->insert('invoice',$requestdata);
 			$inv_id 		= $this->db->insert_id();
 			return $inv_id;
-		}else{
+		}elseif($flag == 2){
 			$result 		= $this->db->insert('coc_orders',$requestdata);
+		}
+		else{
+			$result 		= $this->db->update('coc_count',$requestdata);
 			if ($result) {
 				return '1';
 			}else{
