@@ -67,6 +67,7 @@ class Index extends CC_Controller
 		unlink($url);
 
 		$this->index();
+		redirect('admin/accounts/renewal_plumber/Index/'); 
 	}
 
 	public function Cron()
