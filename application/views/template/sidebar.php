@@ -107,7 +107,7 @@ $formstatus  = $userdata['formstatus'];
                        $currentDate = date('Y-m-d');
                        $startdate   = date('Y-m-d',strtotime($value['startdate']));
                        $enddate = date('Y-m-d',strtotime($value['enddate']));
-                       if ($enddate>=$currentDate){
+                       if ($enddate>=$currentDate && $enddate<=$currentDate){
                        	$msg = $msg.$value['message'].',</br>'; 
 							
                             }
@@ -146,7 +146,7 @@ $formstatus  = $userdata['formstatus'];
                        $currentDate = date('Y-m-d');
                        $startdate   = date('Y-m-d',strtotime($value['startdate']));
                        $enddate = date('Y-m-d',strtotime($value['enddate']));
-                       if ($enddate>=$currentDate){
+                       if ($enddate>=$currentDate && $enddate<=$currentDate){
                        	$msg = $msg.$value['message'].',</br>'; 
 							
                             }
@@ -169,7 +169,7 @@ $formstatus  = $userdata['formstatus'];
                        $currentDate = date('Y-m-d');
                        $startdate   = date('Y-m-d',strtotime($value['startdate']));
                        $enddate = date('Y-m-d',strtotime($value['enddate']));
-                       if ($enddate>=$currentDate){
+                       if ($enddate>=$currentDate && $enddate<=$currentDate){
                        	$msg = $msg.$value['message'].',</br>'; 
 							
                             }
@@ -193,7 +193,7 @@ $formstatus  = $userdata['formstatus'];
                        $currentDate = date('Y-m-d');
                        $startdate   = date('Y-m-d',strtotime($value['startdate']));
                        $enddate = date('Y-m-d',strtotime($value['enddate']));
-                       if ($enddate>=$currentDate){
+                       if ($enddate>=$currentDate && $enddate<=$currentDate){
                        	$msg = $msg.$value['message'].',</br>'; 
 							
                             }
