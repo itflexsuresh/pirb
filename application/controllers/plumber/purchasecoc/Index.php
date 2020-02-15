@@ -330,7 +330,7 @@ td {
 		 		$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body,$filePath.$pdfFilePath);
 		 	//}
 			 	}
-			 	print_r($html);
+			 	print_r($userdata1['email']);
 			 	die;
 					echo $result0;
 
