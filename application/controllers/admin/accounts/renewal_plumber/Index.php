@@ -95,33 +95,30 @@ class Index extends CC_Controller
 			$result = $this->Renewal_Model->insertdata($userid,$designation);
 			$invoice_id = $result['invoice_id'];
 			$cocorder_id = $result['cocorder_id'];
-
-			$userdata1	= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
 			
-			if ($cocorder_id) {
+			if ($invoice_id) {
 				$inid 				= $cocorder_id;
 				$inv_id 			= $invoice_id;
 
+				$userdata1	= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
+
 				$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
 
-				$orders = $this->db->select('*')->from('coc_orders')->where(['id' => $cocorder_id])->order_by('id','desc')->get()->row_array();
+				$orders = $this->db->select('*')->from('coc_orders')->where(['inv_id' => $invoice_id])->get()->row_array();
 
 		 		// invoice PDF
 				$rowData = $this->Coc_Model->getListPDF('row', ['id' => $inv_id, 'status' => ['0','1']]);
 				$rowData1 = $this->Coc_Model->getPermissions('row', ['id' => $inv_id, 'status' => ['0','1']]);
 				$rowData2 = $this->Coc_Model->getPermissions1('row', ['id' => $inv_id, 'status' => ['0','1']]);
-				
-							
-				
-					$amount =	$rowData['total_due']*$rowData['quantity'];
-					$invoiceDate = date("d-m-Y", strtotime($rowData['created_at']));
+				$amount =	$rowData['total_due']*$rowData['quantity'];
+				$invoiceDate = date("d-m-Y", strtotime($rowData['created_at']));
 
-					if ($rowData['coc_type'] == '1') {
-						$coc_type_id = 13;
-						$delivery_rate['amount'] = 0;
-						$PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
+				if ($rowData['coc_type'] == '1') {
+					$coc_type_id = 13;
+					$delivery_rate['amount'] = 0;
+					$PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
 
-					}elseif($rowData['coc_type'] == '2'){
+				}elseif($rowData['coc_type'] == '2'){
 						$coc_type_id = 14;
 						if ($rowData['delivery_type'] == '1') {
 							$delivery_method = 24;
@@ -133,7 +130,6 @@ class Index extends CC_Controller
 
 						$PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
 						$delivery_rate =  $this->db->select('amount')->from('rates')->where('id',$delivery_method)->get()->row_array();
-						$late_fee = $this->db->select('amount')->from('rates')->where('id', $coc_type_id)->get()->row_array();
 
 					}
 					$total_subtotal = $rowData['total_due'];
