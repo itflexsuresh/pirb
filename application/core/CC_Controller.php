@@ -315,6 +315,8 @@ class CC_Controller extends CI_Controller
 			else redirect('admin/resellers/index');
 		}
 		
+		
+		$pagedata['stock_count'] = $this->Resellers_Model->getStockCount();
 		$pagedata['adminvalue']   = $extras['adminvalue'];
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['province'] 		= $this->getProvinceList();

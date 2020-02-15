@@ -5,7 +5,7 @@ class Plumber_Model extends CC_Model
 	public function getList($type, $requestdata=[])
 	{ 
 		$users 			= 	[ 
-								'u.id','u.email','u.formstatus','u.status' 
+								'u.id','u.email','u.formstatus','u.type','u.status' 
 							];
 		$usersdetail 	= 	[ 
 								'ud.id as usersdetailid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit','ud.specialisations','ud.status as plumberstatus'

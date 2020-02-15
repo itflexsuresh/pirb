@@ -3,6 +3,7 @@
 	$usersplumberid 		= isset($result['usersplumberid']) ? $result['usersplumberid'] : '';
 	
 	$email 					= isset($result['email']) ? $result['email'] : '';
+	$type 					= isset($result['type']) ? $result['type'] : '';
 	
 	$titleid 				= isset($result['title']) ? $result['title'] : '';
 	$dob 					= isset($result['dob']) && $result['dob']!='1970-01-01' ? date('d-m-Y', strtotime($result['dob'])) : '';
@@ -927,6 +928,7 @@ var userid		= '<?php echo $userid; ?>';
 var filepath 	= '<?php echo $filepath; ?>';
 var ajaxfileurl	= '<?php echo base_url("ajax/index/ajaxfileupload"); ?>';
 var pdfimg		= '<?php echo $pdfimg; ?>';
+var type		= '<?php echo $type; ?>';
 
 $(function(){
 	select2('#plumberstatus, #designation2, #title, #gender, #racial, #nationality, #othernationality, #homelanguage, #disability, #citizen, #registration_card, #delivery_card, #province1, #city1, #suburb1, #province2, #city2, #suburb2, #province3, #city3, #suburb3, #employment_details, #company_details, #skill_route');
@@ -1067,7 +1069,8 @@ $(function(){
 									type	: 	"post",
 									async	: 	false,
 									data	: 	{
-													id : userid
+													id : userid,
+													type : type
 												}
 								}
 			},
