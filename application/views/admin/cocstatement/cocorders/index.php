@@ -1,4 +1,5 @@
 <?php
+
 $vat 					= $settings["vat_percentage"];
 $cocpaperwork 			= $cocpaperwork["amount"];
 $cocelectronic 			= $cocelectronic["amount"];
@@ -278,7 +279,9 @@ $allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
 						</div>
 						<div class="row text-right">
 							<input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+							<input type="hidden" name="coc_count" value="<?php echo $quantity; ?>">
 							<input type="hidden" class="form-control" name="order_id" id="order_id" value="<?php echo $id; ?>">
+							<input type="hidden" class="form-control" name="type" value="<?php echo $type; ?>">
 							<input type="hidden" name="coc_type" value="<?php echo $coc_type; ?>">
 							<button type="submit" name="allocate_certificate" value="submit" class="btn btn-primary">Allocate Certificates</button>
 						</div>
@@ -287,8 +290,8 @@ $allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
 
 				<div class="row add_top_value add_scroll">
 					<div class="row mb_20">
-						<a href="#" class="active_link_btn">PENDING</a>
-						<a href="#" class="archive_link_btn">CLOSED</a>
+						<a href="<?php echo base_url(); ?>/admin/cocstatement/cocorders/index" class="active_link_btn">PENDING</a>
+						<a href="<?php echo base_url(); ?>/admin/cocstatement/cocorders/index/index/closed" class="archive_link_btn">CLOSED</a>
 					</div>
 				</div>				
 			</div>
@@ -308,7 +311,9 @@ $allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
 							<th>Delivery Method</th>
 							<th>Delivery Address</th>
 							<th>Tracking Number</th>
+							<?php if($closed_status!='closed'){ ?>
 							<th>Action</th>
+							<?php } ?>
 						</tr>
 					</thead>
 				</table>
@@ -394,6 +399,7 @@ $(function(){
 
 	var options = {
 		url 	: 	'<?php echo base_url()."admin/cocstatement/cocorders/index/DTCocOrder"; ?>',
+		data 	: 	{admin_status : '<?php echo $closed_status; ?>'},
 		columns : 	[
 						{ "data": "id" },
 						{ "data": "inv_id" },
@@ -406,7 +412,9 @@ $(function(){
 						{ "data": "delivery_type" },
 						{ "data": "address" },
 						{ "data": "tracking_no" },
+						<?php if($closed_status!='closed'){ ?>
 						{ "data": "action" }
+						<?php } ?>
 					]
 	};
 	
@@ -423,13 +431,13 @@ $("#plumber, #reseller").click(function(){
 	userwrapper($(this).val())
 });
 
-$('input[name="status"]').click(function(){
-	allocation_show();
-})
+// $('input[name="status"]').click(function(){
+// 	allocation_show();
+// })
 
-$('input[name="coc_type"]').click(function(){
-	cert_range_show();
-})
+// $('input[name="coc_type"]').click(function(){
+// 	cert_range_show();
+// })
 
 function cert_range_show(){
 	$('.cert_start_range, .cert_end_range').hide();

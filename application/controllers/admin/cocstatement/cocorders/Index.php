@@ -18,7 +18,8 @@ class Index extends CC_Controller
 	
 	public function index($id='')
 	{
-		if($id!=''){
+		$pagedata['closed_status'] = '';
+		if($id!='' && $id!='closed'){
 			$result = $this->Coc_Ordermodel->getCocorderList('row', ['id' => $id]);
 			$comments = $this->Ordercomments_Model->getCommentsList('all', ['order_id' => $id]);
 			
@@ -36,6 +37,8 @@ class Index extends CC_Controller
 				$this->session->set_flashdata('error', 'No Record Found.');
 				redirect('admin/cocstatement/cocorders/index'); 
 			}
+		} else if($id!='' && $id=='closed'){
+			$pagedata['closed_status'] = 'closed';
 		}
 		
 		if($this->input->post()){
@@ -43,8 +46,7 @@ class Index extends CC_Controller
 			if($this->input->post('submit')){
 
 				$data 			=  	$this->Coc_Ordermodel->action($requestData);
-
-				if($data) $this->session->set_flashdata('success', 'order saved successfully.');
+				if($data) $this->session->set_flashdata('success', 'Order saved successfully.');
 				else $this->session->set_flashdata('error', 'Try Later.');
 			
 				redirect('admin/cocstatement/cocorders/index'); 			
@@ -52,7 +54,7 @@ class Index extends CC_Controller
 			if($this->input->post('allocate_certificate')){
 				$data 			=  	$this->Stock_Model->action($requestData);	
 
-				if($data) $this->session->set_flashdata('success', 'order allocated successfully.');
+				if($data) $this->session->set_flashdata('success', 'Order allocated successfully.');
 				else $this->session->set_flashdata('error', 'Try Later.');
 			
 				redirect('admin/cocstatement/cocorders/index'); 			
@@ -85,15 +87,17 @@ class Index extends CC_Controller
 	public function DTCocOrder()
 	{ 
 		$post 			= $this->input->post();
-		$totalcount 	= $this->Coc_Ordermodel->getCocorderList('count', ['status' => ['0','1']]+$post);
-		$results 		= $this->Coc_Ordermodel->getCocorderList('all', ['status' => ['0','1']]+$post);
+
+		$totalcount 	= $this->Coc_Ordermodel->getCocorderList('count', ['status' => [$post['admin_status']]]+$post);
+		$results 		= $this->Coc_Ordermodel->getCocorderList('all', ['status' => [$post['admin_status']]]+$post);
 
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
-				
+
+				$payment_status_1 = $this->config->item('payment_status')[$result['status']];				
 				$coctype = isset($this->config->item('coctype')[$result['coc_type']]) ? $this->config->item('coctype')[$result['coc_type']] : '';
-				$deliverytype = isset($this->config->item('deliverytype')[$result['delivery_type']]) ? $this->config->item('coctype')[$result['delivery_type']] : '';
+				$deliverytype = isset($this->config->item('purchasecocdelivery')[$result['delivery_type']]) ? $this->config->item('purchasecocdelivery')[$result['delivery_type']] : '';
 
 				$totalrecord[] 	= 	[
 										'id' 			=> 	$result['id'],
@@ -101,20 +105,29 @@ class Index extends CC_Controller
 										'coc_type' 		=> 	$coctype,
 										'delivery_type'	=> 	$deliverytype,
 										'quantity' 		=> 	$result['quantity'],	
-										'status' 		=> 	$this->config->item('payment_status')[$result['status']],
+										'status' 		=> 	$payment_status_1,
 										'inv_id' 		=> 	$result['inv_id'],
 										'internal_inv' 	=> 	$result['internal_inv'],									
 										'created_at'	=> 	date('d-m-Y', strtotime($result['created_at'])),
 										'address' 		=> 	$result['address'],
-										'tracking_no' 	=> 	$result['tracking_no'],																				
+										'tracking_no' 	=> 	$result['tracking_no'],																	
 										'action'		=> 	'
 																<div class="table-action">
 																	<a href="'.base_url().'admin/cocstatement/cocorders/index/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit">
 																	<i class="fa fa-pencil-alt"></i></a>																	
 																</div>
-															'
+															'														
 									];
+
+				
 			}
+
+			foreach ($totalrecord as $key => $value) {
+				if($post['admin_status']=='closed'){
+					unset($totalrecord[$key]['action']);	
+				}
+			}
+			
 		}
 		
 		$json = array(
