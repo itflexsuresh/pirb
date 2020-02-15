@@ -106,7 +106,7 @@ class Index extends CC_Controller
 		foreach($noncompliance as $compliance){
 			$pagedata['noncompliance'][] = [
 				'id' 		=> $compliance['id'],
-				'details' 	=> str_replace("\n","\\n", $compliance['details'])
+				'details' 	=> $this->parsestring($compliance['details'])
 			];
 		}
 		

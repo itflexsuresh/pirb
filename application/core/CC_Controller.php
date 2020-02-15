@@ -117,6 +117,14 @@ class CC_Controller extends CI_Controller
 	{
 		return $this->load->view('template/notification', '', true);
 	}
+	
+	function parsestring($text) {
+		$text = str_replace("\r\n", "\n", $text);
+		$text = str_replace("\r", "\n", $text);
+
+		$text = str_replace("\n", "\\n", $text);
+		return $text;
+	}
 
 	public function getInstallationTypeList()
 	{
