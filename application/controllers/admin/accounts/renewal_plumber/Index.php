@@ -308,7 +308,7 @@ class Index extends CC_Controller
 					$body = str_replace($array1, $array2, $template['email_body']);
 
 					if ($template['email_active'] == '1') {
-
+						// echo $userdata1['email'].": ".$filePath.$pdfFilePath."</br>";
 						$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body,$filePath.$pdfFilePath);
 					}	
 
