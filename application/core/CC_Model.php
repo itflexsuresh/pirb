@@ -33,9 +33,11 @@ class CC_Model extends CI_Model
 
 
 		if($this->email->send()){
+			$this->email->clear(true);
 			return 'true';
 		}else{
 			//print_r($this->email->print_debugger());die;
+			$this->email->clear(true);
 			return 'false';
 		}
 	}

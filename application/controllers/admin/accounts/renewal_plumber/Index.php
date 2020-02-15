@@ -197,7 +197,7 @@ class Index extends CC_Controller
 					'.$paid_status.'
 
 					</td>
-					
+
 					</tr>
 					<tr>
 					<td>
@@ -312,7 +312,7 @@ class Index extends CC_Controller
 
 					if ($template['email_active'] == '1') {
 						// echo $userdata1['email'].": ".$filePath.$pdfFilePath."</br>";
-						$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body,$filePath.$pdfFilePath);
+						$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body,$filePath.$pdfFilePath);						
 					}	
 
 				}			 
