@@ -5,12 +5,13 @@ class Coc_Ordermodel extends CC_Model
 	public function getCocorderList($type, $requestdata){
 
 		// $this->db->select('t1.*');
-		$this->db->select('t1.*,t2.name,t2.surname,t3.type, t3.address, t4.type, cc.count');
+		$this->db->select('t1.*,t2.name,t2.surname,t3.type, concat(t3.address, ",", t5.name) as address, t4.type, cc.count');
 		$this->db->from('coc_orders t1');
 		$this->db->join('users_detail t2', 't1.user_id=t2.user_id', 'left');
 		$this->db->join('users_address t3', 't1.user_id=t3.user_id AND t3.type="2"', 'left');
 		$this->db->join('users t4', 't1.user_id=t4.id', 'left');
 		$this->db->join('coc_count cc', 't1.user_id=cc.user_id');		
+		$this->db->join('city t5', 't3.city=t5.id','left');		
 
 
 		if(isset($requestdata['id'])) 				$this->db->where('inv_id', $requestdata['id']);
@@ -345,6 +346,7 @@ class Coc_Ordermodel extends CC_Model
 		$this->db->join('users u', 'u.id=ud.user_id','inner');
 		$this->db->join('coc_count cc', 'cc.user_id=ud.user_id','inner');
 		$this->db->where(['ud.status' => '1', 'u.type' => '6']);
+		// $this->db->where('name!=""');
 		$this->db->like('ud.name',$postData['search_keyword']);
 		$this->db->or_like('ud.surname',$postData['search_keyword']);
 		$this->db->or_like('ud.company',$postData['search_keyword']);
@@ -352,7 +354,13 @@ class Coc_Ordermodel extends CC_Model
 		
 		$query = $this->db->get();
 		$result = $query->result_array();
-			
+
+		// $result_new = array();
+		// foreach ($result as $key => $value) {
+		// 	if($value['name']!=){
+		// 		$result_new[] = $value;
+		// 	}
+		// }		
 		return $result;
 	}
 	
