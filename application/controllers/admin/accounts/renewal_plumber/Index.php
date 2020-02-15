@@ -150,6 +150,9 @@ class Index extends CC_Controller
 
 					}
 					$stringaarr = explode("@@@",$rowData['areas']);
+					$stringaarr6 = isset($stringaarr[6]) ? $stringaarr[6] : '';
+					$stringaarr5 = isset($stringaarr[5]) ? $stringaarr[5] : '';
+					$stringaarr4 = isset($stringaarr[4]) ? $stringaarr[4] : '';
 					$provincesettings = explode("@@@",$rowData2['provincesettings']);
 					
 					$html = '<!DOCTYPE html>
@@ -201,9 +204,9 @@ class Index extends CC_Controller
 					<div style="border: 1px solid; width: 70%; margin-top: 40px; margin-left: 20px;">
 					<p style="border-bottom: 1px solid #000; margin-top: 10px; padding: 0 10px 10px 10px; font-weight: 600;">Billing Details</p>
 					<p>'.$rowData['address'].'</p>
-					<p>'.$stringaarr[6].'</p>
-					<p>'.$stringaarr[5].'</p>
-					<p>'.$stringaarr[4].'</p>
+					<p>'.$stringaarr6.'</p>
+					<p>'.$stringaarr5.'</p>
+					<p>'.$stringaarr4.'</p>
 					<p>'.$rowData['home_phone'].'</p>
 					<p>'.$rowData['email2'].'</p>
 					</div>
