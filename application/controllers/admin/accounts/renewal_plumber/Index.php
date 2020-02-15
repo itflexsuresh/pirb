@@ -197,6 +197,7 @@ class Index extends CC_Controller
 					'.$paid_status.'
 
 					</td>
+					
 					</tr>
 					<tr>
 					<td>
