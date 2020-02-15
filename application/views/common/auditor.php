@@ -96,6 +96,7 @@
 				<form class="form" method="post" enctype="multipart/form-data">
 
 					<h4 class="card-title">My Profile</h4>
+					<div class="row">
 					<?php
 									$z = 1;
 									$availability = '';
@@ -107,7 +108,7 @@
 											$nonavailability = '';
 										}
 										?>
-										<div class="row">
+										
 										<div class="col-md-3">
 											<div class="custom-control custom-radio">
 												<input type="radio" id="<?php echo $key.'-'.$valse; ?>" name="auditstatus" <?php echo $availability.$nonavailability; ?> value="<?php echo $key; ?>" class="auditstatus custom-control-input">
@@ -120,7 +121,16 @@
 										$z++;
 									}
 									?>
+							<div class="col-md-4" style="vertical-align: top; margin-top: -17px;">
+							<div class="form-group">	
+								<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">	
+									<input type="checkbox" class="custom-control-input" <?php echo ($user_status1=='1') ? 'checked="checked"' : ''; ?> value="1" name="status" id="status">
+									<label class="custom-control-label" for="status">Active</label>
 								</div>
+							</div>
+						</div>
+								</div>
+
 					<div class="row">
 						<div class="col-md-12">
 
@@ -300,14 +310,7 @@
 								<input type="text" class="form-control" name="account_type" value="<?php echo $type; ?>">
 							</div>
 						</div>
-						<div class="col-md-4">
-							<div class="form-group">	
-								<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">	
-									<input type="checkbox" class="custom-control-input" <?php echo ($user_status1=='1') ? 'checked="checked"' : ''; ?> value="1" name="status" id="status">
-									<label class="custom-control-label" for="status">Active</label>
-								</div>
-							</div>
-						</div>
+						
 					</div>
 					<h4 class="card-title add_top_value">My Auditting Areas</h4>
 					<div class="col-md-6">

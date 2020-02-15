@@ -4,6 +4,7 @@ class Auditor_Model extends CC_Model
 {
 	public function getList($type, $requestdata=[])
 	{ 
+		//print_r($requestdata);die;
 		
 		$user 			= ['u.id as id', 'u.email','u.type','u.status as usstatus', 'u.password_raw'];
 		$usersdetail 	= ['ud.id as userdetailid','ud.name','ud.surname','ud.company_name','ud.reg_no','ud.vat_no','ud.vat_vendor','ud.mobile_phone','ud.work_phone','ud.file1','ud.file2','ud.identity_no'];		
@@ -31,7 +32,7 @@ class Auditor_Model extends CC_Model
 		$this->db->join('suburb as s', 's.id=uaa.suburb', 'left');
 		
 		if(isset($requestdata['id'])) 			$this->db->where('u.id', $requestdata['id']);
-		if(isset($requestdata['status'])) 		$this->db->where_in('u.status', $requestdata['status']);
+		//if(isset($requestdata['status'])) 		$this->db->where_in('u.status', $requestdata['status']);
 
 		if($type=='count'){
 			$result = $this->db->count_all_results();
@@ -51,7 +52,7 @@ class Auditor_Model extends CC_Model
 	// Admin Auditor 
 
 	public function getAuditorList($type, $requestdata=[]){
-		//print_r($requestdata['type']);die;
+		//print_r($requestdata);die;
 		$users 			= 	[ 
 			'u.id','u.email','u.formstatus','u.status' ,'u.password_raw','u.type'
 		];
@@ -135,7 +136,7 @@ class Auditor_Model extends CC_Model
 		if(isset($data['password'])) 			$request1['password_raw'] 		= $data['password'];
 		if(isset($data['password'])) 			$request1['password'] 			= md5($data['password']);
 		if(isset($data['status'])) 				$request1['status'] 			= $data['status'];
-		$request1['status'] 					= isset($data['status']) ? $data['status'] : '0';
+		$request1['status'] 					= isset($data['status']) ? $data['status'] : '2';
 		
 		
 

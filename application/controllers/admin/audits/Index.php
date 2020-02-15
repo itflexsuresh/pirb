@@ -12,7 +12,7 @@ class Index extends CC_Controller
 	public function index($pagestatus='')
 	{
 		$pagedata['notification'] 	= $this->getNotification();		
-		$pagedata['pagestatus'] 	= $this->getPageStatus($pagestatus);
+		$pagedata['pagestatus'] 	= $this->getAuditorPageStatus($pagestatus);
 		//$pagedata['company'] 		= $this->getCompanyList();
 		
 		
