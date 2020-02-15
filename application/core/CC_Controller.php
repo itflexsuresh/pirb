@@ -17,6 +17,7 @@ class CC_Controller extends CI_Controller
 		$this->load->model('Systemsettings_Model');
 		$this->load->model('Auditor_Model');
 		$this->load->model('Coc_Model');
+		$this->load->model('Communication_Model');
 		
 		$this->load->library('pdf');
 		$this->load->library('phpqrcode/qrlib');
@@ -210,8 +211,32 @@ class CC_Controller extends CI_Controller
 				$message 	= 'Plumber '.(($id=='') ? 'created' : 'updated').' successfully.';
 			}
 			
-			if(isset($data)) $this->session->set_flashdata('success', $message);
-			else $this->session->set_flashdata('error', 'Try Later.');
+			if(isset($data)){
+				
+				if(isset($requestData['submit']) && $requestData['submit']=='approvalsubmit'){
+					if(isset($requestData['approvalstatus'])){
+						if($requestData['approvalstatus']=='1'){
+							$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '5', 'emailstatus' => '1']);
+				
+							if($notificationdata){
+								$body 	= str_replace(['{Plumbers Name and Surname}', '{email}'], [$result['name'].' '.$result['surname'], $result['email']], $notificationdata['email_body']);
+								$this->CC_Model->sentMail($plumberdata['email'], $notificationdata['subject'], $body);
+							}
+						}elseif($requestData['approvalstatus']=='1'){
+							$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '6', 'emailstatus' => '1']);
+				
+							if($notificationdata){
+								$body 	= str_replace(['{Plumbers Name and Surname}'], [$result['name'].' '.$result['surname']], $notificationdata['email_body']);
+								$this->CC_Model->sentMail($plumberdata['email'], $notificationdata['subject'], $body);
+							}
+						}
+					}
+				}
+				
+				$this->session->set_flashdata('success', $message);
+			}else{
+				$this->session->set_flashdata('error', 'Try Later.');
+			}
 			
 			if($extras['redirect']) redirect($extras['redirect']); 
 			else redirect('admin/plumber/index'); 

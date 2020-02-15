@@ -40,7 +40,7 @@ class Login extends CC_Controller
 				$mailstatus		= $data['mailstatus'];
 				$id				= $data['id'];
 				
-				if($status=='2'){
+				if($status!='2'){
 					if($mailstatus=='1'){						
 						$this->session->set_userdata('userid', $id);						
 						$this->middleware('1');
