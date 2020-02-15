@@ -13,9 +13,11 @@ class Installationtype_Model extends CC_Model
 		if(isset($requestdata['status']))			$this->db->where_in('status', $requestdata['status']);
 		
 		if(isset($requestdata['specialisations']) && count($requestdata['specialisations']) > 0){
+			$this->db->group_start();
 			foreach($requestdata['specialisations'] as $specialisations){
 				$this->db->or_where("FIND_IN_SET('".$specialisations."', specialisations)");
 			}
+			$this->db->group_end();
 		}
 		
 
