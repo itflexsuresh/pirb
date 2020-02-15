@@ -27,7 +27,8 @@ class Index extends CC_Controller
 		$post 		= $this->input->post();	
 		// $post['user_id'] = $this->getUserID();
 		$totalcount =  $this->Resellers_allocatecoc_Model->getstockList('count',$post);
-		$results 	=  $this->Resellers_allocatecoc_Model->getstockList('all',$post);		
+		$results 	=  $this->Resellers_allocatecoc_Model->getstockList('all',$post);
+		// print_r($results ); die;		
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){				

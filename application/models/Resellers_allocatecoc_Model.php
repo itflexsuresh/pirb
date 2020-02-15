@@ -48,12 +48,13 @@ class Resellers_allocatecoc_Model extends CC_Model
 		$this->db->join('users_plumber up', 'up.user_id=sm.user_id','left');
 		$this->db->join('users_detail pd', 'pd.id=pa.company_details', 'left');
 		$this->db->where('sm.type', '2');
+		$this->db->where('sm.coc_status', '3');
 
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['sm.id'];
+			$column = ['sm.id','sm.id','sm.id','sm.id','sm.id','sm.id'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
@@ -177,6 +178,18 @@ class Resellers_allocatecoc_Model extends CC_Model
 			$cocupdateid = $data['plumberid'];
 			$request10['count'] = $coccount;
 			$users10 = $this->db->update('coc_count', $request10, ['user_id' => $cocupdateid]);
+
+			$resellersid = $this->getUserID();
+			$this->db->select('*');
+			$this->db->from('coc_count');
+			$this->db->where('user_id',$resellersid);
+			$query_resel = $this->db->get();
+			$result_resel = $query_resel->row_array();
+
+			$balace_coc2 = $result_resel['count'];
+			$coccount2 = $balace_coc2-$rangebalace_coc;
+			$request11['count'] = $coccount2;
+			$users11 = $this->db->update('coc_count', $request11, ['user_id' => $resellersid]);
 			
 		}			
 				
