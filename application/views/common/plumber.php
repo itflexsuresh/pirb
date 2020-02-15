@@ -231,7 +231,8 @@
 									</div>
 									<input type="text" class="form-control" placeholder="Type your comments here" name="comments">		
 									<div class="text-right">
-										<input type="hidden" name="usersplumberid" value="<?php echo $usersplumberid; ?>">
+										<input type="hidden" name="usersplumberid" value="<?php echo $usersplumberid; ?>">										
+										<input type="hidden" name="usersdetailid" value="<?php echo $usersdetailid; ?>">
 										<button type="submit" name="submit" value="approvalsubmit" class="btn btn-primary">Submit</button>
 									</div>
 								</div>
