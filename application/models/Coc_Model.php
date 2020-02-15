@@ -168,7 +168,8 @@ class Coc_Model extends CC_Model
 			$result 		= $this->db->insert('coc_orders',$requestdata);
 		}
 		else{
-			$result 		= $this->db->update('coc_count',$requestdata);
+			$result 		= $this->db->update('coc_count', $requestdata, ['user_id' => $requestdata['user_id']]);
+			
 			if ($result) {
 				return '1';
 			}else{
