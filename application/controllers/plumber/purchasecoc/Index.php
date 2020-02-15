@@ -15,6 +15,7 @@ class Index extends CC_Controller
 	
 	public function index()
 	{
+		mail("manikandanrengasamy@itflexsolutions.com","My subject",'hiii');
 
 		$userid 					=	$this->getUserID();
 		$userdata					= 	$this->getUserDetails();
