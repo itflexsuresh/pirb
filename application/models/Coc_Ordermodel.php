@@ -355,13 +355,13 @@ class Coc_Ordermodel extends CC_Model
 		$query = $this->db->get();
 		$result = $query->result_array();
 
-		// $result_new = array();
-		// foreach ($result as $key => $value) {
-		// 	if($value['name']!=){
-		// 		$result_new[] = $value;
-		// 	}
-		// }		
-		return $result;
+		$result_new = array();
+		foreach ($result as $key => $value) {
+			if($value['name']!=''){
+				$result_new[] = $value;
+			}
+		}
+		return $result_new;
 	}
 	
 }
