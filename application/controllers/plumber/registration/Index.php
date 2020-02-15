@@ -6,7 +6,9 @@ class Index extends CC_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('CC_Model');
 		$this->load->model('Plumber_Model');
+		$this->load->model('Communication_Model');
 	}
 	
 	public function index()
@@ -29,8 +31,19 @@ class Index extends CC_Controller
 			$requestData['status'] 		= 	'1';
 			$data 						=  	$this->Plumber_Model->action($requestData);
 			
-			if(isset($data)) $this->session->set_flashdata('success', 'Thanks for submitting the application. You will get notified through email about the application status.');
-			else $this->session->set_flashdata('error', 'Try Later.');
+			if(isset($data)){
+				$plumberdata 		= $this->Plumber_Model->getList('row', ['id' => $userid]);
+				$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '4', 'emailstatus' => '1']);
+				
+				if($notificationdata){
+					$body 	= str_replace(['{Plumbers Name and Surname}', '{Company}'], [$plumberdata['name'].' '.$plumberdata['surname'], $plumberdata['companyname']], $notificationdata['email_body']);
+					$this->CC_Model->sentMail($plumberdata['email'], $notificationdata['subject'], $body);
+				}
+				
+				$this->session->set_flashdata('success', 'Thanks for submitting the application. You will get notified through email about the application status.');
+			}else{
+				$this->session->set_flashdata('error', 'Try Later.');
+			}
 			
 			redirect('plumber/profile/index'); 
 		}
