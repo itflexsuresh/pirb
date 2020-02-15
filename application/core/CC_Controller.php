@@ -181,7 +181,7 @@ class CC_Controller extends CI_Controller
 		$data['company'] 			= $this->getCompanyList();
 		$data['designation2'] 		= $this->config->item('designation2');
 		$data['specialisations'] 	= $this->config->item('specialisations');
-		$data['settings'] 			= $this->Systemsettings_Model->getList();
+		$data['settings'] 			= $this->Systemsettings_Model->getList('row');
 		
 		$data['result'] = $this->Plumber_Model->getList('row', ['id' => $userid]);
 		return $this->load->view('common/card', $data, true) ;
