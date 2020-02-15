@@ -221,14 +221,14 @@ class CC_Controller extends CI_Controller
 				
 							if($notificationdata){
 								$body 	= str_replace(['{Plumbers Name and Surname}', '{email}'], [$result['name'].' '.$result['surname'], $result['email']], $notificationdata['email_body']);
-								$this->CC_Model->sentMail($plumberdata['email'], $notificationdata['subject'], $body);
+								$this->CC_Model->sentMail($result['email'], $notificationdata['subject'], $body);
 							}
 						}elseif($requestData['approval_status']=='2'){
 							$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '6', 'emailstatus' => '1']);
 				
 							if($notificationdata){
 								$body 	= str_replace(['{Plumbers Name and Surname}'], [$result['name'].' '.$result['surname']], $notificationdata['email_body']);
-								$this->CC_Model->sentMail($plumberdata['email'], $notificationdata['subject'], $body);
+								$this->CC_Model->sentMail($result['email'], $notificationdata['subject'], $body);
 							}
 						}
 					}
