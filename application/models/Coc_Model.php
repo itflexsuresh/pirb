@@ -430,7 +430,7 @@ class Coc_Model extends CC_Model
 			'updated_by' 		=> $userid
 		];
 
-		$count = $this->getCOCCount('count', ['user_id' => $userid]);
+		$count = $this->getCOCCount('count', ['user_id' => $data['user_id']]);
 		
 		if($count=='0'){
 			$request['created_at'] = $datetime;

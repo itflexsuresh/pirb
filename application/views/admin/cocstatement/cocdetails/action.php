@@ -1,28 +1,29 @@
 <?php
-if(isset($result) && $result){
-	$id 			= $result['id'];
-	$name 			= (set_value('name')) ? set_value('name') : $result['name'];
-	$status 		= (set_value('status')) ? set_value('status') : $result['status'];
+	$id 					= isset($result['id']) ? $result['id'] : '';
 	
-	$heading		= 'Update';
-}else{
-	$id 			= '';
-	$name			= set_value('name');
-	$status			= set_value('status');
-
-	$heading		= 'Add';
-}
+	$logdate 				= isset($result['log_date']) && $result['log_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['log_date'])) : '';
+	$completiondate 		= isset($result['completion_date']) && $result['completion_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['completion_date'])) : '';
+	$orderno 				= isset($result['order_no']) ? $result['order_no'] : '';
+	$name 					= isset($result['name']) ? $result['name'] : '';
+	$address 				= isset($result['address']) ? $result['address'] : '';
+	$street 				= isset($result['street']) ? $result['street'] : '';
+	$number 				= isset($result['number']) ? $result['number'] : '';
+	$provinceid 			= isset($result['province']) ? $result['province'] : '';
+	$cityid 				= isset($result['city']) ? $result['city'] : '';
+	$suburbid 				= isset($result['suburb']) ? $result['suburb'] : '';
+	$contactno 				= isset($result['contact_no']) ? $result['contact_no'] : '';
+	$alternateno 			= isset($result['alternate_no']) ? $result['alternate_no'] : '';
 ?>
 
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
-		<h4 class="text-themecolor">Installation Type</h4>
+		<h4 class="text-themecolor">COC Details</h4>
 	</div>
 	<div class="col-md-7 align-self-center text-right">
 		<div class="d-flex justify-content-end align-items-center">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="j<?php echo base_url().'admin/dashboard'; ?>">Home</a></li>
-				<li class="breadcrumb-item active">Installation Type</li>
+				<li class="breadcrumb-item active">COC Details</li>
 			</ol>
 		</div>
 	</div>
@@ -32,37 +33,182 @@ if(isset($result) && $result){
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">Installation Type</h4>
-				<form class="mt-4 form" action="" method="post">
-					<div class="form-group">
-						<label for="name">Installation Type *</label>
-						<textarea class="form-control" id="name" name="name" placeholder="Enter Installation Type *"><?php echo $name; ?></textarea>
+				<h4 class="card-title">COC Status</h4>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Certificate No</label>
+							<input type="text" class="form-control" value="<?php echo $certificateno; ?>" disabled>
+						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-6">
-							<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
-								<input type="checkbox" class="custom-control-input" name="status" id="status" <?php if($status=='1') echo 'checked'; ?> value="1" checked>
-								<label class="custom-control-label" for="status">Active</label>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>CoC Type</label>
+							<input type="text" class="form-control" value="<?php echo $number; ?>" disabled>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>CoC Status</label>
+							<input type="text" class="form-control" value="<?php echo $number; ?>" disabled>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Audit Status</label>
+							<input type="text" class="form-control" value="<?php echo $number; ?>" disabled>
+						</div>
+					</div>
+				</div>
+				
+				<h4 class="card-title">Reseller Details</h4>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Company Name</label>
+							<input type="text" class="form-control" value="<?php echo $certificateno; ?>" disabled>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Date and Time of Allocation to Plumber</label>
+							<input type="text" class="form-control" value="<?php echo $number; ?>" disabled>
+						</div>
+					</div>
+				</div>
+				
+				<h4 class="card-title">Plumber Details</h4>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Registration Number</label>
+							<input type="text" class="form-control" value="<?php echo $certificateno; ?>" disabled>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Name and Surname</label>
+							<input type="text" class="form-control" value="<?php echo $number; ?>" disabled>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Current Status</label>
+							<input type="text" class="form-control" value="<?php echo $number; ?>" disabled>
+						</div>
+					</div>
+				</div>
+				
+				
+				<h4 class="card-title">COC Details</h4>
+				<a href="">View COC Details in full</a>
+				<div class="row">					
+					<div class="col-md-12">
+						<div class="form-group">
+							<label>Date and Time of Logging COC</label>
+							<input type="text" class="form-control" name="logdate" value="<?php echo $logdate; ?>" disabled>
+						</div>
+					</div>					
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Certificate No</label>
+							<input type="text" class="form-control" name="name" value="<?php echo $certificateno; ?>" disabled>
+						</div>
+					</div>					
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Plumbing Work Completion Date</label>
+							<div class="input-group">
+								<input type="text" class="form-control completion_date" name="completion_date" data-date="datepicker" value="<?php echo $completiondate; ?>" disabled>
+								<div class="input-group-append">
+									<span class="input-group-text"><i class="icon-calender"></i></span>
+								</div>
 							</div>
 						</div>
-						<div class="col-md-6 text-right">
-							<input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
-							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> Installtion Type</button>
+					</div>					
+					<div class="col-md-12">
+						<div class="form-group">
+							<label>Owners Name</label>
+							<input type="text" class="form-control" name="name" value="<?php echo $name; ?>" disabled>
 						</div>
 					</div>
-				</form>
-				<div class="table-responsive m-t-40">
-					<table class="table table-bordered table-striped datatables fullwidth">
-						<thead>
-							<tr>
-								<th>Installation Type</th>
-								<th>Status</th>
-								<th>Action</th>
-							</tr>
-						</thead>
-					</table>
+					<div class="col-md-12">
+						<div class="form-group">
+							<label>Name of Complex/Flat (if applicable)</label>
+							<input type="text" class="form-control" name="address" value="<?php echo $address; ?>" disabled>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Street</label>
+							<input type="text" class="form-control" name="street" value="<?php echo $street; ?>" disabled>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Number</label>
+							<input type="text" class="form-control" name="number" value="<?php echo $number; ?>" disabled>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>Province</label>
+							<?php
+								echo form_dropdown('province', $province, $provinceid, ['id' => 'province', 'class'=>'form-control', 'disabled' => 'disabled']);
+							?>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>City</label>
+							<?php 
+								echo form_dropdown('city', [], $cityid, ['id' => 'city', 'class' => 'form-control', 'disabled' => 'disabled']); 
+							?>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>Suburb</label>
+							<?php
+								echo form_dropdown('suburb', [], $suburbid, ['id' => 'suburb', 'class'=>'form-control', 'disabled' => 'disabled']);
+							?>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Contact Mobile</label>
+							<input type="text" class="form-control" name="contact_no" id="contact_no" value="<?php echo $contactno; ?>" disabled>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Alternate Contact</label>
+							<input type="text" class="form-control" name="alternate_no" id="alternate_no" value="<?php echo $alternateno; ?>" disabled>
+						</div>
+					</div>
 				</div>
-
+				
+				<h4 class="card-title">Diary of Activities and Comments</h4>
+				<div class="row">	
+					<div class="col-md-12 comment_list"></div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<input type="text" class="form-control" name="alternate_no" id="alternate_no" value="<?php echo $alternateno; ?>" disabled>
+							<input type="submit" value="Add Comment">
+						</div>
+					</div>
+				</div>
+				
+				<h4 class="card-title">Recalled/Reallocate/Cancel a COC</h4>
+				<div class="row">				
+					<div class="col-md-12">
+						<div class="form-group">
+							<label>Reseller</label>
+							<input type="text" class="form-control">
+						</div>
+					</div>	
+				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -70,17 +216,7 @@ if(isset($result) && $result){
 
 <script>
 	$(function(){
-		
-		var options = {
-			url 	: 	'<?php echo base_url()."admin/administration/installationtype/DTInstallationType"; ?>',
-			columns : 	[
-			{ "data": "name" },
-			{ "data": "status" },
-			{ "data": "action" }
-			]
-		};
-		
-		ajaxdatatables('.datatables', options);
+		citysuburb(['#province','#city', '#suburb'], ['<?php echo $cityid; ?>', '<?php echo $suburbid; ?>']);
 		
 		validation(
 			'.form',
@@ -110,17 +246,6 @@ if(isset($result) && $result){
 				}
 			},[],'1'
 			);
+			
 	});
-	
-	// Delete
-	
-	$(document).on('click', '.delete', function(){
-		var action 	= 	'<?php echo base_url().'admin/administration/installationtype'; ?>';
-		var data	= 	'\
-		<input type="hidden" value="'+$(this).attr('data-id')+'" name="id">\
-		<input type="hidden" value="2" name="status">\
-		';
-
-		sweetalert(action, data);
-	})
 </script>

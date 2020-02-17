@@ -31,10 +31,13 @@ class Index extends CC_Controller
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
+				$coctype 	= isset($this->config->item('coctype')[$result['type']]) ? $this->config->item('coctype')[$result['type']] : '';
+				$status 	= isset($this->config->item('cocstatus')[$result['coc_status']]) ? $this->config->item('cocstatus')[$result['coc_status']] : '';
+				
 				$totalrecord[] = 	[
 										'cocno' 		=> 	$result['id'],
-										'coctype' 		=> 	$this->config->item('coctype')[$result['type']],
-										'status' 		=> 	$this->config->item('cocstatus')[$result['coc_status']],
+										'coctype' 		=> 	$coctype,
+										'status' 		=> 	$status,
 										'plumber' 		=> 	($result['usertype']=='3') ? $result['name'] : '-',
 										'reseller' 		=> 	($result['usertype']=='6') ? $result['name'] : '-',
 										'auditor' 		=> 	($result['usertype']=='5') ? $result['name'] : '-',
@@ -58,9 +61,13 @@ class Index extends CC_Controller
 	}
 	
 	
-	public function action()
+	public function action($id)
 	{
 		$pagedata['notification'] 	= $this->getNotification();
+		$pagedata['province'] 		= $this->getProvinceList();
+		$pagedata['certificateno']	= $id;
+		$pagedata['result']			= $this->Coc_Model->getCOCLog('row', ['coc_id' => $id]);
+		
 		$data['plugins']			= ['validation'];
 		$data['content'] 			= $this->load->view('admin/cocstatement/cocdetails/action', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
