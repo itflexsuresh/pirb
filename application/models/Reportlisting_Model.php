@@ -63,8 +63,9 @@ class Reportlisting_Model extends CC_Model
 		$datetime		= 	date('Y-m-d H:i:s');
 		
 		$request		=	[
+
 			'updated_at' 		=> $datetime,
-			'updated_by' 		=> $userid
+			'updated_by' 		=> $id
 		];
 
 		if(isset($data['installation'])) 	$request['installation_id'] 		= $data['installation'];
@@ -83,7 +84,7 @@ class Reportlisting_Model extends CC_Model
 		if($id=='')
 		{
 			$request['created_at'] = $datetime;
-			$request['created_by'] = $userid;
+			$request['created_by'] = $id;
 			
 			$this->db->insert('report_listing', $request);
 		}
@@ -104,25 +105,26 @@ class Reportlisting_Model extends CC_Model
 		}
 	}
 
-	public function installationtypeValidator($data)
-	{
-		$id 				= $data['id'];
-		$installationtype 	= $data['name'];		
-		$this->db->where('name', $installationtype);
-		if($id!='') $this->db->where('id !=', $id);
-		//$this->db->where('status !=', '2');
-		$query = $this->db->get('installationtype');
+	// public function installationtypeValidator($data)
+	// {
+	// 	$id 				= $data['id'];
+	// 	$installationtype 	= $data['name'];		
+	// 	$this->db->where('name', $installationtype);
+	// 	if($id!='') $this->db->where('id !=', $id);
+	// 	//$this->db->where('status !=', '2');
+	// 	$query = $this->db->get('installationtype');
 		
-		if($query->num_rows() > 0){
-			return 'false';
-		}else{
-			return 'true';
-		}
-	}
+	// 	if($query->num_rows() > 0){
+	// 		return 'false';
+	// 	}else{
+	// 		return 'true';
+	// 	}
+	// }
 	
 	public function changestatus($data)
 	{
 		$userid		= 	$this->getUserID();
+		print_r($userid); exit;
 		$id			= 	$data['id'];
 		$status		= 	$data['status'];
 		$datetime	= 	date('Y-m-d H:i:s');
