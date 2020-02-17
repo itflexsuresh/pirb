@@ -282,7 +282,7 @@ class Plumber_Model extends CC_Model
 			$checkcount = str_pad($count, 6, '0', STR_PAD_LEFT);
 			$checkregno = $this->getList('count', ['type' => '3', 'approvalstatus' => ['1'], 'searchregno' => $checkcount]);
 			if($checkregno > 0){
-				$this->plumberregistrationno($id, $value, $year, $count)
+				$this->plumberregistrationno($id, $value, $year, $count);
 			}
 		}
 		
