@@ -389,6 +389,11 @@ $config['payment_status'] 			=	[
 											'0'	=>	'Not Paid',
 											'1'	=>	'Paid'
 										];
+										
+$config['payment_status2'] 			=	[
+											'0'	=>	'Unpaid',
+											'1'	=>	'Paid'
+										];
 								
 $config['cocstatus'] 			=		[
 											'1'	=>	'Admin Stock',

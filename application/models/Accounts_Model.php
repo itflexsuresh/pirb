@@ -3,31 +3,29 @@
 class Accounts_Model extends CC_Model
 {
 	public function getList($type, $requestdata=[])
-	{
-		
-        $query=$this->db->select('t1.*,
-        	t2.inv_id, t2.total_due, t2.quantity, t2.cost_value, t2.delivery_cost, t2.total_due, t3.reg_no, t3.id, t3.name name, t3.surname surname, t3.company_name company_name, t3.vat_no vat_no, t3.email2, t3.home_phone,t4.type,t4.address,t4.province, t4.suburb, t4.city,t5.registration_no');
-
+	{		
+        $query=$this->db->select('
+			t1.*,
+        	t2.inv_id, t2.total_due, t2.quantity, t2.cost_value, t2.delivery_cost, t2.total_due, 
+			t3.reg_no, t3.id, t3.name name, t3.surname surname, t3.company_name company_name, t3.vat_no vat_no, t3.email2, t3.home_phone,
+			t4.type,t4.address,t4.province, t4.suburb, t4.city,t5.registration_no
+		');
         $this->db->from('invoice t1');
         $this->db->join('coc_orders t2','t2.inv_id = t1.inv_id', 'left');
         $this->db->join('users_detail t3', 't3.user_id = t1.user_id', 'left');
-	$this->db->join('users_plumber t5', 't5.user_id = t1.user_id', 'left');
         $this->db->join('users_address t4', 't4.user_id = t1.user_id AND t4.type=1', 'left');
+		$this->db->join('users_plumber t5', 't5.user_id = t1.user_id', 'left');
    
-       if(isset($requestdata['id'])) $this->db->where('t1.inv_id', $requestdata['id']);
-       
+		if(isset($requestdata['id'])) 		$this->db->where('t1.inv_id', $requestdata['id']);
+		if(isset($requestdata['user_id'])) 	$this->db->where('t1.user_id', $requestdata['user_id']);
+
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
-		
-	
-		
-		
+			
 		if($type=='count'){
 			$result = $this->db->count_all_results();
-
 		}else{
-
 			$query = $this->db->get();
 			
 			if($type=='all') 		$result = $query->result_array();
