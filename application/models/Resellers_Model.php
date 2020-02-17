@@ -26,7 +26,7 @@ class Resellers_Model extends CC_Model
 								'ud.id as usersdetailid','ud.user_id as usersid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.company','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit', 'ud.vat_vendor'
 							];
 		$coccountnt 			= 	[ 
-								'cc.id as coccountid, cc.id as count'
+								'cc.id as coccountid, cc.count as count'
 							];
 
 		$this->db->select('
