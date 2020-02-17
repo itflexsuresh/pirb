@@ -1,6 +1,19 @@
 <?php
 	$id 					= isset($result['id']) ? $result['id'] : '';
 	
+	$cocid 					= isset($result['coc_id']) ? $result['coc_id'] : '';	
+	$cocstatus 				= isset($this->config->item('cocstatus')[$result['coc_status']]) ? $this->config->item('cocstatus')[$result['coc_status']] : '';
+	$auditstatus 			= isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';
+	$coctype 				= isset($this->config->item('coctype')[$result['coc_type']]) ? $this->config->item('coctype')[$result['coc_type']] : '';
+	
+	$companyname 			= isset($result['companyname']) ? $result['companyname'] : '';
+	$allocationdate 		= isset($result['createddate']) && $result['createddate']!='1970-01-01' ? date('d-m-Y', strtotime($result['createddate'])) : '';
+	
+	$plumberid 				= isset($result['plumberid']) ? $result['plumberid'] : '';
+	$plumberregno 			= isset($result['registration_no']) ? $result['registration_no'] : '';
+	$plumbername 			= isset($result['plumbername']) ? $result['plumbername'] : '';
+	$plumberstatus 			= isset($this->config->item('plumberstatus')[$result['plumberstatus']]) ? $this->config->item('plumberstatus')[$result['plumberstatus']] : '';
+	
 	$logdate 				= isset($result['log_date']) && $result['log_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['log_date'])) : '';
 	$completiondate 		= isset($result['completion_date']) && $result['completion_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['completion_date'])) : '';
 	$orderno 				= isset($result['order_no']) ? $result['order_no'] : '';
@@ -13,6 +26,10 @@
 	$suburbid 				= isset($result['suburb']) ? $result['suburb'] : '';
 	$contactno 				= isset($result['contact_no']) ? $result['contact_no'] : '';
 	$alternateno 			= isset($result['alternate_no']) ? $result['alternate_no'] : '';
+	
+	$filepath				= base_url().'assets/uploads/coc/cocdetails/';
+	$pdfimg 				= base_url().'assets/images/pdf.png';
+	$profileimg 			= base_url().'assets/images/profile.jpg';
 ?>
 
 <div class="row page-titles">
@@ -44,19 +61,19 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>CoC Type</label>
-							<input type="text" class="form-control" value="<?php echo $number; ?>" disabled>
+							<input type="text" class="form-control" value="<?php echo $coctype; ?>" disabled>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>CoC Status</label>
-							<input type="text" class="form-control" value="<?php echo $number; ?>" disabled>
+							<input type="text" class="form-control" value="<?php echo $cocstatus; ?>" disabled>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Audit Status</label>
-							<input type="text" class="form-control" value="<?php echo $number; ?>" disabled>
+							<input type="text" class="form-control" value="<?php echo $auditstatus; ?>" disabled>
 						</div>
 					</div>
 				</div>
@@ -66,13 +83,13 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Company Name</label>
-							<input type="text" class="form-control" value="<?php echo $certificateno; ?>" disabled>
+							<input type="text" class="form-control" value="<?php echo $companyname; ?>" disabled>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Date and Time of Allocation to Plumber</label>
-							<input type="text" class="form-control" value="<?php echo $number; ?>" disabled>
+							<input type="text" class="form-control" value="<?php echo $allocationdate; ?>" disabled>
 						</div>
 					</div>
 				</div>
@@ -82,26 +99,26 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Registration Number</label>
-							<input type="text" class="form-control" value="<?php echo $certificateno; ?>" disabled>
+							<input type="text" class="form-control" value="<?php echo $plumberregno; ?>" disabled>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Name and Surname</label>
-							<input type="text" class="form-control" value="<?php echo $number; ?>" disabled>
+							<input type="text" class="form-control" value="<?php echo $plumbername; ?>" disabled>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Current Status</label>
-							<input type="text" class="form-control" value="<?php echo $number; ?>" disabled>
+							<input type="text" class="form-control" value="<?php echo $plumberstatus; ?>" disabled>
 						</div>
 					</div>
 				</div>
 				
 				
 				<h4 class="card-title">COC Details</h4>
-				<a href="">View COC Details in full</a>
+				<p><a target="blank" href="<?php echo base_url().'admin/cocstatement/cocdetails/index/viewcoc/'.$cocid.'/'.$plumberid; ?>">View COC Details in full</a></p>
 				<div class="row">					
 					<div class="col-md-12">
 						<div class="form-group">
@@ -190,23 +207,90 @@
 				
 				<h4 class="card-title">Diary of Activities and Comments</h4>
 				<div class="row">	
-					<div class="col-md-12 comment_list"></div>
-					<div class="col-md-12">
-						<div class="form-group">
-							<input type="text" class="form-control" name="alternate_no" id="alternate_no" value="<?php echo $alternateno; ?>" disabled>
-							<input type="submit" value="Add Comment">
+					<form action="" method="post" class="form1">
+						<div class="col-md-12 comment_list">
+							<?php
+								foreach($comments as $comment){
+							?>
+									<p><?php echo date('d-m-Y', strtotime($comment['created_at'])).' - '.$comment['username'].' : '.$comment['comments']; ?></p>
+							<?php
+								}
+							?>
 						</div>
-					</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<input type="text" class="form-control" name="comments" id="comments" value="">
+								<button type="submit" class="btn btn-primary" value="comment" name="submit">Add Comment</button>
+							</div>
+						</div>
+					</form>
 				</div>
 				
 				<h4 class="card-title">Recalled/Reallocate/Cancel a COC</h4>
 				<div class="row">				
 					<div class="col-md-12">
 						<div class="form-group">
+							<div class="row">
+								<?php
+									foreach($cocrecall as $key => $value){
+								?>
+										<div class="col-md-2">
+											<div class="custom-control custom-radio">
+												<input type="radio" name="cocrecall" id="cocrecall<?php echo $key.'-'.$value; ?>" class="custom-control-input" value="<?php echo $key; ?>">
+												<label class="custom-control-label" for="cocrecall<?php echo $key.'-'.$value; ?>"><?php echo $value; ?></label>
+											</div>
+										</div>
+								<?php
+									}
+								?>
+							</div>
+						</div>
+					</div>	
+					<div class="col-md-12">
+						<div class="form-group">
 							<label>Reseller</label>
 							<input type="text" class="form-control">
 						</div>
+					</div>				
+					<div class="col-md-12">
+						<div class="form-group">
+							<label>Plumber</label>
+							<input type="text" class="form-control">
+						</div>
+					</div>		
+					<div class="col-md-12">
+						<div class="form-group">
+							<label>Reason Canceling COC</label>
+							<div class="row">
+								<?php
+									foreach($cocreason as $key => $value){
+								?>
+										<div class="col-md-2">
+											<div class="custom-control custom-radio">
+												<input type="radio" name="cocreason" id="cocreason<?php echo $key.'-'.$value; ?>" class="custom-control-input" value="<?php echo $key; ?>">
+												<label class="custom-control-label" for="cocreason<?php echo $key.'-'.$value; ?>"><?php echo $value; ?></label>
+											</div>
+										</div>
+								<?php
+									}
+								?>
+							</div>
+						</div>
 					</div>	
+					<div class="col-md-3">
+						<label>Add Document</label>
+						<div class="form-group">
+							<div>
+								<img src="<?php echo $profileimg; ?>" class="document_image" width="100">
+							</div>
+							<input type="file" class="document_file">
+							<input type="hidden" name="document" class="photo" value="">
+							<p>(Image/File Size Smaller than 5mb)</p>
+						</div>
+					</div>
+					<div class="col-md-12 text-right">
+						<button type="button" class="btn btn-primary">Cancel/Reallocate/Recalled</button>
+					</div>
 				</div>
 				
 			</div>
@@ -215,37 +299,26 @@
 </div>
 
 <script>
+	var filepath 	= '<?php echo $filepath; ?>';
+	var pdfimg		= '<?php echo $pdfimg; ?>';
+
 	$(function(){
 		citysuburb(['#province','#city', '#suburb'], ['<?php echo $cityid; ?>', '<?php echo $suburbid; ?>']);
-		
+		fileupload([".document_file", "./assets/uploads/coc/cocdetails/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.document', '.document_image', filepath, pdfimg]);
+	
 		validation(
-			'.form',
+			'.form1',
 			{
-				name : {
-					required	: true,
-					remote		: 	{
-							url	: "<?php echo base_url().'admin/administration/installationtype/InstallationTypeValidation'; ?>",
-							type: "post",
-							async: false,
-							data: {
-								name: function() {
-									return $( "#name" ).val();
-								},
-								id: function() {
-									return $( "#id" ).val();
-								}
-							}
-
-						}
+				comments : {
+					required	: true
 				}
 			},
 			{
-				name 	: {
-					required	: "Installation Type field is required.",
-					remote		: "Installation Type Already Exists."
+				comments 	: {
+					required	: "Comment field is required."
 				}
-			},[],'1'
-			);
+			}
+		);
 			
 	});
 </script>
