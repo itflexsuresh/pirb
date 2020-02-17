@@ -4,10 +4,9 @@ class Reportlisting_Model extends CC_Model
 {
 	public function getList($type, $requestdata=[])
 	{
-		$this->db->select('t1.*, t2.name, t3.name insname')->order_by('t1.id','desc');
-		$this->db->from('report_listing t1');
-		// $this->db->join('installationtype t2','t2.id=t1.installation_id','left');
-		// $this->db->join('installationsubtype t3','t3.id=t1.installation_id and t1.subtype','left');
+		$this->db->select('t1.*, t2.name, t3.name insname');
+		// $this->db->order_by('t1.id','desc');
+		$this->db->from('report_listing t1');		
 
 		$this->db->join('installationsubtype t2','t2.installationtype_id=t1.installation_id AND t2.id=t1.subtype_id	','left');
 	 	$this->db->join('installationtype t3','t3.id=t1.installation_id','left');
@@ -21,19 +20,24 @@ class Reportlisting_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['t1.id', 't1.installation_id', 't1.compliment', 't1.cautionary', 't1.refix_complete', 't1.refix_incomplete','t1.status', 't2.name', 't3.name'];
+			$column = ['t1.id', 't1.installation_id', 't1.subtype_id', 't1.compliment', 't1.cautionary', 't1.refix_complete', 't1.refix_incomplete','t1.status', 't2.name', 't3.insname'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
-		// if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
-		// 	$searchvalue = $requestdata['search']['value'];
-		// 	$this->db->like('installation_id', $searchvalue);
-		// 	$this->db->like('subtype_id', $searchvalue);
-		// 	$this->db->or_like('complient', $searchvalue);
-		// 	$this->db->or_like('refix_complete', $searchvalue);
-		// 	$this->db->or_like('refix_incomplete', $searchvalue);
-		// 	$this->db->or_like('cautionary', $searchvalue);
-		// 	$this->db->or_like('id', $searchvalue);
-		// }
+
+		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
+			$searchvalue = strtolower((trim($requestdata['search']['value'])));
+			$this->db->like('t3.name', $searchvalue);
+			// $this->db->or_like('t1.id', $searchvalue);
+			// $this->db->or_like('t1.installation_id', $searchvalue);
+			// $this->db->or_like('t2.name', $searchvalue);
+			// $this->db->like('t1.subtype_id', $searchvalue);
+			// $this->db->or_like('t1.compliment', $searchvalue);
+			// $this->db->or_like('t1.refix_complete', $searchvalue);
+			// $this->db->or_like('t1.refix_incomplete', $searchvalue);
+			// $this->db->or_like('t1.cautionary', $searchvalue);
+			
+		}
+		
 
 		if($type=='count'){
 			$result = $this->db->count_all_results();
