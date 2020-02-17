@@ -1415,6 +1415,14 @@ i.fa.fa-check {
 	cursor: pointer;
 }
 
+.coc_manage a.sub_menu span {
+    color: #000 !important;
+}
+
+.coc_manage ul.collapse.in li a {
+    color: #000 !important;
+}
+
 
 
 
