@@ -84,6 +84,18 @@ $formstatus  	= $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'admin/resellers/index'; ?>">Resellers</a></li>
 						</ul>
 					</li>
+				       <li class="step three"> 
+						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Accounts</span></a>
+						<ul aria-expanded="false" class="collapse">
+							<li><a href="<?php echo base_url().'admin/accounts/Accounts'; ?>">Plumber COC Invocies</a></li>							
+						</ul>
+					</li>
+				   <li class="step four"> 
+						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Gamification</span></a>
+						<ul aria-expanded="false" class="collapse">
+							<li><a href="<?php echo base_url().'admin/gamification/globalsettings'; ?>">Global Settings</a></li>
+						</ul>
+					</li>
 					<li class="step five"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Audits</span></a>
 						<ul aria-expanded="false" class="collapse">
