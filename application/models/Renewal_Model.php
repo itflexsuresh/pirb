@@ -129,7 +129,7 @@ class Renewal_Model extends CC_Model
 				$now = time();
 				$your_date = strtotime($createdate);
 				$datediff = $now - $your_date;
-				$days = round($datediff / (60 * 60 * 24));
+				$days = round($datediff / (60 * 60 * 24)) - 1;
 				// echo $days;
 				if($days == 358){					
 					$userid_array[] = $userid; 					
