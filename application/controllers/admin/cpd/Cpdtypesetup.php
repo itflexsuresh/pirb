@@ -248,9 +248,10 @@ class Cpdtypesetup extends CC_Controller
 		{
 			$data 	=   $this->Cpdtypesetup_Model->autosearchPlumberReg($postData);
 		}
+
 	  	// echo json_encode($data); exit;
 
-		if(!empty($data)) {
+		if(!empty($data) && count($data)>0 ) {
 		?>
 			<ul id="name-list">
 			<?php
