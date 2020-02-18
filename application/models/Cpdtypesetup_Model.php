@@ -128,7 +128,7 @@ class Cpdtypesetup_Model extends CC_Model
 		if ($requestdata['pagestatus'] == '1') {
 			$requestdata['pagestatus'] = array('1','2');
 		}
-		
+
 		$this->db->select('*');
 		$this->db->from('cpd_activity_form')->order_by('id','desc');
 		
@@ -208,8 +208,8 @@ class Cpdtypesetup_Model extends CC_Model
 		$designations = array('4', '5', '6' );
 		$this->db->select('u1.reg_no, u2.id, u1.name, u1.surname');
 		$this->db->from('users_detail u1');
-		$this->db->join('users u2', 'u1.user_id=u2.id and u2.type="3" and u2.status="1"','inner');
-		$this->db->join('users_plumber up', 'up.user_id=u1.user_id','inner');
+		$this->db->join('users u2', 'u1.user_id=u2.id and u2.type="3" and u2.status="1"','left');
+		$this->db->join('users_plumber up', 'up.user_id=u1.user_id','left');
 		$this->db->where_in('up.designation', $designations);
 		$this->db->like('u1.reg_no',$postData['search_keyword']);
 		// $this->db->or_like('u1.surname',$postData['search_keyword']);
