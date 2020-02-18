@@ -106,8 +106,9 @@ class Stock_Model extends CC_Model
 
 		           				$PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
 		           				$delivery_rate =  $this->db->select('amount')->from('rates')->where('id',$delivery_method)->get()->row_array();
-
-
+		           			}
+		           			if(!isset($delivery_rate['amount'])){
+		           				$delivery_rate['amount'] = 0;
 		           			}
 		           			$total_subtotal = $delivery_rate['amount']+$rowData['cost_value'];
 
