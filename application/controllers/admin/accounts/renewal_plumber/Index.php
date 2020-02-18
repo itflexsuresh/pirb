@@ -266,7 +266,7 @@ class Index extends CC_Controller
 					<p style="text-align: center; border: 1px solid #000; width: 50%; float: right; margin-right: 20px;">
 					<p style="border-bottom: 1px solid #000;">
 					<p style="width: auto; display: inline-block; margin: 0; padding: 6px 0 6px 0;    border-right: 1px solid #000;">Sub Total</p>
-					<p style="width: 50%; display: inline-block; margin: 0; padding: 6px 0 6px 0;">'.$total_subtotal.'</p>
+					<p style="width: 50%; display: inline-block; margin: 0; padding: 6px 0 6px 0;">'.$rowData['cost_value'].'</p>
 					</p>
 					<p style="border-bottom: 1px solid #000;">
 					<p style="width: auto; display: inline-block; margin: 0; padding: 6px 0 6px 0;    border-right: 1px solid #000;">VAT Total</p>
@@ -509,7 +509,7 @@ class Index extends CC_Controller
 				<p style="text-align: center; border: 1px solid #000; width: 50%; float: right; margin-right: 20px;">
 				<p style="border-bottom: 1px solid #000;">
 				<p style="width: auto; display: inline-block; margin: 0; padding: 6px 0 6px 0;    border-right: 1px solid #000;">Sub Total</p>
-				<p style="width: 50%; display: inline-block; margin: 0; padding: 6px 0 6px 0;">'.$total_subtotal.'</p>
+				<p style="width: 50%; display: inline-block; margin: 0; padding: 6px 0 6px 0;">'.$rowData['cost_value'].'</p>
 				</p>
 				<p style="border-bottom: 1px solid #000;">
 				<p style="width: auto; display: inline-block; margin: 0; padding: 6px 0 6px 0;    border-right: 1px solid #000;">VAT Total</p>
