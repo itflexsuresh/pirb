@@ -66,54 +66,11 @@ class Index extends CC_Controller
 	
 	public function view($id)
 	{
-		$this->coclogaction($id, ['pagetype' => 'view'], ['redirect' => 'plumber/cocstatement/index']);
+		$this->coclogaction($id, ['pagetype' => 'view', 'roletype' => $this->config->item('roleplumber')], ['redirect' => 'plumber/cocstatement/index', 'userid' => $this->getUserID()]);
 	}
 	
 	public function action($id)
 	{
-		$this->coclogaction($id, ['pagetype' => 'action'], ['redirect' => 'plumber/cocstatement/index']);
-	}
-	
-	public function coclogaction($id, $pagedata=[], $extras=[])
-	{
-		if($this->input->post()){
-			$requestData 	= 	$this->input->post();
-
-			$data 	=  $this->Coc_Model->actionCocLog($requestData);
-		
-			if($data) $this->session->set_flashdata('success', 'Thanks for Logging the COC.');
-			else $this->session->set_flashdata('error', 'Try Later.');
-		
-			redirect($extras['redirect']); 
-		}
-		
-		$userid							= $this->getUserID();
-		$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid]);
-		$specialisations 				= explode(',', $userdata['specialisations']);
-		
-		$pagedata['userdata'] 			= $userdata;
-		$pagedata['cocid'] 				= $id;
-		$pagedata['notification'] 		= $this->getNotification();
-		$pagedata['province'] 			= $this->getProvinceList();
-		$pagedata['designation2'] 		= $this->config->item('designation2');
-		$pagedata['installationtype']	= $this->getInstallationTypeList();
-		$pagedata['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => []]);
-		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations]);
-		$pagedata['coclist']			= $this->Coc_Model->getCOCList('row', ['id' => $id]);
-		$pagedata['result']				= $this->Coc_Model->getCOCLog('row', ['coc_id' => $id]);
-		
-		$noncompliance					= $this->Noncompliance_Model->getList('all', ['user_id' => $userdata['id']]);		
-		$pagedata['noncompliance']		= [];
-		foreach($noncompliance as $compliance){
-			$pagedata['noncompliance'][] = [
-				'id' 		=> $compliance['id'],
-				'details' 	=> $this->parsestring($compliance['details'])
-			];
-		}
-		
-		$data['plugins']				= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker', 'inputmask'];
-		$data['content'] 				= $this->load->view('plumber/cocstatement/action', (isset($pagedata) ? $pagedata : ''), true);
-		
-		$this->layout2($data);
+		$this->coclogaction($id, ['pagetype' => 'action', 'roletype' => $this->config->item('roleplumber')], ['redirect' => 'plumber/cocstatement/index', 'userid' => $this->getUserID()]);
 	}
 }

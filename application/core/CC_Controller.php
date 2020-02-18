@@ -18,6 +18,8 @@ class CC_Controller extends CI_Controller
 		$this->load->model('Auditor_Model');
 		$this->load->model('Coc_Model');
 		$this->load->model('Communication_Model');
+		$this->load->model('Plumber_Model');
+		$this->load->model('Noncompliance_Model');
 		
 		$this->load->library('pdf');
 		$this->load->library('phpqrcode/qrlib');
@@ -359,5 +361,47 @@ class CC_Controller extends CI_Controller
 		$data['content'] = $this->load->view('common/auditor', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
+	
+	public function coclogaction($id, $pagedata=[], $extras=[])
+	{
+		if($this->input->post()){
+			$requestData 	= 	$this->input->post();
 
+			$data 	=  $this->Coc_Model->actionCocLog($requestData);
+		
+			if($data) $this->session->set_flashdata('success', 'Thanks for Logging the COC.');
+			else $this->session->set_flashdata('error', 'Try Later.');
+		
+			redirect($extras['redirect']); 
+		}
+		
+		$userid							= $extras['userid'];
+		$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid]);
+		$specialisations 				= explode(',', $userdata['specialisations']);
+		
+		$pagedata['userdata'] 			= $userdata;
+		$pagedata['cocid'] 				= $id;
+		$pagedata['notification'] 		= $this->getNotification();
+		$pagedata['province'] 			= $this->getProvinceList();
+		$pagedata['designation2'] 		= $this->config->item('designation2');
+		$pagedata['installationtype']	= $this->getInstallationTypeList();
+		$pagedata['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => []]);
+		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations]);
+		$pagedata['coclist']			= $this->Coc_Model->getCOCList('row', ['id' => $id]);
+		$pagedata['result']				= $this->Coc_Model->getCOCLog('row', ['coc_id' => $id]);
+		
+		$noncompliance					= $this->Noncompliance_Model->getList('all', ['user_id' => $userid]);		
+		$pagedata['noncompliance']		= [];
+		foreach($noncompliance as $compliance){
+			$pagedata['noncompliance'][] = [
+				'id' 		=> $compliance['id'],
+				'details' 	=> $this->parsestring($compliance['details'])
+			];
+		}
+		
+		$data['plugins']				= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker', 'inputmask'];
+		$data['content'] 				= $this->load->view('common/logcocstatement', (isset($pagedata) ? $pagedata : ''), true);
+		
+		$this->layout2($data);
+	}
 }

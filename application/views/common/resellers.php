@@ -133,7 +133,7 @@ $stock_count = isset($stock_count['COUNT']) ? $stock_count['COUNT'] : '';
 
 					<div class="col-md-6">
 						<div class="form-group">							
-							<input type="checkbox" class="custom-control-input" id="status" name="status" value="1" <?php echo ($status=='1') ? 'checked="checked"' : ''; ?> checked>
+							<input type="checkbox" class="custom-control-input" id="status" name="status" value="1" <?php echo ($status=='1') ? 'checked="checked"' : ''; ?>>
 							<label class="custom-control-label" for="status">Active</label>
 						</div>
 					</div>

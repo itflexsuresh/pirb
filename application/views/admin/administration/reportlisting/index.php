@@ -59,7 +59,7 @@ else
 						<div class="col-md-6">
 							<div class="form-group"> 
 								<label>Installation Type</label>
-								<?php echo form_dropdown('installation', $installationtypelist, '$installation', ['id' => 'repo_installation', 'class' => 'form-control']); ?>
+								<?php echo form_dropdown('installation', $installationtypelist, $installation, ['id' => 'repo_installation', 'class' => 'form-control']); ?>
 							</div>
 						</div>
 						<div class="col-md-6">
@@ -73,7 +73,7 @@ else
 						<div class="col-md-6">
 							<div class="form-group"> 
 								<label>Sub Type</label>
-								<?php echo form_dropdown('subtype', [], '', ['id' => 'repo_subtype', 'class' => 'form-control']); ?>
+								<?php echo form_dropdown('subtype', [], $subtype, ['id' => 'repo_subtype', 'class' => 'form-control']); ?>
 							</div>
 						</div>
 						<div class="col-md-6">
@@ -154,6 +154,7 @@ else
 								<th>Cautionary</th>
 								<th>Refix (Complete)</th>
 								<th>Refix (In-Complete)</th>
+								<th>Active</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -180,7 +181,8 @@ else
 			{ "data": "compliment" },
 			{ "data": "cautionary" },
 			{ "data": "refix_complete"},
-			{ "data": "refix_incomplete"},			
+			{ "data": "refix_incomplete"},
+			{ "data": "status" },			
 			{ "data": "action" }
 			]
 		};

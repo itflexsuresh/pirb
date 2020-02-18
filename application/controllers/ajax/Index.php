@@ -11,6 +11,7 @@ class Index extends CC_Controller
 		$this->load->model('Managearea_Model');
 		$this->load->model('Subtype_Model');
 		$this->load->model('Noncompliance_Model');
+		$this->load->model('Coc_Ordermodel');
 	}
 	
 	public function ajaxfileupload()
@@ -157,6 +158,19 @@ class Index extends CC_Controller
 		}
 		
 		echo json_encode($json);
+	}
+	
+	public function ajaxuserautocomplete()
+	{ 
+		$post = $this->input->post();
+
+		if($post['type']== 3){
+			$data 	=   $this->Coc_Ordermodel->autosearchPlumber($post);
+		}else{
+			$data 	=   $this->Coc_Ordermodel->autosearchReseller($post);
+		}
+		
+		echo json_encode($data);
 	}
 	
 }

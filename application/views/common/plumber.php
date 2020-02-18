@@ -926,7 +926,6 @@
 
 var userid		= '<?php echo $userid; ?>';
 var filepath 	= '<?php echo $filepath; ?>';
-var ajaxfileurl	= '<?php echo base_url("ajax/index/ajaxfileupload"); ?>';
 var pdfimg		= '<?php echo $pdfimg; ?>';
 var type		= '<?php echo $type; ?>';
 

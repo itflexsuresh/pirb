@@ -403,6 +403,18 @@ $config['cocstatus'] 			=		[
 											'5'	=>	'Non-Logged Allocated (Customer)',
 											'6'	=>	'Recalled (unallocated)'
 										];
+								
+$config['cocrecall'] 			=		[
+											'1'	=>	'Recalled',
+											'2'	=>	'Cancelled',
+											'3'	=>	'Reallocated'
+										];
+														
+$config['cocreason'] 			=		[
+											'1'	=>	'Lost',
+											'2'	=>	'Stolen',
+											'3'	=>	'Destroyed'
+										];
 										
 $config['auditstatus'] 			=		[
 											'1'		=>	'Audited (Completed)',

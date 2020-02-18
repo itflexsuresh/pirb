@@ -47,6 +47,7 @@ class Plumber_Model extends CC_Model
 		if(isset($requestdata['status']))				$this->db->where_in('u.status', $requestdata['status']);
 		if(isset($requestdata['approvalstatus']))		$this->db->where_in('up.approval_status', $requestdata['approvalstatus']);
 		if(isset($requestdata['plumberstatus']))		$this->db->where_in('ud.status', $requestdata['plumberstatus']);
+		if(isset($requestdata['searchregno']))			$this->db->like('up.registration_no', $requestdata['searchregno']);
 		
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
@@ -268,16 +269,22 @@ class Plumber_Model extends CC_Model
 		return $this->db->where('id', $id)->delete('users_plumber_skill');
 	}
 	
-	public function plumberregistrationno($id, $value, $year)
+	public function plumberregistrationno($id, $value, $year, $counts='')
 	{
-		$count = $this->getList('count', ['type' => '3', 'approvalstatus' => ['1']]);
-		$count = $count+1;
-		
 		$row = $this->getList('row', ['id' => $id, 'type' => '3']);
 		
 		if(isset($row['registration_no']) && $row['registration_no']!=''){
 			$exploderegno = explode('/', $row['registration_no']);
 			if(isset($exploderegno[0])) $count = $exploderegno[0];
+		}else{
+			$count 		= $this->getList('count', ['type' => '3', 'approvalstatus' => ['1']]);
+			$count 		= ($counts=='') ? $count+1 : $counts;
+			$checkcount = str_pad($count, 6, '0', STR_PAD_LEFT);
+			
+			$checkregno = $this->getList('count', ['type' => '3', 'approvalstatus' => ['1'], 'searchregno' => $checkcount]);			
+			if($checkregno > 0){				
+				return $this->plumberregistrationno($id, $value, $year, ($count+1));
+			}
 		}
 		
 		if($value=='1'){

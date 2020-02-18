@@ -141,19 +141,6 @@ class Index extends CC_Controller
 		
 	}
 
-	public function userDetails()
-	{ 
-		$post = $this->input->post();
-
-		if($post['type']== 3){
-			$data 	=   $this->Coc_Ordermodel->autosearchPlumber($post);
-		}else{
-			$data 	=   $this->Coc_Ordermodel->autosearchReseller($post);
-		}
-		
-		echo json_encode($data);
-	}
-
 	public function add_comments()
 	{ 
 		$post = $this->input->post();		

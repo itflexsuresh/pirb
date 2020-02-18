@@ -70,7 +70,8 @@ class Index extends CC_Controller
 										'compliment'	  => $result['compliment'],
 										'cautionary' 	  => $result['cautionary'],
 										'refix_complete'  => $result['refix_complete'],
-										'refix_incomplete'  => $result['refix_incomplete'],
+										'refix_incomplete'=> $result['refix_incomplete'],
+										'status' 		  => 	$this->config->item('statusicon')[$result['status']],
 										'action'	=> 	'
 															<div class="table-action">
 																<a href="'.base_url().'admin/administration/reportlisting/Index/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>

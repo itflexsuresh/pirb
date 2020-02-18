@@ -101,7 +101,7 @@ $allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
 			            	</div>
 						</div>
 					</div>
-					<div class="row user_wrapper <?php if(!isset($id)){ echo 'displaynone'; } ?>">
+					<div class="row user_wrapper <?php if($id==''){ echo 'displaynone'; } ?>">
 						<div class="col-md-6">
 							<div class="form-group">
 								<label></label>
@@ -461,29 +461,19 @@ function userwrapper(value){
 	$("#user_search, #user_id").val('');
 }
 
+
 $('#user_search').keyup(function(){
-	user_search($(this).val())
+	userautocomplete(["#user_search", "#user_id", "#user_suggestion"], [$(this).val(), $('[name="purchase_type"]:checked').val()], custom_user_select);
 })
 
-
-
-function user_search(value)
-{
-	ajax('<?php echo base_url()."admin/cocstatement/cocorders/index/userDetails"; ?>', {'search_keyword' : value, type : $('[name="purchase_type"]:checked').val()}, user_search_result);
+function custom_user_select(name, id, limit, electronic) {
+	$("#user_limit").val(limit);
+	$('#quantity').attr('max', limit);
+	
+	if(electronic=='1') $('.electronic_radio').parent().parent().show();
+	else $('.electronic_radio').parent().parent().hide();
 }
 
-function user_search_result(data)
-{
-	var result = [];
-	
-	$(data).each(function(i, v){
-		var fn = "user_select('"+v.name+"', '"+v.id+"', '"+v.count+"', '"+v.coc_electronic+"')";
-		result.push('<li onclick="'+fn+'">'+v.name+'</li>');
-	})
-	
-	var append = '<ul class="autocomplete_list">'+result.join('')+'</ul>';
-	$("#user_suggestion").html('').removeClass('displaynone').html(append);
-}
 
 $('#comment_btn').click(function(){
 	if($('#comment').val()!=''){
@@ -505,17 +495,6 @@ function comments_display(data){
 	}
 	comment_all = comments_txt+new_line+comment;
 	$('#comments').text(comment_all);
-}
-
-function user_select(name, id, limit, electronic) {
-	$("#user_suggestion").html('');
-	$("#user_search").val(name);
-	$("#user_id").val(id);
-	$("#user_limit").val(limit);
-	$('#quantity').attr('max', limit);
-	
-	if(electronic=='1') $('.electronic_radio').parent().parent().show();
-	else $('.electronic_radio').parent().parent().hide();
 }
 
 $('#quantity').keyup(function(e){

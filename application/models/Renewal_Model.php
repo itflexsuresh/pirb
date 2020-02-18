@@ -5,11 +5,15 @@ class Renewal_Model extends CC_Model
 	public function getList($type, $requestdata=[])
 	{
 		
-        $this->db->select ('inv.*, ud.name, ud.surname, up.registration_no');
+        $this->db->select ('inv.*, ud.name, ud.surname, ud.status as userstatus, up.registration_no, us.expirydate');
         $this->db->from('invoice inv');
         $this->db->order_by("inv.inv_id", "desc");     
         $this->db->join('users_detail ud', 'ud.user_id = inv.user_id', 'left');
-        $this->db->join('users_plumber up', 'up.user_id = inv.user_id', 'left');        
+        $this->db->join('users_plumber up', 'up.user_id = inv.user_id', 'left');
+        $this->db->join('users us', 'us.id = inv.user_id', 'left');
+        $this->db->where('inv.inv_type', '2');
+        $this->db->or_where('inv.inv_type', '3');
+        $this->db->or_where('inv.inv_type', '4');        
      
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length']))
 		{
@@ -55,7 +59,7 @@ class Renewal_Model extends CC_Model
 	public function getUserids()
 	{
 		
-		$this->db->select('id, created_at');		
+		$this->db->select('id, expirydate');		
 		$this->db->from('users');
 		$this->db->where('type', '3' );
 		$result = $this->db->get()->result_array();
@@ -65,7 +69,7 @@ class Renewal_Model extends CC_Model
 		
 		foreach($result as $rows)
 		{	
-			$createdate = $rows['created_at'];
+			$createdate = $rows['expirydate'];
 			if($createdate == '0000-00-00 00:00:00'){}
 			else{
 				$userid = $rows['id'];			
@@ -74,8 +78,14 @@ class Renewal_Model extends CC_Model
 				$interval = $datetime1->diff($datetime2);
 				$month = $interval->format('%m');
 				$year = $interval->format('%y')*12;
-				$monthcount = $month+$year;
-				if($monthcount > 10){					
+				$monthcount = $month+$year+1;
+
+				// $now = time();
+				// $your_date = strtotime($createdate);
+				// $datediff = $now - $your_date;
+				// $monthcount = $datediff / (60 * 60 * 24);
+				// echo $monthcount = $monthcount/30;
+				if($monthcount == 11){					
 					$userid_array[] = $userid; 
 				}
 			}
@@ -83,12 +93,130 @@ class Renewal_Model extends CC_Model
 
 		$result = array();
 		if(!empty($userid_array)){
-			$this->db->select('us.id, us.created_at, up.designation');		
+			$this->db->select('us.id, us.expirydate, up.designation');		
 			$this->db->from('users us');
 			$this->db->join('users_plumber as up', 'up.user_id=us.id', 'inner');
 			$this->db->where_in('us.id', $userid_array );			
 			$result = $this->db->get()->result_array();
 		}
+		return $result;
+	}
+
+	public function getUserids_alert2()
+	{
+		
+		$this->db->select('us.id, us.expirydate');		
+		$this->db->from('users us');
+		$this->db->join('invoice inv', 'inv.user_id=us.id', 'inner');
+		$this->db->where('inv.inv_type', '2' );
+		$this->db->where('inv.status', '0' );
+		$this->db->where('us.type', '3' );
+		$result = $this->db->get()->result_array();
+
+		$userid_array = array();
+		$currentdate = date('Y-m-d h:i:s');			
+		foreach($result as $rows)
+		{	
+			$createdate = $rows['expirydate'];
+			if($createdate == '0000-00-00 00:00:00'){}
+			else{
+				$userid = $rows['id'];			
+				// $datetime1 = new DateTime($createdate);
+				// $datetime2 = new DateTime($currentdate);
+				// $interval = $datetime1->diff($datetime2);
+				// $days = $interval->format('%a');								
+				// echo $days."- ";
+				$now = time();
+				$your_date = strtotime($createdate);
+				$datediff = $now - $your_date;
+				$days = round($datediff / (60 * 60 * 24)) - 1;
+				// echo $days;
+				if($days == 358){					
+					$userid_array[] = $userid; 					
+				}
+			}
+		}		
+
+		$result = array();
+		if(!empty($userid_array)){
+			$this->db->select('us.id, us.expirydate, up.designation, inv.inv_id');		
+			$this->db->from('users us');
+			$this->db->join('users_plumber as up', 'up.user_id=us.id', 'inner');
+			$this->db->join('invoice inv', 'inv.user_id=us.id', 'inner');
+			$this->db->where('inv.inv_type', '2' );
+			$this->db->where('inv.status', '0' );
+			$this->db->where('us.type', '3' );
+			$this->db->where_in('us.id', $userid_array );			
+			$result = $this->db->get()->result_array();
+		}
+		return $result;
+	}
+
+	public function getUserids_alert3()
+	{
+		
+		$this->db->select('us.id, us.expirydate');		
+		$this->db->from('users us');
+		$this->db->join('invoice inv', 'inv.user_id=us.id', 'inner');
+		$this->db->where('inv.inv_type', '3' );
+		$this->db->where('inv.status', '0' );
+		$this->db->where('us.type', '3' );
+		$result = $this->db->get()->result_array();
+
+		$penalty = 0;
+		$this->db->select('penalty');		
+		$this->db->from('settings_details');
+		$this->db->where('id', '1' );
+		$penalty_result = $this->db->get()->row_array();
+		$penalty = $penalty_result['penalty'];
+		$settingsdate = $penalty + 365;
+
+		$userid_array = array();
+		$currentdate = date('Y-m-d h:i:s');			
+		foreach($result as $rows)
+		{	
+			$createdate = $rows['expirydate'];
+			if($createdate == '0000-00-00 00:00:00'){}
+			else{
+				$userid = $rows['id'];
+				$now = time();
+				$your_date = strtotime($createdate);
+				$datediff = $now - $your_date;
+				$days = round($datediff / (60 * 60 * 24)) + 1;
+				// echo $userid."(".$settingsdate." : ".$days.") - ";
+				if($days >= $settingsdate){					
+					$userid_array[] = $userid; 					
+				}
+			}
+		}		
+
+		$result = array();
+		if(!empty($userid_array)){
+			$this->db->select('us.id, us.expirydate, up.designation, inv.inv_id');		
+			$this->db->from('users us');
+			$this->db->join('users_plumber as up', 'up.user_id=us.id', 'inner');
+			$this->db->join('invoice inv', 'inv.user_id=us.id', 'inner');
+			$this->db->where('inv.inv_type', '3' );
+			$this->db->where('inv.status', '0' );
+			$this->db->where('us.type', '3' );
+			$this->db->where_in('us.id', $userid_array );			
+			$result = $this->db->get()->result_array();
+		}
+		return $result;
+	}
+
+	public function getUserids_alert4()
+	{
+		
+		$this->db->select('us.id, us.email, us.expirydate, up.designation, inv.inv_id, ud.name, ud.surname');	
+		$this->db->from('users us');
+		$this->db->join('users_plumber as up', 'up.user_id=us.id', 'inner');
+		$this->db->join('users_detail as ud', 'ud.user_id=us.id', 'inner');
+		$this->db->join('invoice inv', 'inv.user_id=us.id', 'inner');
+		$this->db->where('inv.inv_type', '4' );
+		$this->db->where('inv.status', '0' );
+		$this->db->where('us.type', '3' );		
+		$result = $this->db->get()->result_array();		 
 		return $result;
 	}
 
@@ -102,7 +230,16 @@ class Renewal_Model extends CC_Model
 			return $result;
 	}
 
-	public function insertdata($userid,$designation)
+	public function get_lateamount()
+	{
+		$this->db->select('amount');
+		$this->db->from('rates');
+		$this->db->where('id', '10');
+		$lateamount_result = $this->db->get()->row_array();
+		return $lateamount_result;
+	}
+
+	public function insertdata($userid,$designation,$inv_type)
 	{
 		$this->db->select('amount');
 		$this->db->from('rates');
@@ -115,30 +252,54 @@ class Renewal_Model extends CC_Model
 		else
 			$this->db->where('supplyitem', 'Registration Rates');
 		
-		$rates = $this->db->get()->result_array(); 
-		$rate = $rates[0]['amount'];
+		$rates = $this->db->get()->row_array(); 
+		$rate = $rates['amount'];
 
 
 		$this->db->select('vat_percentage');
 		$this->db->from('settings_details');
 		$this->db->where('id', '1');
-		$vats = $this->db->get()->result_array();
-		$vat = $vats[0]['vat_percentage'];
+		$vats = $this->db->get()->row_array();
+		$vat = $vats['vat_percentage'];
+
+		if($inv_type == '4'){
+			$this->db->select('amount');
+			$this->db->from('rates');
+			$this->db->where('id', '10');
+			$lateamount_result = $this->db->get()->row_array();
+			$lateamount = $lateamount_result['amount'];		
+
+			$rate1 = $rate + $lateamount;
+			$vat_amount1 = $rate1 * $vat / 100;
+			$vat_amount1 = round($vat_amount1,2);
+
+			$vat_lateamount = $lateamount * $vat / 100;
+			$vat_lateamount = round($vat_lateamount,2);
+			$total_lateamount = $vat_lateamount + $lateamount;
+		}
 
 		$vat_amount = $rate * $vat / 100;
+		$vat_amount = round($vat_amount,2);
 		$total = $vat_amount + $rate;
-		$currentdate = date('Y-m-d h:i:s');
 
+		$currentdate = date('Y-m-d h:i:s');		
 		
-		$this->db->insert('invoice', ['description' => "Registration Fee", 'user_id' => $userid, 'status' => '0', 'inv_type' => '2',  'coc_type' => '2',  'delivery_type' => '2', 'total_cost' => $rate, 'vat'=>$vat_amount, 'created_at' => $currentdate]) ;
-		$result['invoice_id'] = $this->db->insert_id();
+		if($inv_type == '4'){
+			$this->db->insert('invoice', ['description' => "Registration Fee", 'user_id' => $userid, 'status' => '0', 'inv_type' => $inv_type,  'coc_type' => '2',  'delivery_type' => '2', 'total_cost' => $rate1, 'vat'=>$vat_amount1, 'created_at' => $currentdate]) ;
+			$result['invoice_id'] = $this->db->insert_id();
+		}
+		else{
+			$this->db->insert('invoice', ['description' => "Registration Fee", 'user_id' => $userid, 'status' => '0', 'inv_type' => $inv_type,  'coc_type' => '2',  'delivery_type' => '2', 'total_cost' => $rate, 'vat'=>$vat_amount, 'created_at' => $currentdate]) ;
+			$result['invoice_id'] = $this->db->insert_id();
+		}
 		
 		$this->db->insert('coc_orders', ['user_id' => $userid, 'description' => "Registration Fee",'quantity' => '1', 'status' => '0',  'cost_value' => $rate, 'coc_type' => '2',  'delivery_type' => '2', 'total_due' => $total, 'vat'=>$vat_amount, 'inv_id' => $result['invoice_id'], 'created_at' => $currentdate, 'created_by' => $userid]);
-		$result['cocorder_id']  = $this->db->insert_id();	
-		
-		// $this->db->set('created_at',$currentdate);
-		// $this->db->where('id', $userid);
-		// $this->db->update('users');
+		$result['cocorder_id']  = $this->db->insert_id();
+
+		if($inv_type == '4'){
+			$this->db->insert('coc_orders', ['user_id' => $userid, 'description' => "Late Penalty Fee",'quantity' => '1', 'status' => '0',  'cost_value' => $lateamount, 'coc_type' => '2',  'delivery_type' => '2', 'total_due' => $total_lateamount, 'vat'=>$vat_lateamount, 'inv_id' => $result['invoice_id'], 'created_at' => $currentdate, 'created_by' => $userid]);
+			$result['cocorder_id2']  = $this->db->insert_id();
+		}
 
 		return $result;
 
