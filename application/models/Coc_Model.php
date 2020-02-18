@@ -325,16 +325,15 @@ class Coc_Model extends CC_Model
 			pa.createddate as createddate,
 			cd.company as companyname
 		');
-		$this->db->from('coc_log cl');		
-		$this->db->join('stock_management sm', 'sm.id=cl.coc_id', 'left');
+		$this->db->from('stock_management sm');
+		$this->db->join('coc_log cl', 'sm.id=cl.coc_id', 'left');		
 		$this->db->join('users_plumber up', 'up.user_id=sm.user_id', 'left');
 		$this->db->join('users_detail ud', 'ud.user_id=sm.user_id', 'left');
 		$this->db->join('plumberallocate pa', 'pa.stockid=cl.coc_id', 'left');
 		$this->db->join('users_detail cd', 'cd.user_id=pa.company_details', 'left');
 		
-		if(isset($requestdata['id']))		$this->db->where('cl.id', $requestdata['id']);
-		if(isset($requestdata['coc_id']))	$this->db->where('cl.coc_id', $requestdata['coc_id']);
-						
+		if(isset($requestdata['coc_id']))	$this->db->where('sm.id', $requestdata['coc_id']);
+				
 		if($type=='count'){
 			$result = $this->db->count_all_results();
 		}else{
@@ -398,6 +397,72 @@ class Coc_Model extends CC_Model
 			}
 			
 			if(isset($cocstatus)) $this->db->update('stock_management', ['coc_status' => $cocstatus], ['id' => $data['coc_id']]);
+		}
+		
+		if($this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+			return false;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
+	
+	// Coc Details
+	
+	public function getCOcDetails($type, $requestdata=[])
+	{ 
+		$this->db->select('*');
+		$this->db->from('coc_details');
+	
+		if(isset($requestdata['id']))		$this->db->where('id', $requestdata['id']);
+		if(isset($requestdata['coc_id']))	$this->db->where('coc_id', $requestdata['coc_id']);
+						
+		if($type=='count'){
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		return $result;
+	}
+	
+	public function actionCocDetails($data)
+	{
+		$this->db->trans_begin();
+		
+		$userid			= 	$this->getUserID();
+		$datetime		= 	date('Y-m-d H:i:s');
+		$cocid			=	$data['coc_id'];
+		$recall			=	$data['recall'];
+		
+		$request		=	[
+			'coc_id' 			=> $cocid,
+			'recall' 			=> $recall,
+			'reason' 			=> isset($data['reason']) && $recall=='2' ? $data['reason'] : '',
+			'document' 			=> isset($data['document']) && $recall=='2' ? $data['document'] : '',
+			'user_id' 			=> isset($data['userid']) && $recall=='3' ? $data['userid'] : '',
+			'created_at' 		=> $datetime,
+			'created_by' 		=> $userid,
+			'updated_at' 		=> $datetime,
+			'updated_by' 		=> $userid
+		];
+
+		$this->db->insert('coc_details', $request);
+		
+		if($recall=='1'){
+			$this->db->update('stock_management', ['user_id' => '0', 'coc_status' => '6'], ['id' => $cocid]);
+		}elseif($recall=='2'){
+			$this->db->update('stock_management', ['coc_status' => '7'], ['id' => $cocid]);
+		}elseif($recall=='3'){
+			$cocstatus = (isset($data['user_type'])) ? $data['user_type'] : '';
+			if(isset($data['userid'])) $this->db->update('stock_management', ['user_id' => $userid, 'coc_status' => $cocstatus], ['id' => $cocid]);
 		}
 		
 		if($this->db->trans_status() === FALSE)

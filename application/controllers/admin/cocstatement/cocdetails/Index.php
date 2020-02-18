@@ -76,6 +76,12 @@ class Index extends CC_Controller
 				$data 	  =  $this->Coc_Details_Comment_Model->action($requestData);
 				$message  =	'Comment is successfully added.';
 				$redirect = 'admin/cocstatement/cocdetails/index/action/'.$id;
+			}elseif(isset($requestData['submit']) && $requestData['submit']=='details'){
+				$requestData['coc_id'] 	= $id;
+				
+				$data 	  =  $this->Coc_Model->actionCocDetails($requestData);
+				$message  =	'Successfully saved.';
+				$redirect = 'admin/cocstatement/cocdetails/index';
 			}
 		
 			if($data) $this->session->set_flashdata('success', $message);
