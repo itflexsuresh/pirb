@@ -130,7 +130,7 @@ class Renewal_Model extends CC_Model
 				$your_date = strtotime($createdate);
 				$datediff = $now - $your_date;
 				$days = round($datediff / (60 * 60 * 24));
-
+				// echo $days;
 				if($days == 358){					
 					$userid_array[] = $userid; 					
 				}
@@ -182,7 +182,7 @@ class Renewal_Model extends CC_Model
 				$now = time();
 				$your_date = strtotime($createdate);
 				$datediff = $now - $your_date;
-				$days = round($datediff / (60 * 60 * 24));
+				$days = round($datediff / (60 * 60 * 24)) + 1;
 				// echo $userid."(".$settingsdate." : ".$days.") - ";
 				if($days >= $settingsdate){					
 					$userid_array[] = $userid; 					
@@ -202,6 +202,21 @@ class Renewal_Model extends CC_Model
 			$this->db->where_in('us.id', $userid_array );			
 			$result = $this->db->get()->result_array();
 		}
+		return $result;
+	}
+
+	public function getUserids_alert4()
+	{
+		
+		$this->db->select('us.id, us.email, us.expirydate, up.designation, inv.inv_id, ud.name, ud.surname');	
+		$this->db->from('users us');
+		$this->db->join('users_plumber as up', 'up.user_id=us.id', 'inner');
+		$this->db->join('users_detail as ud', 'ud.user_id=us.id', 'inner');
+		$this->db->join('invoice inv', 'inv.user_id=us.id', 'inner');
+		$this->db->where('inv.inv_type', '4' );
+		$this->db->where('inv.status', '0' );
+		$this->db->where('us.type', '3' );		
+		$result = $this->db->get()->result_array();		 
 		return $result;
 	}
 

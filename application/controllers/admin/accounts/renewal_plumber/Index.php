@@ -103,7 +103,7 @@ class Index extends CC_Controller
 
 				$userdata1	= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
 
-				$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
+				$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '1'])->get()->row_array();
 
 				$orders = $this->db->select('*')->from('coc_orders')->where(['inv_id' => $invoice_id])->get()->row_array();
 
@@ -321,9 +321,6 @@ class Index extends CC_Controller
 			
 		}
 		
-		// $cocorderid = $this->Renewal_Model->getCronDate($id);
-		// $this->getPDF1($id,$cocorderid);
-		
 	}
 
 	public function Alert2()
@@ -349,7 +346,7 @@ class Index extends CC_Controller
 
 				$userdata1	= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
 
-				$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
+				$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '2'])->get()->row_array();
 
 				$orders = $this->db->select('*')->from('coc_orders')->where(['inv_id' => $invoice_id])->get()->row_array();
 
@@ -590,7 +587,7 @@ class Index extends CC_Controller
 
 				$userdata1	= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
 
-				$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
+				$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '3'])->get()->row_array();
 
 				$orders = $this->db->select('*')->from('coc_orders')->where(['inv_id' => $invoice_id])->get()->row_array();
 
@@ -817,6 +814,35 @@ class Index extends CC_Controller
 				}	
 
 			}
+			
+		}
+		
+	}
+
+	public function Alert4()
+	{	
+		$result = $this->Renewal_Model->getUserids_alert4();		
+		// echo '<pre>'; print_r($result); die;	
+		foreach($result as $data)
+		{						
+			$userid = $data['id'];  
+			$request['status'] = '0';
+			$this->db->update('users_detail', $request, ['user_id' => $userid]);
+			
+			$request1['status'] = '2';
+			$this->db->update('users', $request1, ['id' => $userid]);
+
+			$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '3'])->get()->row_array();
+			 
+			$mail_date = date("d-m-Y");
+			$array1 = ['{Plumbers Name and Surname}','{date of purchase}'];
+			$array2 = [$data['name']." ".$data['surname'], $mail_date];
+
+			$body = str_replace($array1, $array2, $template['email_body']);
+
+			if ($template['email_active'] == '1') {					
+				$this->CC_Model->sentMail($data['email'],$template['subject'],$body);						
+			}	
 			
 		}
 		
