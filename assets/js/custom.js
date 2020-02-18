@@ -175,48 +175,6 @@ function editor(selector, validation='', height=300){
 						}
 	});
 }
-/*
-function fileupload(data1=[], data2=[]){
-	
-	var selector 	= data1[1];
-	var extension 	= data1[3] ? data1[3] : ['jpg','jpeg','png'];
-	
-	$(document).on('change', selector, function(){
-		var name 		= $(this).val();
-		var ext 		= name.split('.').pop().toLowerCase();
-		
-		if($.inArray(ext, extension) !== -1){
-			var form_data 	= new FormData();
-			form_data.append("file", $(selector)[0].files[0]);
-			form_data.append("path", data1[2]);
-			form_data.append("type", extension.join('|'));
-			
-			ajax(data1[0], form_data, fileappend, { contenttype : 1, processdata : 1});
-		}else{
-			$(selector).val('');
-			alert('Supported file format are '+extension.join(','));
-		}
-	})
-	
-	function fileappend(data){
-		if(data.file_name && data2.length){
-			var file 		= data.file_name;
-			$(data2[0]).val(file);
-			
-			if(data2[1] && data2[2]){
-				var ext 		= data.file_name.split('.').pop().toLowerCase();
-				
-				if(ext=='jpg' || ext=='jpeg' || ext=='png'){
-					$(data2[1]).attr('src', data2[2]+'/'+file);
-				}else if(ext=='pdf'){
-					$(data2[1]).attr('src', data2[2]);
-				}
-			}
-		}
-		
-		$(selector).val('');
-	}
-}*/
 
 function fileupload(data1=[], data2=[], multiple=''){
 	var ajaxurl 	= baseurl()+"ajax/index/ajaxfileupload";
@@ -470,4 +428,35 @@ function localstorage(type, name, value){
 	}else if(type=='remove'){
 		localStorage.removeItem(name);
 	}
+}
+
+function userautocomplete(data1=[], data2=[], customfunction=''){
+	var userurl = baseurl()+"ajax/index/ajaxuserautocomplete";
+	
+	ajax(userurl, {'search_keyword' : data2[0], type : data2[1]}, user_search_result);
+	
+	function user_search_result(data)
+	{
+		var result = [];
+		
+		$(data).each(function(i, v){
+			result.push('<li data-name="'+v.name+'" data-id="'+v.id+'" data-count="'+v.count+'" data-electronic="'+v.coc_electronic+'" class="autocompletelist">'+v.name+'</li>');
+		})
+		
+		var append = '<ul class="autocomplete_list">'+result.join('')+'</ul>';
+		$(data1[2]).html('').removeClass('displaynone').html(append);
+	}
+	
+	$(document).on('click', '.autocompletelist', function(){
+		var id = $(this).attr('data-id');
+		var name = $(this).attr('data-name');
+		var count = $(this).attr('data-count');
+		var electronic = $(this).attr('data-electronic');
+		
+		$(data1[0]).val(name);
+		$(data1[1]).val(id);
+		$(data1[2]).html('');
+		
+		if(customfunction!='') customfunction(name, id, count, electronic);
+	})
 }
