@@ -14,7 +14,7 @@ class Coc_Ordermodel extends CC_Model
 		$this->db->join('city t5', 't3.city=t5.id','left');		
 
 
-		if(isset($requestdata['id'])) 				$this->db->where('id', $requestdata['id']);
+		if(isset($requestdata['id'])) 				$this->db->where('t1.id', $requestdata['id']);
 		if(isset($requestdata['admin_status']) && $requestdata['admin_status']=='closed'){
 			$this->db->where('admin_status!="0"');
 		} else {
