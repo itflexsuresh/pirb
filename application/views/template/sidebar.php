@@ -57,7 +57,8 @@ $formstatus  	= $userdata['formstatus'];
 					<li class="step three"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">CPD</span></a>
 						<ul aria-expanded="false" class="collapse">
-							<li><a href="<?php echo base_url().'admin/cpd/cpdtypesetup'; ?>">CPD Types</a></li>							
+							<li><a href="<?php echo base_url().'admin/cpd/cpdtypesetup'; ?>">CPD Types</a></li>		
+							<li><a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index_queue'; ?>">CPD Queue</a></li>
 						</ul>
 					</li>
 					<li class="step four"> 
