@@ -1,0 +1,342 @@
+<?php
+// echo "<pre>";
+// print_r($result);die;
+$id 					= isset($result['id']) ? $result['id'] : '';
+$reg_number 			= isset($result['reg_number']) ? $result['reg_number'] : '';
+$name_surname 			= isset($result['name_surname']) ? $result['name_surname'] : '';
+$cpd_activity 			= isset($result['cpd_activity']) ? $result['cpd_activity'] : '';
+$cpd_start_date 		= isset($result['cpd_start_date']) ? $result['cpd_start_date'] : '';
+$comments 				= isset($result['comments']) ? $result['comments'] : '';
+$points 				= isset($result['points']) ? $result['points'] : '';
+$cpd_stream 			= isset($result['cpd_stream']) ? $result['cpd_stream'] : '';
+$status 				= isset($result['status']) ? $result['status'] : '';
+$admin_comments 		= isset($result['admin_comments']) ? $result['admin_comments'] : '';
+$user_id 				= isset($result['user_id']) ? $result['user_id'] : '';
+$streamname 			= isset($strem_id) ? $strem_id : '';
+
+
+$profileimg 			= base_url().'assets/images/profile.jpg';
+$pdfimg 				= base_url().'assets/images/pdf.png';
+$image 					= isset($result['file1']) ? $result['file1'] : '';
+$filepath 				= base_url().'assets/uploads/cpdqueue/';
+$filepath1				= (isset($result['file1']) && $result['file1']!='') ? $filepath.$result['file1'] : base_url().'assets/uploads/cpdqueue/profile.jpg';
+
+$heading 				= isset($result['id']) ? 'Update' : 'Add';
+
+	if($image!=''){
+		$explodefile2 	= explode('.', $image);
+		$extfile2 		= array_pop($explodefile2);
+		$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath1;
+	}else{
+		$photoidimg 	= $profileimg;
+	}
+	echo $photoidimg;
+	//print_r($streamID);die;
+?>
+
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">CPD Activity Form</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="j<?php echo base_url().'admin/dashboard'; ?>">Home</a></li>
+				<li class="breadcrumb-item active">CPD Activity Form</li>
+			</ol>
+		</div>
+	</div>
+</div>
+<?php echo $notification; ?>
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+				<h4 class="card-title">CPD Activity Form</h4>
+				<form class="mt-4 form" action="index_queue" method="post" enctype="multipart/form-data">
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="activity">Reg Number:</label>
+							<input type="search" autocomplete="off" class="form-control" id="search_reg_no" name="search_reg_no" placeholder="Search Reg Number" onkeyup="search_func(this.value);" value="<?php echo $reg_number; ?>">
+							<input type="hidden" id="user_id_hide" name="user_id_hide" value="<?php echo $user_id ; ?>">
+							<div id="plumber_suggesstion" style="display: none;"></div>					
+						</div>
+						<div class="form-group col-md-6">
+							<label for="startdate">Plumber Name and Surname:</label>
+							<input type="text" class="form-control" id="name_surname" name="name_surname" placeholder="Plumber Name and Surname" readonly value="<?php echo $name_surname; ?>">						
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="points">PIRB CPD Activity:</label>
+							<input type="search" class="form-control" id="activity" name="activity" placeholder = "Enter CPD Activity" autocomplete="off" onkeyup="search_activity(this.value);" value="<?php echo $cpd_activity; ?>">
+							<input type="hidden" id="activity_id_hide" name="activity_id_hide" value="<?php echo $cpd_activity; ?>">
+							<div id="activity_suggesstion" style="display: none;"></div>								
+						</div>					
+						<div class="form-group col-md-6">
+							<label for="enddate">The Date on which the Activity took place or started:</label>
+							<input type="text" readonly class="form-control" id="startdate" name="startdate" placeholder="Enter Start Date *" value="<?php echo $cpd_start_date; ?>">						
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="productcode">Comments</label>
+							<textarea class="form-control" id="comments" placeholder="Enter Comments" name="comments" ><?php echo $comments; ?></textarea>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<h4 class="card-title">Supporting Document:</h4>
+								<div class="form-group">
+									<div>
+										<img src="<?php echo $photoidimg; ?>" class="document_image" width="100">
+									</div>
+									<input type="file" id="file" class="document_file">
+									<label for="file" class="choose_file">Choose File</label>
+									<input type="hidden" name="image1" class="document_picture" value="<?php echo $image; ?>">
+									<p>(Image/File Size Smaller than 5mb)</p>
+								</div>
+						</div>
+						<div class="form-group col-md-6">
+							<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
+								<input type="checkbox" class="custom-control-input" name="declaration" id="declaration"  value="1">
+								<label class="custom-control-label" for="declaration">I declare that the information contained in this CPD Activity form is complete, accurate and true.  I further decalre that I understadn that I must keep verifiable evidence of all the CPD activities for at least 2 years and the PRIB may conduct a random audit of my activity(s) which would require me to submit the evidence to the PIRB.</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="points">CPD Points</label>
+							<input type="number" readonly class="form-control" id="points" name="points" placeholder="Enter CPD Points *" value="<?php echo $points; ?>">
+						</div>			
+						<div class="form-group col-md-6">
+							<label for="cpdstream">CPD Stream</label>
+							<input type="text" readonly class="form-control" id="cpdstream" name="cpdstream" placeholder="CPD Stream" value="<?php echo $streamname; ?>">
+							<input type="hidden" readonly class="form-control" id="hidden_stream_id" name="hidden_stream_id" value="<?php echo $cpd_stream; ?>">
+						</div>
+					</div>
+
+					<div class="row">
+							<label for="productcode">CPD Activity Approval Status:</label>
+								<div class="form-group col-md-6">
+									<div class="row">
+										<div class="col-md-3">
+											<div class="custom-control custom-radio">
+												<input type="radio" id="aprooved" name="status" value="1" <?php if ($status==1) {
+													echo 'checked="checked"';
+												} ?> class="aproval custom-control-input" >
+												<label class="custom-control-label" for="aprooved">Approved</label>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="custom-control custom-radio">
+												<input type="radio" id="rejected" name="status" value="2" <?php if ($status==2) {
+													echo 'checked="checked"';
+												} ?> class="aproval custom-control-input" >
+												<label class="custom-control-label" for="rejected">Rejected</label>
+											</div>
+										</div>
+									</div>
+								</div>
+						<div class="form-group col-md-6">
+							<label for="productcode">Admin Comments:</label>
+							<textarea class="form-control" id="admin_comments" placeholder="Enter Comments" name="admin_comments" ><?php echo $admin_comments; ?></textarea>
+						</div>
+						<div class="col-md-6 text-right">
+							<input type="hidden" name="id" value="<?php echo $id; ?>">
+							<input type="hidden" id="hidden_regnumber" name="hidden_regnumber" value="<?php echo $reg_number; ?>">
+							<input type="hidden" id="hidden_activity" name="hidden_activity" value="<?php echo $cpd_activity; ?>">
+							<!-- <input type="hidden" name="productcode"> -->
+							<button type="submit" id="addupdate" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> CPD Queue</button>
+						</div>
+					</div>
+					
+				</form>
+				<div class="row">
+					<div class="col-md-6">
+						<a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index_queue/1'; ?>" class="active_link_btn">PENDING</a>  <a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index_queue/2'; ?>" class="archive_link_btn">COMPLETED</a>
+					</div>					
+				</div>
+				<div id="active" class="table-responsive m-t-40">
+					<table class="table table-bordered table-striped datatables fullwidth">
+						<thead>
+							<tr>
+								<th>Date</th>
+								<th>Name & Surname</th>
+								<th>Registration Number</th>
+								<th>Activity</th>
+								<th>Points</th>
+								<th>Status</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$(function(){
+		$('#addupdate').prop('disabled',true);
+
+		// if ($('#hidden_regnumber').val() != '') {
+		// 	$("#plumber_suggesstion").html($('#hidden_regnumber').val());
+		// 	$("#plumber_suggesstion").val($('#hidden_regnumber').val());
+		// }
+
+		var click_count = 0;
+		$('#declaration').on('click',function(){
+			click_count += 1;
+			if (click_count%2 == 1) {
+				$('#addupdate').prop('disabled', false);
+			}else{
+				$('#addupdate').prop('disabled', true);
+			}	
+		});
+
+		var filepath 	= '<?php echo $filepath; ?>';
+		var pdfimg		= '<?php echo $pdfimg; ?>';
+
+		fileupload([".document_file", "./assets/uploads/cpdqueue", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.document_picture', '.document_image', filepath, pdfimg]);
+		
+		var options = {
+			url 	: 	'<?php echo base_url()."admin/cpd/cpdtypesetup/DTCpdQueue"; ?>',
+			columns : 	[
+			{ "data": "date" },
+			{ "data": "namesurname" },
+			{ "data": "reg_number" },
+			{ "data": "acivity" },
+			{ "data": "points" },
+			{ "data": "status" },
+			{ "data": "action" }
+			],
+			data : {pagestatus : '<?php echo $pagestatus; ?>'}
+		};
+		
+		ajaxdatatables('.datatables', options);
+		
+		validation(
+			'.form',
+			{
+				search_reg_no : {
+					required	: true,
+				},
+				activity : {
+					required	: true,
+				},
+				aproval : {
+					required	: true,
+				},				
+			},
+			{
+				search_reg_no 	: {
+					required	: "Reg number field is required."
+				},
+				activity 	: {
+					required	: "Activity field is required."
+				},
+				aproval 	: {
+					required	: "Approval is required."
+				},				
+			}
+			);
+		
+	});
+	
+
+	var req = null;
+	function search_func(value)
+	{
+	    if (req != null) req.abort();
+	    
+	    var type1 = 3;
+	    var strlength = $.trim($('#search_reg_no').val()).length;
+	    if(strlength > 0)  { 
+		    req = $.ajax({
+		        type: "POST",
+		        url: '<?php echo base_url()."admin/cpd/Cpdtypesetup/userRegDetails"; ?>',
+		        data: {'search_keyword' : value,type:type1},        
+		        beforeSend: function(){
+					// $("#search_reg_no").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
+				},
+		        success: function(data){          	
+		        	$("#plumber_suggesstion").html('');
+		        	$("#name_surname").val('');
+		        	$("#plumber_suggesstion").show();      	
+					$("#plumber_suggesstion").html(data);			
+					$("#search_reg_no").css("background","#FFF");
+		        }
+		    });
+		}
+		else{
+			console.log(strlength);
+			$("#plumber_suggesstion").hide();
+		}
+	}
+
+	function selectuser(val,id,nameSurname) {
+		$("#search_reg_no").val(val);
+		$("#name_surname").val(nameSurname);
+		$("#user_id_hide").val(id);
+		$("#plumber_suggesstion").hide();
+	}
+
+	// Search activity
+
+	var req2 = null;
+	function search_activity(value)
+	{
+	    if (req2 != null) req2.abort();
+	    var strlength2 = $.trim($('#activity').val()).length;
+	    if(strlength2 > 0)  { 
+		    req2 = $.ajax({
+		        type: "POST",
+		        url: '<?php echo base_url()."admin/cpd/Cpdtypesetup/activityDetails"; ?>',
+		        data: {'search_keyword' : value},        
+		        beforeSend: function(){
+					// $("#search_reg_no").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
+				},
+		        success: function(data){          	
+		        	$("#activity_suggesstion").html('');
+		        	//$("#name_surname").val('');
+		        	$("#activity").val('');
+					$("#startdate").val('');
+					$("#points").val('');
+					$("#cpdstream").val('');
+		        	$("#activity_suggesstion").show();      	
+					$("#activity_suggesstion").html(data);			
+					$("#activity").css("background","#FFF");
+		        }
+		    });
+		}
+		else{
+			console.log(strlength2);
+			$("#activity_suggesstion").hide();
+		}
+	}
+
+	function selectActivity(activity,id,strt_date,streams,cpdPoints,streamID) {
+		$("#activity").val(activity);
+		$("#startdate").val(strt_date);
+		$("#points").val(cpdPoints);
+		$("#cpdstream").val(streams);
+		$("#activity_id_hide").val(id);
+		$("#hidden_stream_id").val(streamID);
+		$("#activity_suggesstion").hide();
+	}
+	
+	// Delete
+	
+	$(document).on('click', '.delete', function(){
+		var action 	= 	'<?php echo base_url().'admin/cpd/cpdtypesetup'; ?>';
+		var data	= 	'\
+		<input type="hidden" value="'+$(this).attr('data-id')+'" name="id">\
+		<input type="hidden" value="2" name="status">\
+		';
+
+		sweetalert(action, data);
+	})
+</script>
