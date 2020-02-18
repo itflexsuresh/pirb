@@ -30,7 +30,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 	}else{
 		$photoidimg 	= $profileimg;
 	}
-	echo $photoidimg;
+	//echo $photoidimg;
 	//print_r($streamID);die;
 ?>
 
