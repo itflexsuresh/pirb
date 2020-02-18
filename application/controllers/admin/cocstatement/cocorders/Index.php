@@ -98,10 +98,14 @@ class Index extends CC_Controller
 				$payment_status_1 = $this->config->item('payment_status')[$result['status']];				
 				$coctype = isset($this->config->item('coctype')[$result['coc_type']]) ? $this->config->item('coctype')[$result['coc_type']] : '';
 				$deliverytype = isset($this->config->item('purchasecocdelivery')[$result['delivery_type']]) ? $this->config->item('purchasecocdelivery')[$result['delivery_type']] : '';
-
+				if($result['type']=='6'){
+					$name = $result['company'];
+				} else {
+					$name = $result['name']." ".$result['surname'];					
+				}
 				$totalrecord[] 	= 	[
 										'id' 			=> 	$result['id'],
-										'user_id' 		=> 	$result['name']." ".$result['surname'],
+										'user_id' 		=> 	$name,
 										'coc_type' 		=> 	$coctype,
 										'delivery_type'	=> 	$deliverytype,
 										'quantity' 		=> 	$result['quantity'],	

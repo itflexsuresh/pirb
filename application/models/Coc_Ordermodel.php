@@ -5,7 +5,7 @@ class Coc_Ordermodel extends CC_Model
 	public function getCocorderList($type, $requestdata){
 
 		// $this->db->select('t1.*');
-		$this->db->select('t1.*,t2.name,t2.surname,t3.type, concat(t3.address, ",", t5.name) as address, t4.type, cc.count');
+		$this->db->select('t1.*,t2.name,t2.surname,t3.type, concat(t3.address, ",", t5.name) as address, t2.company, t4.type, cc.count');
 		$this->db->from('coc_orders t1');
 		$this->db->join('users_detail t2', 't1.user_id=t2.user_id', 'left');
 		$this->db->join('users_address t3', 't1.user_id=t3.user_id AND t3.type="2"', 'left');
@@ -71,6 +71,7 @@ class Coc_Ordermodel extends CC_Model
 			if($type=='all') 		$result = $query->result_array();
 			elseif($type=='row') 	$result = $query->row_array();
 		}
+		// echo $this->db->last_query();
 		// foreach ($result as $key => $value) {
 		// 	if(!strpos($value[''],$str)){
 		// 	    echo 0;
@@ -380,7 +381,7 @@ class Coc_Ordermodel extends CC_Model
 	public function autosearchReseller($postData){
 		
 		// $this->db->select('concat(ud.name, " ", ud.surname) as name,cc.count,u.id, "0" as coc_electronic');
-		$this->db->select('ud.company as name,cc.count,u.id, "0" as coc_electronic');
+		$this->db->select('ud.status,ud.company as name,cc.count,u.id, "0" as coc_electronic');
 		$this->db->from('users_detail ud');
 		$this->db->join('users u', 'u.id=ud.user_id','inner');
 		$this->db->join('coc_count cc', 'cc.user_id=ud.user_id','inner');
@@ -396,10 +397,11 @@ class Coc_Ordermodel extends CC_Model
 
 		$result_new = array();
 		foreach ($result as $key => $value) {
-			if($value['name']!=''){
+			if($value['name']!='' && $value['status']==1){
 				$result_new[] = $value;
 			}
 		}
+		
 		return $result_new;
 	}
 	
