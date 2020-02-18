@@ -206,12 +206,12 @@ class Cpdtypesetup_Model extends CC_Model
 	public function autosearchPlumberReg($postData){ 
 		
 		$designations = array('4', '5', '6' );
-		$this->db->select('u1.reg_no, u2.id, u1.name, u1.surname');
+		$this->db->select('up.registration_no, u2.id, u1.name, u1.surname');
 		$this->db->from('users_detail u1');
 		$this->db->join('users u2', 'u1.user_id=u2.id and u2.type="3" and u2.status="1"','left');
 		$this->db->join('users_plumber up', 'up.user_id=u1.user_id','left');
 		$this->db->where_in('up.designation', $designations);
-		$this->db->like('u1.reg_no',$postData['search_keyword']);
+		$this->db->like('up.registration_no',$postData['search_keyword']);
 		// $this->db->or_like('u1.surname',$postData['search_keyword']);
 		$this->db->group_by("u1.id");		
 		$query = $this->db->get();
@@ -232,7 +232,7 @@ class Cpdtypesetup_Model extends CC_Model
 			$result = $result1;
 		}
 
-		// print_r($result);
+		
 		// echo $this->db->last_query();
 
 		return $result;
@@ -241,13 +241,14 @@ class Cpdtypesetup_Model extends CC_Model
 
 		//CPD Activity Search
 	public function autosearchActivity($postData){ 
+		$currentDate = date('Y-m-d');
 
 		$this->db->select('cp1.id, cp1.activity, cp1.startdate, cp1.points, cp1.cpdstream');
 		$this->db->from('cpdtypes cp1');
 
 		$this->db->like('cp1.activity',$postData['search_keyword']);
 
-		$this->db->where('cp1.status="1"');
+		$this->db->where('cp1.status="1" AND cp1.startdate="'.$currentDate.'"');
 		
 		$this->db->group_by("cp1.id");		
 		$query = $this->db->get();

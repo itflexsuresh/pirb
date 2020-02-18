@@ -191,7 +191,12 @@ class Cpdtypesetup extends CC_Controller
 			$result = $this->Cpdtypesetup_Model->getQueueList('row', ['id' => $id, 'pagestatus' => [$pagestatus]]);
 			if($result){
 				$pagedata['result'] = $result;
-				$pagedata['strem_id'] = $this->config->item('cpdstream')[$pagedata['result']['cpd_stream']];
+				if ($result['cpd_activity']!='') {
+					$pagedata['strem_id'] = $this->config->item('cpdstream')[$pagedata['result']['cpd_stream']];
+				}else{
+					$pagedata['strem_id'] = '';
+				}
+				
 			}else{
 				$this->session->set_flashdata('error', 'No Record Found.');
 				redirect('admin/cpd/cpdtypesetup/index_queue'); 
@@ -201,8 +206,8 @@ class Cpdtypesetup extends CC_Controller
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
 			if($requestData['submit']=='submit'){
-
-				//print_r($requestData);die;
+				// echo "<pre>";
+				// print_r($requestData);die;
 
 				$data 	=  $this->Cpdtypesetup_Model->queue_action($requestData);
 				if($data) $message = 'CPD Queue '.(($id=='') ? 'created' : 'updated').' successfully.';
@@ -226,7 +231,7 @@ class Cpdtypesetup extends CC_Controller
 		}else{
 			$pagedata['pagestatus'] = '1';
 		}
-		
+
 		$pagedata['id'] 			= $this->getUserID();
 		$pagedata['approvalstatus'] = $this->config->item('approvalstatus');
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
@@ -250,7 +255,7 @@ class Cpdtypesetup extends CC_Controller
 			<ul id="name-list">
 			<?php
 			foreach($data as $key=>$val) {
-				$reg_no = $val["reg_no"];
+				$reg_no = $val["registration_no"];
 				$name_surname = $val["name"].' '.$val["surname"];
 				// if(isset($val["surname"])){
 				// 	$name = $name.' '.$val["surname"];

@@ -62,7 +62,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 							<div id="plumber_suggesstion" style="display: none;"></div>					
 						</div>
 						<div class="form-group col-md-6">
-							<label for="startdate">Plumber Name and Surname:</label>
+							<label for="name_surname">Plumber Name and Surname:</label>
 							<input type="text" class="form-control" id="name_surname" name="name_surname" placeholder="Plumber Name and Surname" readonly value="<?php echo $name_surname; ?>">						
 						</div>
 					</div>
@@ -75,7 +75,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 						</div>					
 						<div class="form-group col-md-6">
 							<label for="enddate">The Date on which the Activity took place or started:</label>
-							<input type="text" readonly class="form-control" id="startdate" name="startdate" placeholder="Enter Start Date *" value="<?php echo $cpd_start_date; ?>">						
+							<input type="text" class="form-control" id="startdate" autocomplete="off" name="startdate" placeholder="Enter Start Date *" value="<?php echo $cpd_start_date; ?>">						
 						</div>
 					</div>
 					<div class="row">
@@ -106,7 +106,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 					</div>
 					<div class="row">
 						<div class="form-group col-md-6">
-							<label for="points">CPD Points</label>
+							<label for="points">Activity Points</label>
 							<input type="number" readonly class="form-control" id="points" name="points" placeholder="Enter CPD Points *" value="<?php echo $points; ?>">
 						</div>			
 						<div class="form-group col-md-6">
@@ -124,7 +124,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 											<div class="custom-control custom-radio">
 												<input type="radio" id="aprooved" name="status" value="1" <?php if ($status==1) {
 													echo 'checked="checked"';
-												} ?> class="aproval custom-control-input" >
+												} ?> class="custom-control-input" >
 												<label class="custom-control-label" for="aprooved">Approved</label>
 											</div>
 										</div>
@@ -132,7 +132,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 											<div class="custom-control custom-radio">
 												<input type="radio" id="rejected" name="status" value="2" <?php if ($status==2) {
 													echo 'checked="checked"';
-												} ?> class="aproval custom-control-input" >
+												} ?> class="custom-control-input" >
 												<label class="custom-control-label" for="rejected">Rejected</label>
 											</div>
 										</div>
@@ -143,10 +143,9 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 							<textarea class="form-control" id="admin_comments" placeholder="Enter Comments" name="admin_comments" ><?php echo $admin_comments; ?></textarea>
 						</div>
 						<div class="col-md-6 text-right">
-							<input type="hidden" name="id" value="<?php echo $id; ?>">
+							<input type="hidden" name="id" id="id" value="<?php echo $id; ?>">
 							<input type="hidden" id="hidden_regnumber" name="hidden_regnumber" value="<?php echo $reg_number; ?>">
 							<input type="hidden" id="hidden_activity" name="hidden_activity" value="<?php echo $cpd_activity; ?>">
-							<!-- <input type="hidden" name="productcode"> -->
 							<button type="submit" id="addupdate" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> CPD Queue</button>
 						</div>
 					</div>
@@ -157,7 +156,9 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 						<a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index_queue/1'; ?>" class="active_link_btn">PENDING</a>  <a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index_queue/2'; ?>" class="archive_link_btn">COMPLETED</a>
 					</div>					
 				</div>
+
 				<div id="active" class="table-responsive m-t-40">
+					<h4 class="card-title">CPD Activity Queue</h4>
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
 							<tr>
@@ -181,20 +182,33 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 <script>
 	$(function(){
 		$('#addupdate').prop('disabled',true);
+		$('#aprooved').prop('disabled', true);
+		approve_check();
 
-		// if ($('#hidden_regnumber').val() != '') {
-		// 	$("#plumber_suggesstion").html($('#hidden_regnumber').val());
-		// 	$("#plumber_suggesstion").val($('#hidden_regnumber').val());
-		// }
+		if($('#id').val()!= ''){
+			$('#declaration').prop('checked',true);
+			$('#addupdate').prop('disabled', false);
+		}
+
+		$('#activity').keyup(function(){
+				approve_check();
+		});
+		$('#startdate').on('change',function(){
+				approve_check();
+		});
+
+		
+
 
 		var click_count = 0;
 		$('#declaration').on('click',function(){
 			click_count += 1;
-			if (click_count%2 == 1) {
-				$('#addupdate').prop('disabled', false);
-			}else{
-				$('#addupdate').prop('disabled', true);
-			}	
+			if($(this).is(':checked')){
+		       $('#addupdate').prop('disabled', false);
+		    } else {
+		       $('#addupdate').prop('disabled', true);
+		    }
+				
 		});
 
 		var filepath 	= '<?php echo $filepath; ?>';
@@ -223,10 +237,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 			{
 				search_reg_no : {
 					required	: true,
-				},
-				activity : {
-					required	: true,
-				},
+				},				
 				aproval : {
 					required	: true,
 				},				
@@ -235,15 +246,17 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 				search_reg_no 	: {
 					required	: "Reg number field is required."
 				},
-				activity 	: {
-					required	: "Activity field is required."
-				},
 				aproval 	: {
 					required	: "Approval is required."
 				},				
 			}
 			);
 		
+	});
+
+	$( document ).ready(function() {
+		
+		datepicker('#startdate', ['currentdate']);
 	});
 	
 
@@ -301,9 +314,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 				},
 		        success: function(data){          	
 		        	$("#activity_suggesstion").html('');
-		        	//$("#name_surname").val('');
 		        	$("#activity").val('');
-					$("#startdate").val('');
 					$("#points").val('');
 					$("#cpdstream").val('');
 		        	$("#activity_suggesstion").show();      	
@@ -315,17 +326,35 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 		else{
 			console.log(strlength2);
 			$("#activity_suggesstion").hide();
+			$("#activity_suggesstion").html('');
+        	$("#activity").val('');
+			$("#points").val('');
+			$("#cpdstream").val('');
 		}
 	}
 
 	function selectActivity(activity,id,strt_date,streams,cpdPoints,streamID) {
 		$("#activity").val(activity);
-		$("#startdate").val(strt_date);
+		//$("#startdate").val(strt_date);
 		$("#points").val(cpdPoints);
 		$("#cpdstream").val(streams);
 		$("#activity_id_hide").val(id);
 		$("#hidden_stream_id").val(streamID);
 		$("#activity_suggesstion").hide();
+	}
+
+
+	function approve_check(){
+		var acti = $('#activity').val();
+		var dates = $('#startdate').val();
+		var pts = $('#points').val();
+		var stream = $('#cpdstream').val();
+		
+		if (acti!='' && dates!='' && pts!='' && stream!='') {
+			$('#aprooved').prop('disabled', false);
+		}else{
+			$('#aprooved').prop('disabled', true);
+		}
 	}
 	
 	// Delete
