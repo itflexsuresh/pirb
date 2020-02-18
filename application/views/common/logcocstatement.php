@@ -372,7 +372,9 @@
 						<div class="col-md-12">
 							<div class="form-group">
 								<label>Statement</label>
-								<textarea name="statement" rows="6" class="form-control" id="nc_statement"></textarea>
+								<?php
+									echo form_dropdown('statement', [], '', ['id' => 'nc_statement', 'class'=>'form-control']);
+								?>
 							</div>
 						</div>
 						<div class="col-md-12">
@@ -461,7 +463,7 @@ $(function(){
 	fileupload([".file1_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.file1', '.file1_img', filepath, pdfimg]);
 	fileupload([".file2_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file2[]', '.file2append', filepath, pdfimg], 'multiple');
 	fileupload(["#nc_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.ncfileappend', filepath, pdfimg], 'multiple');
-	subtype(['#nc_installationtype','#nc_subtype'], ['']);
+	subtypereportinglist(['#nc_installationtype','#nc_subtype','#nc_statement'], ['', '']);
 	inputmask('#contact_no, #alternate_no', 1);
 	
 	var noncompliancelists = $.parseJSON('<?php echo json_encode($noncompliance); ?>');
@@ -726,7 +728,7 @@ function noncomplianceedit(data){
 		$('#nc_reference').val(result.reference);
 		$('#nc_id').val(result.id);
 		
-		subtype(['#nc_installationtype','#nc_subtype'], [result.subtype]);
+		subtypereportinglist(['#nc_installationtype','#nc_subtype','#nc_statement'], [result.subtype, result.statement]);
 		
 		if(result.file!=''){
 			var filesplit = result.file.split(',');

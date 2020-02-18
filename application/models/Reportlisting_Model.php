@@ -5,7 +5,6 @@ class Reportlisting_Model extends CC_Model
 	public function getList($type, $requestdata=[])
 	{
 		$this->db->select('t1.*, t2.name, t3.name insname');
-		// $this->db->order_by('t1.id','desc');
 		$this->db->from('report_listing t1');		
 
 		$this->db->join('installationsubtype t2','t2.installationtype_id=t1.installation_id AND t2.id=t1.subtype_id	','left');
@@ -13,6 +12,8 @@ class Reportlisting_Model extends CC_Model
 
 
 		if(isset($requestdata['id'])) $this->db->where('t1.id', $requestdata['id']);
+		if(isset($requestdata['installationtypeid'])) $this->db->where('t1.installation_id', $requestdata['installationtypeid']);
+		if(isset($requestdata['subtypeid'])) $this->db->where('t1.subtype_id', $requestdata['subtypeid']);
 		if(isset($requestdata['status'])) $this->db->where_in('t1.status', $requestdata['status']);
 		
 
@@ -50,8 +51,6 @@ class Reportlisting_Model extends CC_Model
 		}
 
 		return $result;
-		
-
 	}
 	
 	public function action($data)
