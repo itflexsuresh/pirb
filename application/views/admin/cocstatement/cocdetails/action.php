@@ -2,8 +2,10 @@
 	$id 					= isset($result['id']) ? $result['id'] : '';
 	
 	$cocid 					= isset($result['coc_id']) ? $result['coc_id'] : '';	
+	$cocstatusid			= $result['coc_status'];
 	$cocstatus 				= isset($this->config->item('cocstatus')[$result['coc_status']]) ? $this->config->item('cocstatus')[$result['coc_status']] : '';
 	$auditstatus 			= isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';
+	$coctypeid 				= $result['coc_type'];
 	$coctype 				= isset($this->config->item('coctype')[$result['coc_type']]) ? $this->config->item('coctype')[$result['coc_type']] : '';
 	
 	$companyname 			= isset($result['companyname']) ? $result['companyname'] : '';
@@ -226,72 +228,85 @@
 					</form>
 				</div>
 				
-				<h4 class="card-title">Recalled/Reallocate/Cancel a COC</h4>
-				<div class="row">				
-					<div class="col-md-12">
-						<div class="form-group">
-							<div class="row">
-								<?php
-									foreach($cocrecall as $key => $value){
-								?>
-										<div class="col-md-2">
-											<div class="custom-control custom-radio">
-												<input type="radio" name="cocrecall" id="cocrecall<?php echo $key.'-'.$value; ?>" class="custom-control-input" value="<?php echo $key; ?>">
-												<label class="custom-control-label" for="cocrecall<?php echo $key.'-'.$value; ?>"><?php echo $value; ?></label>
+				<?php if($cocstatusid=='2'){ ?>
+					<h4 class="card-title">Recalled/Reallocate/Cancel a COC</h4>
+					<form action="" method="post" class="form2">
+					<div class="row">				
+						<div class="col-md-12">
+							<div class="form-group">
+								<div class="row">
+									<?php
+										foreach($cocrecall as $key => $value){
+											if($coctypeid=='1' && $key=='2') continue; 
+									?>
+											<div class="col-md-2">
+												<div class="custom-control custom-radio">
+													<input type="radio" name="cocrecall" data-id="<?php echo $key; ?>" id="cocrecall<?php echo $key; ?>" class="custom-control-input cocrecall" value="<?php echo $key; ?>">
+													<label class="custom-control-label" for="cocrecall<?php echo $key; ?>"><?php echo $value; ?></label>
+												</div>
 											</div>
-										</div>
-								<?php
-									}
-								?>
+									<?php
+										}
+									?>
+								</div>
 							</div>
-						</div>
-					</div>	
-					<div class="col-md-12">
-						<div class="form-group">
-							<label>Reseller</label>
-							<input type="text" class="form-control">
-						</div>
-					</div>				
-					<div class="col-md-12">
-						<div class="form-group">
-							<label>Plumber</label>
-							<input type="text" class="form-control">
-						</div>
-					</div>		
-					<div class="col-md-12">
-						<div class="form-group">
-							<label>Reason Canceling COC</label>
-							<div class="row">
-								<?php
-									foreach($cocreason as $key => $value){
-								?>
-										<div class="col-md-2">
-											<div class="custom-control custom-radio">
-												<input type="radio" name="cocreason" id="cocreason<?php echo $key.'-'.$value; ?>" class="custom-control-input" value="<?php echo $key; ?>">
-												<label class="custom-control-label" for="cocreason<?php echo $key.'-'.$value; ?>"><?php echo $value; ?></label>
-											</div>
-										</div>
-								<?php
-									}
-								?>
+						</div>	
+						<div class="col-md-12 coc_reallocate displaynone">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Reseller</label>
+									<input type="text" class="form-control" id="autocompleteresellertext">
+									<input type="hidden" id="autocompleteresellerid" name="resellerid">
+									<div id="autocompleteresellersuggestion"></div>
+								</div>
+							</div>				
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Plumber</label>
+									<input type="text" class="form-control" id="autocompleteplumbertext">
+									<input type="hidden" id="autocompleteplumberid" name="plumberid">
+									<div id="autocompleteplumbersuggestion"></div>
+								</div>
+							</div>		
+						</div>		
+						<div class="col-md-12 coc_cancel displaynone">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Reason Canceling COC</label>
+									<div class="row">
+										<?php
+											foreach($cocreason as $key => $value){
+										?>
+												<div class="col-md-2">
+													<div class="custom-control custom-radio">
+														<input type="radio" name="cocreason" id="cocreason<?php echo $key.'-'.$value; ?>" class="custom-control-input" value="<?php echo $key; ?>">
+														<label class="custom-control-label" for="cocreason<?php echo $key.'-'.$value; ?>"><?php echo $value; ?></label>
+													</div>
+												</div>
+										<?php
+											}
+										?>
+									</div>
+								</div>
+							</div>	
+							<div class="col-md-3">
+								<label>Add Document</label>
+								<div class="form-group">
+									<div>
+										<img src="<?php echo $profileimg; ?>" class="document_image" width="100">
+									</div>
+									<input type="file" class="document_file">
+									<input type="hidden" name="document" class="photo" value="">
+									<p>(Image/File Size Smaller than 5mb)</p>
+								</div>
 							</div>
-						</div>
-					</div>	
-					<div class="col-md-3">
-						<label>Add Document</label>
-						<div class="form-group">
-							<div>
-								<img src="<?php echo $profileimg; ?>" class="document_image" width="100">
-							</div>
-							<input type="file" class="document_file">
-							<input type="hidden" name="document" class="photo" value="">
-							<p>(Image/File Size Smaller than 5mb)</p>
+						</div>							
+						<div class="col-md-12 text-right">
+							<button type="submit" class="btn btn-primary">Cancel/Reallocate/Recalled</button>
 						</div>
 					</div>
-					<div class="col-md-12 text-right">
-						<button type="button" class="btn btn-primary">Cancel/Reallocate/Recalled</button>
-					</div>
-				</div>
+					</form>
+				<?php } ?>
 				
 			</div>
 		</div>
@@ -320,5 +335,76 @@
 			}
 		);
 			
+		validation(
+			'.form2',
+			{
+				cocrecall : {
+					required	: true
+				},
+				cocreason : {
+					required:  	function() {
+									return $('.cocrecall:checked').val() == "2";
+								}
+				},
+				document : {
+					required:  	function() {
+									return $('.cocrecall:checked').val() == "2";
+								}
+				},
+				plumberid : {
+					required:  	function() {
+									return $('.cocrecall:checked').val() == "3" && $('#autocompleteresellerid').val() == '';
+								}
+				},
+				resellerid : {
+					required:  	function() {
+									return $('.cocrecall:checked').val() == "3" && $('#autocompleteplumberid').val() == '';
+								}
+				}
+			},
+			{
+				cocrecall 	: {
+					required	: "Please select one option."
+				},
+				cocreason 	: {
+					required	: "Please select one option."
+				},
+				document 	: {
+					required	: "Please upload document."
+				},
+				plumberid 	: {
+					required	: "Please select plumber."
+				},
+				resellerid 	: {
+					required	: "Please select reseller."
+				}
+			},
+			{
+				ignore : []
+			}
+		);
+			
 	});
+	
+	
+	$('#autocompleteplumbertext').keyup(function(){
+		userautocomplete(["#autocompleteplumbertext", "#autocompleteplumberid", "#autocompleteplumbersuggestion"], [$(this).val(), 3]);
+	})
+	
+	$('#autocompleteresellertext').keyup(function(){
+		userautocomplete(["#autocompleteresellertext", "#autocompleteresellerid", "#autocompleteresellersuggestion"], [$(this).val(), 6]);
+	})
+	
+	$('.cocrecall').click(function(){
+		cocrecall($(this).val())
+	})
+	
+	function cocrecall(value){
+		$('.coc_reallocate, .coc_cancel').addClass('displaynone');
+		if(value=='2'){
+			$('.coc_cancel').removeClass('displaynone');
+		}else if(value=='3'){
+			$('.coc_reallocate').removeClass('displaynone');
+		}
+	}
 </script>

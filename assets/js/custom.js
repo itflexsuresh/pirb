@@ -21,6 +21,14 @@ function ajaxdatatables(selector, options={}){
 		$(selector).DataTable().destroy();
 	}
 	
+	var columndefs = {};
+	if(options.target) 	columndefs['targets'] 	= [1,7];
+	if(options.sort) 	columndefs['orderable'] = (options.sort=='1') ? true : false;
+	console.log([ {
+        'targets': [1,2], /* column index */
+        'orderable': false, /* true or false */
+     }])
+	console.log(columndefs);
 	$(selector).DataTable({
 		'processing'	: 	true,
 		'serverSide'	: 	true,
@@ -34,7 +42,11 @@ function ajaxdatatables(selector, options={}){
 												}
 								
 							},
-		'columns'		: 	options.columns
+		'columns'		: 	options.columns,
+		'columnDefs'	: 	[ {
+        'targets': [1,2], /* column index */
+        'orderable': false, /* true or false */
+     }]
 	});
 }
 
@@ -394,9 +406,14 @@ function citysuburb(data1=[], data2=[], data3=[]){
 	}
 }
 
-function subtype(data1=[], data2=[]){
-	var subtypeurl 		= baseurl()+"ajax/index/ajaxsubtype";
-	var subtypedata 	= { installationtypeid : $(data1[0]).val() };
+function subtypereportinglist(data1=[], data2=[]){
+	var subtypeurl 				= baseurl()+"ajax/index/ajaxsubtype";
+	var reportlistingurl 		= baseurl()+"ajax/index/ajaxreportlisting";
+	
+	$('.subtypeappend').remove();
+	$('.reportlistingappend').remove();
+	
+	var subtypedata 			= { installationtypeid : $(data1[0]).val() };
 	
 	ajax(subtypeurl, subtypedata, subtypefn)
 
@@ -416,6 +433,30 @@ function subtype(data1=[], data2=[]){
 			})
 
 			$(data1[1]).append(append);
+			
+			var reportlistingdata  = { installationtypeid : $(data1[0]).val(), subtypeid : $(data1[1]).val() };
+			if(data1[2]) ajax(reportlistingurl, reportlistingdata, reportlistingfn);
+		}
+	}
+	
+	if(data1[2]){
+		$(document).on('change', data1[1], function(){
+			var reportlistingdata  = { installationtypeid : $(data1[0]).val(), subtypeid : $(this).val() };
+			ajax(reportlistingurl, reportlistingdata, reportlistingfn);
+		})
+
+		function reportlistingfn(data){
+			$('.reportlistingappend').remove();
+
+			if(data.status=='1'){
+				var append = [];
+				$(data.result).each(function(i, v){
+					var selected = (data2[1] && data2[1]==v.id) ? 'selected="selected"' : '';
+					append.push('<option value="'+v.id+'" '+selected+' class="reportlistingappend">'+v.statement+'</option>');
+				})
+
+				$(data1[2]).append(append);
+			}
 		}
 	}
 }
@@ -431,7 +472,8 @@ function localstorage(type, name, value){
 }
 
 function userautocomplete(data1=[], data2=[], customfunction=''){
-	var userurl = baseurl()+"ajax/index/ajaxuserautocomplete";
+	var userurl 		= baseurl()+"ajax/index/ajaxuserautocomplete";
+	var appendclass 	= data1[0].substring(1);
 	
 	ajax(userurl, {'search_keyword' : data2[0], type : data2[1]}, user_search_result);
 	
@@ -440,14 +482,14 @@ function userautocomplete(data1=[], data2=[], customfunction=''){
 		var result = [];
 		
 		$(data).each(function(i, v){
-			result.push('<li data-name="'+v.name+'" data-id="'+v.id+'" data-count="'+v.count+'" data-electronic="'+v.coc_electronic+'" class="autocompletelist">'+v.name+'</li>');
+			result.push('<li data-name="'+v.name+'" data-id="'+v.id+'" data-count="'+v.count+'" data-electronic="'+v.coc_electronic+'" class="autocompletelist'+appendclass+'">'+v.name+'</li>');
 		})
 		
 		var append = '<ul class="autocomplete_list">'+result.join('')+'</ul>';
 		$(data1[2]).html('').removeClass('displaynone').html(append);
 	}
 	
-	$(document).on('click', '.autocompletelist', function(){
+	$(document).on('click', '.autocompletelist'+appendclass, function(){
 		var id = $(this).attr('data-id');
 		var name = $(this).attr('data-name');
 		var count = $(this).attr('data-count');
