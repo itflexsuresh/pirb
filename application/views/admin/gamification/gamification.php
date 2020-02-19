@@ -104,7 +104,7 @@ else{
 							 <div class="form-group">
 								<label>If</label>
 									<input type="number" min="0" id="points" name="it_2" size="2"  value="<?php echo $result[10]['value'];?>" style="margin: 0px 20px;width: 8%;">
-									<label> SARS certificate</label>
+									<label> SARS Certificate</label>
 									<input type="number" min="0" id="points" name="cpd_aquired1" size="2"  value="<?php echo $result[11]['value'];?>" style="margin: 0px 20px;width: 8%;">
 								<label>points</label>						
 							</div>
