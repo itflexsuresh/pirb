@@ -62,7 +62,7 @@ class Gamecompany_Model extends CC_Model
 		{
 			$result = $this->db->update('company_points', $request, ['id' => $data['id']]);
 		}
-		echo $this->db->last_query();
+		$this->db->last_query();
 		
 		return $result;
 	}
