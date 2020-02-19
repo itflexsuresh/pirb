@@ -11,22 +11,14 @@ class Designation extends CC_Controller
 	
 	public function index($id='')
 	{		
-       if($id!=''){
-			$result = $this->Systemusers_Model->getList('row', ['id' => $id, 'u_status' => ['0','1']]);
-			if($result){
-				$pagedata['result'] = $result;
-			}else{
-				$this->session->set_flashdata('error', 'No Record Found.');
-				redirect('admin/systemsetup/systemusers/systemusers');
-			}
-		}
+       
 
 		$permission_list = $this->Designation_Model->getPermissions(); 
         $fotmatted_list = array();
         for($k=0;$k<count($permission_list);$k++) 
         {
 	        $fotmatted_list[$permission_list[$k]->deg_name][$k]['id'] = $permission_list[$k]->id;
-	        $fotmatted_list[$permission_list[$k]->deg_name][$k]['design_id'] = $permission_list[$k]->design_id;
+	        
          	$fotmatted_list[$permission_list[$k]->deg_name][$k]['name'] = $permission_list[$k]->name;
          	$fotmatted_list[$permission_list[$k]->deg_name][$k]['points'] = $permission_list[$k]->points;
         }
@@ -37,10 +29,6 @@ class Designation extends CC_Controller
 		$data['content'] 					= $this->load->view('admin/gamification/designation', (isset($pagedata) ? $pagedata : ''), true);
 
 		$this->layout2($data);
-
-
-		
-
        
 	}
 
