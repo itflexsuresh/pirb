@@ -55,12 +55,7 @@ class Designation extends CC_Controller
        
 	}
 
-public function edit_check()
-{
-$post = $this->input->post();
-$data 			=  $this->Designation_Model->edit_check($post);
 
-}
 
 public function editpoint($id = ''){
 
@@ -80,6 +75,12 @@ redirect('admin/gamification/designation');
 }
 
 }
+
+}
+public function edit_check()
+{
+$post = $this->input->post();
+$data 			=  $this->Designation_Model->edit_check($post);
 
 }
 	
