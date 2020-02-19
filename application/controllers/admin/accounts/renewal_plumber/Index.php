@@ -242,7 +242,7 @@ class Index extends CC_Controller
 					<p style="width: 18%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    text-align: center;">Amount</p>
 					</div>
 					<div style="border-bottom: 1px solid #000; padding: 0 20px 0 20px;">
-					<p style="width: 50%; display: inline-block; border-right: 1px solid #000; margin: 0;    padding: 10px 0 10px 0;">PIRB year registration fee for {catagory Desigantion} for '.$rowData['name'].''.$rowData['surname'].', registration number '.$rowData['registration_no'].'</p>				
+					<p style="width: 50%; display: inline-block; border-right: 1px solid #000; margin: 0;    padding: 10px 0 10px 0;">PIRB year registration fee for {catagory Desigantion} for '.$rowData['username'].''.$rowData['surname'].', registration number '.$rowData['registration_no'].'</p>				
 					<p style="width: 10%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000;text-align: center;">'.$rowData['quantity'].'</p>
 					<p style="width: 19%;display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000; text-align: center;">'.$rowData['cost_value'].'</p>
 					<p style="width: 18%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</p>
@@ -485,7 +485,7 @@ class Index extends CC_Controller
 				<p style="width: 18%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    text-align: center;">Amount</p>
 				</div>
 				<div style="border-bottom: 1px solid #000; padding: 0 20px 0 20px;">
-				<p style="width: 50%; display: inline-block; border-right: 1px solid #000; margin: 0;    padding: 10px 0 10px 0;">PIRB year registration fee for {catagory Desigantion} for '.$rowData['name'].''.$rowData['surname'].', registration number '.$rowData['registration_no'].'</p>				
+				<p style="width: 50%; display: inline-block; border-right: 1px solid #000; margin: 0;    padding: 10px 0 10px 0;">PIRB year registration fee for {catagory Desigantion} for '.$rowData['username'].''.$rowData['surname'].', registration number '.$rowData['registration_no'].'</p>				
 				<p style="width: 10%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000;text-align: center;">'.$rowData['quantity'].'</p>
 				<p style="width: 19%;display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000; text-align: center;">'.$rowData['cost_value'].'</p>
 				<p style="width: 18%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</p>
