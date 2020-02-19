@@ -402,20 +402,36 @@ class CC_Controller extends CI_Controller
 	
 	public function coclogaction($id, $pagedata=[], $extras=[])
 	{
+		$userid							= $extras['userid'];
+		$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid]);
+		$specialisations 				= explode(',', $userdata['specialisations']);
+		
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
-
+			
 			$data 	=  $this->Coc_Model->actionCocLog($requestData);
-		
-			if($data) $this->session->set_flashdata('success', 'Thanks for Logging the COC.');
+			
+			$message = '';
+			if(isset($data['submit'])){
+				if($data['submit']=='save'){
+					$message = 'Thanks for Saving the COC.';
+				}elseif($data['submit']=='log'){
+					$message = 'Thanks for Logging the COC.';
+					
+					$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '5', 'emailstatus' => '1']);
+				
+					if($notificationdata){
+						$body 	= str_replace(['{Plumbers Name and Surname}', '{number}'], [$userdata['name'].' '.$userdata['surname'], $id], $notificationdata['email_body']);
+						$this->CC_Model->sentMail($result['email'], $notificationdata['subject'], $body);
+					}
+				}
+			}
+			
+			if($data) $this->session->set_flashdata('success', $message);
 			else $this->session->set_flashdata('error', 'Try Later.');
 		
 			redirect($extras['redirect']); 
 		}
-		
-		$userid							= $extras['userid'];
-		$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid]);
-		$specialisations 				= explode(',', $userdata['specialisations']);
 		
 		$pagedata['userdata'] 			= $userdata;
 		$pagedata['cocid'] 				= $id;
@@ -425,8 +441,7 @@ class CC_Controller extends CI_Controller
 		$pagedata['installationtype']	= $this->getInstallationTypeList();
 		$pagedata['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => []]);
 		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations]);
-		$pagedata['coclist']			= $this->Coc_Model->getCOCList('row', ['id' => $id]);
-		$pagedata['result']				= $this->Coc_Model->getCOCLog('row', ['coc_id' => $id]);
+		$pagedata['result']				= $this->Coc_Model->getCOCList('row', ['id' => $id]);
 		
 		$noncompliance					= $this->Noncompliance_Model->getList('all', ['user_id' => $userid]);		
 		$pagedata['noncompliance']		= [];

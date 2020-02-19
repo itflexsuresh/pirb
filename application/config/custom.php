@@ -401,7 +401,8 @@ $config['cocstatus'] 			=		[
 											'3'	=>	'Allocated (Reseller)',
 											'4'	=>	'Allocated (Plumber)',
 											'5'	=>	'Non-Logged Allocated (Customer)',
-											'6'	=>	'Recalled (unallocated)'
+											'6'	=>	'Recalled (unallocated)',
+											'7' => 	'Cancelled'
 										];
 								
 $config['cocrecall'] 			=		[

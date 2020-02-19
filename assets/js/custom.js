@@ -417,7 +417,10 @@ function subtypereportinglist(data1=[], data2=[]){
 	
 	ajax(subtypeurl, subtypedata, subtypefn)
 
-	$(document).on('change', data1[0], function(){
+	$(document).on('change', data1[0], function(){		
+		$('.subtypeappend').remove();
+		$('.reportlistingappend').remove();
+		
 		subtypedata.installationtypeid = $(this).val();
 		ajax(subtypeurl, subtypedata, subtypefn)
 	})
@@ -441,6 +444,8 @@ function subtypereportinglist(data1=[], data2=[]){
 	
 	if(data1[2]){
 		$(document).on('change', data1[1], function(){
+			$('.reportlistingappend').remove();
+		
 			var reportlistingdata  = { installationtypeid : $(data1[0]).val(), subtypeid : $(this).val() };
 			ajax(reportlistingurl, reportlistingdata, reportlistingfn);
 		})

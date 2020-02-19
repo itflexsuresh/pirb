@@ -42,9 +42,9 @@ class Index extends CC_Controller
 										'cocstatus' 		=> 	$this->config->item('cocstatus')[$result['coc_status']],
 										'purchased' 		=> 	date('d-m-Y', strtotime($result['purchased_at'])),
 										'coctype' 			=> 	$this->config->item('coctype')[$result['type']],
-										'customer' 			=> 	$result['customer_name'],
-										'address' 			=> 	$result['customer_address'],
-										'company' 			=> 	$result['company'],
+										'customer' 			=> 	$result['cl_name'],
+										'address' 			=> 	$result['cl_address'],
+										'company' 			=> 	$result['plumbercompany'],
 										'action'			=> 	'
 																	<div class="table-action">
 																		'.$action.'
