@@ -443,7 +443,7 @@ class CC_Controller extends CI_Controller
 		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations]);
 		$pagedata['result']				= $this->Coc_Model->getCOCList('row', ['id' => $id]);
 		
-		$noncompliance					= $this->Noncompliance_Model->getList('all', ['user_id' => $userid]);		
+		$noncompliance					= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $userid]);		
 		$pagedata['noncompliance']		= [];
 		foreach($noncompliance as $compliance){
 			$pagedata['noncompliance'][] = [

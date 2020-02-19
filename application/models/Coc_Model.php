@@ -409,8 +409,8 @@ class Coc_Model extends CC_Model
 		}elseif($recall=='2'){
 			$this->db->update('stock_management', ['coc_status' => '7'], ['id' => $cocid]);
 		}elseif($recall=='3'){
-			$cocstatus = (isset($data['user_type'])) ? $data['user_type'] : '';
-			if(isset($data['userid'])) $this->db->update('stock_management', ['user_id' => $userid, 'coc_status' => $cocstatus], ['id' => $cocid]);
+			$cocstatus = (isset($data['user_type']) && $data['user_type']=='3') ? '4' : '3';
+			if(isset($data['userid'])) $this->db->update('stock_management', ['user_id' => $data['userid'], 'coc_status' => $cocstatus], ['id' => $cocid]);
 		}
 		
 		if($this->db->trans_status() === FALSE)

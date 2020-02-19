@@ -1,6 +1,7 @@
 <?php
 	$userid					= $userdata['id'];
 	$id 					= isset($result['cl_id']) ? $result['cl_id'] : '';
+	$cocid					= $result['id'];
 	
 	$logdate 				= isset($result['cl_log_date']) && $result['cl_log_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_log_date'])) : '';
 	$completiondate 		= isset($result['cl_completion_date']) && $result['cl_completion_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_completion_date'])) : '';
@@ -66,7 +67,7 @@
 				<form class="form" method="post">
 
 					<h4 class="card-title"><?php echo $heading; ?> COC</h4>
-					<h4 class="sup_title">Certificate: <label><?php echo $result['id']; ?></label></h4>
+					<h4 class="sup_title">Certificate: <label><?php echo $cocid; ?></label></h4>
 
 					<div class="row">
 						<div class="col-md-6">
@@ -411,6 +412,7 @@
 				<div class="modal-footer">
 					<input type="hidden" name="id" id="nc_id">
 					<input type="hidden" name="user_id" value="<?php echo $userid; ?>">
+					<input type="hidden" value="<?php echo $cocid; ?>" name="coc_id">
 					<button type="button" class="btn btn-success noncompliancesubmit">Submit</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
