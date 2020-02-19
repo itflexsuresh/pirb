@@ -230,7 +230,7 @@
 					</form>
 				</div>
 				
-				<?php if(($cocstatusid=='3' && $allocationdate=='') || $cocstatusid=='4'){ ?>
+				<?php if(($cocstatusid=='3' && $allocationdate=='') || ($cocstatusid=='4' && $allocationdate=='')){ ?>
 					<h4 class="card-title">Recalled/Reallocate/Cancel a COC</h4>
 					<form action="" method="post" class="form2">
 						<div class="row">				
