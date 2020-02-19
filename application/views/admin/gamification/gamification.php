@@ -113,7 +113,10 @@ else{
 									<input type="number" min="0" id="points" name="bonus" size="2"  value="<?php echo $result[12]['value'];?>" style="margin: 0px 20px;width: 8%;">
 									<label>  of licenced/master/plumbers employed</label>
 									<input type="number" min="0" id="points" name="employeed" size="2"  value="<?php echo $result[13]['value'];?>" style="margin: 0px 20px;width: 8%;">
-								<label>points</label><label> Openinig your account every day,award</label>	
+								<label>points</label>
+							</div>
+							<div class="form-group">
+								<label> Openinig your account every day,award</label>	
 
 								<input type="number"  min="0" id="points" name="every_day_award" size="2" value="<?php echo $result[14]['value'];?>" style="margin: 0px 20px;width: 8%;">		
 								<label>points</label>			
