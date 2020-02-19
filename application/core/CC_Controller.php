@@ -407,7 +407,8 @@ class CC_Controller extends CI_Controller
 		$specialisations 				= explode(',', $userdata['specialisations']);
 		
 		if($this->input->post()){
-			$requestData 	= 	$this->input->post();
+			$requestData 						= 	$this->input->post();
+			$requestData['company_details'] 	= 	$userdata['company_details'];
 			
 			$data 	=  $this->Coc_Model->actionCocLog($requestData);
 			

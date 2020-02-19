@@ -281,44 +281,6 @@ class Coc_Model extends CC_Model
 		}
 	}
 	
-	// Coc Log
-	/*
-	public function getCOCLog($type, $requestdata=[])
-	{ 
-		$this->db->select('
-			cl.*,
-			sm.id as coc_id,
-			sm.coc_status,
-			sm.audit_status,
-			sm.type as coc_type,
-			up.registration_no, 
-			ud.user_id as plumberid,
-			concat(ud.name, " ", ud.surname) as plumbername, 
-			ud.status as plumberstatus,
-			pa.createddate as createddate,
-			cd.company as companyname
-		');
-		$this->db->from('stock_management sm');
-		$this->db->join('coc_log cl', 'sm.id=cl.coc_id', 'left');		
-		$this->db->join('users_plumber up', 'up.user_id=sm.user_id', 'left');
-		$this->db->join('users_detail ud', 'ud.user_id=sm.user_id', 'left');
-		$this->db->join('plumberallocate pa', 'pa.stockid=cl.coc_id', 'left');
-		$this->db->join('users_detail cd', 'cd.user_id=pa.company_details', 'left');
-		
-		if(isset($requestdata['coc_id']))	$this->db->where('sm.id', $requestdata['coc_id']);
-				
-		if($type=='count'){
-			$result = $this->db->count_all_results();
-		}else{
-			$query = $this->db->get();
-			
-			if($type=='all') 		$result = $query->result_array();
-			elseif($type=='row') 	$result = $query->row_array();
-		}
-		
-		return $result;
-	}
-	*/
 	public function actionCocLog($data)
 	{
 		$this->db->trans_begin();
@@ -350,6 +312,8 @@ class Coc_Model extends CC_Model
 		if(isset($data['installation_detail'])) $request['installation_detail'] 	= $data['installation_detail'];
 		if(isset($data['file1'])) 				$request['file1'] 					= $data['file1'];
 		if(isset($data['agreement'])) 			$request['agreement'] 				= implode(',', $data['agreement']);
+		if(isset($data['file1'])) 				$request['file1'] 					= $data['file1'];
+		if(isset($data['company_details'])) 	$request['company_details'] 		= $data['company_details'];
 		if(isset($data['submit']) && $data['submit']=='log') $request['log_date'] 	= date('Y-m-d');
 		
 		$request['file2'] 					= (isset($data['file2'])) ? implode(',', $data['file2']) : '';
