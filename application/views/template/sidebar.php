@@ -134,6 +134,7 @@ $formstatus  	= $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'plumber/purchasecoc/index'; ?>">Purchase COC</a></li>
 							<li><a href="<?php echo base_url().'plumber/cocstatement/index'; ?>">COC Statement</a></li>
 							<li><a href="<?php echo base_url().'plumber/myaccounts/index'; ?>">My Accounts</a></li>
+							<li><a href="<?php echo base_url().'plumber/auditstatement/index'; ?>">Audit Statement</a></li>
 
 							<?php if($msg!=''){?>
 						<div id="message">
@@ -199,6 +200,7 @@ $formstatus  	= $userdata['formstatus'];
 					?>
 					<li><a href="javascript:void(0);">Dashboard</a></li>
 					<li><a href="<?php echo base_url().'auditor/profile/index'; ?>">My Profile</a></li>
+					<li><a href="<?php echo base_url().'auditor/auditstatement/index'; ?>">Audit Statement</a></li>
 					<?php if($msg!=''){?>
 						<div id="message">
 							<?php echo $msg;?>
