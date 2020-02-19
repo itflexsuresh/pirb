@@ -45,7 +45,7 @@ class Designation extends CC_Controller
 		$pagedata['notification'] 			= $this->getNotification();
 		// $pagedata['result']	 				= $this->Designation_Model->getList('all');
 		$data['plugins']					= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
-		$data['content'] 					= $this->load->view('admin/gamification/Designation', (isset($pagedata) ? $pagedata : ''), true);
+		$data['content'] 					= $this->load->view('admin/gamification/designation', (isset($pagedata) ? $pagedata : ''), true);
 
 		$this->layout2($data);
 
