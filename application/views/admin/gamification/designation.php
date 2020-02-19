@@ -45,29 +45,31 @@ if(isset($result) && $result){
 								<th></th>
 							</tr>
 					 		</thead>
+					 		
+					 		<tbody>
+					 			<tr>
+					 				<td>Designation</td>
+					 				<td></td>
+					 				<td></td>
+					 			</tr>
 					 			<?php if(count($permission_list) > 0)
 					         {
 					          	foreach($permission_list as $key=>$val)
 					         	{  
-                            
+                              //print_r($val);
 								?> 
-					 		<tbody>
 							<tr>
 								<td><?php  echo $key; ?></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<?php foreach($val as $k=>$v)
-							{
 
+							<?php foreach($val as $k=>$v){
+                           
    							?>
-							<tr>
-								<td><?php echo $v['name'];?></td>	
-								<td><?php echo $v['points'];?></td>	
-                                 <td> <a href="#edit_user" class="open-edit_user" id="edit_points" data-toggle="modal" data-user_id="<?php echo $v['id']; ?>"><i class="fa fa-pencil-alt"></i></a></td>
+								<td><?php echo $v['points'];?></td>
+								
+							<?php }?>
+								<td><a href="#edit_user" class="open-edit_user" id="edit_points" data-toggle="modal" data-user_id="<?php echo $v['id']; ?>"><i class="fa fa-pencil-alt"></i></a></td>
 							</tr>
-
-						<?php }?>
+							
 						</tbody>
 						<?php }}?>
 					    </table>
