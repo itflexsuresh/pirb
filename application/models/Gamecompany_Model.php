@@ -53,7 +53,7 @@ class Gamecompany_Model extends CC_Model
 	
 	public function action($data)
 	{	
-		
+		$id = $data['id']; 
 		$request = ['updated_by' => $data['id'],];			
 		
 		if(isset($data['poin'])) 	$request['points'] 		= $data['poin'];

@@ -85,7 +85,7 @@ class Index extends CC_Controller
 		echo json_encode($edit);
 }
 
-public function editpoint(){
+public function editpoint($id = ''){
 
 	if($this->input->post())
 	{	
@@ -97,7 +97,7 @@ public function editpoint(){
 
 			$data 	=  $this->Gamecompany_Model->action($post);
 
-			if($data) $this->session->set_flashdata('success', 'Company Points '.(($post['id']=='') ? 'created' : 'updated').' successfully.');
+			if($data) $this->session->set_flashdata('success', 'Company Points '.(($id=='') ? 'created' : 'updated').' successfully.');
 			else $this->session->set_flashdata('error', 'Try Later.');
 
 		}
