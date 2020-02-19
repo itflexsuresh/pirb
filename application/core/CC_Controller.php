@@ -412,10 +412,10 @@ class CC_Controller extends CI_Controller
 			$data 	=  $this->Coc_Model->actionCocLog($requestData);
 			
 			$message = '';
-			if(isset($data['submit'])){
-				if($data['submit']=='save'){
+			if(isset($requestData['submit'])){
+				if($requestData['submit']=='save'){
 					$message = 'Thanks for Saving the COC.';
-				}elseif($data['submit']=='log'){
+				}elseif($requestData['submit']=='log'){
 					$message = 'Thanks for Logging the COC.';
 				}
 				
