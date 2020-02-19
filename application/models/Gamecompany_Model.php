@@ -2,6 +2,27 @@
 
 class Gamecompany_Model extends CC_Model
 {
+	
+
+	public function action($data)
+	{	
+		$id = $data['id']; 
+		$date = date('Y-m-d');
+
+		$request = ['updated_by' => $data['id'], 'updated_at' => $date ];			
+		
+		if(isset($data['poin'])) 	$request['points'] 		= $data['poin'];
+		
+		if(isset($data['id']) && $data['id'] !='')
+		{
+			$result = $this->db->update('company_points', $request, ['id' => $data['id']]);
+		}
+		$this->db->last_query();
+		
+		return $result;
+	}
+
+
 
 	public function getList($type, $requestdata=[])
 	{
@@ -51,21 +72,7 @@ class Gamecompany_Model extends CC_Model
 
 	}
 	
-	public function action($data)
-	{	
-		$id = $data['id']; 
-		$request = ['updated_by' => $data['id'],];			
-		
-		if(isset($data['poin'])) 	$request['points'] 		= $data['poin'];
-		
-		if(isset($data['id']) && $data['id'] !='')
-		{
-			$result = $this->db->update('company_points', $request, ['id' => $data['id']]);
-		}
-		$this->db->last_query();
-		
-		return $result;
-	}
+	
 
 	
 	public function changestatus($data)

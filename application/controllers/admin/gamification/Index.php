@@ -37,53 +37,8 @@ class Index extends CC_Controller
 		$this->layout2($data);
 	}
 	
-	public function edit()
-	{
-
-		$notify_id = $this->uri->segment(5, 0);
-		$query = $this->db->query("SELECT * FROM company_points where id = $id");	    
-		$edit = $query->row_array();
-
-
-		$userid = $this->getUserID();
-
-		
-		if($this->input->post())
-		{
-			$requestData 		= 	$this->input->post();
-					
-			$requestData['id']	=	$id;		
-			$data 				=  	$this->Gamecompany_Model->action($requestData);
-
-
-			if(isset($data)) $this->session->set_flashdata('success', 'Company Points '.(($id=='') ? 'created' : 'updated').' successfully.');
-			else $this->session->set_flashdata('error', 'Try Later.');
-			
-			redirect('admin/gamification/index'); 
-		}
-
-		$pagedata['result'] 		= $edit;
-		$pagedata['notification'] 	= $this->getNotification();
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker','tinymce'];
-		$data['content'] 			= $this->load->view('admin/gamification/index', (isset($pagedata) ? $pagedata : ''), true);
-		$this->layout2($data);
-
-
-	}
-	public function edit_check()
-	{
-		$post = $this->input->post();
-		$id = $post['id'];
-
-		$edit = array();
-
-		if($id!='')
-		{
-			$query = $this->db->query("SELECT * FROM company_points where id = $id");	    
-			$edit = $query->row_array();
-		}
-		echo json_encode($edit);
-}
+	
+	
 
 public function editpoint($id = ''){
 
@@ -104,6 +59,21 @@ public function editpoint($id = ''){
 		 
 	}
 
+}
+
+public function edit_check()
+	{
+		$post = $this->input->post();
+		$id = $post['id'];
+
+		$edit = array();
+
+		if($id!='')
+		{
+			$query = $this->db->query("SELECT * FROM company_points where id = $id");	    
+			$edit = $query->row_array();
+		}
+		echo json_encode($edit);
 }
 
 }
