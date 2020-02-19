@@ -55,9 +55,9 @@ class Designation_Model extends CC_Model
 	
 	public function getPermissions()
 	{ 
-		$this->db->select('specialisation.*,designation.name as deg_name');
+		$this->db->select('specialisation.*,specialisation.name as deg_name,specialisation.points');
 		$this->db->from('specialisation');
-		$this->db->join('designation', 'specialisation.design_id = designation.id');
+		
 		
 		$query = $this->db->get();
 
