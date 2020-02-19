@@ -37,34 +37,7 @@ class Designation_Model extends CC_Model
 			return true;
 		}
 	}
-	public function getList($type, $requestdata=[])
-	{
-
-	$this->db->select('s1.*,d1.name deg_name');
-        $this->db->from('specialisation as s1');
-        $query = $this->db->join('designation as d1', 's1.design_id = d1.id', 'left');
-
-       if(isset($requestdata['id'])) $this->db->where('s1.id', $requestdata['id']);
-		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
-			$this->db->limit($requestdata['length'], $requestdata['start']);
-		}
-		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['s1.id', 's1.name', 's1.points'];
-			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
-		}
-		
-		
-		if($type=='count'){
-			$result = $this->db->count_all_results();
-		}else{
-			$query = $this->db->get();
-			
-			if($type=='all') 		$result = $query->result_array();
-			elseif($type=='row') 	$result = $query->row_array();
-		}
-		
-		return $result;
-	}
+	
 	
 	public function edit_check($post)
 	{
