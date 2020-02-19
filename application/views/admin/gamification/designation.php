@@ -152,7 +152,7 @@ dataType: "json",
 data : { 'id' : point,'name': item,'points': poin,},
 success: function (jdata)
 {
- 
+ window.location.reload();
 $('#edit_user').hide();          
 }
 });
