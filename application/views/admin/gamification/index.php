@@ -1,9 +1,6 @@
 <?php
 if(isset($result) && $result)
 {	
-	// echo '<pre>';
-	// print_r($result); 
-	// echo '</pre>';exit;
 	$id 			= isset($result['id']) ? $result['id'] : '';	
 	$item 			= isset($result['item']) ? $result['item'] : set_value ('item');	
 		
@@ -44,29 +41,27 @@ if(isset($result) && $result)
 									</div> 
 									<div class="modal-body">   
 										<div class="fetched_user">
-											<!-- <input type="hidden" id="id" name="id" value="<?php echo $value["id"]; ?>"> -->
+											
+												
+											
 											<label>Item</label>
 											<input type="text" class="form-control" id="item" name="item" value="" readonly="readonly">									
 											<label>Point allocation*:</label>
-											<input type="number" class="form-control"  id="points" name="points" value="">
-
+											<input type="number" min="0" class="form-control"  id="points" name="points" value="">
+										
 										</div>
 										<div class="col-md-12 text-right">
-											
-											<button type="submit" name="submit" value="submit" class="btn btn-primary">
+											<input type="hidden" name="form_id" id="form_id">
+											<button id="add_points" type="submit" name="submit" value="submit" class="btn btn-primary">
 											Save</button>
 										</div> 
+
 									</div> 
 
 
 								</div>
 							</div>
 						</div> 
-
-
-
-
-
 
 						<div class="table-responsive m-t-40">
 							<table class="table table-bordered table-striped datatables fullwidth">
@@ -87,11 +82,6 @@ if(isset($result) && $result)
 																				
 												<td><?php echo $value["item"]; ?></td>
 												<td><?php echo $value["points"]; ?></td>
-
-												<!-- <td><a href="'.base_url().'admin/gamification/index/edit/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a></td> -->
-
-												<!-- <td> <a href="edit/<?php echo $value['id']; ?>" class="open-edit_user" data-toggle="modal" data-user_id="<?php echo $value["id"]; ?>"><i class="fa fa-pencil-alt"></i></a></td> -->
-											    
 
 											    <td> <a href="#edit_user" class="open-edit_user" id="edit_points" data-toggle="modal" data-user_id="<?php echo $value["id"]; ?>"><i class="fa fa-pencil-alt"></i></a></td>
 
@@ -143,8 +133,30 @@ $(document).on('click', '#edit_points', function($user_id)
                     console.log(jsonData.item)
                     $('#item').val(jsonData.item);
                     $('#points').val(jsonData.points);
+                    $('#form_id').val(point);
                 }
             });
+
+})
+
+
+$(document).on('click', '#add_points', function($user_id)
+{
+	
+	var point = $('#form_id').val();
+	var item = $('#item').val();	
+	var poin = $('#points').val();
+	 
+	$.ajax({
+		url: "<?php echo base_url()."admin/gamification/index/editpoint"; ?>",
+		method: "post",
+		dataType: "json",
+		data : { 'id' : point,'item': item,'poin': poin,},
+		success: function (jdata) 
+		{
+			$('#edit_user').hide();					                    
+		}
+	});
 
 })
 

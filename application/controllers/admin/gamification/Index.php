@@ -24,6 +24,8 @@ class Index extends CC_Controller
 				redirect('admin/gamification/index'); 
 			}
 		}
+
+		
 		
 		
 		
@@ -81,29 +83,28 @@ class Index extends CC_Controller
 			$edit = $query->row_array();
 		}
 		echo json_encode($edit);
+}
 
-		// if($this->input->post())
-		// {
-		// 	$requestData 		= 	$this->input->post();
-					
-		// 	$requestData['id']	=	$id;		
-		// 	$data 				=  	$this->Gamecompany_Model->action($requestData);
+public function editpoint(){
 
+	if($this->input->post())
+	{	
 
-		// 	if(isset($data)) $this->session->set_flashdata('success', 'Company Points '.(($id=='') ? 'created' : 'updated').' successfully.');
-		// 	else $this->session->set_flashdata('error', 'Try Later.');
-			
-		// 	redirect('admin/gamification/index'); 
-		// }
+		$post = $this->input->post();
 
-		//$pagedata['result'] 		= $edit;
-		// $pagedata['notification'] 	= $this->getNotification();
-		// $data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker','tinymce'];
-		// $data['content'] 			= $this->load->view('admin/gamification/index', (isset($pagedata) ? $pagedata : ''), true);
-		// $this->layout2($data);
+		if(isset($post['id']) && $post['id']!='')
+		{
 
+			$data 	=  $this->Gamecompany_Model->action($post);
 
+			if($data) $this->session->set_flashdata('success', 'Company Points '.(($post['id']=='') ? 'created' : 'updated').' successfully.');
+			else $this->session->set_flashdata('error', 'Try Later.');
+
+		}
+		 
+	}
 
 }
 
 }
+
