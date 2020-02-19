@@ -1,33 +1,33 @@
 <?php
-	$id 					= isset($result['id']) ? $result['id'] : '';
+	$id 					= isset($result['cl_id']) ? $result['cl_id'] : '';
 	
-	$cocid 					= isset($result['coc_id']) ? $result['coc_id'] : '';	
-	$cocstatusid			= $result['coc_status'];
+	$cocid 					= isset($result['id']) ? $result['id'] : '';	
+	$cocstatusid			= $result['coc_status'];                                           
 	$cocstatus 				= isset($this->config->item('cocstatus')[$result['coc_status']]) ? $this->config->item('cocstatus')[$result['coc_status']] : '';
 	$auditstatus 			= isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';
-	$coctypeid 				= $result['coc_type'];
-	$coctype 				= isset($this->config->item('coctype')[$result['coc_type']]) ? $this->config->item('coctype')[$result['coc_type']] : '';
+	$coctypeid 				= $result['type'];
+	$coctype 				= isset($this->config->item('coctype')[$result['type']]) ? $this->config->item('coctype')[$result['type']] : '';
 	
-	$companyname 			= isset($result['companyname']) ? $result['companyname'] : '';
-	$allocationdate 		= isset($result['createddate']) && $result['createddate']!='1970-01-01' ? date('d-m-Y', strtotime($result['createddate'])) : '';
+	$companyname 			= isset($result['resellercompany']) ? $result['resellercompany'] : '';
+	$allocationdate 		= isset($result['resellercreateddate']) && $result['resellercreateddate']!='1970-01-01' ? date('d-m-Y', strtotime($result['resellercreateddate'])) : '';
 	
-	$plumberid 				= isset($result['plumberid']) ? $result['plumberid'] : '';
-	$plumberregno 			= isset($result['registration_no']) ? $result['registration_no'] : '';
-	$plumbername 			= isset($result['plumbername']) ? $result['plumbername'] : '';
-	$plumberstatus 			= isset($this->config->item('plumberstatus')[$result['plumberstatus']]) ? $this->config->item('plumberstatus')[$result['plumberstatus']] : '';
+	$plumberid 				= isset($result['u_id']) ? $result['u_id'] : '';
+	$plumberregno 			= isset($result['plumberregno']) ? $result['plumberregno'] : '';
+	$plumbername 			= isset($result['u_name']) ? $result['u_name'] : '';
+	$plumberstatus 			= isset($this->config->item('plumberstatus')[$result['u_status']]) ? $this->config->item('plumberstatus')[$result['u_status']] : '';
 	
-	$logdate 				= isset($result['log_date']) && $result['log_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['log_date'])) : '';
-	$completiondate 		= isset($result['completion_date']) && $result['completion_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['completion_date'])) : '';
-	$orderno 				= isset($result['order_no']) ? $result['order_no'] : '';
-	$name 					= isset($result['name']) ? $result['name'] : '';
-	$address 				= isset($result['address']) ? $result['address'] : '';
-	$street 				= isset($result['street']) ? $result['street'] : '';
-	$number 				= isset($result['number']) ? $result['number'] : '';
-	$provinceid 			= isset($result['province']) ? $result['province'] : '';
-	$cityid 				= isset($result['city']) ? $result['city'] : '';
-	$suburbid 				= isset($result['suburb']) ? $result['suburb'] : '';
-	$contactno 				= isset($result['contact_no']) ? $result['contact_no'] : '';
-	$alternateno 			= isset($result['alternate_no']) ? $result['alternate_no'] : '';
+	$logdate 				= isset($result['cl_log_date']) && $result['cl_log_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_log_date'])) : '';
+	$completiondate 		= isset($result['cl_completion_date']) && $result['cl_completion_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_completion_date'])) : '';
+	$orderno 				= isset($result['cl_order_no']) ? $result['cl_order_no'] : '';
+	$name 					= isset($result['cl_name']) ? $result['cl_name'] : '';
+	$address 				= isset($result['cl_address']) ? $result['cl_address'] : '';
+	$street 				= isset($result['cl_street']) ? $result['cl_street'] : '';
+	$number 				= isset($result['cl_number']) ? $result['cl_number'] : '';
+	$provinceid 			= isset($result['cl_province']) ? $result['cl_province'] : '';
+	$cityid 				= isset($result['cl_city']) ? $result['cl_city'] : '';
+	$suburbid 				= isset($result['cl_suburb']) ? $result['cl_suburb'] : '';
+	$contactno 				= isset($result['cl_contact_no']) ? $result['cl_contact_no'] : '';
+	$alternateno 			= isset($result['cl_alternate_no']) ? $result['cl_alternate_no'] : '';
 	
 	$filepath				= base_url().'assets/uploads/coc/cocdetails/';
 	$pdfimg 				= base_url().'assets/images/pdf.png';

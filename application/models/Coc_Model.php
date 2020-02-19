@@ -4,34 +4,46 @@ class Coc_Model extends CC_Model
 {
 	public function getCOCList($type, $requestdata=[])
 	{ 
+		$coclog 		= 	[ 
+								'cl.id cl_id','cl.log_date cl_log_date','cl.completion_date cl_completion_date','cl.order_no cl_order_no','cl.name cl_name','cl.address cl_address','cl.street cl_street','cl.number cl_number',
+								'cl.province cl_province','cl.city cl_city','cl.suburb cl_suburb','cl.contact_no cl_contact_no','cl.alternate_no cl_alternate_no','cl.email cl_email','cl.installationtype cl_installationtype',
+								'cl.specialisations cl_specialisations','cl.installation_detail cl_installation_detail','cl.file1 cl_file1','cl.file2 cl_file2','cl.agreement cl_agreement','cl.status cl_status'
+							];
+							
 		$this->db->select('
 			sm.*, 
-			concat(ud.name, " ", ud.surname) as name, 
-			u.type as usertype,
-			ua.address,
-			concat(pd.name, " ", pd.surname) as company,
-			cl.name as customer_name,
-			cl.address as customer_address
+			u.id as u_id,
+			u.type as u_type,
+			concat(ud.name, " ", ud.surname) as u_name, 
+			ud.status as u_status,
+			'.implode(',', $coclog).',
+			cd1.company as plumbercompany,
+			up.registration_no as plumberregno, 
+			pa.createddate as resellercreateddate,
+			cd2.company as resellercompany
 		');
 		$this->db->from('stock_management sm');
 		$this->db->join('users_address ua', 'ua.user_id=sm.user_id and ua.type="3"', 'left');
+		$this->db->join('users_plumber up', 'up.user_id=sm.user_id', 'left');
 		$this->db->join('users_detail ud', 'ud.user_id=sm.user_id', 'left');
 		$this->db->join('users u', 'u.id=sm.user_id', 'left');
-		$this->db->join('users_plumber p', 'p.user_id=sm.user_id', 'left');
-		$this->db->join('users_detail pd', 'pd.user_id=p.company_details', 'left');
 		$this->db->join('coc_log cl', 'cl.coc_id=sm.id', 'left');
+		$this->db->join('users_detail cd1', 'cd1.user_id=cl.company_details', 'left');
+		$this->db->join('plumberallocate pa', 'pa.stockid=cl.coc_id', 'left');
+		$this->db->join('users_detail cd2', 'cd2.user_id=pa.company_details', 'left');
 		
-		if(isset($requestdata['auditstatus']) && count($requestdata['auditstatus']) > 0)	$this->db->where_in('sm.audit_status', $requestdata['auditstatus']);
-		if(isset($requestdata['coctype']) && count($requestdata['coctype']) > 0)			$this->db->where_in('sm.type', $requestdata['coctype']);
 		if(isset($requestdata['startrange']) && $requestdata['startrange']!='')				$this->db->where('sm.id >=', $requestdata['startrange']);
 		if(isset($requestdata['endrange']) && $requestdata['endrange']!='')					$this->db->where('sm.id <=', $requestdata['endrange']);
+		if(isset($requestdata['coc_status']) && count($requestdata['coc_status']) > 0)		$this->db->where_in('sm.coc_status', $requestdata['coc_status']);
+		if(isset($requestdata['auditstatus']) && count($requestdata['auditstatus']) > 0)	$this->db->where_in('sm.audit_status', $requestdata['auditstatus']);
+		if(isset($requestdata['coctype']) && count($requestdata['coctype']) > 0)			$this->db->where_in('sm.type', $requestdata['coctype']);
 		if(isset($requestdata['startdate']) && $requestdata['startdate']!='')				$this->db->where('sm.allocation_date >=', date('Y-m-d', strtotime($requestdata['startdate'])));
 		if(isset($requestdata['enddate']) && $requestdata['enddate']!='')					$this->db->where('sm.allocation_date <=', date('Y-m-d', strtotime($requestdata['enddate'])));
 		if(isset($requestdata['province']) && $requestdata['province']!='')					$this->db->where('ua.province', $requestdata['province']);
 		if(isset($requestdata['city']) && $requestdata['city']!='')							$this->db->where('ua.city', $requestdata['city']);
 		
-		if(isset($requestdata['coc_status']) && count($requestdata['coc_status']) > 0)		$this->db->where_in('sm.coc_status', $requestdata['coc_status']);
 		if(isset($requestdata['user_id']) && $requestdata['user_id']!='')					$this->db->where('sm.user_id', $requestdata['user_id']);
+		if(isset($requestdata['id']) && $requestdata['id']!='')								$this->db->where('sm.id', $requestdata['id']);
 				
 		$this->db->group_by('sm.id');
 		
@@ -44,24 +56,9 @@ class Coc_Model extends CC_Model
 			elseif($type=='row') 	$result = $query->row_array();
 		}
 		
-		return $result;
+		return $result;		
 	}
 	
-	/*
-	public function getCOCList($type, $requestdata){
-		$result = $this->db
-		->select('*')
-		->from('stock_management')
-		->where($requestdata);
-		if ($type=='count') {
-			$result = $this->db->count_all_results();
-		}
-		else{
-			$result = $query = $this->db->result_array();
-		}
-		return $result;
-	}
-	*/
 	public function COCcount($requestdata=[]){
 		$query = $this->db->select('*')->from('coc_count')->where('user_id', $requestdata['user_id'])->get()->row_array();
 		//print_r($query);die;
@@ -212,86 +209,6 @@ class Coc_Model extends CC_Model
 
 	}
 	
-	// public function action($data)
-	// {	
-	// 	$this->db->trans_begin();
-
-	// 	$userid			= 	$this->getUserID();
-	// 	$datetime		= 	date('Y-m-d H:i:s');
-
-
-
-	// 	if(isset($data['name'])) 	         $request['name'] 	    =    $data['name'];
-	// 	if(isset($data['surname'])) 	     $request['surname'] 	=    $data['surname'];
-	// 	// if(isset($data['idnumber'])) 	     $request[''] 			= 	 $data['idnumber'];
-	// 	if(isset($data['auditor_picture']))  $request['file1'] 		= 	 $data['auditor_picture'];
-	// 	if(isset($data['email'])) 			 $request['email']		= 	 $data['email'];		
-	// 	if(isset($data['phonework'])) 		 $request['work_phone'] = 	 $data['phonework'];
-	// 	if(isset($data['phonemobile'])) 	$request['mobile_phone']=    $data['phonemobile'];
-	// 	if(isset($data['billingname'])) 	$request['company_name']=    $data['billingname'];
-	// 	if(isset($data['regnumber'])) 		$request['reg_no'] 		= 	 $data['regnumber'];
-	// 	if(isset($data['vat'])) 		    $request['vat_no'] 	    = 	 $data['vat'];
-	// 	if(isset($data['comp_photo'])) 		$request['file2'] 		= 	 $data['comp_photo'];
-
-
-	// 	if(isset($data['billingaddress'])) 	$request1['address'] 	= 	 $data['billingaddress'];
-	// 	if(isset($data['province'])) 		$request1['province'] 	= 	 $data['province'];
-	// 	if(isset($data['city'])) 			$request1['city'] 		= 	 $data['city'];
-	// 	if(isset($data['suburb'])) 	 		$request1['suburb']     = 	 $data['suburb'];
-	// 	if(isset($data['postalcode'])) 	    $request1['postal_code']=    $data['postalcode'];
-
-
-	// 	if(isset($data['bankname'])) 		$request2['bank_name'] 	=    $data['bankname'];
-	// 	if(isset($data['accountname'])) 	$request2['account_name']=   $data['accountname'];
-	// 	if(isset($data['branchcode'])) 		$request2['branch_code'] =   $data['branchcode'];
-	// 	if(isset($data['accountnumber'])) 	$request2['account_no']  =   $data['accountnumber'];
-	// 	if(isset($data['accounttype'])) 	$request2['account_type'] =  $data['accounttype'];
-
-	// 	if(isset($data['email'])) 			 $request3['email']		= 	 $data['email'];
-	// 	if(isset($data['pass'])) 		 	 $request3['password']	=    $data['pass'];
-
-	// 	//$request['status'] 	= (isset($data['status'])) ? $data['status'] : '0';
-
-
-	// 		if(isset($request)){
-
-	// 		$request['user_id'] 	= $userid;
-	// 			$audior_details = $this->db->insert('users_detail', $request);
-	// 		}
-
-
-
-	// 		if(isset($request1)){
-
-	// 		$request1['user_id'] 	= $userid;
-	// 			$audior_details = $this->db->insert('users_address', $request1);
-	// 		}
-
-	// 		if(isset($request2)){
-
-	// 		$request2['user_id'] 	= $userid;
-	// 			$audior_details = $this->db->insert('users_bank', $request2);
-	// 		}
-
-	// 		if(isset($request3)){
-
-	// 		//$request3['user_id'] 	= $userid;
-	// 			$audior_details = $this->db->insert('users', $request3);
-	// 		}
-
-
-	// 	if($this->db->trans_status() === FALSE)
-	// 	{
-	// 		$this->db->trans_rollback();
-	// 		return false;
-	// 	}
-	// 	else
-	// 	{
-	// 		$this->db->trans_commit();
-	// 		return true;
-	// 	}
-	// }
-	
 	public function checkcocpermitted($userid)
 	{
 		$query = $this->db
@@ -309,7 +226,7 @@ class Coc_Model extends CC_Model
 	}
 	
 	// Coc Log
-	
+	/*
 	public function getCOCLog($type, $requestdata=[])
 	{ 
 		$this->db->select('
@@ -345,7 +262,7 @@ class Coc_Model extends CC_Model
 		
 		return $result;
 	}
-	
+	*/
 	public function actionCocLog($data)
 	{
 		$this->db->trans_begin();

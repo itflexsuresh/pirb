@@ -1,25 +1,26 @@
 <?php
 	$userid					= $userdata['id'];
-	$id 					= isset($result['id']) ? $result['id'] : '';
+	$id 					= isset($result['cl_id']) ? $result['cl_id'] : '';
 	
-	$completiondate 		= isset($result['completion_date']) && $result['completion_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['completion_date'])) : '';
-	$orderno 				= isset($result['order_no']) ? $result['order_no'] : '';
-	$name 					= isset($result['name']) ? $result['name'] : '';
-	$address 				= isset($result['address']) ? $result['address'] : '';
-	$street 				= isset($result['street']) ? $result['street'] : '';
-	$number 				= isset($result['number']) ? $result['number'] : '';
-	$provinceid 			= isset($result['province']) ? $result['province'] : '';
-	$cityid 				= isset($result['city']) ? $result['city'] : '';
-	$suburbid 				= isset($result['suburb']) ? $result['suburb'] : '';
-	$contactno 				= isset($result['contact_no']) ? $result['contact_no'] : '';
-	$alternateno 			= isset($result['alternate_no']) ? $result['alternate_no'] : '';
-	$email 					= isset($result['email']) ? $result['email'] : '';
-	$installationtypeid 	= isset($result['installationtype']) ? explode(',', $result['installationtype']) : [];
-	$specialisationsid 		= isset($result['specialisations']) ? explode(',', $result['specialisations']) : [];
-	$installationdetail 	= isset($result['installation_detail']) ? $result['installation_detail'] : '';
-	$file1 					= isset($result['file1']) ? $result['file1'] : '';
-	$file2 					= isset($result['file2']) ? array_filter(explode(',', $result['file2'])) : [];
-	$agreementid 			= isset($result['agreement']) ? explode(',', $result['agreement']) : [];
+	$logdate 				= isset($result['cl_log_date']) && $result['cl_log_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_log_date'])) : '';
+	$completiondate 		= isset($result['cl_completion_date']) && $result['cl_completion_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_completion_date'])) : '';
+	$orderno 				= isset($result['cl_order_no']) ? $result['cl_order_no'] : '';
+	$name 					= isset($result['cl_name']) ? $result['cl_name'] : '';
+	$address 				= isset($result['cl_address']) ? $result['cl_address'] : '';
+	$street 				= isset($result['cl_street']) ? $result['cl_street'] : '';
+	$number 				= isset($result['cl_number']) ? $result['cl_number'] : '';
+	$provinceid 			= isset($result['cl_province']) ? $result['cl_province'] : '';
+	$cityid 				= isset($result['cl_city']) ? $result['cl_city'] : '';
+	$suburbid 				= isset($result['cl_suburb']) ? $result['cl_suburb'] : '';
+	$contactno 				= isset($result['cl_contact_no']) ? $result['cl_contact_no'] : '';
+	$alternateno 			= isset($result['cl_alternate_no']) ? $result['cl_alternate_no'] : '';
+	$email 					= isset($result['cl_email']) ? $result['cl_email'] : '';
+	$installationtypeid 	= isset($result['cl_installationtype']) ? explode(',', $result['cl_installationtype']) : [];
+	$specialisationsid 		= isset($result['cl_specialisations']) ? explode(',', $result['cl_specialisations']) : [];
+	$installationdetail 	= isset($result['cl_installation_detail']) ? $result['cl_installation_detail'] : '';
+	$file1 					= isset($result['cl_file1']) ? $result['cl_file1'] : '';
+	$file2 					= isset($result['cl_file2']) ? array_filter(explode(',', $result['cl_file2'])) : [];
+	$agreementid 			= isset($result['cl_agreement']) ? explode(',', $result['cl_agreement']) : [];
 	
 	$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/log/';
 	$pdfimg 				= base_url().'assets/images/pdf.png';
@@ -33,7 +34,7 @@
 		$file1img 		= $profileimg;
 	}
 	
-	$coctypeid 				= isset($coclist['type']) ? $coclist['type'] : '';
+	$coctypeid 				= isset($result['type']) ? $result['type'] : '';
 	
 	if($pagetype=='action'){
 		$heading 	= 'Log ';
@@ -65,7 +66,7 @@
 				<form class="form" method="post">
 
 					<h4 class="card-title"><?php echo $heading; ?> COC</h4>
-					<h4 class="sup_title">Certificate: <label><?php echo $coclist['id']; ?></label></h4>
+					<h4 class="sup_title">Certificate: <label><?php echo $result['id']; ?></label></h4>
 
 					<div class="row">
 						<div class="col-md-6">

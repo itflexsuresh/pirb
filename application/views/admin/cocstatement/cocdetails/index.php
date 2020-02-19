@@ -1,8 +1,3 @@
-<?php
-$dob = isset($result['dob']) && $result['dob']!='1970-01-01' ? date('d-m-Y', strtotime($result['dob'])) : '';
-$file1 = isset($result['file1']) ? $result['file1'] : '';
-?>
-
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
 		<h4 class="text-themecolor">COC Statement</h4>
