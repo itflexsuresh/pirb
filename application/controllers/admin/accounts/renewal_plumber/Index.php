@@ -870,7 +870,7 @@ class Index extends CC_Controller
 				else{
 					$status = "Unpaid";
 					if($result['userstatus'] == '1'){
-						$internal_inv = '<div class="table-action"><a href="'.base_url().'admin/accounts/renewal_plumber/Index/Deletefunc/'.$result['inv_id'].'" data-toggle="tooltip" data-placement="top" title="Delete" target="_blank"><i class="fa fa-trash"></i></a></div>';
+						$internal_inv = '<div class="table-action"><a href="'.base_url().'admin/accounts/renewal_plumber/Index/Deletefunc/'.$result['inv_id'].'" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a></div>';
 					}
 				}
 
@@ -884,7 +884,7 @@ class Index extends CC_Controller
 					'action'	    => 	'
 
 					<div class="col-md-6">
-					<a  href="' .base_url().'assets/inv_pdf/'.$result['inv_id'].'.pdf" >
+					<a  href="' .base_url().'assets/inv_pdf/'.$result['inv_id'].'.pdf"  target="_blank">
 					<img src="'.base_url().'assets/images/pdf.png" height="50" width="50">
 					</div></a>
 
