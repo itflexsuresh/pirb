@@ -21,17 +21,6 @@ class Designation extends CC_Controller
 			}
 		}
 
-
-
-		// if($this->input->post()){
-		// 	$requestData 	= 	$this->input->post();
-		// 	$data 			=  $this->Designation_Model->action($requestData);
-          
-		// 	if($data) $this->session->set_flashdata('success', 'System Settings '.(($id=='') ? 'updated' : 'updated').' successfully.');
-		// 	else $this->session->set_flashdata('error', 'Try Later.');
-			
-		// 	redirect('admin/gamification/Designation'); 
-		// }
 		$permission_list = $this->Designation_Model->getPermissions(); 
         $fotmatted_list = array();
         for($k=0;$k<count($permission_list);$k++) 
@@ -55,8 +44,6 @@ class Designation extends CC_Controller
        
 	}
 
-
-
 public function editpoint($id = ''){
 
 if($this->input->post())
@@ -70,7 +57,7 @@ $data =  $this->Designation_Model->action($post);
 
 if($data) $this->session->set_flashdata('success', 'Gamification Specialisation Points '.(($id=='') ? 'updated' : 'updated').' successfully.');
 else $this->session->set_flashdata('error', 'Try Later.');
-redirect('admin/gamification/designation'); 
+
 
 }
 
