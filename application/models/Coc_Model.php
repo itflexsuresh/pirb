@@ -23,7 +23,6 @@ class Coc_Model extends CC_Model
 			cd2.company as resellercompany
 		');
 		$this->db->from('stock_management sm');
-		$this->db->join('users_address ua', 'ua.user_id=sm.user_id and ua.type="3"', 'left');
 		$this->db->join('users_plumber up', 'up.user_id=sm.user_id', 'left');
 		$this->db->join('users_detail ud', 'ud.user_id=sm.user_id', 'left');
 		$this->db->join('users u', 'u.id=sm.user_id', 'left');
@@ -39,8 +38,8 @@ class Coc_Model extends CC_Model
 		if(isset($requestdata['coctype']) && count($requestdata['coctype']) > 0)			$this->db->where_in('sm.type', $requestdata['coctype']);
 		if(isset($requestdata['startdate']) && $requestdata['startdate']!='')				$this->db->where('sm.allocation_date >=', date('Y-m-d', strtotime($requestdata['startdate'])));
 		if(isset($requestdata['enddate']) && $requestdata['enddate']!='')					$this->db->where('sm.allocation_date <=', date('Y-m-d', strtotime($requestdata['enddate'])));
-		if(isset($requestdata['province']) && $requestdata['province']!='')					$this->db->where('ua.province', $requestdata['province']);
-		if(isset($requestdata['city']) && $requestdata['city']!='')							$this->db->where('ua.city', $requestdata['city']);
+		if(isset($requestdata['province']) && $requestdata['province']!='')					$this->db->where('cl.province', $requestdata['province']);
+		if(isset($requestdata['city']) && $requestdata['city']!='')							$this->db->where('cl.city', $requestdata['city']);
 		
 		if(isset($requestdata['user_id']) && $requestdata['user_id']!='')					$this->db->where('sm.user_id', $requestdata['user_id']);
 		if(isset($requestdata['id']) && $requestdata['id']!='')								$this->db->where('sm.id', $requestdata['id']);
@@ -48,14 +47,17 @@ class Coc_Model extends CC_Model
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
-		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
+		if(isset($requestdata['order']['0']['column']) && $requestdata['order']['0']['column']!='' && isset($requestdata['order']['0']['dir']) && $requestdata['order']['0']['dir']!=''){
 			if(isset($requestdata['page'])){
 				$page = $requestdata['page'];				
 				if($page=='plumbercocstatement'){
 					$column = ['sm.id', 'sm.coc_status', 'sm.purchased_at', 'sm.type', 'cl.name', 'cl.address', 'cd1.company'];
+				}elseif($page=='admincocdetails'){
+					$column = ['sm.id', 'sm.type', 'sm.coc_status', 'ud.name', 'ud.name', 'ud.name'];
 				}
+				
+				$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 			}
-			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];

@@ -162,7 +162,8 @@ function datatable(destroy=0){
 		startdate 	: $('#startdate').val(),
 		enddate 	: $('#enddate').val(),
 		province 	: $('#province').val(),
-		city 		: $('#city').val()
+		city 		: $('#city').val(),
+		page		: 'admincocdetails'
 	};
 	
 	var options = {
@@ -177,9 +178,19 @@ function datatable(destroy=0){
 						{ "data": "reseller" },
 						{ "data": "auditor" },
 						{ "data": "action" }
-					]
+					],
+		target	:	[6],
+		sort	:	'0'
 	};
 	
 	ajaxdatatables('.datatables', options);
 }
+
+$('#reset').click(function(){
+	var _form = $('.form');
+	_form.find('input[type="text"], input[type="number"]').val('');
+	_form.find('select').val('');
+	_form.find('input[type="checkbox"]').prop('checked', false);
+	$('.table_wrapper').addClass('displaynone');
+})
 </script>
