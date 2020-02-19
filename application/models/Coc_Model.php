@@ -28,7 +28,7 @@ class Coc_Model extends CC_Model
 		$this->db->join('users u', 'u.id=sm.user_id', 'left');
 		$this->db->join('coc_log cl', 'cl.coc_id=sm.id', 'left');
 		$this->db->join('users_detail cd1', 'cd1.user_id=cl.company_details', 'left');
-		$this->db->join('plumberallocate pa', 'pa.stockid=cl.coc_id', 'left');
+		$this->db->join('plumberallocate pa', 'pa.stockid=sm.id', 'left');
 		$this->db->join('users_detail cd2', 'cd2.user_id=pa.company_details', 'left');
 		
 		if(isset($requestdata['startrange']) && $requestdata['startrange']!='')				$this->db->where('sm.id >=', $requestdata['startrange']);
