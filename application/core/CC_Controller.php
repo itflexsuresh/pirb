@@ -417,13 +417,13 @@ class CC_Controller extends CI_Controller
 					$message = 'Thanks for Saving the COC.';
 				}elseif($data['submit']=='log'){
 					$message = 'Thanks for Logging the COC.';
-					
-					$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '5', 'emailstatus' => '1']);
+				}
 				
-					if($notificationdata){
-						$body 	= str_replace(['{Plumbers Name and Surname}', '{number}'], [$userdata['name'].' '.$userdata['surname'], $id], $notificationdata['email_body']);
-						$this->CC_Model->sentMail($result['email'], $notificationdata['subject'], $body);
-					}
+				$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '18', 'emailstatus' => '1']);
+			
+				if($notificationdata){
+					$body 	= str_replace(['{Plumbers Name and Surname}', '{number}'], [$userdata['name'].' '.$userdata['surname'], $id], $notificationdata['email_body']);
+					$this->CC_Model->sentMail($userdata['email'], $notificationdata['subject'], $body);
 				}
 			}
 			
