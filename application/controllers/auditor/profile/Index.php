@@ -24,7 +24,7 @@ class Index extends CC_Controller
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();		
 			$id				=	$requestData['id'];		
-			$data 			=  	$this->Auditor_Model->action($requestData);			
+			$data 			=  	$this->Auditor_Model->profileAction($requestData);			
 
 			if(isset($data)) $this->session->set_flashdata('success', 'Records '.(($id=='') ? 'created' : 'updated').' successfully.');
 			else $this->session->set_flashdata('error', 'Try Later.');
@@ -35,7 +35,8 @@ class Index extends CC_Controller
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['provincelist'] 	= $this->getProvinceList();	
 		$pagedata['userid']			= $userid;
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
+		$pagedata['audit_status'] = $this->config->item('audits_status1');
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker','inputmask'];
 		$data['content'] 			= $this->load->view('auditor/profile/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}

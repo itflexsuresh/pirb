@@ -40,13 +40,17 @@ class Login extends CC_Controller
 				$mailstatus		= $data['mailstatus'];
 				$id				= $data['id'];
 				
-				if($mailstatus=='1'){						
-					$this->session->set_userdata('userid', $id);						
-					$this->middleware('1');
-				}elseif($mailstatus=='0'){
-					$this->session->set_flashdata('error', 'Please activate your account by verifying the link sent to your E-mail id.');
-				}else{	
-					$this->session->set_flashdata('error', 'Invalid Credentials.');
+				if($status!='2'){
+					if($mailstatus=='1'){						
+						$this->session->set_userdata('userid', $id);						
+						$this->middleware('1');
+					}elseif($mailstatus=='0'){
+						$this->session->set_flashdata('error', 'Please activate your account by verifying the link sent to your E-mail id.');
+					}else{	
+						$this->session->set_flashdata('error', 'Invalid Credentials.');
+					}
+				}else{
+					$this->session->set_flashdata('error', 'Your account is disabled. Please contact admin.');
 				}
 				
 			}elseif($requestData['submit']=='register'){

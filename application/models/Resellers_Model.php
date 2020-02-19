@@ -2,6 +2,16 @@
 
 class Resellers_Model extends CC_Model
 {
+	public function getStockCount()
+	{
+		$this->db->select('COUNT(id) as COUNT');
+		$this->db->from('stock_management');
+		$this->db->where('user_id', '0');
+		$query = $this->db->get();
+		$result = $query->row_array();
+		return $result;		
+
+	}
 	public function getList($type, $requestdata=[])
 	{ 
 			
@@ -16,7 +26,7 @@ class Resellers_Model extends CC_Model
 								'ud.id as usersdetailid','ud.user_id as usersid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.company','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit', 'ud.vat_vendor'
 							];
 		$coccountnt 			= 	[ 
-								'cc.id as coccountid'
+								'cc.id as coccountid, cc.count as count'
 							];
 
 		$this->db->select('
@@ -42,7 +52,7 @@ class Resellers_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['ud.name' ];
+			$column = ['ud.id','ud.id','ud.id','ud.id' ];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
@@ -118,7 +128,7 @@ class Resellers_Model extends CC_Model
 	
 	public function action($data)
 	{
-		$this->db->trans_begin();
+		// $this->db->trans_begin();
 
 		// print_r($data); exit;
 		
@@ -140,7 +150,20 @@ class Resellers_Model extends CC_Model
 			$usersid	= 	$data['usersid'];			
 			if($usersid==''){					
 				$users = $this->db->insert('users', $request);
-				$usersid = $this->db->insert_id();				
+				$usersid = $this->db->insert_id();
+				// echo $usersid; die;
+
+				if(isset($data['coc_purchase_limit']) && ($data['coc_purchase_limit'] > 0) ) {
+					$count = $data['coc_purchase_limit'];
+					for($i=0; $count > $i; $i++){				
+						$updata['user_id'] = $usersid;	
+						$updata['type'] = '2';	
+						$updata['coc_status']='3';		
+						$this->db->limit(1);
+						$stock_management = $this->db->update('stock_management', $updata, ['user_id' => '0']);
+					}
+				}
+
 			}
 			else{
 				$users = $this->db->update('users', $request, ['id' => $usersid]);
@@ -245,11 +268,12 @@ class Resellers_Model extends CC_Model
 		// 	$usersaddress1 = $this->db->update('users_address', $request4, ['id' => $request4['id']]);
 		// 	$usersaddressinsertids[$request4['type']] = $request4['id'];
 		// }
-		// $idarray['usersaddressinsertid1'] = $usersaddressinsertids;
+		// $idarray['usersaddressinsertid1'] = $usersaddressinsertids; 
+
 		
 				
 				
-		if((isset($usersdetail) || isset($usersaddress) || isset($usersaddress1) || isset($users)) && $this->db->trans_status() === FALSE)
+		if($this->db->trans_status() === FALSE)
 		{
 			$this->db->trans_rollback();
 			return false;

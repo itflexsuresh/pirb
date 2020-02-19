@@ -3,7 +3,7 @@
 // print_r($result);die;
 
 	$id 			= isset($result['id']) ? $result['id'] : '';
-	$usertype 		= isset($result['type']) ? $result['type'] : '';
+	$usertype 		= isset($result['type']) ? $result['type'] : '5';
 	$email  		= isset($result['email']) ? $result['email'] : set_value ('email');
 	$password  		= isset($result['password_raw']) ? $result['password_raw'] : set_value ('password_raw');
 	$allocation_number = isset($result['password_raw']) ? $result['password_raw'] : set_value ('password_raw');
@@ -20,10 +20,12 @@
 	$image 			= isset($result['file1']) ? $result['file1'] : set_value ('file1');	
 	$complogo 		= isset($result['file2']) ? $result['file2'] : set_value ('file2');
 	$idno 			= isset($result['identity_no']) ? $result['identity_no'] : set_value ('idno');
+	$user_status1 	= isset($result['usstatus']) ? $result['usstatus'] : '';
 
 
 	$auditoravaid 			= isset($result['available']) ? $result['available'] : '';
 	$audit_status1 			= isset($result['status']) ? $result['status'] : '';
+
 	$allocation_allowed 	= isset($result['allocation_allowed']) ? $result['allocation_allowed'] : '';
 
 	$useraddressid 	= isset($result['useraddressid']) ? $result['useraddressid'] : '';
@@ -44,10 +46,32 @@
 	$areas 			= isset($result['areas']) ? explode('@-@', $result['areas']) : [];
 
 	$heading 		= isset($result['id']) ? 'Update' : 'Save';   
+	$profileimg 			= base_url().'assets/images/profile.jpg';
 
-	$filepath 		= base_url().'assets/uploads/auditor/'.$id.'/';
-	$filepath1		= (isset($result['file1']) && $result['file1']!='') ? $filepath.$result['file1'] : base_url().'assets/images/auditor/profile.jpg';
-	$filepath2		= (isset($result['file2']) && $result['file2']!='')  ? $filepath.$result['file2'] : base_url().'assets/images/auditor/profile.jpg';	
+	$filepath 		= base_url().'assets/uploads/auditor/';
+	$filepath1		= (isset($result['file1']) && $result['file1']!='') ? $filepath.$result['file1'] : base_url().'assets/uploads/auditor/profile.jpg';
+	$filepath2		= (isset($result['file2']) && $result['file2']!='')  ? $filepath.$result['file2'] : base_url().'assets/uploads/auditor/profile.jpg';	
+	$pdfimg 		= base_url().'assets/uploads/auditor/pdf.png';
+
+	if($image!=''){
+		$explodefile2 	= explode('.', $image);
+		$extfile2 		= array_pop($explodefile2);
+		$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath1;
+	}else{
+		$photoidimg 	= $profileimg;
+	}	
+
+		if($complogo!=''){
+		$explodefile21 	= explode('.', $complogo);
+		$extfile21 		= array_pop($explodefile21);
+		$photoidimg1 	= (in_array($extfile21, ['pdf', 'tiff'])) ? $pdfimg : $filepath2;
+		//print_r($photoidimg1);die;
+	}else{
+		$photoidimg1 	= $profileimg;
+	}
+
+//print_r($photoidimg1);die;
+
 ?>
 
 <div class="row page-titles">
@@ -72,21 +96,19 @@
 				<form class="form" method="post" enctype="multipart/form-data">
 
 					<h4 class="card-title">My Profile</h4>
+					<div class="row">
 					<?php
-									$i = 1;
+									$z = 1;
 									$availability = '';
-									$nonavailability = '';							
+									$nonavailability = '';		
+												
 									foreach($audit_status as $key => $valse){
-										if ($audit_status1 == 1 && $i==1) {
+										if ($audit_status1 ==  $key) {
 											$availability  = 'checked="checked"';
 											$nonavailability = '';
-										}else{
-											$availability  = '';
-											$nonavailability  = 'checked="checked"';
 										}
-										
 										?>
-										<div class="row">
+										
 										<div class="col-md-3">
 											<div class="custom-control custom-radio">
 												<input type="radio" id="<?php echo $key.'-'.$valse; ?>" name="auditstatus" <?php echo $availability.$nonavailability; ?> value="<?php echo $key; ?>" class="auditstatus custom-control-input">
@@ -94,10 +116,21 @@
 											</div>
 										</div>
 										<?php 
-										$i++;
+										$availability = '';
+									$nonavailability = '';	
+										$z++;
 									}
 									?>
+							<div class="col-md-4" style="vertical-align: top; margin-top: -17px;">
+							<div class="form-group">	
+								<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">	
+									<input type="checkbox" class="custom-control-input" <?php echo ($user_status1=='1') ? 'checked="checked"' : ''; ?> value="1" name="status" id="status">
+									<label class="custom-control-label" for="status">Active</label>
 								</div>
+							</div>
+						</div>
+								</div>
+
 					<div class="row">
 						<div class="col-md-12">
 
@@ -124,7 +157,7 @@
 									<div class="form-group">
 										<label>Photo</label>
 										<div>
-											<img src="<?php echo $filepath1; ?>" class="auditor_photo" width="100">
+											<img src="<?php echo $photoidimg; ?>" class="auditor_photo" width="100">
 										</div>
 										<input type="file" class="auditor_image">
 										<input type="hidden" name="file1" class="auditor_picture" value="<?php echo $image; ?>">
@@ -231,7 +264,7 @@
 							<div class="form-group">
 								<label>Company Logo</label>
 								<div>
-									<img src="<?php echo $filepath2; ?>" class="comp_logo" width="100">
+									<img src="<?php echo $photoidimg1; ?>" class="comp_logo" width="100">
 								</div>
 								<input type="file" class="comp_emb">
 								<input type="hidden" name="file2" class="comp_photo" value="<?php echo $complogo; ?>">
@@ -277,16 +310,17 @@
 								<input type="text" class="form-control" name="account_type" value="<?php echo $type; ?>">
 							</div>
 						</div>
+						
 					</div>
 					<h4 class="card-title add_top_value">My Auditting Areas</h4>
 					<div class="col-md-6">
 							<div class="form-group">
 								<label>Maximum number of Open COC Allocations allowed:</label>
-								<input type="number" class="form-control" min="1" name="allowed" value="<?php echo $allocation_number; ?>">
+								<input type="number" class="form-control" min="1" name="allowed" value="<?php echo $allocation_allowed; ?>">
 							</div>
 						</div>
 					
-					<h4 class="card-title add_top_value">My Auditting Areas</h4>
+					<h4 class="card-title add_top_value"></h4>
 					<div class="row">
 						<div class="col-md-12">							
 							<table id="area_table" class="table table-bordered table-striped datatables fullwidth">
@@ -362,9 +396,9 @@
 
 	$(function(){
 		
-		fileupload([".auditor_image", "./assets/uploads/temp/"], ['.auditor_picture', '.auditor_photo', '<?php echo base_url()."assets/uploads/auditor/".$id; ?>']);
+		fileupload([".auditor_image", "./assets/uploads/auditor/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.auditor_picture', '.auditor_photo', '<?php echo base_url()."assets/uploads/auditor/"; ?>']);
 	
-		fileupload([".comp_emb", "./assets/uploads/temp/"], ['.comp_photo', '.comp_logo', '<?php echo base_url()."assets/uploads/auditor/".$id; ?>']);
+		fileupload([".comp_emb", "./assets/uploads/auditor/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.comp_photo', '.comp_logo', '<?php echo base_url()."assets/uploads/auditor/"; ?>']);
 
 		
 		citysuburb(['#province','#city', '#suburb'], ['<?php echo $city; ?>', '<?php echo $suburb; ?>']);
@@ -387,6 +421,9 @@
 				company_name : {
 					required	: true,
 				},
+				allowed : {
+					required	: true,
+				},
 				email : {
 					required	: true,
 					email		: true,
@@ -404,6 +441,9 @@
 					required	: true,
 				},
 				phonework : {
+					required	: true,
+				},
+				auditstatus : {
 					required	: true,
 				},
 				billingname : {
@@ -459,9 +499,14 @@
 					required	: "Please enter the email",					
 					remote		: "Email already exists."
 				},
+				allowed : {
+					required	: "Please enter maximum number of open COC allocations allowed"
+				},
+				auditstatus : {
+					required	: "Please select auditor availability",					
+				},
 				company_name : {
-					required	: "Please enter the email",					
-					remote		: "Email already exists."
+					required	: "Please enter billing name",	
 				},
 				pass : {
 					required	: "Please enter the password"
@@ -512,6 +557,7 @@
 		if(areas.length){
 			$(areas).each(function(i, v){
 				var areadatas = v.split('@@@');
+				console.log(areadatas);
 				areadata([areadatas[1],areadatas[2],areadatas[3],areadatas[0]], [areadatas[4],areadatas[5],areadatas[6]]);
 			})			
 		}
@@ -544,6 +590,24 @@
 	});
 
     function areadata(data1, data2){
+
+		var checkarea = 0;
+		$(document).find('.areaprovince').each(function(i, v){
+
+			var count = $(this).attr('data-count');
+			var province = $(this).val();
+			var city = $('.areacity[data-count="'+count+'"]').val();
+			var suburb = $('.areasuburb[data-count="'+count+'"]').val();
+			if(province==data1[0] && city==data1[1] && suburb==data1[2]){
+				checkarea = 1;
+			}
+		})
+		
+		if(checkarea==1){
+			sweetalertautoclose('Area already exists.');
+			return false;
+		}
+		
     	var append			= 	'\
         							<tr class="">\
         								<td>'+data2[0]+'</td>\
@@ -551,10 +615,10 @@
         								<td>'+data2[2]+'</td>\
         								<td>\
         									<a href="javascript:void(0);" class="area_remove"><i class="fa fa-trash"></i></a>\
-        									<input type="hidden" value="'+data1[0]+'" name="area['+areacount+'][province]">\
-        									<input type="hidden" value="'+data1[1]+'" name="area['+areacount+'][city]">\
-        									<input type="hidden" value="'+data1[2]+'" name="area['+areacount+'][suburb]">\
-        									<input type="hidden" value="'+((data1[3]) ? data1[3] : "")+'" name="area['+areacount+'][id]">\
+        									<input type="hidden" data-count="'+areacount+'" class="areaprovince" value="'+data1[0]+'" name="area['+areacount+'][province]">\
+        									<input type="hidden" data-count="'+areacount+'" class="areacity" value="'+data1[1]+'" name="area['+areacount+'][city]">\
+        									<input type="hidden" data-count="'+areacount+'" class="areasuburb" value="'+data1[2]+'" name="area['+areacount+'][suburb]">\
+        									<input type="hidden" data-count="'+areacount+'" class="areaid" value="'+((data1[3]) ? data1[3] : "")+'" name="area['+areacount+'][id]">\
         								</td>\
         							</tr>\
         						';

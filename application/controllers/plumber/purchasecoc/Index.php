@@ -19,6 +19,7 @@ class Index extends CC_Controller
 		$userid 					=	$this->getUserID();
 		$userdata					= 	$this->getUserDetails();
 		$userdata1					= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
+		$userdatacoc_count			= 	$this->Coc_Model->COCcount(['user_id' => $userid]);
 
 		$pagedata['notification'] 	= 	$this->getNotification();
 		$pagedata['province'] 		= 	$this->getProvinceList();		
@@ -26,6 +27,7 @@ class Index extends CC_Controller
 		$pagedata['userdata']		= 	$userdata;
 		$pagedata['userdata1']		= 	$userdata1;
 		$pagedata['username']		= 	$userdata1;
+		$pagedata['coc_count']		= 	$userdatacoc_count;
 		$pagedata['deliverycard']	= 	$this->config->item('purchasecocdelivery');
 		$pagedata['coctype']		= 	$this->config->item('coctype');
 		$pagedata['settings']		= 	$this->Systemsettings_Model->getList('row');
@@ -45,39 +47,8 @@ class Index extends CC_Controller
 
 	public function insertOrders(){
 			if ($this->input->post()) {
-
-				$requestData = $this->input->post();
-				$user_id	= 	$this->getUserID();
-
-				$requestData1['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
-				$requestData1['user_id']		= 	$user_id;
-				$requestData1['delivery_type'] 	= 	$requestData['delivery_type'];
-				$requestData1['total_cost'] 	= 	$requestData['total_due'];
-				$requestData1['created_at']		= 	date('Y-m-d H:i:s');
-				$requestData1['inv_type']		= 	1;
-				$requestData1['coc_type']		= 	$requestData['coc_type'];
-				
-				$result1 = $this->Coc_Model->action($requestData1, 1);
-				if ($result1) {
-					
-				
-					$requestData['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
-					$requestData['user_id']			= 	$this->getUserID();
-					$requestData['created_by']		= 	$this->getUserID();
-					$requestData['created_at']		= 	date('Y-m-d H:i:s');
-					$requestData['updated_at']		=	$requestData['created_at'];
-					$requestData['status']			= 	'0';
-					$requestData['inv_id']			= $result1;
-
-					$result = $this->Coc_Model->action($requestData, 2);
-
-					
-					
-					echo $result;
-
-
-				}
-				
+				$this->session->set_userdata('pay_purchaseorder', $this->input->post());	
+				echo '1';		
 			}
 		}
 
@@ -176,6 +147,56 @@ class Index extends CC_Controller
 
 	public function return(){
 		$userid 				=	$this->getUserID();
+
+
+		$requestData = $this->session->userdata('pay_purchaseorder');
+				// $requestData0['count'] = $requestData['permittedcoc'] - $requestData['quantity'];
+				
+				 //print_r($requestData);die;
+
+				$requestData1['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
+				$requestData1['user_id']		= 	$userid;
+				$requestData1['vat']			= 	$requestData['vat'];
+				$requestData1['delivery_type'] 	= 	$requestData['delivery_type'];
+				$requestData1['total_cost'] 	= 	$requestData['total_due'];
+				$requestData1['created_at']		= 	date('Y-m-d H:i:s');
+				$requestData1['inv_type']		= 	1;
+				$requestData1['coc_type']		= 	$requestData['coc_type'];
+				
+				$result1 = $this->Coc_Model->action($requestData1, 1);
+					
+				
+					$requestData2['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
+					$requestData2['user_id']			= 	$this->getUserID();
+					$requestData2['created_by']		= 	$this->getUserID();
+					$requestData2['created_at']		= 	date('Y-m-d H:i:s');
+					$requestData2['updated_at']		=	$requestData2['created_at'];
+					$requestData2['status']			= 	'0';
+					$requestData2['inv_id']			= 	$result1;
+					$requestData2['coc_type']		= 	$requestData['coc_type'];
+					$requestData2['delivery_type'] 	= 	$requestData['delivery_type'];
+					$requestData2['cost_value']		= 	$requestData['cost_value'];
+					$requestData2['quantity']		= 	$requestData['quantity'];
+					$requestData2['delivery_cost']	= 	$requestData['delivery_cost'];
+					$requestData2['delivery_cost']	= 	$requestData['delivery_cost'];
+					$requestData2['vat']			= 	$requestData['vat'];
+					$requestData2['total_due']		= 	$requestData['total_due'];
+
+					$result = $this->Coc_Model->action($requestData2, 2);
+
+					$requestData0['count'] 			= 	$requestData['permittedcoc'] - $requestData['quantity'];
+					$requestData0['user_id']		= 	$this->getUserID();
+					$requestData0['created_by']		= 	$this->getUserID();
+					$requestData0['created_at']		= 	date('Y-m-d H:i:s');
+
+			
+					$result0 = $this->Coc_Model->action($requestData0, 3);
+					
+
+
+
+
+
 		$insert_id 				= 	$this->db->select('id,inv_id')->from('coc_orders')->order_by('id','desc')->get()->row_array();
 		$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
 		$request['status'] 		= 	'1';
@@ -279,7 +300,7 @@ td {
 				<div style="border: 1px solid; width: 70%; margin-top: 40px; margin-left: 20px;">
 					<p style="border-bottom: 1px solid #000; margin-top: 10px; padding: 0 10px 10px 10px; font-weight: 600;">Company Details</p>
 					<p>'.$rowData2['address'].'</p>
-					<p>'.$addrpirb[1].'</p>
+					<p>'.$rowData2['address'].'</p>
 					<p>'.$rowData2['suburb'].'</p>
 					<p>'.$rowData2['city'].'</p>
 					<p>'.$rowData1['work_phone'].'</p>

@@ -27,24 +27,30 @@ class Index extends CC_Controller
 		$post 		= $this->input->post();	
 		// $post['user_id'] = $this->getUserID();
 		$totalcount =  $this->Resellers_allocatecoc_Model->getstockList('count',$post);
-		$results 	=  $this->Resellers_allocatecoc_Model->getstockList('all',$post);		
+		$results 	=  $this->Resellers_allocatecoc_Model->getstockList('all',$post);
+		// print_r($results ); die;		
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){				
 				if($result['allocatedby'] > 0){
 					$status = "Allocated";
-					$name = $result['name'].$result['surname'];
+					$name = $result['name']." ".$result['surname'];
+					$timestamp = strtotime($result['allocation_date']);
+					$newDate = date('d-F-Y h:i', $timestamp);
 				}
 				else{
 					$status = "In stock";
 					$name = "";
+					$newDate = "";
 				}
+
+				
 
 				$stockcount = 0;				
 				$totalrecord[] = 	[										
 										'cocno' 		=> 	$result['id'],
 										'status' 		=> 	$status,										
-										'datetime' 		=> 	$result['allocation_date'],
+										'datetime' 		=> 	$newDate,
 										'invoiceno' 	=> 	$result['invoiceno'],
 										'name' 			=> 	$name,
 										'registration_no'=> $result['registration_no'],

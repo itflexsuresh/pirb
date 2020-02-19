@@ -32,7 +32,13 @@ class Index extends CC_Controller
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){				
-				$stockcount = 0;
+				if($result['count'] > 0){
+					$stockcount = $result['count'];
+				}
+				else{
+					$stockcount = 0;
+				}
+				
 				$totalrecord[] = 	[										
 										'name' 			=> 	$result['name'],
 										'email' 		=> 	$result['email'],										
@@ -70,7 +76,7 @@ class Index extends CC_Controller
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){				
-				$stockcount = 0;
+				$stockcount = $result['cccount'];
 				$totalrecord[] = 	[										
 										'name' 			=> 	$result['name'],
 										'email' 		=> 	$result['email'],										

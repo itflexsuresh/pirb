@@ -11,6 +11,8 @@ class Index extends CC_Controller
 		$this->load->model('Managearea_Model');
 		$this->load->model('Subtype_Model');
 		$this->load->model('Noncompliance_Model');
+		$this->load->model('Coc_Ordermodel');
+		$this->load->model('Reportlisting_Model');
 	}
 	
 	public function ajaxfileupload()
@@ -27,6 +29,20 @@ class Index extends CC_Controller
 	{
 		$post = $this->input->post();
 		$result = $this->Subtype_Model->getList('all', $post);
+
+		if(count($result)){
+			$json = ['status' => '1', 'result' => $result];
+		}else{
+			$json = ['status' => '0', 'result' => []];
+		}
+
+		echo json_encode($json);
+	}
+
+	public function ajaxreportlisting()
+	{
+		$post = $this->input->post();
+		$result = $this->Reportlisting_Model->getList('all', $post);
 
 		if(count($result)){
 			$json = ['status' => '1', 'result' => $result];
@@ -157,6 +173,19 @@ class Index extends CC_Controller
 		}
 		
 		echo json_encode($json);
+	}
+	
+	public function ajaxuserautocomplete()
+	{ 
+		$post = $this->input->post();
+
+		if($post['type']== 3){
+			$data 	=   $this->Coc_Ordermodel->autosearchPlumber($post);
+		}else{
+			$data 	=   $this->Coc_Ordermodel->autosearchReseller($post);
+		}
+		
+		echo json_encode($data);
 	}
 	
 }

@@ -45,16 +45,19 @@
 		
 		var options = {
 			url 	: 	'<?php echo base_url()."plumber/cocstatement/index/DTCocStatement"; ?>',
+			data 	: 	{ page : 'cocstatement' },
 			columns : 	[
-				{ "data": "cocno" },
-				{ "data": "cocstatus" },
-				{ "data": "purchased" },
-				{ "data": "coctype" },
-				{ "data": "customer" },
-				{ "data": "address" },
-				{ "data": "company" },
-				{ "data": "action" }
-			]
+							{ "data": "cocno" },
+							{ "data": "cocstatus" },
+							{ "data": "purchased" },
+							{ "data": "coctype" },
+							{ "data": "customer" },
+							{ "data": "address" },
+							{ "data": "company" },
+							{ "data": "action" }
+						],
+			target	:	['1', '6'],
+			sort	:	'0'
 		};
 		
 		ajaxdatatables('.datatables', options);

@@ -53,6 +53,8 @@ $adminvalue 				= isset($adminvalue) ? $adminvalue : '';
 // 	$dynamictitle 		= 'My PIRB Registration Details';
 // }
 
+
+$stock_count = isset($stock_count['COUNT']) ? $stock_count['COUNT'] : '';
 ?>
 
 <div class="row page-titles">
@@ -131,7 +133,7 @@ $adminvalue 				= isset($adminvalue) ? $adminvalue : '';
 
 					<div class="col-md-6">
 						<div class="form-group">							
-							<input type="checkbox" class="custom-control-input" id="status" name="status" value="1" <?php echo ($status=='1') ? 'checked="checked"' : ''; ?> checked>
+							<input type="checkbox" class="custom-control-input" id="status" name="status" value="1" <?php echo ($status=='1') ? 'checked="checked"' : ''; ?>>
 							<label class="custom-control-label" for="status">Active</label>
 						</div>
 					</div>
@@ -254,7 +256,8 @@ $adminvalue 				= isset($adminvalue) ? $adminvalue : '';
 							</div>
 					</div>
 				</div>
-
+<?php if($adminvalue==0){}
+else{ ?>
 				<div class="row">
 					<div class="col-md-3">
 						
@@ -274,12 +277,14 @@ $adminvalue 				= isset($adminvalue) ? $adminvalue : '';
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Number of CoC's Able to purchase number *</label>	
-							<input type="text" class="form-control"  name="coc_purchase_limit"  value="<?php echo $coc_purchase_limit; ?>">
+							<input type="text" class="form-control" id="coc_purchase_limit" name="coc_purchase_limit"  value="<?php echo $coc_purchase_limit; ?>" onkeypress="myFunction()">
+							<input type="hidden" id="stockcount" name="stockcount" value="<?php echo $stock_count;?>">
+							<span id="stockcountlimet" style="color:red"></span>
 							</div>						
 							</div>
 					</div>
 				</div>
-
+<?php } ?>
 				<div class="col-md-12 text-right">
 					<input type="hidden" name="usersdetailid" id="usersdetailid" value="<?php echo $usersdetailid; ?>">	
 					<input type="hidden" name="coccountid" id="coccountid" value="<?php echo $coccountid; ?>">
@@ -288,7 +293,8 @@ $adminvalue 				= isset($adminvalue) ? $adminvalue : '';
 				</div>				
 			</form>
 <?php if($adminvalue==0){}
-else { ?>
+else { 
+	if($usersid > 0){	?>
 			<div class="table-responsive m-t-40">
 				<table class="table table-bordered table-striped datatables fullwidth">
 					<thead>
@@ -303,7 +309,7 @@ else { ?>
 					</thead>
 				</table>
 			</div>
-<?php } ?>
+<?php } } ?>
 		</div>		
 	</div>	
 </div>
@@ -313,6 +319,18 @@ else { ?>
 
 <script type="text/javascript">
 
+
+$("#coc_purchase_limit").keyup(function(){
+  var limitval = $("#coc_purchase_limit").val();
+  var stockcount = $("#stockcount").val();
+  var totalcount = stockcount-limitval;
+  if(totalcount < 0){  	
+  	$('#stockcountlimet').text("Stock Count is "+stockcount);
+  }
+  else{
+  	$('#stockcountlimet').text("");	
+  }
+});
 
 $(function(){
 	datatable();
@@ -411,6 +429,17 @@ $(function(){
 
 	$('#submit').click(function(e){
 		
+		var limitval = $("#coc_purchase_limit").val();
+		var stockcount = $("#stockcount").val();
+		var totalcount = stockcount-limitval;
+		if(totalcount < 0){  	
+			event.preventDefault();
+			$('#stockcountlimet').text("Stock Count is "+stockcount);
+		}
+		else{
+			$('#stockcountlimet').text("");	
+		}		
+		
 		if($('form.resellers').valid()==false){
 			accord = $('.error_class_1').parents('.collapse').addClass('show');			
 		}
@@ -424,7 +453,7 @@ $('.search').on('click',function(){
 });
 
 function datatable(destroy=0){
-	var user_id		= $('#usersid').val();
+	var user_id		= $('#usersid').val();	
 	var options = {
 		url 	: 	'<?php echo base_url()."resellers/cocstatement/index/DTResellers"; ?>',
 		data    :   { customsearch : 'listsearch1',user_id : user_id,search_reg_no:$('#reg_no').val(), search_plumberstatus:$('#plumberstatus').val(), search_idcard:$('#idcard').val(), search_mobile_phone:$('#mobile_phone').val(), search_dob:$('#dob').val(), search_company_details:$('#company_details').val()},  			

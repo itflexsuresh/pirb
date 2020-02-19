@@ -389,6 +389,11 @@ $config['payment_status'] 			=	[
 											'0'	=>	'Not Paid',
 											'1'	=>	'Paid'
 										];
+										
+$config['payment_status2'] 			=	[
+											'0'	=>	'Unpaid',
+											'1'	=>	'Paid'
+										];
 								
 $config['cocstatus'] 			=		[
 											'1'	=>	'Admin Stock',
@@ -397,6 +402,18 @@ $config['cocstatus'] 			=		[
 											'4'	=>	'Allocated (Plumber)',
 											'5'	=>	'Non-Logged Allocated (Customer)',
 											'6'	=>	'Recalled (unallocated)'
+										];
+								
+$config['cocrecall'] 			=		[
+											'1'	=>	'Recalled',
+											'2'	=>	'Cancelled',
+											'3'	=>	'Reallocated'
+										];
+														
+$config['cocreason'] 			=		[
+											'1'	=>	'Lost',
+											'2'	=>	'Stolen',
+											'3'	=>	'Destroyed'
 										];
 										
 $config['auditstatus'] 			=		[
@@ -410,3 +427,15 @@ $config['audits_status1'] 		= 		[
 											'1' => 'Available',
 											'2' => 'Unavailable'
 										];
+
+$config['workmanship'] 			= 		[
+											'1' => 'Very Poor',
+											'2' => 'Poor',
+											'3' => 'Good',
+											'4' => 'Excellent'
+										];
+
+$config['yesno'] 				= 		[
+											'1' => 'Yes',
+											'2' => 'No'
+										];										

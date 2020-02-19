@@ -75,7 +75,7 @@ class Users_Model extends CC_Model
 	
 	public function getUserDetails($type, $requestdata=[])
 	{
-		$this->db->select('u.*,up.designation');
+		$this->db->select('u.*,up.designation,up.approval_status as approvalstatus');
 		$this->db->from('users u');
 		$this->db->join('users_plumber up', 'u.id=up.user_id', 'left');
 		

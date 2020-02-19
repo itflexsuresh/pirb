@@ -17,6 +17,9 @@ class CC_Controller extends CI_Controller
 		$this->load->model('Systemsettings_Model');
 		$this->load->model('Auditor_Model');
 		$this->load->model('Coc_Model');
+		$this->load->model('Communication_Model');
+		$this->load->model('Plumber_Model');
+		$this->load->model('Noncompliance_Model');
 		
 		$this->load->library('pdf');
 		$this->load->library('phpqrcode/qrlib');
@@ -70,6 +73,15 @@ class CC_Controller extends CI_Controller
 			return '0';
 		}
 	}
+
+	public function getAuditorPageStatus($pagestatus='')
+	{
+		if($pagestatus=='' || $pagestatus=='1'){
+		return '1';
+		}else{
+		return '2';
+		}
+	}
 	
 	public function getUserID($id='')
 	{
@@ -106,6 +118,14 @@ class CC_Controller extends CI_Controller
 	public function getNotification()
 	{
 		return $this->load->view('template/notification', '', true);
+	}
+	
+	function parsestring($text) {
+		$text = str_replace("\r\n", "\n", $text);
+		$text = str_replace("\r", "\n", $text);
+
+		$text = str_replace("\n", "\\n", $text);
+		return $text;
 	}
 
 	public function getInstallationTypeList()
@@ -171,6 +191,7 @@ class CC_Controller extends CI_Controller
 		$data['company'] 			= $this->getCompanyList();
 		$data['designation2'] 		= $this->config->item('designation2');
 		$data['specialisations'] 	= $this->config->item('specialisations');
+		$data['settings'] 			= $this->Systemsettings_Model->getList('row');
 		
 		$data['result'] = $this->Plumber_Model->getList('row', ['id' => $userid]);
 		return $this->load->view('common/card', $data, true) ;
@@ -201,8 +222,32 @@ class CC_Controller extends CI_Controller
 				$message 	= 'Plumber '.(($id=='') ? 'created' : 'updated').' successfully.';
 			}
 			
-			if(isset($data)) $this->session->set_flashdata('success', $message);
-			else $this->session->set_flashdata('error', 'Try Later.');
+			if(isset($data)){
+				
+				if(isset($requestData['submit']) && $requestData['submit']=='approvalsubmit'){
+					if(isset($requestData['approval_status'])){
+						if($requestData['approval_status']=='1'){
+							$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '5', 'emailstatus' => '1']);
+				
+							if($notificationdata){
+								$body 	= str_replace(['{Plumbers Name and Surname}', '{email}'], [$result['name'].' '.$result['surname'], $result['email']], $notificationdata['email_body']);
+								$this->CC_Model->sentMail($result['email'], $notificationdata['subject'], $body);
+							}
+						}elseif($requestData['approval_status']=='2'){
+							$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '6', 'emailstatus' => '1']);
+				
+							if($notificationdata){
+								$body 	= str_replace(['{Plumbers Name and Surname}'], [$result['name'].' '.$result['surname']], $notificationdata['email_body']);
+								$this->CC_Model->sentMail($result['email'], $notificationdata['subject'], $body);
+							}
+						}
+					}
+				}
+				
+				$this->session->set_flashdata('success', $message);
+			}else{
+				$this->session->set_flashdata('error', 'Try Later.');
+			}
 			
 			if($extras['redirect']) redirect($extras['redirect']); 
 			else redirect('admin/plumber/index'); 
@@ -244,6 +289,44 @@ class CC_Controller extends CI_Controller
 		$this->layout2($data);
 	}
 	
+	public function getAuditStatementData($id, $pagedata=[], $extras=[])
+	{
+		if($id!=''){
+			$result = $this->Auditor_Model->getAuditStatementRecord('row', ['id' => $id, 'status' => ['0','1']]);
+			if($result){
+				$pagedata['result'] = $result;
+
+			}else{
+				$this->session->set_flashdata('error', 'No Record Found.');
+				if($extras['redirect']) redirect($extras['redirect']); 
+				else redirect('auditor/auditstatement/index'); 
+			}
+		}
+		
+		if($this->input->post()){
+			$requestData 	= 	$this->input->post();
+
+			$data 	=  $this->Auditor_Model->getAuditStatementRecord($requestData);
+		
+			// if(isset($requestData['coc_purchase_limit'])) $this->Coc_Model->actionCocCount(['count' => $requestData['coc_purchase_limit'], 'user_id' => $id]);
+			
+			if($data) $this->session->set_flashdata('success', 'Resellers '.(($id=='') ? 'created' : 'updated').' successfully.');
+			else $this->session->set_flashdata('error', 'Try Later.');
+			
+			if($extras['redirect']) redirect($extras['redirect']); 
+			else redirect('auditor/auditstatement/index');
+		}
+		
+		$pagedata['notification'] 	= $this->getNotification();
+		$pagedata['province'] 		= $this->getProvinceList();
+		$pagedata['workmanship'] 	= $this->config->item('workmanship');
+		$pagedata['yesno'] 	= $this->config->item('yesno');
+		
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'sweetalert', 'validation','inputmask'];
+		$data['content'] 			= $this->load->view('auditor/auditstatement/action', (isset($pagedata) ? $pagedata : ''), true);
+		$this->layout2($data);
+	}
+
 	public function resellersprofile($id, $pagedata=[], $extras=[])
 	{
 		if($id!=''){
@@ -263,7 +346,7 @@ class CC_Controller extends CI_Controller
 
 			$data 	=  $this->Resellers_Model->action($requestData);
 		
-			if(isset($requestData['coc_purchase_limit'])) $this->Coc_Model->actionCocCount(['count' => $requestData['coc_purchase_limit'], 'user_id' => $id]);
+			// if(isset($requestData['coc_purchase_limit'])) $this->Coc_Model->actionCocCount(['count' => $requestData['coc_purchase_limit'], 'user_id' => $id]);
 			
 			if($data) $this->session->set_flashdata('success', 'Resellers '.(($id=='') ? 'created' : 'updated').' successfully.');
 			else $this->session->set_flashdata('error', 'Try Later.');
@@ -272,6 +355,8 @@ class CC_Controller extends CI_Controller
 			else redirect('admin/resellers/index');
 		}
 		
+		
+		$pagedata['stock_count'] = $this->Resellers_Model->getStockCount();
 		$pagedata['adminvalue']   = $extras['adminvalue'];
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['province'] 		= $this->getProvinceList();
@@ -314,5 +399,47 @@ class CC_Controller extends CI_Controller
 		$data['content'] = $this->load->view('common/auditor', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
+	
+	public function coclogaction($id, $pagedata=[], $extras=[])
+	{
+		if($this->input->post()){
+			$requestData 	= 	$this->input->post();
 
+			$data 	=  $this->Coc_Model->actionCocLog($requestData);
+		
+			if($data) $this->session->set_flashdata('success', 'Thanks for Logging the COC.');
+			else $this->session->set_flashdata('error', 'Try Later.');
+		
+			redirect($extras['redirect']); 
+		}
+		
+		$userid							= $extras['userid'];
+		$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid]);
+		$specialisations 				= explode(',', $userdata['specialisations']);
+		
+		$pagedata['userdata'] 			= $userdata;
+		$pagedata['cocid'] 				= $id;
+		$pagedata['notification'] 		= $this->getNotification();
+		$pagedata['province'] 			= $this->getProvinceList();
+		$pagedata['designation2'] 		= $this->config->item('designation2');
+		$pagedata['installationtype']	= $this->getInstallationTypeList();
+		$pagedata['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => []]);
+		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations]);
+		$pagedata['coclist']			= $this->Coc_Model->getCOCList('row', ['id' => $id]);
+		$pagedata['result']				= $this->Coc_Model->getCOCLog('row', ['coc_id' => $id]);
+		
+		$noncompliance					= $this->Noncompliance_Model->getList('all', ['user_id' => $userid]);		
+		$pagedata['noncompliance']		= [];
+		foreach($noncompliance as $compliance){
+			$pagedata['noncompliance'][] = [
+				'id' 		=> $compliance['id'],
+				'details' 	=> $this->parsestring($compliance['details'])
+			];
+		}
+		
+		$data['plugins']				= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker', 'inputmask'];
+		$data['content'] 				= $this->load->view('common/logcocstatement', (isset($pagedata) ? $pagedata : ''), true);
+		
+		$this->layout2($data);
+	}
 }

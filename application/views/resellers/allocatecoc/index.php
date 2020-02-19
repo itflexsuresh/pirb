@@ -1,6 +1,5 @@
 <?php
 //Reseller View File
-
 $id = isset($result['id']) ? $result['id'] : '';
 $search_reg_no = isset($result['registration_no']) ? $result['registration_no'] : '';
 $name = isset($result['name']) ? $result['name'] : '';
@@ -10,7 +9,8 @@ $designation = "";
 if(isset($designationtemp) && $designationtemp > 0) {
 	$designation	=	$this->config->item('designation2')[$designationtemp];
 }
-$companyname = isset($result['companyname']) ? $result['companyname'] : '';
+$companyname = isset($result['companyname']) ? $result['companyname'] : 'Unemployed';
+$company_details = isset($result['company_details']) ? $result['company_details'] : '';
 $balace_coc = 0 ;
 // $orderqty = 0;
 // $coc_purchase_limit = 0;
@@ -74,6 +74,9 @@ if(isset($id) && $id >0)
 								<input type="search" autocomplete="off" class="form-control"  name="search_reg_no" id="search_reg_no"  value="<?php if(isset($id) && $id >0){ echo $searchbox; }?>" placeholder="Type in Plumbers reg number; name or surname" onkeyup="search_func(this.value);">
 								<input type="hidden" id="user_id_hide" name="user_id_hide" value="0">
 								<div id="plumber_suggesstion" style="display: none;"></div>
+
+<?php if(isset($emptyvalue) && $emptyvalue == 0){ echo '<span style="color:red">Record was not found</span>'; }?>
+
 								<!-- <div class="search_icon">
 									<i class="fa fa-search" aria-hidden="true"></i>
 								</div> -->
@@ -83,11 +86,12 @@ if(isset($id) && $id >0)
 							<div class="form-group">
 								<input type="hidden" class="form-control"  name="customsearch" id="customsearch"  value="listsearch1" >
 								<button type="submit" name="submit" value="submit" class="btn btn-primary">Search</button>
-							</div>
+							</div>							
 						</div>
 					</div>
-				</form>
-		<?php
+				</form>				
+		<?php			
+
 			if(isset($id) && $id >0)
 			{ 
 		?>
@@ -118,22 +122,12 @@ if(isset($id) && $id >0)
 					</div>
 					<div class="col-md-9">
 						<div class="form-group">
-							<label><?php echo $designation;?></label>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-3">
-						<div class="form-group">
-							<label>Company : </label>
-						</div>
-					</div>
-					<div class="col-md-9">
-						<div class="form-group">
 							<label><?php echo $companyname;?></label>
+							<input type="hidden" name="company_details" value="<?php echo $company_details; ?>">
 						</div>
 					</div>
 				</div>
+				
 				<div class="row">
 					<div class="col-md-3">
 						<div class="form-group">
@@ -143,6 +137,7 @@ if(isset($id) && $id >0)
 					<div class="col-md-4">
 						<div class="form-group">
 							<input type="text" class="form-control"  name="balace_coc" id="balace_coc"  value="<?php echo $balace_coc;?>" disabled>
+							<input type="hidden" class="form-control"  name="balace_coc1" id="balace_coc1"  value="<?php echo $balace_coc;?>">
 						</div>
 					</div>
 				</div>

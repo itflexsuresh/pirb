@@ -1415,6 +1415,14 @@ i.fa.fa-check {
 	cursor: pointer;
 }
 
+.coc_manage a.sub_menu span {
+    color: #000 !important;
+}
+
+.coc_manage ul.collapse.in li a {
+    color: #000 !important;
+}
+
 
 
 
@@ -1448,4 +1456,12 @@ p.back_license {transform: none !important;margin: 0 !important;}
 
 .accordion .card-header button.btn.btn-link:after {right: 8px;}
 
+}
+.datepicker.datepicker-dropdown.dropdown-menu.datepicker-orient-left.datepicker-orient-top {
+   top: 328px !important;
+}
+#message {
+    padding: 10px 20px 10px 20px;
+    background-color: #fff;
+    border: 1px solid #00000038;
 }

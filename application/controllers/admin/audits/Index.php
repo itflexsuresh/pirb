@@ -9,9 +9,10 @@ class Index extends CC_Controller
 		$this->load->model('Auditor_Model');
 	}
 	
-	public function index()
+	public function index($pagestatus='')
 	{
-		$pagedata['notification'] 	= $this->getNotification();
+		$pagedata['notification'] 	= $this->getNotification();		
+		$pagedata['pagestatus'] 	= $this->getAuditorPageStatus($pagestatus);
 		//$pagedata['company'] 		= $this->getCompanyList();
 		
 		
@@ -25,8 +26,10 @@ class Index extends CC_Controller
 	{
 		
 		$post 			= $this->input->post();	
-		$totalcount 	= $this->Auditor_Model->getAuditorList('count', ['type' => '5', 'status' => ['1']]+$post);
-		$results 		= $this->Auditor_Model->getAuditorList('all', ['type' => '5', 'status' => ['1']]+$post);
+		//print_r($post);die;
+		$totalcount 	= $this->Auditor_Model->getAuditorList('count', ['type' => '5', 'status' => [$post['pagestatus']]]+$post);
+		$results 		= $this->Auditor_Model->getAuditorList('all', ['type' => '5', 'status' => [$post['pagestatus']]]+$post);
+		//print_r($results);die;
 
 		$status = 1;
 

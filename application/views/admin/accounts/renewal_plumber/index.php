@@ -1,3 +1,4 @@
+
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
 		<h4 class="text-themecolor">Renewal Plumber Registration Invoices</h4>
@@ -11,6 +12,7 @@
 		</div>
 	</div>
 </div>
+
 <?php echo $notification; ?>
 <div class="row">
 	<div class="col-12">
@@ -18,11 +20,8 @@
 			<div class="card-body">
 				<h4 class="card-title">Renewal Plumber Registration Invoices</h4>
 				<form class="mt-4 form" action="" method="post">
-					<div class="col-md-6">
-					
-			    	</div>
-					
-					
+					<div class="col-md-6">					
+			    	</div>					
 				</form>
 				
 				<div id="active" class="table-responsive m-t-40">
@@ -37,6 +36,15 @@
 								<th>Total Invoice Value</th>
 								<th></th>
 								<th>Payment Status</th>
+								<!-- <div class="form-group">
+
+									<?php //$attributes = 'class="form-control" id="store"';
+									//echo form_dropdown('status', $store, set_value('store',$store),$attributes);?>
+									<span class="text-danger"><?php //echo form_error('store');?></span>
+								</div> -->
+
+
+
 								<th>Internal Inv Number</th>			
 							</tr>
 						</thead>
@@ -57,7 +65,7 @@
 			{ "data": "inv_id" },
 			{ "data": "created_at" },
 			{ "data": "name" },
-			{ "data": "reg_no" },
+			{ "data": "registration_no" },
 			{ "data": "description" },
 			{ "data": "total_cost" },
 			{ "data": "action" },			

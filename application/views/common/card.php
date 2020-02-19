@@ -1,4 +1,5 @@
 <?php
+
 	
 	$userid					=isset($result['id']) ? $result['id'] : '';
 
@@ -12,11 +13,20 @@
 	$specialisationsid 		= isset($result['specialisations']) ? array_filter(explode(',', $result['specialisations'])) : '';
 	$companyname		= isset($result['companyname']) ? $result['companyname'] : '';
 
-	
+	$work_phone			= isset($settings['work_phone']) ? $settings['work_phone'] : '';
 
 	$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/';
 	$pdfimg 				= base_url().'assets/images/pdf.png';
 	$profileimg 			= base_url().'assets/images/profile.jpg';
+	$logo  					= base_url().'assets/images/card/logo.png';
+	$spl1  					= base_url().'assets/images/card/Solar.png';
+	$spl2  					= base_url().'assets/images/card/Gas.png';
+	$spl3  					= base_url().'assets/images/card/Estimator.png';
+	$spl4  					= base_url().'assets/images/card/Heatpump.png';
+	$spl5  					= base_url().'assets/images/card/Training Assessor.png';
+	$spl6  					= base_url().'assets/images/card/Arbitrator.png';
+
+
 	$file2 					= isset($result['file2']) ? $result['file2'] : '';
 	if($file2!=''){
 		$explodefile2 	= explode('.', $file2);
@@ -63,28 +73,46 @@
 	<div class="col-md-6">
 		<table id="id_Card_back">
 			<tbody style="width: 90%; display: inline-block;">
+				
+				<?php if($designation2id != '1' and $designation2id != '2' and $designation2id != '3'){ ?>
 				<tr>
 					<td colspan="2">
 						<p>This card holder is only entitled to purchase and issue Plumbing COC’s for the following categories of plumbing and plumbing specialisations</p>
 					</td>
 				</tr>
+			
 				<tr>
 					<?php 
-						if(count($specialisationsid) > 0){
+						if(!empty($specialisationsid)){
 							$specialisationskey = 0;
 							foreach($specialisationsid as $specialisationsdata){
 								if($specialisationskey==0){
 					?>
 									<td class="add_width">
-										<ul>
+								
 					<?php
 								}
-					?>
-											<li><?php echo isset($specialisations[$specialisationsdata]) ? $specialisations[$specialisationsdata] : '-'; ?></li>
+					?>				
+							
+							
+								<?php
+									if($specialisationsdata	 =='1'){ echo "<img src='".$spl1 ."'>";} 
+									if($specialisationsdata	 =='2'){ echo "<img src='".$spl2 ."'>";} 
+									if($specialisationsdata	 =='3'){ echo "<img src='".$spl3 ."'>";} 
+									if($specialisationsdata	 =='4'){ echo "<img src='".$spl4 ."'>";} 
+									if($specialisationsdata	 =='5'){ echo "<img src='".$spl5 ."'>";} 
+									else{
+									if($specialisationsdata	 =='6'){ echo "<img src='".$spl6 ."'>";}
+									}
+									?>
+												<?php echo isset($specialisations[$specialisationsdata]) ? $specialisations[$specialisationsdata] : '-'; ?>
+											
 					<?php
 								if($specialisationskey==2 || (count($specialisationsid)-1)==$specialisationskey){
 					?>
-										</ul>
+										
+										
+
 									</td>
 					<?php
 								}
@@ -97,13 +125,20 @@
 							<td class="add_width" style="vertical-align: top;">-</td>
 					<?php 
 						}
+						
+					}	else{
+						echo "<img src='".$logo."'>";
+					}
 					?>
 				</tr>
 				<tr style="border-top: 1px solid #000;">
 					<td style="border-right: 1px solid #000; height: 92px;">
 						<p class="emp_title">Current Employer: </p> 
 						<p class="plumber_name add_style"><?php echo  $companyname; ?></p>
+						<p style="width: 100%;">Lost or Found <?php echo $work_phone; ?> <br>
+						Verification can be done via www.pirb.co.za</p>
 					</td>
+					<?php if($designation2id != '1' and $designation2id != '2' and $designation2id != '3'){ ?>
 					<td>
 						<p style="width: 100%;">Specialisations</p>
 						<?php 
@@ -115,13 +150,18 @@
 						<?php	
 								}
 							}else{
+							
 						?>
 								<p>-</p>
 						<?php 
 							}
+						}
+
 						?>
 					</td>
+
 				</tr>
+				
 			</tbody>
 			<tbody style="width: 10%; display: inline-block;">
 				<tr style="height: 300px;">

@@ -182,4 +182,164 @@ class Cpdtypesetup extends CC_Controller
 			}
 		}		
 	}
+
+	// CPD Queue:
+
+	public function index_queue($pagestatus='',$id=''){
+		
+		if($id!='' && !$this->input->post()){
+			$result = $this->Cpdtypesetup_Model->getQueueList('row', ['id' => $id, 'pagestatus' => [$pagestatus]]);
+			if($result){
+				$pagedata['result'] = $result;
+				if ($result['cpd_activity']!='') {
+					$pagedata['strem_id'] = $this->config->item('cpdstream')[$pagedata['result']['cpd_stream']];
+				}else{
+					$pagedata['strem_id'] = '';
+				}
+				
+			}else{
+				$this->session->set_flashdata('error', 'No Record Found.');
+				redirect('admin/cpd/cpdtypesetup/index_queue'); 
+			}
+		}
+		
+		if($this->input->post()){
+			$requestData 	= 	$this->input->post();
+			if($requestData['submit']=='submit'){
+				// echo "<pre>";
+				// print_r($requestData);die;
+
+				$data 	=  $this->Cpdtypesetup_Model->queue_action($requestData);
+				if($data) $message = 'CPD Queue '.(($id=='') ? 'created' : 'updated').' successfully.';
+			}else{
+				$data 			= 	$this->Installationtype_Model->changestatus($requestData);
+				$message		= 	'Installation Type deleted successfully.';
+			}
+
+			if(isset($data)) $this->session->set_flashdata('success', $message);
+			else $this->session->set_flashdata('error', 'Try Later.');
+			
+			redirect('admin/cpd/cpdtypesetup/index_queue'); 
+		}
+		
+		$pagedata['notification'] 	= $this->getNotification();
+		$pagedata['cpdstreamID'] 	= $this->config->item('cpdstream');
+		$status 				 	= $this->getPageStatus($pagestatus);
+
+		if ($status == '1') {
+			$pagedata['pagestatus'] = '0';
+		}else{
+			$pagedata['pagestatus'] = '1';
+		}
+
+		$pagedata['id'] 			= $this->getUserID();
+		$pagedata['approvalstatus'] = $this->config->item('approvalstatus');
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
+		$data['content'] 			= $this->load->view('admin/cpd/cpdqueue/index', (isset($pagedata) ? $pagedata : ''), true);
+		$this->layout2($data);
+	}
+
+	// Plumber Reg number search
+	public function userRegDetails()
+	{
+
+		$postData = $this->input->post();		  
+		if($postData['type'] == 3)
+		{
+			$data 	=   $this->Cpdtypesetup_Model->autosearchPlumberReg($postData);
+		}
+
+	  	// echo json_encode($data); exit;
+
+		if(!empty($data) && count($data)>0 ) {
+		?>
+			<ul id="name-list">
+			<?php
+			foreach($data as $key=>$val) {
+				$reg_no = $val["registration_no"];
+				$name_surname = $val["name"].' '.$val["surname"];
+				// if(isset($val["surname"])){
+				// 	$name = $name.' '.$val["surname"];
+				// }
+			?>
+			<li onClick="selectuser('<?php echo $reg_no; ?>','<?php echo $val["id"]; ?>','<?php echo $name_surname; ?>');"><?php echo $reg_no; ?></li>
+			<?php } ?>
+			</ul>
+<?php 	} 
+	}
+
+		//CPD Activity search
+	public function activityDetails()
+	{
+
+		$postData = $this->input->post();		  
+		if($postData)
+		{
+			$data 	=   $this->Cpdtypesetup_Model->autosearchActivity($postData);
+		}
+	  	// echo json_encode($data); exit;
+
+		if(!empty($data)) {
+		?>
+			<ul id="name-list1">
+			<?php
+			foreach($data as $key=>$val) {
+				//print_r($val['startdate']);die;
+				if ($val['startdate']) {
+					$startDate1 = date('m-d-Y', strtotime($val['startdate']));
+				}
+				$activity 		= $val["activity"];
+				$startDate 		= $startDate1;
+				$cpd_Stream 	= $this->config->item('cpdstream')[$val["cpdstream"]];
+				$cpd_Stream_id 	= $val["cpdstream"];
+				$cpdPoints 		= $val["points"];
+			?>
+			<li onClick="selectActivity('<?php echo $activity; ?>','<?php echo $val["id"]; ?>','<?php echo $startDate; ?>','<?php echo $cpd_Stream; ?>','<?php echo $cpdPoints; ?>','<?php echo $cpd_Stream_id; ?>');"><?php echo $activity; ?></li>
+			<?php } ?>
+			</ul>
+<?php 	} 
+	}
+
+	public function DTCpdQueue()
+	{
+		$post 			= $this->input->post();
+		//print_r($post);die;
+
+		$totalcount 	= $this->Cpdtypesetup_Model->getQueueList('count', ['status' => [$post['pagestatus']]]+$post);
+		$results 		= $this->Cpdtypesetup_Model->getQueueList('all', ['status' => [$post['pagestatus']]]+$post);
+		//print_r($results);die;
+		
+		$totalrecord 	= [];
+		if(count($results) > 0){
+			foreach($results as $result){
+				if ($result['status']==0) {
+					$statuz = '';
+				}else{
+					$statuz = $this->config->item('approvalstatus')[$result['status']];
+				}
+				$totalrecord[] = 	[
+					'date' 					=> 	$result['cpd_start_date'],
+					'namesurname' 			=> 	$result['name_surname'],
+					'reg_number' 			=> 	$result['reg_number'],
+					'acivity' 				=> 	$result['cpd_activity'],
+					'points' 				=> 	$result['points'],
+					'status' 				=> 	$statuz,
+					'action'			=> 	'
+					<div class="table-action">
+					<a href="'.base_url().'admin/cpd/cpdtypesetup/index_queue/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+					</div>
+					'
+				];
+			}
+		}
+		
+		$json = array(
+			"draw"            => intval($post['draw']),   
+			"recordsTotal"    => intval($totalcount),  
+			"recordsFiltered" => intval($totalcount),
+			"data"            => $totalrecord
+		);
+
+		echo json_encode($json);
+	}
 }
