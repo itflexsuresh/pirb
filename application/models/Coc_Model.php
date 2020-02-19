@@ -31,49 +31,74 @@ class Coc_Model extends CC_Model
 		$this->db->join('plumberallocate pa', 'pa.stockid=sm.id', 'left');
 		$this->db->join('users_detail cd2', 'cd2.user_id=pa.company_details', 'left');
 		
+		if((isset($requestdata['search']['value']) && $requestdata['search']['value']!='') || (isset($requestdata['order']['0']['column']) && $requestdata['order']['0']['column']!='' && isset($requestdata['order']['0']['dir']) && $requestdata['order']['0']['dir']!='')){
+			$this->db->join('custom c1', 'c1.c_id=sm.coc_status', 'left');
+			$this->db->join('custom c2', 'c2.c_id=sm.audit_status', 'left');
+			$this->db->join('custom c3', 'c3.c_id=sm.type', 'left');
+			
+			if(isset($requestdata['page']) && $page=='admincocdetails'){
+				$this->db->join('users_detail ud1', 'ud1.user_id=sm.user_id', 'left');
+				$this->db->join('users u1', 'u1.id=ud1.user_id and u1.type="3"', 'left');
+				$this->db->join('users_detail ud2', 'ud2.user_id=sm.user_id', 'left');
+				$this->db->join('users u2', 'u2.id=ud2.user_id and u2.type="5"', 'left');
+				$this->db->join('users_detail ud3', 'ud3.user_id=sm.user_id', 'left');
+				$this->db->join('users u3', 'u3.id=ud3.user_id and u3.type="6"', 'left');
+			}
+		}
+		
 		if(isset($requestdata['startrange']) && $requestdata['startrange']!='')				$this->db->where('sm.id >=', $requestdata['startrange']);
 		if(isset($requestdata['endrange']) && $requestdata['endrange']!='')					$this->db->where('sm.id <=', $requestdata['endrange']);
 		if(isset($requestdata['coc_status']) && count($requestdata['coc_status']) > 0)		$this->db->where_in('sm.coc_status', $requestdata['coc_status']);
 		if(isset($requestdata['auditstatus']) && count($requestdata['auditstatus']) > 0)	$this->db->where_in('sm.audit_status', $requestdata['auditstatus']);
 		if(isset($requestdata['coctype']) && count($requestdata['coctype']) > 0)			$this->db->where_in('sm.type', $requestdata['coctype']);
-		if(isset($requestdata['startdate']) && $requestdata['startdate']!='')				$this->db->where('sm.allocation_date >=', date('Y-m-d', strtotime($requestdata['startdate'])));
-		if(isset($requestdata['enddate']) && $requestdata['enddate']!='')					$this->db->where('sm.allocation_date <=', date('Y-m-d', strtotime($requestdata['enddate'])));
+		if(isset($requestdata['startdate']) && $requestdata['startdate']!='')				$this->db->where('sm.purchased_at >=', date('Y-m-d', strtotime($requestdata['startdate'])));
+		if(isset($requestdata['enddate']) && $requestdata['enddate']!='')					$this->db->where('sm.purchased_at <=', date('Y-m-d', strtotime($requestdata['enddate'])));
 		if(isset($requestdata['province']) && $requestdata['province']!='')					$this->db->where('cl.province', $requestdata['province']);
 		if(isset($requestdata['city']) && $requestdata['city']!='')							$this->db->where('cl.city', $requestdata['city']);
 		
 		if(isset($requestdata['user_id']) && $requestdata['user_id']!='')					$this->db->where('sm.user_id', $requestdata['user_id']);
 		if(isset($requestdata['id']) && $requestdata['id']!='')								$this->db->where('sm.id', $requestdata['id']);
 		
-		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
-			$this->db->limit($requestdata['length'], $requestdata['start']);
-		}
-		if(isset($requestdata['order']['0']['column']) && $requestdata['order']['0']['column']!='' && isset($requestdata['order']['0']['dir']) && $requestdata['order']['0']['dir']!=''){
-			if(isset($requestdata['page'])){
-				$page = $requestdata['page'];				
-				if($page=='plumbercocstatement'){
-					$column = ['sm.id', 'sm.coc_status', 'sm.purchased_at', 'sm.type', 'cl.name', 'cl.address', 'cd1.company'];
-				}elseif($page=='admincocdetails'){
-					$column = ['sm.id', 'sm.type', 'sm.coc_status', 'ud.name', 'ud.name', 'ud.name'];
-				}
-				
-				$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
-			}
-		}
+		
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
 			
 			if(isset($requestdata['page'])){
 				$page = $requestdata['page'];
-				if($page=='plumbercocstatement'){
-					$this->db->like('sm.id', $searchvalue, 'both');
-					$this->db->or_like('sm.coc_status', $searchvalue, 'both');
-					$this->db->or_like('sm.purchased_at', $searchvalue, 'both');
-					$this->db->or_like('sm.type', $searchvalue, 'both');
-					$this->db->or_like('cl.name', $searchvalue, 'both');
-					$this->db->or_like('cl.address', $searchvalue, 'both');
-					$this->db->or_like('cd1.company', $searchvalue, 'both');
-				}
+				$this->db->group_start();
+					if($page=='plumbercocstatement'){					
+						$this->db->like('sm.id', $searchvalue, 'both');
+						$this->db->or_like('c1.name', $searchvalue, 'both');
+						$this->db->or_like('DATE_FORMAT(sm.purchased_at,"%d-%m-%Y")', $searchvalue, 'both');
+						$this->db->or_like('c3.name', $searchvalue, 'both');
+						$this->db->or_like('cl.name', $searchvalue, 'both');
+						$this->db->or_like('cl.address', $searchvalue, 'both');
+						$this->db->or_like('cd1.company', $searchvalue, 'both');					
+					}elseif($page=='admincocdetails'){
+						$this->db->like('sm.id', $searchvalue, 'both');
+						$this->db->or_like('c3.name', $searchvalue, 'both');
+						$this->db->or_like('c1.name', $searchvalue, 'both');
+						$this->db->or_like('concat(ud1.name, " ", ud1.surname)', $searchvalue, 'both');
+						$this->db->or_like('concat(ud2.name, " ", ud2.surname)', $searchvalue, 'both');
+						$this->db->or_like('concat(ud3.name, " ", ud3.surname)', $searchvalue, 'both');							
+					}
+				$this->db->group_end();
 			}
+		}
+		if(isset($requestdata['order']['0']['column']) && $requestdata['order']['0']['column']!='' && isset($requestdata['order']['0']['dir']) && $requestdata['order']['0']['dir']!=''){
+			if(isset($requestdata['page'])){
+				$page = $requestdata['page'];				
+				if($page=='plumbercocstatement'){
+					$column = ['sm.id', 'c1.name', 'sm.purchased_at', 'c3.name', 'cl.name', 'cl.address', 'cd1.company'];
+				}elseif($page=='admincocdetails'){
+					$column = ['sm.id', 'c3.name', 'c1.name', 'ud1.name', 'ud2.name', 'ud3.name'];
+				}
+				
+				$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+			}
+		}
+		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
+			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		
 		$this->db->group_by('sm.id');
