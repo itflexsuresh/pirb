@@ -2,8 +2,6 @@
 
 class Designation_Model extends CC_Model
 {
-	
-	
 
 	public function action($data)
 	{
