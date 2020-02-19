@@ -21,14 +21,12 @@ function ajaxdatatables(selector, options={}){
 		$(selector).DataTable().destroy();
 	}
 	
-	var columndefs = {};
-	if(options.target) 	columndefs['targets'] 	= [1,7];
-	if(options.sort) 	columndefs['orderable'] = (options.sort=='1') ? true : false;
-	console.log([ {
-        'targets': [1,2], /* column index */
-        'orderable': false, /* true or false */
-     }])
-	console.log(columndefs);
+	var columndefs 		= [];
+	var columndefsobj 	= {};
+	if(options.target) 	columndefsobj['targets'] 	= options.target;
+	if(options.sort) 	columndefsobj['orderable'] 	= (options.sort=='1') ? true : false;
+	columndefs.push(columndefsobj);
+	
 	$(selector).DataTable({
 		'processing'	: 	true,
 		'serverSide'	: 	true,
@@ -43,10 +41,7 @@ function ajaxdatatables(selector, options={}){
 								
 							},
 		'columns'		: 	options.columns,
-		'columnDefs'	: 	[ {
-        'targets': [1,2], /* column index */
-        'orderable': false, /* true or false */
-     }]
+		'columnDefs'	: 	columndefs
 	});
 }
 

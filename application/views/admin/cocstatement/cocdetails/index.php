@@ -114,6 +114,7 @@
 					</div>
 
 					<div class="row text-right">
+						<button type="button" id="reset" class="btn btn-primary">Reset</button>
 						<button type="button" name="submit" id="filter" class="btn btn-primary">Apply Filters</button>
 					</div>
 				</form>
@@ -163,7 +164,7 @@ function datatable(destroy=0){
 		province 	: $('#province').val(),
 		city 		: $('#city').val()
 	};
-	console.log(data);
+	
 	var options = {
 		url 	: 	'<?php echo base_url()."admin/cocstatement/cocdetails/index/DTCocDetails"; ?>',
 		data    :   data,  			

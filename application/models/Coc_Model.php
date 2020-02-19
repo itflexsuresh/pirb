@@ -44,7 +44,36 @@ class Coc_Model extends CC_Model
 		
 		if(isset($requestdata['user_id']) && $requestdata['user_id']!='')					$this->db->where('sm.user_id', $requestdata['user_id']);
 		if(isset($requestdata['id']) && $requestdata['id']!='')								$this->db->where('sm.id', $requestdata['id']);
-				
+		
+		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
+			$this->db->limit($requestdata['length'], $requestdata['start']);
+		}
+		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
+			if(isset($requestdata['page'])){
+				$page = $requestdata['page'];				
+				if($page=='plumbercocstatement'){
+					$column = ['sm.id', 'sm.coc_status', 'sm.purchased_at', 'sm.type', 'cl.name', 'cl.address', 'cd1.company'];
+				}
+			}
+			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+		}
+		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
+			$searchvalue = $requestdata['search']['value'];
+			
+			if(isset($requestdata['page'])){
+				$page = $requestdata['page'];
+				if($page=='plumbercocstatement'){
+					$this->db->like('sm.id', $searchvalue, 'both');
+					$this->db->or_like('sm.coc_status', $searchvalue, 'both');
+					$this->db->or_like('sm.purchased_at', $searchvalue, 'both');
+					$this->db->or_like('sm.type', $searchvalue, 'both');
+					$this->db->or_like('cl.name', $searchvalue, 'both');
+					$this->db->or_like('cl.address', $searchvalue, 'both');
+					$this->db->or_like('cd1.company', $searchvalue, 'both');
+				}
+			}
+		}
+		
 		$this->db->group_by('sm.id');
 		
 		if($type=='count'){

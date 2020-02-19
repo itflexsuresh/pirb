@@ -37,11 +37,14 @@ class Index extends CC_Controller
 					$action = '<a href="'.base_url().'plumber/cocstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
 				}
 				
+				$cocstatus = isset($this->config->item('cocstatus')[$result['coc_status']]) ? $this->config->item('cocstatus')[$result['coc_status']] : '';
+				$coctype = isset($this->config->item('coctype')[$result['type']]) ? $this->config->item('coctype')[$result['type']] : '';
+				
 				$totalrecord[] = 	[
 										'cocno' 			=> 	$result['id'],
-										'cocstatus' 		=> 	$this->config->item('cocstatus')[$result['coc_status']],
+										'cocstatus' 		=> 	$cocstatus,
 										'purchased' 		=> 	date('d-m-Y', strtotime($result['purchased_at'])),
-										'coctype' 			=> 	$this->config->item('coctype')[$result['type']],
+										'coctype' 			=> 	$coctype,
 										'customer' 			=> 	$result['cl_name'],
 										'address' 			=> 	$result['cl_address'],
 										'company' 			=> 	$result['plumbercompany'],

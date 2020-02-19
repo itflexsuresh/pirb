@@ -45,7 +45,7 @@
 		
 		var options = {
 			url 	: 	'<?php echo base_url()."plumber/cocstatement/index/DTCocStatement"; ?>',
-			data 	: 	{ page : 'cocstatement' },
+			data 	: 	{ page : 'plumbercocstatement' },
 			columns : 	[
 							{ "data": "cocno" },
 							{ "data": "cocstatus" },
@@ -56,7 +56,7 @@
 							{ "data": "company" },
 							{ "data": "action" }
 						],
-			target	:	['1', '6'],
+			target	:	[7],
 			sort	:	'0'
 		};
 		
