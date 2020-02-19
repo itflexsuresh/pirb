@@ -72,20 +72,20 @@ else{
 							<div class="form-group">
 								<label>Top</label>
 									<input type="number" min="0" id="points" name="top" size="2"  value="<?php echo $result[1]['value'];?>" style="margin: 0px 20px;width: 8%;">
-									<label> nomination likes for the day.  award</label>
+									<label> nomination likes for the day,&nbsp award</label>
 									<input type="number" min="0" id="points" name="award" size="2"  value="<?php echo $result[2]['value'];?>" style="margin: 0px 20px;width: 8%;">
 								<label>bonus points</label>						
 							</div>
 							<div class="form-group">
 									<input type="number" min="0" id="points" name="bonus_points" size="2"  value="<?php echo $result[3]['value'];?>" style="margin: 0px 20px;width: 8%;">
-									<label> performance points,award</label>
+									<label> performance points,&nbsp award</label>
 									<input type="number" min="0" id="points" name="award1" size="2"  value="<?php echo $result[4]['value'];?>" style="margin: 0px 20px;width: 8%;">
 								<label>bonus points</label>						
 							</div>
 							<div class="form-group">
 								<label>Top</label>
 									<input type="number" min="0" id="points" name="top1" size="2"  value="<?php echo $result[5]['value'];?>" style="margin: 0px 20px;width: 8%;">
-									<label> plumbers overall,for past 30days,award</label>
+									<label> plumbers overall,for past 30days,&nbsp award</label>
 									<input type="number" min="0" id="points" name="award2" size="2"  value="<?php echo $result[6]['value'];?>" style="margin: 0px 20px;width: 8%;">
 								<label>bonus points</label>						
 							</div>
@@ -111,12 +111,12 @@ else{
 							<div class="form-group">
 								<label>Bonus points per the </label>
 									<input type="number" min="0" id="points" name="bonus" size="2"  value="<?php echo $result[12]['value'];?>" style="margin: 0px 20px;width: 8%;">
-									<label>  of licenced/master/plumbers employed</label>
+									<label>  of licenced/master plumbers employed</label>
 									<input type="number" min="0" id="points" name="employeed" size="2"  value="<?php echo $result[13]['value'];?>" style="margin: 0px 20px;width: 8%;">
 								<label>points</label>
 							</div>
 							<div class="form-group">
-								<label> Openinig your account every day,award</label>	
+								<label> Openinig your account every day,&nbsp award</label>	
 
 								<input type="number"  min="0" id="points" name="every_day_award" size="2" value="<?php echo $result[14]['value'];?>" style="margin: 0px 20px;width: 8%;">		
 								<label>points</label>			
