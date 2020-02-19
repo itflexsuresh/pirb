@@ -47,7 +47,46 @@ class Auditor_Model extends CC_Model
 		
 		return $result;	
 	}
-	
+
+	public function getAuditStatementList($type, $requestdata=[])
+	{
+		 $this->db->select('sm.*, ud.name, ud.surname, ud.mobile_phone, cl.name as consumer, cl.address as conaddress, cl.contact_no as concontact_no, sub.name as consuburb');
+		 $this->db->from('stock_management as sm');
+		 $this->db->join('users_detail as ud','ud.user_id=sm.user_id', 'left');
+		 $this->db->join('users_plumber as up','up.user_id=sm.user_id', 'left');		 
+		 $this->db->join('coc_log as cl','cl.coc_id=sm.id', 'left');
+		 $this->db->join('suburb as sub','sub.id=cl.suburb', 'left');
+		 $this->db->where('sm.auditorid', $requestdata['auditorid']);
+
+		 if($type=='count'){
+			$result = $this->db->count_all_results();
+		}
+		else
+		{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		return $result;	
+	}
+
+	public function getAuditStatementRecord($id, $requestdata=[])
+	{
+		 $this->db->select('sm.id as cocid,sm.audit_status as auditstatus, cl.*, ud.name as auditorname, ud.surname as auditorsurname, ud.mobile_phone as auditorphone,concat_ws("@-@", cl.id, cl.log_date, cl.address, cl.suburb, cl.city, cl.province, cl.street, cl.number)  as consumeraddress,up.registration_no as reg_no,ud2.name as plumbername, ud2.surname as plumbersurname, ud2.work_phone as plumberworkph, ud2.mobile_phone as plumbermobile');
+		 $this->db->from('stock_management as sm');
+		 $this->db->join('users_detail as ud','ud.user_id=sm.auditorid', 'left');
+		 $this->db->join('users_detail as ud2','ud2.user_id=sm.user_id', 'left');
+		 $this->db->join('users_plumber as up','up.user_id=sm.user_id', 'left');
+		 $this->db->join('coc_log as cl','cl.coc_id=sm.id', 'left');
+		 $this->db->where('sm.id', $requestdata['id']);
+		 
+		$query = $this->db->get();
+		$result = $query->row_array();
+
+		return $result;	
+	}
 
 	// Admin Auditor 
 

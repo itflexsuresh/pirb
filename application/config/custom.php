@@ -401,8 +401,7 @@ $config['cocstatus'] 			=		[
 											'3'	=>	'Allocated (Reseller)',
 											'4'	=>	'Allocated (Plumber)',
 											'5'	=>	'Non-Logged Allocated (Customer)',
-											'6'	=>	'Recalled (unallocated)',
-											'7'	=>	'Canceled'
+											'6'	=>	'Recalled (unallocated)'
 										];
 								
 $config['cocrecall'] 			=		[
@@ -428,3 +427,15 @@ $config['audits_status1'] 		= 		[
 											'1' => 'Available',
 											'2' => 'Unavailable'
 										];
+
+$config['workmanship'] 			= 		[
+											'1' => 'Very Poor',
+											'2' => 'Poor',
+											'3' => 'Good',
+											'4' => 'Excellent'
+										];
+
+$config['yesno'] 				= 		[
+											'1' => 'Yes',
+											'2' => 'No'
+										];										

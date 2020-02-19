@@ -289,6 +289,44 @@ class CC_Controller extends CI_Controller
 		$this->layout2($data);
 	}
 	
+	public function getAuditStatementData($id, $pagedata=[], $extras=[])
+	{
+		if($id!=''){
+			$result = $this->Auditor_Model->getAuditStatementRecord('row', ['id' => $id, 'status' => ['0','1']]);
+			if($result){
+				$pagedata['result'] = $result;
+
+			}else{
+				$this->session->set_flashdata('error', 'No Record Found.');
+				if($extras['redirect']) redirect($extras['redirect']); 
+				else redirect('auditor/auditstatement/index'); 
+			}
+		}
+		
+		if($this->input->post()){
+			$requestData 	= 	$this->input->post();
+
+			$data 	=  $this->Auditor_Model->getAuditStatementRecord($requestData);
+		
+			// if(isset($requestData['coc_purchase_limit'])) $this->Coc_Model->actionCocCount(['count' => $requestData['coc_purchase_limit'], 'user_id' => $id]);
+			
+			if($data) $this->session->set_flashdata('success', 'Resellers '.(($id=='') ? 'created' : 'updated').' successfully.');
+			else $this->session->set_flashdata('error', 'Try Later.');
+			
+			if($extras['redirect']) redirect($extras['redirect']); 
+			else redirect('auditor/auditstatement/index');
+		}
+		
+		$pagedata['notification'] 	= $this->getNotification();
+		$pagedata['province'] 		= $this->getProvinceList();
+		$pagedata['workmanship'] 	= $this->config->item('workmanship');
+		$pagedata['yesno'] 	= $this->config->item('yesno');
+		
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'sweetalert', 'validation','inputmask'];
+		$data['content'] 			= $this->load->view('auditor/auditstatement/action', (isset($pagedata) ? $pagedata : ''), true);
+		$this->layout2($data);
+	}
+
 	public function resellersprofile($id, $pagedata=[], $extras=[])
 	{
 		if($id!=''){
