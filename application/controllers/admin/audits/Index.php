@@ -26,6 +26,7 @@ class Index extends CC_Controller
 	{
 		
 		$post 			= $this->input->post();	
+		/////////////
 		if ($post['pagestatus']=='2') {
 			$post['pagestatus'] = '0';
 		}
