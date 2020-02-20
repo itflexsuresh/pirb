@@ -1465,3 +1465,23 @@ p.back_license {transform: none !important;margin: 0 !important;}
     background-color: #fff;
     border: 1px solid #00000038;
 }
+
+#add_bg {
+   background-color: #c1e7fa;
+   padding: 27px;
+   margin-bottom: 0;
+   border: 1px solid #000;
+}
+
+#add_bg label {
+   color: #000;
+}
+
+#add_bg input#aprooved
++ label.custom-control-label {
+   color: #818284;
+}
+
+#add_bg input#rejected + label.custom-control-label {
+   color: #818284;
+}
