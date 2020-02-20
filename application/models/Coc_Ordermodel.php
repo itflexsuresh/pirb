@@ -411,7 +411,7 @@ class Coc_Ordermodel extends CC_Model
 		$this->db->from('users_detail ud');
 		$this->db->join('users u', 'u.id=ud.user_id','inner');
 		$this->db->join('auditor_availability t3', 't3.user_id=ud.user_id','left');
-		$this->db->join('stock_management t4', 't4.auditorid=ud.user_id','inner');
+		$this->db->join('stock_management t4', 't4.auditorid=ud.user_id','left');
 		$this->db->where(['ud.status' => '1']);
 		$this->db->where(['u.type' => '5']);
 		$this->db->where(['t3.status' => '1']);
