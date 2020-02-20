@@ -55,7 +55,7 @@ class Auditor_Model extends CC_Model
 		$users 			= 	[ 
 			'u.id','u.email','u.formstatus','u.status' ,'u.password_raw','u.type'
 		];
-		$auditor 		= ['av.id as auditavailable', 'av.user_id', 'av.allocation_allowed', 'av.status'];
+		$auditor 		= ['av.id as auditavailable', 'av.user_id', 'av.allocation_allowed', 'av.status as avstatus'];
 		$usersdetail 	= 	[ 
 			'ud.id as usersdetailid','ud.user_id as usersid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.company','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit', 'ud.vat_vendor'
 		];
@@ -104,7 +104,7 @@ class Auditor_Model extends CC_Model
 
 		}
 
-		//$this->db->where('u.type', '5');
+		$this->db->group_by('u.id');
 
 		if($type=='count'){
 			$result = $this->db->count_all_results();
