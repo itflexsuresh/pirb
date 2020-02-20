@@ -54,17 +54,76 @@ class Index extends CC_Controller
 		$this->layout2($data);
 	}
 
-	public function Deletefunc($id)
+	public function DTAccounts()
 	{
+		$post 			= $this->input->post();
+		$post['status'] = '1';
+		$totalcount 	= $this->Renewal_Model->getList('count',$post);
+		$results 		= $this->Renewal_Model->getList('all', $post);
+		// echo json_encode($totalcount); die;
+		$totalrecord 	= [];
+		if(count($results) > 0)
+		{	
+			foreach($results as $result)
+			{
+				$internal_inv = "";
+				$originalDate=$result['created_at'];
+				$newDate = date("d-m-Y", strtotime($originalDate));
+				if($result['status'] == '1'){
+					$status = "Paid";
+					$internal_inv = $result['internal_inv'];
+				}
+				else{
+					$status = "Unpaid";
+					if($result['userstatus'] == '1'){
+						$internal_inv = '<div class="table-action"><a href="'.base_url().'admin/accounts/renewal_plumber/Index/Deletefunc/'.$result['inv_id'].'" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a></div>';
+					}
+				}
 
+				$totalrecord[] = 	[      
+					'inv_id' 		=> 	$result['inv_id'],
+					'created_at'    =>  $newDate,
+					'name' 		    => 	$result['name'].' '.$result['surname'],
+					'registration_no' => $result['registration_no'],
+					'description'   =>  $result['description'],
+					'total_cost'    => 	$result['total_cost'],
+					'action'	    => 	'
+
+					<div class="col-md-6">
+					<a  href="' .base_url().'assets/inv_pdf/'.$result['inv_id'].'.pdf"  target="_blank">
+					<img src="'.base_url().'assets/images/pdf.png" height="50" width="50">
+					</div></a>
+
+					',
+
+					'status'    		=> 	$status,
+					'internal_inv' 		=> 	$internal_inv
+
+				];
+			}
+		}
+
+		$json = array(
+			"draw"            => intval($post['draw']),   
+			"recordsTotal"    => intval($totalcount),  
+			"recordsFiltered" => intval($totalcount),
+			"data"            => $totalrecord
+		);
+
+		echo json_encode($json);
+	}
+
+	public function Deletefunc($id)
+	{		
 		$result = $this->Renewal_Model->deleteid($id);
-		if($result == '1')
+		if($result == '1'){
+			$url = FCPATH."assets/inv_pdf/".$id.".pdf";
+			unlink($url);
 			$this->session->set_flashdata('success', 'Record was Deleted');
-		else
-			$this->session->set_flashdata('error', 'Error to delete the Record.');
-
-		$url = FCPATH."assets/inv_pdf/".$id.".pdf";
-		unlink($url);
+		}
+		else{
+			$this->session->set_flashdata('error', 'Error to delete the Record.');		
+		}
 
 		$this->index();
 		redirect('admin/accounts/renewal_plumber/Index/'); 
@@ -73,7 +132,7 @@ class Index extends CC_Controller
 	public function Cron()
 	{	
 		$result = $this->Renewal_Model->getUserids();
-		// echo'<pre>'; print_r($result); die;					
+		// echo'<pre>'; print_r($result);die;
 		foreach($result as $data)
 		{
 			$inv_type = '1';
@@ -93,6 +152,10 @@ class Index extends CC_Controller
 			else{
 
 			$designation = $data['designation'];
+			$renewal_date = $data['renewal_date'];
+			$renewal_date = date_create($renewal_date);
+			$renewal_date =	date_format($renewal_date,"d/m/Y");
+
 			$result = $this->Renewal_Model->insertdata($userid,$designation,'2');
 			$invoice_id = $result['invoice_id'];
 			$cocorder_id = $result['cocorder_id'];
@@ -154,6 +217,8 @@ class Index extends CC_Controller
 					$stringaarr5 = isset($stringaarr[5]) ? $stringaarr[5] : '';
 					$stringaarr4 = isset($stringaarr[4]) ? $stringaarr[4] : '';
 					$provincesettings = explode("@@@",$rowData2['provincesettings']);
+
+					$designation	=	$this->config->item('designation2')[$rowData['designation']];
 					
 					$html = '<!DOCTYPE html>
 					<html>
@@ -242,7 +307,7 @@ class Index extends CC_Controller
 					<p style="width: 18%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    text-align: center;">Amount</p>
 					</div>
 					<div style="border-bottom: 1px solid #000; padding: 0 20px 0 20px;">
-					<p style="width: 50%; display: inline-block; border-right: 1px solid #000; margin: 0;    padding: 10px 0 10px 0;">PIRB year registration fee for {catagory Desigantion} for '.$rowData['username'].''.$rowData['surname'].', registration number '.$rowData['registration_no'].'</p>				
+					<p style="width: 50%; display: inline-block; border-right: 1px solid #000; margin: 0;    padding: 10px 0 10px 0;">PIRB year registration fee for '.$designation.' for '.$rowData['username'].''.$rowData['surname'].', registration number '.$rowData['registration_no'].'</p>				
 					<p style="width: 10%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000;text-align: center;">'.$rowData['quantity'].'</p>
 					<p style="width: 19%;display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000; text-align: center;">'.$rowData['cost_value'].'</p>
 					<p style="width: 18%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</p>
@@ -304,9 +369,9 @@ class Index extends CC_Controller
 					$cocTypes = $orders['coc_type'];
 					$mail_date = date("d-m-Y", strtotime($orders['created_at']));
 
-					$array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}'];
+					$array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}','{renewal_date}'];
 
-					$array2 = [$userdata1['name']." ".$userdata1['surname'], $mail_date, $orders['quantity'], $this->config->item('coctype')[$cocTypes]];
+					$array2 = [$userdata1['name']." ".$userdata1['surname'], $mail_date, $orders['quantity'], $this->config->item('coctype')[$cocTypes],$renewal_date];
 
 					$body = str_replace($array1, $array2, $template['email_body']);
 
@@ -397,6 +462,8 @@ class Index extends CC_Controller
 				$stringaarr5 = isset($stringaarr[5]) ? $stringaarr[5] : '';
 				$stringaarr4 = isset($stringaarr[4]) ? $stringaarr[4] : '';
 				$provincesettings = explode("@@@",$rowData2['provincesettings']);
+
+				$designation	=	$this->config->item('designation2')[$rowData['designation']];
 				
 				$html = '<!DOCTYPE html>
 				<html>
@@ -485,7 +552,7 @@ class Index extends CC_Controller
 				<p style="width: 18%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    text-align: center;">Amount</p>
 				</div>
 				<div style="border-bottom: 1px solid #000; padding: 0 20px 0 20px;">
-				<p style="width: 50%; display: inline-block; border-right: 1px solid #000; margin: 0;    padding: 10px 0 10px 0;">PIRB year registration fee for {catagory Desigantion} for '.$rowData['username'].''.$rowData['surname'].', registration number '.$rowData['registration_no'].'</p>				
+				<p style="width: 50%; display: inline-block; border-right: 1px solid #000; margin: 0;    padding: 10px 0 10px 0;">PIRB year registration fee for '.$designation.' for '.$rowData['username'].''.$rowData['surname'].', registration number '.$rowData['registration_no'].'</p>				
 				<p style="width: 10%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000;text-align: center;">'.$rowData['quantity'].'</p>
 				<p style="width: 19%;display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000; text-align: center;">'.$rowData['cost_value'].'</p>
 				<p style="width: 18%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</p>
@@ -640,11 +707,15 @@ class Index extends CC_Controller
 					$paid_status = "UNPAID";
 
 				}
-				$stringaarr = explode("@@@",$rowData['areas']);
+
+				$stringaarr1 = explode("@-@",$rowData['areas']);
+				$stringaarr = explode("@@@",$stringaarr1[0]);
 				$stringaarr6 = isset($stringaarr[6]) ? $stringaarr[6] : '';
-				$stringaarr5 = isset($stringaarr[5]) ? $stringaarr[5] : '';
+				$stringaarr5 = isset($stringaarr[5]) ? $stringaarr[5] : '';				
 				$stringaarr4 = isset($stringaarr[4]) ? $stringaarr[4] : '';
 				$provincesettings = explode("@@@",$rowData2['provincesettings']);
+
+				$designation	=	$this->config->item('designation2')[$rowData['designation']];
 				
 				$html = '<!DOCTYPE html>
 				<html>
@@ -733,7 +804,7 @@ class Index extends CC_Controller
 				<p style="width: 18%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    text-align: center;">Amount</p>
 				</div>
 				<div style="border-bottom: 1px solid #000; padding: 0 20px 0 20px;">
-				<p style="width: 50%; display: inline-block; border-right: 1px solid #000; margin: 0;    padding: 10px 0 10px 0;">PIRB year registration fee for {catagory Desigantion} for '.$rowData['name'].''.$rowData['surname'].', registration number '.$rowData['registration_no'].'</p>				
+				<p style="width: 50%; display: inline-block; border-right: 1px solid #000; margin: 0;    padding: 10px 0 10px 0;">PIRB year registration fee for '.$designation.' for '.$rowData['username'].''.$rowData['surname'].', registration number '.$rowData['registration_no'].'</p>				
 				<p style="width: 10%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000;text-align: center;">'.$rowData['quantity'].'</p>
 				<p style="width: 19%;display: inline-block; margin: 0; padding: 10px 0 10px 0;    border-right: 1px solid #000; text-align: center;">'.$rowData['cost_value'].'</p>
 				<p style="width: 18%; display: inline-block; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</p>
@@ -846,65 +917,6 @@ class Index extends CC_Controller
 			
 		}
 		
-	}
-	
-	public function DTAccounts()
-	{
-		$post 			= $this->input->post();
-		$post['status'] = '1';
-		$totalcount 	= $this->Renewal_Model->getList('count',$post);
-		$results 		= $this->Renewal_Model->getList('all', $post);
-		
-		$totalrecord 	= [];
-		if(count($results) > 0)
-		{	
-			foreach($results as $result)
-			{
-				$internal_inv = "";
-				$originalDate=$result['created_at'];
-				$newDate = date("d-m-Y", strtotime($originalDate));
-				if($result['status'] == '1'){
-					$status = "Paid";
-					$internal_inv = $result['internal_inv'];
-				}
-				else{
-					$status = "Unpaid";
-					if($result['userstatus'] == '1'){
-						$internal_inv = '<div class="table-action"><a href="'.base_url().'admin/accounts/renewal_plumber/Index/Deletefunc/'.$result['inv_id'].'" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a></div>';
-					}
-				}
-
-				$totalrecord[] = 	[      
-					'inv_id' 		=> 	$result['inv_id'],
-					'created_at'    =>  $newDate,
-					'name' 		    => 	$result['name'].' '.$result['surname'],
-					'registration_no' => $result['registration_no'],
-					'description'   =>  $result['description'],
-					'total_cost'    => 	$result['total_cost'],
-					'action'	    => 	'
-
-					<div class="col-md-6">
-					<a  href="' .base_url().'assets/inv_pdf/'.$result['inv_id'].'.pdf"  target="_blank">
-					<img src="'.base_url().'assets/images/pdf.png" height="50" width="50">
-					</div></a>
-
-					',
-
-					'status'    		=> 	$status,
-					'internal_inv' 		=> 	$internal_inv
-
-				];
-			}
-		}
-
-		$json = array(
-			"draw"            => intval($post['draw']),   
-			"recordsTotal"    => intval($totalcount),  
-			"recordsFiltered" => intval($totalcount),
-			"data"            => $totalrecord
-		);
-
-		echo json_encode($json);
 	}
 	
 }

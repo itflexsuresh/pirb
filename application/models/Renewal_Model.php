@@ -6,14 +6,14 @@ class Renewal_Model extends CC_Model
 	{
 		
         $this->db->select ('inv.*, ud.name, ud.surname, ud.status as userstatus, up.registration_no, us.expirydate');
-        $this->db->from('invoice inv');
-        $this->db->order_by("inv.inv_id", "desc");     
+        $this->db->from('invoice inv');    
         $this->db->join('users_detail ud', 'ud.user_id = inv.user_id', 'left');
         $this->db->join('users_plumber up', 'up.user_id = inv.user_id', 'left');
         $this->db->join('users us', 'us.id = inv.user_id', 'left');
         $this->db->where('inv.inv_type', '2');
         $this->db->or_where('inv.inv_type', '3');
-        $this->db->or_where('inv.inv_type', '4');        
+        $this->db->or_where('inv.inv_type', '4');
+        // $this->db->order_by("inv.inv_id", "desc");        
      
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length']))
 		{
@@ -52,6 +52,10 @@ class Renewal_Model extends CC_Model
 			if($type=='all') 		$result = $query->result_array();
 			elseif($type=='row') 	$result = $query->row_array();
 		}
+
+		// echo $this->db->last_query();
+		// exit;
+
 		
 		return $result;
 	}
@@ -326,6 +330,9 @@ class Renewal_Model extends CC_Model
 
 	public function deleteid($id)
 	{ 
+		$url = FCPATH."assets/inv_pdf/".$id.".pdf";
+		unlink($url);
+			
 		$this->db->where('inv_id', $id);		
 		$result = $this->db->delete('invoice');
 
