@@ -381,6 +381,7 @@ $config['purchasecocdelivery'] 		= 	[
 
 
 $config['coctype'] 					= 	[
+											'0' => '',
 											'1' => 'Electronic',
 											'2' => 'Paper Based'
 										];
