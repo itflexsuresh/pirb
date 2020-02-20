@@ -26,7 +26,9 @@ class Index extends CC_Controller
 	{
 		
 		$post 			= $this->input->post();	
-		//print_r($post);die;
+		if ($post['pagestatus']=='2') {
+			$post['pagestatus'] = '0';
+		}
 		$totalcount 	= $this->Auditor_Model->getAuditorList('count', ['type' => '5', 'status' => [$post['pagestatus']]]+$post);
 		$results 		= $this->Auditor_Model->getAuditorList('all', ['type' => '5', 'status' => [$post['pagestatus']]]+$post);
 		//print_r($results);die;

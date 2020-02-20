@@ -168,7 +168,7 @@ class index extends CC_Controller
 					'comments' 				=> 	$result['comments'],
 					'points' 				=> 	$awardPts,
 					'attachment' 			=> 	'<div class="table-action">
-					<a href="'.base_url().'plumber/mycpd/index/getAttachment/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
+					<a href="'.base_url().'plumber/mycpd/index/getAttachment/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Download"><i class="fa fa-download"></i></a>
 					</div>',
 					'status' 				=> 	$statuz,
 					'action'				=> 	$action
@@ -207,7 +207,28 @@ class index extends CC_Controller
 	public function getAttachment($data){
 		
 		$query = $this->db->select('*')->from('cpd_activity_form')->where('id',$data)->get()->row_array();
-		echo "<pre>";
-		print_r($query);die;
+
+		if(preg_match('/^[^.][-a-z0-9_.]+[a-z]$/i', $query['file1'])){
+        $filepath = FCPATH.'assets/uploads/cpdqueue/'.$query['file1'];
+        if(file_exists($filepath)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="'.basename($filepath).'"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($filepath));
+            flush(); // Flush system output buffer
+            readfile($filepath);
+            die();
+        } else {
+            http_response_code(404);
+	        die();
+        }
+    } else {
+        die("Invalid file name!");
+    }
+
+		
 	}
 }

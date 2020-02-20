@@ -51,7 +51,7 @@ class Auditor_Model extends CC_Model
 	// Admin Auditor 
 
 	public function getAuditorList($type, $requestdata=[]){
-		//print_r($requestdata);die;
+		//print_r($requestdata['pagestatus']);die;
 		$users 			= 	[ 
 			'u.id','u.email','u.formstatus','u.status' ,'u.password_raw','u.type'
 		];
@@ -135,7 +135,7 @@ class Auditor_Model extends CC_Model
 		if(isset($data['password'])) 			$request1['password_raw'] 		= $data['password'];
 		if(isset($data['password'])) 			$request1['password'] 			= md5($data['password']);
 		if(isset($data['status'])) 				$request1['status'] 			= $data['status'];
-		$request1['status'] 					= isset($data['status']) ? $data['status'] : '2';
+		$request1['status'] 					= isset($data['status']) ? $data['status'] : '0';
 		
 		
 

@@ -1,4 +1,6 @@
 <?php
+// echo "<pre>";
+// print_r($result);die;
 
 // cron URL //auditit_new/pirb/plumber/mycpd/index/year_cron
 
@@ -9,6 +11,7 @@ $name_surname 			= isset($result['name_surname']) ? $result['name_surname'] : $u
 $cpd_activity 			= isset($result['cpd_activity']) ? $result['cpd_activity'] : '';
 $cpd_start_date 		= isset($result['cpd_start_date']) ? $result['cpd_start_date'] : '';
 $comments 				= isset($result['comments']) ? $result['comments'] : '';
+$admincomments 			= isset($result['admin_comments']) ? $result['admin_comments'] : '';
 $points 				= isset($result['points']) ? $result['points'] : '';
 $cpd_stream 			= isset($result['cpd_stream']) ? $result['cpd_stream'] : '';
 $status 				= isset($result['status']) ? $result['status'] : '';
@@ -59,21 +62,66 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 					<div class="row">
 						<div class="form-group col-md-6">
 							<label for="points">PIRB CPD Activity:</label>
-							<input type="search" class="form-control" id="activity" name="activity" placeholder = "Enter CPD Activity" autocomplete="off" onkeyup="search_activity(this.value);" value="<?php echo $cpd_activity; ?>">
+							<input type="search" class="form-control" id="activity" name="activity" placeholder = "Enter CPD Activity" <?php if ($status=='1' || $status=='2') {
+								echo "readonly";
+							} ?> autocomplete="off" onkeyup="search_activity(this.value);" value="<?php echo $cpd_activity; ?>">
 							<input type="hidden" id="activity_id_hide" name="activity_id_hide" value="<?php echo $cpd_activity; ?>">
 							<div id="activity_suggesstion" style="display: none;"></div>								
 						</div>					
 						<div class="form-group col-md-6">
 							<label for="enddate">The Date on which the Activity took place or started:</label>
-							<input type="text" autocomplete="off" class="form-control" id="startdate" name="startdate" placeholder="Enter Start Date *" value="<?php echo $cpd_start_date; ?>">						
+							<input type="text" <?php if ($status=='1' || $status=='2') {
+								echo "readonly";
+							} ?> autocomplete="off" class="form-control" id="startdate" name="startdate" placeholder="Enter Start Date *" value="<?php echo $cpd_start_date; ?>">						
 						</div>
 					</div>
 					<div class="row">
 						<div class="form-group col-md-6">
 							<label for="productcode">Comments</label>
-							<textarea class="form-control" id="comments" placeholder="Enter Comments" name="comments" ><?php echo $comments; ?></textarea>
+							<textarea class="form-control" <?php if ($status=='1' || $status=='2') {
+								echo "readonly";
+							} ?> id="comments" placeholder="Enter Comments" name="comments" ><?php echo $comments; ?></textarea>
 						</div>
+
+						<!-- PIRB OFFICE SECTION -->
+
+						<?php if ($status=='1' || $status=='2') { ?>
+							<div class="form-group col-md-6" id="add_bg">
+								<div class="row">
+									<label for="office1">PIRB Office Purpose</label>
+								</div>
+								<div class="form-group col-md-6">
+									<label for="office2">CPD Activity Approval Status:</label>
+									<div class="row">
+										<div class="col-md-6">											
+											<div class="custom-control custom-radio">
+												<input type="radio" id="aprooved" disabled name="status" value="1" <?php if ($status==1) {
+													echo 'checked="checked"';
+												} ?> class="custom-control-input" >
+												<label class="custom-control-label" for="aprooved">Approved</label>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="custom-control custom-radio">
+												<input type="radio" id="rejected" disabled name="status" value="2" <?php if ($status==2) {
+													echo 'checked="checked"';
+												} ?> class="custom-control-input" >
+												<label class="custom-control-label" for="rejected">Rejected</label>
+											</div>
+										</div>
+										</div>
+									</div>
+
+							<label for="office2">Admin Comments:</label>
+							<textarea class="form-control" <?php if ($status=='1' || $status=='2') {
+								echo "readonly";
+							} ?> id="admincomments" placeholder="Enter Comments" name="admincomments" ><?php echo $admincomments; ?></textarea>
+							</div>
+						<?php } ?>
+						<!-- PIRB OFFICE SECTION END -->	
+
 					</div>
+
 					<div class="row">
 						<div class="form-group col-md-6">
 							<h4 class="card-title">Supporting Document:</h4>
@@ -81,14 +129,20 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 									<div>
 										<img src="<?php echo $photoidimg; ?>" class="document_image" width="100">
 									</div>
+									<?php if ($status!='1' && $status!='2') { ?>
+
 									<input type="file" id="file" class="document_file">
 									<label for="file" class="choose_file">Choose File</label>
 									<input type="hidden" name="image1" class="document_picture" value="<?php echo $image; ?>">
 									<p>(Image/File Size Smaller than 5mb)</p>
+
+							<?php } ?>
+									
 								</div>
 						</div>
 						
 					</div>
+				<?php if ($status!='1' && $status!='2') { ?>
 					<div class="row">
 						<div class="form-group col-md-6">
 							<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
@@ -97,6 +151,7 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 							</div>
 						</div>
 					</div>
+				<?php } ?>
 
 					<div class="row">
 						<div class="form-group col-md-6">
@@ -116,10 +171,12 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 							<input type="hidden" id="hidden_regnumber" name="hidden_regnumber" value="<?php echo $reg_number; ?>">
 							
 						</div>
+					<?php if ($status!='1' && $status!='2') { ?>
 						<div class="row">
 						<button type="submit" id="addupdate" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?></button>
 						<button type="submit" id="addupdate1" name="submit" value="save" class="btn btn-primary">Save</button>
 					</div>
+				<?php } ?>
 					
 				</form>
 				<div class="row add_top_value">
@@ -152,17 +209,17 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 <script>
 	$(function(){
 		$('#addupdate').prop('disabled',true);
-		$('#addupdate1').prop('disabled',true);
+		//$('#addupdate1').prop('disabled',true);
 
 		var click_count = 0;
 		$('#declaration').on('click',function(){
 			click_count += 1;
 			if (click_count%2 == 1) {
 				$('#addupdate').prop('disabled', false);
-				$('#addupdate1').prop('disabled', false);
+				//$('#addupdate1').prop('disabled', false);
 			}else{
 				$('#addupdate').prop('disabled', true);
-				$('#addupdate1').prop('disabled', true);
+				//$('#addupdate1').prop('disabled', true);
 			}	
 		});
 
