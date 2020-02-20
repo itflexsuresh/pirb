@@ -1,4 +1,3 @@
-
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
 		<h4 class="text-themecolor">COC Allocation for Audit</h4>
@@ -61,7 +60,12 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Plumber Name and Surname</label>
-								<input type="text" class="form-control" name="plumber_search" value="">
+								<input type="search" autocomplete="off" class="form-control" name="user_search" id="user_search">
+								<div id="user_suggestion"></div>
+								<div class="search_icon">
+									<i class="fa fa-search" aria-hidden="true"></i>
+								</div>
+								<input type="hidden" id="user_id" name="user_id">
 							</div>
 						</div>
 					</div>
@@ -70,15 +74,15 @@
 							<div class="form-group">
 								<label>Province</label>
 								<?php
-								echo form_dropdown('province', [], '',['class'=>'form-control']);
+								echo form_dropdown('province', $province, '',['id' => 'province1', 'class' => 'form-control']);
 								?>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>City</label>
-								<?php
-								echo form_dropdown('city', [], '',['class'=>'form-control']);
+								<?php 
+									echo form_dropdown('city', [], '', ['id' => 'city1', 'class' => 'form-control']); 
 								?>
 							</div>
 						</div>
@@ -86,14 +90,8 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>Number COC for Allocation</label>
-								<input type="text" class="form-control" name="coc_number" value="">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
 								<label>Maximum of number of Audits allocated per plumber</label>
-								<input type="text" class="form-control" name="max_allocate_plumber" value="">
+								<input type="text" class="form-control" name="max_allocate_plumber" id="max_allocate_plumber" value="">
 							</div>
 						</div>
 					</div>
@@ -132,7 +130,8 @@
 				<table class="table table-bordered table-striped coc_datatable fullwidth">
 					<thead>
 						<tr>
-							<th>COC ID</th>
+							<th>COC Number</th>
+							<th>Installation Code(s) of COC</th>
 							<th>Suburb</th>
 							<th>City</th>
 							<th>Province</th>
@@ -147,12 +146,15 @@
 		
 <script>
 	$(function(){
-		datepicker('.dob');
+		datepicker('#start_date_range');
+		datepicker('#end_date_range');
 		datatable();
+		citysuburb(['#province1','#city1'], ['']);
 	});
 
 	$(document).on('click', '.cocmodal', function(){
 		user_id = $(this).attr('data-user-id');
+		$('#cocmodal').attr('user_id',user_id);
 		cocdisplay(1,user_id);
 	})	
 	
@@ -165,7 +167,8 @@
 			auditor_id = $(this).parents('div.allocate_section').find('.auditor_id').val();
 			if(auditor_id!=''){
 				coc_id = $(this).parents('tr').find('.coc_id').text();
-				ajax('<?php echo base_url()."admin/audits/cocallocate/index/auditor_allocate"; ?>', {'coc_id' : coc_id,'auditor_id' : auditor_id}, auditor_allocate);
+				user_id = $('#cocmodal').attr('user_id');
+				ajax('<?php echo base_url()."admin/audits/cocallocate/index/auditor_allocate"; ?>', {'coc_id' : coc_id,'auditor_id' : auditor_id,'user_id' : user_id}, auditor_allocate);
 			} else {
 				$(this).prop('checked', false);
 				alert('Please select Auditor');
@@ -185,10 +188,21 @@
 		user_search = $(this);
 		auditor_id = $(this).parent('div').find(".auditor_id");
 		user_suggestion = $(this).parent('div').find(".user_suggestion");
-		userautocomplete([user_search, auditor_id, user_suggestion], [$(this).val(),5], custom_user_select);
+		userautocomplete([user_search, auditor_id, user_suggestion], [$(this).val(),5], custom_auditor_select);
 	})
 
-	function custom_user_select() {
+	function custom_auditor_select() {
+		
+	}
+
+	$(document).on('keyup', '#user_search', function(){
+		user_search = $(this);
+		plumber_id = $(this).parent('div').find("#user_id");
+		user_suggestion = $(this).parent('div').find("#user_suggestion");
+		userautocomplete([user_search, plumber_id, user_suggestion], [$(this).val(),3], custom_plumber_select);
+	})
+
+	function custom_plumber_select() {
 		
 	}
 
@@ -196,7 +210,7 @@
 
 		var options = {
 			url 	: 	'<?php echo base_url()."admin/audits/cocallocate/index/DTAllocateAudit"; ?>',
-			data    :   { start_coc_range:$('#start_coc_range').val(), end_coc_range:$('#end_coc_range').val() },  			
+			data    :   { user_id:$('#user_id').val(), start_date_range:$('#start_date_range').val(), end_date_range:$('#end_date_range').val(), start_coc_range:$('#start_coc_range').val(), end_coc_range:$('#end_coc_range').val(), province:$('#province1').val(), city:$('#city1').val() },  		
 			destroy :   destroy,  			
 			columns : 	[
 							{ "data": "name" },
@@ -214,10 +228,15 @@
 	function cocdisplay(destroy=0,user_id=''){		
 		var options = {
 			url 	: 	'<?php echo base_url()."admin/audits/cocallocate/index/DTcoc"; ?>',		
-			data    :   { user_id : user_id }, 
-			destroy :   destroy,  			
+			data    :   { user_id : user_id, start_date_range:$('#start_date_range').val(), end_date_range:$('#end_date_range').val(), start_coc_range:$('#start_coc_range').val(), end_coc_range:$('#end_coc_range').val(), max_allocate_plumber:$('#max_allocate_plumber').val(),province:$('#province1').val(), city:$('#city1').val() }, 
+			destroy :   destroy,  		
+			lengthmenu: [50],	
+			search: 0,
+			target : [0,1,2,3,4,5],
+			sort : '0',
 			columns : 	[
 							{ "data": "coc_id" },
+							{ "data": "installationtype" },
 							{ "data": "suburb" },
 							{ "data": "city" },
 							{ "data": "province" },
