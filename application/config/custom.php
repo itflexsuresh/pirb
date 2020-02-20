@@ -385,6 +385,12 @@ $config['coctype'] 					= 	[
 											'1' => 'Electronic',
 											'2' => 'Paper Based'
 										];
+				
+$config['coctype2'] 				= 	[
+											'0' => '',
+											'1' => 'Electronic',
+											'2' => 'Paper Based'
+										];
 										
 $config['payment_status'] 			=	[
 											'0'	=>	'Not Paid',
@@ -437,7 +443,9 @@ $config['workmanship'] 			= 		[
 											'4' => 'Excellent'
 										];
 
-$config['yesno'] 				= 		[
-											'1' => 'Yes',
-											'2' => 'No'
+$config['reviewtype'] 			= 		[
+											'1' => 'Failure',
+											'2' => 'Cautionary',
+											'3' => 'Compliment',
+											'4' => 'No Audit Findings'
 										];										
