@@ -30,8 +30,9 @@ class Auditor_Reportlisting_Model extends CC_Model
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = strtolower((trim($requestdata['search']['value'])));
 			$this->db->like('t1.favour_name', $searchvalue);
-			$this->db->or_like('t2.name', $searchvalue);
-			$this->db->or_like('t3.name', $searchvalue);
+			// $this->db->or_like('t1.installationtype_id', $searchvalue);
+			// $this->db->or_like('t2.name', $searchvalue);
+			// $this->db->or_like('t3.name', $searchvalue);
 			
 			
 		}
@@ -54,7 +55,7 @@ class Auditor_Reportlisting_Model extends CC_Model
 	
 	public function action($data)
 	{ 
-		
+
 		$this->db->trans_begin();
 		
 		$userid			= 	$this->getUserID();
