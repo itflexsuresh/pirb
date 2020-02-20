@@ -380,8 +380,7 @@ $config['purchasecocdelivery'] 		= 	[
 										];					
 
 
-$config['coctype'] 					= 	[
-											'0' => '',
+$config['coctype'] 					= 	[											
 											'1' => 'Electronic',
 											'2' => 'Paper Based'
 										];
