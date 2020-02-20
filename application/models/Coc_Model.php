@@ -16,6 +16,8 @@ class Coc_Model extends CC_Model
 			u.type as u_type,
 			concat(ud.name, " ", ud.surname) as u_name, 
 			ud.mobile_phone as u_mobile,
+			ud.work_phone as u_work,
+			ud.file2 as u_file,
 			ud.status as u_status,
 			'.implode(',', $coclog).',
 			cd1.company as plumbercompany,
