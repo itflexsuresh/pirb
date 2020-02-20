@@ -152,7 +152,7 @@ class Index extends CC_Controller
 			else{
 
 			$designation = $data['designation'];
-			$renewal_date = $data['renewal_date'];
+			$renewal_date = $data['expirydate'];
 			$renewal_date = date_create($renewal_date);
 			$renewal_date =	date_format($renewal_date,"d/m/Y");
 
