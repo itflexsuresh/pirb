@@ -41,7 +41,9 @@ function ajaxdatatables(selector, options={}){
 								
 							},
 		'columns'		: 	options.columns,
-		'columnDefs'	: 	columndefs
+		'columnDefs'	: 	columndefs,
+		'searching'		: 	(options.search && options.search=='0') ? false : true,
+		'lengthMenu'	: 	(options.lengthmenu && options.lengthmenu.length > 0) ? options.lengthmenu : [10, 25, 50, 100]
 	});
 }
 

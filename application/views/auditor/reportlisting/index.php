@@ -1,15 +1,23 @@
 <?php
-if(isset($result) && $result){
-	$id 			= $result['id'];
-	$name 			= (set_value('name')) ? set_value('name') : $result['name'];
-	$status 		= (set_value('status')) ? set_value('status') : $result['status'];
-	
-	$heading		= 'Update';
-}else{
-	$id 			= '';
-	$name			= set_value('name');
-	$status			= set_value('status');
+if(isset($result) && $result)
+	{	
 
+	$id 			= $result['id'];	 	
+	$installation 	= isset($result['installationtype_id']) ? $result['installationtype_id'] : set_value ('installation');
+	$subtype 		= isset($result['subtype_id']) ? $result['subtype_id'] : set_value ('subtype');	
+	$statement 		= isset($result['statement_id']) ? $result['statement_id'] : set_value ('statement');
+	$comment 		= isset($result['comments']) ? $result['comments'] : set_value ('comment');	
+	$status 		= isset($result['status']) ? $result['status'] : set_value ('status');	
+	$heading		= 'Update';
+}
+else
+{
+	$id 			= '';	
+	$installation 	= set_value('installation');	
+	$subtype 		= set_value('subtype');	
+	$statement 		= set_value('statement');
+	$comment 		= set_value('comment');
+	$status 		= set_value('status');
 	$heading		= 'Add';
 }
 ?>
@@ -31,53 +39,58 @@ if(isset($result) && $result){
 <div class="row">
 	<div class="col-12">
 		<div class="card">
-			<div class="card-body">				
-				<form class="form" action="" method="post">
-
-					<h4 class="card-title">My Report Listings</h4>
-					
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="name">Installation Type *</label>
-							<!-- <?php
-							echo form_dropdown('address[1][installationtype]', $installationtype, '',['class'=>'form-control']);
-							?> -->
-							<input type="text" class="form-control"  name="insta_type">
+			<div class="card-body">
+				<h4 class="card-title">My Report Listings</h4>
+				<form class="mt-4 form" action="" method="post">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group"> 
+								<label>Installation Type</label>
+								<?php echo form_dropdown('installation', $installationtypelist, $installation, ['id' => 'repo_installation', 'class' => 'form-control']); ?>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Sub Type</label>
+								<?php echo form_dropdown('subtype', [], $subtype, ['id' => 'repo_subtype', 'class' => 'form-control']); ?>
+							</div>
 						</div>
 					</div>
+					<div class="row">
 						<div class="col-md-6">
-							<div class="form-group">
-								<label>Sub Type *</label>
-								<input type="text" class="form-control"  name="subtype">
+							<div class="form-group"> 
+								<label for="name">Statement</label>
+								<?php echo form_dropdown('statement', [], $statement, ['id' => 'repo_statement', 'class' => 'form-control']); ?>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>Statement *</label>
-								<input type="text" class="form-control"  name="statement">
+								<label for="name">Comments</label>
+								<textarea class="form-control" id="comment" name="comment" placeholder="Comments"><?php echo $comment; ?></textarea>						
 							</div>
 						</div>
+					</div>
+
+					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>Comments *</label>
-								<textarea class="form-control" rows="2" cols="10" name="comments"> </textarea>
+								<label for="name">My Report Listings/Favourates Name</label>
+								<textarea class="form-control" id="favour_name" name="favour_name" placeholder="Favourates Name"><?php echo $comment; ?></textarea>						
 							</div>
 						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>My Report Listings/Favourates Name *</label>
-								<textarea class="form-control" rows="2" cols="10" name="reportlist"> </textarea>
-							</div>
 						</div>
+						
+					</div>
+
 					<div class="row">
 						<div class="col-md-6">
 							<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
-								<input type="checkbox" class="custom-control-input" name="status" id="status" <?php if($status=='1') echo 'checked'; ?> value="1">
+								<input type="checkbox" class="custom-control-input" <?php echo ($status=='1') ? 'checked="checked"' : ''; ?> value="1" name="status" id="status">
 								<label class="custom-control-label" for="status">Active</label>
 							</div>
 						</div>
 						<div class="col-md-6 text-right">
-							<input type="hidden" name="id" value="<?php echo $id; ?>">
+							<input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
 							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?></button>
 						</div>
 					</div>
@@ -105,14 +118,19 @@ if(isset($result) && $result){
 <script>
 	$(function(){
 		
+		//subtype(['#repo_installation','#repo_subtype', 'repo_statement'], ['']);
+		subtypereportinglist(['#repo_installation','#repo_subtype','#repo_statement'], ['', '']);
+
 		var options = {
-			url 	: 	'<?php echo base_url()."auditor/reportlisting/index/DTReportlist"; ?>',
-			columns : 	[
-			{ "data": "reportlist" },
-			{ "data": "installationtype" },
-			{ "data": "subtype" },
+			url 	: 	'<?php echo base_url()."auditor/reportlisting/index/DTReportListing"; ?>',
+			columns : 	[	
+
+			{ "data": "favour_name" },
+			{ "data": "installation_id" },
+			{ "data": "subtype_id" },
 			{ "data": "comments" },
-			{ "data": "status" }
+			{ "data": "status" },			
+			{ "data": "action" }
 			]
 		};
 		
@@ -121,47 +139,48 @@ if(isset($result) && $result){
 		validation(
 			'.form',
 			{
-				installationtype : {
-					required	: true,
-				}
+				installation : {
+					required	: true,				
+				},				
 				subtype : {
-					required	: true,
-				}
-				statement : {
-					required	: true,
-				}
-				comments : {
-					required	: true,
-				}
-				reportlist : {
-					required	: true,
+					required: true,	
+				},				
+				// statement: {
+				// 	required: true,
+				// },
+				comment : {
+					required : true,
+				},
+				favour_name : {
+					required : true,
 				}
 			},
 			{
-				installationtype 	: {
-					required	: "Please select installation type."
+				installation 	: {
+					required	: "Please choose the installationtype."					
+				},				
+				subtype : {
+					required: "Please choose the subtype"
+				},
+				
+				// statement : {
+				// 	required : "Please choose the statement"
+				// },
+				comment : {
+					required : "Please enter the comments"
+				},
+				favour_name : {
+					required : "Please enter the name"
 				}
-				subtype 	: {
-					required	: "Please select subtype."
-				}
-				statement 	: {
-					required	: "Please select statement."
-				}
-				comments 	: {
-					required	: "Please enter the comment."
-				}
-				reportlist 	: {
-					required	: "Please enter the reportlist."
-				}
-			}
+
+			},[],'1'
 			);
-		
 	});
 	
 	// Delete
 	
 	$(document).on('click', '.delete', function(){
-		var action 	= 	'<?php echo base_url().'auditor/reportlist/index'; ?>';
+		var action 	= 	'<?php echo base_url().'auditor/reportlisting/index'; ?>';
 		var data	= 	'\
 		<input type="hidden" value="'+$(this).attr('data-id')+'" name="id">\
 		<input type="hidden" value="2" name="status">\
