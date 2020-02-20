@@ -404,5 +404,31 @@ class Coc_Ordermodel extends CC_Model
 		
 		return $result_new;
 	}
+
+	public function autosearchAuditor($postData){
+		
+		$this->db->select('concat(ud.name, " ", ud.surname) as name,u.id, t3.status availability_status, ud.status, u.type');
+		$this->db->from('users_detail ud');
+		$this->db->join('users u', 'u.id=ud.user_id','inner');
+		$this->db->join('auditor_availability t3', 't3.user_id=ud.user_id','left');
+		$this->db->where(['ud.status' => '1']);
+		$this->db->where(['u.type' => '5']);
+		// $this->db->where('name!=""');
+		$this->db->like('ud.name',$postData['search_keyword']);
+		$this->db->or_like('ud.surname',$postData['search_keyword']);
+		// $this->db->where('t3.status','1');
+		$this->db->group_by("ud.id");
+		
+		$query = $this->db->get();
+		$result = $query->result_array();
+
+		$result_new = [];
+		foreach ($result as $key => $value) {
+			if($value['name']!='' && $value['status']==1 && $value['availability_status']==1 && $value['type']==5){
+				$result_new[] = $value;
+			}
+		}
+		return $result_new;
+	}
 	
 }

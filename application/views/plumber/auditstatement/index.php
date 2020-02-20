@@ -44,7 +44,7 @@
 		
 		var options = {
 			url 	: 	'<?php echo base_url()."plumber/auditstatement/index/DTAuditStatement"; ?>',
-			data 	: 	{ page : 'auditstatement' },
+			data 	: 	{ page : 'plumberauditorstatement' },
 			columns : 	[
 							{ "data": "cocno" },
 							{ "data": "status" },
@@ -54,7 +54,7 @@
 							{ "data": "auditor" },
 							{ "data": "action" }
 						],
-			target	:	['1', '6'],
+			target	:	[6],
 			sort	:	'0'
 		};
 		
