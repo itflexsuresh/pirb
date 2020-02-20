@@ -407,22 +407,22 @@ class Coc_Ordermodel extends CC_Model
 
 	public function autosearchAuditor($postData){
 		
-		$this->db->select('concat(ud.name, " ", ud.surname) as name,u.id, t3.status as availability_status, t3.allocation_allowed, ud.status, u.type, COUNT(t4.id) AS logged_count');
+		$this->db->select('concat(ud.name, " ", ud.surname) as name,u.id, t3.status as availability_status, t3.allocation_allowed, u.status, u.type, COUNT(t4.id) AS logged_count');
 		$this->db->from('users_detail ud');
 		$this->db->join('users u', 'u.id=ud.user_id','inner');
 		$this->db->join('auditor_availability t3', 't3.user_id=ud.user_id','left');
 		$this->db->join('stock_management t4', 't4.auditorid=ud.user_id','left');
-		$this->db->where(['ud.status' => '1']);
-		$this->db->where(['u.type' => '5']);
-		$this->db->where(['t3.status' => '1']);
+		$this->db->where(['u.status' => '1','u.type' => '5','t3.status' => '1']);
 		// $this->db->where('name!=""');
-		$this->db->like('ud.name',$postData['search_keyword']);
-		$this->db->or_like('ud.surname',$postData['search_keyword']);
+		$this->db->or_like(array('ud.name' => $postData['search_keyword'], 'ud.surname' => $postData['search_keyword']));
+		// $this->db->like('ud.name',$postData['search_keyword']);
+		// $this->db->or_like('ud.surname',$postData['search_keyword']);
 		// $this->db->where('t3.status','1');
 		$this->db->group_by("ud.id");
 		
 		$query = $this->db->get();
 		$result = $query->result_array();
+		
 
 		$result_new = [];
 		foreach ($result as $key => $value) {
