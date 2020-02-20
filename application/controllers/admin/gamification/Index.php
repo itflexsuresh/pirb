@@ -24,6 +24,8 @@ class Index extends CC_Controller
 				redirect('admin/gamification/index'); 
 			}
 		}
+
+		
 		
 		
 		
@@ -35,40 +37,31 @@ class Index extends CC_Controller
 		$this->layout2($data);
 	}
 	
-	public function edit()
-	{
+	
+	
 
-		$notify_id = $this->uri->segment(5, 0);
-		$query = $this->db->query("SELECT * FROM company_points where id = $id");	    
-		$edit = $query->row_array();
+public function editpoint($id = ''){
 
+	if($this->input->post())
+	{	
 
-		$userid = $this->getUserID();
+		$post = $this->input->post();
 
-		
-		if($this->input->post())
+		if(isset($post['id']) && $post['id']!='')
 		{
-			$requestData 		= 	$this->input->post();
-					
-			$requestData['id']	=	$id;		
-			$data 				=  	$this->Gamecompany_Model->action($requestData);
 
+			$data 	=  $this->Gamecompany_Model->action($post);
 
-			if(isset($data)) $this->session->set_flashdata('success', 'Company Points '.(($id=='') ? 'created' : 'updated').' successfully.');
+			if($data) $this->session->set_flashdata('success', 'Company Points '.(($id=='') ? 'created' : 'updated').' successfully.');
 			else $this->session->set_flashdata('error', 'Try Later.');
-			
-			redirect('admin/gamification/index'); 
+
 		}
-
-		$pagedata['result'] 		= $edit;
-		$pagedata['notification'] 	= $this->getNotification();
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker','tinymce'];
-		$data['content'] 			= $this->load->view('admin/gamification/index', (isset($pagedata) ? $pagedata : ''), true);
-		$this->layout2($data);
-
-
+		 
 	}
-	public function edit_check()
+
+}
+
+public function edit_check()
 	{
 		$post = $this->input->post();
 		$id = $post['id'];
@@ -81,29 +74,7 @@ class Index extends CC_Controller
 			$edit = $query->row_array();
 		}
 		echo json_encode($edit);
-
-		// if($this->input->post())
-		// {
-		// 	$requestData 		= 	$this->input->post();
-					
-		// 	$requestData['id']	=	$id;		
-		// 	$data 				=  	$this->Gamecompany_Model->action($requestData);
-
-
-		// 	if(isset($data)) $this->session->set_flashdata('success', 'Company Points '.(($id=='') ? 'created' : 'updated').' successfully.');
-		// 	else $this->session->set_flashdata('error', 'Try Later.');
-			
-		// 	redirect('admin/gamification/index'); 
-		// }
-
-		//$pagedata['result'] 		= $edit;
-		// $pagedata['notification'] 	= $this->getNotification();
-		// $data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker','tinymce'];
-		// $data['content'] 			= $this->load->view('admin/gamification/index', (isset($pagedata) ? $pagedata : ''), true);
-		// $this->layout2($data);
-
-
-
 }
 
 }
+

@@ -17,7 +17,7 @@ if(isset($result) && $result){
 	$employeed 		= (set_value('employeed')) ? set_value('employeed') :  $result[13]['value'];;
 	$every_day_award= (set_value('every_day_award')) ? set_value('every_day_award') :  $result[14]['value'];;
 
-	$heading		= 'Update';
+	$heading		= 'Save/Update';
 }
 else{
 	$id 			= '';
@@ -59,76 +59,79 @@ else{
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">Global Settings</h4>
-				<form class="mt-4 form" action="" method="post">
-                <div class="form-group col-10">
-                      <label class="points ">Award points only if 
-                        <input type="text"  id="points" name="award_point" size="2" value="<?php echo $result[0]['value'];?>"  >
-                      nomination likes are received per post</label>
-				</div>
-                <div class="form-group ">
-                	<div class="col-10">
-                        <label class="points">Top
-                        <input type="text"  id="points" name="top" size="2"  value="<?php echo $result[1]['value'];?>" >
-                        nomination likes for the day.  award
-                      	<input type="text"  id="points" name="award" size="2"  value="<?php echo $result[2]['value'];?>">
-                        bonus points
-                    </div>
-                    <div class="col-10">
-                       	<label>
-                        <input type="text"  id="points" name="bonus_points" size="2" value="<?php echo $result[3]['value'];?>">
-                        performance points,award
-                        <input type="text"  id="points" name="award1" size="2" value="<?php echo $result[4]['value'];?>">
-                        bonus points
-                    </div>
-				</div>
+			
+				<form class="form" method="post">
+					<h4 class="card-title">Global Settings</h4>
+					<div class="row">
+						<div class="col-md-12 ">
+							<div class="form-group">
+								<label>Award points only if</label>
+									<input type="number" min="0" id="points" name="award_point" size="2" value="<?php echo $result[0]['value'];?>"   style="margin: 0px 20px;width: 8%;">
+									<label> nomination likes are received per post</label>						
+							</div>
+							<div class="form-group">
+								<label>Top</label>
+									<input type="number" min="0" id="points" name="top" size="2"  value="<?php echo $result[1]['value'];?>" style="margin: 0px 20px;width: 8%;">
+									<label> nomination likes for the day,&nbsp award</label>
+									<input type="number" min="0" id="points" name="award" size="2"  value="<?php echo $result[2]['value'];?>" style="margin: 0px 20px;width: 8%;">
+								<label>bonus points</label>						
+							</div>
+							<div class="form-group">
+									<input type="number" min="0" id="points" name="bonus_points" size="2"  value="<?php echo $result[3]['value'];?>" style="margin: 0px 20px;width: 8%;">
+									<label> performance points,&nbsp award</label>
+									<input type="number" min="0" id="points" name="award1" size="2"  value="<?php echo $result[4]['value'];?>" style="margin: 0px 20px;width: 8%;">
+								<label>bonus points</label>						
+							</div>
+							<div class="form-group">
+								<label>Top</label>
+									<input type="number" min="0" id="points" name="top1" size="2"  value="<?php echo $result[5]['value'];?>" style="margin: 0px 20px;width: 8%;">
+									<label> plumbers overall,&nbsp for past 30days,&nbsp award</label>
+									<input type="number" min="0" id="points" name="award2" size="2"  value="<?php echo $result[6]['value'];?>" style="margin: 0px 20px;width: 8%;">
+								<label>bonus points</label>						
+							</div>
+							<div class="form-group">
+								<label>Most COC issued per month award</label>
+									<input type="number" min="0" id="points" name="month_award" size="2"  value="<?php echo $result[7]['value'];?>" style="margin: 0px 20px;width: 8%;">
+									<label>points</label>						
+							</div>
+                            <div class="form-group">
+								<label>If</label>
+									<input type="number" min="0" id="points" name="it_1" size="2"  value="<?php echo $result[8]['value'];?>" style="margin: 0px 20px;width: 8%;">
+									<label> CPD aquired per month award</label>
+									<input type="number" min="0" id="points" name="cpd_aquired" size="2"  value="<?php echo $result[9]['value'];?>" style="margin: 0px 20px;width: 8%;">
+								<label>points</label>						
+							</div>
+							 <div class="form-group">
+								<label>If</label>
+									<input type="number" min="0" id="points" name="it_2" size="2"  value="<?php echo $result[10]['value'];?>" style="margin: 0px 20px;width: 8%;">
+									<label> SARS Certificate</label>
+									<input type="number" min="0" id="points" name="cpd_aquired1" size="2"  value="<?php echo $result[11]['value'];?>" style="margin: 0px 20px;width: 8%;">
+								<label>points</label>						
+							</div>
+							<div class="form-group">
+								<label>Bonus points per the </label>
+									<input type="number" min="0" id="points" name="bonus" size="2"  value="<?php echo $result[12]['value'];?>" style="margin: 0px 20px;width: 8%;">
+									<label>  of licenced/master plumbers employed</label>
+									<input type="number" min="0" id="points" name="employeed" size="2"  value="<?php echo $result[13]['value'];?>" style="margin: 0px 20px;width: 8%;">
+								<label>points</label>
+							</div>
+							<div class="form-group">
+								<label> Openinig your account every day,&nbsp award</label>	
 
-				<div class="form-group col-10">
-					<label class="points">Top
-                        <input type="text"  id="points" name="top1" size="2" value="<?php echo $result[5]['value'];?>" >
-                        plumbers overall,for past 30days,award
-                        <input type="text"  id="points" name="award2" size="2" value="<?php echo $result[6]['value'];?>">points
-                </div>
-                <div class="form-group col-10">
-                    	<label>
-                        Most COC issued per month award
-                        <input type="text"  id="points" name="month_award"  size="2" value="<?php echo $result[7]['value'];?>" >points
-                    
-				</div>
+								<input type="number"  min="0" id="points" name="every_day_award" size="2" value="<?php echo $result[14]['value'];?>" style="margin: 0px 20px;width: 8%;">		
+								<label>points</label>			
+							</div>
 
-					
-				<div class="form-group col-10">
-					<label class="points">if
-                        <input type="text"  id="points" name="it_1" size="2" value="<?php echo $result[8]['value'];?>">
-                        CPD aquired per month award
-                        <input type="text"  id="points" name="cpd_aquired" size="2" value="<?php echo $result[9]['value'];?>">points
-                    </label>
-                </div>
-                <div class="form-group col-10">
-                    <label class="points">if
-                        <input type="text"  id="points" name="it_2" size="2" value="<?php echo $result[10]['value'];?>">
-                        CPD aquired per month award
-                        <input type="text"  id="points" name="cpd_aquired1" size="2" value="<?php echo $result[11]['value'];?>">points
-                    </label>
-				</div>
 
-				<div class="form-group col-10">
-					<label class="points">Bonus points per the 
-                        <input type="text"  id="points" name="bonus" size="2" value="<?php echo $result[12]['value'];?>">
-                       of licenced/master/Director plumbers employed
-                        <input type="text"  id="points" name="employeed" size="2" value="<?php echo $result[13]['value'];?>" >points
-                    <label class="points">openinig your account every day,award
-                        <input type="text"  id="points" name="every_day_award" size="2" value="<?php echo $result[14]['value'];?>">
-                       points
-				</div>
-
-				<div class="col-md-11 text-right">
-					<input type="hidden" name="id" value="<?php echo $id; ?>">
-						<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?>
-						</button>
+						</div>
+					<div class="col-md-11 text-right">
+				       <input type="hidden" name="id" value="<?php echo $id; ?>">
+					   <button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?>
+					   </button>
+				    </div>
+						
 					</div>
-					</div>
-				</form>
+				</form>			
 			</div>
 		</div>
 	</div>

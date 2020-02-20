@@ -4,35 +4,103 @@ class Coc_Model extends CC_Model
 {
 	public function getCOCList($type, $requestdata=[])
 	{ 
+		$coclog 		= 	[ 
+								'cl.id cl_id','cl.log_date cl_log_date','cl.completion_date cl_completion_date','cl.order_no cl_order_no','cl.name cl_name','cl.address cl_address','cl.street cl_street','cl.number cl_number',
+								'cl.province cl_province','cl.city cl_city','cl.suburb cl_suburb','cl.contact_no cl_contact_no','cl.alternate_no cl_alternate_no','cl.email cl_email','cl.installationtype cl_installationtype',
+								'cl.specialisations cl_specialisations','cl.installation_detail cl_installation_detail','cl.file1 cl_file1','cl.file2 cl_file2','cl.agreement cl_agreement','cl.status cl_status'
+							];
+							
 		$this->db->select('
 			sm.*, 
-			concat(ud.name, " ", ud.surname) as name, 
-			u.type as usertype,
-			ua.address,
-			concat(pd.name, " ", pd.surname) as company,
-			cl.name as customer_name,
-			cl.address as customer_address
+			u.id as u_id,
+			u.type as u_type,
+			concat(ud.name, " ", ud.surname) as u_name, 
+			ud.status as u_status,
+			'.implode(',', $coclog).',
+			cd1.company as plumbercompany,
+			up.registration_no as plumberregno, 
+			pa.createddate as resellercreateddate,
+			cd2.company as resellercompany
 		');
 		$this->db->from('stock_management sm');
-		$this->db->join('users_address ua', 'ua.user_id=sm.user_id and ua.type="3"', 'left');
+		$this->db->join('users_plumber up', 'up.user_id=sm.user_id', 'left');
 		$this->db->join('users_detail ud', 'ud.user_id=sm.user_id', 'left');
 		$this->db->join('users u', 'u.id=sm.user_id', 'left');
-		$this->db->join('users_plumber p', 'p.user_id=sm.user_id', 'left');
-		$this->db->join('users_detail pd', 'pd.user_id=p.company_details', 'left');
 		$this->db->join('coc_log cl', 'cl.coc_id=sm.id', 'left');
+		$this->db->join('users_detail cd1', 'cd1.user_id=cl.company_details', 'left');
+		$this->db->join('plumberallocate pa', 'pa.stockid=sm.id', 'left');
+		$this->db->join('users_detail cd2', 'cd2.user_id=pa.company_details', 'left');
 		
-		if(isset($requestdata['auditstatus']) && count($requestdata['auditstatus']) > 0)	$this->db->where_in('sm.audit_status', $requestdata['auditstatus']);
-		if(isset($requestdata['coctype']) && count($requestdata['coctype']) > 0)			$this->db->where_in('sm.type', $requestdata['coctype']);
+		if((isset($requestdata['search']['value']) && $requestdata['search']['value']!='') || (isset($requestdata['order']['0']['column']) && $requestdata['order']['0']['column']!='' && isset($requestdata['order']['0']['dir']) && $requestdata['order']['0']['dir']!='')){
+			$this->db->join('custom c1', 'c1.c_id=sm.coc_status', 'left');
+			$this->db->join('custom c2', 'c2.c_id=sm.audit_status', 'left');
+			$this->db->join('custom c3', 'c3.c_id=sm.type', 'left');
+			
+			if(isset($requestdata['page']) && $requestdata['page']=='admincocdetails'){
+				$this->db->join('users_detail ud1', 'ud1.user_id=sm.user_id', 'left');
+				$this->db->join('users u1', 'u1.id=ud1.user_id and u1.type="3"', 'left');
+				$this->db->join('users_detail ud2', 'ud2.user_id=sm.user_id', 'left');
+				$this->db->join('users u2', 'u2.id=ud2.user_id and u2.type="5"', 'left');
+				$this->db->join('users_detail ud3', 'ud3.user_id=sm.user_id', 'left');
+				$this->db->join('users u3', 'u3.id=ud3.user_id and u3.type="6"', 'left');
+			}
+		}
+		
 		if(isset($requestdata['startrange']) && $requestdata['startrange']!='')				$this->db->where('sm.id >=', $requestdata['startrange']);
 		if(isset($requestdata['endrange']) && $requestdata['endrange']!='')					$this->db->where('sm.id <=', $requestdata['endrange']);
-		if(isset($requestdata['startdate']) && $requestdata['startdate']!='')				$this->db->where('sm.allocation_date >=', date('Y-m-d', strtotime($requestdata['startdate'])));
-		if(isset($requestdata['enddate']) && $requestdata['enddate']!='')					$this->db->where('sm.allocation_date <=', date('Y-m-d', strtotime($requestdata['enddate'])));
-		if(isset($requestdata['province']) && $requestdata['province']!='')					$this->db->where('ua.province', $requestdata['province']);
-		if(isset($requestdata['city']) && $requestdata['city']!='')							$this->db->where('ua.city', $requestdata['city']);
-		
 		if(isset($requestdata['coc_status']) && count($requestdata['coc_status']) > 0)		$this->db->where_in('sm.coc_status', $requestdata['coc_status']);
+		if(isset($requestdata['auditstatus']) && count($requestdata['auditstatus']) > 0)	$this->db->where_in('sm.audit_status', $requestdata['auditstatus']);
+		if(isset($requestdata['coctype']) && count($requestdata['coctype']) > 0)			$this->db->where_in('sm.type', $requestdata['coctype']);
+		if(isset($requestdata['startdate']) && $requestdata['startdate']!='')				$this->db->where('sm.purchased_at >=', date('Y-m-d', strtotime($requestdata['startdate'])));
+		if(isset($requestdata['enddate']) && $requestdata['enddate']!='')					$this->db->where('sm.purchased_at <=', date('Y-m-d', strtotime($requestdata['enddate'])));
+		if(isset($requestdata['province']) && $requestdata['province']!='')					$this->db->where('cl.province', $requestdata['province']);
+		if(isset($requestdata['city']) && $requestdata['city']!='')							$this->db->where('cl.city', $requestdata['city']);
+		
 		if(isset($requestdata['user_id']) && $requestdata['user_id']!='')					$this->db->where('sm.user_id', $requestdata['user_id']);
+		if(isset($requestdata['id']) && $requestdata['id']!='')								$this->db->where('sm.id', $requestdata['id']);
+		
+		
+		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
+			$searchvalue = $requestdata['search']['value'];
+			
+			if(isset($requestdata['page'])){
+				$page = $requestdata['page'];
+				$this->db->group_start();
+					if($page=='plumbercocstatement'){					
+						$this->db->like('sm.id', $searchvalue, 'both');
+						$this->db->or_like('c1.name', $searchvalue, 'both');
+						$this->db->or_like('DATE_FORMAT(sm.purchased_at,"%d-%m-%Y")', $searchvalue, 'both');
+						$this->db->or_like('c3.name', $searchvalue, 'both');
+						$this->db->or_like('cl.name', $searchvalue, 'both');
+						$this->db->or_like('cl.address', $searchvalue, 'both');
+						$this->db->or_like('cd1.company', $searchvalue, 'both');					
+					}elseif($page=='admincocdetails'){
+						$this->db->like('sm.id', $searchvalue, 'both');
+						$this->db->or_like('c3.name', $searchvalue, 'both');
+						$this->db->or_like('c1.name', $searchvalue, 'both');
+						$this->db->or_like('concat(ud1.name, " ", ud1.surname)', $searchvalue, 'both');
+						$this->db->or_like('concat(ud2.name, " ", ud2.surname)', $searchvalue, 'both');
+						$this->db->or_like('concat(ud3.name, " ", ud3.surname)', $searchvalue, 'both');							
+					}
+				$this->db->group_end();
+			}
+		}
+		if(isset($requestdata['order']['0']['column']) && $requestdata['order']['0']['column']!='' && isset($requestdata['order']['0']['dir']) && $requestdata['order']['0']['dir']!=''){
+			if(isset($requestdata['page'])){
+				$page = $requestdata['page'];				
+				if($page=='plumbercocstatement'){
+					$column = ['sm.id', 'c1.name', 'sm.purchased_at', 'c3.name', 'cl.name', 'cl.address', 'cd1.company'];
+				}elseif($page=='admincocdetails'){
+					$column = ['sm.id', 'c3.name', 'c1.name', 'ud1.name', 'ud2.name', 'ud3.name'];
+				}
 				
+				$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+			}
+		}
+		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
+			$this->db->limit($requestdata['length'], $requestdata['start']);
+		}
+		
 		$this->db->group_by('sm.id');
 		
 		if($type=='count'){
@@ -44,24 +112,9 @@ class Coc_Model extends CC_Model
 			elseif($type=='row') 	$result = $query->row_array();
 		}
 		
-		return $result;
+		return $result;		
 	}
 	
-	/*
-	public function getCOCList($type, $requestdata){
-		$result = $this->db
-		->select('*')
-		->from('stock_management')
-		->where($requestdata);
-		if ($type=='count') {
-			$result = $this->db->count_all_results();
-		}
-		else{
-			$result = $query = $this->db->result_array();
-		}
-		return $result;
-	}
-	*/
 	public function COCcount($requestdata=[]){
 		$query = $this->db->select('*')->from('coc_count')->where('user_id', $requestdata['user_id'])->get()->row_array();
 		//print_r($query);die;
@@ -71,7 +124,7 @@ class Coc_Model extends CC_Model
 	public function getListPDF($type, $requestdata=[]){
 		//print_r($requestdata);die;
 		        $query=$this->db->select('t1.*,t1.status,t1.created_at,
-        	t2.inv_id, t2.total_due, t2.quantity, t2.cost_value,t2.vat, t2.delivery_cost, t2.total_due, t3.reg_no, t3.id, t3.name name, t3.surname surname, t3.company_name company_name, t3.vat_no vat_no, t3.email2, t3.home_phone, t4.address, t4.suburb, t4.city,t4.province, t5.id, t5.name,t6.id, t6.province_id, t6.name,t7.id, t7.province_id, t7.city_id, t7.name,t8.registration_no ');
+        	t2.inv_id, t2.total_due, t2.quantity, t2.cost_value,t2.vat, t2.delivery_cost, t2.total_due, t3.reg_no, t3.id, t3.name username, t3.surname surname, t3.company_name company_name, t3.vat_no vat_no, t3.email2, t3.home_phone, t4.address, t4.suburb, t4.city,t4.province, t5.id, t5.name,t6.id, t6.province_id, t6.name,t7.id, t7.province_id, t7.city_id, t7.name,t8.registration_no ');
 		        $this->db->select('
 			group_concat(concat_ws("@@@", t4.id, t4.suburb, t4.city,t4.province, t5.name, t6.name, t7.name) separator "@-@") as areas'
 		);
@@ -212,86 +265,6 @@ class Coc_Model extends CC_Model
 
 	}
 	
-	// public function action($data)
-	// {	
-	// 	$this->db->trans_begin();
-
-	// 	$userid			= 	$this->getUserID();
-	// 	$datetime		= 	date('Y-m-d H:i:s');
-
-
-
-	// 	if(isset($data['name'])) 	         $request['name'] 	    =    $data['name'];
-	// 	if(isset($data['surname'])) 	     $request['surname'] 	=    $data['surname'];
-	// 	// if(isset($data['idnumber'])) 	     $request[''] 			= 	 $data['idnumber'];
-	// 	if(isset($data['auditor_picture']))  $request['file1'] 		= 	 $data['auditor_picture'];
-	// 	if(isset($data['email'])) 			 $request['email']		= 	 $data['email'];		
-	// 	if(isset($data['phonework'])) 		 $request['work_phone'] = 	 $data['phonework'];
-	// 	if(isset($data['phonemobile'])) 	$request['mobile_phone']=    $data['phonemobile'];
-	// 	if(isset($data['billingname'])) 	$request['company_name']=    $data['billingname'];
-	// 	if(isset($data['regnumber'])) 		$request['reg_no'] 		= 	 $data['regnumber'];
-	// 	if(isset($data['vat'])) 		    $request['vat_no'] 	    = 	 $data['vat'];
-	// 	if(isset($data['comp_photo'])) 		$request['file2'] 		= 	 $data['comp_photo'];
-
-
-	// 	if(isset($data['billingaddress'])) 	$request1['address'] 	= 	 $data['billingaddress'];
-	// 	if(isset($data['province'])) 		$request1['province'] 	= 	 $data['province'];
-	// 	if(isset($data['city'])) 			$request1['city'] 		= 	 $data['city'];
-	// 	if(isset($data['suburb'])) 	 		$request1['suburb']     = 	 $data['suburb'];
-	// 	if(isset($data['postalcode'])) 	    $request1['postal_code']=    $data['postalcode'];
-
-
-	// 	if(isset($data['bankname'])) 		$request2['bank_name'] 	=    $data['bankname'];
-	// 	if(isset($data['accountname'])) 	$request2['account_name']=   $data['accountname'];
-	// 	if(isset($data['branchcode'])) 		$request2['branch_code'] =   $data['branchcode'];
-	// 	if(isset($data['accountnumber'])) 	$request2['account_no']  =   $data['accountnumber'];
-	// 	if(isset($data['accounttype'])) 	$request2['account_type'] =  $data['accounttype'];
-
-	// 	if(isset($data['email'])) 			 $request3['email']		= 	 $data['email'];
-	// 	if(isset($data['pass'])) 		 	 $request3['password']	=    $data['pass'];
-
-	// 	//$request['status'] 	= (isset($data['status'])) ? $data['status'] : '0';
-
-
-	// 		if(isset($request)){
-
-	// 		$request['user_id'] 	= $userid;
-	// 			$audior_details = $this->db->insert('users_detail', $request);
-	// 		}
-
-
-
-	// 		if(isset($request1)){
-
-	// 		$request1['user_id'] 	= $userid;
-	// 			$audior_details = $this->db->insert('users_address', $request1);
-	// 		}
-
-	// 		if(isset($request2)){
-
-	// 		$request2['user_id'] 	= $userid;
-	// 			$audior_details = $this->db->insert('users_bank', $request2);
-	// 		}
-
-	// 		if(isset($request3)){
-
-	// 		//$request3['user_id'] 	= $userid;
-	// 			$audior_details = $this->db->insert('users', $request3);
-	// 		}
-
-
-	// 	if($this->db->trans_status() === FALSE)
-	// 	{
-	// 		$this->db->trans_rollback();
-	// 		return false;
-	// 	}
-	// 	else
-	// 	{
-	// 		$this->db->trans_commit();
-	// 		return true;
-	// 	}
-	// }
-	
 	public function checkcocpermitted($userid)
 	{
 		$query = $this->db
@@ -306,44 +279,6 @@ class Coc_Model extends CC_Model
 		}else{
 			return '0';
 		}
-	}
-	
-	// Coc Log
-	
-	public function getCOCLog($type, $requestdata=[])
-	{ 
-		$this->db->select('
-			cl.*,
-			sm.id as coc_id,
-			sm.coc_status,
-			sm.audit_status,
-			sm.type as coc_type,
-			up.registration_no, 
-			ud.user_id as plumberid,
-			concat(ud.name, " ", ud.surname) as plumbername, 
-			ud.status as plumberstatus,
-			pa.createddate as createddate,
-			cd.company as companyname
-		');
-		$this->db->from('stock_management sm');
-		$this->db->join('coc_log cl', 'sm.id=cl.coc_id', 'left');		
-		$this->db->join('users_plumber up', 'up.user_id=sm.user_id', 'left');
-		$this->db->join('users_detail ud', 'ud.user_id=sm.user_id', 'left');
-		$this->db->join('plumberallocate pa', 'pa.stockid=cl.coc_id', 'left');
-		$this->db->join('users_detail cd', 'cd.user_id=pa.company_details', 'left');
-		
-		if(isset($requestdata['coc_id']))	$this->db->where('sm.id', $requestdata['coc_id']);
-				
-		if($type=='count'){
-			$result = $this->db->count_all_results();
-		}else{
-			$query = $this->db->get();
-			
-			if($type=='all') 		$result = $query->result_array();
-			elseif($type=='row') 	$result = $query->row_array();
-		}
-		
-		return $result;
 	}
 	
 	public function actionCocLog($data)
@@ -377,6 +312,8 @@ class Coc_Model extends CC_Model
 		if(isset($data['installation_detail'])) $request['installation_detail'] 	= $data['installation_detail'];
 		if(isset($data['file1'])) 				$request['file1'] 					= $data['file1'];
 		if(isset($data['agreement'])) 			$request['agreement'] 				= implode(',', $data['agreement']);
+		if(isset($data['file1'])) 				$request['file1'] 					= $data['file1'];
+		if(isset($data['company_details'])) 	$request['company_details'] 		= $data['company_details'];
 		if(isset($data['submit']) && $data['submit']=='log') $request['log_date'] 	= date('Y-m-d');
 		
 		$request['file2'] 					= (isset($data['file2'])) ? implode(',', $data['file2']) : '';
@@ -461,8 +398,8 @@ class Coc_Model extends CC_Model
 		}elseif($recall=='2'){
 			$this->db->update('stock_management', ['coc_status' => '7'], ['id' => $cocid]);
 		}elseif($recall=='3'){
-			$cocstatus = (isset($data['user_type'])) ? $data['user_type'] : '';
-			if(isset($data['userid'])) $this->db->update('stock_management', ['user_id' => $userid, 'coc_status' => $cocstatus], ['id' => $cocid]);
+			$cocstatus = (isset($data['user_type']) && $data['user_type']=='3') ? '4' : '3';
+			if(isset($data['userid'])) $this->db->update('stock_management', ['user_id' => $data['userid'], 'coc_status' => $cocstatus], ['id' => $cocid]);
 		}
 		
 		if($this->db->trans_status() === FALSE)

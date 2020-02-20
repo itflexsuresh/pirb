@@ -21,14 +21,12 @@ function ajaxdatatables(selector, options={}){
 		$(selector).DataTable().destroy();
 	}
 	
-	var columndefs = {};
-	if(options.target) 	columndefs['targets'] 	= [1,7];
-	if(options.sort) 	columndefs['orderable'] = (options.sort=='1') ? true : false;
-	console.log([ {
-        'targets': [1,2], /* column index */
-        'orderable': false, /* true or false */
-     }])
-	console.log(columndefs);
+	var columndefs 		= [];
+	var columndefsobj 	= {};
+	if(options.target) 	columndefsobj['targets'] 	= options.target;
+	if(options.sort) 	columndefsobj['orderable'] 	= (options.sort=='1') ? true : false;
+	columndefs.push(columndefsobj);
+	
 	$(selector).DataTable({
 		'processing'	: 	true,
 		'serverSide'	: 	true,
@@ -43,10 +41,7 @@ function ajaxdatatables(selector, options={}){
 								
 							},
 		'columns'		: 	options.columns,
-		'columnDefs'	: 	[ {
-        'targets': [1,2], /* column index */
-        'orderable': false, /* true or false */
-     }]
+		'columnDefs'	: 	columndefs
 	});
 }
 
@@ -417,7 +412,10 @@ function subtypereportinglist(data1=[], data2=[]){
 	
 	ajax(subtypeurl, subtypedata, subtypefn)
 
-	$(document).on('change', data1[0], function(){
+	$(document).on('change', data1[0], function(){		
+		$('.subtypeappend').remove();
+		$('.reportlistingappend').remove();
+		
 		subtypedata.installationtypeid = $(this).val();
 		ajax(subtypeurl, subtypedata, subtypefn)
 	})
@@ -441,6 +439,8 @@ function subtypereportinglist(data1=[], data2=[]){
 	
 	if(data1[2]){
 		$(document).on('change', data1[1], function(){
+			$('.reportlistingappend').remove();
+		
 			var reportlistingdata  = { installationtypeid : $(data1[0]).val(), subtypeid : $(this).val() };
 			ajax(reportlistingurl, reportlistingdata, reportlistingfn);
 		})

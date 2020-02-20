@@ -39,9 +39,9 @@ class Index extends CC_Controller
 										'cocno' 		=> 	$result['id'],
 										'coctype' 		=> 	$coctype,
 										'status' 		=> 	$status,
-										'plumber' 		=> 	($result['usertype']=='3') ? $result['name'] : '-',
-										'reseller' 		=> 	($result['usertype']=='6') ? $result['name'] : '-',
-										'auditor' 		=> 	($result['usertype']=='5') ? $result['name'] : '-',
+										'plumber' 		=> 	($result['u_type']=='3') ? $result['u_name'] : '-',
+										'reseller' 		=> 	($result['u_type']=='6') ? $result['u_name'] : '-',
+										'auditor' 		=> 	($result['u_type']=='5') ? $result['u_name'] : '-',
 										'action'		=> 	'
 																<div class="table-action">
 																	<a href="'.base_url().'admin/cocstatement/cocdetails/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
@@ -96,7 +96,7 @@ class Index extends CC_Controller
 		$pagedata['cocrecall']		= $this->config->item('cocrecall');
 		$pagedata['cocreason']		= $this->config->item('cocreason');
 		$pagedata['comments']		= $this->Coc_Details_Comment_Model->getList('all', ['coc_id' => $id]);
-		$pagedata['result']			= $this->Coc_Model->getCOCLog('row', ['coc_id' => $id]);
+		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id]);
 		
 		$data['plugins']			= ['validation'];
 		$data['content'] 			= $this->load->view('admin/cocstatement/cocdetails/action', (isset($pagedata) ? $pagedata : ''), true);

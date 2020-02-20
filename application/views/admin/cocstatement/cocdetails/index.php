@@ -1,8 +1,3 @@
-<?php
-$dob = isset($result['dob']) && $result['dob']!='1970-01-01' ? date('d-m-Y', strtotime($result['dob'])) : '';
-$file1 = isset($result['file1']) ? $result['file1'] : '';
-?>
-
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
 		<h4 class="text-themecolor">COC Statement</h4>
@@ -16,7 +11,7 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 		</div>
 	</div>
 </div>
-
+<?php echo $notification; ?>
 <div class="row">
 	<div class="col-12">
 		<div class="card">
@@ -119,6 +114,7 @@ $file1 = isset($result['file1']) ? $result['file1'] : '';
 					</div>
 
 					<div class="row text-right">
+						<button type="button" id="reset" class="btn btn-primary">Reset</button>
 						<button type="button" name="submit" id="filter" class="btn btn-primary">Apply Filters</button>
 					</div>
 				</form>
@@ -166,9 +162,10 @@ function datatable(destroy=0){
 		startdate 	: $('#startdate').val(),
 		enddate 	: $('#enddate').val(),
 		province 	: $('#province').val(),
-		city 		: $('#city').val()
+		city 		: $('#city').val(),
+		page		: 'admincocdetails'
 	};
-	console.log(data);
+	
 	var options = {
 		url 	: 	'<?php echo base_url()."admin/cocstatement/cocdetails/index/DTCocDetails"; ?>',
 		data    :   data,  			
@@ -181,9 +178,19 @@ function datatable(destroy=0){
 						{ "data": "reseller" },
 						{ "data": "auditor" },
 						{ "data": "action" }
-					]
+					],
+		target	:	[6],
+		sort	:	'0'
 	};
 	
 	ajaxdatatables('.datatables', options);
 }
+
+$('#reset').click(function(){
+	var _form = $('.form');
+	_form.find('input[type="text"], input[type="number"]').val('');
+	_form.find('select').val('');
+	_form.find('input[type="checkbox"]').prop('checked', false);
+	$('.table_wrapper').addClass('displaynone');
+})
 </script>
