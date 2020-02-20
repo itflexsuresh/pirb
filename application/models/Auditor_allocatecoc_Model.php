@@ -48,7 +48,7 @@ class Auditor_allocatecoc_Model extends CC_Model
 		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);
 		if(isset($requestdata['start_coc_range']) && $requestdata['start_coc_range']!='')		$this->db->where('t1.coc_id>=', $requestdata['start_coc_range']);
 		if(isset($requestdata['end_coc_range']) && $requestdata['end_coc_range']!='') 		$this->db->where('t1.coc_id<=', $requestdata['end_coc_range']);
-		if(isset($requestdata['start_coc_range']) && $requestdata['start_coc_range']!='') $this->db->like('ud.dob', date('Y-m-d', strtotime($requestdata['start_coc_range'])));
+		// if(isset($requestdata['start_coc_range']) && $requestdata['start_coc_range']!='') $this->db->like('ud.dob', date('Y-m-d', strtotime($requestdata['start_coc_range'])));
 		if(isset($requestdata['type'])) 				$this->db->where('u.type', $requestdata['type']);
 		if(isset($requestdata['formstatus']))			$this->db->where_in('u.formstatus', $requestdata['formstatus']);
 		if(isset($requestdata['status']))				$this->db->where_in('u.status', $requestdata['status']);
