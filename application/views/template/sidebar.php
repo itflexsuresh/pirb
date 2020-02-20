@@ -18,13 +18,6 @@ $formstatus  	= $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'admin/administration/managearea/managearea'; ?>">Manage Area</a></li>
 						</ul>
 					</li>
-
-					<li class="step three"> 
-						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu"></span>Communication Management</a>
-						<ul aria-expanded="false" class="collapse">
-							<li><a href="<?php echo base_url().'admin/communication/notification/index'; ?>">Notification and SMS Templates</a></li>
-						</ul>
-					</li>
 					
 					<li class="step two"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">System Setup</span></a>
@@ -64,8 +57,7 @@ $formstatus  	= $userdata['formstatus'];
 					<li class="step three"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">CPD</span></a>
 						<ul aria-expanded="false" class="collapse">
-							<li><a href="<?php echo base_url().'admin/cpd/cpdtypesetup'; ?>">CPD Types</a></li>		
-							<li><a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index_queue'; ?>">CPD Queue</a></li>
+							<li><a href="<?php echo base_url().'admin/cpd/cpdtypesetup'; ?>">CPD Types</a></li>							
 						</ul>
 					</li>
 					<li class="step four"> 
@@ -91,23 +83,11 @@ $formstatus  	= $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'admin/resellers/index'; ?>">Resellers</a></li>
 						</ul>
 					</li>
-				       <li class="step three"> 
-						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Accounts</span></a>
-						<ul aria-expanded="false" class="collapse">
-							<li><a href="<?php echo base_url().'admin/accounts/renewal_plumber/index'; ?>">Renewal Plumber Registration Invoices</a></li>
-							<li><a href="<?php echo base_url().'admin/accounts/Accounts'; ?>">Plumber COC Invocies</a></li>							
-						</ul>
-					</li>
-				   <li class="step four"> 
-						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Gamification</span></a>
-						<ul aria-expanded="false" class="collapse">
-							<li><a href="<?php echo base_url().'admin/gamification/globalsettings'; ?>">Global Settings</a></li>
-						</ul>
-					</li>
 					<li class="step five"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Audits</span></a>
 						<ul aria-expanded="false" class="collapse">
 							<li><a href="<?php echo base_url().'admin/audits/index'; ?>">Manage Auditors</a></li>
+							<li><a href="<?php echo base_url().'admin/audits/cocallocate/index'; ?>">Manage COC Allocation for Audit</a></li>
 						</ul>
 					</li>
 				<?php }elseif($type=='3'){ 
@@ -116,6 +96,7 @@ $formstatus  	= $userdata['formstatus'];
 					<li><a href="<?php echo base_url().'plumber/registration/index'; ?>">Dashboard</a></li>
 					
 					<?php if($formstatus=='1'){ ?>
+						<li><a href="<?php echo base_url().'plumber/profile/index'; ?>">My Profile</a></li>
 					<?php 
                         
                        $this->db->select('*');
@@ -142,18 +123,14 @@ $formstatus  	= $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'plumber/purchasecoc/index'; ?>">Purchase COC</a></li>
 							<li><a href="<?php echo base_url().'plumber/cocstatement/index'; ?>">COC Statement</a></li>
 							<li><a href="<?php echo base_url().'plumber/myaccounts/index'; ?>">My Accounts</a></li>
-							<li><a href="<?php echo base_url().'plumber/auditstatement/index'; ?>">Audit Statement</a></li>
 
-							
-							<?php
-						} ?>
-						
-						<li><a href="<?php echo base_url().'plumber/profile/index'; ?>">My Profile</a></li>
-						<?php if($msg!=''){?>
+							<?php if($msg!=''){?>
 						<div id="message">
 							<?php echo $msg;?>
 						</div><?php }?>
 
+							<?php
+						} ?>
 					<?php }elseif($formstatus=='0'){ ?>
 						<li><a href="<?php echo base_url().'plumber/registration/index'; ?>">My Profile</a></li>
 						
@@ -209,7 +186,6 @@ $formstatus  	= $userdata['formstatus'];
 					?>
 					<li><a href="javascript:void(0);">Dashboard</a></li>
 					<li><a href="<?php echo base_url().'auditor/profile/index'; ?>">My Profile</a></li>
-					<li><a href="<?php echo base_url().'auditor/auditstatement/index'; ?>">Audit Statement</a></li>
 					<?php if($msg!=''){?>
 						<div id="message">
 							<?php echo $msg;?>
