@@ -185,21 +185,55 @@
 	}
 
 	$(document).on('keyup', '.user_search', function(){
-		user_search = $(this);
+		user_search = '#'+$(this).attr('id');
 		auditor_id = $(this).parent('div').find(".auditor_id");
 		user_suggestion = $(this).parent('div').find(".user_suggestion");
-		userautocomplete([user_search, auditor_id, user_suggestion], [$(this).val(),5], custom_auditor_select);
+		userautocomplete1([user_search, auditor_id, user_suggestion], [$(this).val(),5], custom_auditor_select);
 	})
+
+	function userautocomplete1(data1=[], data2=[], customfunction=''){
+	var userurl 		= baseurl()+"ajax/index/ajaxuserautocomplete";
+	var appendclass 	= data1[0].substring(1);
+	
+	ajax(userurl, {'search_keyword' : data2[0], type : data2[1]}, user_search_result);
+	
+	function user_search_result(data)
+	{
+		var result = [];
+		
+		$(data).each(function(i, v){
+			result.push('<li data-name="'+v.name+'" data-id="'+v.id+'" data-count="'+v.count+'" data-electronic="'+v.coc_electronic+'" class="autocompletelist'+appendclass+'">'+v.name+'</li>');
+		})
+		
+		var append = '<ul class="autocomplete_list">'+result.join('')+'</ul>';
+		$(data1[2]).html('').removeClass('displaynone').html(append);
+	}
+	
+	$(document).on('click', '.autocompletelist'+appendclass, function(){
+		var id = $(this).attr('data-id');
+		var name = $(this).attr('data-name');
+		console.log(name);
+
+		var count = $(this).attr('data-count');
+		var electronic = $(this).attr('data-electronic');
+		
+		$(data1[0]).val(name);
+		$(data1[1]).val(id);
+		$(data1[2]).html('');
+		
+		if(customfunction!='') customfunction(name, id, count, electronic);
+	})
+}
 
 	function custom_auditor_select() {
 		
 	}
 
 	$(document).on('keyup', '#user_search', function(){
-		user_search = $(this);
-		plumber_id = $(this).parent('div').find("#user_id");
-		user_suggestion = $(this).parent('div').find("#user_suggestion");
-		userautocomplete([user_search, plumber_id, user_suggestion], [$(this).val(),3], custom_plumber_select);
+		// user_search = $(this);
+		// plumber_id = $(this).parent('div').find("#user_id");
+		// user_suggestion = $(this).parent('div').find("#user_suggestion");
+		userautocomplete(['#user_search', '#user_id', "#user_suggestion"], [$(this).val(),3], custom_plumber_select);
 	})
 
 	function custom_plumber_select() {
@@ -250,7 +284,9 @@
 	
 </script>
 <style type="text/css">
-.dataTables_filter {
+.dataTables_filter,
+#DataTables_Table_1_info
+ {
 	display: none;
 }
 </style>

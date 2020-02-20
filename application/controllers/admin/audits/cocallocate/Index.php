@@ -76,9 +76,9 @@ class Index extends CC_Controller
 										'province' 		=> 	$result['postal_province'],
 										'suburb' 		=> 	$result['postal_suburb'],
 										'allocate' 		=> 	"<div class='allocate_section'>
-										<input type='search' autocomplete='off' class='form-control user_search' name='user_search'>
-										<div class='user_suggestion'></div>										
-										<input type='hidden' class='auditor_id' name='auditor_id'><input type='checkbox' name='allocate' class='allocate'>
+										<input type='search' autocomplete='off' class='form-control user_search' name='user_search' id='user_search_$coc_id' >
+										<div class='user_suggestion' id='user_suggestion_$coc_id'></div>										
+										<input type='hidden' id='auditor_id_$coc_id' class='auditor_id' name='auditor_id'><input type='checkbox' name='allocate' class='allocate'>
 										</div>",
 									];
 			}

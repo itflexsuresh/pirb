@@ -335,8 +335,8 @@ class Auditor_allocatecoc_Model extends CC_Model
 		if(isset($requestdata)){			
 			$result = $this->db->update('stock_management', $requestdata,['id'=>$data['coc_id']]);
 			if($result){
-				$plumberdata			= 	$this->Coc_Ordermodel->userDetails('row', ['id' => $data['user_id']]);				
-				$auditordata			= 	$this->Coc_Ordermodel->userDetails('row', ['user_id' => $data['auditor_id']]);				
+				$plumberdata			= 	$this->userDetails('row', ['user_id' => $data['user_id']]);				
+				$auditordata			= 	$this->userDetails('row', ['user_id' => $data['auditor_id']]);				
 
 			 	$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '20'])->get()->row_array();
 
@@ -352,6 +352,24 @@ class Auditor_allocatecoc_Model extends CC_Model
 			 		$this->CC_Model->sentMail($plumberdata['email'],$template['subject'],$body);
 			 	}
 		 	}
+		}
+		return $result;
+	}
+
+	
+	public function userDetails($type,$requestdata){
+		$this->db->select('concat(ud.name, " ", ud.surname) as name, email');
+		$this->db->from('users_detail ud');
+		$this->db->join('users u', 'u.id=ud.user_id','left');
+		$this->db->where(['ud.status' => '1']);		
+		if(isset($requestdata['user_id'])) 	$this->db->where('ud.user_id', $requestdata['user_id']);
+		if ($type=='count') {
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
 		}
 		return $result;
 	}

@@ -411,7 +411,7 @@ class Coc_Ordermodel extends CC_Model
 		$this->db->from('users_detail ud');
 		$this->db->join('users u', 'u.id=ud.user_id','inner');
 		$this->db->join('auditor_availability t3', 't3.user_id=ud.user_id','left');
-		$this->db->join('stock_management t4', 't4.auditorid=ud.user_id AND ','inner');
+		$this->db->join('stock_management t4', 't4.auditorid=ud.user_id','inner');
 		$this->db->where(['ud.status' => '1']);
 		$this->db->where(['u.type' => '5']);
 		$this->db->where(['t3.status' => '1']);
@@ -426,28 +426,12 @@ class Coc_Ordermodel extends CC_Model
 
 		$result_new = [];
 		foreach ($result as $key => $value) {
-			if($value['name']!='' && $value['status']==1 && $value['availability_status']==1 && $value['type']==5 && $value['allocation_allowed']>$logged_count){
+			if($value['name']!='' && $value['status']==1 && $value['availability_status']==1 && $value['type']==5 && $value['allocation_allowed']>$value['logged_count']){
 				$result_new[] = $value;
 			}
 		}
 		return $result_new;
 	}
 
-	public function userDetails($type,$requestdata){
-		$this->db->select('concat(ud.name, " ", ud.surname) as name, email');
-		$this->db->from('users_detail ud');
-		$this->db->join('users u', 'u.id=ud.user_id','left');
-		$this->db->where(['ud.status' => '1']);		
-		if(isset($requestdata['id'])) 	$this->db->where('ud.user_id', $requestdata['user_id']);
-		if ($type=='count') {
-			$result = $this->db->count_all_results();
-		}else{
-			$query = $this->db->get();
-			
-			if($type=='all') 		$result = $query->result_array();
-			elseif($type=='row') 	$result = $query->row_array();
-		}
-		return $result;
-	}
 	
 }
