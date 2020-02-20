@@ -181,9 +181,12 @@ class Index extends CC_Controller
 
 		if($post['type']== 3){
 			$data 	=   $this->Coc_Ordermodel->autosearchPlumber($post);
-		}else{
+		}else if($post['type']== 6){
 			$data 	=   $this->Coc_Ordermodel->autosearchReseller($post);
+		}else if($post['type']== 5){
+			$data 	=   $this->Coc_Ordermodel->autosearchAuditor($post);
 		}
+
 		
 		echo json_encode($data);
 	}
