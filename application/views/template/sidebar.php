@@ -143,6 +143,7 @@ $formstatus  	= $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'plumber/purchasecoc/index'; ?>">Purchase COC</a></li>
 							<li><a href="<?php echo base_url().'plumber/cocstatement/index'; ?>">COC Statement</a></li>
 							<li><a href="<?php echo base_url().'plumber/myaccounts/index'; ?>">My Accounts</a></li>
+							<li><a href="<?php echo base_url().'plumber/mycpd/index'; ?>">My CPD</a></li>
 							<li><a href="<?php echo base_url().'plumber/auditstatement/index'; ?>">Audit Statement</a></li>
 
 							
