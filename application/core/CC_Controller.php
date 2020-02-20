@@ -291,17 +291,18 @@ class CC_Controller extends CI_Controller
 	
 	public function getAuditStatement($id, $pagedata=[], $extras=[])
 	{
-		$pagedata['notification'] 	= $this->getNotification();
-		$pagedata['province'] 		= $this->getProvinceList();
-		$pagedata['workmanship'] 	= $this->config->item('workmanship');
-		$pagedata['yesno'] 			= $this->config->item('yesno');		
+		$pagedata['notification'] 		= $this->getNotification();
+		$pagedata['province'] 			= $this->getProvinceList();
+		$pagedata['installationtype']	= $this->getInstallationTypeList();
+		$pagedata['workmanship'] 		= $this->config->item('workmanship');
+		$pagedata['yesno'] 				= $this->config->item('yesno');		
 		
 		$extraparam = [];
 		if(isset($extras['auditorid'])) $extraparam['auditorid'] 	= $extras['auditorid'];
 		if(isset($extras['plumberid'])) $extraparam['user_id'] 		= $extras['plumberid'];		
 		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['5']]+$extraparam);
 		
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'sweetalert', 'validation','inputmask'];
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'sweetalert', 'validation', 'select2'];
 		$data['content'] 			= $this->load->view('common/auditstatement', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
