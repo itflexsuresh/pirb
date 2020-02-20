@@ -13,6 +13,7 @@ class Index extends CC_Controller
 	{
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['company'] 		= $this->getCompanyList();
+		$pagedata['province'] 			= $this->getProvinceList();
 		$pagedata['plumberstatus'] 	= $this->config->item('plumberstatus');
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'datepicker'];
@@ -70,6 +71,7 @@ class Index extends CC_Controller
 				$coc_id = $result['coc_id'];
 				$totalrecord[] = 	[
 										'coc_id' 		=> 	"<span class='coc_id'>$coc_id</span>",
+										'installationtype' 			=> 	$result['installationtype'],
 										'city' 			=> 	$result['postal_city'],
 										'province' 		=> 	$result['postal_province'],
 										'suburb' 		=> 	$result['postal_suburb'],
