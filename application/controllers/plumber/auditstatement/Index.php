@@ -7,10 +7,6 @@ class Index extends CC_Controller
 	{
 		parent::__construct();
 		$this->load->model('Coc_Model');
-		$this->load->model('Plumber_Model');
-		$this->load->model('Installationtype_Model');
-		$this->load->model('Noncompliance_Model');
-		$this->load->model('Auditor_Model');
 	}
 	
 	public function index()
@@ -25,22 +21,22 @@ class Index extends CC_Controller
 	{
 		$userid 		= $this->getUserID();
 		$post 			= $this->input->post();
-		$totalcount 	= $this->Auditor_Model->getAuditStatementList('count', ['user_id' => $userid]+$post);
-		$results 		= $this->Auditor_Model->getAuditStatementList('all', ['user_id' => $userid]+$post);		
+		$totalcount 	= $this->Coc_Model->getCOCList('count', ['coc_status' => ['5'], 'user_id' => $userid, 'noaudit' => '']+$post);
+		$results 		= $this->Coc_Model->getCOCList('all', ['coc_status' => ['5'], 'user_id' => $userid, 'noaudit' => '']+$post);
+		
 		$totalrecord 	= [];
 		if(count($results) > 0){
-			$action = '';
 			foreach($results as $result){
+				$auditstatus 	= isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';
+				$action 		= '<a href="'.base_url().'plumber/auditstatement/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>';
 				
-				$action = '<a href="'.base_url().'plumber/auditstatement/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>';
-				
-				$totalrecord[] = 	[
+				$totalrecord[] 	= 	[
 										'cocno' 			=> 	$result['id'],
-										'status' 		=> 	$this->config->item('auditstatus')[$result['audit_status']],
-										'consumer' 		=> 	$result['consumer'],
-										'address' 			=> 	$result['conaddress'],
-										'refixdate' 			=> 	date('d-m-Y', strtotime($result['allocation_date'])),
-										'auditor' 			=> 	$result['name']." ".$result['surname'],
+										'status' 			=> 	$auditstatus,
+										'consumer' 			=> 	$result['cl_name'],
+										'address' 			=> 	$result['cl_address'],
+										'refixdate' 		=> 	date('d-m-Y', strtotime($result['allocation_date'])),
+										'auditor' 			=> 	$result['auditorname'],
 										'action'			=> 	'
 																	<div class="table-action">
 																		'.$action.'
@@ -62,6 +58,6 @@ class Index extends CC_Controller
 	
 	public function action($id)
 	{
-		$this->getAuditStatementData($id, ['pagetype' => 'action', 'roletype' => $this->config->item('roleplumber')], ['redirect' => 'plumber/auditstatement/index', 'userid' => $this->getUserID()]);
+		$this->getAuditStatement($id, ['pagetype' => 'view', 'roletype' => $this->config->item('roleplumber')], ['redirect' => 'plumber/auditstatement/index', 'plumberid' => $this->getUserID()]);
 	}
 }
