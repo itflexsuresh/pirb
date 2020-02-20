@@ -7,8 +7,10 @@ if(isset($result) && $result)
 	$subtype 		= isset($result['subtype_id']) ? $result['subtype_id'] : set_value ('subtype');	
 	$statement 		= isset($result['statement_id']) ? $result['statement_id'] : set_value ('statement');
 	$comment 		= isset($result['comments']) ? $result['comments'] : set_value ('comment');	
+	$favour 		= isset($result['favour_name']) ? $result['favour_name'] : set_value ('favour_name');	
 	$status 		= isset($result['status']) ? $result['status'] : set_value ('status');	
 	$heading		= 'Update';
+
 }
 else
 {
@@ -17,6 +19,7 @@ else
 	$subtype 		= set_value('subtype');	
 	$statement 		= set_value('statement');
 	$comment 		= set_value('comment');
+	$favour 		= set_value('favour_name');
 	$status 		= set_value('status');
 	$heading		= 'Add';
 }
@@ -45,13 +48,13 @@ else
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group"> 
-								<label>Installation Type</label>
+								<label for="installation">Installation Type</label>
 								<?php echo form_dropdown('installation', $installationtypelist, $installation, ['id' => 'repo_installation', 'class' => 'form-control']); ?>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>Sub Type</label>
+								<label for="subtype">Sub Type</label>
 								<?php echo form_dropdown('subtype', [], $subtype, ['id' => 'repo_subtype', 'class' => 'form-control']); ?>
 							</div>
 						</div>
@@ -59,13 +62,13 @@ else
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group"> 
-								<label for="name">Statement</label>
+								<label for="statement">Statement</label>
 								<?php echo form_dropdown('statement', [], $statement, ['id' => 'repo_statement', 'class' => 'form-control']); ?>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label for="name">Comments</label>
+								<label for="comment">Comments</label>
 								<textarea class="form-control" id="comment" name="comment" placeholder="Comments"><?php echo $comment; ?></textarea>						
 							</div>
 						</div>
@@ -75,7 +78,7 @@ else
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="name">My Report Listings/Favourates Name</label>
-								<textarea class="form-control" id="favour_name" name="favour_name" placeholder="Favourates Name"><?php echo $comment; ?></textarea>						
+								<input type="text" class="form-control" name="favour_name" id="favour_name" value="<?php echo $favour; ?>" placeholder="Favourates Name">								
 							</div>
 						</div>
 						</div>
@@ -122,7 +125,7 @@ else
 		subtypereportinglist(['#repo_installation','#repo_subtype','#repo_statement'], ['', '']);
 
 		var options = {
-			url 	: 	'<?php echo base_url()."auditor/reportlisting/index/DTReportListing"; ?>',
+			url 	: 	'<?php echo base_url()."auditor/reportlisting/Index/DTReportListing"; ?>',
 			columns : 	[	
 
 			{ "data": "favour_name" },
