@@ -9,6 +9,7 @@ class Noncompliance_Model extends CC_Model
 		
 		if(isset($requestdata['id'])) 				$this->db->where('id', $requestdata['id']);
 		if(isset($requestdata['user_id'])) 			$this->db->where_in('user_id', $requestdata['user_id']);
+		if(isset($requestdata['coc_id'])) 			$this->db->where('coc_id', $requestdata['coc_id']);
 		
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
@@ -48,6 +49,7 @@ class Noncompliance_Model extends CC_Model
 		];
 
 		if(isset($data['user_id'])) 			$request['user_id'] 			= $data['user_id'];
+		if(isset($data['coc_id'])) 				$request['coc_id'] 				= $data['coc_id'];
 		if(isset($data['installationtype'])) 	$request['installationtype'] 	= $data['installationtype'];
 		if(isset($data['subtype'])) 			$request['subtype'] 			= $data['subtype'];
 		if(isset($data['statement'])) 			$request['statement'] 			= $data['statement'];

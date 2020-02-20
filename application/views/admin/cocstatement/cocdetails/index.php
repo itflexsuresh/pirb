@@ -11,7 +11,7 @@
 		</div>
 	</div>
 </div>
-
+<?php echo $notification; ?>
 <div class="row">
 	<div class="col-12">
 		<div class="card">
@@ -114,6 +114,7 @@
 					</div>
 
 					<div class="row text-right">
+						<button type="button" id="reset" class="btn btn-primary">Reset</button>
 						<button type="button" name="submit" id="filter" class="btn btn-primary">Apply Filters</button>
 					</div>
 				</form>
@@ -161,9 +162,10 @@ function datatable(destroy=0){
 		startdate 	: $('#startdate').val(),
 		enddate 	: $('#enddate').val(),
 		province 	: $('#province').val(),
-		city 		: $('#city').val()
+		city 		: $('#city').val(),
+		page		: 'admincocdetails'
 	};
-	console.log(data);
+	
 	var options = {
 		url 	: 	'<?php echo base_url()."admin/cocstatement/cocdetails/index/DTCocDetails"; ?>',
 		data    :   data,  			
@@ -176,9 +178,19 @@ function datatable(destroy=0){
 						{ "data": "reseller" },
 						{ "data": "auditor" },
 						{ "data": "action" }
-					]
+					],
+		target	:	[6],
+		sort	:	'0'
 	};
 	
 	ajaxdatatables('.datatables', options);
 }
+
+$('#reset').click(function(){
+	var _form = $('.form');
+	_form.find('input[type="text"], input[type="number"]').val('');
+	_form.find('select').val('');
+	_form.find('input[type="checkbox"]').prop('checked', false);
+	$('.table_wrapper').addClass('displaynone');
+})
 </script>

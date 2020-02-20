@@ -85,7 +85,7 @@ else{
 							<div class="form-group">
 								<label>Top</label>
 									<input type="number" min="0" id="points" name="top1" size="2"  value="<?php echo $result[5]['value'];?>" style="margin: 0px 20px;width: 8%;">
-									<label> plumbers overall,for past 30days,&nbsp award</label>
+									<label> plumbers overall,&nbsp for past 30days,&nbsp award</label>
 									<input type="number" min="0" id="points" name="award2" size="2"  value="<?php echo $result[6]['value'];?>" style="margin: 0px 20px;width: 8%;">
 								<label>bonus points</label>						
 							</div>

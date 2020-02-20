@@ -2,6 +2,27 @@
 
 class Gamecompany_Model extends CC_Model
 {
+	
+
+	public function action($data)
+	{	
+		$id = $data['id']; 
+		$date = date('Y-m-d');
+
+		$request = ['updated_by' => $data['id'], 'updated_at' => $date ];			
+		
+		if(isset($data['poin'])) 	$request['points'] 		= $data['poin'];
+		
+		if(isset($data['id']) && $data['id'] !='')
+		{
+			$result = $this->db->update('company_points', $request, ['id' => $data['id']]);
+		}
+		$this->db->last_query();
+		
+		return $result;
+	}
+
+
 
 	public function getList($type, $requestdata=[])
 	{
@@ -51,46 +72,13 @@ class Gamecompany_Model extends CC_Model
 
 	}
 	
-	public function action($data)
-	{ 
-		$this->db->trans_begin();
-		
-		$userid			= 	$this->getUserID();
-		$id 			= 	$data['id'];
-		$datetime		= 	date('Y-m-d H:i:s');
-		
-		$request		=	[
-
-			'updated_at' 		=> $datetime,
-			'updated_by' 		=> $id
-		];
-
-		if(isset($data['points'])) 	$request['points'] 		= $data['points'];
-
-		if($id !='')
-		{
-			
-			$this->db->update('company_points', $request);
-		}
-		
-
-		if($this->db->trans_status() === FALSE)
-		{
-			$this->db->trans_rollback();
-			return false;
-		}
-		else
-		{
-			$this->db->trans_commit();
-			return true;
-		}
-	}
+	
 
 	
 	public function changestatus($data)
 	{
 		$userid		= 	$this->getUserID();
-		print_r($userid); exit;
+		
 		$id			= 	$data['id'];
 		$status		= 	$data['status'];
 		$datetime	= 	date('Y-m-d H:i:s');

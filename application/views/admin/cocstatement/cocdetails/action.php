@@ -1,5 +1,6 @@
 <?php
 	$id 					= isset($result['cl_id']) ? $result['cl_id'] : '';
+	$usertype 				= isset($result['u_type']) ? $result['u_type'] : '';
 	
 	$cocid 					= isset($result['id']) ? $result['id'] : '';	
 	$cocstatusid			= $result['coc_status'];                                           
@@ -8,13 +9,13 @@
 	$coctypeid 				= $result['type'];
 	$coctype 				= isset($this->config->item('coctype')[$result['type']]) ? $this->config->item('coctype')[$result['type']] : '';
 	
-	$companyname 			= isset($result['resellercompany']) ? $result['resellercompany'] : '';
+	$companyname 			= isset($result['resellercompany']) ? $result['resellercompany'] : (isset($result['plumbercompany']) ? $result['plumbercompany'] : '');
 	$allocationdate 		= isset($result['resellercreateddate']) && $result['resellercreateddate']!='1970-01-01' ? date('d-m-Y', strtotime($result['resellercreateddate'])) : '';
 	
 	$plumberid 				= isset($result['u_id']) ? $result['u_id'] : '';
 	$plumberregno 			= isset($result['plumberregno']) ? $result['plumberregno'] : '';
-	$plumbername 			= isset($result['u_name']) ? $result['u_name'] : '';
-	$plumberstatus 			= isset($this->config->item('plumberstatus')[$result['u_status']]) ? $this->config->item('plumberstatus')[$result['u_status']] : '';
+	$plumbername 			= isset($result['u_name']) && $usertype=='3'  ? $result['u_name'] : '';
+	$plumberstatus 			= isset($this->config->item('plumberstatus')[$result['u_status']])  && $usertype=='3' ? $this->config->item('plumberstatus')[$result['u_status']] : '';
 	
 	$logdate 				= isset($result['cl_log_date']) && $result['cl_log_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_log_date'])) : '';
 	$completiondate 		= isset($result['cl_completion_date']) && $result['cl_completion_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_completion_date'])) : '';
@@ -28,6 +29,7 @@
 	$suburbid 				= isset($result['cl_suburb']) ? $result['cl_suburb'] : '';
 	$contactno 				= isset($result['cl_contact_no']) ? $result['cl_contact_no'] : '';
 	$alternateno 			= isset($result['cl_alternate_no']) ? $result['cl_alternate_no'] : '';
+	$logstatus 				= isset($result['cl_status']) ? $result['cl_status'] : '';
 	
 	$filepath				= base_url().'assets/uploads/coc/cocdetails/';
 	$pdfimg 				= base_url().'assets/images/pdf.png';
@@ -228,7 +230,7 @@
 					</form>
 				</div>
 				
-				<?php if($cocstatusid=='3' || $cocstatusid=='4'){ ?>
+				<?php if(($cocstatusid=='3' && $allocationdate=='') || ($cocstatusid=='4' && $allocationdate=='')){ ?>
 					<h4 class="card-title">Recalled/Reallocate/Cancel a COC</h4>
 					<form action="" method="post" class="form2">
 						<div class="row">				

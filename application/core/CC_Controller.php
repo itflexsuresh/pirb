@@ -407,23 +407,24 @@ class CC_Controller extends CI_Controller
 		$specialisations 				= explode(',', $userdata['specialisations']);
 		
 		if($this->input->post()){
-			$requestData 	= 	$this->input->post();
+			$requestData 						= 	$this->input->post();
+			$requestData['company_details'] 	= 	$userdata['company_details'];
 			
 			$data 	=  $this->Coc_Model->actionCocLog($requestData);
 			
 			$message = '';
-			if(isset($data['submit'])){
-				if($data['submit']=='save'){
+			if(isset($requestData['submit'])){
+				if($requestData['submit']=='save'){
 					$message = 'Thanks for Saving the COC.';
-				}elseif($data['submit']=='log'){
+				}elseif($requestData['submit']=='log'){
 					$message = 'Thanks for Logging the COC.';
-					
-					$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '5', 'emailstatus' => '1']);
+				}
 				
-					if($notificationdata){
-						$body 	= str_replace(['{Plumbers Name and Surname}', '{number}'], [$userdata['name'].' '.$userdata['surname'], $id], $notificationdata['email_body']);
-						$this->CC_Model->sentMail($result['email'], $notificationdata['subject'], $body);
-					}
+				$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '18', 'emailstatus' => '1']);
+			
+				if($notificationdata){
+					$body 	= str_replace(['{Plumbers Name and Surname}', '{number}'], [$userdata['name'].' '.$userdata['surname'], $id], $notificationdata['email_body']);
+					$this->CC_Model->sentMail($userdata['email'], $notificationdata['subject'], $body);
 				}
 			}
 			
@@ -443,7 +444,7 @@ class CC_Controller extends CI_Controller
 		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations]);
 		$pagedata['result']				= $this->Coc_Model->getCOCList('row', ['id' => $id]);
 		
-		$noncompliance					= $this->Noncompliance_Model->getList('all', ['user_id' => $userid]);		
+		$noncompliance					= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $userid]);		
 		$pagedata['noncompliance']		= [];
 		foreach($noncompliance as $compliance){
 			$pagedata['noncompliance'][] = [
