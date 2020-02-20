@@ -187,6 +187,7 @@
 	$(document).on('keyup', '.user_search', function(){
 		user_search = '#'+$(this).attr('id');
 		auditor_id = $(this).parent('div').find(".auditor_id");
+		auditor_id.attr('value','');
 		user_suggestion = $(this).parent('div').find(".user_suggestion");
 		userautocomplete1([user_search, auditor_id, user_suggestion], [$(this).val(),5], custom_auditor_select);
 	})
@@ -202,7 +203,7 @@
 		var result = [];
 		
 		$(data).each(function(i, v){
-			result.push('<li data-name="'+v.name+'" data-id="'+v.id+'" data-count="'+v.count+'" data-electronic="'+v.coc_electronic+'" class="autocompletelist'+appendclass+'">'+v.name+'</li>');
+			result.push('<li data-name="'+v.name+'" data-id="'+v.id+'" class="autocompletelist'+appendclass+'">'+v.name+'</li>');
 		})
 		
 		var append = '<ul class="autocomplete_list">'+result.join('')+'</ul>';
@@ -212,7 +213,6 @@
 	$(document).on('click', '.autocompletelist'+appendclass, function(){
 		var id = $(this).attr('data-id');
 		var name = $(this).attr('data-name');
-		console.log(name);
 
 		var count = $(this).attr('data-count');
 		var electronic = $(this).attr('data-electronic');
@@ -230,6 +230,7 @@
 	}
 
 	$(document).on('keyup', '#user_search', function(){
+		("#user_id").attr('value','');
 		// user_search = $(this);
 		// plumber_id = $(this).parent('div').find("#user_id");
 		// user_suggestion = $(this).parent('div').find("#user_suggestion");
