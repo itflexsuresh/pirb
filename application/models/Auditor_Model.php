@@ -416,7 +416,122 @@ class Auditor_Model extends CC_Model
 	}
 
 	
+	public function getReviewList($type, $requestdata=[])
+	{
+		$this->db->select('ar.*,rl.statement statementname,i.name installationtypename,s.name subtypename');
+		$this->db->from('auditor_review ar');
+		$this->db->join('report_listing rl', 'rl.id=ar.statement', 'left');
+		$this->db->join('installationtype i', 'i.id=ar.installationtype', 'left');
+		$this->db->join('installationsubtype s', 's.id=ar.subtype', 'left');
+		
+		if(isset($requestdata['id'])) 		$this->db->where('ar.id', $requestdata['id']);
+		
+		if($type=='count'){
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		return $result;
+	}
 	
+	public function actionReview($data)
+	{
+		$this->db->trans_begin();
+		
+		$userid			= 	$this->getUserID();
+		$id 			= 	$data['id'];
+		$datetime		= 	date('Y-m-d H:i:s');
+		
+		$request		=	[
+			'updated_at' 		=> $datetime,
+			'updated_by' 		=> $userid
+		];
 
+		if(isset($data['cocid']))		 		$request['coc_id'] 				= $data['cocid'];
+		if(isset($data['userid']))		 		$request['user_id'] 			= $data['userid'];
+		if(isset($data['reviewtype']))		 	$request['reviewtype'] 			= $data['reviewtype'];
+		if(isset($data['favourites'])) 			$request['favourites'] 			= $data['favourites'];
+		if(isset($data['installationtype'])) 	$request['installationtype'] 	= $data['installationtype'];
+		if(isset($data['subtype'])) 			$request['subtype'] 			= $data['subtype'];
+		if(isset($data['statement'])) 			$request['statement'] 			= $data['statement'];
+		if(isset($data['reference'])) 			$request['reference'] 			= $data['reference'];
+		if(isset($data['link'])) 				$request['link'] 				= $data['link'];
+		if(isset($data['comments'])) 			$request['comments'] 			= $data['comments'];
+		if(isset($data['file'])) 				$request['file'] 				= implode(',', $data['file']);
+		if(isset($data['point'])) 				$request['point'] 				= $data['point'];
+
+		if($id==''){
+			$request['created_at'] = $datetime;
+			$request['created_by'] = $userid;
+			$this->db->insert('auditor_review', $request);
+		}else{
+			$this->db->update('auditor_review', $request, ['id' => $id]);
+		}
+
+		if($this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+			return false;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
+	
+	public function deleteReview($id)
+	{
+		return $this->db->where('id', $id)->delete('auditor_review');
+	}
+
+	
+	
+	public function actionStatement($data)
+	{
+		$this->db->trans_begin();
+		
+		$userid			= 	$this->getUserID();
+		$id 			= 	$data['id'];
+		$datetime		= 	date('Y-m-d H:i:s');
+		
+		$request		=	[
+			'updated_at' 		=> $datetime,
+			'updated_by' 		=> $userid
+		];
+
+		if(isset($data['cocid']))		 			$request['coc_id'] 					= $data['cocid'];
+		if(isset($data['userid']))		 			$request['user_id'] 				= $data['userid'];
+		if(isset($data['auditdate']))		 		$request['audit_date'] 				= date('Y-m-d', strtotime($data['auditdate']));
+		if(isset($data['workmanship'])) 			$request['workmanship'] 			= $data['workmanship'];
+		if(isset($data['plumberverification'])) 	$request['plumber_verification'] 	= $data['plumberverification'];
+		if(isset($data['cocverification'])) 		$request['coc_verification'] 		= $data['cocverification'];
+		if(isset($data['hold'])) 					$request['hold'] 					= $data['hold'];
+		if(isset($data['reason'])) 					$request['reason'] 					= $data['reason'];
+		if(isset($data['status'])) 					$request['status'] 					= $data['status'];
+
+		if($id==''){
+			$request['created_at'] = $datetime;
+			$request['created_by'] = $userid;
+			$this->db->insert('auditor_statement', $request);
+		}else{
+			$this->db->update('auditor_statement', $request, ['id' => $id]);
+		}
+
+		if($this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+			return false;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
 
 }

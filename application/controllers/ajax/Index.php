@@ -13,6 +13,7 @@ class Index extends CC_Controller
 		$this->load->model('Noncompliance_Model');
 		$this->load->model('Coc_Ordermodel');
 		$this->load->model('Reportlisting_Model');
+		$this->load->model('Auditor_Reportlisting_Model');
 	}
 	
 	public function ajaxfileupload()
@@ -175,6 +176,45 @@ class Index extends CC_Controller
 		echo json_encode($json);
 	}
 	
+	public function ajaxreviewaction()
+	{
+		$post 				= $this->input->post();
+		
+		if(isset($post['action']) && $post['action']=='delete'){
+			$result = $this->Auditor_Model->deleteReview($post['reviewid']);
+		}else{
+			if(isset($post['action']) && $post['action']=='edit'){
+				$result['reviewid'] = $post['reviewid'];
+			}else{
+				$result = $this->Auditor_Model->actionReview($post);
+			}
+			
+			$result = $this->Auditor_Model->getReviewList('row', ['id' => $result['reviewid']]);
+		}
+		
+		if($result){
+			$json = ['status' => '1', 'result' => $result];
+		}else{
+			$json = ['status' => '0'];
+		}
+		
+		echo json_encode($json);
+	}
+	
+	public function ajaxauditorreportinglist()
+	{
+		$post = $this->input->post();  
+		$data = $this->Auditor_Reportlisting_Model->getList('row', ['id' => $post['id'], 'status' => ['1']]);
+		
+		if($data){
+			$json = ['status' => '1', 'result' => $data];
+		}else{
+			$json = ['status' => '0', 'result' => []];
+		}
+		
+		echo json_encode($json);
+	}
+	
 	public function ajaxuserautocomplete()
 	{ 
 		$post = $this->input->post();
@@ -190,5 +230,4 @@ class Index extends CC_Controller
 		
 		echo json_encode($data);
 	}
-	
 }

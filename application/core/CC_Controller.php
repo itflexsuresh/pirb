@@ -20,6 +20,7 @@ class CC_Controller extends CI_Controller
 		$this->load->model('Communication_Model');
 		$this->load->model('Plumber_Model');
 		$this->load->model('Noncompliance_Model');
+		$this->load->model('Auditor_Reportlisting_Model');
 		
 		$this->load->library('pdf');
 		$this->load->library('phpqrcode/qrlib');
@@ -186,6 +187,14 @@ class CC_Controller extends CI_Controller
 		else return [];
 	}
 	
+	public function getAuditorReportingList()
+	{
+		$data = $this->Auditor_Reportlisting_Model->getList('all', ['status' => ['1']]);
+
+		if(count($data) > 0) return ['' => 'Select My Report Listings/Favourites']+array_column($data, 'favour_name', 'id');
+		else return [];
+	}
+	
 	public function plumbercard($userid)
 	{
 		$data['company'] 			= $this->getCompanyList();
@@ -291,16 +300,31 @@ class CC_Controller extends CI_Controller
 	
 	public function getAuditStatement($id, $pagedata=[], $extras=[])
 	{
+		if($this->input->post()){
+			$requestData 	=  $this->input->post();
+			$data 			=  $this->Auditor_Model->actionStatement($requestData);
+		
+			if($data) $this->session->set_flashdata('success', 'Successfully updated.');
+			else $this->session->set_flashdata('error', 'Try Later.');
+			
+			redirect($extras['redirect']); 
+		}
+		
+		$pagedata['userid'] 			= $this->getUserID();
 		$pagedata['notification'] 		= $this->getNotification();
 		$pagedata['province'] 			= $this->getProvinceList();
 		$pagedata['installationtype']	= $this->getInstallationTypeList();
+		$pagedata['auditorreportlist']	= $this->getAuditorReportingList();
 		$pagedata['workmanship'] 		= $this->config->item('workmanship');
 		$pagedata['yesno'] 				= $this->config->item('yesno');		
+		$pagedata['reviewtype'] 		= $this->config->item('reviewtype');		
 		
 		$extraparam = [];
 		if(isset($extras['auditorid'])) $extraparam['auditorid'] 	= $extras['auditorid'];
 		if(isset($extras['plumberid'])) $extraparam['user_id'] 		= $extras['plumberid'];		
 		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['5']]+$extraparam);
+		$pagedata['reviewlist']		= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
+		$pagedata['settings'] 		= $this->Systemsettings_Model->getList('row');
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'sweetalert', 'validation', 'select2'];
 		$data['content'] 			= $this->load->view('common/auditstatement', (isset($pagedata) ? $pagedata : ''), true);

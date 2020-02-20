@@ -4,12 +4,16 @@ class Coc_Model extends CC_Model
 {
 	public function getCOCList($type, $requestdata=[])
 	{ 
-		$coclog 		= 	[ 
-								'cl.id cl_id','cl.log_date cl_log_date','cl.completion_date cl_completion_date','cl.order_no cl_order_no','cl.name cl_name','cl.address cl_address','cl.street cl_street','cl.number cl_number',
-								'cl.province cl_province','cl.city cl_city','cl.suburb cl_suburb','cl.contact_no cl_contact_no','cl.alternate_no cl_alternate_no','cl.email cl_email','cl.installationtype cl_installationtype',
-								'cl.specialisations cl_specialisations','cl.installation_detail cl_installation_detail','cl.file1 cl_file1','cl.file2 cl_file2','cl.agreement cl_agreement','cl.status cl_status'
-							];
+		$coclog 			= 	[ 
+									'cl.id cl_id','cl.log_date cl_log_date','cl.completion_date cl_completion_date','cl.order_no cl_order_no','cl.name cl_name','cl.address cl_address','cl.street cl_street','cl.number cl_number',
+									'cl.province cl_province','cl.city cl_city','cl.suburb cl_suburb','cl.contact_no cl_contact_no','cl.alternate_no cl_alternate_no','cl.email cl_email','cl.installationtype cl_installationtype',
+									'cl.specialisations cl_specialisations','cl.installation_detail cl_installation_detail','cl.file1 cl_file1','cl.file2 cl_file2','cl.agreement cl_agreement','cl.status cl_status'
+								];
 							
+		$auditorstatement 	= 	[ 
+									'aas.id as_id','aas.audit_date as_audit_date','aas.workmanship as_workmanship','aas.plumber_verification as_plumber_verification','aas.coc_verification as_coc_verification','aas.hold as_hold','aas.reason as_reason'
+								];
+			
 		$this->db->select('
 			sm.*, 
 			u.id as u_id,
@@ -26,6 +30,7 @@ class Coc_Model extends CC_Model
 			rd.company as resellercompany,
 			s.name as cl_suburb_name,
 			concat(ad.name, " ", ad.surname) as auditorname, 
+			'.implode(',', $auditorstatement).'
 		');
 		$this->db->from('stock_management sm');
 		$this->db->join('users_plumber up', 'up.user_id=sm.user_id', 'left');
@@ -37,6 +42,7 @@ class Coc_Model extends CC_Model
 		$this->db->join('plumberallocate pa', 'pa.stockid=sm.id', 'left'); // Reseller Allocate
 		$this->db->join('users_detail rd', 'rd.user_id=pa.company_details', 'left'); // Reseller Company Details
 		$this->db->join('users_detail ad', 'ad.user_id=sm.auditorid', 'left'); // Auditor
+		$this->db->join('auditor_statement aas', 'aas.coc_id=sm.id', 'left'); // Auditor Statement
 		
 		if((isset($requestdata['search']['value']) && $requestdata['search']['value']!='') || (isset($requestdata['order']['0']['column']) && $requestdata['order']['0']['column']!='' && isset($requestdata['order']['0']['dir']) && $requestdata['order']['0']['dir']!='')){
 			$this->db->join('custom c1', 'c1.c_id=sm.coc_status', 'left');
