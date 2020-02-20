@@ -230,7 +230,7 @@
 	}
 
 	$(document).on('keyup', '#user_search', function(){
-		("#user_id").attr('value','');
+		$("#user_id").attr('value','');
 		// user_search = $(this);
 		// plumber_id = $(this).parent('div').find("#user_id");
 		// user_suggestion = $(this).parent('div').find("#user_suggestion");
