@@ -132,7 +132,8 @@ class Index extends CC_Controller
 	public function Cron()
 	{	
 		$result = $this->Renewal_Model->getUserids();
-		// echo'<pre>'; print_r($result);die;
+		
+		// echo '<pre>'; print_r($result); die;
 		foreach($result as $data)
 		{
 			$inv_type = '1';
@@ -152,9 +153,11 @@ class Index extends CC_Controller
 			else{
 
 			$designation = $data['designation'];
-			$renewal_date = $data['expirydate'];
-			$renewal_date = date_create($renewal_date);
-			$renewal_date =	date_format($renewal_date,"d/m/Y");
+			$renewal_date1 = $data['expirydate'];
+			$rdate = strtotime($renewal_date1);
+			$new_date = strtotime('+ 1 year', $rdate);
+			$renewal_date =  date('d/m/Y', $new_date);
+
 
 			$result = $this->Renewal_Model->insertdata($userid,$designation,'2');
 			$invoice_id = $result['invoice_id'];
