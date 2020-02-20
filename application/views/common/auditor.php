@@ -1,5 +1,5 @@
 <?php
-// echo "<pre>";
+// /////////////echo "<pre>";
 // print_r($result);die;
 
 	$id 			= isset($result['id']) ? $result['id'] : '';
