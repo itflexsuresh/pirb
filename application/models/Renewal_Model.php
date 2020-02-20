@@ -289,19 +289,19 @@ class Renewal_Model extends CC_Model
 		$currentdate = date('Y-m-d h:i:s');		
 		
 		if($inv_type == '4'){
-			$this->db->insert('invoice', ['description' => "Registration Fee", 'user_id' => $userid, 'status' => '0', 'inv_type' => $inv_type,  'coc_type' => '2',  'delivery_type' => '2', 'total_cost' => $rate1, 'vat'=>$vat_amount1, 'created_at' => $currentdate]) ;
+			$this->db->insert('invoice', ['description' => "Registration Fee", 'user_id' => $userid, 'status' => '0', 'inv_type' => $inv_type,  'coc_type' => '0',  'delivery_type' => '2', 'total_cost' => $rate1, 'vat'=>$vat_amount1, 'created_at' => $currentdate]) ;
 			$result['invoice_id'] = $this->db->insert_id();
 		}
 		else{
-			$this->db->insert('invoice', ['description' => "Registration Fee", 'user_id' => $userid, 'status' => '0', 'inv_type' => $inv_type,  'coc_type' => '2',  'delivery_type' => '2', 'total_cost' => $rate, 'vat'=>$vat_amount, 'created_at' => $currentdate]) ;
+			$this->db->insert('invoice', ['description' => "Registration Fee", 'user_id' => $userid, 'status' => '0', 'inv_type' => $inv_type,  'coc_type' => '0',  'delivery_type' => '2', 'total_cost' => $rate, 'vat'=>$vat_amount, 'created_at' => $currentdate]) ;
 			$result['invoice_id'] = $this->db->insert_id();
 		}
 		
-		$this->db->insert('coc_orders', ['user_id' => $userid, 'description' => "Registration Fee",'quantity' => '1', 'status' => '0',  'cost_value' => $rate, 'coc_type' => '2',  'delivery_type' => '2', 'total_due' => $total, 'vat'=>$vat_amount, 'inv_id' => $result['invoice_id'], 'created_at' => $currentdate, 'created_by' => $userid]);
+		$this->db->insert('coc_orders', ['user_id' => $userid, 'description' => "Registration Fee",'quantity' => '1', 'status' => '0',  'cost_value' => $rate, 'coc_type' => '0',  'delivery_type' => '2', 'total_due' => $total, 'vat'=>$vat_amount, 'inv_id' => $result['invoice_id'], 'created_at' => $currentdate, 'created_by' => $userid]);
 		$result['cocorder_id']  = $this->db->insert_id();
 
 		if($inv_type == '4'){
-			$this->db->insert('coc_orders', ['user_id' => $userid, 'description' => "Late Penalty Fee",'quantity' => '1', 'status' => '0',  'cost_value' => $lateamount, 'coc_type' => '2',  'delivery_type' => '2', 'total_due' => $total_lateamount, 'vat'=>$vat_lateamount, 'inv_id' => $result['invoice_id'], 'created_at' => $currentdate, 'created_by' => $userid]);
+			$this->db->insert('coc_orders', ['user_id' => $userid, 'description' => "Late Penalty Fee",'quantity' => '1', 'status' => '0',  'cost_value' => $lateamount, 'coc_type' => '0',  'delivery_type' => '2', 'total_due' => $total_lateamount, 'vat'=>$vat_lateamount, 'inv_id' => $result['invoice_id'], 'created_at' => $currentdate, 'created_by' => $userid]);
 			$result['cocorder_id2']  = $this->db->insert_id();
 		}
 
