@@ -104,7 +104,7 @@ class Auditor_Model extends CC_Model
 
 		}
 
-		//$this->db->where('u.type', '5');
+		$this->db->group_by('u.id');
 
 		if($type=='count'){
 			$result = $this->db->count_all_results();
