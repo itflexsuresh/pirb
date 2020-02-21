@@ -113,10 +113,11 @@
 										<th>QTY</th>        
 										<th>Rate</th>
 										<th>Amount</th>										
-									</tr>
+									</tr>									
 								</thead>
-							</table>
+							</table>							
 						</div>
+
 					</div>
 					
 					</br>
@@ -179,7 +180,7 @@
 										<th>Action</th>									
 									</tr>
 								</thead>
-							</table>
+							</table>							
 						</div>
 					</div>
 				</form>
@@ -250,7 +251,7 @@ $(function(){
 			{ "data": "total_cost" },
 			{ "data": "total_cost" }
 			
-			],
+			],			
 			paging :   false,
 			ordering: false,
 			info:     false
