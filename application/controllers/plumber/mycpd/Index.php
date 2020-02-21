@@ -163,7 +163,7 @@ class index extends CC_Controller
 				// Attachments
 				if ($result['file1']!='') {
 					$attach = '<div class="table-action">
-					<a href="'.base_url().'assets/uploads/cpdqueue/'.$result['file1'].'" data-toggle="tooltip" data-placement="top" title="Download"><i class="fa fa-download"></i></a>
+					<a href="'.base_url().'assets/uploads/cpdqueue/'.$result['file1'].'" target="_blank" data-toggle="tooltip" data-placement="top" title="View Attachments"><i class="fa fa-download"></i></a>
 					</div>';
 				}else{
 					$attach = '';
