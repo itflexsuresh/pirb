@@ -112,7 +112,7 @@ class Auditor_allocatecoc_Model extends CC_Model
 	public function getCOCList($type, $requestdata=[])
 	{ 
 		
-		$this->db->select('t5.name as postal_city, t6.name as postal_province, t7.name as postal_suburb, coc_id, installationtype, specialisations');
+		$this->db->select('t5.name as postal_city, t6.name as postal_province, t7.name as postal_suburb, coc_id, t1.installationtype, t1.specialisations');
 
 		$this->db->from('coc_log t1');
 		$this->db->join('users u', 't1.created_by=u.id', 'left');
