@@ -116,7 +116,7 @@ if(isset($result) && $result){
 			    </div></br>
             <div class="form-group">
 					<label style="text-align: bold">Performance Rolling Averages</label>&nbsp&nbsp&nbsp &nbsp &nbsp  
-					<input type="text" class="form-group" id="avg" name="average"  placeholder="month" value="">							
+					<input type="text" class="form-group" id="avg" name="average"  placeholder="months" value="">							
 			</div>
 		    </div>
 		   
