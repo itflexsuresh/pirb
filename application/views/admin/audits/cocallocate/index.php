@@ -166,7 +166,7 @@
 	});
 
 	$('.reset').on('click',function(){		
-		$('#start_date_range,#end_date_range,#start_coc_range,#end_coc_range,#user_search,#max_allocate_plumber,#province1,#city1').val('');
+		$('#start_date_range,#end_date_range,#start_coc_range,#end_coc_range,#user_search,#user_id,#max_allocate_plumber,#province1,#city1').val('');
 		// $('form#filter').trigger("reset");
 		datatable(1);
 	});
