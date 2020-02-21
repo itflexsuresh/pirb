@@ -129,7 +129,7 @@ class Auditor_Model extends CC_Model
 
 	public function getInvoiceList($type, $requestdata=[]){
 		
-		$this->db->select('inv.*, ud.name, ud.surname');
+		$this->db->select('inv.*, ud.name, ud.surname, ud.vat_vendor');
 		$this->db->from('invoice inv');	
 		$this->db->join('users_detail ud', 'ud.user_id=inv.user_id', 'left');
 		$this->db->join('users u', 'u.id=inv.user_id', 'inner');
@@ -137,6 +137,7 @@ class Auditor_Model extends CC_Model
 
 		if(isset($requestdata['status'])) $this->db->where('inv.status', $requestdata['status']);
 		if(isset($requestdata['id'])) $this->db->where('inv.inv_id', $requestdata['id']);
+		if(isset($requestdata['user_id'])) $this->db->where('inv.user_id', $requestdata['user_id']);
 
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
@@ -174,15 +175,24 @@ class Auditor_Model extends CC_Model
 	public function action2($data)
 	{
 		$id	= $data['editid'];
-		
+		$request1['status'] = '0';
 		$invoicedate = isset($data['invoicedate']) && $data['invoicedate']!='1970-01-01' ? date('Y-m-d', strtotime($data['invoicedate'])) : '';		
 		if(isset($invoicedate)) $request1['invoice_date'] = $invoicedate;
 		if(isset($data['invoiceno'])) $request1['invoice_no'] = $data['invoiceno'];
-		$request1['status'] = '0';
-		
+		if(isset($data['total_cost'])) $request1['total_cost'] = $data['total_cost'];
+		if(isset($data['vat'])) $request1['vat'] = $data['vat'];
 		if(isset($request1)){	
-			$userdata = $this->db->update('invoice', $request1, ['inv_id' => $id]);			
-		}		
+			$userdata = $this->db->update('invoice', $request1, ['inv_id' => $id]);	
+		}
+
+		if(isset($data['total_cost'])) $request2['cost_value'] = $data['total_cost'];
+		if(isset($data['vat'])) $request2['vat'] = $data['vat'];		
+		if(isset($data['total'])) $request2['total_due'] = $data['total'];
+		if(isset($request1)){	
+			$userdata = $this->db->update('coc_orders', $request2, ['inv_id' => $id]);	
+		}
+
+				
 		return $userdata;	
 	}
 

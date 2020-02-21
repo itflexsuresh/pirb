@@ -16,6 +16,22 @@
 	$account_type = isset($bankdetail['account_type']) ? $bankdetail['account_type'] : '';
 
 	$editid = isset($result['inv_id']) ? $result['inv_id'] : '';
+	$vat_vendor = isset($result['vat_vendor']) ? $result['vat_vendor'] : '';
+	$total_cost = isset($result['total_cost']) ? $result['total_cost'] : '';	
+	$vatvalue = '';
+	$total = '';
+	if($editid > 0)	{
+		if($vat_vendor > 0){
+			$vatper = $vat['vat_percentage'];		
+			$vat_amount1 = $total_cost * $vatper / 100;
+			$vatvalue = round($vat_amount1,2);
+
+			$total = $total_cost + $vatvalue;
+		}
+		else{
+			$total = $total_cost;
+		}
+	}
 ?>
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
@@ -105,7 +121,10 @@
 				
 					<div class="row">
 						<div class="col-md-12">	
-							<input type="hidden" name="editid" id="editid" value="<?php echo $editid;?>">
+							<input type="text" name="editid" id="editid" value="<?php echo $editid;?>">
+							<input type="text" name="total_cost" id="total_cost" value="<?php echo $total_cost;?>">
+							<input type="text" name="vat" id="vat" value="<?php echo $vatvalue;?>">
+							<input type="text" name="total" id="total" value="<?php echo $total;?>">
 							<table id="table" class="table table-bordered table-striped datatables fullwidth">
 								<thead>
 									<tr>
@@ -114,6 +133,26 @@
 										<th>Rate</th>
 										<th>Amount</th>										
 									</tr>									
+								</thead>
+							</table>
+							<table id="table" class="table table-bordered table-striped datatables3 fullwidth">
+								<thead>
+									<tr>
+										<th>Sub Total</th>
+										<th><?php echo $total_cost;?></th>										
+									</tr>
+
+									<?php if($vat_vendor > 0){ ?>	
+									<tr>
+										<th>VAT Total</th>
+										<th><?php echo $vatvalue;?></th>										
+									</tr>
+									<?php } ?>
+
+									<tr>
+										<th>Total</th>
+										<th><?php echo $total;?></th>										
+									</tr>								
 								</thead>
 							</table>							
 						</div>
@@ -194,6 +233,9 @@
 <script type="text/javascript">
 	
 $(function(){
+	
+
+
 	datepicker('.invoicedate');
 
 	validation(
