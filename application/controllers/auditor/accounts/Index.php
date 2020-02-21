@@ -17,9 +17,9 @@ class Index extends CC_Controller
 	{
 
 		if($id!=''){	
-			$post['id'] = $id;		
+			$post['id'] = $id;
 			$result = $this->Auditor_Model->getInvoiceList('row', $post);			
-			if($result){
+			if($result){				
 				$pagedata['result'] = $result;
 			}else{
 				$this->session->set_flashdata('error', 'No Record Found1.');
@@ -52,7 +52,7 @@ class Index extends CC_Controller
 		$pagedata['province'] 		= $this->getProvinceList();		
 		$getdata['id']			= $id;		
 		$pagedata['auditordetail'] 	= $this->Auditor_Model->getAuditorList('row',$getdata);
-		
+		$pagedata['vat'] = $this->Coc_Model->getPermissions('row');		
 		$pagedata['bankdetail'] 	= $this->Coc_Model->getPermissions('row');
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
 		$data['content'] 			= $this->load->view('auditor/accounts/index', (isset($pagedata) ? $pagedata : ''), true);
@@ -381,7 +381,7 @@ class Index extends CC_Controller
 
 					<tbody>
 					<tr>
-					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Auditors Invoice Payment for'.$designation.' for '.$rowData['username'].''.$rowData['surname'].', registration number '.$rowData['registration_no'].'</td>				
+					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Auditors Invoice Payment for  '.$rowData['username'].''.$rowData['surname'].'</td>				
 					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;">'.$rowData['quantity'].'</td>
 					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</td>
 					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</td>

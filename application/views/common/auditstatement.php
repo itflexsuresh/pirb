@@ -269,14 +269,14 @@
 								
 				<div class="row">
 					<div class="col-md-6">
-						<div class="row failure_wrapper displaynone">
-							<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-12 refix_wrapper displaynone">
 								<div class="form-group">
 									<label>Refix Period (Days)</label>
 									<input type="text" class="form-control" name="refixperiod" id="refixperiod" value="<?php echo $settings['refix_period']; ?>" readonly>
 								</div>
 							</div>
-							<div class="col-md-12">
+							<div class="col-md-12 report_wrapper displaynone">
 								<div class="form-group">
 									<label>Date and Time of Report submitted:</label>
 									<input type="text" class="form-control" name="reportdate" id="reportdate" value="<?php echo $datetime; ?>" readonly>
@@ -284,7 +284,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-6 auditcomplete_wrapper displaynone">
 						<div class="custom-control custom-checkbox">
 							<input type="checkbox" id="auditcomplete" class="custom-control-input auditcomplete" name="auditcomplete" value="1">
 							<label class="custom-control-label" for="auditcomplete">Audit Complete</label>
@@ -295,9 +295,16 @@
 				<div class="col-md-12 text-right">					
 					<input type="hidden" value="<?php echo $statementid; ?>" name="id">
 					<input type="hidden" value="<?php echo $cocid; ?>" name="cocid">
-					<input type="hidden" value="<?php echo $userid; ?>" name="userid">
-					<button type="submit" name="submit" id="submit" value="submit" class="btn btn-primary">Submit Report</button>
-					<button type="submit" name="submit" id="submit" value="submit" class="btn btn-primary">Save/Update</button>
+					<input type="hidden" value="<?php echo $userid; ?>" name="auditorid">
+					<input type="hidden" value="<?php echo $plumberid; ?>" name="plumberid">
+					<input type="hidden" name="workmanshippoint" id="workmanshippoint">
+					<input type="hidden" name="plumberverificationpoint" id="plumberverificationpoint">
+					<input type="hidden" name="cocverificationpoint" id="cocverificationpoint">
+					<input type="hidden" name="reviewpoint" id="reviewpoint">
+					<input type="hidden" name="point" id="point">
+					<button type="button" id="submitreport" class="btn btn-primary">Submit Report</button>
+					<button type="button" id="save"  class="btn btn-primary">Save/Update</button>
+					<input type="submit" name="submit" id="submit" class="displaynone">
 				</div>				
 			</form>			
 		</div>
@@ -409,7 +416,8 @@
 				<div class="modal-footer">
 					<input type="hidden" name="id" id="r_id" class="r_id">
 					<input type="hidden" value="<?php echo $cocid; ?>" name="cocid">
-					<input type="hidden" value="<?php echo $userid; ?>" name="userid">
+					<input type="hidden" value="<?php echo $userid; ?>" name="auditorid">
+					<input type="hidden" value="<?php echo $plumberid; ?>" name="plumberid">
 					<button type="button" class="btn btn-success reviewsubmit">Submit</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
@@ -419,13 +427,35 @@
 </div>
 
 
+<div id="confirmmodal" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="row">
+					<p>Confirm to submit your Audit report for <?php echo $plumbername; ?> undertaken for COC <?php echo $cocid; ?>?</p>
+					<p>The refix for this COC is required by lastests: {today date + number days of refix days}.</p>
+					<div class="col-md-12">
+						<button type="button" class="btn btn-success confirmsubmit">Confirm</button>
+						<button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script type="text/javascript">
 
 var reviewtype 	= JSON.parse('<?php echo json_encode($reviewtype); ?>');
 var reviewclass = JSON.parse('<?php echo json_encode($reviewtableclass); ?>');
+var workmanshippt = JSON.parse('<?php echo json_encode($workmanshippt); ?>');
+var plumberverificationpt = JSON.parse('<?php echo json_encode($plumberverificationpt); ?>');
+var cocverificationpt = JSON.parse('<?php echo json_encode($cocverificationpt); ?>');
+var noaudit		= '<?php echo $noaudit; ?>';
 var filepath 	= '<?php echo $filepath; ?>';
 var reviewpath 	= '<?php echo $reviewpath; ?>';
 var pdfimg		= '<?php echo $pdfimg; ?>';
+var validator;
 
 $(function(){
 	reason()
@@ -439,12 +469,12 @@ $(function(){
 	var reviewlist = $.parseJSON('<?php echo json_encode($reviewlist); ?>');
 	if(reviewlist.length > 0){
 		$(reviewlist).each(function(i, v){
-			var reviewlistdata 	= {status : 1, result : { id: v.id, reviewtype: v.reviewtype, statementname: v.statementname, comments: v.comments, file: v.file, point: v.point, status: v.status }}
+			var reviewlistdata 	= {status : 1, result : { id: v.id, reviewtype: v.reviewtype, statementname: v.statementname, comments: v.comments, file: v.file, point: v.point, status: v.status, created_at: v.created_at }}
 			review(reviewlistdata);
 		})
 	}
 	
-	validation(
+	validator = validation(
 		'.form',
 		{
 			auditdate : {
@@ -469,6 +499,10 @@ $(function(){
 			attachmenthidden : {
 				required	: "Please fill one review."
 			}
+		},
+		{
+			ignore : [],
+			callback : 1
 		}
 	);
 	
@@ -537,6 +571,26 @@ $(function(){
 	);
 });
 
+$('#save').click(function(){
+	validator.destroy();
+	$('#submit').attr('value', 'save').click();
+})
+
+$('#submitreport').click(function(){
+	if($('.form').valid())
+	{
+		$('#confirmmodal').modal('open');
+	}
+})
+
+$('.confirmsubmit').click(function(){
+	if($('.form').valid())
+	{
+		$('#submit').attr('value', 'submitreport').click();
+	}
+})
+
+
 $('#hold').click(function(){
 	reason()
 })
@@ -550,6 +604,7 @@ function reason(){
 
 $('.r_reviewtype').click(function(){
 	reviewtoggle($(this).val());
+	//reviewpoint()
 })
 
 function reviewtoggle(data){
@@ -563,6 +618,31 @@ function reviewtoggle(data){
 	}else if(data==4){
 		$('.section2').removeClass('displaynone');
 	}
+}
+
+$('.r_installationtype, .r_subtype, .r_statement').change(function(){
+	//reviewpoint();
+})
+
+function reviewpoint(){
+	var statement = $('.r_statement');
+	var reviewtype = $('.r_reviewtype').val();
+	
+	$('.r_point').val('');
+	
+	setTimeout(function(){
+		if(statement.val()!='' && statement.val()!=undefined){
+			if(reviewtype==1){
+				$('.r_point').val('0');
+			}else if(reviewtype==2){
+				$('.r_point').val(statement.attr('data-cautionary'));
+			}else if(reviewtype==3){
+				$('.r_point').val(statement.attr('data-compliment'));
+			}else if(reviewtype==4){
+				$('.r_point').val(noaudit)
+			} 
+		} 
+	}, 3000);
 }
 
 $('.r_auditorreportlist').change(function(){
@@ -584,6 +664,7 @@ $('#reviewmodal').on('hidden.bs.modal', function(){
 $('.reviewsubmit').click(function(){
 	if($('.reviewform').valid())
 	{
+		//reviewpoint();
 		var data = $('.reviewform').serialize();
 		ajax('<?php echo base_url()."ajax/index/ajaxreviewaction"; ?>', data, review);
 	}
@@ -605,7 +686,7 @@ function review(data){
 		}
 		
 		var appenddata 	= 	'\
-								<tr class="reviewappend '+reviewclass[result.reviewtype]+'" data-id="'+result.id+'">\
+								<tr class="reviewappend '+reviewclass[result.reviewtype]+'" data-id="'+result.id+'" data-date="'+formatdate(result.created_at,1)+'">\
 									<td data-reviewtype="'+result.reviewtype+'">'+reviewtype[result.reviewtype]+'</td>\
 									<td>'+((result.statementname!=null) ? result.statementname : "")+'</td>\
 									<td>'+((result.comments!=null) ? result.comments : "")+'</td>\
@@ -630,7 +711,7 @@ function review(data){
 }
 
 $(document).on('change', '.reviewstatus', function(){
-	ajax('<?php echo base_url()."ajax/index/ajaxreviewaction"; ?>', {'id' : $(this).parent().parent().attr('data-id'), 'status' : $(this).val()}, '', { success : function(data){ sweetalertautoclose('successfully saved') }} );
+	ajax('<?php echo base_url()."ajax/index/ajaxreviewaction"; ?>', {'id' : $(this).parent().parent().attr('data-id'), 'status' : $(this).val()}, '', { success : function(data){ sweetalertautoclose('successfully saved'); refixcheck(); }} );
 })
 
 $(document).on('click', '.reviewedit', function(){
@@ -718,12 +799,49 @@ function reviewextras(){
 }
 
 function refixcheck(){
+	$('.refix_wrapper, .report_wrapper, .auditcomplete_wrapper').addClass('displaynone');
+	
+	var reportcheck = 0;
+	
 	$(document).find('.reviewappend').each(function(){
-		if($(this).find('td:eq(0)').attr('data-reviewtype')=='1' && $(this).find('.reviewstatus:checked').val()=='0'){
-			$('.failure_wrapper').removeClass('displaynone');
+		if($(this).find('td:eq(0)').attr('data-reviewtype')==1 && $(this).find('.reviewstatus').val()==0){
+			reportcheck = 1;
 			return false;
+		}else if($(this).find('td:eq(0)').attr('data-reviewtype')==1 && $(this).find('.reviewstatus').val()==1){
+			reportcheck = 2;
 		}
 	})
+	
+	if(reportcheck==1){
+		$('.refix_wrapper').removeClass('displaynone');
+	}else if(reportcheck==2){
+		$('.report_wrapper, .auditcomplete_wrapper').removeClass('displaynone');
+	}
+}
+
+$('.form').submit(function(){
+	pointcalculation();
+})
+
+function pointcalculation(){
+	var workmanship = $('#workmanship').val();
+	var plumberverification = $('#plumberverification').val();
+	var cocverification = $('#cocverification').val();
+	
+	var workmanshipval 			= (workmanshippt[workmanship]) ? Number(workmanshippt[workmanship]) : 0;
+	var plumberverificationval 	= (plumberverificationpt[plumberverification]) ? Number(plumberverificationpt[plumberverification]) : 0;
+	var cocverificationval 		= (cocverificationpt[cocverification]) ? Number(cocverificationpt[cocverification]) : 0;
+	
+	var reviewval = 0;
+	$(document).find('.reviewappend').each(function(){
+		reviewval += Number($(this).find('td:eq(4)').text());
+	})
+	
+	$('#workmanshippoint').val(workmanshipval);
+	$('#plumberverificationpoint').val(plumberverificationval);
+	$('#cocverificationpoint').val(cocverificationval);
+	$('#reviewpoint').val(reviewval);
+	$('#point').val(workmanshipval + plumberverificationval + cocverificationval + reviewval);
 }
 
 </script>
