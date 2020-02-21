@@ -57,7 +57,7 @@ class Index extends CC_Controller
 	public function DTAccounts()
 	{
 		$post 			= $this->input->post();
-		$post['status'] = '2';
+		// $post['status'] = '2';
 		$totalcount 	= $this->Auditor_Model->getInvoiceList('count',$post);
 		$results 		= $this->Auditor_Model->getInvoiceList('all', $post);
 		// echo json_encode($totalcount); die;
