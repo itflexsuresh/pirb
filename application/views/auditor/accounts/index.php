@@ -121,10 +121,10 @@
 				
 					<div class="row">
 						<div class="col-md-12">	
-							<input type="text" name="editid" id="editid" value="<?php echo $editid;?>">
-							<input type="text" name="total_cost" id="total_cost" value="<?php echo $total_cost;?>">
-							<input type="text" name="vat" id="vat" value="<?php echo $vatvalue;?>">
-							<input type="text" name="total" id="total" value="<?php echo $total;?>">
+							<input type="hidden" name="editid" id="editid" value="<?php echo $editid;?>">
+							<input type="hidden" name="total_cost" id="total_cost" value="<?php echo $total_cost;?>">
+							<input type="hidden" name="vat" id="vat" value="<?php echo $vatvalue;?>">
+							<input type="hidden" name="total" id="total" value="<?php echo $total;?>">
 							<table id="table" class="table table-bordered table-striped datatables fullwidth">
 								<thead>
 									<tr>
