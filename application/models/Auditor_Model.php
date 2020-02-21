@@ -468,8 +468,10 @@ class Auditor_Model extends CC_Model
 			$request['created_at'] = $datetime;
 			$request['created_by'] = $userid;
 			$this->db->insert('auditor_review', $request);
+			$insertid = $this->db->insert_id();
 		}else{
 			$this->db->update('auditor_review', $request, ['id' => $id]);
+			$insertid = $id;
 		}
 
 		if($this->db->trans_status() === FALSE)
@@ -480,7 +482,7 @@ class Auditor_Model extends CC_Model
 		else
 		{
 			$this->db->trans_commit();
-			return true;
+			return $insertid;
 		}
 	}
 	

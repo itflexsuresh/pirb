@@ -42,6 +42,8 @@
 	$cocverification 		= isset($result['as_coc_verification']) ? $result['as_coc_verification'] : '';
 	$hold 					= isset($result['as_hold']) ? $result['as_hold'] : '';
 	$reason 				= isset($result['as_reason']) ? $result['as_reason'] : '';
+	
+	$reviewtableclass		= ['1' => 'review_failure', '2' => 'review_cautionary', '3' => 'review_compliment', '4' => 'review_noaudit'];
 ?>
 
 <div class="row page-titles">
@@ -267,7 +269,7 @@
 								
 				<div class="row">
 					<div class="col-md-6">
-						<div class="row">
+						<div class="row failure_wrapper displaynone">
 							<div class="col-md-12">
 								<div class="form-group">
 									<label>Refix Period (Days)</label>
@@ -332,57 +334,61 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-12">
-							<div class="form-group">
-								<label>My Report Listings/Favourites</label>
-								<?php
-									echo form_dropdown('favourites', $auditorreportlist, '', ['id' => 'r_auditorreportlist', 'class'=>'r_auditorreportlist form-control']);
-								?>
+						<div class="col-md-12 section1 displaynone">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>My Report Listings/Favourites</label>
+										<?php
+											echo form_dropdown('favourites', $auditorreportlist, '', ['id' => 'r_auditorreportlist', 'class'=>'r_auditorreportlist form-control']);
+										?>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Installation Type</label>
+										<?php
+											echo form_dropdown('installationtype', $installationtype, '', ['id' => 'r_installationtype', 'class'=>'r_installationtype form-control']);
+										?>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Sub Type</label>
+										<?php
+											echo form_dropdown('subtype', [], '', ['id' => 'r_subtype', 'class'=>'r_subtype form-control']);
+										?>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Statement</label>
+										<?php
+											echo form_dropdown('statement', [], '', ['id' => 'r_statement', 'class'=>'form-control']);
+										?>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>SANS/Regulation/Bylaw Reference</label>
+										<input type="text" name="reference" class="r_reference form-control" id="r_reference">
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Knowledge Reference link</label>
+										<input type="text" name="link" class="r_link form-control" id="r_link">
+									</div>
+								</div>
 							</div>
 						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Installation Type</label>
-								<?php
-									echo form_dropdown('installationtype', $installationtype, '', ['id' => 'r_installationtype', 'class'=>'r_installationtype form-control']);
-								?>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Sub Type</label>
-								<?php
-									echo form_dropdown('subtype', [], '', ['id' => 'r_subtype', 'class'=>'r_subtype form-control']);
-								?>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="form-group">
-								<label>Statement</label>
-								<?php
-									echo form_dropdown('statement', [], '', ['id' => 'r_statement', 'class'=>'form-control']);
-								?>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="form-group">
-								<label>SANS/Regulation/Bylaw Reference</label>
-								<input type="text" name="reference" class="r_reference form-control" id="r_reference">
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="form-group">
-								<label>Knowledge Reference link</label>
-								<input type="text" name="link" class="r_link form-control" id="r_link">
-							</div>
-						</div>
-						<div class="col-md-12">
+						<div class="col-md-12 section2 displaynone">
 							<div class="form-group">
 								<label>Comments</label>
 								<textarea name="comments" rows="6" class="r_comments form-control" id="r_comments"></textarea>
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-12 section3 displaynone">
 							<div class="form-group">
 								<div>
 									<img src="<?php echo $profileimg; ?>" width="100">
@@ -416,6 +422,7 @@
 <script type="text/javascript">
 
 var reviewtype 	= JSON.parse('<?php echo json_encode($reviewtype); ?>');
+var reviewclass = JSON.parse('<?php echo json_encode($reviewtableclass); ?>');
 var filepath 	= '<?php echo $filepath; ?>';
 var reviewpath 	= '<?php echo $reviewpath; ?>';
 var pdfimg		= '<?php echo $pdfimg; ?>';
@@ -432,7 +439,7 @@ $(function(){
 	var reviewlist = $.parseJSON('<?php echo json_encode($reviewlist); ?>');
 	if(reviewlist.length > 0){
 		$(reviewlist).each(function(i, v){
-			var reviewlistdata 	= {status : 1, result : { id: v.id, reviewtype: v.reviewtype, statementname: v.statementname, comments: v.comments, file: v.file }}
+			var reviewlistdata 	= {status : 1, result : { id: v.id, reviewtype: v.reviewtype, statementname: v.statementname, comments: v.comments, file: v.file, point: v.point, status: v.status }}
 			review(reviewlistdata);
 		})
 	}
@@ -490,7 +497,9 @@ $(function(){
 				required	: true,
 			},
 			comments : {
-				required	: true,
+				required:  	function() {
+								return $('.r_reviewtype:checked').val()!=4;
+							}
 			},
 			point : {
 				required	: true,
@@ -539,6 +548,23 @@ function reason(){
 	}
 }
 
+$('.r_reviewtype').click(function(){
+	reviewtoggle($(this).val());
+})
+
+function reviewtoggle(data){
+	$('.section1, .section2, .section3').addClass('displaynone');
+	reviewmodalclear(1);
+	
+	if(data==1 || data==2){
+		$('.section1, .section2, .section3').removeClass('displaynone');
+	}else if(data==3){
+		$('.section2, .section3').removeClass('displaynone');
+	}else if(data==4){
+		$('.section2').removeClass('displaynone');
+	}
+}
+
 $('.r_auditorreportlist').change(function(){
 	ajax('<?php echo base_url()."ajax/index/ajaxauditorreportinglist"; ?>', {'id' : $(this).val()}, '', { success : function(data){
 		if(data.status==1){
@@ -565,18 +591,27 @@ $('.reviewsubmit').click(function(){
 
 function review(data){
 	if(data.status==1){		
+		var dropdown	= 	'';
 		var result 		= 	data.result; 
 		
 		$(document).find('.reviewappend[data-id="'+result.id+'"]').remove();
-				
+		
+		if(result.reviewtype==1){
+			var status 	= 	result.status;
+			dropdown	= 	'<select class="form-control reviewstatus">\
+								<option value="0" '+((status==0) ? "checked" : "")+'>Incomplete</option>\
+								<option value="1" '+((status==1) ? "checked" : "")+'>Complete</option>\
+							</select>';			
+		}
+		
 		var appenddata 	= 	'\
-								<tr class="reviewappend" data-id="'+result.id+'">\
-									<td>'+reviewtype[result.reviewtype]+'</td>\
-									<td>'+result.statementname+'</td>\
-									<td>'+result.comments+'</td>\
+								<tr class="reviewappend '+reviewclass[result.reviewtype]+'" data-id="'+result.id+'">\
+									<td data-reviewtype="'+result.reviewtype+'">'+reviewtype[result.reviewtype]+'</td>\
+									<td>'+((result.statementname!=null) ? result.statementname : "")+'</td>\
+									<td>'+((result.comments!=null) ? result.comments : "")+'</td>\
 									<td class="reviewimageview"></td>\
-									<td></td>\
-									<td></td>\
+									<td>'+((result.point!=null) ? result.point : "")+'</td>\
+									<td>'+dropdown+'</td>\
 									<td>\
 										<a href="javascript:void(0);" class="reviewedit" data-id="'+result.id+'"><i class="fa fa-pencil-alt"></i></a>\
 										<a href="javascript:void(0);" class="reviewremove" data-id="'+result.id+'"><i class="fa fa-trash"></i></a>\
@@ -585,8 +620,8 @@ function review(data){
 							';
 					
 		$('.reviewtable').append(appenddata);
-		
-		mutiplereviewfile(result.file, 2, result.id);
+				
+		if(result.file!='') mutiplereviewfile(result.file, 2, result.id);
 	}
 	
 	$('#reviewmodal').modal('hide');
@@ -594,13 +629,19 @@ function review(data){
 	reviewextras();
 }
 
+$(document).on('change', '.reviewstatus', function(){
+	ajax('<?php echo base_url()."ajax/index/ajaxreviewaction"; ?>', {'id' : $(this).attr('data-id')}, review);
+})
+
 $(document).on('click', '.reviewedit', function(){
-	ajax('<?php echo base_url()."ajax/index/ajaxreviewaction"; ?>', {'reviewid' : $(this).attr('data-id'), 'action' : 'edit'}, reviewedit);
+	ajax('<?php echo base_url()."ajax/index/ajaxreviewaction"; ?>', {'id' : $(this).attr('data-id'), 'action' : 'edit'}, reviewedit);
 })
 
 function reviewedit(data){
 	if(data.status==1){
 		var result 	= 	data.result;
+		
+		reviewtoggle(result.reviewtype);
 		
 		$('.r_reviewtype[value="'+result.reviewtype+'"]').prop('checked', true);
 		$('.r_auditorreportlist').val(result.favourites);
@@ -612,7 +653,7 @@ function reviewedit(data){
 		$('.r_point').val(result.point);
 		$('.r_id').val(result.id);
 		
-		mutiplereviewfile(result.file, 1);
+		if(result.file!='') mutiplereviewfile(result.file, 1);
 		
 		$('#reviewmodal').modal('show');
 	} 
@@ -643,7 +684,7 @@ function mutiplereviewfile(file, type, id=''){
 
 
 $(document).on('click', '.reviewremove', function(){
-	ajax('<?php echo base_url()."ajax/index/ajaxreviewaction"; ?>', {'reviewid' : $(this).attr('data-id'), 'action' : 'delete'}, reviewremove);
+	ajax('<?php echo base_url()."ajax/index/ajaxreviewaction"; ?>', {'id' : $(this).attr('data-id'), 'action' : 'delete'}, reviewremove);
 	$(this).parent().parent().remove();
 	reviewextras();
 	
@@ -652,9 +693,10 @@ $(document).on('click', '.reviewremove', function(){
 
 function reviewremove(data){}
 
-function reviewmodalclear(){
+function reviewmodalclear(data=''){
+	if(data=='') $('.r_reviewtype').prop('checked', false);
+	
 	$('.r_auditorreportlist, .r_installationtype, .r_reference, .r_link, .r_comments, .r_file, .r_point, .r_id').val('');
-	$('.r_reviewtype').prop('checked', false);
 	subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], ['', '']);
 	$('.rfileappend').html('');
 	$('.reviewform').find("p.error_class_1").remove();
@@ -671,6 +713,14 @@ function reviewextras(){
 		$('.reviewnotfound').show();
 		$('.attachmenthidden').val('');
 	}
+}
+
+function refixcheck(){
+	$(document).find('.reviewappend').each(function(){
+		if($(this).find('td:eq(0)').attr('data-reviewtype')){
+			
+		}
+	})
 }
 
 </script>

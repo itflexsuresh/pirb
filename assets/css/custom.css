@@ -1485,3 +1485,19 @@ p.back_license {transform: none !important;margin: 0 !important;}
 #add_bg input#rejected + label.custom-control-label {
    color: #818284;
 }
+
+.review_failure{
+	background-color: #ffa58f;
+}
+
+.review_cautionary{
+	background-color: #ffc;
+}
+
+.review_compliment{
+	background-color: #9f9;
+}
+
+.review_noaudit{
+	background-color: #00ffff;
+}
