@@ -26,7 +26,7 @@ class index extends CC_Controller
 		
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
-			
+
 			if($requestData['submit']=='submit'){
 
 				$data 	=  $this->Mycpd_Model->actionInsert($requestData);
@@ -160,15 +160,23 @@ class index extends CC_Controller
 					';
 				}
 
+				// Attachments
+				if ($result['file1']!='') {
+					$attach = '<div class="table-action">
+					<a href="'.base_url().'assets/uploads/cpdqueue/'.$result['file1'].'" data-toggle="tooltip" data-placement="top" title="Download"><i class="fa fa-download"></i></a>
+					</div>';
+				}else{
+					$attach = '';
+				}
+
+
 				$totalrecord[] = 	[
 					'date' 					=> 	date("m-d-Y", strtotime($result['cpd_start_date'])),
 					'acivity' 				=> 	$result['cpd_activity'],
 					'streams' 				=> 	$this->config->item('cpdstream')[$result['cpd_stream']],
 					'comments' 				=> 	$result['comments'],
 					'points' 				=> 	$awardPts,
-					'attachment' 			=> 	'<div class="table-action">
-					<a href="'.base_url().'plumber/mycpd/index/getAttachment/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Download"><i class="fa fa-download"></i></a>
-					</div>',
+					'attachment' 			=> 	$attach,
 					'status' 				=> 	$statuz,
 					'action'				=> 	$action
 				];

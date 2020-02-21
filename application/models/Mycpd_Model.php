@@ -93,7 +93,7 @@ class Mycpd_Model extends CC_Model
 		$user_id 	= $this->getUserID();
 		//$id 		= $requestdata['id'];
 		$cpd_id 	= $requestdata['cpd_id'];
-		$datetime	= 	date('Y-m-d H:i:s');
+		$datetime	= date('Y-m-d H:i:s');
 		// echo "<pre>";
 		// print_r($requestdata);die;
 		
@@ -203,14 +203,16 @@ class Mycpd_Model extends CC_Model
 		//CPD Activity Search
 	public function autosearchActivity($postData){ 
 
-		$currentDate = date('Y-m-d');
+		$currentDate = date('Y-m-d H:i:s');
 
 		$this->db->select('cp1.id, cp1.activity, cp1.startdate, cp1.points, cp1.cpdstream');
 		$this->db->from('cpdtypes cp1');
 
 		$this->db->like('cp1.activity',$postData['search_keyword']);
 
-		$this->db->where('cp1.status="1" AND cp1.startdate<="'.$currentDate.'" OR cp1.enddate>"'.$currentDate.'"');
+		$this->db->where('cp1.status="1"');
+		$this->db->where('cp1.startdate<="'.$currentDate.'"');
+		$this->db->where('cp1.enddate>"'.$currentDate.'"');
 		
 		$this->db->group_by("cp1.id");		
 		$query = $this->db->get();
