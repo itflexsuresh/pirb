@@ -89,6 +89,7 @@ $formstatus  	= $userdata['formstatus'];
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Accounts</span></a>
 						<ul aria-expanded="false" class="collapse">
 							<li><a href="<?php echo base_url().'admin/accounts/renewal_plumber/index'; ?>">Renewal Plumber Registration Invoices</a></li>
+							<li><a href="<?php echo base_url().'admin/accounts/auditorsinvoices/index'; ?>">Auditors Invoices for Payment</a></li>							
 							<li><a href="<?php echo base_url().'admin/accounts/Accounts'; ?>">Plumber COC Invocies</a></li>							
 						</ul>
 					</li>
