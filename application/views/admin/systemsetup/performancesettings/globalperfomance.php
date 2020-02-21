@@ -60,7 +60,7 @@ if(isset($result) && $result){
                            
    							?>
 								<td><?php echo $v['point'];?></td>
-								<td><?php echo $v['wording'];?></td>
+								<td style="text-align:left;"><?php echo $v['wording'];?></td>
 
 							<?php }?>
 								
@@ -93,7 +93,7 @@ if(isset($result) && $result){
                              
 								?> 
 							<tr>
-								<td><?php echo $key1; ?></td>
+								<td style="text-align:left;"><?php echo $key1; ?></td>
 
 							<?php foreach($val1 as $k1=>$v1){
                            
