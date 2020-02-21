@@ -132,6 +132,8 @@ class Auditor_Model extends CC_Model
 		$this->db->select('inv.*, ud.name, ud.surname');
 		$this->db->from('invoice inv');	
 		$this->db->join('users_detail ud', 'ud.user_id=inv.user_id', 'left');
+		$this->db->join('users u', 'u.id=inv.user_id', 'inner');
+		$this->db->where('u.type', '5');
 
 		if(isset($requestdata['status'])) $this->db->where('inv.status', $requestdata['status']);
 		if(isset($requestdata['id'])) $this->db->where('inv.inv_id', $requestdata['id']);
@@ -181,7 +183,7 @@ class Auditor_Model extends CC_Model
 		if(isset($request1)){	
 			$userdata = $this->db->update('invoice', $request1, ['inv_id' => $id]);			
 		}		
-		return $userdata;		
+		return $userdata;	
 	}
 
 

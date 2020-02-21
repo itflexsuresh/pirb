@@ -33,8 +33,14 @@ class Index extends CC_Controller
 				if($data) $message = 'Records '.(($id=='') ? 'created' : 'updated').' successfully.';
 			}
 			
-			if(isset($data)) $this->session->set_flashdata('success', $message);
-			else $this->session->set_flashdata('error', 'Try Later.');
+			if(isset($data)){
+				print_r($data); die;
+				$this->session->set_flashdata('success', $message);
+				$this->generatepdf();
+			}			
+			else{
+				$this->session->set_flashdata('error', 'Try Later.');
+			}
 			
 			redirect('auditor/accounts/index'); 
 		}
@@ -150,6 +156,11 @@ class Index extends CC_Controller
 	public function Editfunc($id)
 	{
 		$this->index($id);
+	}
+
+	public function generatepdf()
+	{
+		// $this->index($id);
 	}
 	
 }
