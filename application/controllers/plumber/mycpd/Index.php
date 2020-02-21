@@ -231,4 +231,9 @@ class index extends CC_Controller
 
 		
 	}
+
+	public function mothlyMail(){
+		$query = $this->db->select('*')->from('email_notification')->where('category_id','6')->where('sms_active','1')->get()->row_array();
+		print_r($query['email_body']);die;
+	}
 }

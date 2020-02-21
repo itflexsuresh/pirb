@@ -203,19 +203,20 @@ class Mycpd_Model extends CC_Model
 		//CPD Activity Search
 	public function autosearchActivity($postData){ 
 
+		$currentDate = date('Y-m-d');
+
 		$this->db->select('cp1.id, cp1.activity, cp1.startdate, cp1.points, cp1.cpdstream');
 		$this->db->from('cpdtypes cp1');
 
 		$this->db->like('cp1.activity',$postData['search_keyword']);
 
-		$this->db->where('cp1.status="1"');
+		$this->db->where('cp1.status="1" AND cp1.startdate>="'.$currentDate.'" OR cp1.enddate>"'.$currentDate.'"');
 		
 		$this->db->group_by("cp1.id");		
 		$query = $this->db->get();
 		$result1 = $query->result_array(); 
 
 		return $result1;
-
 	}
 
 }
