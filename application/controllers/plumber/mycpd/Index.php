@@ -232,8 +232,39 @@ class index extends CC_Controller
 		
 	}
 
-	public function mothlyMail(){
-		$query = $this->db->select('*')->from('email_notification')->where('category_id','6')->where('sms_active','1')->get()->row_array();
-		print_r($query['email_body']);die;
+	public function monthlyMail(){
+
+		$user_id  			= $this->getUserID();
+		$designationID  	= $this->getUserDetails($user_id);
+		$designationDB 	  	= $this->config->item('designation2')[$designationID['designation']];
+		$currentMonth 		= date('m');
+		$lastMonth 			= date('m', strtotime($currentMonth.' -1'));
+
+		if ($designationDB == 'Learner Plumber') {
+			$designation = 'learner';
+		}elseif($designationDB == 'Technical Assistant Practitioner'){
+			$designation = 'assistant';
+		}elseif($designationDB == 'Technical Operator Practitioner'){
+			$designation = 'operating';
+		}elseif($designationDB == 'Licensed Plumber'){
+			$designation = 'licensed';
+		}elseif($designationDB == 'Qualified Plumber'){
+			$designation = '';
+		}elseif($designationDB == 'Master Plumber'){
+			$designation = 'master';
+			
+		}
+
+		$template 			= $this->db->select('*')->from('email_notification')->where('category_id','6')->where('sms_active','1')->get()->row_array();
+
+		$settingsCPD 		= $this->db->select('*')->from('settings_cpd')->get()->result_array();
+
+		//$plumberCPD 		= $this->db->select('*')->from('cpd_activity_form')->where('category_id','6')->where('sms_active','1')->get()->row_array();
+
+		echo "<pre>";
+		print_r($lastMonth);die;
+
+		print_r($query['email_body']);
+		
 	}
 }

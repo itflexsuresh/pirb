@@ -89,6 +89,7 @@ class Cpdtypesetup_Model extends CC_Model
 
 	public function queue_action($requestdata){
 		
+		
 		$user_id 	= $this->getUserID();
 		$id 		= $requestdata['id'];
 		$datetime	= 	date('Y-m-d H:i:s');
@@ -97,7 +98,7 @@ class Cpdtypesetup_Model extends CC_Model
 		if(isset($requestdata['user_id_hide']))  	$requestData1['user_id'] 	    	= $requestdata['user_id_hide'];
 		if(isset($requestdata['name_surname']))  	$requestData1['name_surname']  		= $requestdata['name_surname'];
 		if(isset($requestdata['activity'])) 		$requestData1['cpd_activity']  		= $requestdata['activity'];
-		if(isset($requestdata['startdate'])) 	 	$requestData1['cpd_start_date'] 	= $requestdata['startdate'];
+		if(isset($requestdata['startdate'])) 	 	$requestData1['cpd_start_date'] 	= date('Y-m-d', strtotime($requestdata['startdate']));
 		if(isset($requestdata['comments'])) 	 	$requestData1['comments'] 			= $requestdata['comments'];
 		if(isset($requestdata['image1'])) 		 	$requestData1['file1'] 				= $requestdata['image1'];
 		if(isset($requestdata['points'])) 		 	$requestData1['points'] 			= $requestdata['points'];
@@ -248,7 +249,8 @@ class Cpdtypesetup_Model extends CC_Model
 
 		$this->db->like('cp1.activity',$postData['search_keyword']);
 
-		$this->db->where('cp1.status="1" AND cp1.startdate="'.$currentDate.'"');
+		//$this->db->where('cp1.status="1" AND cp1.startdate="'.$currentDate.'"');
+		$this->db->where('cp1.status="1" AND cp1.startdate>="'.$currentDate.'" OR cp1.enddate>"'.$currentDate.'"');
 		
 		$this->db->group_by("cp1.id");		
 		$query = $this->db->get();
