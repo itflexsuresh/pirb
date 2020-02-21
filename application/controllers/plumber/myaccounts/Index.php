@@ -39,19 +39,36 @@ class Index extends CC_Controller
 		$post 			= $this->input->post();
 		
 		$userid 		= $this->getUserID();
+
+		$userdata1		= $this->Plumber_Model->getList('row', ['id' => $userid]);
 		
 		$totalcount 	= $this->Accounts_Model->getList('count', ['user_id' => $userid]+$post);
 		$results 		= $this->Accounts_Model->getList('all', ['user_id' => $userid]+$post);
+		
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
 				$invoicestatus = 	isset($this->config->item('payment_status2')[$result['status']]) ? $this->config->item('payment_status2')[$result['status']] : '';
 				
-				if($invoicestatus=='0'){
+				if($result['status']=='0'){
 					$action = 	'
-									<a  href="' .base_url().'assets/inv_pdf/'.$result['inv_id'].'.pdf" ><i class="fa fa-credit-card"></i></a>
+									<i class="fa fa-credit-card payfastpayment">
+									<input type="hidden" id="feeamt" value="'.$result['total_cost'].'">
+									<input type="hidden" id="name" value="'.$userdata1['name'].'">
+									<input type="hidden" id="surname" value="'.$userdata1['surname'].'">
+									<input type="hidden" id="usremail" value="'.$userdata1['email'].'">
+									<script>$(".payfastpayment").click(function(){
+									$("#name_first").val($("#name").val());
+									$("#name_last").val($("#surname").val());
+									$("#totaldue1").val($("#feeamt").val());
+									$("#email_address").val($("#usremail").val());
+									$( "#paymentsubmit" ).trigger( "click" );								
+									
+								});</script></i>
 								';
+				}else{
+					$action = 	'';	
 				}
 				
 				$totalrecord[] = 	[      
@@ -65,8 +82,7 @@ class Index extends CC_Controller
 																<div class="col-md-6">
 																	<a  href="' .base_url().'assets/inv_pdf/'.$result['inv_id'].'.pdf" ><img src="'.base_url().'assets/images/pdf.png" height="50" width="50"></a>
 																	'.(isset($action) ? $action : '').'
-																</div>
-															'
+																</div>'
 									];
 			}
 		}
@@ -256,5 +272,17 @@ td {
 				$this->pdf->stream($pdfFilePath);
 			//}
 		}		
+	}
+
+	/// Payments
+
+	public function returnurl(){
+		echo "hii return";
+	}
+	public function cancelurl(){
+		echo "hii cancel";
+	}
+	public function notifyurl(){
+		echo "hii notify";
 	}
 }
