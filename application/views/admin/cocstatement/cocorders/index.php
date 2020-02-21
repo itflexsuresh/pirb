@@ -30,8 +30,11 @@ if(!empty($comments)){
 	}
 }
 
-$allocate_start			= isset($stock['id']) ? $stock['id'] : 0;
-$allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
+// 	$allocate_start			= isset($stock['id']) ? $stock['id'] : 0;
+//	$allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
+
+	$allocate_start			= 	isset($stock['allocate_start']) ? $stock['allocate_start'] : 0;
+	$allocate_end			=	isset($stock['allocate_end']) ? $stock['allocate_end'] : 0;
 
 ?>
 

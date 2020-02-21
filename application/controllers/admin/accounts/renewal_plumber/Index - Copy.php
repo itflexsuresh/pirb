@@ -224,7 +224,7 @@ class Index extends CC_Controller
 					$designation	=	$this->config->item('designation2')[$rowData['designation']];
 					
 					$html = '<!DOCTYPE html>
-										<html>
+					<html>
 					<head>
 					<title>PDF Invoice Plumber COC</title>
 					</head>
@@ -272,11 +272,11 @@ class Index extends CC_Controller
 
 					<tr>
 					<td>
-					<img class="logo" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/pitrb-logo.png">
+					<img class="logo" style="width: 250px; float: left;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/pitrb-logo.png">
 					</td>
 
 					<td style="vertical-align: top;">
-						<table class="invoice_uniq">
+						<table class="invoice_uniq" style="float: right;">
 							<thead>
 								<tr>
 					<th style="border: 1px solid #000; padding: 8px 30px 8px 30px;">Invoice Number</th>
@@ -289,7 +289,7 @@ class Index extends CC_Controller
 					</tr>
 
 					<tr>
-					<td style="vertical-align: top;">
+					<td>
 					<table class="comp_detail_uniq" style="border: 1px solid #000;">
 						<thead>
 							<tr>
@@ -311,7 +311,7 @@ class Index extends CC_Controller
 					</td>
 
 					<td>
-					<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/paid.png">
+					<img class="paid" style="width: 250px; float: right;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/paid.png">
 					</td>
 					</tr>
 
@@ -335,8 +335,8 @@ class Index extends CC_Controller
 					</table>
 					</td>
 
-					<td style="vertical-align: top;">
-					<table class="custom_reg_uniq">
+					<td>
+					<table class="custom_reg_uniq" style="float: right;">
 					<thead>
 					<tr>
 					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer Compnay Reg</th>
@@ -359,7 +359,7 @@ class Index extends CC_Controller
 
 					<tr>
 					<td>
-						<table style="border: 1px solid #000;margin-top: 10px;" class="term_uniq">
+						<table style="border: 1px solid #000;margin-top: 20px;" class="term_uniq">
 							<thead>
 								<tr>
 								<th style="border-bottom: 1px solid #000; padding:5px 10px;text-align: center;">
@@ -380,7 +380,7 @@ class Index extends CC_Controller
 
 					<tr>
 					<td colspan="2">
-					<table class="regist_fee_uniq" style="margin: 10px 0px;">
+					<table class="regist_fee_uniq" style="margin: 20px 0px;">
 					<thead>
 					<tr>	
 					<th style="width: 50%;  margin: 0; padding: 10px 0 10px 0; text-align: center;">Description</th>
@@ -421,8 +421,8 @@ class Index extends CC_Controller
 						</table>
 					</td>
 
-					<td style="vertical-align: top;">
-					<table class="total_uniq">
+					<td>
+					<table class="total_uniq" style=" float: right;">
 					<tbody>
 
 					<tr style="text-align: center;">
@@ -436,8 +436,8 @@ class Index extends CC_Controller
 					</tr>
 
 					<tr style="text-align: center;">
-					<td bgcolor="#ccc" style="width: 50%; margin: 0; padding: 6px 10px 6px 0; border: 1px solid #000; font-weight: bold; ">Total</td>
-					<td bgcolor="#ccc" style="width: 50%; margin: 0; padding: 0; border: 1px solid #000; ">'.$rowData['total_due'].'</td>
+					<td style="width: 50%; margin: 0; padding: 6px 10px 6px 0; border: 1px solid #000; font-weight: bold; background-color: #ccc;">Total</td>
+					<td style="width: 50%; margin: 0; padding: 0; border: 1px solid #000; background-color: #ccc;">'.$rowData['total_due'].'</td>
 					</tr>
 
 					</tbody>

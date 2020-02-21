@@ -66,8 +66,10 @@ function validation(selector, rules, messages, extras=[])
 												error.insertAfter(element);
 											}
 										}
-										
-	var validator = $(selector).validate(validation);
+	var validator = $(selector).validate(validation);						
+	if(extras['callback']){
+		return validator;
+	}
 }
 
 function select2(selector){
@@ -454,7 +456,7 @@ function subtypereportinglist(data1=[], data2=[]){
 				var append = [];
 				$(data.result).each(function(i, v){
 					var selected = (data2[1] && data2[1]==v.id) ? 'selected="selected"' : '';
-					append.push('<option value="'+v.id+'" '+selected+' class="reportlistingappend">'+v.statement+'</option>');
+					append.push('<option value="'+v.id+'" '+selected+' class="reportlistingappend" data-compliment="'+v.compliment+'"  data-cautionary="'+v.cautionary+'" data-refixcomplete="'+v.refix_complete+'"  data-refixincomplete="'+v.refix_incomplete+'">'+v.statement+'</option>');
 				})
 
 				$(data1[2]).append(append);

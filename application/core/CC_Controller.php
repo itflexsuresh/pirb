@@ -21,6 +21,7 @@ class CC_Controller extends CI_Controller
 		$this->load->model('Plumber_Model');
 		$this->load->model('Noncompliance_Model');
 		$this->load->model('Auditor_Reportlisting_Model');
+		$this->load->model('Global_performance_Model');
 		
 		$this->load->library('pdf');
 		$this->load->library('phpqrcode/qrlib');
@@ -169,6 +170,40 @@ class CC_Controller extends CI_Controller
 		else return '';
 	}
 	
+	public function getAuditorPoints($id)
+	{
+		$data = $this->Global_performance_Model->getPointList('row', ['id' => $id]);
+		
+		if($data) return $data['point'];
+		else return '';
+	}
+	
+	public function getWorkmanshipPoint()
+	{
+		return 	[
+			'1' => $this->getAuditorPoints($this->config->item('verypoor')),
+			'2' => $this->getAuditorPoints($this->config->item('poor')),
+			'3' => $this->getAuditorPoints($this->config->item('good')),
+			'4' => $this->getAuditorPoints($this->config->item('excellent'))
+		];
+	}
+	
+	public function getPlumberVerificationPoint()
+	{
+		return 	[
+			'1' => $this->getAuditorPoints($this->config->item('plumberverificationyes')),
+			'2' => $this->getAuditorPoints($this->config->item('plumberverificationno'))
+		];
+	}
+	
+	public function getCocVerificationPoint()
+	{
+		return 	[
+			'1' => $this->getAuditorPoints($this->config->item('cocverificationyes')),
+			'2' => $this->getAuditorPoints($this->config->item('cocverificationno'))
+		];
+	}
+	
 	public function getPlumberRates()
 	{
 		return 	[
@@ -310,14 +345,19 @@ class CC_Controller extends CI_Controller
 			redirect($extras['redirect']); 
 		}
 		
-		$pagedata['userid'] 			= $this->getUserID();
-		$pagedata['notification'] 		= $this->getNotification();
-		$pagedata['province'] 			= $this->getProvinceList();
-		$pagedata['installationtype']	= $this->getInstallationTypeList();
-		$pagedata['auditorreportlist']	= $this->getAuditorReportingList();
-		$pagedata['workmanship'] 		= $this->config->item('workmanship');
-		$pagedata['yesno'] 				= $this->config->item('yesno');		
-		$pagedata['reviewtype'] 		= $this->config->item('reviewtype');		
+		$pagedata['userid'] 					= $this->getUserID();
+		$pagedata['notification'] 				= $this->getNotification();
+		$pagedata['province'] 					= $this->getProvinceList();
+		$pagedata['installationtype']			= $this->getInstallationTypeList();
+		$pagedata['auditorreportlist']			= $this->getAuditorReportingList();
+		$pagedata['workmanshippt']				= $this->getWorkmanshipPoint();
+		$pagedata['plumberverificationpt']		= $this->getPlumberVerificationPoint();
+		$pagedata['cocverificationpt']			= $this->getCocVerificationPoint();
+		$pagedata['cocverificationpt']			= $this->getCocVerificationPoint();
+		$pagedata['noaudit']					= $this->getAuditorPoints($this->config->item('noaudit'));
+		$pagedata['workmanship'] 				= $this->config->item('workmanship');
+		$pagedata['yesno'] 						= $this->config->item('yesno');		
+		$pagedata['reviewtype'] 				= $this->config->item('reviewtype');		
 		
 		$extraparam = [];
 		if(isset($extras['auditorid'])) $extraparam['auditorid'] 	= $extras['auditorid'];

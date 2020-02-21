@@ -79,7 +79,7 @@ class Paper_Model extends CC_Model
 			// $request2['user_id']= 1;
 			$request2['coc_status'] = "1";
 			$request2['audit_status'] = "1";
-			$request2['type'] = "1";
+			$request2['type'] = "2";
 			$request2['purchased_at'] = $datetime;
 			$request2['allocation_date'] = $datetime;
 

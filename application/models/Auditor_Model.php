@@ -129,12 +129,15 @@ class Auditor_Model extends CC_Model
 
 	public function getInvoiceList($type, $requestdata=[]){
 		
-		$this->db->select('inv.*, ud.name, ud.surname');
+		$this->db->select('inv.*, ud.name, ud.surname, ud.vat_vendor');
 		$this->db->from('invoice inv');	
 		$this->db->join('users_detail ud', 'ud.user_id=inv.user_id', 'left');
+		$this->db->join('users u', 'u.id=inv.user_id', 'inner');
+		$this->db->where('u.type', '5');
 
 		if(isset($requestdata['status'])) $this->db->where('inv.status', $requestdata['status']);
 		if(isset($requestdata['id'])) $this->db->where('inv.inv_id', $requestdata['id']);
+		if(isset($requestdata['user_id'])) $this->db->where('inv.user_id', $requestdata['user_id']);
 
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
@@ -172,16 +175,25 @@ class Auditor_Model extends CC_Model
 	public function action2($data)
 	{
 		$id	= $data['editid'];
-		
+		$request1['status'] = '0';
 		$invoicedate = isset($data['invoicedate']) && $data['invoicedate']!='1970-01-01' ? date('Y-m-d', strtotime($data['invoicedate'])) : '';		
 		if(isset($invoicedate)) $request1['invoice_date'] = $invoicedate;
 		if(isset($data['invoiceno'])) $request1['invoice_no'] = $data['invoiceno'];
-		$request1['status'] = '0';
-		
+		if(isset($data['total_cost'])) $request1['total_cost'] = $data['total_cost'];
+		if(isset($data['vat'])) $request1['vat'] = $data['vat'];
 		if(isset($request1)){	
-			$userdata = $this->db->update('invoice', $request1, ['inv_id' => $id]);			
-		}		
-		return $userdata;		
+			$userdata = $this->db->update('invoice', $request1, ['inv_id' => $id]);	
+		}
+
+		if(isset($data['total_cost'])) $request2['cost_value'] = $data['total_cost'];
+		if(isset($data['vat'])) $request2['vat'] = $data['vat'];		
+		if(isset($data['total'])) $request2['total_due'] = $data['total'];
+		if(isset($request1)){	
+			$userdata = $this->db->update('coc_orders', $request2, ['inv_id' => $id]);	
+		}
+
+				
+		return $userdata;	
 	}
 
 
@@ -481,6 +493,7 @@ class Auditor_Model extends CC_Model
 	}
 
 	
+	
 	public function getReviewList($type, $requestdata=[])
 	{
 		$this->db->select('ar.*,rl.statement statementname,i.name installationtypename,s.name subtypename');
@@ -490,6 +503,7 @@ class Auditor_Model extends CC_Model
 		$this->db->join('installationsubtype s', 's.id=ar.subtype', 'left');
 		
 		if(isset($requestdata['id'])) 		$this->db->where('ar.id', $requestdata['id']);
+		if(isset($requestdata['coc_id'])) 	$this->db->where('ar.coc_id', $requestdata['coc_id']);
 		
 		if($type=='count'){
 			$result = $this->db->count_all_results();
@@ -517,7 +531,8 @@ class Auditor_Model extends CC_Model
 		];
 
 		if(isset($data['cocid']))		 		$request['coc_id'] 				= $data['cocid'];
-		if(isset($data['userid']))		 		$request['user_id'] 			= $data['userid'];
+		if(isset($data['auditorid']))		 	$request['auditor_id'] 			= $data['auditorid'];
+		if(isset($data['plumberid']))			$request['plumber_id'] 			= $data['plumberid'];
 		if(isset($data['reviewtype']))		 	$request['reviewtype'] 			= $data['reviewtype'];
 		if(isset($data['favourites'])) 			$request['favourites'] 			= $data['favourites'];
 		if(isset($data['installationtype'])) 	$request['installationtype'] 	= $data['installationtype'];
@@ -572,15 +587,21 @@ class Auditor_Model extends CC_Model
 			'updated_by' 		=> $userid
 		];
 
-		if(isset($data['cocid']))		 			$request['coc_id'] 					= $data['cocid'];
-		if(isset($data['userid']))		 			$request['user_id'] 				= $data['userid'];
-		if(isset($data['auditdate']))		 		$request['audit_date'] 				= date('Y-m-d', strtotime($data['auditdate']));
-		if(isset($data['workmanship'])) 			$request['workmanship'] 			= $data['workmanship'];
-		if(isset($data['plumberverification'])) 	$request['plumber_verification'] 	= $data['plumberverification'];
-		if(isset($data['cocverification'])) 		$request['coc_verification'] 		= $data['cocverification'];
-		if(isset($data['hold'])) 					$request['hold'] 					= $data['hold'];
-		if(isset($data['reason'])) 					$request['reason'] 					= $data['reason'];
-		if(isset($data['status'])) 					$request['status'] 					= $data['status'];
+		if(isset($data['cocid']))		 				$request['coc_id'] 						= $data['cocid'];
+		if(isset($data['auditorid']))		 			$request['auditor_id'] 					= $data['auditorid'];
+		if(isset($data['plumberid']))		 			$request['plumber_id'] 					= $data['plumberid'];
+		if(isset($data['auditdate']))		 			$request['audit_date'] 					= date('Y-m-d', strtotime($data['auditdate']));
+		if(isset($data['workmanship'])) 				$request['workmanship'] 				= $data['workmanship'];
+		if(isset($data['plumberverification'])) 		$request['plumber_verification'] 		= $data['plumberverification'];
+		if(isset($data['cocverification'])) 			$request['coc_verification'] 			= $data['cocverification'];
+		if(isset($data['workmanshippoint'])) 			$request['workmanship_point'] 			= $data['workmanshippoint'];
+		if(isset($data['plumberverificationpoint']))	$request['plumberverification_point'] 	= $data['plumberverificationpoint'];
+		if(isset($data['cocverificationpoint'])) 		$request['cocverification_point'] 		= $data['cocverificationpoint'];
+		if(isset($data['reviewpoint'])) 				$request['review_point'] 				= $data['reviewpoint'];
+		if(isset($data['point'])) 						$request['point'] 						= $data['point'];
+		if(isset($data['hold'])) 						$request['hold'] 						= $data['hold'];
+		if(isset($data['reason'])) 						$request['reason'] 						= $data['reason'];
+		if(isset($data['status'])) 						$request['status'] 						= $data['status'];
 
 		if($id==''){
 			$request['created_at'] = $datetime;
