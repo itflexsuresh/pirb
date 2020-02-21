@@ -58,7 +58,6 @@ class Index extends CC_Controller
 		$data['content'] 			= $this->load->view('auditor/accounts/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 
-
 	
 	}
 
