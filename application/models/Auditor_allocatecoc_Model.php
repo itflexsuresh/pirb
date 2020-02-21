@@ -191,14 +191,14 @@ class Auditor_allocatecoc_Model extends CC_Model
 			elseif($type=='row') 	$result = $query->row_array();
 		}
 
-		if(!empty($result)){
-			foreach ($result as $key => &$value) {
+		// if(!empty($result)){
+		// 	foreach ($result as $key => &$value) {
 
-				if($value['specialisations']!=''){
-					$value['installationtype'] .= ",".$value['specialisations'];
-				} 
-			}
-		}
+		// 		if($value['specialisations']!=''){
+		// 			$value['installationtype'] .= ",".$value['specialisations'];
+		// 		} 
+		// 	}
+		// }
 		
 		return $result;
 	}
