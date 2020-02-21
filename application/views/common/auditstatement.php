@@ -579,7 +579,7 @@ $('#save').click(function(){
 $('#submitreport').click(function(){
 	if($('.form').valid())
 	{
-		$('#confirmmodal').modal('open');
+		$('#confirmmodal').modal('show');
 	}
 })
 
@@ -686,7 +686,7 @@ function review(data){
 		}
 		
 		var appenddata 	= 	'\
-								<tr class="reviewappend '+reviewclass[result.reviewtype]+'" data-id="'+result.id+'" data-date="'+formatdate(result.created_at,1)+'">\
+								<tr class="reviewappend '+reviewclass[result.reviewtype]+'" data-id="'+result.id+'" data-date="'+result.created_at+'">\
 									<td data-reviewtype="'+result.reviewtype+'">'+reviewtype[result.reviewtype]+'</td>\
 									<td>'+((result.statementname!=null) ? result.statementname : "")+'</td>\
 									<td>'+((result.comments!=null) ? result.comments : "")+'</td>\
@@ -804,10 +804,13 @@ function refixcheck(){
 	var reportcheck = 0;
 	
 	$(document).find('.reviewappend').each(function(){
-		if($(this).find('td:eq(0)').attr('data-reviewtype')==1 && $(this).find('.reviewstatus').val()==0){
+		var reviewtypecolumn 	= $(this).find('td:eq(0)').attr('data-reviewtype');
+		var statuscolumn		= $(this).find('.reviewstatus').val();
+		
+		if(reviewtypecolumn==1 && statuscolumn==0){
 			reportcheck = 1;
 			return false;
-		}else if($(this).find('td:eq(0)').attr('data-reviewtype')==1 && $(this).find('.reviewstatus').val()==1){
+		}else if(reviewtypecolumn==1 && statuscolumn==1){
 			reportcheck = 2;
 		}
 	})
@@ -815,7 +818,7 @@ function refixcheck(){
 	if(reportcheck==1){
 		$('.refix_wrapper').removeClass('displaynone');
 	}else if(reportcheck==2){
-		$('.report_wrapper, .auditcomplete_wrapper').removeClass('displaynone');
+		if($('.attachmenthidden').val()!='') $('.report_wrapper, .auditcomplete_wrapper').removeClass('displaynone');
 	}
 }
 
