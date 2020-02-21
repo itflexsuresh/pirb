@@ -59,11 +59,15 @@ class Auditor_Model extends CC_Model
 		$usersdetail 	= 	[ 
 			'ud.id as usersdetailid','ud.user_id as usersid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.company','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit', 'ud.vat_vendor'
 		];
+		$billingaddress	= 	[ 
+			'p.name as province, c.name as city, s.name as suburb'
+		];
 
 		$this->db->select('
 			'.implode(',', $users).',
 			'.implode(',', $auditor).',
 			'.implode(',', $usersdetail).',
+			'.implode(',', $billingaddress).',
 			concat_ws("@-@", ua1.id, ua1.user_id, ua1.address, ua1.suburb, ua1.city, ua1.province, ua1.postal_code, ua1.type)  as physicaladdress,
 			concat_ws("@-@", ua2.id, ua2.user_id, ua2.address, ua2.suburb, ua2.city, ua2.province, ua2.postal_code, ua2.type)  as postaladdress,
 			concat_ws("@-@", ua3.id, ua3.user_id, ua3.address, ua3.suburb, ua3.city, ua3.province, ua3.postal_code, ua3.type)  as billingaddress');
@@ -79,7 +83,10 @@ class Auditor_Model extends CC_Model
 		$this->db->join('users_address ua2', 'ua2.user_id=u.id and ua2.type="2"', 'left');
 
 		$this->db->join('users_address ua3', 'ua3.user_id=u.id and ua3.type="3"', 'left');
-		//$this->db->where('u.type', '5');
+
+		$this->db->join('province as p', 'p.id=ua3.province', 'left');
+		$this->db->join('city as c', 'c.id=ua3.city', 'left');
+		$this->db->join('suburb as s', 's.id=ua3.suburb', 'left');
 		
 		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);
 		if(isset($requestdata['type'])) 				$this->db->where('u.type', $requestdata['type']);
@@ -119,6 +126,64 @@ class Auditor_Model extends CC_Model
 		return $result;
 
 	}
+
+	public function getInvoiceList($type, $requestdata=[]){
+		
+		$this->db->select('inv.*, ud.name, ud.surname');
+		$this->db->from('invoice inv');	
+		$this->db->join('users_detail ud', 'ud.user_id=inv.user_id', 'left');
+
+		if(isset($requestdata['status'])) $this->db->where('inv.status', $requestdata['status']);
+		if(isset($requestdata['id'])) $this->db->where('inv.inv_id', $requestdata['id']);
+
+		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
+			$this->db->limit($requestdata['length'], $requestdata['start']);
+		}
+		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
+			$column = ['inv.inv_id', 'inv.inv_id', 'inv.inv_id', 'inv.inv_id'];
+			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+		}
+		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
+			$searchvalue = $requestdata['search']['value'];
+			$this->db->group_start();
+			$this->db->like('inv.inv_id', $searchvalue);
+			$this->db->or_like('inv.description', $searchvalue);
+			$this->db->group_end();
+
+		}
+
+		// $this->db->group_by('u.id');
+
+		if($type=='count'){
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		// print_r($this->db->last_query());die;
+		
+		return $result;
+
+	}
+
+	public function action2($data)
+	{
+		$id	= $data['editid'];
+		
+		$invoicedate = isset($data['invoicedate']) && $data['invoicedate']!='1970-01-01' ? date('Y-m-d', strtotime($data['invoicedate'])) : '';		
+		if(isset($invoicedate)) $request1['invoice_date'] = $invoicedate;
+		if(isset($data['invoiceno'])) $request1['invoice_no'] = $data['invoiceno'];
+		$request1['status'] = '0';
+		
+		if(isset($request1)){	
+			$userdata = $this->db->update('invoice', $request1, ['inv_id' => $id]);			
+		}		
+		return $userdata;		
+	}
+
 
 	public function action($data)
 	{
