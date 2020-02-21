@@ -599,8 +599,8 @@ function review(data){
 		if(result.reviewtype==1){
 			var status 	= 	result.status;
 			dropdown	= 	'<select class="form-control reviewstatus">\
-								<option value="0" '+((status==0) ? "checked" : "")+'>Incomplete</option>\
-								<option value="1" '+((status==1) ? "checked" : "")+'>Complete</option>\
+								<option value="0" '+((status=='0') ? "selected" : "")+'>Incomplete</option>\
+								<option value="1" '+((status=='1') ? "selected" : "")+'>Complete</option>\
 							</select>';			
 		}
 		
@@ -630,7 +630,7 @@ function review(data){
 }
 
 $(document).on('change', '.reviewstatus', function(){
-	ajax('<?php echo base_url()."ajax/index/ajaxreviewaction"; ?>', {'id' : $(this).attr('data-id')}, review);
+	ajax('<?php echo base_url()."ajax/index/ajaxreviewaction"; ?>', {'id' : $(this).parent().parent().attr('data-id'), 'status' : $(this).val()}, '', { success : function(data){ sweetalertautoclose('successfully saved') }} );
 })
 
 $(document).on('click', '.reviewedit', function(){
@@ -713,12 +713,15 @@ function reviewextras(){
 		$('.reviewnotfound').show();
 		$('.attachmenthidden').val('');
 	}
+	
+	refixcheck()
 }
 
 function refixcheck(){
 	$(document).find('.reviewappend').each(function(){
-		if($(this).find('td:eq(0)').attr('data-reviewtype')){
-			
+		if($(this).find('td:eq(0)').attr('data-reviewtype')=='1' && $(this).find('.reviewstatus:checked').val()=='0'){
+			$('.failure_wrapper').removeClass('displaynone');
+			return false;
 		}
 	})
 }

@@ -463,6 +463,7 @@ class Auditor_Model extends CC_Model
 		if(isset($data['comments'])) 			$request['comments'] 			= $data['comments'];
 		if(isset($data['file'])) 				$request['file'] 				= implode(',', $data['file']);
 		if(isset($data['point'])) 				$request['point'] 				= $data['point'];
+		if(isset($data['status'])) 				$request['status'] 				= $data['status'];
 
 		if($id==''){
 			$request['created_at'] = $datetime;
