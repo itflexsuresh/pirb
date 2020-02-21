@@ -17,7 +17,8 @@
 		<div class="card">
 			<div class="card-body">
 				<h4 class="card-title">COC Allocation for Audit</h4>
-				<form class="mt-4 form" action="" method="post">
+				<form class="mt-4 form" action="" method="post" id="filter">
+					<h5 class="card-title">Search Range:</h5>
 					<div class="row">
 						<div class="col-md-6">						
 							<div class="form-group">
@@ -56,10 +57,11 @@
 							</div>
 						</div>
 					</div>
+					<h5 class="card-title">Filters:</h5>					
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>Plumber Name and Surname</label>
+								<label>Plumber Name and Surname Registration Number</label>
 								<input type="search" autocomplete="off" class="form-control" name="user_search" id="user_search">
 								<div id="user_suggestion"></div>
 								<div class="search_icon">
@@ -99,6 +101,7 @@
 					<div class="row">
 						<div class="col-md-12 text-right">
 							<button type="button" name="submit" value="submit" class="btn btn-primary search">Search</button>
+							<button type="button" name="reset" value="reset" class="btn btn-primary reset">Reset</button>
 						</div>
 					</div>
 				</form>
@@ -159,6 +162,12 @@
 	})	
 	
 	$('.search').on('click',function(){		
+		datatable(1);
+	});
+
+	$('.reset').on('click',function(){		
+		$('#start_date_range,#end_date_range,#start_coc_range,#end_coc_range,#user_search,#max_allocate_plumber,#province1,#city1').val('');
+		// $('form#filter').trigger("reset");
 		datatable(1);
 	});
 
