@@ -2,16 +2,17 @@
 
 class Stock_Model extends CC_Model
 {
-	public function getRange($type, $requestdata){
+	public function getRange($type, $requestdata,$count=0){
 
 		$this->db->select('t1.*');
 		$this->db->from('stock_management t1');	
 
 		// if(isset($requestdata['id'])) 				$this->db->where('order_id', $requestdata['id']);
 		$this->db->where("user_id=0");
-		$this->db->where("user_id='NULL'",'OR');
-		$this->db->limit(1,0);
-		$this->db->order_by('id', 'ASC');	
+		$this->db->where("type='2'");
+		// $this->db->where("user_id='NULL'",'OR');
+		// $this->db->limit(1,0);
+		// $this->db->order_by('id', 'ASC');	
 
 		// SELECT * FROM `stock_management` WHERE user_id=0 || user_id=NULL ORDER BY id ASC LIMIT 0,1
 
@@ -33,7 +34,33 @@ class Stock_Model extends CC_Model
 			$query = $this->db->get();
 			
 			if($type=='all') 		$result = $query->result_array();
-			elseif($type=='row') 	$result = $query->row_array();
+			// elseif($type=='row') 	$result = $query->row_array();
+			if($result){
+			if($count>0){
+				if($count==1){
+					$result['allocate_start'] = $result[0]['id']; 
+					$result['allocate_end'] = $result[0]['id']; 
+				} else {
+					
+					$res_arr = array_column($result, 'id');
+					foreach ($res_arr as $key => $val) {
+						$arr_end = $val+($count-1);
+					    $new_arr = range($val,$arr_end);    
+					    $c = 0;
+					    foreach($new_arr as $key1=>$val1){
+					        if(in_array($val1,$res_arr)){
+					            $c++;
+					        }
+					    }
+					    if($c==$count){
+					        $result['allocate_start'] = $val; 
+							$result['allocate_end'] = $arr_end;
+					        break;
+					    }
+					}
+				}
+			}
+			}
 		}
 		
 		return $result;
