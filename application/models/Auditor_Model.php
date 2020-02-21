@@ -168,7 +168,7 @@ class Auditor_Model extends CC_Model
 		return $result;
 
 	}
-
+	
 	public function action2($data)
 	{
 		$id	= $data['editid'];
