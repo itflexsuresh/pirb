@@ -288,6 +288,7 @@ class index extends CC_Controller
 
 		$settingsCPD = $this->db->select('*')->from('settings_cpd')->get()->result_array();
 
+
 		if (count($plumberCPD)>0) {
 				foreach ($settingsCPD as $key => $value) {
 				$settingsplumberDetails[] = $value[$designation];
@@ -303,16 +304,16 @@ class index extends CC_Controller
 					$indi .= $value1['points'];
 				}
 				if($dev==''){
-					$dev .= '0';				
+					$dev .= 0;				
 					
-				}elseif ($work=='') {
-					$work .= '0';
-				}
-				elseif ($indi=='') {
-					$indi .= '0';
+				}if ($work=='') {
+					$work .= 0;
+				}if ($indi=='') {
+					$indi .= 0;
 				}
 			
 			}
+
 
 			$total .= $dev+$work+$indi;
 			$totalDB .= $settingsplumberDetails[1]+$settingsplumberDetails[2]+$settingsplumberDetails[3];
