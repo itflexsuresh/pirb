@@ -18,7 +18,7 @@ class Index extends CC_Controller
 
 		if($id!=''){	
 			$post['id'] = $id;
-			$result = $this->Auditor_Model->getInvoiceList('row', $post);			
+			$result = $this->Auditor_Model->getInvoiceList('row', $post);
 			if($result){				
 				$pagedata['result'] = $result;
 			}else{
@@ -58,8 +58,16 @@ class Index extends CC_Controller
 		$data['content'] 			= $this->load->view('auditor/accounts/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 
-
 	
+	}
+
+	public function invoicenovalidation()
+	{	
+		$requestData 		= $this->input->post();
+		$requestData['id'] 	= isset($requestData['id']) ? $requestData['id'] : '';
+		$data 				= $this->Auditor_Model->invoicenovalidation($requestData);
+		
+		echo $data;
 	}
 
 	public function DTAccounts()

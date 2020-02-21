@@ -8,6 +8,7 @@
 	$address5 = isset($auditordetail['province']) ? $auditordetail['province'] : '';
 	$work_phone = isset($auditordetail['work_phone']) ? $auditordetail['work_phone'] : '';
 	$email = isset($auditordetail['email']) ? $auditordetail['email'] : '';
+	$user_id = isset($auditordetail['user_id']) ? $auditordetail['user_id'] : '';
 
 	$bank_name = isset($bankdetail['bank_name']) ? $bankdetail['bank_name'] : '';
 	$branch_code = isset($bankdetail['branch_code']) ? $bankdetail['branch_code'] : '';
@@ -17,7 +18,8 @@
 
 	$editid = isset($result['inv_id']) ? $result['inv_id'] : '';
 	$vat_vendor = isset($result['vat_vendor']) ? $result['vat_vendor'] : '';
-	$total_cost = isset($result['total_cost']) ? $result['total_cost'] : '';	
+	$description = isset($result['description']) ? $result['description'] : '';	
+	$total_cost = isset($result['total_cost']) ? $result['total_cost'] : '';
 	$vatvalue = '';
 	$total = '';
 	if($editid > 0)	{
@@ -51,7 +53,7 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				
+				<?php if($editid > 0) { ?>
 				<form class="form" method="post">
 
 					<h4 class="card-title">Invocie Details</h4>
@@ -134,27 +136,34 @@
 										<th>Amount</th>										
 									</tr>									
 								</thead>
-							</table>
-							<table id="table" class="table table-bordered table-striped datatables3 fullwidth">
-								<thead>
-									<tr>
-										<th>Sub Total</th>
-										<th><?php echo $total_cost;?></th>										
+								<tbody>
+									
+								<?php 
+									echo '<tr>'; 
+										echo '<td>'.$description.'</td>';
+										echo '<td>1</td>';
+										echo '<td>'.$total_cost.'</td>';
+										echo '<td>'.$total_cost.'</td>';
+								
+									echo '</tr>';
+									echo '<tr>';
+										echo '<td colspan="3">Sub Total</td>';
+										echo '<td>'.$total_cost.'</td>';
+									echo '</tr>';
+									if($vat_vendor > 0){
+									echo '<tr>';
+										echo '<td colspan="3">VAT Total</td>';
+										echo '<td>'.$vatvalue.'</td>';
+									echo '</tr>';
+									}
+									echo '<tr>';
+										echo '<td colspan="3">Total</td>';
+										echo '<td>'.$total.'</td>';
+									echo '</tr>';
+								?>
 									</tr>
-
-									<?php if($vat_vendor > 0){ ?>	
-									<tr>
-										<th>VAT Total</th>
-										<th><?php echo $vatvalue;?></th>										
-									</tr>
-									<?php } ?>
-
-									<tr>
-										<th>Total</th>
-										<th><?php echo $total;?></th>										
-									</tr>								
-								</thead>
-							</table>							
+								</tbody>
+							</table>														
 						</div>
 
 					</div>
@@ -203,27 +212,27 @@
 							<button type="submit" style="float: right;" name="submit" id="submit" value="submit" class="btn btn-block btn-primary btn-rounded">Submit Invoice</button>
 						</div>
 					</div>
-
-
-						<h4 class="card-title" style="clear: both;">My Accounts</h4>
-						<div class="row">
-						<div class="col-md-12">							
-							<table id="table2" class="table table-bordered table-striped datatables2 fullwidth">
-								<thead>
-									<tr>
-										<th>Description</th>
-										<th>Inv Number</th>        
-										<th>Invocie Date</th>
-										<th>Invoice Value</th>
-										<th>Status</th>	
-										<th>Action</th>									
-									</tr>
-								</thead>
-							</table>							
-						</div>
-					</div>
 				</form>
+				<?php } ?>
 
+				</br>
+				<div class="row">
+					<h4 class="card-title" style="clear: both;">My Accounts</h4>
+					<div class="col-md-12">							
+						<table id="table" class="table table-bordered table-striped datatables2 fullwidth">
+							<thead>
+								<tr>
+									<th>Description</th>
+									<th>Inv Number</th>        
+									<th>Invocie Date</th>
+									<th>Invoice Value</th>
+									<th>Status</th>	
+									<th>Action</th>									
+								</tr>
+							</thead>
+						</table>							
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -237,20 +246,28 @@ $(function(){
 
 
 	datepicker('.invoicedate');
-
+	var userid = <?php echo $user_id;?>;
 	validation(
 		'.form',
 		{
 			invoicedate : {
 				required	: true,
-			},
+			},	
 			invoiceno : {
 				required	: true,
-			},
-			editid : {
-				required	: true,
-			}
-						
+			},		
+			// invoiceno : {
+			// 	required	: true,				
+			// 	remote		: 	{
+			// 						url		: 	"<?php echo base_url().'auditor/accounts/index/invoicenovalidation'; ?>",
+			// 						type	: 	"post",
+			// 						async	: 	false,
+			// 						data	: 	{
+			// 										id : userid
+			// 									}
+			// 					}
+			// }
+					
 
 		},
 
@@ -259,11 +276,12 @@ $(function(){
 				required	: "Please enter the Invoice date."
 			},
 			invoiceno 	: {
-				required	: "Please enter the Invoice No."
+				required	: "Please enter the Invoice no."
 			},
-			editid 	: {
-				required	: "Please Select the Invoice."
-			}
+			// invoiceno : {
+			// 	required	: "Invoiceno  field is required.",				
+			// 	remote		: "Invoiceno already exists."
+			// }
 		}
 	);
 
@@ -283,25 +301,25 @@ $(function(){
 	
 	ajaxdatatables('.datatables2', options);
 
-	var editid = $("#editid").val();
-	if( editid > 0){
-		var options = {
-			url 	: '<?php echo base_url()."auditor/accounts/Index/DTAccounts2/"; ?>'+editid,
-			columns : 	[
-			{ "data": "description" },
-			{ "data": "qty" },
-			{ "data": "total_cost" },
-			{ "data": "total_cost" }
+	// var editid = $("#editid").val();
+	// if( editid > 0){
+	// 	var options = {
+	// 		url 	: '<?php //echo base_url()."auditor/accounts/Index/DTAccounts2/"; ?>'+editid,
+	// 		columns : 	[
+	// 		{ "data": "description" },
+	// 		{ "data": "qty" },
+	// 		{ "data": "total_cost" },
+	// 		{ "data": "total_cost" }
 			
-			],			
-			paging :   false,
-			ordering: false,
-			info:     false
+	// 		],			
+	// 		paging :   false,
+	// 		ordering: false,
+	// 		info:     false
 			
-		};
+	// 	};
 
-		ajaxdatatables('.datatables', options);
-	}
+	// 	ajaxdatatables('.datatables', options);
+	// }
 
 
 });
