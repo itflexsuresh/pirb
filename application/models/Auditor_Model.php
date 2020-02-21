@@ -196,6 +196,21 @@ class Auditor_Model extends CC_Model
 		return $userdata;	
 	}
 
+	public function invoicenovalidation($data)
+	{
+		$id 	= $data['id'];
+		$invoiceno 	= $data['invoiceno'];		
+		$this->db->where('invoiceno', $invoiceno);
+		if($id!='') $this->db->where('id !=', $id);
+		$query = $this->db->get('invoice');
+		
+		if($query->num_rows() > 0){
+			return 'false';
+		}else{
+			return 'true';
+		}
+	}
+
 
 	public function action($data)
 	{
