@@ -2,26 +2,42 @@
 
 class Global_performance_Model extends CC_Model
 {
-
-	
-	public function getPermissions()
-	{ 
-		$this->db->select('gps_point.*,gps_point.description as deg_name,gps_point.point,gps_point.wording');
+	public function getPointList($type, $requestdata=[])
+	{
+		$this->db->select('*');
 		$this->db->from('gps_point');
 		
+		if(isset($requestdata['id'])) 				$this->db->where('id', $requestdata['id']);
 		
-		$query = $this->db->get();
-
-		return $query->result();
+		if($type=='count'){
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		return $result;
 	}
-	public function getPermissions1()
-	{ 
-		$this->db->select('gpn.*,gpn.warning as gps_n, gpn.point, gpn.status');
-		$this->db->from('gps_notification as gpn');
+	
+	public function getWarningList($type, $requestdata=[])
+	{
+		$this->db->select('*');
+		$this->db->from('gps_notification');
 		
-		$query = $this->db->get();
-
-		return $query->result();
+		if(isset($requestdata['id'])) 				$this->db->where('id', $requestdata['id']);
+		
+		if($type=='count'){
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		return $result;
 	}
 }
 
