@@ -112,7 +112,7 @@ class Auditor_allocatecoc_Model extends CC_Model
 	public function getCOCList($type, $requestdata=[])
 	{ 
 		
-		$this->db->select('t5.name as postal_city, t6.name as postal_province, t7.name as postal_suburb, coc_id, installationtype');
+		$this->db->select('t5.name as postal_city, t6.name as postal_province, t7.name as postal_suburb, coc_id, t1.installationtype, t1.specialisations');
 
 		$this->db->from('coc_log t1');
 		$this->db->join('users u', 't1.created_by=u.id', 'left');
@@ -126,7 +126,7 @@ class Auditor_allocatecoc_Model extends CC_Model
 		$this->db->join('users_detail c', 'c.id=up.company_details', 'left');
 		$this->db->join('city t5', 't1.city=t5.id','left');				
 		$this->db->join('province t6', 't1.province=t6.id','left');				
-		$this->db->join('suburb t7', 't1.suburb=t6.id','left');				
+		$this->db->join('suburb t7', 't1.suburb=t7.id','left');				
 		$this->db->join('stock_management t8', 't8.id=t1.coc_id','inner');	
 
 		$this->db->where('t8.auditorid',0);
@@ -189,6 +189,15 @@ class Auditor_allocatecoc_Model extends CC_Model
 			
 			if($type=='all') 		$result = $query->result_array();
 			elseif($type=='row') 	$result = $query->row_array();
+		}
+
+		if(!empty($result)){
+			foreach ($result as $key => &$value) {
+
+				if($value['specialisations']!=''){
+					$value['installationtype'] .= ",".$value['specialisations'];
+				} 
+			}
 		}
 		
 		return $result;

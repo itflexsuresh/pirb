@@ -181,15 +181,15 @@ class Index extends CC_Controller
 		$post 				= $this->input->post();
 		
 		if(isset($post['action']) && $post['action']=='delete'){
-			$result = $this->Auditor_Model->deleteReview($post['reviewid']);
+			$result = $this->Auditor_Model->deleteReview($post['id']);
 		}else{
 			if(isset($post['action']) && $post['action']=='edit'){
-				$result['reviewid'] = $post['reviewid'];
+				$result = $post['id'];
 			}else{
 				$result = $this->Auditor_Model->actionReview($post);
 			}
 			
-			$result = $this->Auditor_Model->getReviewList('row', ['id' => $result['reviewid']]);
+			$result = $this->Auditor_Model->getReviewList('row', ['id' => $result]);
 		}
 		
 		if($result){

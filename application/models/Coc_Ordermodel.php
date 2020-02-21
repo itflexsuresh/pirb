@@ -370,6 +370,7 @@ class Coc_Ordermodel extends CC_Model
 		$this->db->where_in('up.designation', ['4','5','6']);
 		$this->db->like('ud.name',$postData['search_keyword']);
 		$this->db->or_like('ud.surname',$postData['search_keyword']);
+		$this->db->or_like('ud.reg_no',$postData['search_keyword']);
 		$this->db->group_by("ud.id");
 		
 		$query = $this->db->get();
