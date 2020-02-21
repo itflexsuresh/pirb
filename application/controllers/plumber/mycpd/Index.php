@@ -239,6 +239,15 @@ class index extends CC_Controller
 		
 	}
 
+	// public function mothlyCron(){
+	// 	$user_id  			= $this->getUserID();
+	// 	$userdetails 		= $this->Plumber_Model->getList('row', ['id' => $user_id]);
+	// 	$year	= date('Y-m-d H:i:s');
+
+
+	// 	$plumberCPD 		= $this->db->select('*')->from('cpd_activity_form')->where('')->get()->result_array();
+	// }
+
 	public function monthlyMail(){
 
 		$user_id  			= $this->getUserID();
@@ -250,11 +259,11 @@ class index extends CC_Controller
 		$lastMonth 			= date('m', strtotime($currentMonth.' -1'));
 		$settingsplumberDetails[] = '';
 		$plumberCPDDetails[] = '';
-		$cpdTable = '';
-		$dev 	= '';
-		$work 	= '';
-		$indi 	= '';
-		$total 	= '';
+		$cpdTable 	= '';
+		$dev 		= '';
+		$work 		= '';
+		$indi 		= '';
+		$total 		= '';
 		$totalDB 	= '';
 
 		if ($designationDB == 'Learner Plumber') {
@@ -272,12 +281,12 @@ class index extends CC_Controller
 			
 		}
 
-		$template 			= $this->db->select('*')->from('email_notification')->where('category_id','6')->where('sms_active','1')->get()->row_array();
+		$template 	= $this->db->select('*')->from('email_notification')->where('category_id','6')->where('sms_active','1')->get()->row_array();
 		
 
-		$plumberCPD 		= $this->db->select('*')->from('cpd_activity_form')->where('MONTH(cpd_start_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND status="1" OR status="2"')->get()->result_array();
+		$plumberCPD = $this->db->select('*')->from('cpd_activity_form')->where('MONTH(cpd_start_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND status="1" OR status="2"')->get()->result_array();
 
-		$settingsCPD 		= $this->db->select('*')->from('settings_cpd')->get()->result_array();
+		$settingsCPD = $this->db->select('*')->from('settings_cpd')->get()->result_array();
 
 		if (count($plumberCPD)>0) {
 				foreach ($settingsCPD as $key => $value) {
