@@ -52,20 +52,24 @@ class Index extends CC_Controller
 				$invoicestatus = 	isset($this->config->item('payment_status2')[$result['status']]) ? $this->config->item('payment_status2')[$result['status']] : '';
 				
 				if($result['status']=='0'){
+					$this->session->set_userdata('pay_purchaseorder', $result['inv_id']);
+
 					$action = 	'
-									<i class="fa fa-credit-card payfastpayment">
 									<input type="hidden" id="feeamt" value="'.$result['total_cost'].'">
 									<input type="hidden" id="name" value="'.$userdata1['name'].'">
 									<input type="hidden" id="surname" value="'.$userdata1['surname'].'">
 									<input type="hidden" id="usremail" value="'.$userdata1['email'].'">
-									<script>$(".payfastpayment").click(function(){
+									<i class="fa fa-credit-card payfastpayment">									
+									<script>
+									$(".payfastpayment").click(function(){
 									$("#name_first").val($("#name").val());
 									$("#name_last").val($("#surname").val());
 									$("#totaldue1").val($("#feeamt").val());
 									$("#email_address").val($("#usremail").val());
 									$( "#paymentsubmit" ).trigger( "click" );								
 									
-								});</script></i>
+								});
+								</script></i>
 								';
 				}else{
 					$action = 	'';	
@@ -277,12 +281,22 @@ td {
 	/// Payments
 
 	public function returnurl(){
-		echo "hii return";
+		$userid = $this->getUserID();
+		$invId 	= $this->session->userdata('pay_purchaseorder');
+		$requestData['status'] = '1';
+		$query = $this->db->update('invoice', $requestData, ['inv_id' => $invId,'user_id' => $userid]);
+		if ($query) {
+			$this->session->set_flashdata('success','Registration Renewed Sucessfully.');
+			redirect('plumber/profile/Index');
+		}
+		
 	}
 	public function cancelurl(){
-		echo "hii cancel";
+		$this->session->set_flashdata('success','Payement Cancel.');
+		redirect('plumber/profile/Index');
 	}
 	public function notifyurl(){
-		echo "hii notify";
+		$this->session->set_flashdata('success','Registration Renewed Sucessfully.');
+		redirect('plumber/profile/Index');
 	}
 }
