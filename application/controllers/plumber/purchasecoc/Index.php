@@ -262,7 +262,7 @@ class Index extends CC_Controller
         }
         else{
 
-        	$paid ="<img class='paid' style='width: 250px;'' src='.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/unpaid.png>";
+        	$paid ="<img class='paid' style='width: 250px;' src='.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/unpaid.png>";
 
         	$paid_status = 'UNPAID';
         	
