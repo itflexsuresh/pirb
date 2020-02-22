@@ -439,7 +439,7 @@ class Index extends CC_Controller
 
 					<tr>
 					<td colspan="2">
-					<table class="regist_fee_uniq" style="margin-top: 10px;">
+					<table class="regist_fee_uniq" style="margin-top: 10px; width: 100%">
 					<thead>
 					<tr>	
 					<th style="width: 50%;  margin: 0; padding: 10px 0 10px 0; text-align: center;">Description</th>
