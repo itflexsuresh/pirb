@@ -253,16 +253,16 @@ class Index extends CC_Controller
 
          
 
-       if($rowData["status"]=='1'){
+      if($rowData["status"]=='1'){
 
-        	 $paid = "<img class='paid' style='width: 250px;' src='.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/paid.png>";
+        	 $paid = '<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/paid.png">';
 
         	 $paid_status = "PAID";
         	
         }
         else{
 
-        	$paid ="<img class='paid' style='width: 250px;' src='.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/unpaid.png>";
+        	$paid ='<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/unpaid.png">';
 
         	$paid_status = 'UNPAID';
         	
