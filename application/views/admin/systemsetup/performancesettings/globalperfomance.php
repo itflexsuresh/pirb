@@ -1,10 +1,9 @@
 <?php
-if(isset($result) && $result){
+if(isset($results) && $results){
 
-	//$id 			= $result['id'];
-	//$name 			= (set_value('name')) ? set_value('name') : $result['name'];
-	//$status 		= (set_value('status')) ? set_value('status') : $result['status'];
-	
+	//$id 			= $results['id'];
+	//$points			= (set_value('points')) ? set_value('points') : $results['point'];
+
 	$heading		= 'Update';
 }else{
 	$id 			= '';
@@ -44,37 +43,22 @@ if(isset($result) && $result){
 								<th>Performance Wording</th>
 							</tr>
 					 		</thead>
-					 		
 					 		<tbody>
-					 			
-					 			<?php if(count($permission_list) > 0)
-					         {
-					          	foreach($permission_list as $key=>$val)
-					         	{  
-                           
-								?> 
+					 			<?php foreach($results as $key=>$val){
+					 		  ?>
 							<tr>
-								<td><?php  echo $key; ?></td>
-
-							<?php foreach($val as $k=>$v){
-                           
-   							?>
-								<td><?php echo $v['point'];?></td>
-								<td><?php echo $v['wording'];?></td>
-
-							<?php }?>
-								
+								<td class="key"><?php echo $val['description'];?></td>
+								<td class="point">
+									<input type="text" size="2" min="0" id="points" name="points[<?php echo $val['id']; ?>]"  value="<?php echo $val['point'];?>" style="margin: 0px 20px;width: 40%;">
+								</td>
+								<td class="wording" ><?php echo $val['wording'];?></td>
 							</tr>
-							
+						<?php 	}?>
 						</tbody>
-						<?php }}?>
-					    </table>
-
-			        </form>		
-			    </div>
-               <div class="table-responsive m-t-40">
-					<form class="mt-4 form" action="" method="post">
-						<h4 class="card-title">Global Performance Settings - Warning Notifications to Plumbers</h4>
+					    </table></br></br>
+					
+			   
+				<h4 class="card-title">Global Performance Settings - Warning Notifications to Plumbers</h4>
 					    <table class="table  fullwidth" border="1">
 					    	<thead>
 							<tr>
@@ -85,43 +69,39 @@ if(isset($result) && $result){
 					 		</thead>
 					 		
 					 		<tbody>
-					 			
-					 			<?php if(count($permission_list1) > 0)
-					         {
-					          	foreach($permission_list1 as $key1=>$val1)
-					         	{  
-                             
-								?> 
-							<tr>
-								<td><?php echo $key1; ?></td>
+					 			<?php 
+                               // echo '<pre>';print_r($result);exit();
+					 			foreach($result as $key1=>$val1){
 
-							<?php foreach($val1 as $k1=>$v1){
-                           
-   							?>
-								<td><?php echo $v1['point'];?></td>
+					 				
+					 			?>
+					 			
+							<tr>
+								<td class="key1"><?php echo $val1['warning'];?></td>
+								<td class="point">
+									<input type="text" size="2" min="0" id="points" name="points1[<?php echo $val1['id'];?>]"  value="<?php echo $val1['point'];?>" style="margin: 0px 20px;width: 10%;">
+								</td>
 								<td>
                                 <div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
-								<input type="checkbox" class="custom-control-input" name="status" id="status" <?php if($v1['status']=='1')echo 'checked'; ?> value="1">
-								<label class="custom-control-label" for="status"></label>
+								<input type="checkbox" class="custom-control-input" name="status[<?php echo $val1['id'];?>]" id="status_<?php echo $val1['id'];?>" <?php if($val1['status']==1) echo 'checked';?>>
+								<label class="custom-control-label" for="status_<?php echo $val1['id'];?>"></label>
 							    </div></td>
-							<?php }?>
-								
 							</tr>
-							
+							<?php }?>
 						</tbody>
-						<?php }}?>
-					    </table>
-
-			        </form>		
-			    </div></br>
-            <div class="form-group">
+					    </table></br>
+                <div class="form-group">
 					<label style="text-align: bold">Performance Rolling Averages</label>&nbsp&nbsp&nbsp &nbsp &nbsp  
-					<input type="text" class="form-group" id="avg" name="average"  placeholder="months" value="">							
-			</div>
+					<input type="text" class="form-group" id="avg" name="average"  placeholder="month" >							
+		        </div>			
+                <div class="col-md-11 text-right">
+				       <input type="hidden" name="id" value="<?php //echo $id; ?>">
+					   <button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?>
+					   </button>
+				    </div>
+			      </form>		
 		    </div>
-		   
 	    </div>
-
     </div>
 </div>
 
