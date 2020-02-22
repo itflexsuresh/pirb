@@ -338,7 +338,7 @@ class CC_Controller extends CI_Controller
 		$extraparam = [];
 		if(isset($extras['auditorid'])) $extraparam['auditorid'] 	= $extras['auditorid'];
 		if(isset($extras['plumberid'])) $extraparam['user_id'] 		= $extras['plumberid'];		
-		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['5']]+$extraparam);	
+		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]+$extraparam);	
 		$pagedata['settings'] 		= $this->Systemsettings_Model->getList('row');
 		
 		if($this->input->post()){
@@ -398,9 +398,8 @@ class CC_Controller extends CI_Controller
 		$pagedata['noaudit']					= $this->getAuditorPoints($this->config->item('noaudit'));
 		$pagedata['workmanship'] 				= $this->config->item('workmanship');
 		$pagedata['yesno'] 						= $this->config->item('yesno');		
-		$pagedata['reviewtype'] 				= $this->config->item('reviewtype');		
-		
-		$pagedata['reviewlist']		= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
+		$pagedata['reviewtype'] 				= $this->config->item('reviewtype');	
+		$pagedata['reviewlist']					= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'sweetalert', 'validation', 'select2'];
 		$data['content'] 			= $this->load->view('common/auditstatement', (isset($pagedata) ? $pagedata : ''), true);
