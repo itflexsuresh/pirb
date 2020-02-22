@@ -361,7 +361,7 @@ class CC_Controller extends CI_Controller
 						$this->db->insert('invoice', $invoicedata);
 						$insertid = $this->db->insert_id();
 						unset($invoicedata['total_cost']);
-						$invoicedata+['cost_value' => $inspectionrate, 'total_due' => $inspectionrate, 'inv_id' => $insertid];
+						$invoicedata = $invoicedata+['cost_value' => $inspectionrate, 'total_due' => $inspectionrate, 'inv_id' => $insertid];
 						$this->db->insert('coc_orders', $invoicedata);
 						
 						// Email
@@ -372,16 +372,16 @@ class CC_Controller extends CI_Controller
 						}
 						
 						// Stock
-						$this->db->update('stock_management', ['audit_status' => '1'], ['id' => $result['id']]);
+						$this->db->update('stock_management', ['audit_status' => '1'], ['id' => $pagedata['result']['id']]);
 					}elseif($requestData['auditstatus']=='0'){
 						$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '22', 'emailstatus' => '1']);
 	
 						if($notificationdata){
-							$body 	= str_replace(['{Plumbers Name and Surname}', '{COC number}', '{refix number} '], [$result['u_name'], $result['id'], $pagedata['settings']['refix_period']], $notificationdata['email_body']);
+							$body 	= str_replace(['{Plumbers Name and Surname}', '{COC number}', '{refix number} '], [$pagedata['result']['u_name'], $pagedata['result']['id'], $pagedata['settings']['refix_period']], $notificationdata['email_body']);
 							$this->CC_Model->sentMail($pagedata['result']['u_email'], $notificationdata['subject'], $body);
 						}
 						
-						$this->db->update('stock_management', ['audit_status' => '3'], ['id' => $result['id']]);
+						$this->db->update('stock_management', ['audit_status' => '3'], ['id' => $pagedata['result']['id']]);
 					}
 				} 
 				
