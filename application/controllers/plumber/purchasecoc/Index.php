@@ -356,7 +356,7 @@ class Index extends CC_Controller
 					</td>
 
 					<td>
-					  '.$paid.'
+					 
 					</td>
 					</tr>
 
