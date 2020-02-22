@@ -204,13 +204,13 @@ class Index extends CC_Controller
 
 			if($rowData["status"]=='1'){
 
-				$paid = "<img style='width: 290px' src='".$_SERVER['DOCUMENT_ROOT']."/auditit_new/pirb/assets/images/paid.jpg>";
+				$paid = "<img style='width: 290px' src='".$_SERVER['DOCUMENT_ROOT']."/auditit_new/pirb/assets/images/paid.png>";
 				$paid_status = "PAID";
 
 			}
 			else{
 
-				$paid ="<img style='width: 290px' src='".$_SERVER['DOCUMENT_ROOT']."/auditit_new/pirb/assets/images/unpaid2.jpg>";
+				$paid ="<img style='width: 290px' src='".$_SERVER['DOCUMENT_ROOT']."/auditit_new/pirb/assets/images/unpaid.png>";
 				$paid_status = "UNPAID";
 
 			}
@@ -271,7 +271,7 @@ class Index extends CC_Controller
 
 					<tr>
 					<td>
-					<img class="logo" style="width: 250px; margin-top:10px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/'.$rowData['file2'].'">
+						<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/uploads/auditor/'.$rowData['file2'].'">
 					</td>
 
 					<td style="vertical-align: top;">
