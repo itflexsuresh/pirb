@@ -22,6 +22,17 @@ class Accounts_Model extends CC_Model
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
+		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
+			$searchvalue = $requestdata['search']['value'];
+			$this->db->like('t1.inv_id', $searchvalue);
+			$this->db->or_like('t1.description', $searchvalue);
+            $this->db->or_like('t1.created_at', $searchvalue);
+            $this->db->or_like('t1.total_cost', $searchvalue);
+            $this->db->or_like('t1.internal_inv', $searchvalue);
+            $this->db->or_like('t3.name', $searchvalue);
+            $this->db->or_like('t3.surname', $searchvalue);
+            $this->db->or_like('t5.registration_no', $searchvalue);
+		}
 			
 		if($type=='count'){
 			$result = $this->db->count_all_results();
