@@ -113,7 +113,10 @@ class Coc_Ordermodel extends CC_Model
 
 				$result1 = $this->db->update('invoice', $requestdata,['inv_id'=>$requestdata['inv_id']]);				
 
-
+print '<pre>';
+print_r($requestdata1);
+print '</pre>';
+exit;
 				$result = $this->db->update('coc_orders', $requestdata1,['id'=>$requestdata1['id']]);
 				// echo $this->db->last_query();exit;
 			} else {
