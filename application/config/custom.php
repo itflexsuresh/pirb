@@ -23,6 +23,8 @@ $config['postage'] 					= 	'2';
 $config['couriour'] 				= 	'17';
 $config['collectedbypirb'] 			= 	'24';
 
+$config['inspection'] 				= 	'20';
+
 // Global Performance Table
 
 $config['verypoor']	 				= 	'4';

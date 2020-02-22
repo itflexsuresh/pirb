@@ -13,7 +13,7 @@
 	$plumbermobile 			= isset($result['u_mobile']) ? $result['u_mobile'] : '';
 	$plumberfile 			= isset($result['u_file']) ? $result['u_file'] : '';
 	
-	$filepath				= base_url().'assets/uploads/'.$plumberid.'/';
+	$filepath				= base_url().'assets/uploads/plumber/'.$plumberid.'/';
 	
 	if($plumberfile!=''){
 		$explodefile2 		= explode('.', $plumberfile);
@@ -523,9 +523,6 @@ $(function(){
 			reviewtype : {
 				required	: true,
 			},
-			favourites : {
-				required	: true,
-			},
 			installationtype : {
 				required	: true,
 			},
@@ -553,9 +550,6 @@ $(function(){
 		{
 			reviewtype 	: {
 				required	: "Please select Review Type.",
-			},
-			favourites 	: {
-				required	: "Please select My Report Listings/Favourites.",
 			},
 			installationtype : {
 				required	: "Please select Installation Type.",
@@ -676,7 +670,7 @@ function reviewpoint(){
 		
 		if(reviewtype==4){
 			$('.r_point').val(noaudit);
-			$('#noauditpoint').val(statementoption.attr(noaudit));
+			$('#noauditpoint').val(noaudit);
 		} 
 	}, 1000);
 }
