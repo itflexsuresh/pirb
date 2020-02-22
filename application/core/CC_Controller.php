@@ -335,12 +335,37 @@ class CC_Controller extends CI_Controller
 	
 	public function getAuditStatement($id, $pagedata=[], $extras=[])
 	{
+		$extraparam = [];
+		if(isset($extras['auditorid'])) $extraparam['auditorid'] 	= $extras['auditorid'];
+		if(isset($extras['plumberid'])) $extraparam['user_id'] 		= $extras['plumberid'];		
+		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['5']]+$extraparam);
+		
 		if($this->input->post()){
 			$requestData 	=  $this->input->post();
 			$data 			=  $this->Auditor_Model->actionStatement($requestData);
+			
+			
+				
 		
-			if($data) $this->session->set_flashdata('success', 'Successfully updated.');
-			else $this->session->set_flashdata('error', 'Try Later.');
+			
+			if($data){
+				if(isset($requestData['auditcomplete']) && $requestData['auditcomplete']=='1' && $requestData['submit']=='submitreport'){
+					if($requestData['auditstatus']=='1'){
+						$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '21', 'emailstatus' => '1']);
+	
+						if($notificationdata){
+							$body 	= str_replace(['{Plumbers Name and Surname}', '{COC number}'], [$result['u_name'], $result['id']], $notificationdata['email_body']);
+							$this->CC_Model->sentMail($pagedata['result']['u_email'], $notificationdata['subject'], $body);
+						}
+						
+						$this->db->update('stock_management', ['audit_status' => '1'], ['id' => $result['id']]);
+					}
+				} 
+				
+				$this->session->set_flashdata('success', 'Successfully updated.');
+			}else{
+				$this->session->set_flashdata('error', 'Try Later.');
+			}
 			
 			redirect($extras['redirect']); 
 		}
@@ -359,10 +384,6 @@ class CC_Controller extends CI_Controller
 		$pagedata['yesno'] 						= $this->config->item('yesno');		
 		$pagedata['reviewtype'] 				= $this->config->item('reviewtype');		
 		
-		$extraparam = [];
-		if(isset($extras['auditorid'])) $extraparam['auditorid'] 	= $extras['auditorid'];
-		if(isset($extras['plumberid'])) $extraparam['user_id'] 		= $extras['plumberid'];		
-		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['5']]+$extraparam);
 		$pagedata['reviewlist']		= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
 		$pagedata['settings'] 		= $this->Systemsettings_Model->getList('row');
 		

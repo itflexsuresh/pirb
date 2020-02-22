@@ -18,6 +18,7 @@ class Coc_Model extends CC_Model
 			sm.*, 
 			u.id as u_id,
 			u.type as u_type,
+			u.email as u_email,
 			concat(ud.name, " ", ud.surname) as u_name, 
 			ud.mobile_phone as u_mobile,
 			ud.work_phone as u_work,
