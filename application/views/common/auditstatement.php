@@ -44,6 +44,12 @@
 	$reason 				= isset($result['as_reason']) ? $result['as_reason'] : '';
 	
 	$reviewtableclass		= ['1' => 'review_failure', '2' => 'review_cautionary', '3' => 'review_compliment', '4' => 'review_noaudit'];
+	
+	if($pagetype=='action'){
+		$pagetype = '1';
+	}else if($pagetype=='view'){
+		$pagetype = '2';
+	}
 ?>
 
 <div class="row page-titles">
@@ -226,12 +232,14 @@
 					</div>
 					<div class="col-md-6">
 						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group custom-control custom-radio">							
-									<input type="radio" class="custom-control-input" name="hold" id="hold" value="1" <?php if($hold=='1'){ echo 'checked'; } ?>>
-									<label class="custom-control-label" for="hold">Place Audit on hold</label>
+							<?php if($roletype=='6' && $pagetype=='1'){ ?>
+								<div class="col-md-12">
+									<div class="form-group custom-control custom-radio">							
+										<input type="radio" class="custom-control-input" name="hold" id="hold" value="1" <?php if($hold=='1'){ echo 'checked'; } ?>>
+										<label class="custom-control-label" for="hold">Place Audit on hold</label>
+									</div>
 								</div>
-							</div>
+							<?php } ?>
 							<div class="col-md-12 reason_wrapper displaynone">
 								<div class="form-group">
 									<label>Why was Audit placed on hold?</label>	
@@ -250,6 +258,10 @@
 									<th>Review Type</th>
 									<th>Statement</th>
 									<th>Comments</th>
+									<?php if($roletype=='3' && $pagetype=='2'){ ?>
+										<th>SANS/Regulation/Bylaw Reference</th>
+										<th>Knowledge Reference link</th>
+									<?php } ?>
 									<th>Images</th>
 									<th>Performance Points</th>
 									<th>Refix Status</th>
@@ -262,9 +274,11 @@
 							<input type="hidden" class="attachmenthidden" name="attachmenthidden"> 
 						</div>
 					</div>
-					<div class="row text-right">
-						<button type="button" data-toggle="modal" data-target="#reviewmodal" class="btn btn-primary">Add a Review</button>
-					</div>
+					<?php if($pagetype=='1'){ ?>
+						<div class="row text-right">
+							<button type="button" data-toggle="modal" data-target="#reviewmodal" class="btn btn-primary">Add a Review</button>
+						</div>
+					<?php } ?>
 				</div>
 								
 				<div class="row">
@@ -292,21 +306,23 @@
 					</div>
 				</div>
 				
-				<div class="col-md-12 text-right">					
-					<input type="hidden" value="<?php echo $statementid; ?>" name="id">
-					<input type="hidden" value="<?php echo $cocid; ?>" name="cocid">
-					<input type="hidden" value="<?php echo $userid; ?>" name="auditorid">
-					<input type="hidden" value="<?php echo $plumberid; ?>" name="plumberid">
-					<input type="hidden" name="workmanshippoint" id="workmanshippoint">
-					<input type="hidden" name="plumberverificationpoint" id="plumberverificationpoint">
-					<input type="hidden" name="cocverificationpoint" id="cocverificationpoint">
-					<input type="hidden" name="reviewpoint" id="reviewpoint">
-					<input type="hidden" name="point" id="point">
-					<input type="hidden" name="auditstatus" id="auditstatus" value="1">
-					<button type="button" id="submitreport" class="btn btn-primary displaynone">Submit Report</button>
-					<button type="button" id="save"  class="btn btn-primary">Save/Update</button>
-					<input type="submit" name="submit" id="submit" class="displaynone">
-				</div>				
+				<?php if($pagetype=='1'){ ?>
+					<div class="col-md-12 text-right">					
+						<input type="hidden" value="<?php echo $statementid; ?>" name="id">
+						<input type="hidden" value="<?php echo $cocid; ?>" name="cocid">
+						<input type="hidden" value="<?php echo $userid; ?>" name="auditorid">
+						<input type="hidden" value="<?php echo $plumberid; ?>" name="plumberid">
+						<input type="hidden" name="workmanshippoint" id="workmanshippoint">
+						<input type="hidden" name="plumberverificationpoint" id="plumberverificationpoint">
+						<input type="hidden" name="cocverificationpoint" id="cocverificationpoint">
+						<input type="hidden" name="reviewpoint" id="reviewpoint">
+						<input type="hidden" name="point" id="point">
+						<input type="hidden" name="auditstatus" id="auditstatus" value="1">
+						<button type="button" id="submitreport" class="btn btn-primary displaynone">Submit Report</button>
+						<button type="button" id="save"  class="btn btn-primary">Save/Update</button>
+						<input type="submit" name="submit" id="submit" class="displaynone">
+					</div>		
+				<?php } ?>
 			</form>			
 		</div>
 	</div>
@@ -451,15 +467,17 @@
 </div>
 
 <script type="text/javascript">
-var reviewtype 	= JSON.parse('<?php echo json_encode($reviewtype); ?>');
-var reviewclass = JSON.parse('<?php echo json_encode($reviewtableclass); ?>');
-var workmanshippt = JSON.parse('<?php echo json_encode($workmanshippt); ?>');
-var plumberverificationpt = JSON.parse('<?php echo json_encode($plumberverificationpt); ?>');
-var cocverificationpt = JSON.parse('<?php echo json_encode($cocverificationpt); ?>');
+var reviewtype 				= JSON.parse('<?php echo json_encode($reviewtype); ?>');
+var reviewclass 			= JSON.parse('<?php echo json_encode($reviewtableclass); ?>');
+var workmanshippt 			= JSON.parse('<?php echo json_encode($workmanshippt); ?>');
+var plumberverificationpt 	= JSON.parse('<?php echo json_encode($plumberverificationpt); ?>');
+var cocverificationpt 		= JSON.parse('<?php echo json_encode($cocverificationpt); ?>');
 var noaudit		= '<?php echo $noaudit; ?>';
 var filepath 	= '<?php echo $filepath; ?>';
 var reviewpath 	= '<?php echo $reviewpath; ?>';
 var pdfimg		= '<?php echo $pdfimg; ?>';
+var pagetype	= '<?php echo $pagetype; ?>';
+var roletype	= '<?php echo $roletype; ?>';
 var validator;
 
 $(function(){

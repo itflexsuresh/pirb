@@ -28,7 +28,7 @@ class Index extends CC_Controller
 		if(count($results) > 0){
 			foreach($results as $result){
 				$auditstatus 	= isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';
-				$action 		= '<a href="'.base_url().'plumber/auditstatement/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>';
+				$action 		= '<a href="'.base_url().'plumber/auditstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
 				
 				$totalrecord[] 	= 	[
 										'cocno' 			=> 	$result['id'],
@@ -56,7 +56,7 @@ class Index extends CC_Controller
 		echo json_encode($json);
 	}
 	
-	public function action($id)
+	public function view($id)
 	{
 		$this->getAuditStatement($id, ['pagetype' => 'view', 'viewcoc' => 'plumber/auditstatement/index/viewcoc', 'roletype' => $this->config->item('roleplumber')], ['redirect' => 'plumber/auditstatement/index', 'plumberid' => $this->getUserID()]);
 	}

@@ -29,7 +29,11 @@ class Index extends CC_Controller
 			
 			foreach($results as $result){
 				$auditstatus 	= isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';
-				$action 		= '<a href="'.base_url().'auditor/auditstatement/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>';
+				if($result['as_auditcomplete']=='1'){
+					$action 		= '<a href="'.base_url().'auditor/auditstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
+				}else{
+					$action 		= '<a href="'.base_url().'auditor/auditstatement/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>';
+				}
 				
 				$totalrecord[] 	= 	[
 										'cocno' 			=> 	$result['id'],
