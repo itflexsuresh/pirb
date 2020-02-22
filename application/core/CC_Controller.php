@@ -243,7 +243,7 @@ class CC_Controller extends CI_Controller
 	
 	public function plumberprofile($id, $pagedata=[], $extras=[])
 	{
-		$result = $this->Plumber_Model->getList('row', ['id' => $id, 'type' => '3', 'status' => ['1']]);
+		$result = $this->Plumber_Model->getList('row', ['id' => $id, 'type' => '3', 'status' => ['1', '2']]);
 		if(!$result){
 			if($extras['redirect']) redirect($extras['redirect']); 
 			else redirect('admin/plumber/index'); 
