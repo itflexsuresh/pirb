@@ -39,6 +39,8 @@ if(!empty($comments)){
 	$allocate_button_disbled = ($coc_type==2 && ($allocate_start==0 || $allocate_end==0)) ? 'disabled' : '';
 
 
+$tracking_display = !isset($delivery_type) || $delivery_type=='1' ? 'displaynone' : '';
+
 ?>
 
 <div class="row page-titles">
@@ -212,7 +214,7 @@ if(!empty($comments)){
 								<input type="text" autocomplete="off" class="form-control" name="internal_inv" value="<?php echo $internalinv; ?>">
 							</div>
 						</div>
-						<div class="col-md-12 tracking_wrapper <?php  if(!isset($deliverytype) || $delivery_type=='1'){ echo 'displaynone'; } else { echo ''; }  ?>">
+						<div class="col-md-12 tracking_wrapper <?php echo $tracking_display; ?>">
 							<div class="form-group col-md-6 row">
 								<label>Tracking No</label>
 								<input type="text" autocomplete="off" class="form-control" name="tracking_no" value="<?php echo $trackingno; ?>">
