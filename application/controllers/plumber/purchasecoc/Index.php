@@ -339,7 +339,7 @@ class Index extends CC_Controller
 
 					<tr>
 					<td style="vertical-align: top;">
-					<table class="comp_detail_uniq" style="margin-top:10px; border: 1px solid #000; width: 200px;">
+					<table class="comp_detail_uniq" style="margin-top:10px; border: 1px solid #000; width: 230px;">
 						<thead>
 							<tr>
 								<th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 5px; padding-top: 5px;">Company Details</th>
@@ -375,7 +375,7 @@ class Index extends CC_Controller
 
 					<tr>
 					<td>
-					<table class="bill_detail_uniq" style="margin-top:10px; border: 1px solid #000; width: 200px;">
+					<table class="bill_detail_uniq" style="margin-top:10px; border: 1px solid #000; width: 230px;">
 						<thead>
 							<tr>
 							<th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 5px; padding-top: 5px;">Billing Details</th>
