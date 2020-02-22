@@ -279,6 +279,7 @@ $(function(){
 		}
 	);
 
+
 	var options = {
 		url 	: '<?php echo base_url()."auditor/accounts/Index/DTAccounts"; ?>',
 		columns : 	[

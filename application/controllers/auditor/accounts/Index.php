@@ -68,6 +68,7 @@ class Index extends CC_Controller
 		$data 				= $this->Auditor_Model->invoicenovalidation($requestData);		
 		echo $data;
 	}
+	
 
 	public function DTAccounts()
 	{
@@ -82,7 +83,8 @@ class Index extends CC_Controller
 			foreach($results as $result)
 			{
 				$internal_inv = "";
-				$originalDate = isset($result['invoice_date']) && $result['invoice_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['invoice_date'])) : '';
+				$originalDate = isset($result['invoice_date']) && $result['invoice_date']!='1970-01-01' && $result['invoice_date']!='0000-00-00' ? date('d-m-Y', strtotime($result['invoice_date'])) : '';
+
 				$internal_inv = $result['invoice_no'];
 				// $newDate = date("d-m-Y", strtotime($originalDate));
 				if($result['status'] == '0'){

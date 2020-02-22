@@ -57,7 +57,8 @@ class Index extends CC_Controller
 	public function DTAccounts()
 	{
 		$post 			= $this->input->post();
-		// $post['status'] = '2';
+		// $post['adminsearch'] = '1';
+		
 		$totalcount 	= $this->Auditor_Model->getInvoiceList('count',$post);
 		$results 		= $this->Auditor_Model->getInvoiceList('all', $post);
 		// echo json_encode($totalcount); die;
@@ -66,10 +67,9 @@ class Index extends CC_Controller
 		{	
 			foreach($results as $result)
 			{
-				$internal_inv = "";
-				$originalDate=$result['created_at'];
+				$internal_inv = "";				
 				$internal_inv = $result['internal_inv'];
-				$newDate = date("d-m-Y", strtotime($originalDate));
+				$originalDate = isset($result['created_at']) && $result['created_at']!='1970-01-01' && $result['created_at']!='0000-00-00' ? date('d-m-Y', strtotime($result['created_at'])) : '';
 				if($result['status'] == '0'){
 					$status = "Unpaid";
 				}
@@ -82,7 +82,7 @@ class Index extends CC_Controller
 
 				$totalrecord[] = 	[      
 					'inv_id' 		=> 	$result['inv_id'],
-					'created_at'    =>  $newDate,
+					'created_at'    =>  $originalDate,
 					'name' 		    => 	$result['name'].' '.$result['surname'],
 					'description'   =>  $result['description'],
 					'total_cost'    => 	$result['total_cost'],
