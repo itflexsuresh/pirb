@@ -43,14 +43,14 @@
 					</div>
 					<div class="row">
 						<div class="col-sm-6">
-							<div class="form-group">
+							<div class="form-group mb_0">
 								<label for="password2">Password</label>
 								<input class="form-control" name="password" id="password2" type="password" placeholder="Password">
 
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div class="form-group">
+							<div class="form-group mb_0">
 								<label for="verifypassword2">Verify Password</label>
 								<input class="form-control" name="verifypassword" id="verifypassword2" type="password" placeholder="Verify Password">
 							</div>
