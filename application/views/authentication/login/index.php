@@ -46,6 +46,7 @@
 							<div class="form-group">
 								<label for="password2">Password</label>
 								<input class="form-control" name="password" id="password2" type="password" placeholder="Password">
+								<p>Password must be 8 to 24 characters, is case sensitive, and cannot contain spaces.</p>
 							</div>
 						</div>
 						<div class="col-sm-6">
@@ -56,7 +57,7 @@
 						</div>
 					</div>
 					<div class="text-center">
-						<?php if($usertype=='3'){ ?><a href="<?php echo base_url('login/company'); ?>">Register Company with the PIRB</a><?php } ?>
+						<?php if($usertype=='3'){ ?><a href="<?php echo base_url('login/company'); ?>">Register your Company with the PIRB</a><?php } ?>
 						<?php if($usertype=='4'){ ?><a href="<?php echo base_url('login/plumber'); ?>">Register Plumber with the PIRB</a><?php } ?>
 					</div>
 					<input type="hidden" value="<?php echo $usertype; ?>" name="type">
