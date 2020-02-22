@@ -39,7 +39,7 @@ if(!empty($comments)){
 	$allocate_button_disbled = ($coc_type==2 && ($allocate_start==0 || $allocate_end==0)) ? 'disabled' : '';
 
 
-$tracking_display = !isset($delivery_type) || $delivery_type=='1' ? 'displaynone' : '';
+$tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' : '';
 
 ?>
 
