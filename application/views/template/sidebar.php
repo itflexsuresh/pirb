@@ -25,20 +25,6 @@ $formstatus  	= $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'admin/communication/notification/index'; ?>">Notification and SMS Templates</a></li>
 						</ul>
 					</li>
-
-					<li class="step coc_manage"> 
-						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu" style="white-space: nowrap;">Coc Management</span></a>
-						<ul aria-expanded="false" class="collapse">							
-							<li> 
-								<a class="sub_menu" href="javascript:void(0)" aria-expanded="false"><span class="hide-menu">Coc Management (Statement)</span></a>
-								<ul aria-expanded="false" class="collapse">
-									<li><a href="<?php echo base_url().'admin/cocstatement/cocdetails/index'; ?>">Coc Details</a></li>
-									<li><a href="<?php echo base_url().'admin/cocstatement/cocorders/index'; ?>">Coc Orders</a></li>
-									<li><a href="<?php echo base_url().'admin/cocstatement/papermanagement/index'; ?>">Paper Management</a></li>
-								</ul>
-							</li>
-						</ul>						
-					</li>
 					
 					<li class="step two"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">System Setup</span></a>
@@ -61,7 +47,19 @@ $formstatus  	= $userdata['formstatus'];
 						</ul>						
 					</li>
 
-					
+					<li class="step coc_manage"> 
+						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu" style="white-space: nowrap;">Coc Management</span></a>
+						<ul aria-expanded="false" class="collapse">							
+							<li> 
+								<a class="sub_menu" href="javascript:void(0)" aria-expanded="false"><span class="hide-menu">Coc Management (Statement)</span></a>
+								<ul aria-expanded="false" class="collapse">
+									<li><a href="<?php echo base_url().'admin/cocstatement/cocdetails/index'; ?>">Coc Details</a></li>
+									<li><a href="<?php echo base_url().'admin/cocstatement/cocorders/index'; ?>">Coc Orders</a></li>
+									<li><a href="<?php echo base_url().'admin/cocstatement/papermanagement/index'; ?>">Paper Management</a></li>
+								</ul>
+							</li>
+						</ul>						
+					</li>
 
 					<li class="step three"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">CPD</span></a>
@@ -85,21 +83,7 @@ $formstatus  	= $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'admin/company/index'; ?>">Company</a></li>
 						</ul>
 					</li>
-					<li class="step three"> 
-						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Accounts</span></a>
-						<ul aria-expanded="false" class="collapse">
-							<li><a href="<?php echo base_url().'admin/accounts/renewal_plumber/index'; ?>">Renewal Plumber Registration Invoices</a></li>
-							<li><a href="<?php echo base_url().'admin/accounts/auditorsinvoices/index'; ?>">Auditors Invoices for Payment</a></li>							
-							<li><a href="<?php echo base_url().'admin/accounts/Accounts'; ?>">Plumber COC Invocies</a></li>							
-						</ul>
-					</li>
-					<li class="step five"> 
-						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Audits</span></a>
-						<ul aria-expanded="false" class="collapse">
-							<li><a href="<?php echo base_url().'admin/audits/index'; ?>">Manage Auditors</a></li>
-							<li><a href="<?php echo base_url().'admin/audits/cocallocate/index'; ?>">Manage COC Allocation for Audit</a></li>
-						</ul>
-					</li>
+					
 					
 					<li class="step five"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Resellers</span></a>
@@ -107,14 +91,24 @@ $formstatus  	= $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'admin/resellers/index'; ?>">Resellers</a></li>
 						</ul>
 					</li>
-				       
+				       <li class="step three"> 
+						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Accounts</span></a>
+						<ul aria-expanded="false" class="collapse">
+							<li><a href="<?php echo base_url().'admin/accounts/Accounts'; ?>">Plumber COC Invocies</a></li>							
+						</ul>
+					</li>
 				   <li class="step four"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Gamification</span></a>
 						<ul aria-expanded="false" class="collapse">
 							<li><a href="<?php echo base_url().'admin/gamification/globalsettings'; ?>">Global Settings</a></li>
 						</ul>
 					</li>
-					
+					<li class="step five"> 
+						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Audits</span></a>
+						<ul aria-expanded="false" class="collapse">
+							<li><a href="<?php echo base_url().'admin/audits/index'; ?>">Manage Auditors</a></li>
+						</ul>
+					</li>
 				<?php }elseif($type=='3'){ 
 
 					?>
@@ -147,7 +141,6 @@ $formstatus  	= $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'plumber/purchasecoc/index'; ?>">Purchase COC</a></li>
 							<li><a href="<?php echo base_url().'plumber/cocstatement/index'; ?>">COC Statement</a></li>
 							<li><a href="<?php echo base_url().'plumber/myaccounts/index'; ?>">My Accounts</a></li>
-							<li><a href="<?php echo base_url().'plumber/mycpd/index'; ?>">My CPD</a></li>
 							<li><a href="<?php echo base_url().'plumber/auditstatement/index'; ?>">Audit Statement</a></li>
 
 							
@@ -216,7 +209,7 @@ $formstatus  	= $userdata['formstatus'];
 					<li><a href="javascript:void(0);">Dashboard</a></li>
 					<li><a href="<?php echo base_url().'auditor/profile/index'; ?>">My Profile</a></li>
 					<li><a href="<?php echo base_url().'auditor/auditstatement/index'; ?>">Audit Statement</a></li>
-					<li><a href="<?php echo base_url().'auditor/accounts/index'; ?>">Accounts</a></li>
+					<li><a href="<?php echo base_url().'auditor/reportlisting/index'; ?>">My Report Listings</a></li>
 					<?php if($msg!=''){?>
 						<div id="message">
 							<?php echo $msg;?>
