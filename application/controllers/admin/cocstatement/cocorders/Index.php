@@ -98,7 +98,7 @@ class Index extends CC_Controller
 		if(count($results) > 0){
 			foreach($results as $result){
 
-				$payment_status_1 = $this->config->item('payment_status')[$result['status']];				
+				$payment_status_1 = isset($this->config->item('payment_status')[$result['status']]) ? $this->config->item('payment_status')[$result['status']] : '';				
 				$coctype = isset($this->config->item('coctype')[$result['coc_type']]) ? $this->config->item('coctype')[$result['coc_type']] : '';
 				$deliverytype = isset($this->config->item('purchasecocdelivery')[$result['delivery_type']]) ? $this->config->item('purchasecocdelivery')[$result['delivery_type']] : '';
 				if($result['type']=='6'){
