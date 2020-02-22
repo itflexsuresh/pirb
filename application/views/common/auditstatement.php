@@ -578,6 +578,7 @@ $(function(){
 
 $('#save').click(function(){
 	//validator.destroy();
+	$('#auditcomplete').rules('remove', 'required');
 	if($('.form').valid())
 	{
 		$('#submit').attr('value', 'save').click();
