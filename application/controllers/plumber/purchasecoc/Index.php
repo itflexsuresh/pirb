@@ -310,6 +310,8 @@ class Index extends CC_Controller
 
 					</style>
 
+
+
 					<body>
 
 					<table style="width: 100%; margin: 0 auto; border: 1px solid #000; padding: 0 10px 0 10px;">
@@ -321,7 +323,7 @@ class Index extends CC_Controller
 					</td>
 
 					<td style="vertical-align: top;">
-						<table class="invoice_uniq">
+						<table align="right" class="invoice_uniq">
 							<thead>
 								<tr>
 					<th style="border: 1px solid #000; padding: 8px 30px 8px 30px;">Invoice Number</th>
@@ -335,7 +337,7 @@ class Index extends CC_Controller
 
 					<tr>
 					<td style="vertical-align: top;">
-					<table class="comp_detail_uniq" style="border: 1px solid #000;">
+					<table class="comp_detail_uniq" style="border: 1px solid #000; width: 150px;">
 						<thead>
 							<tr>
 								<th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 5px; padding-top: 5px;">Company Details</th>
@@ -356,13 +358,22 @@ class Index extends CC_Controller
 					</td>
 
 					<td>
-					 
+						<table align="right">
+							<thead>
+							<tr>
+								<th>
+							<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/paid.png">	
+								</th>	
+							</tr>
+							</thead>
+						</table>
+					
 					</td>
 					</tr>
 
 					<tr>
 					<td>
-					<table class="bill_detail_uniq" style="border: 1px solid #000;">
+					<table class="bill_detail_uniq" style="border: 1px solid #000; width: 150px;">
 						<thead>
 							<tr>
 							<th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 5px; padding-top: 5px;">Billing Details</th>
@@ -376,14 +387,12 @@ class Index extends CC_Controller
 					<tr><td>'.$stringaarr4.'</td></tr>
 					<tr><td>'.$rowData['home_phone'].'</td></tr>
 					<tr><td>'.$rowData['email2'].'</td></tr>
-					<p>'.$rowData['reg_no'].'</p>
-					<p>'.$rowData['vat_no'].'</p>
 						</tbody>
 					</table>
 					</td>
 
 					<td style="vertical-align: top;">
-					<table class="custom_reg_uniq">
+					<table align="right" class="custom_reg_uniq">
 					<thead>
 					<tr>
 					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer Compnay Reg</th>
@@ -409,14 +418,14 @@ class Index extends CC_Controller
 						<table style="border: 1px solid #000;margin-top: 10px;" class="term_uniq">
 							<thead>
 								<tr>
-								<th style="border-bottom: 1px solid #000; padding:5px 10px;text-align: center;">
+								<th style="border-bottom: 1px solid #000; padding:5px 20px;text-align: center;">
 								Terms
 								</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td style="text-align: center; padding:5px 10px;">
+									<td style="text-align: center; padding:5px 20px;">
 									COD	
 									</td>
 								</tr>
@@ -439,10 +448,10 @@ class Index extends CC_Controller
 
 					<tbody>
 					<tr>
-					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Purchase of '.$rowData['quantity'].' PIRB Certificate of Compliance, registration number '.$rowData['registration_no'].'</td>				
-					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;">'.$delivery_rate['amount'].'</td>
-					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$delivery_rate['amount'].'</td>
-					
+					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">PIRB year registration fee for '.$designation.' for '.$rowData['username'].''.$rowData['surname'].', registration number '.$rowData['registration_no'].'</td>				
+					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;">'.$rowData['quantity'].'</td>
+					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</td>
+					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</td>
 					</tr>
 					</tbody>
 					</table>	
@@ -469,22 +478,22 @@ class Index extends CC_Controller
 					</td>
 
 					<td style="vertical-align: top;">
-					<table class="total_uniq">
+					<table align="right" class="total_uniq">
 					<tbody>
 
 					<tr style="text-align: center;">
-					<td style="width: 50%; margin: 0; padding: 6px 10px 6px 0; border: 1px solid #000; font-weight: bold;">Sub Total</td>
-					<td style="width: 50%; margin: 0; padding: 0; border: 1px solid #000;">'.$total_subtotal.'</td>
+					<td style="margin: 0; padding: 6px 10px 6px 0; border: 1px solid #000; font-weight: bold; padding: 0 10px 0 10px;">Sub Total</td>
+					<td style="margin: 0; padding: 0; border: 1px solid #000; padding: 0 30px 0 30px;">'.$rowData['cost_value'].'</td>
 					</tr>
 
 					<tr style="text-align: center;">
-					<td style="width: 50%; margin: 0; padding: 6px 10px 6px 0; border: 1px solid #000; font-weight: bold;">VAT Total</td>
-					<td style="width: 50%; margin: 0; padding: 0; border: 1px solid #000;">'.$rowData['vat'].'</td>
+					<td style="margin: 0; padding: 6px 10px 6px 0; border: 1px solid #000; font-weight: bold; padding: 0 10px 0 10px;">VAT Total</td>
+					<td style="margin: 0; padding: 0; border: 1px solid #000; padding: 0 30px 0 30px;">'.$rowData['vat'].'</td>
 					</tr>
 
 					<tr style="text-align: center;">
-					<td bgcolor="#ccc" style="width: 50%; margin: 0; padding: 6px 10px 6px 0; border: 1px solid #000; font-weight: bold; ">Total</td>
-					<td bgcolor="#ccc" style="width: 50%; margin: 0; padding: 0; border: 1px solid #000; ">'.$rowData['total_due'].'</td>
+					<td bgcolor="#ccc" style="margin: 0; padding: 6px 10px 6px 0; border: 1px solid #000; font-weight: bold; padding: 0 10px 0 10px;">Total</td>
+					<td bgcolor="#ccc" style="margin: 0; padding: 0; border: 1px solid #000; padding: 0 30px 0 30px;">'.$rowData['total_due'].'</td>
 					</tr>
 
 					</tbody>
