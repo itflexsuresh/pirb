@@ -64,6 +64,11 @@ class Index extends CC_Controller
 		$this->getAuditStatement($id, ['pagetype' => 'action', 'viewcoc' => 'auditor/auditstatement/index/viewcoc', 'roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index', 'auditorid' => $this->getUserID()]);
 	}
 	
+	public function view($id)
+	{
+		$this->getAuditStatement($id, ['pagetype' => 'view', 'viewcoc' => 'auditor/auditstatement/index/viewcoc', 'roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index', 'auditorid' => $this->getUserID()]);
+	}
+	
 	public function viewcoc($id, $plumberid)
 	{
 		$this->coclogaction($id, ['pagetype' => 'view', 'roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index', 'userid' => $plumberid]);
