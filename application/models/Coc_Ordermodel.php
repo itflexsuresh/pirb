@@ -94,7 +94,7 @@ class Coc_Ordermodel extends CC_Model
 		if(isset($data['total_due'])) 		$requestdata['total_cost'] 	 	= $data['total_due'];
 		if(isset($data['tracking_no'])) 	$requestdata['tracking_no']  	= $data['tracking_no'];
 
-		
+
 		if(isset($requestdata)){	
 
 			if(isset($data['total_due'])) unset($requestdata['total_cost']);
@@ -108,15 +108,10 @@ class Coc_Ordermodel extends CC_Model
 			$requestdata1['admin_status'] 	= (isset($data['admin_status']) && $data['admin_status']='on') ? '2' : '0';
 			if(isset($data['order_id']))		$requestdata1['id'] 				= $data['order_id'];	
 
-
 			if(isset($requestdata['inv_id']) && $requestdata['inv_id']!=''){
 
 				$result1 = $this->db->update('invoice', $requestdata,['inv_id'=>$requestdata['inv_id']]);				
-
-print '<pre>';
-print_r($requestdata1);
-print '</pre>';
-exit;
+		
 				$result = $this->db->update('coc_orders', $requestdata1,['id'=>$requestdata1['id']]);
 				// echo $this->db->last_query();exit;
 			} else {
