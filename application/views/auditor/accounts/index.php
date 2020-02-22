@@ -1,5 +1,6 @@
 <?php 
 	// echo '<pre>'; print_r($auditordet);
+echo $_SERVER['DOCUMENT_ROOT'];
 	$billingname = isset($auditordetail['company_name']) ? $auditordetail['company_name'] : '';
 	$billingaddress = explode("@-@",$auditordetail['billingaddress']);
 	$address2 = isset($billingaddress[2]) ? $billingaddress[2] : '';
@@ -10,18 +11,19 @@
 	$email = isset($auditordetail['email']) ? $auditordetail['email'] : '';
 	$user_id = isset($auditordetail['user_id']) ? $auditordetail['user_id'] : '';
 
-	$bank_name = isset($bankdetail['bank_name']) ? $bankdetail['bank_name'] : '';
-	$branch_code = isset($bankdetail['branch_code']) ? $bankdetail['branch_code'] : '';
-	$account_name = isset($bankdetail['account_name']) ? $bankdetail['account_name'] : '';
-	$account_no = isset($bankdetail['account_no']) ? $bankdetail['account_no'] : '';
-	$account_type = isset($bankdetail['account_type']) ? $bankdetail['account_type'] : '';
+
+	$bank_name = isset($auditordetail['bank_name']) ? $auditordetail['bank_name'] : '';
+	$branch_code = isset($auditordetail['branch_code']) ? $auditordetail['branch_code'] : '';
+	$account_name = isset($auditordetail['account_name']) ? $auditordetail['account_name'] : '';
+	$account_no = isset($auditordetail['account_no']) ? $auditordetail['account_no'] : '';
+	$account_type = isset($auditordetail['account_type']) ? $auditordetail['account_type'] : '';
 
 	$editid = isset($result['inv_id']) ? $result['inv_id'] : '';
 	$vat_vendor = isset($result['vat_vendor']) ? $result['vat_vendor'] : '';
 	$description = isset($result['description']) ? $result['description'] : '';	
 	$total_cost = isset($result['total_cost']) ? $result['total_cost'] : '';
-	$vatvalue = '';
-	$total = '';
+	$vatvalue = '0';
+	$total = '0';
 	if($editid > 0)	{
 		if($vat_vendor > 0){
 			$vatper = $vat['vat_percentage'];		
@@ -65,8 +67,7 @@
 						</div>
 						<div class="col-md-6">
 						<div class="form-group ">
-							<label for="name">Invoice Date</label>
-							<input type="text" class="form-control invoicedate" name="invoicedate" id="invoicedate" data-date="datepicker" value="">
+							<label for="name">Your Invoice Date</label>							
 						</div>
 						</div>
 					</div>
@@ -79,8 +80,7 @@
 						</div>
 						<div class="col-md-6">
 							<div class="form-group ">
-								<label for="name">Invoice number</label>
-								<input type="text" autocomplete="off" class="form-control" id="invoice_no" name="invoice_no" value="">
+								<input type="text" class="form-control invoicedate" name="invoicedate" id="invoicedate" data-date="datepicker" value="">
 							</div>
 						</div>
 					</div>
@@ -90,6 +90,11 @@
 							<div class="form-group ">
 								<label for="name"><?php echo $address3;?></label>								
 							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group ">								
+								<label for="name">Your Invoice Number</label>								
+							</div>
 						</div>						
 					</div>
 					<div class="row">
@@ -97,7 +102,12 @@
 							<div class="form-group ">
 								<label for="name"><?php echo $address4;?></label>
 							</div>
-						</div>						
+						</div>	
+						<div class="col-md-6">
+							<div class="form-group ">								
+								<input type="text" autocomplete="off" class="form-control" id="invoice_no" name="invoice_no" value="">
+							</div>
+						</div>					
 					</div>
 					<div class="row">
 						<div class="col-md-6">
@@ -149,13 +159,11 @@
 									echo '<tr>';
 										echo '<td colspan="3">Sub Total</td>';
 										echo '<td>'.$total_cost.'</td>';
-									echo '</tr>';
-									if($vat_vendor > 0){
+									echo '</tr>';									
 									echo '<tr>';
 										echo '<td colspan="3">VAT Total</td>';
 										echo '<td>'.$vatvalue.'</td>';
-									echo '</tr>';
-									}
+									echo '</tr>';									
 									echo '<tr>';
 										echo '<td colspan="3">Total</td>';
 										echo '<td>'.$total.'</td>';
@@ -241,12 +249,9 @@
 
 <script type="text/javascript">
 	
-$(function(){
-	
-
-
-	datepicker('.invoicedate');
+$(function(){	
 	var userid = <?php echo $user_id;?>;
+	datepicker('.invoicedate');	
 	validation(
 		'.form',
 		{

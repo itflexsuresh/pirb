@@ -53,7 +53,7 @@ class Index extends CC_Controller
 		$getdata['id']			= $id;		
 		$pagedata['auditordetail'] 	= $this->Auditor_Model->getAuditorList('row',$getdata);
 		$pagedata['vat'] = $this->Coc_Model->getPermissions('row');		
-		$pagedata['bankdetail'] 	= $this->Coc_Model->getPermissions('row');
+		// $pagedata['bankdetail'] 	= $this->Coc_Model->getPermissions('row');
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
 		$data['content'] 			= $this->load->view('auditor/accounts/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
@@ -166,7 +166,7 @@ class Index extends CC_Controller
 	}
 
 	public function Editfunc($id)
-	{
+	{		
 		$this->index($id);
 	}
 
@@ -214,6 +214,7 @@ class Index extends CC_Controller
 				$paid_status = "UNPAID";
 
 			}
+
 			$stringaarr = explode("@@@",$rowData['areas']);
 			$stringaarr6 = isset($stringaarr[6]) ? $stringaarr[6] : '';
 			$stringaarr5 = isset($stringaarr[5]) ? $stringaarr[5] : '';
@@ -221,10 +222,10 @@ class Index extends CC_Controller
 			$provincesettings = explode("@@@",$rowData2['provincesettings']);
 
 			$designation	=	$this->config->item('designation2')[$rowData['designation']];
-		$html = '<!DOCTYPE html>
+			$html = '<!DOCTYPE html>
 					<html>
 					<head>
-					<title>PDF Invoice Plumber COC</title>
+					<title>PDF Invoice Auditor</title>
 					</head>
 
 					<style type="text/css">
@@ -270,11 +271,11 @@ class Index extends CC_Controller
 
 					<tr>
 					<td>
-					<img class="logo" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/pitrb-logo.png">
+					<img class="logo" style="width: 250px; margin-top:10px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/"'.$rowData['file2'].'>
 					</td>
 
 					<td style="vertical-align: top;">
-						<table class="invoice_uniq">
+						<table align="right" class="invoice_uniq" style="margin-top:10px;">
 							<thead>
 								<tr>
 					<th style="border: 1px solid #000; padding: 8px 30px 8px 30px;">Invoice Number</th>
@@ -287,54 +288,54 @@ class Index extends CC_Controller
 					</tr>
 
 					<tr>
-					<td style="vertical-align: top;">
-					<table class="comp_detail_uniq" style="border: 1px solid #000;">
+					<td>
+					<table class="bill_detail_uniq" style="margin-top:10px; border: 1px solid #000; width: 200px;">
 						<thead>
 							<tr>
-								<th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 5px; padding-top: 5px;">Company Details</th>
+							<th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 5px; padding-top: 5px;">'.$rowData['company_name'].'</th>
+							</tr>
+						</thead>
+
+					<tbody>
+					<tr><td>'.$rowData['address'].'</td></tr>            
+					<tr><td>'.$rowData['suburb'].'</td></tr>
+					<tr><td>'.$rowData['city'].'</td></tr>
+					<tr><td>'.$rowData['province'].'</td></tr>
+					<tr><td>'.$rowData['home_phone'].'</td></tr>
+					<tr><td>'.$rowData['email2'].'</td></tr>
+						</tbody>
+					</table>
+					
+					</td>
+
+					<td>
+						<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/unpaid.jpg">
+					</td>
+					</tr>
+
+					<tr>
+					<td style="vertical-align: top;">
+					<table class="comp_detail_uniq" style="margin-top:10px; border: 1px solid #000; width: 200px;">
+						<thead>
+							<tr>
+								<th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 5px; padding-top: 5px;">Name / Address</th>
 							</tr>
 						</thead>
 
 						<tbody>
+					<tr><td>Plumbing Industry Registration Board</td></tr>
 					<tr><td>'.$rowData2['address'].'</td></tr>            
 					<tr><td>'.$rowData2['name'].'</td></tr>
 					<tr><td>'.$rowData2['suburb'].'</td></tr>
 					<tr><td>'.$rowData2['city'].'</td></tr>
 					<tr><td>'.$rowData1['work_phone'].'</td></tr>
-					<tr><td>'.$rowData1['email'].'</td></tr>
-					<tr><td>'.$rowData1['reg_no'].'</td></tr>
-					<tr><td>'.$rowData1['vat_no'].'</td></tr>															
-						</tbody>
-					</table>
-					</td>
-
-					<td>
-					<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/unpaid.jpg">
-					</td>
-					</tr>
-
-					<tr>
-					<td>
-					<table class="bill_detail_uniq" style="border: 1px solid #000;">
-						<thead>
-							<tr>
-							<th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 5px; padding-top: 5px;">Billing Details</th>
-							</tr>
-						</thead>
-
-						<tbody>
-					<tr><td>'.$rowData['address'].'</td></tr>            
-					<tr><td>'.$stringaarr6.'</td></tr>
-					<tr><td>'.$stringaarr5.'</td></tr>
-					<tr><td>'.$stringaarr4.'</td></tr>
-					<tr><td>'.$rowData['home_phone'].'</td></tr>
-					<tr><td>'.$rowData['email2'].'</td></tr>
+					<tr><td>'.$rowData1['email'].'</td></tr>															
 						</tbody>
 					</table>
 					</td>
 
 					<td style="vertical-align: top;">
-					<table class="custom_reg_uniq">
+					<table align="right" class="custom_reg_uniq" style="margin-top: 10px;">
 					<thead>
 					<tr>
 					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer Compnay Reg</th>
@@ -360,15 +361,15 @@ class Index extends CC_Controller
 						<table style="border: 1px solid #000;margin-top: 10px;" class="term_uniq">
 							<thead>
 								<tr>
-								<th style="border-bottom: 1px solid #000; padding:5px 10px;text-align: center;">
+								<th style="border-bottom: 1px solid #000; padding:5px 20px;text-align: center;">
 								Terms
 								</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td style="text-align: center; padding:5px 10px;">
-									COD	
+									<td style="text-align: center; padding:5px 20px;">
+									30 Days	
 									</td>
 								</tr>
 							</tbody>
@@ -378,7 +379,7 @@ class Index extends CC_Controller
 
 					<tr>
 					<td colspan="2">
-					<table class="regist_fee_uniq" style="margin: 10px 0px;">
+					<table class="regist_fee_uniq" style="margin-top: 10px; width: 100%">
 					<thead>
 					<tr>	
 					<th style="width: 50%;  margin: 0; padding: 10px 0 10px 0; text-align: center;">Description</th>
@@ -390,7 +391,7 @@ class Index extends CC_Controller
 
 					<tbody>
 					<tr>
-					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Auditors Invoice Payment for  '.$rowData['username'].''.$rowData['surname'].'</td>				
+					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">'.$rowData['description'].'</td>
 					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;">'.$rowData['quantity'].'</td>
 					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</td>
 					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</td>
@@ -402,7 +403,7 @@ class Index extends CC_Controller
 
 					<tr>
 					<td>
-					<table>
+					<table style="margin-top: 10px;">
 						<thead>
 							<tr>
 							<th style="text-align: left;">Banking Detail</th>
@@ -410,32 +411,32 @@ class Index extends CC_Controller
 							</thead>
 
 							<tbody>
-								<tr><td>'.$rowData1['bank_name'].'</td></tr>            
-								<tr><td>'.$rowData1['branch_code'].'</td></tr>
-								<tr><td>'.$rowData1['account_name'].'</td></tr>
-								<tr><td>'.$rowData1['account_no'].'</td></tr>
-								<tr><td>'.$rowData1['account_type'].'</td></tr>
+								<tr><td>'.$rowData['bank_name'].'</td></tr>            
+								<tr><td>'.$rowData['branch_code'].'</td></tr>
+								<tr><td>'.$rowData['account_name'].'</td></tr>
+								<tr><td>'.$rowData['account_no'].'</td></tr>
+								<tr><td>'.$rowData['account_type'].'</td></tr>
 							</tbody>
 						</table>
 					</td>
 
 					<td style="vertical-align: top;">
-					<table class="total_uniq">
+					<table align="right" class="total_uniq" style="margin-top: 10px;">
 					<tbody>
 
 					<tr style="text-align: center;">
-					<td style="width: 50%; margin: 0; padding: 6px 10px 6px 0; border: 1px solid #000; font-weight: bold;">Sub Total</td>
-					<td style="width: 50%; margin: 0; padding: 0; border: 1px solid #000;">'.$rowData['cost_value'].'</td>
+					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">Sub Total</td>					
+					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$rowData['cost_value'].'</td>
 					</tr>
 
 					<tr style="text-align: center;">
-					<td style="width: 50%; margin: 0; padding: 6px 10px 6px 0; border: 1px solid #000; font-weight: bold;">VAT Total</td>
-					<td style="width: 50%; margin: 0; padding: 0; border: 1px solid #000;">'.$rowData['vat'].'</td>
+					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">VAT Total</td>
+					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$rowData['vat'].'</td>
 					</tr>
 
 					<tr style="text-align: center;">
-					<td bgcolor="#ccc" style="width: 50%; margin: 0; padding: 6px 10px 6px 0; border: 1px solid #000; font-weight: bold; ">Total</td>
-					<td bgcolor="#ccc" style="width: 50%; margin: 0; padding: 0; border: 1px solid #000; ">'.$rowData['total_due'].'</td>
+					<td bgcolor="#ccc" style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">Total</td>
+					<td bgcolor="#ccc" style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$rowData['total_due'].'</td>
 					</tr>
 
 					</tbody>
@@ -446,7 +447,6 @@ class Index extends CC_Controller
 
 					</tbody>
 					</table>
-
 
 					</body>
 					</html>';
