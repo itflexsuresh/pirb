@@ -108,13 +108,11 @@ class Coc_Ordermodel extends CC_Model
 			$requestdata1['admin_status'] 	= (isset($data['admin_status']) && $data['admin_status']='on') ? '2' : '0';
 
 			if(isset($requestdata['inv_id']) && $requestdata['inv_id']!=''){
-			print '<pre>';
-			print_r($requestdata);
-			print '</pre>';
-			exit;		
+
 				$result1 = $this->db->update('invoice', $requestdata,['inv_id'=>$requestdata['inv_id']]);				
 				
 				$result = $this->db->update('coc_orders', $requestdata1,['inv_id'=>$requestdata['inv_id']]);
+				echo $this->db->last_query();exit;
 			} else {
 				$result1 = $this->db->insert('invoice', $requestdata);
 				$inv_id = $this->db->insert_id();
