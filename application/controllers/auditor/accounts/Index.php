@@ -177,7 +177,7 @@ class Index extends CC_Controller
 		$rowData1 = $this->Coc_Model->getPermissions('row', ['id' => $inv_id, 'status' => ['0','1']]);
 		$rowData2 = $this->Coc_Model->getPermissions1('row', ['id' => $inv_id, 'status' => ['0','1']]);
 		$amount =	$rowData['total_due']*$rowData['quantity'];
-		$invoiceDate = date("d-m-Y", strtotime($rowData['created_at']));
+		$invoiceDate = date("d-m-Y", strtotime($rowData['invoice_date']));
 		
 		if ($rowData['coc_type'] == '1') {
 			$coc_type_id = 13;
