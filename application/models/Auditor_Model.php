@@ -545,21 +545,27 @@ class Auditor_Model extends CC_Model
 			'updated_by' 		=> $userid
 		];
 
-		if(isset($data['cocid']))		 		$request['coc_id'] 				= $data['cocid'];
-		if(isset($data['auditorid']))		 	$request['auditor_id'] 			= $data['auditorid'];
-		if(isset($data['plumberid']))			$request['plumber_id'] 			= $data['plumberid'];
-		if(isset($data['reviewtype']))		 	$request['reviewtype'] 			= $data['reviewtype'];
-		if(isset($data['favourites'])) 			$request['favourites'] 			= $data['favourites'];
-		if(isset($data['installationtype'])) 	$request['installationtype'] 	= $data['installationtype'];
-		if(isset($data['subtype'])) 			$request['subtype'] 			= $data['subtype'];
-		if(isset($data['statement'])) 			$request['statement'] 			= $data['statement'];
-		if(isset($data['reference'])) 			$request['reference'] 			= $data['reference'];
-		if(isset($data['link'])) 				$request['link'] 				= $data['link'];
-		if(isset($data['comments'])) 			$request['comments'] 			= $data['comments'];
-		if(isset($data['file'])) 				$request['file'] 				= implode(',', $data['file']);
-		if(isset($data['point'])) 				$request['point'] 				= $data['point'];
-		if(isset($data['status'])) 				$request['status'] 				= $data['status'];
-
+		if(isset($data['cocid']))		 				$request['coc_id'] 				= $data['cocid'];
+		if(isset($data['auditorid']))		 			$request['auditor_id'] 			= $data['auditorid'];
+		if(isset($data['plumberid']))					$request['plumber_id'] 			= $data['plumberid'];
+		if(isset($data['reviewtype']))		 			$request['reviewtype'] 			= $data['reviewtype'];
+		if(isset($data['favourites'])) 					$request['favourites'] 			= $data['favourites'];
+		if(isset($data['installationtype'])) 			$request['installationtype'] 	= $data['installationtype'];
+		if(isset($data['subtype'])) 					$request['subtype'] 			= $data['subtype'];
+		if(isset($data['statement'])) 					$request['statement'] 			= $data['statement'];
+		if(isset($data['reference'])) 					$request['reference'] 			= $data['reference'];
+		if(isset($data['link'])) 						$request['link'] 				= $data['link'];
+		if(isset($data['comments'])) 					$request['comments'] 			= $data['comments'];
+		if(isset($data['file'])) 						$request['file'] 				= implode(',', $data['file']);
+		if(isset($data['point'])) 						$request['point'] 				= $data['point'];
+		if(isset($data['incompletepoint'])) 			$request['incomplete_point'] 	= $data['incompletepoint'];
+		if(isset($data['completepoint'])) 				$request['complete_point'] 		= $data['completepoint'];
+		if(isset($data['cautionarypoint'])) 			$request['cautionary_point'] 	= $data['cautionarypoint'];
+		if(isset($data['complimentpoint'])) 			$request['compliment_point'] 	= $data['complimentpoint'];
+		if(isset($data['noauditpoint'])) 				$request['noaudit_point'] 		= $data['noauditpoint'];
+		if(isset($data['point'])) 						$request['point'] 				= $data['point'];
+		if(isset($data['status'])) 						$request['status'] 				= $data['status'];
+	
 		if($id==''){
 			$request['created_at'] = $datetime;
 			$request['created_by'] = $userid;
@@ -616,7 +622,9 @@ class Auditor_Model extends CC_Model
 		if(isset($data['point'])) 						$request['point'] 						= $data['point'];
 		if(isset($data['hold'])) 						$request['hold'] 						= $data['hold'];
 		if(isset($data['reason'])) 						$request['reason'] 						= $data['reason'];
+		if(isset($data['reportdate'])) 					$request['reportdate'] 					= date('Y-m-d H:i:s', strtotime($data['reportdate']));
 		if(isset($data['status'])) 						$request['status'] 						= $data['status'];
+		$request['auditcomplete'] 	= (isset($data['auditcomplete'])) ? $data['auditcomplete'] : '0';
 
 		if($id==''){
 			$request['created_at'] = $datetime;

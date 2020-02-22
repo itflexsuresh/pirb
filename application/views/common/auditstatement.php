@@ -302,7 +302,8 @@
 					<input type="hidden" name="cocverificationpoint" id="cocverificationpoint">
 					<input type="hidden" name="reviewpoint" id="reviewpoint">
 					<input type="hidden" name="point" id="point">
-					<button type="button" id="submitreport" class="btn btn-primary">Submit Report</button>
+					<input type="hidden" name="auditstatus" id="auditstatus" value="1">
+					<button type="button" id="submitreport" class="btn btn-primary displaynone">Submit Report</button>
 					<button type="button" id="save"  class="btn btn-primary">Save/Update</button>
 					<input type="submit" name="submit" id="submit" class="displaynone">
 				</div>				
@@ -408,16 +409,22 @@
 						<div class="col-md-12">
 							<div class="form-group">
 								<label>Performance Point Allocation</label>
-								<input type="text" name="point" class="r_point form-control" id="r_point">
+								<input type="text" name="point" class="r_point form-control" id="r_point" readonly>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<input type="hidden" name="id" id="r_id" class="r_id">
+					<input type="hidden" value="1" name="status" id="r_status">
 					<input type="hidden" value="<?php echo $cocid; ?>" name="cocid">
 					<input type="hidden" value="<?php echo $userid; ?>" name="auditorid">
 					<input type="hidden" value="<?php echo $plumberid; ?>" name="plumberid">
+					<input type="hidden" value="0" name="incompletepoint" id="incompletepoint">
+					<input type="hidden" value="0" name="completepoint" id="completepoint">
+					<input type="hidden" value="0" name="cautionarypoint" id="cautionarypoint">
+					<input type="hidden" value="0" name="complimentpoint" id="complimentpoint">
+					<input type="hidden" value="0" name="noauditpoint" id="noauditpoint">
 					<button type="button" class="btn btn-success reviewsubmit">Submit</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
@@ -426,14 +433,13 @@
 	</div>
 </div>
 
-
 <div id="confirmmodal" class="modal fade" role="dialog">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-body">
 				<div class="row">
 					<p>Confirm to submit your Audit report for <?php echo $plumbername; ?> undertaken for COC <?php echo $cocid; ?>?</p>
-					<p>The refix for this COC is required by lastests: {today date + number days of refix days}.</p>
+					<p class="refixmodaltext displaynone">The refix for this COC is required by lastests: <span class="refixdateappend"></span>.</p>
 					<div class="col-md-12">
 						<button type="button" class="btn btn-success confirmsubmit">Confirm</button>
 						<button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
@@ -445,7 +451,6 @@
 </div>
 
 <script type="text/javascript">
-
 var reviewtype 	= JSON.parse('<?php echo json_encode($reviewtype); ?>');
 var reviewclass = JSON.parse('<?php echo json_encode($reviewtableclass); ?>');
 var workmanshippt = JSON.parse('<?php echo json_encode($workmanshippt); ?>');
@@ -469,7 +474,7 @@ $(function(){
 	var reviewlist = $.parseJSON('<?php echo json_encode($reviewlist); ?>');
 	if(reviewlist.length > 0){
 		$(reviewlist).each(function(i, v){
-			var reviewlistdata 	= {status : 1, result : { id: v.id, reviewtype: v.reviewtype, statementname: v.statementname, comments: v.comments, file: v.file, point: v.point, status: v.status, created_at: v.created_at }}
+			var reviewlistdata 	= {status : 1, result : { id: v.id, reviewtype: v.reviewtype, statementname: v.statementname, comments: v.comments, file: v.file, point: v.point, status: v.status, incomplete_point: v.incomplete_point, complete_point: v.complete_point, created_at: v.created_at, created_at: v.created_at }}
 			review(reviewlistdata);
 		})
 	}
@@ -487,6 +492,9 @@ $(function(){
 			},
 			attachmenthidden : {
 				required	: true
+			},
+			auditcomplete : {
+				required	: true
 			}
 		},
 		{
@@ -498,6 +506,9 @@ $(function(){
 			},
 			attachmenthidden : {
 				required	: "Please fill one review."
+			},
+			auditcomplete : {
+				required	: "Please check audit complete."
 			}
 		},
 		{
@@ -572,8 +583,11 @@ $(function(){
 });
 
 $('#save').click(function(){
-	validator.destroy();
-	$('#submit').attr('value', 'save').click();
+	//validator.destroy();
+	if($('.form').valid())
+	{
+		$('#submit').attr('value', 'save').click();
+	}
 })
 
 $('#submitreport').click(function(){
@@ -602,47 +616,69 @@ function reason(){
 	}
 }
 
+
+$(document).on('change', '.reviewstatus', function(){
+	var _this = $(this);
+	
+	if(_this.val()==0){
+		var point = _this.parent().parent().attr('data-incompletept');
+	}else{
+		var point = _this.parent().parent().attr('data-completept');
+	}
+	
+	ajax('<?php echo base_url()."ajax/index/ajaxreviewaction"; ?>', {'id' : _this.parent().parent().attr('data-id'), 'point' : point, 'status' : _this.val()}, '', { success : function(data){ 
+		sweetalertautoclose('successfully saved'); 
+		refixcheck(); 
+		_this.parent().parent().find('td:eq(4)').text(point)
+	}});
+})
+
+
 $('.r_reviewtype').click(function(){
 	reviewtoggle($(this).val());
-	//reviewpoint()
+	reviewpoint();
 })
 
 function reviewtoggle(data){
 	$('.section1, .section2, .section3').addClass('displaynone');
 	reviewmodalclear(1);
 	
-	if(data==1 || data==2){
+	if(data==1 || data==2 || data==3){
 		$('.section1, .section2, .section3').removeClass('displaynone');
-	}else if(data==3){
-		$('.section2, .section3').removeClass('displaynone');
 	}else if(data==4){
 		$('.section2').removeClass('displaynone');
 	}
 }
 
-$('.r_installationtype, .r_subtype, .r_statement').change(function(){
-	//reviewpoint();
-})
-
 function reviewpoint(){
-	var statement = $('.r_statement');
-	var reviewtype = $('.r_reviewtype').val();
-	
-	$('.r_point').val('');
-	
 	setTimeout(function(){
+		var statement = $('#r_statement');
+		var reviewtype = $('.r_reviewtype:checked').val();
+		
+		$('.r_point').val('');
+		$('#r_status').val('1');
+	
 		if(statement.val()!='' && statement.val()!=undefined){
+			var statementoption = statement.find('option:selected');
 			if(reviewtype==1){
-				$('.r_point').val('0');
+				$('.r_point').val(statementoption.attr('data-refixincomplete'));
+				$('#incompletepoint').val(statementoption.attr('data-refixincomplete'));
+				$('#completepoint').val(statementoption.attr('data-refixcomplete'));
+				$('#r_status').val('0');
 			}else if(reviewtype==2){
-				$('.r_point').val(statement.attr('data-cautionary'));
+				$('.r_point').val(statementoption.attr('data-cautionary'));
+				$('#cautionarypoint').val(statementoption.attr('data-cautionary'));
 			}else if(reviewtype==3){
-				$('.r_point').val(statement.attr('data-compliment'));
-			}else if(reviewtype==4){
-				$('.r_point').val(noaudit)
-			} 
+				$('.r_point').val(statementoption.attr('data-compliment'));
+				$('#complimentpoint').val(statementoption.attr('data-compliment'));
+			}
 		} 
-	}, 3000);
+		
+		if(reviewtype==4){
+			$('.r_point').val(noaudit);
+			$('#noauditpoint').val(statementoption.attr(noaudit));
+		} 
+	}, 1000);
 }
 
 $('.r_auditorreportlist').change(function(){
@@ -652,7 +688,7 @@ $('.r_auditorreportlist').change(function(){
 			
 			$('#r_installationtype').val(result.installationtype_id)
 			$('#r_comments').val(result.comments)
-			subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], [result.subtype_id, result.statement_id]);
+			subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], [result.subtype_id, result.statement_id], reviewpoint);
 		}	
 	}});
 })
@@ -664,7 +700,6 @@ $('#reviewmodal').on('hidden.bs.modal', function(){
 $('.reviewsubmit').click(function(){
 	if($('.reviewform').valid())
 	{
-		//reviewpoint();
 		var data = $('.reviewform').serialize();
 		ajax('<?php echo base_url()."ajax/index/ajaxreviewaction"; ?>', data, review);
 	}
@@ -686,7 +721,7 @@ function review(data){
 		}
 		
 		var appenddata 	= 	'\
-								<tr class="reviewappend '+reviewclass[result.reviewtype]+'" data-id="'+result.id+'" data-date="'+result.created_at+'">\
+								<tr class="reviewappend '+reviewclass[result.reviewtype]+'" data-id="'+result.id+'" data-date="'+formatdate(result.created_at, 2)+'" data-incompletept="'+result.incomplete_point+'" data-completept="'+result.complete_point+'">\
 									<td data-reviewtype="'+result.reviewtype+'">'+reviewtype[result.reviewtype]+'</td>\
 									<td>'+((result.statementname!=null) ? result.statementname : "")+'</td>\
 									<td>'+((result.comments!=null) ? result.comments : "")+'</td>\
@@ -710,10 +745,6 @@ function review(data){
 	reviewextras();
 }
 
-$(document).on('change', '.reviewstatus', function(){
-	ajax('<?php echo base_url()."ajax/index/ajaxreviewaction"; ?>', {'id' : $(this).parent().parent().attr('data-id'), 'status' : $(this).val()}, '', { success : function(data){ sweetalertautoclose('successfully saved'); refixcheck(); }} );
-})
-
 $(document).on('click', '.reviewedit', function(){
 	ajax('<?php echo base_url()."ajax/index/ajaxreviewaction"; ?>', {'id' : $(this).attr('data-id'), 'action' : 'edit'}, reviewedit);
 })
@@ -727,7 +758,7 @@ function reviewedit(data){
 		$('.r_reviewtype[value="'+result.reviewtype+'"]').prop('checked', true);
 		$('.r_auditorreportlist').val(result.favourites);
 		$('.r_installationtype').val(result.installationtype);
-		subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], [result.subtype, result.statement]);
+		subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], [result.subtype, result.statement], reviewpoint);
 		$('.r_reference').val(result.reference);
 		$('.r_link').val(result.link);
 		$('.r_comments').val(result.comments);
@@ -777,6 +808,7 @@ function reviewremove(data){}
 function reviewmodalclear(data=''){
 	if(data=='') $('.r_reviewtype').prop('checked', false);
 	
+	$('#incompletepoint, #completepoint, #cautionarypoint, #complimentpoint, #noauditpoint').val(0);
 	$('.r_auditorreportlist, .r_installationtype, .r_reference, .r_link, .r_comments, .r_file, .r_point, .r_id').val('');
 	subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], ['', '']);
 	$('.rfileappend').html('');
@@ -799,26 +831,47 @@ function reviewextras(){
 }
 
 function refixcheck(){
-	$('.refix_wrapper, .report_wrapper, .auditcomplete_wrapper').addClass('displaynone');
+	$('.refix_wrapper, .report_wrapper, .auditcomplete_wrapper, .refixmodaltext, #submitreport').addClass('displaynone');
 	
 	var reportcheck = 0;
+	var newdate;
 	
 	$(document).find('.reviewappend').each(function(){
 		var reviewtypecolumn 	= $(this).find('td:eq(0)').attr('data-reviewtype');
 		var statuscolumn		= $(this).find('.reviewstatus').val();
 		
+		var date 		= new Date($(this).attr('data-date')); 
+		newdate			= date.setDate(date.getDate() + Number($('#refixperiod').val()));
+		var todaydate 	= new Date();
+		var expirydate 	= new Date(formatdate(newdate, 2));
+		
 		if(reviewtypecolumn==1 && statuscolumn==0){
-			reportcheck = 1;
-			return false;
+			if(expirydate >= todaydate){
+				reportcheck = 1;
+				return false;
+			}else{
+				reportcheck = 2;
+				return false;
+			}
 		}else if(reviewtypecolumn==1 && statuscolumn==1){
-			reportcheck = 2;
+			reportcheck = 3;
 		}
 	})
 	
 	if(reportcheck==1){
 		$('.refix_wrapper').removeClass('displaynone');
+		$('.refixdateappend').text(formatdate(newdate, 1));
+		$('#auditstatus').val(0);
 	}else if(reportcheck==2){
-		if($('.attachmenthidden').val()!='') $('.report_wrapper, .auditcomplete_wrapper').removeClass('displaynone');
+		if($('.attachmenthidden').val()!=''){
+			$('.refix_wrapper, .report_wrapper, .auditcomplete_wrapper, .refixmodaltext, #submitreport').removeClass('displaynone');
+			$('.refixdateappend').text(formatdate(newdate, 1));
+			$('#auditstatus').val(0);
+		}
+	}else if(reportcheck==3){
+		if($('.attachmenthidden').val()!='') $('.report_wrapper, .auditcomplete_wrapper, #submitreport').removeClass('displaynone');
+	}else{
+		if($('.attachmenthidden').val()!='') $('.report_wrapper, .auditcomplete_wrapper, #submitreport').removeClass('displaynone');
 	}
 }
 
