@@ -85,12 +85,12 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 								<input type="text" class="form-control" name="order_id" id="order_id" value="<?php echo $id; ?>" readonly>
 							</div>
 						</div>
+						<input type="hidden" value="<?php echo $inv_id; ?>" name="inv_id">
 						<?php if($inv_id_display==1){ ?>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Inv Number</label>
 								<input type="text" class="form-control" name="inv_display_id" value="<?php echo $inv_id; ?>" readonly>
-								<input type="hidden" value="<?php echo $inv_id; ?>">
 							</div>
 						</div>
 						<?php } ?>
