@@ -178,7 +178,7 @@ class Auditor_Model extends CC_Model
 		$request1['status'] = '0';
 		$invoicedate = isset($data['invoicedate']) && $data['invoicedate']!='1970-01-01' ? date('Y-m-d', strtotime($data['invoicedate'])) : '';		
 		if(isset($invoicedate)) $request1['invoice_date'] = $invoicedate;
-		if(isset($data['invoiceno'])) $request1['invoice_no'] = $data['invoiceno'];
+		if(isset($data['invoice_no'])) $request1['invoice_no'] = $data['invoice_no'];
 		if(isset($data['total_cost'])) $request1['total_cost'] = $data['total_cost'];
 		if(isset($data['vat'])) $request1['vat'] = $data['vat'];
 		if(isset($request1)){	
@@ -199,9 +199,9 @@ class Auditor_Model extends CC_Model
 	public function invoicenovalidation($data)
 	{
 		$id 	= $data['id'];
-		$invoiceno 	= $data['invoiceno'];		
-		$this->db->where('invoiceno', $invoiceno);
-		if($id!='') $this->db->where('id !=', $id);
+		$invoiceno 	= $data['invoice_no'];		
+		$this->db->where('invoice_no', $invoiceno);
+		if($id!='') $this->db->where('inv_id !=', $id);
 		$query = $this->db->get('invoice');
 		
 		if($query->num_rows() > 0){

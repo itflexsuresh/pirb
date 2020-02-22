@@ -80,7 +80,7 @@
 						<div class="col-md-6">
 							<div class="form-group ">
 								<label for="name">Invoice number</label>
-								<input type="text" autocomplete="off" class="form-control" id="invoiceno" name="invoiceno" value="">
+								<input type="text" autocomplete="off" class="form-control" id="invoice_no" name="invoice_no" value="">
 							</div>
 						</div>
 					</div>
@@ -252,21 +252,18 @@ $(function(){
 		{
 			invoicedate : {
 				required	: true,
-			},	
-			invoiceno : {
-				required	: true,
 			},		
-			// invoiceno : {
-			// 	required	: true,				
-			// 	remote		: 	{
-			// 						url		: 	"<?php echo base_url().'auditor/accounts/index/invoicenovalidation'; ?>",
-			// 						type	: 	"post",
-			// 						async	: 	false,
-			// 						data	: 	{
-			// 										id : userid
-			// 									}
-			// 					}
-			// }
+			invoice_no : {
+				required	: true,				
+				remote		: 	{
+									url		: 	"<?php echo base_url().'auditor/accounts/index/invoicenovalidation'; ?>",
+									type	: 	"post",
+									async	: 	false,
+									data	: 	{
+													id : userid
+												}
+								}
+			}
 					
 
 		},
@@ -275,13 +272,10 @@ $(function(){
 			invoicedate 	: {
 				required	: "Please enter the Invoice date."
 			},
-			invoiceno 	: {
-				required	: "Please enter the Invoice no."
-			},
-			// invoiceno : {
-			// 	required	: "Invoiceno  field is required.",				
-			// 	remote		: "Invoiceno already exists."
-			// }
+			invoice_no : {
+				required	: "Invoiceno  field is required.",			
+				remote		: "Invoiceno already exists."
+			}
 		}
 	);
 

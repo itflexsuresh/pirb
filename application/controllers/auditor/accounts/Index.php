@@ -65,8 +65,7 @@ class Index extends CC_Controller
 	{	
 		$requestData 		= $this->input->post();
 		$requestData['id'] 	= isset($requestData['id']) ? $requestData['id'] : '';
-		$data 				= $this->Auditor_Model->invoicenovalidation($requestData);
-		
+		$data 				= $this->Auditor_Model->invoicenovalidation($requestData);		
 		echo $data;
 	}
 
