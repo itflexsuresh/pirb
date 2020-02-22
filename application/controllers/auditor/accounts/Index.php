@@ -68,6 +68,7 @@ class Index extends CC_Controller
 		$data 				= $this->Auditor_Model->invoicenovalidation($requestData);		
 		echo $data;
 	}
+	
 
 	public function DTAccounts()
 	{

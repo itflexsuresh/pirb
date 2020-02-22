@@ -58,6 +58,7 @@ class Index extends CC_Controller
 	{
 		$post 			= $this->input->post();
 		// $post['adminsearch'] = '1';
+		
 		$totalcount 	= $this->Auditor_Model->getInvoiceList('count',$post);
 		$results 		= $this->Auditor_Model->getInvoiceList('all', $post);
 		// echo json_encode($totalcount); die;

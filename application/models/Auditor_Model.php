@@ -157,6 +157,7 @@ class Auditor_Model extends CC_Model
 			elseif(strtolower($searchvalue) == 'not submitted'){
 				$this->db->where('inv.status', '2');
 			}
+			
 			else{
 				$this->db->group_start();
 				$this->db->like('inv.inv_id', $searchvalue);
