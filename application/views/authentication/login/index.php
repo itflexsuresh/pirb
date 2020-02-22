@@ -46,7 +46,7 @@
 							<div class="form-group">
 								<label for="password2">Password</label>
 								<input class="form-control" name="password" id="password2" type="password" placeholder="Password">
-								<p>Password must be 8 to 24 characters, is case sensitive, and cannot contain spaces.</p>
+
 							</div>
 						</div>
 						<div class="col-sm-6">
@@ -55,6 +55,7 @@
 								<input class="form-control" name="verifypassword" id="verifypassword2" type="password" placeholder="Verify Password">
 							</div>
 						</div>
+						<p>Password must be 8 to 24 characters, is case sensitive, and cannot contain spaces.</p>
 					</div>
 					<div class="text-center">
 						<?php if($usertype=='3'){ ?><a href="<?php echo base_url('login/company'); ?>">Register your Company with the PIRB</a><?php } ?>
