@@ -339,7 +339,7 @@ class Index extends CC_Controller
 
 					<tr>
 					<td style="vertical-align: top;">
-					<table class="comp_detail_uniq" style="margin-top:10px; border: 1px solid #000; width: 230px;">
+					<table class="comp_detail_uniq" style="margin-top:10px; border: 1px solid #000; width: 250px;">
 						<thead>
 							<tr>
 								<th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 5px; padding-top: 5px;">Company Details</th>
@@ -375,7 +375,7 @@ class Index extends CC_Controller
 
 					<tr>
 					<td>
-					<table class="bill_detail_uniq" style="margin-top:10px; border: 1px solid #000; width: 230px;">
+					<table class="bill_detail_uniq" style="margin-top:10px; border: 1px solid #000; width: 250px;">
 						<thead>
 							<tr>
 							<th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 5px; padding-top: 5px;">Billing Details</th>
@@ -421,14 +421,14 @@ class Index extends CC_Controller
 						<table style="border: 1px solid #000;margin-top: 10px;" class="term_uniq">
 							<thead>
 								<tr>
-								<th style="border-bottom: 1px solid #000; padding:5px 20px;text-align: center;">
+								<th style="border-bottom: 1px solid #000; padding:5px 30px;text-align: center;">
 								Terms
 								</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td style="text-align: center; padding:5px 20px;">
+									<td style="text-align: center; padding:10px 30px;">
 									COD	
 									</td>
 								</tr>
@@ -493,18 +493,18 @@ class Index extends CC_Controller
 					<tbody>
 
 					<tr style="text-align: center;">
-					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">Sub Total</td>
-					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$rowData['cost_value'].'</td>
+					<td style="margin: 0; padding: 10px 20px; border: 1px solid #000; font-weight: bold;">Sub Total</td>
+					<td style="margin: 0; padding: 10px 30px; border: 1px solid #000; ">'.$rowData['cost_value'].'</td>
 					</tr>
 
 					<tr style="text-align: center;">
-					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">VAT Total</td>
-					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$rowData['vat'].'</td>
+					<td style="margin: 0; padding: 10px 20px; border: 1px solid #000; font-weight: bold;">VAT Total</td>
+					<td style="margin: 0; padding: 10px 30px; border: 1px solid #000; ">'.$rowData['vat'].'</td>
 					</tr>
 
 					<tr style="text-align: center;">
-					<td bgcolor="#ccc" style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">Total</td>
-					<td bgcolor="#ccc" style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$rowData['total_due'].'</td>
+					<td bgcolor="#ccc" style="margin: 0; padding: 10px 20px; border: 1px solid #000; font-weight: bold;">Total</td>
+					<td bgcolor="#ccc" style="margin: 0; padding: 10px 30px; border: 1px solid #000;">'.$rowData['total_due'].'</td>
 					</tr>
 
 					</tbody>
