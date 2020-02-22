@@ -307,7 +307,7 @@ class Index extends CC_Controller
 					</td>
 
 					<td>
-					<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/paid.png">
+					<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/unpaid.jpg">
 					</td>
 					</tr>
 
