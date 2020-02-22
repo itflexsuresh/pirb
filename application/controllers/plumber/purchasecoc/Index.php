@@ -493,17 +493,17 @@ class Index extends CC_Controller
 					<tbody>
 
 					<tr style="text-align: center;">
-					<td style="margin: 0; padding: 5px 40px; border: 1px solid #000; font-weight: bold;">Sub Total</td>
+					<td style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">Sub Total</td>
 					<td style="margin: 0; padding: 5px 50px; border: 1px solid #000; ">'.$rowData['cost_value'].'</td>
 					</tr>
 
 					<tr style="text-align: center;">
-					<td style="margin: 0; padding: 5px 40px; border: 1px solid #000; font-weight: bold;">VAT Total</td>
+					<td style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">VAT Total</td>
 					<td style="margin: 0; padding: 5px 50px; border: 1px solid #000; ">'.$rowData['vat'].'</td>
 					</tr>
 
 					<tr style="text-align: center;">
-					<td bgcolor="#ccc" style="margin: 0; padding: 5px 40px; border: 1px solid #000; font-weight: bold;">Total</td>
+					<td bgcolor="#ccc" style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">Total</td>
 					<td bgcolor="#ccc" style="margin: 0; padding: 5px 50px; border: 1px solid #000;">'.$rowData['total_due'].'</td>
 					</tr>
 
