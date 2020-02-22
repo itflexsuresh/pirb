@@ -18,7 +18,6 @@ class Coc_Model extends CC_Model
 			sm.*, 
 			u.id as u_id,
 			u.type as u_type,
-			u.email as u_email,
 			concat(ud.name, " ", ud.surname) as u_name, 
 			ud.mobile_phone as u_mobile,
 			ud.work_phone as u_work,
@@ -159,8 +158,10 @@ class Coc_Model extends CC_Model
 	}
 	public function getListPDF($type, $requestdata=[]){
 		//print_r($requestdata);die;
-		        $query=$this->db->select('t1.*,t1.status,t1.created_at,
-        	t2.inv_id, t2.total_due, t2.quantity, t2.cost_value,t2.vat, t2.delivery_cost, t2.total_due, t3.reg_no, t3.id, t3.name username, t3.surname surname, t3.company_name company_name, t3.vat_no vat_no, t3.email2, t3.home_phone, t4.address, t4.suburb, t4.city,t4.province, t5.id, t5.name,t6.id, t6.province_id, t6.name,t7.id, t7.province_id, t7.city_id, t7.name,t8.registration_no, t8.designation ');
+
+
+        $query=$this->db->select('t1.*,t1.status,t1.created_at,
+        	t2.inv_id, t2.total_due, t2.quantity, t2.cost_value,t2.vat, t2.delivery_cost, t2.total_due, t3.reg_no, t3.id, t3.name username, t3.surname surname, t3.company_name company_name, t3.vat_no vat_no, t3.email2, t3.home_phone, t3.file2, t4.address, t4.suburb, t4.city,t4.province, t5.id, t5.name as province,t6.id, t6.province_id, t6.name as city,t7.id, t7.province_id, t7.city_id, t7.name as suburb,t8.registration_no, t8.designation,ub.bank_name, ub.branch_code, ub.account_name, ub.account_no, ub.account_type');
 		        $this->db->select('
 			group_concat(concat_ws("@@@", t4.id, t4.suburb, t4.city,t4.province, t5.name, t6.name, t7.name) separator "@-@") as areas'
 		);
@@ -180,6 +181,8 @@ class Coc_Model extends CC_Model
         $this->db->join('city t6', 't6.id=t4.city', 'left');
 
         $this->db->join('suburb t7', 't7.id=t4.suburb', 'left');
+
+        $this->db->join('users_bank ub', 'ub.user_id=t1.user_id', 'left');
    
        if(isset($requestdata['id'])) $this->db->where('t1.inv_id', $requestdata['id']);
 

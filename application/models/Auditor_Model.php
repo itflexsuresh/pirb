@@ -62,12 +62,17 @@ class Auditor_Model extends CC_Model
 		$billingaddress	= 	[ 
 			'p.name as province, c.name as city, s.name as suburb'
 		];
+		$bankdetails	= 	[ 
+			'ub.bank_name, ub.branch_code, ub.account_name, ub.account_no, ub.account_type'
+		];
+
 
 		$this->db->select('
 			'.implode(',', $users).',
 			'.implode(',', $auditor).',
 			'.implode(',', $usersdetail).',
 			'.implode(',', $billingaddress).',
+			'.implode(',', $bankdetails).',
 			concat_ws("@-@", ua1.id, ua1.user_id, ua1.address, ua1.suburb, ua1.city, ua1.province, ua1.postal_code, ua1.type)  as physicaladdress,
 			concat_ws("@-@", ua2.id, ua2.user_id, ua2.address, ua2.suburb, ua2.city, ua2.province, ua2.postal_code, ua2.type)  as postaladdress,
 			concat_ws("@-@", ua3.id, ua3.user_id, ua3.address, ua3.suburb, ua3.city, ua3.province, ua3.postal_code, ua3.type)  as billingaddress');
@@ -83,6 +88,8 @@ class Auditor_Model extends CC_Model
 		$this->db->join('users_address ua2', 'ua2.user_id=u.id and ua2.type="2"', 'left');
 
 		$this->db->join('users_address ua3', 'ua3.user_id=u.id and ua3.type="3"', 'left');
+
+		$this->db->join('users_bank ub', 'ub.user_id=u.id', 'left');
 
 		$this->db->join('province as p', 'p.id=ua3.province', 'left');
 		$this->db->join('city as c', 'c.id=ua3.city', 'left');
@@ -147,11 +154,29 @@ class Auditor_Model extends CC_Model
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
-			$searchvalue = $requestdata['search']['value'];
-			$this->db->group_start();
-			$this->db->like('inv.inv_id', $searchvalue);
-			$this->db->or_like('inv.description', $searchvalue);
-			$this->db->group_end();
+			$searchvalue = trim($requestdata['search']['value']);
+			if(strtolower($searchvalue) == 'paid'){
+				$this->db->where('inv.status', '1');
+			}
+			elseif(strtolower($searchvalue) == 'unpaid'){
+				$this->db->where('inv.status', '0');
+			}
+			elseif(strtolower($searchvalue) == 'not submitted'){
+				$this->db->where('inv.status', '2');
+			}
+			
+			else{
+				$this->db->group_start();
+				$this->db->like('inv.inv_id', $searchvalue);
+				$this->db->or_like('inv.description', $searchvalue);
+				$this->db->or_like('inv.invoice_no', $searchvalue);					
+				$this->db->or_like('inv.invoice_date', $searchvalue);
+				// $this->db->or_like('inv.created_at', $searchvalue);
+				$this->db->or_like('inv.total_cost', $searchvalue);
+				$this->db->or_like('inv.internal_inv', $searchvalue);
+				$this->db->or_like('ud.name', $searchvalue);
+				$this->db->group_end();
+			}
 
 		}
 
@@ -545,27 +570,21 @@ class Auditor_Model extends CC_Model
 			'updated_by' 		=> $userid
 		];
 
-		if(isset($data['cocid']))		 				$request['coc_id'] 				= $data['cocid'];
-		if(isset($data['auditorid']))		 			$request['auditor_id'] 			= $data['auditorid'];
-		if(isset($data['plumberid']))					$request['plumber_id'] 			= $data['plumberid'];
-		if(isset($data['reviewtype']))		 			$request['reviewtype'] 			= $data['reviewtype'];
-		if(isset($data['favourites'])) 					$request['favourites'] 			= $data['favourites'];
-		if(isset($data['installationtype'])) 			$request['installationtype'] 	= $data['installationtype'];
-		if(isset($data['subtype'])) 					$request['subtype'] 			= $data['subtype'];
-		if(isset($data['statement'])) 					$request['statement'] 			= $data['statement'];
-		if(isset($data['reference'])) 					$request['reference'] 			= $data['reference'];
-		if(isset($data['link'])) 						$request['link'] 				= $data['link'];
-		if(isset($data['comments'])) 					$request['comments'] 			= $data['comments'];
-		if(isset($data['file'])) 						$request['file'] 				= implode(',', $data['file']);
-		if(isset($data['point'])) 						$request['point'] 				= $data['point'];
-		if(isset($data['incompletepoint'])) 			$request['incomplete_point'] 	= $data['incompletepoint'];
-		if(isset($data['completepoint'])) 				$request['complete_point'] 		= $data['completepoint'];
-		if(isset($data['cautionarypoint'])) 			$request['cautionary_point'] 	= $data['cautionarypoint'];
-		if(isset($data['complimentpoint'])) 			$request['compliment_point'] 	= $data['complimentpoint'];
-		if(isset($data['noauditpoint'])) 				$request['noaudit_point'] 		= $data['noauditpoint'];
-		if(isset($data['point'])) 						$request['point'] 				= $data['point'];
-		if(isset($data['status'])) 						$request['status'] 				= $data['status'];
-	
+		if(isset($data['cocid']))		 		$request['coc_id'] 				= $data['cocid'];
+		if(isset($data['auditorid']))		 	$request['auditor_id'] 			= $data['auditorid'];
+		if(isset($data['plumberid']))			$request['plumber_id'] 			= $data['plumberid'];
+		if(isset($data['reviewtype']))		 	$request['reviewtype'] 			= $data['reviewtype'];
+		if(isset($data['favourites'])) 			$request['favourites'] 			= $data['favourites'];
+		if(isset($data['installationtype'])) 	$request['installationtype'] 	= $data['installationtype'];
+		if(isset($data['subtype'])) 			$request['subtype'] 			= $data['subtype'];
+		if(isset($data['statement'])) 			$request['statement'] 			= $data['statement'];
+		if(isset($data['reference'])) 			$request['reference'] 			= $data['reference'];
+		if(isset($data['link'])) 				$request['link'] 				= $data['link'];
+		if(isset($data['comments'])) 			$request['comments'] 			= $data['comments'];
+		if(isset($data['file'])) 				$request['file'] 				= implode(',', $data['file']);
+		if(isset($data['point'])) 				$request['point'] 				= $data['point'];
+		if(isset($data['status'])) 				$request['status'] 				= $data['status'];
+
 		if($id==''){
 			$request['created_at'] = $datetime;
 			$request['created_by'] = $userid;
@@ -622,9 +641,7 @@ class Auditor_Model extends CC_Model
 		if(isset($data['point'])) 						$request['point'] 						= $data['point'];
 		if(isset($data['hold'])) 						$request['hold'] 						= $data['hold'];
 		if(isset($data['reason'])) 						$request['reason'] 						= $data['reason'];
-		if(isset($data['reportdate'])) 					$request['reportdate'] 					= date('Y-m-d H:i:s', strtotime($data['reportdate']));
 		if(isset($data['status'])) 						$request['status'] 						= $data['status'];
-		$request['auditcomplete'] 	= (isset($data['auditcomplete'])) ? $data['auditcomplete'] : '0';
 
 		if($id==''){
 			$request['created_at'] = $datetime;
