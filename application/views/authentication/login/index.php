@@ -43,20 +43,22 @@
 					</div>
 					<div class="row">
 						<div class="col-sm-6">
-							<div class="form-group">
+							<div class="form-group mb_0">
 								<label for="password2">Password</label>
 								<input class="form-control" name="password" id="password2" type="password" placeholder="Password">
+
 							</div>
 						</div>
 						<div class="col-sm-6">
-							<div class="form-group">
+							<div class="form-group mb_0">
 								<label for="verifypassword2">Verify Password</label>
 								<input class="form-control" name="verifypassword" id="verifypassword2" type="password" placeholder="Verify Password">
 							</div>
 						</div>
+						<p>Password must be 8 to 24 characters, is case sensitive, and cannot contain spaces.</p>
 					</div>
 					<div class="text-center">
-						<?php if($usertype=='3'){ ?><a href="<?php echo base_url('login/company'); ?>">Register Company with the PIRB</a><?php } ?>
+						<?php if($usertype=='3'){ ?><a href="<?php echo base_url('login/company'); ?>">Register your Company with the PIRB</a><?php } ?>
 						<?php if($usertype=='4'){ ?><a href="<?php echo base_url('login/plumber'); ?>">Register Plumber with the PIRB</a><?php } ?>
 					</div>
 					<input type="hidden" value="<?php echo $usertype; ?>" name="type">
