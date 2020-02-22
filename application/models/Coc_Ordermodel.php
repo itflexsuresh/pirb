@@ -379,13 +379,14 @@ class Coc_Ordermodel extends CC_Model
 		$query = $this->db->get();
 		$result = $query->result_array();
 
+		$result_new = [];
 		foreach ($result as $key => $value) {
 			if($value['type']=='3' && $value['status']==1){
 				$result_new[] = $value;
 			}
 		}
 		
-		return $result;
+		return $result_new;
 	}
 
 	public function autosearchReseller($postData){
