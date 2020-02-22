@@ -354,10 +354,10 @@ class CC_Controller extends CI_Controller
 							'description' 	=> 'Audit undertaken for '.$pagedata['result']['u_name'].' on COC '.$pagedata['result']['id'].'. Date of Review Submission '.date('d-m-Y', strtotime($datetime)),
 							'user_id'		=> (isset($extras['auditorid'])) ? $extras['auditorid'] : '',
 							'total_cost'	=> $this->getRates($this->config->item('inspection')),
-							'status'		=> '2',
+							'status'		=> '0',
 							'created_at'	=> $datetime
 						];
-						$this->db->insert('stock_management', $invoicedata);
+						$this->db->insert('invoice', $invoicedata);
 						
 						$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '21', 'emailstatus' => '1']);
 	

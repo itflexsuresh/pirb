@@ -582,7 +582,7 @@ class Auditor_Model extends CC_Model
 		if(isset($data['link'])) 						$request['link'] 				= $data['link'];
 		if(isset($data['comments'])) 					$request['comments'] 			= $data['comments'];
 		if(isset($data['file'])) 						$request['file'] 				= implode(',', $data['file']);
-		if(isset($data['incompletepoint'])) 			$request['incomplete_point'] 	= $data['incomplete_point'];
+		if(isset($data['incompletepoint'])) 			$request['incomplete_point'] 	= $data['incompletepoint'];
 		if(isset($data['completepoint'])) 				$request['complete_point'] 		= $data['completepoint'];
 		if(isset($data['cautionarypoint'])) 			$request['cautionary_point'] 	= $data['cautionarypoint'];
 		if(isset($data['complimentpoint'])) 			$request['compliment_point'] 	= $data['complimentpoint'];
