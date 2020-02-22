@@ -21,7 +21,8 @@ class Index extends CC_Controller
 		
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();	
-			$requestData['status']	= '1';				
+			$requestData['status']	= '1';	
+			$id	= $requestData['editid'];			
 			$data 	=  $this->Auditor_Model->action2($requestData);
 			if($data) $message = 'Records '.(($id=='') ? 'created' : 'updated').' successfully.';	
 
