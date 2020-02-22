@@ -147,11 +147,28 @@ class Auditor_Model extends CC_Model
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
-			$searchvalue = $requestdata['search']['value'];
-			$this->db->group_start();
-			$this->db->like('inv.inv_id', $searchvalue);
-			$this->db->or_like('inv.description', $searchvalue);
-			$this->db->group_end();
+			$searchvalue = trim($requestdata['search']['value']);
+			if(strtolower($searchvalue) == 'paid'){
+				$this->db->where('inv.status', '1');
+			}
+			elseif(strtolower($searchvalue) == 'unpaid'){
+				$this->db->where('inv.status', '0');
+			}
+			elseif(strtolower($searchvalue) == 'not submitted'){
+				$this->db->where('inv.status', '2');
+			}
+			else{
+				$this->db->group_start();
+				$this->db->like('inv.inv_id', $searchvalue);
+				$this->db->or_like('inv.description', $searchvalue);
+				$this->db->or_like('inv.invoice_no', $searchvalue);					
+				$this->db->or_like('inv.invoice_date', $searchvalue);
+				// $this->db->or_like('inv.created_at', $searchvalue);
+				$this->db->or_like('inv.total_cost', $searchvalue);
+				$this->db->or_like('inv.internal_inv', $searchvalue);
+				$this->db->or_like('ud.name', $searchvalue);
+				$this->db->group_end();
+			}
 
 		}
 
