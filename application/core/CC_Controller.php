@@ -334,8 +334,7 @@ class CC_Controller extends CI_Controller
 	}
 	
 	public function getAuditStatement($id, $pagedata=[], $extras=[])
-	{
-		
+	{		
 		$extraparam = [];
 		if(isset($extras['auditorid'])) $extraparam['auditorid'] 	= $extras['auditorid'];
 		if(isset($extras['plumberid'])) $extraparam['user_id'] 		= $extras['plumberid'];		
