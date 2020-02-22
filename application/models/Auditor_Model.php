@@ -200,12 +200,13 @@ class Auditor_Model extends CC_Model
 	public function action2($data)
 	{
 		$id	= $data['editid'];
-		$request1['status'] = '0';
+		$request1['status'] = $data['status'];
 		$invoicedate = isset($data['invoicedate']) && $data['invoicedate']!='1970-01-01' ? date('Y-m-d', strtotime($data['invoicedate'])) : '';		
 		if(isset($invoicedate)) $request1['invoice_date'] = $invoicedate;
 		if(isset($data['invoice_no'])) $request1['invoice_no'] = $data['invoice_no'];
 		if(isset($data['total_cost'])) $request1['total_cost'] = $data['total_cost'];
 		if(isset($data['vat'])) $request1['vat'] = $data['vat'];
+		if(isset($data['internal_inv'])) $request1['internal_inv'] = $data['internal_inv'];
 		if(isset($request1)){	
 			$userdata = $this->db->update('invoice', $request1, ['inv_id' => $id]);	
 		}
@@ -213,7 +214,7 @@ class Auditor_Model extends CC_Model
 		if(isset($data['total_cost'])) $request2['cost_value'] = $data['total_cost'];
 		if(isset($data['vat'])) $request2['vat'] = $data['vat'];		
 		if(isset($data['total'])) $request2['total_due'] = $data['total'];
-		if(isset($request1)){	
+		if(isset($request2)){	
 			$userdata = $this->db->update('coc_orders', $request2, ['inv_id' => $id]);	
 		}
 
