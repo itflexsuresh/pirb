@@ -36,6 +36,9 @@ if(!empty($comments)){
 	$allocate_start			= 	isset($stock['allocate_start']) ? $stock['allocate_start'] : 0;
 	$allocate_end			=	isset($stock['allocate_end']) ? $stock['allocate_end'] : 0;
 
+	$allocate_button_disbled = ($coc_type==2 && ($allocate_start==0 || $allocate_end==0)) ? 'disabled' : '';
+
+
 ?>
 
 <div class="row page-titles">
@@ -286,7 +289,7 @@ if(!empty($comments)){
 							<input type="hidden" class="form-control" name="order_id" id="order_id" value="<?php echo $id; ?>">
 							<input type="hidden" class="form-control" name="type" value="<?php echo $type; ?>">
 							<input type="hidden" name="coc_type" value="<?php echo $coc_type; ?>">
-							<button type="submit" name="allocate_certificate" value="submit" class="btn btn-primary">Allocate Certificates</button>
+							<button type="submit" name="allocate_certificate" value="submit" class="btn btn-primary" <?php echo $allocate_button_disbled; ?>>Allocate Certificates</button>
 						</div>
 					</div>					
 				</form>
