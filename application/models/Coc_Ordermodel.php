@@ -83,11 +83,10 @@ class Coc_Ordermodel extends CC_Model
 
 	public function action($data){
 
-		
 		if(isset($data['quantity'])) 		$requestdata['description'] 	= 'Purchase of '.$data['quantity'].' PIRB Certificate of Compliance';	
 		if(isset($data['created_at'])) 	    $requestdata['created_at'] 		= date('Y-m-d H:i:s', strtotime($data['created_at']));
 		if(isset($data['user_id']))			$requestdata['user_id'] 		= $data['user_id'];	
-		if(isset($data['order_id']))			$requestdata['inv_id'] 		= $data['order_id'];	
+		if(isset($data['inv_id']))			$requestdata['inv_id'] 			= $data['inv_id'];	
 		if(isset($data['coc_type'])) 		$requestdata['coc_type'] 		= $data['coc_type'];
 		if(isset($data['delivery_type'])) 	$requestdata['delivery_type'] 	= $data['delivery_type'];
 		if(isset($data['status'])) 			$requestdata['status'] 			= $data['status'];
@@ -107,12 +106,15 @@ class Coc_Ordermodel extends CC_Model
 			if(isset($data['vat'])) 		    $requestdata1['vat'] 			= $data['vat'];
 			if(isset($data['total_due'])) 		$requestdata1['total_due'] 		= $data['total_due'];
 			$requestdata1['admin_status'] 	= (isset($data['admin_status']) && $data['admin_status']='on') ? '2' : '0';
+			if(isset($data['order_id']))		$requestdata1['id'] 				= $data['order_id'];	
+
 
 			if(isset($requestdata['inv_id']) && $requestdata['inv_id']!=''){
 
 				$result1 = $this->db->update('invoice', $requestdata,['inv_id'=>$requestdata['inv_id']]);				
 
-				$result = $this->db->update('coc_orders', $requestdata1,['inv_id'=>$requestdata['inv_id']]);
+
+				$result = $this->db->update('coc_orders', $requestdata1,['id'=>$requestdata1['id']]);
 				// echo $this->db->last_query();exit;
 			} else {
 				$result1 = $this->db->insert('invoice', $requestdata);

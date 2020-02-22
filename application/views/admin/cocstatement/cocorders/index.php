@@ -11,7 +11,9 @@ $created_at 			= (isset($result['created_at']) && date('d-m-Y', strtotime($resul
 
 $coc_type 				= isset($result['coc_type']) ? $result['coc_type'] : '';
 $id 					= isset($result['id']) ? $result['id'] : '';
-$inv_id 				= isset($result['inv_id']) && $result['created_by']!='' ? $result['inv_id'] : '';
+// $inv_id 				= isset($result['inv_id']) && $result['created_by']!='' ? $result['inv_id'] : '';
+$inv_id 				= isset($result['inv_id']) ? $result['inv_id'] : '';
+$inv_id_display			= isset($result['created_by']) && $result['created_by']!='' ? 1 : 0;
 $delivery_type 			= isset($result['delivery_type']) ? $result['delivery_type'] : '';
 $quantity 				= isset($result['quantity']) ? $result['quantity'] : '1';
 $internalinv 			= isset($result['internal_inv']) ? $result['internal_inv'] : '';
@@ -83,12 +85,15 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 								<input type="text" class="form-control" name="order_id" id="order_id" value="<?php echo $id; ?>" readonly>
 							</div>
 						</div>
+						<?php if($inv_id_display==1){ ?>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Inv Number</label>
-								<input type="text"class="form-control" name="inv_id" value="<?php echo $inv_id; ?>" readonly>
+								<input type="text" class="form-control" name="inv_display_id" value="<?php echo $inv_id; ?>" readonly>
+								<input type="hidden" value="<?php echo $inv_id; ?>">
 							</div>
 						</div>
+						<?php } ?>
 					</div>
 					<div class="row">
 						<div class="col-md-6">
