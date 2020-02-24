@@ -287,7 +287,7 @@ td {
 		$requestData['status'] = '1';
 		$requestData1['expirydate'] = $current_date;
 		$query 	= $this->db->update('invoice', $requestData, ['inv_id' => $invId,'user_id' => $userid]);
-		$query2 = $this->db->update('user', $requestData1, ['id' => $userid]);
+		$query2 = $this->db->update('users', $requestData1, ['id' => $userid]);
 		if ($query && $query2) {
 			$this->session->set_flashdata('success','Registration Renewed Sucessfully.');
 			redirect('plumber/profile/Index');
