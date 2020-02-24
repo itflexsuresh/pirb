@@ -169,7 +169,7 @@ else
 <script>
 	$(function(){
 		
-		subtype(['#repo_installation','#repo_subtype'], ['']);
+		subtypereportinglist(['#repo_installation','#repo_subtype'], ['', '']);
 
 		var options = {
 			url 	: 	'<?php echo base_url()."admin/administration/reportlisting/index/DTReportListing"; ?>',

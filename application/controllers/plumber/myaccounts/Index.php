@@ -39,19 +39,41 @@ class Index extends CC_Controller
 		$post 			= $this->input->post();
 		
 		$userid 		= $this->getUserID();
+
+		$userdata1		= $this->Plumber_Model->getList('row', ['id' => $userid]);
 		
 		$totalcount 	= $this->Accounts_Model->getList('count', ['user_id' => $userid]+$post);
 		$results 		= $this->Accounts_Model->getList('all', ['user_id' => $userid]+$post);
+		
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
 				$invoicestatus = 	isset($this->config->item('payment_status2')[$result['status']]) ? $this->config->item('payment_status2')[$result['status']] : '';
+				//print_r($this->db->last_query());
 				
-				if($invoicestatus=='0'){
+				if($result['status']=='0'){
+					$this->session->set_userdata('pay_purchaseorder', $result['inv_id']);
+
 					$action = 	'
-									<a  href="' .base_url().'assets/inv_pdf/'.$result['inv_id'].'.pdf" ><i class="fa fa-credit-card"></i></a>
+									<input type="hidden" id="feeamt" value="'.$result['total_cost'].'">
+									<input type="hidden" id="name" value="'.$userdata1['name'].'">
+									<input type="hidden" id="surname" value="'.$userdata1['surname'].'">
+									<input type="hidden" id="usremail" value="'.$userdata1['email'].'">
+									<a <a href="javascript:void(0);"> <i class="fa fa-credit-card payfastpayment">
+									<script>
+									$(".payfastpayment").click(function(){
+									$("#name_first").val($("#name").val());
+									$("#name_last").val($("#surname").val());
+									$("#totaldue1").val($("#feeamt").val());
+									$("#email_address").val($("#usremail").val());
+									$( "#paymentsubmit" ).trigger( "click" );								
+									
+								});
+								</script></i></a>
 								';
+				}else{
+					$action = 	'';	
 				}
 				
 				$totalrecord[] = 	[      
@@ -65,8 +87,7 @@ class Index extends CC_Controller
 																<div class="col-md-6">
 																	<a  href="' .base_url().'assets/inv_pdf/'.$result['inv_id'].'.pdf" ><img src="'.base_url().'assets/images/pdf.png" height="50" width="50"></a>
 																	'.(isset($action) ? $action : '').'
-																</div>
-															'
+																</div>'
 									];
 			}
 		}
@@ -88,7 +109,6 @@ class Index extends CC_Controller
 		if($id!=''){
 		
 			$rowData = $this->Accounts_Model->getList('row', ['id' => $id, 'status' => ['0','1','7','8','9']]);
-
 			$rowData1 = $this->Accounts_Model->getPermissions('row', ['id' => $id, 'status' => ['0','1','7','8','9']]);
 			$rowData2 = $this->Accounts_Model->getPermissions1('row', ['id' => $id, 'status' => ['0','1','7','8','9']]);
 
@@ -256,5 +276,30 @@ td {
 				$this->pdf->stream($pdfFilePath);
 			//}
 		}		
+	}
+
+	/// Payments
+
+	public function returnurl(){
+		$userid = $this->getUserID();
+		$current_date = date('Y-m-d H:i:s');
+		$invId 	= $this->session->userdata('pay_purchaseorder');
+		$requestData['status'] = '1';
+		$requestData1['expirydate'] = $current_date;
+		$query 	= $this->db->update('invoice', $requestData, ['inv_id' => $invId,'user_id' => $userid]);
+		$query2 = $this->db->update('user', $requestData1, ['id' => $userid]);
+		if ($query && $query2) {
+			$this->session->set_flashdata('success','Registration Renewed Sucessfully.');
+			redirect('plumber/profile/Index');
+		}
+		
+	}
+	public function cancelurl(){
+		$this->session->set_flashdata('success','Payement Cancel.');
+		redirect('plumber/profile/Index');
+	}
+	public function notifyurl(){
+		$this->session->set_flashdata('success','Registration Renewed Sucessfully.');
+		redirect('plumber/profile/Index');
 	}
 }

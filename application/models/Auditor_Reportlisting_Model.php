@@ -23,22 +23,17 @@ class Auditor_Reportlisting_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['t1.id', 't1.installation_id', 't1.subtype_id', 't1.compliment', 't1.cautionary', 't1.refix_complete', 't1.refix_incomplete','t1.status', 't2.name', 't3.insname'];
+			$column = ['t1.installationtype_id', 't1.subtype_id', 't1.favour_name', 't1.comments', 't2.name', 't3.insname'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = strtolower((trim($requestdata['search']['value'])));
-			$this->db->like('t3.name', $searchvalue);
-			$this->db->like('t2.name', $searchvalue);
-			// $this->db->or_like('t1.id', $searchvalue);
-			// $this->db->or_like('t1.installation_id', $searchvalue);
+			$this->db->like('t1.favour_name', $searchvalue);
+			// $this->db->or_like('t1.installationtype_id', $searchvalue);
 			// $this->db->or_like('t2.name', $searchvalue);
-			// $this->db->like('t1.subtype_id', $searchvalue);
-			// $this->db->or_like('t1.compliment', $searchvalue);
-			// $this->db->or_like('t1.refix_complete', $searchvalue);
-			// $this->db->or_like('t1.refix_incomplete', $searchvalue);
-			// $this->db->or_like('t1.cautionary', $searchvalue);
+			// $this->db->or_like('t3.name', $searchvalue);
+			
 			
 		}
 		
@@ -60,6 +55,7 @@ class Auditor_Reportlisting_Model extends CC_Model
 	
 	public function action($data)
 	{ 
+
 		$this->db->trans_begin();
 		
 		$userid			= 	$this->getUserID();
@@ -83,7 +79,7 @@ class Auditor_Reportlisting_Model extends CC_Model
 		if($id=='')
 		{
 			$request['created_at'] = $datetime;
-			$request['created_by'] = $id;
+			$request['created_by'] = $userid;
 			
 			$this->db->insert('auditor_report_listing', $request);
 		}
@@ -116,8 +112,7 @@ class Auditor_Reportlisting_Model extends CC_Model
 		
 		$this->db->trans_begin();
 		
-		$delete 	= 	$this->db->update(
-			'auditor_report_listing', 
+		$delete 	= 	$this->db->update('auditor_report_listing', 
 			['status' => $status, 'updated_at' => $datetime, 'updated_by' => $userid], 
 			['id' => $id]
 		);

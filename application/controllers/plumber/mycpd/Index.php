@@ -27,7 +27,6 @@ class index extends CC_Controller
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
 
-
 			if($requestData['submit']=='submit'){
 
 				$data 	=  $this->Mycpd_Model->actionInsert($requestData);
@@ -161,15 +160,23 @@ class index extends CC_Controller
 					';
 				}
 
+				// Attachments
+				if ($result['file1']!='') {
+					$attach = '<div class="table-action">
+					<a href="'.base_url().'assets/uploads/cpdqueue/'.$result['file1'].'" target="_blank" data-toggle="tooltip" data-placement="top" title="View Attachments"><i class="fa fa-download"></i></a>
+					</div>';
+				}else{
+					$attach = '';
+				}
+
+
 				$totalrecord[] = 	[
-					'date' 					=> 	$result['cpd_start_date'],
+					'date' 					=> 	date("m-d-Y", strtotime($result['cpd_start_date'])),
 					'acivity' 				=> 	$result['cpd_activity'],
 					'streams' 				=> 	$this->config->item('cpdstream')[$result['cpd_stream']],
 					'comments' 				=> 	$result['comments'],
 					'points' 				=> 	$awardPts,
-					'attachment' 			=> 	'<div class="table-action">
-					<a href="'.base_url().'plumber/mycpd/index/getAttachment/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
-					</div>',
+					'attachment' 			=> 	$attach,
 					'status' 				=> 	$statuz,
 					'action'				=> 	$action
 				];
@@ -207,7 +214,148 @@ class index extends CC_Controller
 	public function getAttachment($data){
 		
 		$query = $this->db->select('*')->from('cpd_activity_form')->where('id',$data)->get()->row_array();
-		echo "<pre>";
-		print_r($query);die;
+
+		if(preg_match('/^[^.][-a-z0-9_.]+[a-z]$/i', $query['file1'])){
+        $filepath = FCPATH.'assets/uploads/cpdqueue/'.$query['file1'];
+        if(file_exists($filepath)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="'.basename($filepath).'"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($filepath));
+            flush(); // Flush system output buffer
+            readfile($filepath);
+            die();
+        } else {
+            http_response_code(404);
+	        die();
+        }
+    } else {
+        die("Invalid file name!");
+    }
+
+		
+	}
+
+	// public function mothlyCron(){
+	// 	$user_id  			= $this->getUserID();
+	// 	$userdetails 		= $this->Plumber_Model->getList('row', ['id' => $user_id]);
+	// 	$year	= date('Y-m-d H:i:s');
+
+
+	// 	$plumberCPD 		= $this->db->select('*')->from('cpd_activity_form')->where('')->get()->result_array();
+	// }
+
+	public function monthlyMail(){
+
+		$user_id  			= $this->getUserID();
+		$userdetails 		= $this->Plumber_Model->getList('row', ['id' => $user_id]);
+		$designationID  	= $this->getUserDetails($user_id);
+		$designationDB 	  	= $this->config->item('designation2')[$designationID['designation']];
+		$currentDate 		= date('m-d-Y');
+		$currentMonth 		= date('m');
+		$lastMonth 			= date('m', strtotime($currentMonth.' -1'));
+		$settingsplumberDetails[] = '';
+		$plumberCPDDetails[] = '';
+		$cpdTable 	= '';
+		$dev 		= '';
+		$work 		= '';
+		$indi 		= '';
+		$total 		= '';
+		$totalDB 	= '';
+
+		if ($designationDB == 'Learner Plumber') {
+			$designation = 'learner';
+		}elseif($designationDB == 'Technical Assistant Practitioner'){
+			$designation = 'assistant';
+		}elseif($designationDB == 'Technical Operator Practitioner'){
+			$designation = 'operating';
+		}elseif($designationDB == 'Licensed Plumber'){
+			$designation = 'licensed';
+		}elseif($designationDB == 'Qualified Plumber'){
+			$designation = '';
+		}elseif($designationDB == 'Master Plumber'){
+			$designation = 'master';
+			
+		}
+
+		$template 	= $this->db->select('*')->from('email_notification')->where('category_id','6')->where('sms_active','1')->get()->row_array();
+		
+
+		$plumberCPD = $this->db->select('*')->from('cpd_activity_form')->where('MONTH(cpd_start_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND status="1" OR status="2"')->get()->result_array();
+
+		$settingsCPD = $this->db->select('*')->from('settings_cpd')->get()->result_array();
+
+
+		if (count($plumberCPD)>0) {
+				foreach ($settingsCPD as $key => $value) {
+				$settingsplumberDetails[] = $value[$designation];
+			}
+			foreach ($plumberCPD as $key1 => $value1) {
+
+				if($value1['cpd_stream']=='1'){
+					$dev .= $value1['points'];
+				}elseif($value1['cpd_stream']=='2'){
+					$work .= $value1['points'];
+				}
+				elseif($value1['cpd_stream']=='3'){
+					$indi .= $value1['points'];
+				}
+				if($dev==''){
+					$dev .= 0;				
+					
+				}if ($work=='') {
+					$work .= 0;
+				}if ($indi=='') {
+					$indi .= 0;
+				}
+			
+			}
+
+
+			$total .= $dev+$work+$indi;
+			$totalDB .= $settingsplumberDetails[1]+$settingsplumberDetails[2]+$settingsplumberDetails[3];
+
+			$cpdTable .= '<table style="width:40%; border-collapse:collapse;" class="tablcpd">
+			<tr>
+			<th style="border: 1px solid #000;padding:5px 10px;text-align:center;">CPD Stream</th>
+			<th style="border: 1px solid #000;padding:5px 10px;text-align:center;">Your Points (YTD)</th>
+			<th style="border: 1px solid #000;padding:5px 10px;text-align:center;">Preferred Points Required</th>
+			
+			</tr>
+			<tr>
+			<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">Developmental</td>
+			<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">'.$dev.'</td>
+			<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">'.$settingsplumberDetails[1].'</td>
+			</tr>
+			<tr>
+			<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">Work-based</td>
+			<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">'.$work.'</td>
+			<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">'.$settingsplumberDetails[2].'</td>
+			</tr>
+			<tr>
+			<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">Individual</td>
+			<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">'.$indi.'</td>
+			<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">'.$settingsplumberDetails[3].'</td>
+			</tr>
+			<tr>
+			<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">Total</td>
+			<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">'.$total.'</td>
+			<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">'.$totalDB.'</td>
+			</tr>
+			</table>';
+
+			$array1 = ['{Plumbers Name and Surname}','{TODAYS DATE}', 'Points Table'];
+			$array2 = [$userdetails['name'].' '.$userdetails['surname'], $currentDate, $cpdTable];
+			$body = str_replace($array1, $array2, $template['email_body']);
+
+			if ($template['email_active'] == '1') {
+
+		 		$this->CC_Model->sentMail($userdetails['email'],$template['subject'],$body);
+		 	}
+		}
+		
 	}
 }

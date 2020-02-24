@@ -41,7 +41,9 @@ function ajaxdatatables(selector, options={}){
 								
 							},
 		'columns'		: 	options.columns,
-		'columnDefs'	: 	columndefs
+		'columnDefs'	: 	columndefs,
+		'searching'		: 	(options.search && options.search=='0') ? false : true,
+		'lengthMenu'	: 	(options.lengthmenu && options.lengthmenu.length > 0) ? options.lengthmenu : [10, 25, 50, 100]
 	});
 }
 
@@ -64,8 +66,10 @@ function validation(selector, rules, messages, extras=[])
 												error.insertAfter(element);
 											}
 										}
-										
-	var validator = $(selector).validate(validation);
+	var validator = $(selector).validate(validation);						
+	if(extras['callback']){
+		return validator;
+	}
 }
 
 function select2(selector){
@@ -148,7 +152,8 @@ function ajax(url, data, method, extras=[]){
 
 function formatdate(date, type){
 	var date = new Date(date)
-	if(type==1)	return ('0' + date.getDate()).slice(-2)+"-"+('0' + (date.getMonth()+1)).slice(-2)+ "-" +date.getFullYear();
+	if(type==1)				return ('0' + date.getDate()).slice(-2)+"-"+('0' + (date.getMonth()+1)).slice(-2)+ "-" +date.getFullYear();
+	else if(type==2)		return date.getFullYear()+"/"+('0' + (date.getMonth()+1)).slice(-2)+ "/" +('0' + date.getDate()).slice(-2);
 }
 
 function numberonly(selector){
@@ -401,7 +406,7 @@ function citysuburb(data1=[], data2=[], data3=[]){
 	}
 }
 
-function subtypereportinglist(data1=[], data2=[]){
+function subtypereportinglist(data1=[], data2=[], customfunction=''){
 	var subtypeurl 				= baseurl()+"ajax/index/ajaxsubtype";
 	var reportlistingurl 		= baseurl()+"ajax/index/ajaxreportlisting";
 	
@@ -452,13 +457,15 @@ function subtypereportinglist(data1=[], data2=[]){
 				var append = [];
 				$(data.result).each(function(i, v){
 					var selected = (data2[1] && data2[1]==v.id) ? 'selected="selected"' : '';
-					append.push('<option value="'+v.id+'" '+selected+' class="reportlistingappend">'+v.statement+'</option>');
+					append.push('<option value="'+v.id+'" '+selected+' class="reportlistingappend" data-compliment="'+v.compliment+'"  data-cautionary="'+v.cautionary+'" data-refixcomplete="'+v.refix_complete+'"  data-refixincomplete="'+v.refix_incomplete+'">'+v.statement+'</option>');
 				})
 
 				$(data1[2]).append(append);
 			}
 		}
 	}
+	
+	if(customfunction!='') customfunction();
 }
 
 function localstorage(type, name, value){

@@ -187,7 +187,7 @@
 										<td style="text-align: center;"><?php echo $value['code']; ?></td>
 										<td style="text-align: center;">
 											<div class="custom-control custom-checkbox">
-												<input type="checkbox" name="installationtype[]" class="custom-control-input" id="<?php echo 'installationtype-'.$key.'-'.$value['code']; ?>" value="<?php echo $key; ?>" <?php echo (in_array($key, $installationtypeid)) ? 'checked="checked"' : ''; ?>>
+												<input type="checkbox" name="installationtype[]" class="custom-control-input" id="<?php echo 'installationtype-'.$key.'-'.$value['code']; ?>" value="<?php echo $value['id']; ?>" <?php echo (in_array($value['id'], $installationtypeid)) ? 'checked="checked"' : ''; ?>>
 												<label class="custom-control-label" for="<?php echo 'installationtype-'.$key.'-'.$value['code']; ?>"></label>
 											</div>
 										</td>
@@ -215,7 +215,7 @@
 											<td style="text-align: center;"><?php echo $value['code']; ?></td>
 											<td style="text-align: center;">
 												<div class="custom-control custom-checkbox">
-													<input type="checkbox" name="specialisations[]" class="custom-control-input" id="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>" value="<?php echo $key; ?>" <?php echo (in_array($key, $specialisationsid)) ? 'checked="checked"' : ''; ?>>
+													<input type="checkbox" name="specialisations[]" class="custom-control-input" id="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>" value="<?php echo $value['id']; ?>" <?php echo (in_array($value['id'], $specialisationsid)) ? 'checked="checked"' : ''; ?>>
 													<label class="custom-control-label" for="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>"></label>
 												</div>
 											</td>

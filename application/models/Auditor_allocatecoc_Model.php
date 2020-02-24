@@ -43,12 +43,22 @@ class Auditor_allocatecoc_Model extends CC_Model
 		$this->db->join('users_detail c', 'c.id=up.company_details', 'left');
 		$this->db->join('city t5', 'ua2.city=t5.id','left');				
 		$this->db->join('province t6', 'ua2.province=t6.id','left');				
-		
-		
-		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);
+		$this->db->join('stock_management t7', 't7.id=t1.coc_id','inner');				
+				
+		$this->db->where('t7.auditorid',0);
+		$this->db->where('t7.coc_status','2');
+
+		if(isset($requestdata['user_id']) && $requestdata['user_id']!='')		$this->db->where('u.id', $requestdata['user_id']);
 		if(isset($requestdata['start_coc_range']) && $requestdata['start_coc_range']!='')		$this->db->where('t1.coc_id>=', $requestdata['start_coc_range']);
 		if(isset($requestdata['end_coc_range']) && $requestdata['end_coc_range']!='') 		$this->db->where('t1.coc_id<=', $requestdata['end_coc_range']);
-		// if(isset($requestdata['start_coc_range']) && $requestdata['start_coc_range']!='') $this->db->like('ud.dob', date('Y-m-d', strtotime($requestdata['start_coc_range'])));
+		if(isset($requestdata['start_date_range']) && $requestdata['start_date_range']!='') 	$this->db->where('t1.log_date >=', date('Y-m-d', strtotime($requestdata['start_date_range'])));
+		if(isset($requestdata['end_date_range']) && $requestdata['end_date_range']!='') 		$this->db->where('t1.log_date <=', date('Y-m-d', strtotime($requestdata['end_date_range'])));
+		// if((isset($requestdata['start_date_range']) && $requestdata['start_date_range']!='') && (isset($requestdata['end_date_range']) && $requestdata['end_date_range']!='')) {
+		// 	$this->db->where('t1.log_date >=', date('Y-m-d', strtotime($requestdata['start_date_range'])));
+		// 	$this->db->where('t1.log_date <=', date('Y-m-d', strtotime($requestdata['end_date_range'])));
+		// }	
+		if(isset($requestdata['city']) && $requestdata['city']>0) 				$this->db->where('t1.city', $requestdata['city']);
+		if(isset($requestdata['province']) && $requestdata['province']>0 ) 			$this->db->where('t1.province', $requestdata['province']);
 		if(isset($requestdata['type'])) 				$this->db->where('u.type', $requestdata['type']);
 		if(isset($requestdata['formstatus']))			$this->db->where_in('u.formstatus', $requestdata['formstatus']);
 		if(isset($requestdata['status']))				$this->db->where_in('u.status', $requestdata['status']);
@@ -102,7 +112,7 @@ class Auditor_allocatecoc_Model extends CC_Model
 	public function getCOCList($type, $requestdata=[])
 	{ 
 		
-		$this->db->select('t5.name as postal_city, t6.name as postal_province, t7.name as postal_suburb, coc_id');
+		$this->db->select('t5.name as postal_city, t6.name as postal_province, t7.name as postal_suburb, coc_id, t1.installationtype, t1.specialisations');
 
 		$this->db->from('coc_log t1');
 		$this->db->join('users u', 't1.created_by=u.id', 'left');
@@ -116,12 +126,21 @@ class Auditor_allocatecoc_Model extends CC_Model
 		$this->db->join('users_detail c', 'c.id=up.company_details', 'left');
 		$this->db->join('city t5', 't1.city=t5.id','left');				
 		$this->db->join('province t6', 't1.province=t6.id','left');				
-		$this->db->join('suburb t7', 't1.suburb=t6.id','left');				
-		
+		$this->db->join('suburb t7', 't1.suburb=t7.id','left');				
+		$this->db->join('stock_management t8', 't8.id=t1.coc_id','inner');	
+
+		$this->db->where('t8.auditorid',0);
+		$this->db->where('t8.coc_status','2');				
 		
 		if(isset($requestdata['user_id'])) 				$this->db->where('u.id', $requestdata['user_id']);
 		if(isset($requestdata['start_coc_range']) && $requestdata['start_coc_range']!='')		$this->db->where('t1.coc_id>=', $requestdata['start_coc_range']);
 		if(isset($requestdata['end_coc_range']) && $requestdata['end_coc_range']!='') 		$this->db->where('t1.coc_id<=', $requestdata['end_coc_range']);
+		if(isset($requestdata['start_date_range']) && $requestdata['start_date_range']!='') 	$this->db->where('t1.log_date >=', date('Y-m-d', strtotime($requestdata['start_date_range'])));
+		if(isset($requestdata['end_date_range']) && $requestdata['end_date_range']!='') 		$this->db->where('t1.log_date <=', date('Y-m-d', strtotime($requestdata['end_date_range'])));
+
+		if(isset($requestdata['city']) && $requestdata['city']>0) 				$this->db->where('t1.city', $requestdata['city']);
+		if(isset($requestdata['province']) && $requestdata['province']>0 ) 			$this->db->where('t1.province', $requestdata['province']);
+
 		if(isset($requestdata['type'])) 				$this->db->where('u.type', $requestdata['type']);
 		if(isset($requestdata['formstatus']))			$this->db->where_in('u.formstatus', $requestdata['formstatus']);
 		if(isset($requestdata['status']))				$this->db->where_in('u.status', $requestdata['status']);
@@ -129,8 +148,11 @@ class Auditor_allocatecoc_Model extends CC_Model
 		if(isset($requestdata['plumberstatus']))		$this->db->where_in('ud.status', $requestdata['plumberstatus']);
 		if(isset($requestdata['searchregno']))			$this->db->like('up.registration_no', $requestdata['searchregno']);
 		
-		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
-			$this->db->limit($requestdata['length'], $requestdata['start']);
+		// if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
+		// 	$this->db->limit($requestdata['length'], $requestdata['start']);
+		// }
+		if($type!=='count' && isset($requestdata['max_allocate_plumber']) && $requestdata['max_allocate_plumber']>0){
+			$this->db->limit($requestdata['max_allocate_plumber'], 0);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
 			$column = ['u.id', 'ud.name'];
@@ -167,6 +189,12 @@ class Auditor_allocatecoc_Model extends CC_Model
 			
 			if($type=='all') 		$result = $query->result_array();
 			elseif($type=='row') 	$result = $query->row_array();
+
+			foreach ($result as $key => $value) {
+				if($value['specialisations']!=''){
+					$result[$key]['installationtype'] .= ",".$value['specialisations'];
+				} 
+			}
 		}
 		
 		return $result;
@@ -307,22 +335,41 @@ class Auditor_allocatecoc_Model extends CC_Model
 	public function action($data){
 
 		if(isset($data['auditor_id']))		$requestdata['auditorid'] 		= $data['auditor_id'];	
+		$requestdata['audit_status']	=	2;
+		$requestdata['audit_allocation_date']	=	date('Y-m-d H:i:s');;
 		
 		if(isset($requestdata)){			
 			$result = $this->db->update('stock_management', $requestdata,['id'=>$data['coc_id']]);
+			if($result){
+				$plumberdata			= 	$this->userDetails('row', ['user_id' => $data['user_id']]);				
+				$auditordata			= 	$this->userDetails('row', ['user_id' => $data['auditor_id']]);				
+
+			 	$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '20'])->get()->row_array();
+
+
+			 	 $array1 = ['{Plumbers Name and Surname}','{COC number}', '{Auditors Names and Surname}'];				 
+
+				$array2 = [$plumberdata['name'], $data['coc_id'], $auditordata['name']];
+
+				$body = str_replace($array1, $array2, $template['email_body']);
+
+			 	if ($template['email_active'] == '1') {
+
+			 		$this->CC_Model->sentMail($plumberdata['email'],$template['subject'],$body);
+			 	}
+		 	}
 		}
 		return $result;
 	}
 
-	public function getamount($type, $requestdata=[])
-	{ 
-		
-		$this->db->select('amount');
-		$this->db->from('rates');
-
-		if(isset($requestdata['supplyitem']))	$this->db->where('supplyitem', $requestdata['supplyitem']);
-
-		if($type=='count'){
+	
+	public function userDetails($type,$requestdata){
+		$this->db->select('concat(ud.name, " ", ud.surname) as name, email');
+		$this->db->from('users_detail ud');
+		$this->db->join('users u', 'u.id=ud.user_id','left');
+		$this->db->where(['ud.status' => '1']);		
+		if(isset($requestdata['user_id'])) 	$this->db->where('ud.user_id', $requestdata['user_id']);
+		if ($type=='count') {
 			$result = $this->db->count_all_results();
 		}else{
 			$query = $this->db->get();
@@ -330,27 +377,6 @@ class Auditor_allocatecoc_Model extends CC_Model
 			if($type=='all') 		$result = $query->result_array();
 			elseif($type=='row') 	$result = $query->row_array();
 		}
-		
-		return $result;
-	}
-
-	public function getvat($type, $requestdata=[])
-	{ 
-		
-		$this->db->select('vat_percentage');
-		$this->db->from('settings_details');
-
-		if(isset($requestdata['settingid']))	$this->db->where('id', $requestdata['settingid']);
-
-		if($type=='count'){
-			$result = $this->db->count_all_results();
-		}else{
-			$query = $this->db->get();
-			
-			if($type=='all') 		$result = $query->result_array();
-			elseif($type=='row') 	$result = $query->row_array();
-		}
-		
 		return $result;
 	}
 	

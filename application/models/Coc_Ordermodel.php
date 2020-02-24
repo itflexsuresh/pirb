@@ -86,7 +86,7 @@ class Coc_Ordermodel extends CC_Model
 		if(isset($data['quantity'])) 		$requestdata['description'] 	= 'Purchase of '.$data['quantity'].' PIRB Certificate of Compliance';	
 		if(isset($data['created_at'])) 	    $requestdata['created_at'] 		= date('Y-m-d H:i:s', strtotime($data['created_at']));
 		if(isset($data['user_id']))			$requestdata['user_id'] 		= $data['user_id'];	
-		if(isset($data['order_id']))			$requestdata['inv_id'] 		= $data['order_id'];	
+		if(isset($data['inv_id']))			$requestdata['inv_id'] 			= $data['inv_id'];	
 		if(isset($data['coc_type'])) 		$requestdata['coc_type'] 		= $data['coc_type'];
 		if(isset($data['delivery_type'])) 	$requestdata['delivery_type'] 	= $data['delivery_type'];
 		if(isset($data['status'])) 			$requestdata['status'] 			= $data['status'];
@@ -94,7 +94,7 @@ class Coc_Ordermodel extends CC_Model
 		if(isset($data['total_due'])) 		$requestdata['total_cost'] 	 	= $data['total_due'];
 		if(isset($data['tracking_no'])) 	$requestdata['tracking_no']  	= $data['tracking_no'];
 
-		
+
 		if(isset($requestdata)){	
 
 			if(isset($data['total_due'])) unset($requestdata['total_cost']);
@@ -106,11 +106,14 @@ class Coc_Ordermodel extends CC_Model
 			if(isset($data['vat'])) 		    $requestdata1['vat'] 			= $data['vat'];
 			if(isset($data['total_due'])) 		$requestdata1['total_due'] 		= $data['total_due'];
 			$requestdata1['admin_status'] 	= (isset($data['admin_status']) && $data['admin_status']='on') ? '2' : '0';
+			if(isset($data['order_id']))		$requestdata1['id'] 				= $data['order_id'];	
 
-			if(isset($requestdata['inv_id']) && $requestdata['inv_id']!=''){		
+			if(isset($requestdata['inv_id']) && $requestdata['inv_id']!=''){
+
 				$result1 = $this->db->update('invoice', $requestdata,['inv_id'=>$requestdata['inv_id']]);				
-				
-				$result = $this->db->update('coc_orders', $requestdata1,['inv_id'=>$requestdata['inv_id']]);
+		
+				$result = $this->db->update('coc_orders', $requestdata1,['id'=>$requestdata1['id']]);
+				// echo $this->db->last_query();exit;
 			} else {
 				$result1 = $this->db->insert('invoice', $requestdata);
 				$inv_id = $this->db->insert_id();
@@ -361,7 +364,7 @@ class Coc_Ordermodel extends CC_Model
 	
 	public function autosearchPlumber($postData){
 		
-		$this->db->select('concat(ud.name, " ", ud.surname) as name,cc.count,u.id,up.coc_electronic');
+		$this->db->select('concat(ud.name, " ", ud.surname) as name,cc.count,u.type,ud.status,u.id,up.coc_electronic');
 		$this->db->from('users_detail ud');
 		$this->db->join('users u', 'u.id=ud.user_id','inner');
 		$this->db->join('users_plumber up', 'up.user_id=ud.user_id','inner');
@@ -370,12 +373,20 @@ class Coc_Ordermodel extends CC_Model
 		$this->db->where_in('up.designation', ['4','5','6']);
 		$this->db->like('ud.name',$postData['search_keyword']);
 		$this->db->or_like('ud.surname',$postData['search_keyword']);
+		$this->db->or_like('up.registration_no',$postData['search_keyword']);
 		$this->db->group_by("ud.id");
 		
 		$query = $this->db->get();
 		$result = $query->result_array();
+
+		$result_new = [];
+		foreach ($result as $key => $value) {
+			if($value['type']=='3' && $value['status']==1){
+				$result_new[] = $value;
+			}
+		}
 		
-		return $result;
+		return $result_new;
 	}
 
 	public function autosearchReseller($postData){
@@ -407,28 +418,31 @@ class Coc_Ordermodel extends CC_Model
 
 	public function autosearchAuditor($postData){
 		
-		$this->db->select('concat(ud.name, " ", ud.surname) as name,u.id, t3.status availability_status, ud.status, u.type');
+		$this->db->select('concat(ud.name, " ", ud.surname) as name,u.id, t3.status as availability_status, t3.allocation_allowed, u.status, u.type, COUNT(t4.id) AS logged_count');
 		$this->db->from('users_detail ud');
-		$this->db->join('users u', 'u.id=ud.user_id','inner');
+		$this->db->join('users u', 'u.id=ud.user_id','inner');		
 		$this->db->join('auditor_availability t3', 't3.user_id=ud.user_id','left');
-		$this->db->where(['ud.status' => '1']);
-		$this->db->where(['u.type' => '5']);
+		$this->db->join('stock_management t4', 't4.auditorid=ud.user_id','left');
+		$this->db->where(['u.status' => '1','u.type' => '5','t3.status' => '1']);
 		// $this->db->where('name!=""');
-		$this->db->like('ud.name',$postData['search_keyword']);
-		$this->db->or_like('ud.surname',$postData['search_keyword']);
+		$this->db->or_like(array('ud.name' => $postData['search_keyword'], 'ud.surname' => $postData['search_keyword']));
+		// $this->db->like('ud.name',$postData['search_keyword']);
+		// $this->db->or_like('ud.surname',$postData['search_keyword']);
 		// $this->db->where('t3.status','1');
 		$this->db->group_by("ud.id");
 		
 		$query = $this->db->get();
 		$result = $query->result_array();
+		
 
 		$result_new = [];
 		foreach ($result as $key => $value) {
-			if($value['name']!='' && $value['status']==1 && $value['availability_status']==1 && $value['type']==5){
+			if($value['name']!='' && $value['status']==1 && $value['availability_status']==1 && $value['type']==5 && $value['allocation_allowed']>$value['logged_count']){
 				$result_new[] = $value;
 			}
 		}
 		return $result_new;
 	}
+
 	
 }

@@ -63,7 +63,7 @@ class Mycpd_Model extends CC_Model
 		if(isset($requestdata['user_id']))  		$requestData1['user_id'] 	    	= $requestdata['user_id'];
 		if(isset($requestdata['name_surname']))  	$requestData1['name_surname']  		= $requestdata['name_surname'];
 		if(isset($requestdata['activity'])) 		$requestData1['cpd_activity']  		= $requestdata['activity'];
-		if(isset($requestdata['startdate'])) 	 	$requestData1['cpd_start_date'] 	= $requestdata['startdate'];
+		if(isset($requestdata['startdate'])) 	 	$requestData1['cpd_start_date'] 	= date("Y-m-d H:i:s", strtotime($requestdata['startdate']));
 		if(isset($requestdata['comments'])) 	 	$requestData1['comments'] 			= $requestdata['comments'];
 		if(isset($requestdata['image1'])) 		 	$requestData1['file1'] 				= $requestdata['image1'];
 		if(isset($requestdata['points'])) 		 	$requestData1['points'] 			= $requestdata['points'];
@@ -93,7 +93,7 @@ class Mycpd_Model extends CC_Model
 		$user_id 	= $this->getUserID();
 		//$id 		= $requestdata['id'];
 		$cpd_id 	= $requestdata['cpd_id'];
-		$datetime	= 	date('Y-m-d H:i:s');
+		$datetime	= date('Y-m-d H:i:s');
 		// echo "<pre>";
 		// print_r($requestdata);die;
 		
@@ -101,7 +101,7 @@ class Mycpd_Model extends CC_Model
 		if(isset($requestdata['user_id']))  			$requestData1['user_id']		 	= $requestdata['user_id'];
 		if(isset($requestdata['name_surname']))  		$requestData1['name_surname']  		= $requestdata['name_surname'];		
 		if(isset($requestdata['activity'])) 			$requestData1['cpd_activity']  		= $requestdata['activity'];		
-		if(isset($requestdata['startdate'])) 	 		$requestData1['cpd_start_date'] 	= $requestdata['startdate'];
+		if(isset($requestdata['startdate'])) 	 		$requestData1['cpd_start_date'] 	= date('Y-m-d', strtotime($requestdata['startdate']));
 		if(isset($requestdata['comments'])) 	 		$requestData1['comments'] 			= $requestdata['comments'];		
 		if(isset($requestdata['image1'])) 		 		$requestData1['file1'] 				= $requestdata['image1'];		
 		if(isset($requestdata['points'])) 		 		$requestData1['points'] 			= $requestdata['points'];		
@@ -203,19 +203,22 @@ class Mycpd_Model extends CC_Model
 		//CPD Activity Search
 	public function autosearchActivity($postData){ 
 
+		$currentDate = date('Y-m-d H:i:s');
+
 		$this->db->select('cp1.id, cp1.activity, cp1.startdate, cp1.points, cp1.cpdstream');
 		$this->db->from('cpdtypes cp1');
 
 		$this->db->like('cp1.activity',$postData['search_keyword']);
 
 		$this->db->where('cp1.status="1"');
+		$this->db->where('cp1.startdate<="'.$currentDate.'"');
+		$this->db->where('cp1.enddate>"'.$currentDate.'"');
 		
 		$this->db->group_by("cp1.id");		
 		$query = $this->db->get();
 		$result1 = $query->result_array(); 
 
 		return $result1;
-
 	}
 
 }

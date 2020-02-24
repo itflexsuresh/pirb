@@ -1,5 +1,5 @@
 .displaynone{
-	display : none;
+	display : none!important;
 }
 
 .fullwidth{
@@ -1464,4 +1464,40 @@ p.back_license {transform: none !important;margin: 0 !important;}
     padding: 10px 20px 10px 20px;
     background-color: #fff;
     border: 1px solid #00000038;
+}
+
+#add_bg {
+   background-color: #c1e7fa;
+   padding: 27px;
+   margin-bottom: 0;
+   border: 1px solid #000;
+}
+
+#add_bg label {
+   color: #000;
+}
+
+#add_bg input#aprooved
++ label.custom-control-label {
+   color: #818284;
+}
+
+#add_bg input#rejected + label.custom-control-label {
+   color: #818284;
+}
+
+.review_failure{
+	background-color: #ffa58f;
+}
+
+.review_cautionary{
+	background-color: #ffc;
+}
+
+.review_compliment{
+	background-color: #9f9;
+}
+
+.review_noaudit{
+	background-color: #00ffff;
 }

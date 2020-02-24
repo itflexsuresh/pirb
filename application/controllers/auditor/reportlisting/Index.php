@@ -16,8 +16,8 @@ class Index extends CC_Controller
 	
 		if($id!=''){
 			
-			$result = $this->Auditor_Reportlisting_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
-			
+			$result = $this->Auditor_Reportlisting_Model->getList('row', ['id' => $id, 'status' => ['0','1','2']]);
+				
 			if($result){
 				$pagedata['result'] = $result;
 			}else{
@@ -69,12 +69,11 @@ class Index extends CC_Controller
 										'subtype_id' 	  => $result['name'],
 										'comments'	  	  => $result['comments'],									
 										'status' 		  => $this->config->item('statusicon')[$result['status']],
-										'action'	=> 	'
+										'action'		  =>'
 															<div class="table-action">
 																<a href="'.base_url().'auditor/reportlisting/Index/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
 																<a href="javascript:void(0);" data-id="'.$result['id'].'" class="delete" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
-															</div>
-														'
+															</div>'
 									];
 			}
 		}

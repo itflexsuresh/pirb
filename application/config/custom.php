@@ -9,6 +9,8 @@ $config['rolecompany']	 			= 	'4';
 $config['roleauditor']	 			= 	'5';
 $config['roleresellers']	 		= 	'6';
 
+// Rates Table
+
 $config['learner']	 				= 	'23';
 $config['assistant']	 			= 	'3';
 $config['operator']	 				= 	'4';
@@ -20,6 +22,24 @@ $config['cocelectronic'] 			= 	'14';
 $config['postage'] 					= 	'2';
 $config['couriour'] 				= 	'17';
 $config['collectedbypirb'] 			= 	'24';
+
+$config['inspection'] 				= 	'20';
+
+// Global Performance Table
+
+$config['verypoor']	 				= 	'4';
+$config['poor']	 					= 	'5';
+$config['good']	 					= 	'6';
+$config['excellent']	 			= 	'7';
+
+$config['plumberverificationyes']	= 	'9';
+$config['plumberverificationno']	= 	'10';
+
+$config['cocverificationyes']		= 	'12';
+$config['cocverificationno']		= 	'13';
+
+$config['noaudit']					= 	'14';
+
 
 $config['usertype1'] 				= 	[
 											'plumber' 	=> '3',
@@ -380,7 +400,13 @@ $config['purchasecocdelivery'] 		= 	[
 										];					
 
 
-$config['coctype'] 					= 	[
+$config['coctype'] 					= 	[											
+											'1' => 'Electronic',
+											'2' => 'Paper Based'
+										];
+				
+$config['coctype2'] 				= 	[
+											'0' => '',
 											'1' => 'Electronic',
 											'2' => 'Paper Based'
 										];
@@ -436,7 +462,9 @@ $config['workmanship'] 			= 		[
 											'4' => 'Excellent'
 										];
 
-$config['yesno'] 				= 		[
-											'1' => 'Yes',
-											'2' => 'No'
+$config['reviewtype'] 			= 		[
+											'1' => 'Failure',
+											'2' => 'Cautionary',
+											'3' => 'Compliment',
+											'4' => 'No Audit Findings'
 										];										

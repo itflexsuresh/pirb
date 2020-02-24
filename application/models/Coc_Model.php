@@ -4,17 +4,22 @@ class Coc_Model extends CC_Model
 {
 	public function getCOCList($type, $requestdata=[])
 	{ 
-		$coclog 		= 	[ 
-								'cl.id cl_id','cl.log_date cl_log_date','cl.completion_date cl_completion_date','cl.order_no cl_order_no','cl.name cl_name','cl.address cl_address','cl.street cl_street','cl.number cl_number',
-								'cl.province cl_province','cl.city cl_city','cl.suburb cl_suburb','cl.contact_no cl_contact_no','cl.alternate_no cl_alternate_no','cl.email cl_email','cl.installationtype cl_installationtype',
-								'cl.specialisations cl_specialisations','cl.installation_detail cl_installation_detail','cl.file1 cl_file1','cl.file2 cl_file2','cl.agreement cl_agreement','cl.status cl_status'
-							];
+		$coclog 			= 	[ 
+									'cl.id cl_id','cl.log_date cl_log_date','cl.completion_date cl_completion_date','cl.order_no cl_order_no','cl.name cl_name','cl.address cl_address','cl.street cl_street','cl.number cl_number',
+									'cl.province cl_province','cl.city cl_city','cl.suburb cl_suburb','cl.contact_no cl_contact_no','cl.alternate_no cl_alternate_no','cl.email cl_email','cl.installationtype cl_installationtype',
+									'cl.specialisations cl_specialisations','cl.installation_detail cl_installation_detail','cl.file1 cl_file1','cl.file2 cl_file2','cl.agreement cl_agreement','cl.status cl_status'
+								];
 							
+		$auditorstatement 	= 	[ 
+									'aas.id as_id','aas.audit_date as_audit_date','aas.workmanship as_workmanship','aas.plumber_verification as_plumber_verification','aas.coc_verification as_coc_verification','aas.hold as_hold','aas.reason as_reason','aas.auditcomplete as_auditcomplete'
+								];
+			
 		$this->db->select('
 			sm.*, 
 			u.id as u_id,
 			u.type as u_type,
 			concat(ud.name, " ", ud.surname) as u_name, 
+			u.email as u_email,
 			ud.mobile_phone as u_mobile,
 			ud.work_phone as u_work,
 			ud.file2 as u_file,
@@ -26,6 +31,9 @@ class Coc_Model extends CC_Model
 			rd.company as resellercompany,
 			s.name as cl_suburb_name,
 			concat(ad.name, " ", ad.surname) as auditorname, 
+			ad.mobile_phone as auditormobile, 
+			ad.status as auditorstatus, 
+			'.implode(',', $auditorstatement).'
 		');
 		$this->db->from('stock_management sm');
 		$this->db->join('users_plumber up', 'up.user_id=sm.user_id', 'left');
@@ -37,6 +45,7 @@ class Coc_Model extends CC_Model
 		$this->db->join('plumberallocate pa', 'pa.stockid=sm.id', 'left'); // Reseller Allocate
 		$this->db->join('users_detail rd', 'rd.user_id=pa.company_details', 'left'); // Reseller Company Details
 		$this->db->join('users_detail ad', 'ad.user_id=sm.auditorid', 'left'); // Auditor
+		$this->db->join('auditor_statement aas', 'aas.coc_id=sm.id', 'left'); // Auditor Statement
 		
 		if((isset($requestdata['search']['value']) && $requestdata['search']['value']!='') || (isset($requestdata['order']['0']['column']) && $requestdata['order']['0']['column']!='' && isset($requestdata['order']['0']['dir']) && $requestdata['order']['0']['dir']!='')){
 			$this->db->join('custom c1', 'c1.c_id=sm.coc_status', 'left');
@@ -106,6 +115,12 @@ class Coc_Model extends CC_Model
 						$this->db->or_like('cl.address', $searchvalue, 'both');		
 						$this->db->or_like('DATE_FORMAT(sm.allocation_date,"%d-%m-%Y")', $searchvalue, 'both');
 						$this->db->or_like('ad.name', $searchvalue, 'both');		
+					}elseif($page=='adminauditorstatement'){
+						$this->db->like('sm.id', $searchvalue, 'both');
+						$this->db->or_like('c1.name', $searchvalue, 'both');
+						$this->db->or_like('ad.name', $searchvalue, 'both');		
+						$this->db->or_like('ad.mobile_phone', $searchvalue, 'both');		
+						$this->db->or_like('DATE_FORMAT(sm.audit_allocation_date,"%d-%m-%Y")', $searchvalue, 'both');
 					}
 				$this->db->group_end();
 			}
@@ -121,6 +136,8 @@ class Coc_Model extends CC_Model
 					$column = ['sm.id', 'c1.name', 'ud.name', 'ud.mobile_phone', 'sm.allocation_date', 's.name', 'cl.name', 'cl.contact_no'];
 				}elseif($page=='plumberauditorstatement'){
 					$column = ['sm.id', 'c1.name', 'cl.name', 'cl.address', 'sm.allocation_date', 'ad.name'];
+				}elseif($page=='adminauditorstatement'){
+					$column = ['sm.id', 'c1.name', 'ad.name', 'ad.mobile_phone', 'sm.allocation_date', 'sm.audit_allocation_date'];
 				}
 				
 				$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
@@ -152,8 +169,10 @@ class Coc_Model extends CC_Model
 	}
 	public function getListPDF($type, $requestdata=[]){
 		//print_r($requestdata);die;
-		        $query=$this->db->select('t1.*,t1.status,t1.created_at,
-        	t2.inv_id, t2.total_due, t2.quantity, t2.cost_value,t2.vat, t2.delivery_cost, t2.total_due, t3.reg_no, t3.id, t3.name name, t3.surname surname, t3.company_name company_name, t3.vat_no vat_no, t3.email2, t3.home_phone, t4.address, t4.suburb, t4.city,t4.province, t5.id, t5.name,t6.id, t6.province_id, t6.name,t7.id, t7.province_id, t7.city_id, t7.name,t8.registration_no ');
+
+
+        $query=$this->db->select('t1.*,t1.status,t1.created_at,
+        	t2.inv_id, t2.total_due, t2.quantity, t2.cost_value,t2.vat, t2.delivery_cost, t2.total_due, t3.reg_no, t3.id, t3.name username, t3.surname surname, t3.company_name company_name, t3.vat_no vat_no, t3.email2, t3.home_phone, t3.file2, t4.address, t4.suburb, t4.city,t4.province, t5.id, t5.name as province,t6.id, t6.province_id, t6.name as city,t7.id, t7.province_id, t7.city_id, t7.name as suburb,t8.registration_no, t8.designation,ub.bank_name, ub.branch_code, ub.account_name, ub.account_no, ub.account_type');
 		        $this->db->select('
 			group_concat(concat_ws("@@@", t4.id, t4.suburb, t4.city,t4.province, t5.name, t6.name, t7.name) separator "@-@") as areas'
 		);
@@ -173,6 +192,8 @@ class Coc_Model extends CC_Model
         $this->db->join('city t6', 't6.id=t4.city', 'left');
 
         $this->db->join('suburb t7', 't7.id=t4.suburb', 'left');
+
+        $this->db->join('users_bank ub', 'ub.user_id=t1.user_id', 'left');
    
        if(isset($requestdata['id'])) $this->db->where('t1.inv_id', $requestdata['id']);
 

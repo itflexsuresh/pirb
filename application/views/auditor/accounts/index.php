@@ -1,3 +1,43 @@
+<?php 
+	// echo '<pre>'; print_r($auditordet);
+// echo $_SERVER['DOCUMENT_ROOT'];
+
+	$billingname = isset($auditordetail['company_name']) ? $auditordetail['company_name'] : '';
+	$billingaddress = explode("@-@",$auditordetail['billingaddress']);
+	$address2 = isset($billingaddress[2]) ? $billingaddress[2] : '';
+	$address3 = isset($auditordetail['suburb']) ? $auditordetail['suburb'] : '';
+	$address4 = isset($auditordetail['city']) ? $auditordetail['city'] : '';
+	$address5 = isset($auditordetail['province']) ? $auditordetail['province'] : '';
+	$work_phone = isset($auditordetail['work_phone']) ? $auditordetail['work_phone'] : '';
+	$email = isset($auditordetail['email']) ? $auditordetail['email'] : '';
+	$user_id = isset($auditordetail['user_id']) ? $auditordetail['user_id'] : '';
+
+
+	$bank_name = isset($auditordetail['bank_name']) ? $auditordetail['bank_name'] : '';
+	$branch_code = isset($auditordetail['branch_code']) ? $auditordetail['branch_code'] : '';
+	$account_name = isset($auditordetail['account_name']) ? $auditordetail['account_name'] : '';
+	$account_no = isset($auditordetail['account_no']) ? $auditordetail['account_no'] : '';
+	$account_type = isset($auditordetail['account_type']) ? $auditordetail['account_type'] : '';
+
+	$editid = isset($result['inv_id']) ? $result['inv_id'] : '';
+	$vat_vendor = isset($result['vat_vendor']) ? $result['vat_vendor'] : '';
+	$description = isset($result['description']) ? $result['description'] : '';	
+	$total_cost = isset($result['total_cost']) ? $result['total_cost'] : '';
+	$vatvalue = '0';
+	$total = '0';
+	if($editid > 0)	{
+		if($vat_vendor > 0){
+			$vatper = $vat['vat_percentage'];		
+			$vat_amount1 = $total_cost * $vatper / 100;
+			$vatvalue = round($vat_amount1,2);
+
+			$total = $total_cost + $vatvalue;
+		}
+		else{
+			$total = $total_cost;
+		}
+	}
+?>
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
 		<h4 class="text-themecolor">Invocie Details</h4>
@@ -16,26 +56,88 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				
+				<?php if($editid > 0) { ?>
 				<form class="form" method="post">
 
 					<h4 class="card-title">Invocie Details</h4>
-					
-
-						<!-- <div class="col-md-6">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group ">
+								<label for="name"><?php echo $billingname;?></label>
+							</div>
+						</div>
+						<div class="col-md-6">
 						<div class="form-group ">
-							<label for="name">Invoice Date</label>
-							<input type="text" autocomplete="off" class="form-control" id="valid-from" name="validfrom" placeholder="Enter Date *" value="<?php echo $validfrom; ?>">
+							<label for="name">Your Invoice Date</label>							
+						</div>
 						</div>
 					</div>
-					<div class="col-md-6">
-						<div class="form-group ">
-							<label for="name">Invoice number</label>
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group ">
+								<label for="name"><?php echo $address2;?></label>
+							</div>
 						</div>
-					</div> -->
+						<div class="col-md-6">
+							<div class="form-group ">
+								<input type="text" class="form-control invoicedate" name="invoicedate" id="invoicedate" data-date="datepicker" value="">
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group ">
+								<label for="name"><?php echo $address3;?></label>								
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group ">								
+								<label for="name">Your Invoice Number</label>								
+							</div>
+						</div>						
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group ">
+								<label for="name"><?php echo $address4;?></label>
+							</div>
+						</div>	
+						<div class="col-md-6">
+							<div class="form-group ">								
+								<input type="text" autocomplete="off" class="form-control" id="invoice_no" name="invoice_no" value="">
+							</div>
+						</div>					
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group ">
+								<label for="name"><?php echo $address5;?></label>
+							</div>
+						</div>						
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group ">
+								<label for="name"><?php echo $work_phone;?></label>
+							</div>
+						</div>						
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group ">
+								<label for="name"><?php echo $email;?></label>
+							</div>
+						</div>						
+					</div>
 				
-						<div class="row">
-						<div class="col-md-12">							
+					<div class="row">
+						<div class="col-md-12">	
+							<input type="hidden" name="editid" id="editid" value="<?php echo $editid;?>">
+							<input type="hidden" name="total_cost" id="total_cost" value="<?php echo $total_cost;?>">
+							<input type="hidden" name="vat" id="vat" value="<?php echo $vatvalue;?>">
+							<input type="hidden" name="total" id="total" value="<?php echo $total;?>">
 							<table id="table" class="table table-bordered table-striped datatables fullwidth">
 								<thead>
 									<tr>
@@ -43,78 +145,103 @@
 										<th>QTY</th>        
 										<th>Rate</th>
 										<th>Amount</th>										
-									</tr>
+									</tr>									
 								</thead>
 								<tbody>
-									<tr >    
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>										
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<div class="col-md-12" style="padding: 0; display: inline-block;">
-						<div class="col-md-6" style="padding: 0; display: inline-block;"></div>
-						<div class="col-md-6" style="display: inline-block;float: right;padding: 0">
-						<table id="table1" style="width: 94% !important; float: right;" class="table table-bordered table-striped datatables fullwidth">
-								<thead>
-									<tr style="width: 10%">
-										<th style="width: 216px">Sub Total</th>
-										<th></th>
-										<tr></tr>
-										<th>VAT Total</th>
-										<th></th>
-										<tr></tr>
-										<th>Total</th>
-										<th></th>
-									</tr>
-								</thead>
+									
+								<?php 
+									echo '<tr>'; 
+										echo '<td>'.$description.'</td>';
+										echo '<td>1</td>';
+										echo '<td>'.$total_cost.'</td>';
+										echo '<td>'.$total_cost.'</td>';
 								
-							</table>
-							</div>
-					</div>
-						
-
-							<div class="row" style="float: right;">
-						<div class="col-md-12">
-							<button type="submit" style="float: right;" name="invoice" id="invoice" class="btn btn-block btn-primary btn-rounded">Submit Invoice</button>
-						</div>
-					</div>
-
-
-						<h4 class="card-title" style="clear: both;">My Accounts</h4>
-						<div class="row">
-						<div class="col-md-12">							
-							<table id="table2" class="table table-bordered table-striped datatables fullwidth">
-								<thead>
-									<tr>
-										<th>Description</th>
-										<th>Inv Number</th>        
-										<th>Invocie Date</th>
-										<th>Invoice Value</th>
-										<th>Status</th>										
-									</tr>
-								</thead>
-								<tbody>
-									<tr >    
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>										
+									echo '</tr>';
+									echo '<tr>';
+										echo '<td colspan="3">Sub Total</td>';
+										echo '<td>'.$total_cost.'</td>';
+									echo '</tr>';									
+									echo '<tr>';
+										echo '<td colspan="3">VAT Total</td>';
+										echo '<td>'.$vatvalue.'</td>';
+									echo '</tr>';									
+									echo '<tr>';
+										echo '<td colspan="3">Total</td>';
+										echo '<td>'.$total.'</td>';
+									echo '</tr>';
+								?>
 									</tr>
 								</tbody>
-							</table>
+							</table>														
 						</div>
+
 					</div>
 					
+					</br>
+					<div class="row">					
+						<h5 class="card-title">Banking Detail</h5>
+						<div class="col-md-6">
+							<div class="form-group ">
+								<label for="name"><?php echo $bank_name;?></label>
+							</div>
+						</div>						
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group ">
+								<label for="name"><?php echo $branch_code;?></label>
+							</div>
+						</div>						
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group ">
+								<label for="name"><?php echo $account_name;?></label>
+							</div>
+						</div>						
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group ">
+								<label for="name"><?php echo $account_no;?></label>
+							</div>
+						</div>						
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group ">
+								<label for="name"><?php echo $account_type;?></label>
+							</div>
+						</div>						
+					</div>
 
-					
+
+					<div class="row" style="float: right;">
+						<div class="col-md-12">
+							<button type="submit" style="float: right;" name="submit" id="submit" value="submit" class="btn btn-block btn-primary btn-rounded">Submit Invoice</button>
+						</div>
+					</div>
 				</form>
+				<?php } ?>
 
+				</br>
+				<div class="row">
+					<h4 class="card-title" style="clear: both;">My Accounts</h4>
+					<div class="col-md-12">							
+						<table id="table" class="table table-bordered table-striped datatables2 fullwidth">
+							<thead>
+								<tr>
+									<th>Description</th>
+									<th>Inv Number</th>        
+									<th>Invocie Date</th>
+									<th>Invoice Value</th>
+									<th>Status</th>	
+									<th>Action</th>									
+								</tr>
+							</thead>
+						</table>							
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -122,153 +249,79 @@
 
 
 <script type="text/javascript">
-
-	$(document).ready(function() {
-    $("#addarea").click(function() { 
-
-        // var cty = $("#audit_city").val();
-        // var srb = $("#audit_suburb").val();
-        
-        var val1 = $('input[id="audit_provin"]').val();
-        var val2 = $('input[id="audit_city"]').val();
-        var val3 = $('input[id="audit_suburb"]').val();
-
-            if(val1 != '')
-            {
-                //('#table').append('<tr class="prov"><td>' + val1 + '</td></tr>');
-                $('#table').append('<td class="ptty">' + val1 + '</td>');
-                $('#table').append('<td class="cccty">' + val2 + '</td>');
-                $('#table').append('<td class="qqty">' + val3 + '</td>');
-            }
-        
-
-
-    });
-
-    
-});
-
-	datepicker('#valid-from', ['currentdate'])		
-
-
-	$(function(){
-		
 	
-		fileupload([".auditor_image", "./assets/uploads/auditor/<?php echo $userid; ?>/"], ['.auditor_picture', '.auditor_photo', '<?php echo base_url()."assets/uploads/auditor/".$userid; ?>']);
-	
-		fileupload([".comp_emb", "./assets/uploads/auditor/<?php echo $userid; ?>/"], ['.comp_photo', '.comp_logo', '<?php echo base_url()."assets/uploads/auditor/".$userid; ?>']);
-		
-
+$(function(){	
+	var userid = <?php echo $user_id;?>;
+	datepicker('.invoicedate');	
 	validation(
-			'.form',
-			{
-				name : {
-					required	: true,
-				},
-				surname : {
-					required	: true,
-				},
-				idnumber : {
-					required	: true,
-				},
-				email : {
-					required	: true,
-				},
-				pass : {
-					required	: true,
-				},
-				phonework : {
-					required	: true,
-				},
-				phonemobile : {
-					required	: true,
-				},
-				billingname : {
-					required	: true,
-				},
-				regnumber : {
-					required	: true,
-				},
-				vat : {
-					required	: true,
-				},
-				billingaddress : {
-					required	: true,
-				},
-				postalcode : {
-					required	: true,
-				},
-				bankname : {
-					required	: true,
-				},
-				accountname : {
-					required	: true,
-				},
-				branchcode : {
-					required	: true,	
-				},
-				accountnumber : {
-					required	: true,	
-				},
-				accounttype : {
-					required	: true,	
-				}			
-
-			},
-
-			{
-				name 	: {
-					required	: "Please enter the firstname."
-				},
-				surname 	: {
-					required	: "Please enter the surname."
-				},				
-				idnumber : {
-					required	: "Please enter the ID"
-				},
-				email : {
-					required	: "Please enter the email"
-				},
-				pass : {
-					required	: "Please enter the password"
-				},
-				phonework : {
-					required	: "Please enter the work phone"
-				},
-				phonemobile : {
-					required	: "Please enter the mobile phone"
-				},
-				billingname : {
-					required	: "Please enter the billing name"
-				},
-				regnumber : {
-					required	: "Please enter the register number"
-				},
-				vat : {
-					required	: "Please enter the VAT"
-				},
-				billingaddress : {
-					required	: "Please enter the billing address"
-				},
-				postalcode : {
-					required	: "Please enter the postal code"
-				},
-				bankname : {
-					required	: "Please enter the bank name"
-				},				
-				accountname : {
-					required	: "Please enter the account name"
-				},
-				branchcode : {
-					required	: "Please enter the branch code"	
-				},
-				accountnumber : {
-					required	: "Please enter the account number"	
-				},
-				accounttype : {
-					required	: "Please enter the account type"	
-				}
+		'.form',
+		{
+			invoicedate : {
+				required	: true,
+			},		
+			invoice_no : {
+				required	: true,				
+				remote		: 	{
+									url		: 	"<?php echo base_url().'auditor/accounts/index/invoicenovalidation'; ?>",
+									type	: 	"post",
+									async	: 	false,
+									data	: 	{
+													id : userid
+												}
+								}
 			}
-		);
-	});
+					
+
+		},
+
+		{
+			invoicedate 	: {
+				required	: "Please enter the Invoice date."
+			},
+			invoice_no : {
+				required	: "Invoiceno  field is required.",			
+				remote		: "Invoiceno already exists."
+			}
+		}
+	);
+
+
+	var options = {
+		url 	: '<?php echo base_url()."auditor/accounts/Index/DTAccounts"; ?>',
+		columns : 	[
+		{ "data": "description" },
+		{ "data": "inv_id" },
+		{ "data": "created_at" },
+		{ "data": "total_cost" },		
+		{ "data": "status" },
+		{ "data": "action" },	
+		
+		],
+		
+	};
+	
+	ajaxdatatables('.datatables2', options);
+
+	// var editid = $("#editid").val();
+	// if( editid > 0){
+	// 	var options = {
+	// 		url 	: '<?php //echo base_url()."auditor/accounts/Index/DTAccounts2/"; ?>'+editid,
+	// 		columns : 	[
+	// 		{ "data": "description" },
+	// 		{ "data": "qty" },
+	// 		{ "data": "total_cost" },
+	// 		{ "data": "total_cost" }
+			
+	// 		],			
+	// 		paging :   false,
+	// 		ordering: false,
+	// 		info:     false
+			
+	// 	};
+
+	// 	ajaxdatatables('.datatables', options);
+	// }
+
+
+});
 </script>

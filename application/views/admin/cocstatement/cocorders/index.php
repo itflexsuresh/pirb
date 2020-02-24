@@ -11,7 +11,9 @@ $created_at 			= (isset($result['created_at']) && date('d-m-Y', strtotime($resul
 
 $coc_type 				= isset($result['coc_type']) ? $result['coc_type'] : '';
 $id 					= isset($result['id']) ? $result['id'] : '';
-$inv_id 				= isset($result['inv_id']) && $result['created_by']!='' ? $result['inv_id'] : '';
+// $inv_id 				= isset($result['inv_id']) && $result['created_by']!='' ? $result['inv_id'] : '';
+$inv_id 				= isset($result['inv_id']) ? $result['inv_id'] : '';
+$inv_id_display			= isset($result['created_by']) && $result['created_by']!='' ? 1 : 0;
 $delivery_type 			= isset($result['delivery_type']) ? $result['delivery_type'] : '';
 $quantity 				= isset($result['quantity']) ? $result['quantity'] : '1';
 $internalinv 			= isset($result['internal_inv']) ? $result['internal_inv'] : '';
@@ -30,8 +32,16 @@ if(!empty($comments)){
 	}
 }
 
-$allocate_start			= isset($stock['id']) ? $stock['id'] : 0;
-$allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
+// 	$allocate_start			= isset($stock['id']) ? $stock['id'] : 0;
+//	$allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
+
+	$allocate_start			= 	isset($stock['allocate_start']) ? $stock['allocate_start'] : 0;
+	$allocate_end			=	isset($stock['allocate_end']) ? $stock['allocate_end'] : 0;
+
+	$allocate_button_disbled = ($coc_type==2 && ($allocate_start==0 || $allocate_end==0)) ? 'disabled' : '';
+
+
+$tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' : '';
 
 ?>
 
@@ -75,12 +85,15 @@ $allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
 								<input type="text" class="form-control" name="order_id" id="order_id" value="<?php echo $id; ?>" readonly>
 							</div>
 						</div>
+						<input type="hidden" value="<?php echo $inv_id; ?>" name="inv_id">
+						<?php if($inv_id_display==1){ ?>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Inv Number</label>
-								<input type="text"class="form-control" name="inv_id" value="<?php echo $inv_id; ?>" readonly>
+								<input type="text" class="form-control" name="inv_display_id" value="<?php echo $inv_id; ?>" readonly>
 							</div>
 						</div>
+						<?php } ?>
 					</div>
 					<div class="row">
 						<div class="col-md-6">
@@ -206,7 +219,7 @@ $allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
 								<input type="text" autocomplete="off" class="form-control" name="internal_inv" value="<?php echo $internalinv; ?>">
 							</div>
 						</div>
-						<div class="col-md-12 tracking_wrapper <?php  if(!isset($deliverytype) || $delivery_type=='1'){ echo 'displaynone'; } else { echo ''; }  ?>">
+						<div class="col-md-12 tracking_wrapper <?php echo $tracking_display; ?>">
 							<div class="form-group col-md-6 row">
 								<label>Tracking No</label>
 								<input type="text" autocomplete="off" class="form-control" name="tracking_no" value="<?php echo $trackingno; ?>">
@@ -283,7 +296,7 @@ $allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
 							<input type="hidden" class="form-control" name="order_id" id="order_id" value="<?php echo $id; ?>">
 							<input type="hidden" class="form-control" name="type" value="<?php echo $type; ?>">
 							<input type="hidden" name="coc_type" value="<?php echo $coc_type; ?>">
-							<button type="submit" name="allocate_certificate" value="submit" class="btn btn-primary">Allocate Certificates</button>
+							<button type="submit" name="allocate_certificate" value="submit" class="btn btn-primary" <?php echo $allocate_button_disbled; ?>>Allocate Certificates</button>
 						</div>
 					</div>					
 				</form>

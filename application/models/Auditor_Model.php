@@ -4,7 +4,7 @@ class Auditor_Model extends CC_Model
 {
 	public function getList($type, $requestdata=[])
 	{ 
-		//print_r($requestdata);die;
+		////////////////////print_r($requestdata);die;
 		
 		$user 			= ['u.id as id', 'u.email','u.type','u.status as usstatus', 'u.password_raw'];
 		$usersdetail 	= ['ud.id as userdetailid','ud.name','ud.surname','ud.company_name','ud.reg_no','ud.vat_no','ud.vat_vendor','ud.mobile_phone','ud.work_phone','ud.file1','ud.file2','ud.identity_no'];		
@@ -51,19 +51,28 @@ class Auditor_Model extends CC_Model
 	// Admin Auditor 
 
 	public function getAuditorList($type, $requestdata=[]){
-		//print_r($requestdata);die;
+		/////////////print_r($requestdata['pagestatus']);die;
 		$users 			= 	[ 
 			'u.id','u.email','u.formstatus','u.status' ,'u.password_raw','u.type'
 		];
-		$auditor 		= ['av.id as auditavailable', 'av.user_id', 'av.allocation_allowed', 'av.status'];
+		$auditor 		= ['av.id as auditavailable', 'av.user_id', 'av.allocation_allowed', 'av.status as avstatus'];
 		$usersdetail 	= 	[ 
 			'ud.id as usersdetailid','ud.user_id as usersid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.company','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit', 'ud.vat_vendor'
 		];
+		$billingaddress	= 	[ 
+			'p.name as province, c.name as city, s.name as suburb'
+		];
+		$bankdetails	= 	[ 
+			'ub.bank_name, ub.branch_code, ub.account_name, ub.account_no, ub.account_type'
+		];
+
 
 		$this->db->select('
 			'.implode(',', $users).',
 			'.implode(',', $auditor).',
 			'.implode(',', $usersdetail).',
+			'.implode(',', $billingaddress).',
+			'.implode(',', $bankdetails).',
 			concat_ws("@-@", ua1.id, ua1.user_id, ua1.address, ua1.suburb, ua1.city, ua1.province, ua1.postal_code, ua1.type)  as physicaladdress,
 			concat_ws("@-@", ua2.id, ua2.user_id, ua2.address, ua2.suburb, ua2.city, ua2.province, ua2.postal_code, ua2.type)  as postaladdress,
 			concat_ws("@-@", ua3.id, ua3.user_id, ua3.address, ua3.suburb, ua3.city, ua3.province, ua3.postal_code, ua3.type)  as billingaddress');
@@ -79,7 +88,12 @@ class Auditor_Model extends CC_Model
 		$this->db->join('users_address ua2', 'ua2.user_id=u.id and ua2.type="2"', 'left');
 
 		$this->db->join('users_address ua3', 'ua3.user_id=u.id and ua3.type="3"', 'left');
-		//$this->db->where('u.type', '5');
+
+		$this->db->join('users_bank ub', 'ub.user_id=u.id', 'left');
+
+		$this->db->join('province as p', 'p.id=ua3.province', 'left');
+		$this->db->join('city as c', 'c.id=ua3.city', 'left');
+		$this->db->join('suburb as s', 's.id=ua3.suburb', 'left');
 		
 		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);
 		if(isset($requestdata['type'])) 				$this->db->where('u.type', $requestdata['type']);
@@ -104,7 +118,7 @@ class Auditor_Model extends CC_Model
 
 		}
 
-		//$this->db->where('u.type', '5');
+		$this->db->group_by('u.id');
 
 		if($type=='count'){
 			$result = $this->db->count_all_results();
@@ -119,6 +133,110 @@ class Auditor_Model extends CC_Model
 		return $result;
 
 	}
+
+	public function getInvoiceList($type, $requestdata=[]){
+		
+		$this->db->select('inv.*, ud.name, ud.surname, ud.vat_vendor');
+		$this->db->from('invoice inv');	
+		$this->db->join('users_detail ud', 'ud.user_id=inv.user_id', 'left');
+		$this->db->join('users u', 'u.id=inv.user_id', 'inner');
+		$this->db->where('u.type', '5');
+
+		if(isset($requestdata['status'])) $this->db->where('inv.status', $requestdata['status']);
+		if(isset($requestdata['id'])) $this->db->where('inv.inv_id', $requestdata['id']);
+		if(isset($requestdata['user_id'])) $this->db->where('inv.user_id', $requestdata['user_id']);
+
+		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
+			$this->db->limit($requestdata['length'], $requestdata['start']);
+		}
+		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
+			$column = ['inv.inv_id', 'inv.inv_id', 'inv.inv_id', 'inv.inv_id'];
+			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+		}
+		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
+			$searchvalue = trim($requestdata['search']['value']);
+			if(strtolower($searchvalue) == 'paid'){
+				$this->db->where('inv.status', '1');
+			}
+			elseif(strtolower($searchvalue) == 'unpaid'){
+				$this->db->where('inv.status', '0');
+			}
+			elseif(strtolower($searchvalue) == 'not submitted'){
+				$this->db->where('inv.status', '2');
+			}
+			
+			else{
+				$this->db->group_start();
+				$this->db->like('inv.inv_id', $searchvalue);
+				$this->db->or_like('inv.description', $searchvalue);
+				$this->db->or_like('inv.invoice_no', $searchvalue);					
+				$this->db->or_like('inv.invoice_date', $searchvalue);
+				// $this->db->or_like('inv.created_at', $searchvalue);
+				$this->db->or_like('inv.total_cost', $searchvalue);
+				$this->db->or_like('inv.internal_inv', $searchvalue);
+				$this->db->or_like('ud.name', $searchvalue);
+				$this->db->group_end();
+			}
+
+		}
+
+		// $this->db->group_by('u.id');
+
+		if($type=='count'){
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		// print_r($this->db->last_query());die;
+		
+		return $result;
+
+	}
+	
+	public function action2($data)
+	{
+		$id	= $data['editid'];
+		$request1['status'] = $data['status'];
+		$invoicedate = isset($data['invoicedate']) && $data['invoicedate']!='1970-01-01' ? date('Y-m-d', strtotime($data['invoicedate'])) : '';		
+		if(isset($invoicedate)) $request1['invoice_date'] = $invoicedate;
+		if(isset($data['invoice_no'])) $request1['invoice_no'] = $data['invoice_no'];
+		if(isset($data['total_cost'])) $request1['total_cost'] = $data['total_cost'];
+		if(isset($data['vat'])) $request1['vat'] = $data['vat'];
+		if(isset($data['internal_inv'])) $request1['internal_inv'] = $data['internal_inv'];
+		if(isset($request1)){	
+			$userdata = $this->db->update('invoice', $request1, ['inv_id' => $id]);	
+		}
+
+		if(isset($data['total_cost'])) $request2['cost_value'] = $data['total_cost'];
+		if(isset($data['vat'])) $request2['vat'] = $data['vat'];		
+		if(isset($data['total'])) $request2['total_due'] = $data['total'];
+		if(isset($request2)){	
+			$userdata = $this->db->update('coc_orders', $request2, ['inv_id' => $id]);	
+		}
+
+				
+		return $userdata;	
+	}
+
+	public function invoicenovalidation($data)
+	{
+		$id 	= $data['id'];
+		$invoiceno 	= $data['invoice_no'];		
+		$this->db->where('invoice_no', $invoiceno);
+		if($id!='') $this->db->where('inv_id !=', $id);
+		$query = $this->db->get('invoice');
+		
+		if($query->num_rows() > 0){
+			return 'false';
+		}else{
+			return 'true';
+		}
+	}
+
 
 	public function action($data)
 	{
@@ -417,6 +535,143 @@ class Auditor_Model extends CC_Model
 
 	
 	
+	public function getReviewList($type, $requestdata=[])
+	{
+		$this->db->select('ar.*,rl.statement statementname,i.name installationtypename,s.name subtypename');
+		$this->db->from('auditor_review ar');
+		$this->db->join('report_listing rl', 'rl.id=ar.statement', 'left');
+		$this->db->join('installationtype i', 'i.id=ar.installationtype', 'left');
+		$this->db->join('installationsubtype s', 's.id=ar.subtype', 'left');
+		
+		if(isset($requestdata['id'])) 		$this->db->where('ar.id', $requestdata['id']);
+		if(isset($requestdata['coc_id'])) 	$this->db->where('ar.coc_id', $requestdata['coc_id']);
+		if(isset($requestdata['reviewtype'])) 	$this->db->where('ar.reviewtype', $requestdata['reviewtype']);
+		if(isset($requestdata['status'])) 	$this->db->where('ar.status', $requestdata['status']);
+		
+		if($type=='count'){
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		return $result;
+	}
+	
+	public function actionReview($data)
+	{
+		$this->db->trans_begin();
+		
+		$userid			= 	$this->getUserID();
+		$id 			= 	$data['id'];
+		$datetime		= 	date('Y-m-d H:i:s');
+		
+		$request		=	[
+			'updated_at' 		=> $datetime,
+			'updated_by' 		=> $userid
+		];
 
+		if(isset($data['cocid']))		 				$request['coc_id'] 				= $data['cocid'];
+		if(isset($data['auditorid']))		 			$request['auditor_id'] 			= $data['auditorid'];
+		if(isset($data['plumberid']))					$request['plumber_id'] 			= $data['plumberid'];
+		if(isset($data['reviewtype']))		 			$request['reviewtype'] 			= $data['reviewtype'];
+		if(isset($data['favourites'])) 					$request['favourites'] 			= $data['favourites'];
+		if(isset($data['installationtype'])) 			$request['installationtype'] 	= $data['installationtype'];
+		if(isset($data['subtype'])) 					$request['subtype'] 			= $data['subtype'];
+		if(isset($data['statement'])) 					$request['statement'] 			= $data['statement'];
+		if(isset($data['reference'])) 					$request['reference'] 			= $data['reference'];
+		if(isset($data['link'])) 						$request['link'] 				= $data['link'];
+		if(isset($data['comments'])) 					$request['comments'] 			= $data['comments'];
+		if(isset($data['file'])) 						$request['file'] 				= implode(',', $data['file']);
+		if(isset($data['refixdate'])) 					$request['refixdate'] 			= date('Y-m-d', strtotime($data['refixdate']));
+		if(isset($data['incompletepoint'])) 			$request['incomplete_point'] 	= $data['incompletepoint'];
+		if(isset($data['completepoint'])) 				$request['complete_point'] 		= $data['completepoint'];
+		if(isset($data['cautionarypoint'])) 			$request['cautionary_point'] 	= $data['cautionarypoint'];
+		if(isset($data['complimentpoint'])) 			$request['compliment_point'] 	= $data['complimentpoint'];
+		if(isset($data['noauditpoint'])) 				$request['noaudit_point'] 		= $data['noauditpoint'];
+		if(isset($data['point'])) 						$request['point'] 				= $data['point'];
+		if(isset($data['status'])) 						$request['status'] 				= $data['status'];
+
+		if($id==''){
+			$request['created_at'] = $datetime;
+			$request['created_by'] = $userid;
+			$this->db->insert('auditor_review', $request);
+			$insertid = $this->db->insert_id();
+		}else{
+			$this->db->update('auditor_review', $request, ['id' => $id]);
+			$insertid = $id;
+		}
+
+		if($this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+			return false;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return $insertid;
+		}
+	}
+	
+	public function deleteReview($id)
+	{
+		return $this->db->where('id', $id)->delete('auditor_review');
+	}
+
+	
+	
+	public function actionStatement($data)
+	{
+		$this->db->trans_begin();
+		
+		$userid			= 	$this->getUserID();
+		$id 			= 	$data['id'];
+		$datetime		= 	date('Y-m-d H:i:s');
+		
+		$request		=	[
+			'updated_at' 		=> $datetime,
+			'updated_by' 		=> $userid
+		];
+
+		if(isset($data['cocid']))		 				$request['coc_id'] 						= $data['cocid'];
+		if(isset($data['auditorid']))		 			$request['auditor_id'] 					= $data['auditorid'];
+		if(isset($data['plumberid']))		 			$request['plumber_id'] 					= $data['plumberid'];
+		if(isset($data['auditdate']))		 			$request['audit_date'] 					= date('Y-m-d', strtotime($data['auditdate']));
+		if(isset($data['workmanship'])) 				$request['workmanship'] 				= $data['workmanship'];
+		if(isset($data['plumberverification'])) 		$request['plumber_verification'] 		= $data['plumberverification'];
+		if(isset($data['cocverification'])) 			$request['coc_verification'] 			= $data['cocverification'];
+		if(isset($data['workmanshippoint'])) 			$request['workmanship_point'] 			= $data['workmanshippoint'];
+		if(isset($data['plumberverificationpoint']))	$request['plumberverification_point'] 	= $data['plumberverificationpoint'];
+		if(isset($data['cocverificationpoint'])) 		$request['cocverification_point'] 		= $data['cocverificationpoint'];
+		if(isset($data['reviewpoint'])) 				$request['review_point'] 				= $data['reviewpoint'];
+		if(isset($data['point'])) 						$request['point'] 						= $data['point'];
+		if(isset($data['hold'])) 						$request['hold'] 						= $data['hold'];
+		if(isset($data['reason'])) 						$request['reason'] 						= $data['reason'];
+		if(isset($data['reportdate']))		 			$request['reportdate'] 					= date('Y-m-d H:i:s');
+		if(isset($data['auditcomplete']))		 		$request['auditcomplete'] 				= $data['auditcomplete'];
+		if(isset($data['auditcomplete'])) 				$request['status'] 						= '1';
+
+		if($id==''){
+			$request['created_at'] = $datetime;
+			$request['created_by'] = $userid;
+			$this->db->insert('auditor_statement', $request);
+		}else{
+			$this->db->update('auditor_statement', $request, ['id' => $id]);
+		}
+
+		if($this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+			return false;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
 
 }
