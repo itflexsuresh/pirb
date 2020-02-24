@@ -50,6 +50,7 @@ class Index extends CC_Controller
 		if(count($results) > 0){
 			foreach($results as $result){
 				$invoicestatus = 	isset($this->config->item('payment_status2')[$result['status']]) ? $this->config->item('payment_status2')[$result['status']] : '';
+				//print_r($this->db->last_query());
 				
 				if($result['status']=='0'){
 					$this->session->set_userdata('pay_purchaseorder', $result['inv_id']);
@@ -108,7 +109,6 @@ class Index extends CC_Controller
 		if($id!=''){
 		
 			$rowData = $this->Accounts_Model->getList('row', ['id' => $id, 'status' => ['0','1','7','8','9']]);
-
 			$rowData1 = $this->Accounts_Model->getPermissions('row', ['id' => $id, 'status' => ['0','1','7','8','9']]);
 			$rowData2 = $this->Accounts_Model->getPermissions1('row', ['id' => $id, 'status' => ['0','1','7','8','9']]);
 
@@ -282,10 +282,13 @@ td {
 
 	public function returnurl(){
 		$userid = $this->getUserID();
+		$current_date = date('Y-m-d H:i:s');
 		$invId 	= $this->session->userdata('pay_purchaseorder');
 		$requestData['status'] = '1';
-		$query = $this->db->update('invoice', $requestData, ['inv_id' => $invId,'user_id' => $userid]);
-		if ($query) {
+		$requestData1['expirydate'] = $current_date;
+		$query 	= $this->db->update('invoice', $requestData, ['inv_id' => $invId,'user_id' => $userid]);
+		$query2 = $this->db->update('user', $requestData1, ['id' => $userid]);
+		if ($query && $query2) {
 			$this->session->set_flashdata('success','Registration Renewed Sucessfully.');
 			redirect('plumber/profile/Index');
 		}
