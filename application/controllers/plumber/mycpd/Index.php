@@ -265,10 +265,7 @@ class index extends CC_Controller
 
 	public function monthlyMail(){
 
-		$user_id  			= $this->getUserID();
-		$userdetails 		= $this->Plumber_Model->getList('row', ['id' => $user_id]);
-		$designationID  	= $this->getUserDetails($user_id);
-		$designationDB 	  	= $this->config->item('designation2')[$designationID['designation']];
+		
 		$currentDate 		= date('m-d-Y');
 		$currentMonth 		= date('m');
 		$lastMonth 			= date('m', strtotime($currentMonth.' -1'));
@@ -281,41 +278,45 @@ class index extends CC_Controller
 		$total 		= '';
 		$totalDB 	= '';
 
-		if ($designationDB == 'Learner Plumber') {
-			$designation = 'learner';
-		}elseif($designationDB == 'Technical Assistant Practitioner'){
-			$designation = 'assistant';
-		}elseif($designationDB == 'Technical Operator Practitioner'){
-			$designation = 'operating';
-		}elseif($designationDB == 'Licensed Plumber'){
-			$designation = 'licensed';
-		}elseif($designationDB == 'Qualified Plumber'){
-			$designation = '';
-		}elseif($designationDB == 'Master Plumber'){
-			$designation = 'master';
-			
-		}
-
-		$template 	= $this->db->select('*')->from('email_notification')->where('category_id','6')->where('sms_active','1')->get()->row_array();
-		
-		$plumberCPD = $this->db->select('*')->from('cpd_activity_form')->where('MONTH(cpd_start_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND status="1" OR status="2"')->get()->result_array();
-
+		$this->db->select('t1.*, t3.designation, t2.renewal_date, t2.email');
+		$this->db->from('cpd_activity_form t1');
+		$this->db->join('users t2', 't2.id=t1.user_id','left');
+		$this->db->join('users_plumber t3', 't3.user_id=t1.user_id','left');
+		$this->db->where('t2.type', '3');
+		$this->db->where('t2.status', '1');
+		$this->db->where('t1.status', '1');
+		$this->db->or_where('t1.status', '2');
+		//$this->db->group_by('t1.user_id');
+		$userQuery = $this->db->get()->result_array();
 		$settingsCPD = $this->db->select('*')->from('settings_cpd')->get()->result_array();
+		$template 	= $this->db->select('*')->from('email_notification')->where('category_id','6')->where('sms_active','1')->get()->row_array();		
 
+		
+		//$designationDB = $this->config->item('designation2')[$userQuery['designation']];
+		foreach ($userQuery as $key => $value) {
+			$designationDB = $this->config->item('designation2')[$value['designation']];
 
-
-		if (count($plumberCPD)>0) {
-				foreach ($settingsCPD as $key => $value) {
-				$settingsplumberDetails[] = $value[$designation];
+			if ($designationDB == 'Learner Plumber') {
+			$designation = 'learner';
+			}elseif($designationDB == 'Technical Assistant Practitioner'){
+				$designation = 'assistant';
+			}elseif($designationDB == 'Technical Operator Practitioner'){
+				$designation = 'operating';
+			}elseif($designationDB == 'Licensed Plumber'){
+				$designation = 'licensed';
+			}elseif($designationDB == 'Qualified Plumber'){
+				$designation = '';
+			}elseif($designationDB == 'Master Plumber'){
+				$designation = 'master';				
 			}
-			foreach ($plumberCPD as $key1 => $value1) {
-				if($value1['cpd_stream']=='1'){
-					$dev = $value1['points'];
-				}elseif($value1['cpd_stream']=='2'){
-					$work = $value1['points'];
+
+			if($value['cpd_stream']=='1'){
+					$dev = $value['points'];
+				}elseif($value['cpd_stream']=='2'){
+					$work = $value['points'];
 				}
-				elseif($value1['cpd_stream']=='3'){
-					$indi = $value1['points'];
+				elseif($value['cpd_stream']=='3'){
+					$indi = $value['points'];
 				}
 				if($dev==''){
 					$dev = 0;				
@@ -325,14 +326,15 @@ class index extends CC_Controller
 				}if ($indi=='') {
 					$indi = 0;
 				}
-			
+				//print_r($value['cpd_stream']);
+				foreach ($settingsCPD as $key1 => $value1) {
+				$settingsplumberDetails[] = $value['designation'];
 			}
 
+			$total = $dev+$work+$indi;
+			$totalDB = $settingsplumberDetails[1]+$settingsplumberDetails[2]+$settingsplumberDetails[3];
 
-			$total .= $dev+$work+$indi;
-			$totalDB .= $settingsplumberDetails[1]+$settingsplumberDetails[2]+$settingsplumberDetails[3];
-
-			$cpdTable .= '<table style="width:40%; border-collapse:collapse;" class="tablcpd">
+			$cpdTable = '<table style="width:40%; border-collapse:collapse;" class="tablcpd">
 			<tr>
 			<th style="border: 1px solid #000;padding:5px 10px;text-align:center;">CPD Stream</th>
 			<th style="border: 1px solid #000;padding:5px 10px;text-align:center;">Your Points (YTD)</th>
@@ -362,15 +364,91 @@ class index extends CC_Controller
 			</table>';
 
 			$array1 = ['{Plumbers Name and Surname}','{TODAYS DATE}', 'Points Table', '{plumbers registration renewal date}'];
-			$array2 = [$userdetails['name'].' '.$userdetails['surname'], $currentDate, $cpdTable, date('m-d-Y', strtotime($designationID['renewal_date']))];
+			$array2 = [$value['name_surname'], $currentDate, $cpdTable, date('m-d-Y', strtotime($value['renewal_date']))];
 			$body = str_replace($array1, $array2, $template['email_body']);
 
 			if ($template['email_active'] == '1') {
 
-		 		$this->CC_Model->sentMail($userdetails['email'],$template['subject'],$body);
+		 		$this->CC_Model->sentMail($value['email'],$template['subject'],$body);
 		 	}
-			//print_r($body);
-		}
+		}		
+
+		die;
 		
-	}
+		
+	// 	$plumberCPD = $this->db->select('*')->from('cpd_activity_form')->where('MONTH(cpd_start_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND status="1" OR status="2"')->get()->result_array();
+
+	// 	$settingsCPD = $this->db->select('*')->from('settings_cpd')->get()->result_array();
+
+
+
+	// 	if (count($plumberCPD)>0) {
+	// 			foreach ($settingsCPD as $key => $value) {
+	// 			$settingsplumberDetails[] = $value[$designation];
+	// 		}
+	// 		foreach ($plumberCPD as $key1 => $value1) {
+	// 			if($value1['cpd_stream']=='1'){
+	// 				$dev = $value1['points'];
+	// 			}elseif($value1['cpd_stream']=='2'){
+	// 				$work = $value1['points'];
+	// 			}
+	// 			elseif($value1['cpd_stream']=='3'){
+	// 				$indi = $value1['points'];
+	// 			}
+	// 			if($dev==''){
+	// 				$dev = 0;				
+					
+	// 			}if ($work=='') {
+	// 				$work = 0;
+	// 			}if ($indi=='') {
+	// 				$indi = 0;
+	// 			}
+			
+	// 		}
+
+
+	// 		$total .= $dev+$work+$indi;
+	// 		$totalDB .= $settingsplumberDetails[1]+$settingsplumberDetails[2]+$settingsplumberDetails[3];
+
+	// 		$cpdTable .= '<table style="width:40%; border-collapse:collapse;" class="tablcpd">
+	// 		<tr>
+	// 		<th style="border: 1px solid #000;padding:5px 10px;text-align:center;">CPD Stream</th>
+	// 		<th style="border: 1px solid #000;padding:5px 10px;text-align:center;">Your Points (YTD)</th>
+	// 		<th style="border: 1px solid #000;padding:5px 10px;text-align:center;">Preferred Points Required</th>
+			
+	// 		</tr>
+	// 		<tr>
+	// 		<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">Developmental</td>
+	// 		<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">'.$dev.'</td>
+	// 		<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">'.$settingsplumberDetails[1].'</td>
+	// 		</tr>
+	// 		<tr>
+	// 		<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">Work-based</td>
+	// 		<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">'.$work.'</td>
+	// 		<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">'.$settingsplumberDetails[2].'</td>
+	// 		</tr>
+	// 		<tr>
+	// 		<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">Individual</td>
+	// 		<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">'.$indi.'</td>
+	// 		<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">'.$settingsplumberDetails[3].'</td>
+	// 		</tr>
+	// 		<tr>
+	// 		<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">Total</td>
+	// 		<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">'.$total.'</td>
+	// 		<td style="border: 1px solid #000;padding:5px 10px;text-align:center;">'.$totalDB.'</td>
+	// 		</tr>
+	// 		</table>';
+
+	// 		$array1 = ['{Plumbers Name and Surname}','{TODAYS DATE}', 'Points Table', '{plumbers registration renewal date}'];
+	// 		$array2 = [$userdetails['name'].' '.$userdetails['surname'], $currentDate, $cpdTable, date('m-d-Y', strtotime($designationID['renewal_date']))];
+	// 		$body = str_replace($array1, $array2, $template['email_body']);
+
+	// 		if ($template['email_active'] == '1') {
+
+	// 	 		$this->CC_Model->sentMail($userdetails['email'],$template['subject'],$body);
+	// 	 	}
+	// 		//print_r($body);
+	// 	}
+		
+	// }
 }
