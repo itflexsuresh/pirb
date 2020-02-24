@@ -509,3 +509,64 @@ function userautocomplete(data1=[], data2=[], customfunction=''){
 		if(customfunction!='') customfunction(name, id, count, electronic);
 	})
 }
+
+function chat(data1=[], data2=[]){
+	chatcontent({'cocid' : data1[0], 'fromto' : data2[1], 'state1' : '1' });
+	
+	$(data1[0]).keyup(function(event){
+		var keycode = (event.keyCode ? event.keyCode : event.which);
+		if(keycode == '13'){
+			var data = 	{
+				'cocid' 		: data2[0], 
+				'fromid' 		: data2[1],
+				'toid' 			: data2[2],
+				'message' 		: $(this).val(),
+				'state1' 		: '0',
+				'type' 			: '1'
+			}
+			
+			chataction(data);
+			chatcontent({'cocid' : data1[0], 'state1' : '0' }, '1');
+			$(data1[0]).val('');
+		}		
+	});
+	
+	function chatcontent(param, state=''){
+		ajax(
+			baseurl()+'ajax/index/ajaxchat', 
+			param, 
+			'', 
+			{ 
+				success : function(data){ 
+					if(data.status=='1'){
+						var chatdata 	= [];
+						var result 		= data.result;
+						
+						$(result).each(function(i,v){							
+							var chatappend = '<p>'+v.message+'</p>';
+							chatdata.push(chatappend)
+							
+							if(state=='1') chataction({'id' : v.id, 'state1' : '1'});
+						})
+						
+						$(data1[1]).append(chatdata.join(''));
+					}
+				}
+			}
+		);
+	}
+	
+	function chataction(param){
+		ajax(baseurl()+'ajax/index/ajaxchataction', param, '', { success : function(data){} });
+	}
+	
+	function chatunread(){
+		//chatcontent({'cocid' : data1[0], 'toid' : data1[2], 'state2' : '0' })
+	}
+	
+	var interval;
+	
+	function startTimer(){
+		interval = setInterval(chatunread, 15000);
+	}
+}

@@ -23,6 +23,7 @@
 		$plumberimage 		= $profileimg;
 	}
 	
+	$auditorid 				= isset($result['auditorid']) ? $result['auditorid'] : '';
 	$auditorname 			= isset($result['auditorname']) ? $result['auditorname'] : '';
 	$auditormobile 			= isset($result['auditormobile']) ? $result['auditormobile'] : '';
 	$auditorstatus 			= isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';
@@ -380,6 +381,22 @@
 			</form>			
 		</div>
 	</div>
+</div>		
+
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="chatcontent" id="chatcontent"></div>
+			<div class="chatfooter">
+				<div class="input-group">
+					<input type="text" class="form-control" id="chattext">
+					<div class="input-group-append">
+						<span class="input-group-text"><i class="fa fa-paperclip" id="chatattachment"></i></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 
@@ -532,6 +549,11 @@ var reviewpath 	= '<?php echo $reviewpath; ?>';
 var pdfimg		= '<?php echo $pdfimg; ?>';
 var pagetype	= '<?php echo $pagetype; ?>';
 var roletype	= '<?php echo $roletype; ?>';
+var cocid 		= '<?php echo $cocid; ?>';
+var plumberid 	= '<?php echo $plumberid; ?>';
+var auditorid 	= '<?php echo $auditorid; ?>';
+var fromid		= (roletype=='3') ? plumberid : auditorid;
+var toid		= (roletype=='3') ? auditorid : plumberid;
 var validator;
 
 $(function(){
@@ -542,6 +564,7 @@ $(function(){
 	citysuburb(['#province','#city', '#suburb'], ['<?php echo $cityid; ?>', '<?php echo $suburbid; ?>']);
 	subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], ['', '']);
 	fileupload(["#r_file", "./assets/uploads/auditor/statement/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.rfileappend', reviewpath, pdfimg], 'multiple');
+	chat(['#chattext', '#chatcontent'], [cocid, fromid, toid]);
 	
 	var reviewlist = $.parseJSON('<?php echo json_encode($reviewlist); ?>');
 	if(reviewlist.length > 0){
@@ -981,5 +1004,6 @@ function pointcalculation(){
 	$('#reviewpoint').val(reviewval);
 	$('#point').val(workmanshipval + plumberverificationval + cocverificationval + reviewval);
 }
+
 
 </script>

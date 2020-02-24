@@ -520,6 +520,5 @@ class Coc_Model extends CC_Model
 			$this->db->trans_commit();
 			return true;
 		}
-	}
-	
+	}	
 }
