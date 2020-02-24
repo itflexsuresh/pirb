@@ -121,13 +121,7 @@ if(isset($result) && $result)
 							</table>
 						</div>
 
-						<!-- <div class="row">						
-							<div class="col-md-12 text-right">
-								<input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
-								<button type="submit" name="submit" value="submit" class="btn btn-primary">
-								Update</button>
-							</div>
-						</div> -->
+						
 					</form>
 
 

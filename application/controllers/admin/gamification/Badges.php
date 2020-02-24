@@ -25,9 +25,6 @@ class Badges extends CC_Controller
 				redirect('admin/gamification/badges'); 
 			}
 		}
-
-		
-		
 		
 		
 		$pagedata['notification'] 	= $this->getNotification();

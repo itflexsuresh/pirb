@@ -2,7 +2,6 @@
 
 class Gamebadges_Model extends CC_Model
 {
-	
 
 	public function action($data)
 	{	
@@ -21,8 +20,6 @@ class Gamebadges_Model extends CC_Model
 		
 		return $result;
 	}
-
-
 
 	public function getList($type, $requestdata=[])
 	{
