@@ -298,8 +298,7 @@ class index extends CC_Controller
 
 		$template 	= $this->db->select('*')->from('email_notification')->where('category_id','6')->where('sms_active','1')->get()->row_array();
 		
-
-		$plumberCPD = $this->db->select('*')->from('cpd_activity_form')->where('MONTH(cpd_start_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)')->get()->result_array();
+		$plumberCPD = $this->db->select('*')->from('cpd_activity_form')->where('MONTH(cpd_start_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND status="1" OR status="2"')->get()->result_array();
 
 		$settingsCPD = $this->db->select('*')->from('settings_cpd')->get()->result_array();
 
