@@ -50,7 +50,7 @@ public function editpoint($id = ''){
 
 			$data 	=  $this->Gamebadges_Model->action($post);
 
-			if($data) $this->session->set_flashdata('success', 'Badges '.(($id=='') ? 'created' : 'updated').' successfully.');
+			if($data) $this->session->set_flashdata('success', 'Badges '.(($id=='') ? 'updated' : 'updated').' successfully.');
 			else $this->session->set_flashdata('error', 'Try Later.');
 
 		}
