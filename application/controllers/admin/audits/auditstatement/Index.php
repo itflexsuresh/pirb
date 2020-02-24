@@ -39,7 +39,7 @@ class Index extends CC_Controller
 										'status' 			=> 	$auditstatus,
 										'auditorname' 		=> 	$result['auditorname'],
 										'auditormobile' 	=> 	$result['auditormobile'],
-										'auditordate' 		=> 	'',
+										'auditordate' 		=> 	isset($result['audit_allocation_date']) && $result['audit_allocation_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['audit_allocation_date'])) : '',
 										'refixdate' 		=> 	($refixdate!='') ? '<p class="'.((date('Y-m-d') > date('Y-m-d', strtotime($refixdate))) ? "tagline" : "").'">'.$refixdate.'</p>' : '',
 										'action'			=> 	'
 																	<div class="table-action">

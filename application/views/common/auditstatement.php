@@ -25,8 +25,8 @@
 	
 	$auditorname 			= isset($result['auditorname']) ? $result['auditorname'] : '';
 	$auditormobile 			= isset($result['auditormobile']) ? $result['auditormobile'] : '';
-	$auditorstatus 			= isset($result['auditorstatus']) ? $result['auditorstatus'] : '';
-	
+	$auditorstatus 			= isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';
+				
 	$completiondate 		= isset($result['cl_completion_date']) && $result['cl_completion_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_completion_date'])) : '';
 	$name 					= isset($result['cl_name']) ? $result['cl_name'] : '';
 	$address 				= isset($result['cl_address']) ? $result['cl_address'] : '';
@@ -58,17 +58,26 @@
 		$disabled1 		= 'disabled';
 		$disabled1array	= ['disabled' => 'disabled'];
 	}
+	
+	if($roletype=='1'){
+		$heading = 'Manage Allocted Audits';
+	}else if($roletype=='3' || $roletype=='5'){
+		$heading = 'Audit Report';
+	}
+		
+	if($workmanshipid=='' && $roletype=='1') $workmanship = [];
+	if($plumberverification=='' && $roletype=='1') $yesno = [];
 ?>
 
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
-		<h4 class="text-themecolor">Audit Report</h4>
+		<h4 class="text-themecolor"><?php echo $heading; ?></h4>
 	</div>
 	<div class="col-md-7 align-self-center text-right">
 		<div class="d-flex justify-content-end align-items-center">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="j<?php echo base_url(); ?>">Home</a></li>
-				<li class="breadcrumb-item active">Audit Report</li>
+				<li class="breadcrumb-item active"><?php echo $heading; ?></li>
 			</ol>
 		</div>
 	</div>
