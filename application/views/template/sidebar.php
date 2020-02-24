@@ -213,11 +213,11 @@ $formstatus  	= $userdata['formstatus'];
                             }
                        }
 					?>
-					<li><a href="javascript:void(0);">Dashboard</a></li>
-					<li><a href="<?php echo base_url().'auditor/profile/index'; ?>">My Profile</a></li>
+					<li><a href="javascript:void(0);">Dashboard</a></li>					
 					<li><a href="<?php echo base_url().'auditor/auditstatement/index'; ?>">Audit Statement</a></li>
 					<li><a href="<?php echo base_url().'auditor/accounts/index'; ?>">Accounts</a></li>
-					<li><a href="<?php echo base_url().'auditor/reportlisting/index'; ?>">My Report Listings</a></li>
+					<li><a href="<?php echo base_url().'auditor/reportlisting/index'; ?>">My Report Listing</a></li>
+					<li><a href="<?php echo base_url().'auditor/profile/index'; ?>">My Profile</a></li>
 					<?php if($msg!=''){?>
 						<div id="message">
 							<?php echo $msg;?>
