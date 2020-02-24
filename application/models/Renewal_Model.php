@@ -63,149 +63,51 @@ class Renewal_Model extends CC_Model
 	public function getUserids()
 	{
 		
-		$this->db->select('id, expirydate');		
-		$this->db->from('users');
-		$this->db->where('type', '3' );
-		$result = $this->db->get()->result_array();
-
-		$userid_array = array();
-		$currentdate = date('Y-m-d h:i:s');	
-		
-		foreach($result as $rows)
-		{	
-			$createdate = $rows['expirydate'];
-			if($createdate == '0000-00-00 00:00:00'){}
-			else{
-				$userid = $rows['id'];			
-				$datetime1 = new DateTime($createdate);
-				$datetime2 = new DateTime($currentdate);
-				$interval = $datetime1->diff($datetime2);
-				$month = $interval->format('%m');
-				$year = $interval->format('%y')*12;
-				$monthcount = $month+$year+1;
-
-				// $now = time();
-				// $your_date = strtotime($createdate);
-				// $datediff = $now - $your_date;
-				// $monthcount = $datediff / (60 * 60 * 24);
-				// echo $monthcount = $monthcount/30;
-				if($monthcount == 11){					
-					$userid_array[] = $userid; 
-				}
-			}
-		}		
-
-		$result = array();
-		if(!empty($userid_array)){
-			$this->db->select('us.id, us.expirydate, up.designation');		
-			$this->db->from('users us');
-			$this->db->join('users_plumber as up', 'up.user_id=us.id', 'inner');
-			$this->db->where_in('us.id', $userid_array );			
-			$result = $this->db->get()->result_array();
-		}
+		$this->db->select('us.id, us.expirydate, up.designation');		
+		$this->db->from('users us');
+		$this->db->join('users_plumber as up', 'up.user_id=us.id', 'left');
+		$this->db->where('us.type', '3' );
+		$this->db->where('us.status', '1' );
+		$this->db->where("DATEDIFF(us.expirydate,now()) = 30");
+		$result = $this->db->get()->result_array();		
 		return $result;
 	}
 
 	public function getUserids_alert2()
-	{
-		
-		$this->db->select('us.id, us.expirydate');		
+	{	
+		$this->db->select('us.id, us.expirydate, up.designation, inv.inv_id');		
 		$this->db->from('users us');
+		$this->db->join('users_plumber as up', 'up.user_id=us.id', 'inner');
 		$this->db->join('invoice inv', 'inv.user_id=us.id', 'inner');
 		$this->db->where('inv.inv_type', '2' );
 		$this->db->where('inv.status', '0' );
 		$this->db->where('us.type', '3' );
+		$this->db->where("DATEDIFF(us.expirydate,now()) = 7");		
 		$result = $this->db->get()->result_array();
-
-		$userid_array = array();
-		$currentdate = date('Y-m-d h:i:s');			
-		foreach($result as $rows)
-		{	
-			$createdate = $rows['expirydate'];
-			if($createdate == '0000-00-00 00:00:00'){}
-			else{
-				$userid = $rows['id'];			
-				// $datetime1 = new DateTime($createdate);
-				// $datetime2 = new DateTime($currentdate);
-				// $interval = $datetime1->diff($datetime2);
-				// $days = $interval->format('%a');								
-				// echo $days."- ";
-				$now = time();
-				$your_date = strtotime($createdate);
-				$datediff = $now - $your_date;
-				$days = round($datediff / (60 * 60 * 24)) - 1;
-				// echo $days;
-				if($days == 358){					
-					$userid_array[] = $userid; 					
-				}
-			}
-		}		
-
-		$result = array();
-		if(!empty($userid_array)){
-			$this->db->select('us.id, us.expirydate, up.designation, inv.inv_id');		
-			$this->db->from('users us');
-			$this->db->join('users_plumber as up', 'up.user_id=us.id', 'inner');
-			$this->db->join('invoice inv', 'inv.user_id=us.id', 'inner');
-			$this->db->where('inv.inv_type', '2' );
-			$this->db->where('inv.status', '0' );
-			$this->db->where('us.type', '3' );
-			$this->db->where_in('us.id', $userid_array );			
-			$result = $this->db->get()->result_array();
-		}
+		
 		return $result;
 	}
 
 	public function getUserids_alert3()
 	{
 		
-		$this->db->select('us.id, us.expirydate');		
-		$this->db->from('users us');
-		$this->db->join('invoice inv', 'inv.user_id=us.id', 'inner');
-		$this->db->where('inv.inv_type', '3' );
-		$this->db->where('inv.status', '0' );
-		$this->db->where('us.type', '3' );
-		$result = $this->db->get()->result_array();
-
 		$penalty = 0;
 		$this->db->select('penalty');		
 		$this->db->from('settings_details');
 		$this->db->where('id', '1' );
 		$penalty_result = $this->db->get()->row_array();
 		$penalty = $penalty_result['penalty'];
-		$settingsdate = $penalty + 365;
 
-		$userid_array = array();
-		$currentdate = date('Y-m-d h:i:s');			
-		foreach($result as $rows)
-		{	
-			$createdate = $rows['expirydate'];
-			if($createdate == '0000-00-00 00:00:00'){}
-			else{
-				$userid = $rows['id'];
-				$now = time();
-				$your_date = strtotime($createdate);
-				$datediff = $now - $your_date;
-				$days = round($datediff / (60 * 60 * 24)) + 1;
-				// echo $userid."(".$settingsdate." : ".$days.") - ";
-				if($days >= $settingsdate){					
-					$userid_array[] = $userid; 					
-				}
-			}
-		}		
+		$this->db->select('us.id, us.expirydate, up.designation, inv.inv_id');		
+		$this->db->from('users us');
+		$this->db->join('users_plumber as up', 'up.user_id=us.id', 'inner');
+		$this->db->join('invoice inv', 'inv.user_id=us.id', 'inner');
+		$this->db->where('inv.inv_type', '3' );
+		$this->db->where('inv.status', '0' );
+		$this->db->where('us.type', '3' );
+		$this->db->where("DATEDIFF(now(),us.expirydate) = ".$penalty);				
+		$result = $this->db->get()->result_array();
 
-		$result = array();
-		if(!empty($userid_array)){
-			$this->db->select('us.id, us.expirydate, up.designation, inv.inv_id');		
-			$this->db->from('users us');
-			$this->db->join('users_plumber as up', 'up.user_id=us.id', 'inner');
-			$this->db->join('invoice inv', 'inv.user_id=us.id', 'inner');
-			$this->db->where('inv.inv_type', '3' );
-			$this->db->where('inv.status', '0' );
-			$this->db->where('us.type', '3' );
-			$this->db->where_in('us.id', $userid_array );			
-			$result = $this->db->get()->result_array();
-		}
 		return $result;
 	}
 

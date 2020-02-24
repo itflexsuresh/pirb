@@ -131,9 +131,8 @@ class Index extends CC_Controller
 
 	public function Cron()
 	{	
-		$result = $this->Renewal_Model->getUserids();
-		
-		// echo '<pre>'; print_r($result); die;
+		$result = $this->Renewal_Model->getUserids();		
+		// echo '<pre>'; print_r($result); die;		
 		foreach($result as $data)
 		{
 			$inv_type = '1';
