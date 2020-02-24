@@ -1212,7 +1212,10 @@ $(function(){
 			skill_attachment : {
 				required	: "Choose File Please",
 			}
-		}
+		},
+		{
+  			ignore : '.test',
+   		}
 	);
 })
 
