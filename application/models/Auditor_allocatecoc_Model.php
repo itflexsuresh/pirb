@@ -336,7 +336,7 @@ class Auditor_allocatecoc_Model extends CC_Model
 
 		if(isset($data['auditor_id']))		$requestdata['auditorid'] 		= $data['auditor_id'];	
 		$requestdata['audit_status']	=	2;
-		$requestdata['allocation_date']	=	date('Y-m-d H:i:s');;
+		$requestdata['audit_allocation_date']	=	date('Y-m-d H:i:s');;
 		
 		if(isset($requestdata)){			
 			$result = $this->db->update('stock_management', $requestdata,['id'=>$data['coc_id']]);
