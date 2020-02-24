@@ -13,7 +13,8 @@ class Renewal_Model extends CC_Model
         $this->db->where('inv.inv_type', '2');
         $this->db->or_where('inv.inv_type', '3');
         $this->db->or_where('inv.inv_type', '4');
-        // $this->db->order_by("inv.inv_id", "desc");        
+        // $this->db->order_by("inv.inv_id", "desc"); 
+               
      
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length']))
 		{

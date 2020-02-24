@@ -14,6 +14,7 @@ class Index extends CC_Controller
 		$this->load->model('Coc_Ordermodel');
 		$this->load->model('Reportlisting_Model');
 		$this->load->model('Auditor_Reportlisting_Model');
+		$this->load->model('Chat_Model');
 	}
 	
 	public function ajaxfileupload()
@@ -230,4 +231,34 @@ class Index extends CC_Controller
 		
 		echo json_encode($data);
 	}
+	
+	
+	public function ajaxchat()
+	{
+		$post = $this->input->post();  
+		$result = $this->Chat_Model->getList('all', $post);
+		
+		if(count($result)){
+			$json = ['status' => '1', 'result' => $result];
+		}else{
+			$json = ['status' => '0', 'result' => []];
+		}
+		
+		echo json_encode($json);
+	}
+	
+	public function ajaxchataction()
+	{
+		$post 	= $this->input->post();
+		$result = $this->Chat_Model->action($post);
+
+		if($result){
+			$json 	= ['status' => '1', 'result' => []];
+		}else{
+			$json 	= ['status' => '0', 'result' => []];
+		}
+	
+		echo json_encode($json);
+	}
+
 }
