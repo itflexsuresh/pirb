@@ -193,21 +193,6 @@ class index extends CC_Controller
 		echo json_encode($json);
 	}
 
-	// public function year_cron(){
-	// 	$userid 					= $this->getUserID();
-	// 	$currentyear 				= date('Y-m-d H:i:s');
-	// 	$requestData1['flag'] 		= '2';
-		
-	// 	$date = $this->db->select('*')->from('users')->where('id',$userid)->get()->row_array();
-	// 	$DBYear = $date['expirydate'];
-	// 	$strDBYear  = strtotime($date['expirydate']);
-	// 	$strCurrYear  = strtotime($currentyear);
-	// 	if ($strCurrYear>$strDBYear) {
-	// 		$query = $this->db->update('cpd_activity_form', $requestData1, ['id' => $value['id']]);
-	// 	}
-		
-	// }
-
 	public function year_cron(){
 		$userid 					= $this->getUserID();
 		$currentyear 				= strtotime(date("Y"));
@@ -253,15 +238,6 @@ class index extends CC_Controller
 
 		
 	}
-
-	// public function mothlyCron(){
-	// 	$user_id  			= $this->getUserID();
-	// 	$userdetails 		= $this->Plumber_Model->getList('row', ['id' => $user_id]);
-	// 	$year	= date('Y-m-d H:i:s');
-
-
-	// 	$plumberCPD 		= $this->db->select('*')->from('cpd_activity_form')->where('')->get()->result_array();
-	// }
 
 	public function monthlyMail(){
 
