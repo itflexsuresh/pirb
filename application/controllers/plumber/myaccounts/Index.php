@@ -60,7 +60,7 @@ class Index extends CC_Controller
 									<input type="hidden" id="name" value="'.$userdata1['name'].'">
 									<input type="hidden" id="surname" value="'.$userdata1['surname'].'">
 									<input type="hidden" id="usremail" value="'.$userdata1['email'].'">
-									<i class="fa fa-credit-card payfastpayment">									
+									<a <a href="javascript:void(0);"> <i class="fa fa-credit-card payfastpayment">
 									<script>
 									$(".payfastpayment").click(function(){
 									$("#name_first").val($("#name").val());
@@ -70,7 +70,7 @@ class Index extends CC_Controller
 									$( "#paymentsubmit" ).trigger( "click" );								
 									
 								});
-								</script></i>
+								</script></i></a>
 								';
 				}else{
 					$action = 	'';	
