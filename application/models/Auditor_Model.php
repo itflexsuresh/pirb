@@ -253,7 +253,7 @@ class Auditor_Model extends CC_Model
 		if(isset($data['password'])) 			$request1['password_raw'] 		= $data['password'];
 		if(isset($data['password'])) 			$request1['password'] 			= md5($data['password']);
 		if(isset($data['status'])) 				$request1['status'] 			= $data['status'];
-		$request1['status'] 					= isset($data['status']) ? $data['status'] : '0';
+		$request1['status'] 					= isset($data['status']) ? $data['status'] : '2';
 		
 		
 
