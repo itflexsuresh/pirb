@@ -545,6 +545,8 @@ class Auditor_Model extends CC_Model
 		
 		if(isset($requestdata['id'])) 		$this->db->where('ar.id', $requestdata['id']);
 		if(isset($requestdata['coc_id'])) 	$this->db->where('ar.coc_id', $requestdata['coc_id']);
+		if(isset($requestdata['reviewtype'])) 	$this->db->where('ar.reviewtype', $requestdata['reviewtype']);
+		if(isset($requestdata['status'])) 	$this->db->where('ar.status', $requestdata['status']);
 		
 		if($type=='count'){
 			$result = $this->db->count_all_results();
@@ -583,6 +585,7 @@ class Auditor_Model extends CC_Model
 		if(isset($data['link'])) 						$request['link'] 				= $data['link'];
 		if(isset($data['comments'])) 					$request['comments'] 			= $data['comments'];
 		if(isset($data['file'])) 						$request['file'] 				= implode(',', $data['file']);
+		if(isset($data['refixdate'])) 					$request['refixdate'] 			= date('Y-m-d', strtotime($data['refixdate']));
 		if(isset($data['incompletepoint'])) 			$request['incomplete_point'] 	= $data['incompletepoint'];
 		if(isset($data['completepoint'])) 				$request['complete_point'] 		= $data['completepoint'];
 		if(isset($data['cautionarypoint'])) 			$request['cautionary_point'] 	= $data['cautionarypoint'];

@@ -22,7 +22,8 @@ class Index extends CC_Controller
 		$userid 		= $this->getUserID();
 		$post 			= $this->input->post();
 		$totalcount 	= $this->Coc_Model->getCOCList('count', ['coc_status' => ['2'], 'user_id' => $userid, 'noaudit' => '']+$post);
-		$results 		= $this->Coc_Model->getCOCList('all', ['coc_status' => ['2'], 'user_id' => $userid, 'noaudit' => '']+$post);
+		$results 		= $this->Coc_Model->getCOCList('all', ['coc_status' => ['2'], 'user_id' => $userid, 'noaudit' => '']+$post);	
+		$settings 		= $this->Systemsettings_Model->getList('row');
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
@@ -30,12 +31,15 @@ class Index extends CC_Controller
 				$auditstatus 	= isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';
 				$action 		= '<a href="'.base_url().'plumber/auditstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
 				
+				$review 		= $this->Auditor_Model->getReviewList('row', ['coc_id' => $result['id'], 'reviewtype' => '1', 'status' => '0']);
+				$refixdate 		= ($review) ? date('d-m-Y', strtotime($review['created_at'].' +'.$settings['refix_period'].'days')) : '';
+				
 				$totalrecord[] 	= 	[
 										'cocno' 			=> 	$result['id'],
 										'status' 			=> 	$auditstatus,
 										'consumer' 			=> 	$result['cl_name'],
 										'address' 			=> 	$result['cl_address'],
-										'refixdate' 		=> 	date('d-m-Y', strtotime($result['allocation_date'])),
+										'refixdate' 		=> 	($refixdate!='') ? '<p class="'.((date('Y-m-d') > date('Y-m-d', strtotime($refixdate))) ? "tagline" : "").'">'.$refixdate.'</p>' : '',
 										'auditor' 			=> 	$result['auditorname'],
 										'action'			=> 	'
 																	<div class="table-action">
