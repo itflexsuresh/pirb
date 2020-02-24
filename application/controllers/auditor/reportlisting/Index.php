@@ -55,7 +55,10 @@ class Index extends CC_Controller
 	
 	public function DTReportListing()
 	{
+
 		$post 			= $this->input->post();		
+		$post['user_id'] = $this->getUserId();
+		
 		$totalcount 	= $this->Auditor_Reportlisting_Model->getList('count', ['status' => ['0','1']]+$post);
 		$results 		= $this->Auditor_Reportlisting_Model->getList('all', ['status' => ['0','1']]+$post);
 
@@ -65,7 +68,7 @@ class Index extends CC_Controller
 			foreach($results as $result){
 				$totalrecord[] = 	[
 										'favour_name' 	  => $result['favour_name'],
-										'installation_id' => $result['insname'],
+										'installationtype_id' => $result['insname'],
 										'subtype_id' 	  => $result['name'],
 										'comments'	  	  => $result['comments'],									
 										'status' 		  => $this->config->item('statusicon')[$result['status']],

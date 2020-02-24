@@ -7,11 +7,16 @@ class Auditor_Reportlisting_Model extends CC_Model
 		$this->db->select('t1.*, t2.name, t3.name insname');
 		// $this->db->order_by('t1.id','desc');
 		$this->db->from('auditor_report_listing t1');		
+		// echo $userid;exit;
 
-		$this->db->join('installationsubtype t2','t2.installationtype_id=t1.installationtype_id AND t2.id=t1.subtype_id	','left');
+		$this->db->join('installationsubtype t2','t2.installationtype_id=t1.installationtype_id	AND t2.id=t1.subtype_id	','left');
 	 	$this->db->join('installationtype t3','t3.id=t1.installationtype_id','left');
 	 	// $this->db->join('report_listing t4', 't4.statement=t1.statement_id', 'left');
-
+		// print_r($requestdata);
+		// exit;
+		// $user_id			= 	$this->getUserID();
+		// echo $user_id;
+		$this->db->where('t1.user_id', $requestdata['user_id']);
 		if(isset($requestdata['id'])) $this->db->where('t1.id', $requestdata['id']);
 		if(isset($requestdata['installationtypeid'])) $this->db->where('t1.installationtype_id', $requestdata['installationtypeid']);
 		if(isset($requestdata['subtypeid'])) $this->db->where('t1.subtype_id', $requestdata['subtypeid']);
@@ -37,7 +42,8 @@ class Auditor_Reportlisting_Model extends CC_Model
 			
 		}
 		
-
+// echo $this->db->last_query();
+// exit;
 		if($type=='count'){
 			$result = $this->db->count_all_results();
 
@@ -46,6 +52,7 @@ class Auditor_Reportlisting_Model extends CC_Model
 
 			if($type=='all') $result = $query->result_array();
 			elseif($type=='row') $result = $query->row_array();
+
 		}
 
 		return $result;
@@ -58,16 +65,20 @@ class Auditor_Reportlisting_Model extends CC_Model
 
 		$this->db->trans_begin();
 		
+		
+		 
 		$userid			= 	$this->getUserID();
+
 		$id 			= 	$data['id'];
 		$datetime		= 	date('Y-m-d H:i:s');
 		
 		$request		=	[
 
 			'updated_at' 		=> $datetime,
-			'updated_by' 		=> $id
+			'updated_by' 		=> $userid
 		];
-
+		
+		$request['user_id'] = $userid;	
 		if(isset($data['installation'])) 	$request['installationtype_id'] 	= $data['installation'];
 		if(isset($data['subtype'])) 		$request['subtype_id'] 				= $data['subtype'];
 		if(isset($data['statement'])) 		$request['statement_id'] 			= $data['statement'];
@@ -81,11 +92,14 @@ class Auditor_Reportlisting_Model extends CC_Model
 			$request['created_at'] = $datetime;
 			$request['created_by'] = $userid;
 			
+			
 			$this->db->insert('auditor_report_listing', $request);
+			// echo $this->db->last_query(); exit;
+
 		}
 		else
 		{
-			$this->db->update('auditor_report_listing', $request, ['id' => $id]);
+			$this->db->update('auditor_report_listing', $request, ['id' => $userid]);
 		}
 
 		if($this->db->trans_status() === FALSE)
