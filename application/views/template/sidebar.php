@@ -98,6 +98,7 @@ $formstatus  	= $userdata['formstatus'];
 						<ul aria-expanded="false" class="collapse">
 							<li><a href="<?php echo base_url().'admin/audits/index'; ?>">Manage Auditors</a></li>
 							<li><a href="<?php echo base_url().'admin/audits/cocallocate/index'; ?>">Manage COC Allocation for Audit</a></li>
+							<li><a href="<?php echo base_url().'admin/audits/auditstatement/index'; ?>">Manage Allocted Audits</a></li>
 						</ul>
 					</li>
 					
