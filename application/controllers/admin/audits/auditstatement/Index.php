@@ -11,6 +11,17 @@ class Index extends CC_Controller
 	
 	public function index()
 	{
+		if($this->input->post()){
+			$requestData 	= 	$this->input->post();
+
+			$data 	=  $this->Coc_Model->cancelcoc($requestData);
+				
+			if($data) $this->session->set_flashdata('success', 'Coc Cancelled Successfully.');
+			else $this->session->set_flashdata('error', 'Try Later.');
+			
+			redirect('admin/audits/auditstatement/index'); 
+		}
+		
 		$pagedata['notification'] 	= $this->getNotification();
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
 		$data['content'] 			= $this->load->view('admin/audits/auditstatement/index', (isset($pagedata) ? $pagedata : ''), true);
@@ -28,8 +39,11 @@ class Index extends CC_Controller
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
-				$auditstatus 	= isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';
-				$action 		= '<a href="'.base_url().'admin/audits/auditstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
+				$auditstatus 	= 	isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';
+				$action 		= 	'
+										<a href="'.base_url().'admin/audits/auditstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
+										<a href="javascript:void(0);" data-id="'.$result['id'].'" id="cancelcoc" data-toggle="tooltip" data-placement="top" title="Cancel Coc"><i class="fa fa-times"></i></a>
+									';
 				
 				$review 		= $this->Auditor_Model->getReviewList('row', ['coc_id' => $result['id'], 'reviewtype' => '1', 'status' => '0']);
 				$refixdate 		= ($review) ? date('d-m-Y', strtotime($review['created_at'].' +'.$settings['refix_period'].'days')) : '';

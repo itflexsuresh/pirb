@@ -730,7 +730,6 @@ $('.r_reviewtype').click(function(){
 })
 
 function reviewtoggle(data){
-	$('.section1, .section2, .section3').addClass('displaynone');
 	reviewmodalclear(1);
 	
 	if(data==1 || data==2 || data==3){
@@ -762,6 +761,10 @@ function reviewpoint(){
 				$('.r_point').val(statementoption.attr('data-compliment'));
 				$('#complimentpoint').val(statementoption.attr('data-compliment'));
 			}
+			
+			$('#r_reference').val(statementoption.attr('data-reference'));
+			$('#r_link').val(statementoption.attr('data-link'));
+			if($('#r_comments').val()=='') $('#r_comments').val(statementoption.attr('data-comments'));
 		} 
 		
 		if(reviewtype==4){
@@ -911,6 +914,7 @@ $(document).on('click', '.reviewremove', function(){
 function reviewremove(data){}
 
 function reviewmodalclear(data=''){
+	$('.section1, .section2, .section3').addClass('displaynone');
 	if(data=='') $('.r_reviewtype').prop('checked', false);
 	
 	$('#incompletepoint, #completepoint, #cautionarypoint, #complimentpoint, #noauditpoint').val(0);

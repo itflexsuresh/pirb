@@ -39,8 +39,49 @@
 	</div>
 </div>
 
+<div id="cancelcocmodal" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-body">
+				<form action="" method="post" class="cancelcocform">
+					<div class="row">						
+						<div class="col-md-12">
+							<label class="checkbox">
+								<input type="checkbox" name="cancelcoc">
+								<p>Cancel COC</p>
+							</label>
+						</div>
+						<div class="col-md-12">
+							<input type="hidden" name="coc_id" id="coc_id">
+							<button type="submit" name="cancelcocsubmit" class="btn btn-success cancelcocsubmit">Confirm</button>
+							<button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script>
 	$(function(){
+		
+		validation(
+			'.cancelcocform',
+			{
+				cancelcoc : {
+					required:  	true
+				}
+			},
+			{
+				cancelcoc 	: {
+					required	: "Please check checkbox.",
+				}
+			},
+			{
+				ignore : [],
+			}
+		);
 		
 		var options = {
 			url 	: 	'<?php echo base_url()."admin/audits/auditstatement/index/DTAuditStatement"; ?>',
@@ -60,4 +101,9 @@
 		
 		ajaxdatatables('.datatables', options);
 	});
+	
+	$(document).on('click', '#cancelcoc', function(){
+		$('#coc_id').val($(this).attr('data-id'));
+		$('#cancelcocmodal').modal('show');
+	})
 </script>

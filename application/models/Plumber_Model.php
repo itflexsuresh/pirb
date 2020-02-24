@@ -5,7 +5,7 @@ class Plumber_Model extends CC_Model
 	public function getList($type, $requestdata=[])
 	{ 
 		$users 			= 	[ 
-								'u.id','u.email','u.formstatus','u.type','u.status' 
+								'u.id','u.email','u.formstatus','u.expirydate','u.type','u.status' 
 							];
 		$usersdetail 	= 	[ 
 								'ud.id as usersdetailid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit','ud.specialisations','ud.status as plumberstatus'
@@ -224,6 +224,9 @@ class Plumber_Model extends CC_Model
 		if(isset($data['formstatus'])) 		$request5['formstatus'] 	= $data['formstatus'];
 		if(isset($data['email'])) 			$request5['email'] 			= $data['email'];
 		if(isset($data['status'])) 			$request5['status'] 		= $data['status'];
+		if(isset($data['approval_status']) && $data['approval_status']=='1' && isset($request2['registration_date'])) $request5['expirydate'] = date('Y-m-d H:i:s', strtotime($request2['registration_date']. ' +365 days'));
+		if(isset($data['plumberstatus']) && $data['plumberstatus']=='3') 	$request5['status'] = '2';
+		if(isset($data['plumberstatus']) && $data['plumberstatus']=='1') 	$request5['status'] = '1';
 		
 		if(isset($request5)){
 			if(isset($data['user_id'])){
