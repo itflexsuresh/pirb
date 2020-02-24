@@ -129,7 +129,7 @@ else
 			columns : 	[	
 
 			{ "data": "favour_name" },
-			{ "data": "installation_id" },
+			{ "data": "installationtype_id" },
 			{ "data": "subtype_id" },
 			{ "data": "comments" },
 			{ "data": "status" },			

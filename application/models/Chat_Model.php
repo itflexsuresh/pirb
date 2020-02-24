@@ -9,9 +9,7 @@ class Chat_Model extends CC_Model
 	
 		if(isset($requestdata['id']))		$this->db->where('id', $requestdata['id']);
 		if(isset($requestdata['coc_id']))	$this->db->where('cocid', $requestdata['coc_id']);
-		if(isset($requestdata['state1']))	$this->db->where('state1', $requestdata['state1']);
-		if(isset($requestdata['state2']))	$this->db->where('state2', $requestdata['state2']);
-		
+			
 		if(isset($requestdata['fromto'])){
 			$this->db->group_start();
 				$this->db->group_start();
@@ -21,6 +19,15 @@ class Chat_Model extends CC_Model
 				$this->db->or_group_start();
 					$this->db->where('to_id', $requestdata['fromto']);
 					$this->db->where('state2', '1');
+				$this->db->group_end();
+			$this->db->group_end();
+		}
+		
+		if(isset($requestdata['tofrom'])){
+			$this->db->group_start();
+				$this->db->group_start();
+					$this->db->where('to_id', $requestdata['tofrom']);
+					$this->db->where('state2', '0');
 				$this->db->group_end();
 			$this->db->group_end();
 		}

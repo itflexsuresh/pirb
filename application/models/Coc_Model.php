@@ -521,4 +521,18 @@ class Coc_Model extends CC_Model
 			return true;
 		}
 	}	
+	
+	// Cancel Coc
+	
+	
+	public function cancelcoc($data)
+	{
+		$cocid = $data['coc_id'];
+		
+		$this->db->delete('auditor_statement', ['coc_id' => $cocid]);
+		$this->db->delete('auditor_review', ['coc_id' => $cocid]);
+		$this->db->update('stock_management', ['auditorid' => '0'], ['id' => $cocid]);
+		
+		return true;
+	}
 }
