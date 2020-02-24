@@ -73,7 +73,7 @@ class Accounts extends CC_Controller
 							     		'action'	    => 	'
        
                                                                                                                 <div class="col-md-6">
-								                     <a  href="' .base_url().'assets/inv_pdf/'.$result['inv_id'].'.pdf" >   <img src="'.base_url().'assets/images/pdf.png" height="50" width="50">
+								                     <a target="_blank" href="' .base_url().'assets/inv_pdf/'.$result['inv_id'].'.pdf" >   <img src="'.base_url().'assets/images/pdf.png" height="50" width="50">
 							                            </div></a>
 														',
 										'internal_inv' 		=> 	$result['internal_inv']
