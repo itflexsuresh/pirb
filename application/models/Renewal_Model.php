@@ -82,6 +82,7 @@ class Renewal_Model extends CC_Model
 		$this->db->where('inv.inv_type', '2' );
 		$this->db->where('inv.status', '0' );
 		$this->db->where('us.type', '3' );
+		$this->db->where('us.status', '1' );
 		$this->db->where("DATEDIFF(us.expirydate,now()) = 7");		
 		$result = $this->db->get()->result_array();
 		
@@ -105,7 +106,8 @@ class Renewal_Model extends CC_Model
 		$this->db->where('inv.inv_type', '3' );
 		$this->db->where('inv.status', '0' );
 		$this->db->where('us.type', '3' );
-		$this->db->where("DATEDIFF(now(),us.expirydate) = ".$penalty);				
+		$this->db->where('us.status', '1' );
+		$this->db->where("DATEDIFF(now(),us.expirydate) > ".$penalty);				
 		$result = $this->db->get()->result_array();
 
 		return $result;
@@ -121,7 +123,8 @@ class Renewal_Model extends CC_Model
 		$this->db->join('invoice inv', 'inv.user_id=us.id', 'inner');
 		$this->db->where('inv.inv_type', '4' );
 		$this->db->where('inv.status', '0' );
-		$this->db->where('us.type', '3' );		
+		$this->db->where('us.type', '3' );
+		$this->db->where('us.status', '1' );		
 		$result = $this->db->get()->result_array();		 
 		return $result;
 	}
