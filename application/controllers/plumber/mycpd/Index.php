@@ -193,17 +193,35 @@ class index extends CC_Controller
 		echo json_encode($json);
 	}
 
+	// public function year_cron(){
+	// 	$userid 					= $this->getUserID();
+	// 	$currentyear 				= date('Y-m-d H:i:s');
+	// 	$requestData1['flag'] 		= '2';
+		
+	// 	$date = $this->db->select('*')->from('users')->where('id',$userid)->get()->row_array();
+	// 	$DBYear = $date['expirydate'];
+	// 	$strDBYear  = strtotime($date['expirydate']);
+	// 	$strCurrYear  = strtotime($currentyear);
+	// 	if ($strCurrYear>$strDBYear) {
+	// 		$query = $this->db->update('cpd_activity_form', $requestData1, ['id' => $value['id']]);
+	// 	}
+		
+	// }
+
 	public function year_cron(){
 		$userid 					= $this->getUserID();
-		$currentyear 				= date('Y-m-d H:i:s');
+		$currentyear 				= strtotime(date("Y"));
 		$requestData1['flag'] 		= '2';
 		
-		$date = $this->db->select('*')->from('users')->where('id',$userid)->get()->row_array();
-		$DBYear = $date['expirydate'];
-		$strDBYear  = strtotime($date['expirydate']);
-		$strCurrYear  = strtotime($currentyear);
-		if ($strCurrYear>$strDBYear) {
-			$query = $this->db->update('cpd_activity_form', $requestData1, ['id' => $value['id']]);
+		$date = $this->db->select('*')->from('cpd_activity_form')->where('user_id',$userid)->get()->result_array();
+		foreach ($date as $key => $value) {
+			$DBYear = date("Y",strtotime($value['created_at']));
+			$strDBYear  = strtotime(date("Y",strtotime($value['created_at'])));
+			if ($strDBYear<$currentyear) {
+				
+				$query = $this->db->update('cpd_activity_form', $requestData1, ['id' => $value['id']]);
+			}
+
 		}
 		
 	}
