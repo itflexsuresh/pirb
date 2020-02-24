@@ -1496,5 +1496,14 @@ function skillsextras(){
 		$('.attachmenthidden').val('');
 	}
 }
+
+$('#name').bind('keyup blur',function(){ 
+    var node = $(this);
+    node.val(node.val().replace(/[^a-z]/g,'') ); }
+);
+$('#surname').bind('keyup blur',function(){ 
+    var node = $(this);
+    node.val(node.val().replace(/[^a-z]/g,'') ); }
+);
 </script>
 
