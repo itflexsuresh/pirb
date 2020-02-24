@@ -31,6 +31,8 @@ class Coc_Model extends CC_Model
 			rd.company as resellercompany,
 			s.name as cl_suburb_name,
 			concat(ad.name, " ", ad.surname) as auditorname, 
+			ad.mobile_phone as auditormobile, 
+			ad.status as auditorstatus, 
 			'.implode(',', $auditorstatement).'
 		');
 		$this->db->from('stock_management sm');

@@ -13,7 +13,7 @@ class Index extends CC_Controller
 	{
 		$pagedata['notification'] 	= $this->getNotification();
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
-		$data['content'] 			= $this->load->view('plumber/auditstatement/index', (isset($pagedata) ? $pagedata : ''), true);
+		$data['content'] 			= $this->load->view('admin/audits/auditstatement/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
 	
@@ -21,15 +21,15 @@ class Index extends CC_Controller
 	{
 		$userid 		= $this->getUserID();
 		$post 			= $this->input->post();
-		$totalcount 	= $this->Coc_Model->getCOCList('count', ['coc_status' => ['2'], 'user_id' => $userid, 'noaudit' => '']+$post);
-		$results 		= $this->Coc_Model->getCOCList('all', ['coc_status' => ['2'], 'user_id' => $userid, 'noaudit' => '']+$post);	
+		$totalcount 	= $this->Coc_Model->getCOCList('count', ['coc_status' => ['2'], 'noaudit' => '']+$post);
+		$results 		= $this->Coc_Model->getCOCList('all', ['coc_status' => ['2'], 'noaudit' => '']+$post);	
 		$settings 		= $this->Systemsettings_Model->getList('row');
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
 				$auditstatus 	= isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';
-				$action 		= '<a href="'.base_url().'plumber/auditstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
+				$action 		= '<a href="'.base_url().'admin/audits/auditstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
 				
 				$review 		= $this->Auditor_Model->getReviewList('row', ['coc_id' => $result['id'], 'reviewtype' => '1', 'status' => '0']);
 				$refixdate 		= ($review) ? date('d-m-Y', strtotime($review['created_at'].' +'.$settings['refix_period'].'days')) : '';
@@ -37,10 +37,10 @@ class Index extends CC_Controller
 				$totalrecord[] 	= 	[
 										'cocno' 			=> 	$result['id'],
 										'status' 			=> 	$auditstatus,
-										'consumer' 			=> 	$result['cl_name'],
-										'address' 			=> 	$result['cl_address'],
+										'auditorname' 		=> 	$result['auditorname'],
+										'auditormobile' 	=> 	$result['auditormobile'],
+										'auditordate' 		=> 	'',
 										'refixdate' 		=> 	($refixdate!='') ? '<p class="'.((date('Y-m-d') > date('Y-m-d', strtotime($refixdate))) ? "tagline" : "").'">'.$refixdate.'</p>' : '',
-										'auditor' 			=> 	$result['auditorname'],
 										'action'			=> 	'
 																	<div class="table-action">
 																		'.$action.'
@@ -62,11 +62,11 @@ class Index extends CC_Controller
 	
 	public function view($id)
 	{
-		$this->getAuditStatement($id, ['pagetype' => 'view', 'viewcoc' => 'plumber/auditstatement/index/viewcoc', 'roletype' => $this->config->item('roleplumber')], ['redirect' => 'plumber/auditstatement/index', 'plumberid' => $this->getUserID()]);
+		$this->getAuditStatement($id, ['pagetype' => 'view', 'viewcoc' => 'admin/audits/auditstatement/index/viewcoc', 'roletype' => $this->config->item('roleadmin')], ['redirect' => 'admin/audits/auditstatement/index']);
 	}
 	
 	public function viewcoc($id, $plumberid)
 	{
-		$this->coclogaction($id, ['pagetype' => 'view', 'roletype' => $this->config->item('roleplumber')], ['redirect' => 'plumber/auditstatement/index', 'userid' => $plumberid]);
+		$this->coclogaction($id, ['pagetype' => 'view', 'roletype' => $this->config->item('roleadmin')], ['redirect' => 'admin/audits/auditstatement/index', 'userid' => $plumberid]);
 	}
 }

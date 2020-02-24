@@ -23,6 +23,10 @@
 		$plumberimage 		= $profileimg;
 	}
 	
+	$auditorname 			= isset($result['auditorname']) ? $result['auditorname'] : '';
+	$auditormobile 			= isset($result['auditormobile']) ? $result['auditormobile'] : '';
+	$auditorstatus 			= isset($result['auditorstatus']) ? $result['auditorstatus'] : '';
+	
 	$completiondate 		= isset($result['cl_completion_date']) && $result['cl_completion_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_completion_date'])) : '';
 	$name 					= isset($result['cl_name']) ? $result['cl_name'] : '';
 	$address 				= isset($result['cl_address']) ? $result['cl_address'] : '';
@@ -46,9 +50,13 @@
 	$reviewtableclass		= ['1' => 'review_failure', '2' => 'review_cautionary', '3' => 'review_compliment', '4' => 'review_noaudit'];
 	
 	if($pagetype=='action'){
-		$pagetype = '1';
+		$pagetype 		= '1';
+		$disabled1 		= '';
+		$disabled1array = [];
 	}else if($pagetype=='view'){
-		$pagetype = '2';
+		$pagetype 		= '2';
+		$disabled1 		= 'disabled';
+		$disabled1array	= ['disabled' => 'disabled'];
 	}
 ?>
 
@@ -70,7 +78,8 @@
 	<div class="col-12">
 		<div class="card">
 			<form class="mt-4 form" action="" method="post">
-				<?php if($roletype=='5'){ ?>
+				
+				<?php if($roletype=='1' || $roletype=='5'){ ?>
 					<h4 class="card-title">Plumber Details</h4>
 					<div class="row">
 						<div class="col-md-8">
@@ -189,7 +198,29 @@
 					</div>
 				</div>
 				
-				<h4 class="card-title">Audit Review</h4>					
+				<h4 class="card-title">Audit Review</h4>		
+				<?php if($roletype=='1' || $roletype=='3'){ ?>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Audit Status</label>
+								<input type="text" class="form-control" value="<?php echo $auditorstatus; ?>" disabled>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Auditors Name and Surname</label>
+								<input type="text" class="form-control" value="<?php echo $auditorname; ?>" disabled>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Phone (Mobile)</label>
+								<input type="text" class="form-control" value="<?php echo $auditormobile; ?>" disabled>
+							</div>
+						</div>
+					</div>
+				<?php } ?>
 				<div class="row">
 					<div class="col-md-6">
 						<div class="row">
@@ -197,7 +228,7 @@
 								<div class="form-group">
 									<label>Date of Audit</label>
 									<div class="input-group">
-										<input type="text" class="form-control auditdate" name="auditdate" data-date="datepicker" value="<?php echo $auditdate; ?>">
+										<input type="text" class="form-control auditdate" name="auditdate" data-date="datepicker" value="<?php echo $auditdate; ?>" <?php echo $disabled1; ?>>
 										<div class="input-group-append">
 											<span class="input-group-text"><i class="icon-calender"></i></span>
 										</div>
@@ -208,7 +239,7 @@
 								<div class="form-group">
 									<label>Overall Workmanship</label>
 									<?php
-										echo form_dropdown('workmanship', $workmanship, $workmanshipid, ['id' => 'workmanship', 'class'=>'form-control']);
+										echo form_dropdown('workmanship', $workmanship, $workmanshipid, ['id' => 'workmanship', 'class'=>'form-control']+$disabled1array);
 									?>
 								</div>
 							</div>
@@ -216,7 +247,7 @@
 								<div class="form-group">
 									<label>Licensed Plumber Present</label>
 									<?php
-										echo form_dropdown('plumberverification', $yesno, $plumberverification, ['id' => 'plumberverification', 'class'=>'form-control']);
+										echo form_dropdown('plumberverification', $yesno, $plumberverification, ['id' => 'plumberverification', 'class'=>'form-control']+$disabled1array);
 									?>
 								</div>
 							</div>
@@ -224,30 +255,31 @@
 								<div class="form-group">
 									<label>Was COC Completed Correctly</label>
 									<?php
-										echo form_dropdown('cocverification', $yesno, $cocverification, ['id' => 'cocverification', 'class'=>'form-control']);
+										echo form_dropdown('cocverification', $yesno, $cocverification, ['id' => 'cocverification', 'class'=>'form-control']+$disabled1array);
 									?>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-6">
-						<div class="row">
-							<?php if($roletype=='6' && $pagetype=='1'){ ?>
+					<?php if($roletype=='5' && $pagetype=='1'){ ?>
+						<div class="col-md-6">
+							<div class="row">							
 								<div class="col-md-12">
 									<div class="form-group custom-control custom-radio">							
 										<input type="radio" class="custom-control-input" name="hold" id="hold" value="1" <?php if($hold=='1'){ echo 'checked'; } ?>>
 										<label class="custom-control-label" for="hold">Place Audit on hold</label>
 									</div>
 								</div>
-							<?php } ?>
-							<div class="col-md-12 reason_wrapper displaynone">
-								<div class="form-group">
-									<label>Why was Audit placed on hold?</label>	
-									<textarea class="form-control"  name="reason" id="reason" rows="4" cols="50"><?php echo $reason; ?></textarea>			
-								</div>
+								<div class="col-md-12 reason_wrapper displaynone">
+									<div class="form-group">
+										<label>Why was Audit placed on hold?</label>	
+										<textarea class="form-control"  name="reason" id="reason" rows="4" cols="50"><?php echo $reason; ?></textarea>			
+									</div>
+								</div>						
+								
 							</div>
 						</div>
-					</div>
+					<?php } ?>
 				</div>
 				
 				<div class="row form-group">
@@ -258,14 +290,16 @@
 									<th>Review Type</th>
 									<th>Statement</th>
 									<th>Comments</th>
-									<?php if($roletype=='3' && $pagetype=='2'){ ?>
+									<?php if($pagetype=='2'){ ?>
 										<th>SANS/Regulation/Bylaw Reference</th>
 										<th>Knowledge Reference link</th>
 									<?php } ?>
 									<th>Images</th>
 									<th>Performance Points</th>
 									<th>Refix Status</th>
-									<th>Action</th>
+									<?php if($roletype=='5' && $pagetype=='1'){ ?>
+										<th>Action</th>
+									<?php } ?>
 								</tr>
 								<tr class="reviewnotfound">
 									<td colspan="7">No Record Found</td>
@@ -274,7 +308,7 @@
 							<input type="hidden" class="attachmenthidden" name="attachmenthidden"> 
 						</div>
 					</div>
-					<?php if($pagetype=='1'){ ?>
+					<?php if($roletype=='5' && $pagetype=='1'){ ?>
 						<div class="row text-right">
 							<button type="button" data-toggle="modal" data-target="#reviewmodal" class="btn btn-primary">Add a Review</button>
 						</div>
@@ -286,25 +320,36 @@
 						<div class="row">
 							<div class="col-md-12 refix_wrapper displaynone">
 								<div class="form-group">
-									<label>Refix Period (Days)</label>
+									<label><?php echo  $roletype=='5' ? "Refix Period (Days)" : "Refix's to this Audit review are to be completed by latest"; ?></label>
 									<input type="text" class="form-control" name="refixperiod" id="refixperiod" value="<?php echo $settings['refix_period']; ?>" readonly>
 								</div>
 							</div>
-							<div class="col-md-12 report_wrapper displaynone">
-								<div class="form-group">
-									<label>Date and Time of Report submitted:</label>
-									<input type="text" class="form-control" name="reportdate" id="reportdate" value="<?php echo $datetime; ?>" readonly>
+							<?php if($pagetype=='1'){ ?>
+								<div class="col-md-12 report_wrapper displaynone">
+									<div class="form-group">
+										<label>Date and Time of Report submitted:</label>
+										<input type="text" class="form-control" name="reportdate" id="reportdate" value="<?php echo $datetime; ?>" readonly>
+									</div>
 								</div>
-							</div>
+							<?php } ?>
 						</div>
 					</div>
-					<div class="col-md-6 auditcomplete_wrapper displaynone">
-						<div class="custom-control custom-checkbox">
-							<input type="checkbox" id="auditcomplete" class="custom-control-input auditcomplete" name="auditcomplete" value="1">
-							<label class="custom-control-label" for="auditcomplete">Audit Complete</label>
-						</div>											
-					</div>
+					<?php if($roletype=='5' && $pagetype=='1'){ ?>
+						<div class="col-md-6 auditcomplete_wrapper displaynone">
+							<div class="custom-control custom-checkbox">
+								<input type="checkbox" id="auditcomplete" class="custom-control-input auditcomplete" name="auditcomplete" value="1">
+								<label class="custom-control-label" for="auditcomplete">Audit Complete</label>
+							</div>											
+						</div>
+					<?php } ?>
 				</div>
+				
+				<?php if($roletype=='3' && $pagetype=='2'){ ?>
+					<div class="col-md-12">
+						<h3>NOTICE TO LICENSED PLUMBER</h3>
+						<p>It is your responsible to complete your refix's with in the allocted time. Failure to do so within the alloated time will result in the refix being marked as Audit Complete (with Refix(s)) and relevant remedial action will follow.</p>
+					</div>
+				<?php } ?>
 				
 				<?php if($pagetype=='1'){ ?>
 					<div class="col-md-12 text-right">					
@@ -492,7 +537,7 @@ $(function(){
 	var reviewlist = $.parseJSON('<?php echo json_encode($reviewlist); ?>');
 	if(reviewlist.length > 0){
 		$(reviewlist).each(function(i, v){
-			var reviewlistdata 	= {status : 1, result : { id: v.id, reviewtype: v.reviewtype, statementname: v.statementname, comments: v.comments, file: v.file, point: v.point, status: v.status, incomplete_point: v.incomplete_point, complete_point: v.complete_point, created_at: v.created_at, created_at: v.created_at }}
+			var reviewlistdata 	= {status : 1, result : { id: v.id, reviewtype: v.reviewtype, statementname: v.statementname, comments: v.comments, file: v.file, point: v.point, status: v.status, incomplete_point: v.incomplete_point, complete_point: v.complete_point, reference: v.reference, link: v.link, created_at: v.created_at }}
 			review(reviewlistdata);
 		})
 	}
@@ -720,17 +765,34 @@ $('.reviewsubmit').click(function(){
 
 function review(data){
 	if(data.status==1){		
+		var extrafield	= 	'';
 		var dropdown	= 	'';
+		var action 		= 	'';
 		var result 		= 	data.result; 
 		
 		$(document).find('.reviewappend[data-id="'+result.id+'"]').remove();
 		
+		if(pagetype=='2'){
+			extrafield	=	'<td>'+((result.reference!=null) ? result.reference : "")+'</td><td>'+((result.link!=null) ? result.link : "")+'</td>';
+		}
+		
 		if(result.reviewtype==1){
 			var status 	= 	result.status;
-			dropdown	= 	'<select class="form-control reviewstatus">\
-								<option value="0" '+((status=='0') ? "selected" : "")+'>Incomplete</option>\
-								<option value="1" '+((status=='1') ? "selected" : "")+'>Complete</option>\
-							</select>';			
+			if(pagetype=='1'){
+				dropdown	= 	'<select class="form-control reviewstatus">\
+									<option value="0" '+((status=='0') ? "selected" : "")+'>Incomplete</option>\
+									<option value="1" '+((status=='1') ? "selected" : "")+'>Complete</option>\
+								</select>';		
+			}else{
+				dropdown	=	(status=='0') ? '<i class="fa fa-times"></i><p>Incomplete</p>' : '<i class="fa fa-check"></i><p>Complete</p>';
+			}							
+		}
+		
+		if(pagetype=='1'){
+			action 	= 	'<td>\
+							<a href="javascript:void(0);" class="reviewedit" data-id="'+result.id+'"><i class="fa fa-pencil-alt"></i></a>\
+							<a href="javascript:void(0);" class="reviewremove" data-id="'+result.id+'"><i class="fa fa-trash"></i></a>\
+						</td>';
 		}
 		
 		var appenddata 	= 	'\
@@ -738,13 +800,11 @@ function review(data){
 									<td data-reviewtype="'+result.reviewtype+'">'+reviewtype[result.reviewtype]+'</td>\
 									<td>'+((result.statementname!=null) ? result.statementname : "")+'</td>\
 									<td>'+((result.comments!=null) ? result.comments : "")+'</td>\
+									'+extrafield+'\
 									<td class="reviewimageview"></td>\
 									<td>'+((result.point!=null) ? result.point : "")+'</td>\
 									<td>'+dropdown+'</td>\
-									<td>\
-										<a href="javascript:void(0);" class="reviewedit" data-id="'+result.id+'"><i class="fa fa-pencil-alt"></i></a>\
-										<a href="javascript:void(0);" class="reviewremove" data-id="'+result.id+'"><i class="fa fa-trash"></i></a>\
-									</td>\
+									'+action+'\
 								</tr>\
 							';
 					
