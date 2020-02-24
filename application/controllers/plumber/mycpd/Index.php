@@ -299,9 +299,10 @@ class index extends CC_Controller
 		$template 	= $this->db->select('*')->from('email_notification')->where('category_id','6')->where('sms_active','1')->get()->row_array();
 		
 
-		$plumberCPD = $this->db->select('*')->from('cpd_activity_form')->where('MONTH(cpd_start_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND status="1" OR status="2"')->get()->result_array();
+		$plumberCPD = $this->db->select('*')->from('cpd_activity_form')->where('MONTH(cpd_start_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)')->get()->result_array();
 
 		$settingsCPD = $this->db->select('*')->from('settings_cpd')->get()->result_array();
+
 
 
 		if (count($plumberCPD)>0) {
@@ -309,22 +310,21 @@ class index extends CC_Controller
 				$settingsplumberDetails[] = $value[$designation];
 			}
 			foreach ($plumberCPD as $key1 => $value1) {
-
 				if($value1['cpd_stream']=='1'){
-					$dev .= $value1['points'];
+					$dev = $value1['points'];
 				}elseif($value1['cpd_stream']=='2'){
-					$work .= $value1['points'];
+					$work = $value1['points'];
 				}
 				elseif($value1['cpd_stream']=='3'){
-					$indi .= $value1['points'];
+					$indi = $value1['points'];
 				}
 				if($dev==''){
-					$dev .= 0;				
+					$dev = 0;				
 					
 				}if ($work=='') {
-					$work .= 0;
+					$work = 0;
 				}if ($indi=='') {
-					$indi .= 0;
+					$indi = 0;
 				}
 			
 			}
@@ -362,14 +362,15 @@ class index extends CC_Controller
 			</tr>
 			</table>';
 
-			$array1 = ['{Plumbers Name and Surname}','{TODAYS DATE}', 'Points Table'];
-			$array2 = [$userdetails['name'].' '.$userdetails['surname'], $currentDate, $cpdTable];
+			$array1 = ['{Plumbers Name and Surname}','{TODAYS DATE}', 'Points Table', '{plumbers registration renewal date}'];
+			$array2 = [$userdetails['name'].' '.$userdetails['surname'], $currentDate, $cpdTable, date('m-d-Y', strtotime($designationID['renewal_date']))];
 			$body = str_replace($array1, $array2, $template['email_body']);
 
 			if ($template['email_active'] == '1') {
 
 		 		$this->CC_Model->sentMail($userdetails['email'],$template['subject'],$body);
 		 	}
+			//print_r($body);
 		}
 		
 	}
