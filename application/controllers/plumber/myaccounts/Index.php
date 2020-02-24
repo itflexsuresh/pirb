@@ -85,7 +85,7 @@ class Index extends CC_Controller
 										'orderstatus' 	=> 	'',			
 							     		'action'	    => 	'
 																<div class="col-md-6">
-																	<a  href="' .base_url().'assets/inv_pdf/'.$result['inv_id'].'.pdf" ><img src="'.base_url().'assets/images/pdf.png" height="50" width="50"></a>
+																	<a  href="' .base_url().'assets/inv_pdf/'.$result['inv_id'].'.pdf" target="_blank" ><img src="'.base_url().'assets/images/pdf.png" height="50" width="50"></a>
 																	'.(isset($action) ? $action : '').'
 																</div>'
 									];
