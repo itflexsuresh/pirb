@@ -4,36 +4,37 @@ class Chat_Model extends CC_Model
 {	
 	public function getList($type, $requestdata=[])
 	{ 
-		$this->db->select('*');
-		$this->db->from('chat');
+		$this->db->select('c.*, concat(ud1.name, " ", ud1.surname) name');
+		$this->db->from('chat c');
+		$this->db->join('users_detail ud1', 'ud1.user_id = c.from_id', 'left');
 	
-		if(isset($requestdata['id']))		$this->db->where('id', $requestdata['id']);
-		if(isset($requestdata['coc_id']))	$this->db->where('cocid', $requestdata['coc_id']);
+		if(isset($requestdata['c.id']))		$this->db->where('c.id', $requestdata['id']);
+		if(isset($requestdata['c.coc_id']))	$this->db->where('c.cocid', $requestdata['coc_id']);
 			
 		if(isset($requestdata['fromto'])){
 			$this->db->group_start();
 				$this->db->group_start();
-					$this->db->where('from_id', $requestdata['fromto']);
-					$this->db->where('state1', '1');
+					$this->db->where('c.from_id', $requestdata['fromto']);
+					$this->db->where('c.state1', '1');
 				$this->db->group_end();
 				$this->db->or_group_start();
-					$this->db->where('to_id', $requestdata['fromto']);
-					$this->db->where('state2', '1');
+					$this->db->where('c.to_id', $requestdata['fromto']);
+					$this->db->where('c.state2', '1');
 				$this->db->group_end();
 			$this->db->group_end();
 		}
 		
 		if(isset($requestdata['checkfrom'])){
 			$this->db->group_start();
-				$this->db->where('from_id', $requestdata['checkfrom']);
-				$this->db->where('state1', '0');
+				$this->db->where('c.from_id', $requestdata['checkfrom']);
+				$this->db->where('c.state1', '0');
 			$this->db->group_end();
 		}
 		
 		if(isset($requestdata['checkto'])){
 			$this->db->group_start();
-				$this->db->where('to_id', $requestdata['checkto']);
-				$this->db->where('state2', '0');
+				$this->db->where('c.to_id', $requestdata['checkto']);
+				$this->db->where('c.state2', '0');
 			$this->db->group_end();
 		}
 		

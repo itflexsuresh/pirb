@@ -68,6 +68,8 @@
 		
 	if($workmanshipid=='' && $roletype=='1') $workmanship = [];
 	if($plumberverification=='' && $roletype=='1') $yesno = [];
+	
+	$chatfilepath	= base_url().'assets/uploads/chat/'.$cocid.'/';
 ?>
 
 <div class="row page-titles">
@@ -393,7 +395,7 @@
 					<div class="input-group-append">
 						<span class="input-group-text">
 							<i class="fa fa-paperclip" id="chatattachment"></i>
-							<input type="file" class="displaynone" id="chatattachmentfile">
+							<input type="file" name="file" class="displaynone" id="chatattachmentfile">
 						</span>
 					</div>
 				</div>
@@ -548,6 +550,7 @@ var plumberverificationpt 	= JSON.parse('<?php echo json_encode($plumberverifica
 var cocverificationpt 		= JSON.parse('<?php echo json_encode($cocverificationpt); ?>');
 var noaudit		= '<?php echo $noaudit; ?>';
 var filepath 	= '<?php echo $filepath; ?>';
+var chatpath 	= '<?php echo $chatfilepath; ?>';
 var reviewpath 	= '<?php echo $reviewpath; ?>';
 var pdfimg		= '<?php echo $pdfimg; ?>';
 var pagetype	= '<?php echo $pagetype; ?>';
@@ -567,7 +570,7 @@ $(function(){
 	citysuburb(['#province','#city', '#suburb'], ['<?php echo $cityid; ?>', '<?php echo $suburbid; ?>']);
 	subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], ['', ''], reviewpoint);
 	fileupload(["#r_file", "./assets/uploads/auditor/statement/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.rfileappend', reviewpath, pdfimg], 'multiple');
-	chat(['#chattext', '#chatcontent'], [cocid, fromid, toid]);
+	chat(['#chattext', '#chatcontent'], [cocid, fromid, toid], [chatpath, pdfimg]);
 	
 	var reviewlist = $.parseJSON('<?php echo json_encode($reviewlist); ?>');
 	if(reviewlist.length > 0){
