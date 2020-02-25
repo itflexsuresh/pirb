@@ -364,7 +364,7 @@ class Coc_Ordermodel extends CC_Model
 	
 	public function autosearchPlumber($postData){
 		
-		$designations = array('4', '5' );
+		$designations = array('4', '6' );
 		$this->db->select('concat(ud.name, " ", ud.surname) as name,cc.count,u.type,ud.status,u.id,up.coc_electronic');
 		$this->db->from('users_detail ud');
 		$this->db->join('users u', 'u.id=ud.user_id','inner');
