@@ -87,4 +87,9 @@ class Index extends CC_Controller
 	{
 		$this->pdfauditreport($id);
 	}
+
+	public function electroniccoc_report($cocid,$userid)
+	{	
+		$this->pdfelectroniccoc_report($cocid,$userid);
+	}
 }

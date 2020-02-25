@@ -268,6 +268,18 @@
 									<p>(Image/File Size Smaller than 5mb)</p>
 								</div>
 							</div>
+
+							<div class="col-md-6">
+								<h4 class="card-title add_top_value">View Electronic COC </h4>
+								<div class="form-group">
+									<div>
+										<a href="<?php echo base_url();?>auditor/auditstatement/index/electroniccoc_report/<?php echo $cocid; ?>/<?php echo $userid; ?>" data-toggle="tooltip" data-placement="top">
+										<img src="<?php echo base_url();?>assets/images/pdf.png" height="60" width="80">
+										</a>
+									</div>
+								</div>
+							</div>
+
 						<?php } ?>
 						<div class="col-md-12">
 							<h4 class="card-title add_top_value">Installation Images</h4>

@@ -426,6 +426,17 @@ class CC_Controller extends CI_Controller
 		$this->pdf->stream('Audit Report '.$id);
 	}
 
+	public function pdfelectroniccoc_report($id,$userid)
+	{		
+		$pagedata['userdata']	 		= $this->Plumber_Model->getList('row', ['id' => $userid]);
+		$pagedata['specialisations']	= explode(',', $pagedata['userdata']['specialisations']);
+		$pagedata['result']		    	= $this->Coc_Model->getCOCList('row', ['id' => $id]);
+		$pagedata['designation2'] 		= $this->config->item('designation2');
+
+		$html = $this->load->view('pdf/pdfelectroniccoc_report', (isset($pagedata) ? $pagedata : ''));
+		
+	}
+
 	public function resellersprofile($id, $pagedata=[], $extras=[])
 	{
 		if($id!=''){
