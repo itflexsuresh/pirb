@@ -47,6 +47,7 @@
 	$cocverification 		= isset($result['as_coc_verification']) ? $result['as_coc_verification'] : '';
 	$hold 					= isset($result['as_hold']) ? $result['as_hold'] : '';
 	$reason 				= isset($result['as_reason']) ? $result['as_reason'] : '';
+	$auditcomplete 			= isset($result['as_auditcomplete']) ? $result['as_auditcomplete'] : '';
 	
 	$reviewtableclass		= ['1' => 'review_failure', '2' => 'review_cautionary', '3' => 'review_compliment', '4' => 'review_noaudit'];
 	
@@ -389,7 +390,7 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="chatcontent" id="chatcontent"></div>
-			<?php if($pagetype=='1'){ ?>
+			<?php if(($pagetype=='1' && $roletype=='5') || ($pagetype=='2' && $roletype=='3' && $auditcomplete!='1')){ ?>
 				<div class="chatfooter">
 					<div class="input-group">
 						<input type="text" class="form-control" id="chattext">
