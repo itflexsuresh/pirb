@@ -3,13 +3,13 @@
 class Chat_Model extends CC_Model
 {	
 	public function getList($type, $requestdata=[])
-	{ 
+	{
 		$this->db->select('c.*, concat(ud1.name, " ", ud1.surname) name');
 		$this->db->from('chat c');
 		$this->db->join('users_detail ud1', 'ud1.user_id = c.from_id', 'left');
 	
-		if(isset($requestdata['c.id']))		$this->db->where('c.id', $requestdata['id']);
-		if(isset($requestdata['c.cocid']))	$this->db->where('c.coc_id', $requestdata['cocid']);
+		if(isset($requestdata['id']))		$this->db->where('c.id', $requestdata['id']);
+		if(isset($requestdata['cocid']))	$this->db->where('c.coc_id', $requestdata['cocid']);
 			
 		if(isset($requestdata['fromto'])){
 			$this->db->group_start();
