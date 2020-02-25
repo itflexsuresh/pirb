@@ -3,6 +3,25 @@
 class Designation_Model extends CC_Model
 {
 
+	public function getPointList($type, $requestdata=[])
+	{
+		$this->db->select('*');
+		$this->db->from('specialisation');
+		
+		if(isset($requestdata['id'])) 				$this->db->where('id', $requestdata['id']);
+		
+		if($type=='count'){
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		return $result;
+	}
+
 	public function action($data)
 	{
 		$this->db->trans_begin();
@@ -23,7 +42,6 @@ class Designation_Model extends CC_Model
           
         }
 		
-
 		if($this->db->trans_status() === FALSE)
 		{
 			$this->db->trans_rollback();
@@ -36,33 +54,8 @@ class Designation_Model extends CC_Model
 		}
 	}
 	
+
 	
-	public function edit_check($post)
-	{
-
-	   $id = $post['id'];
-       if($id!='')
-    {
-
-	   $this->db->select('*');
-       $this->db->from('specialisation as s1');
-       $query=$this->db->where('s1.id',$id);
-       $query = $this->db->get();
-       $edit = $query->row_array();
-    }
-      echo json_encode($edit);
-	}
-	
-	public function getPermissions()
-	{ 
-		$this->db->select('specialisation.*,specialisation.name as deg_name,specialisation.points');
-		$this->db->from('specialisation');
-		
-		
-		$query = $this->db->get();
-
-		return $query->result();
-	}
 }
 
 
