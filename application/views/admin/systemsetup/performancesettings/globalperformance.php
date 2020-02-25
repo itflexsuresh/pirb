@@ -1,8 +1,8 @@
 <?php
-if(isset($results) && $results){
-
+if(isset($result) && $result){
+// print_r($result);exit();
 	//$id 			= $results['id'];
-	//$points			= (set_value('points')) ? set_value('points') : $results['point'];
+	// $points			= (set_value('points')) ? set_value('points') : $results['point'];
 
 	$heading		= 'Update';
 }else{
@@ -94,7 +94,7 @@ if(isset($results) && $results){
 					    </table></br>
                 <div class="form-group">
 					<label style="text-align: bold">Performance Rolling Averages</label>&nbsp&nbsp&nbsp &nbsp &nbsp  
-					<input type="text" class="form-group" id="avg" name="average"  placeholder="months" >							
+					<input type="text" class="form-group" id="avg" name="rolling_avg"  value="<?php echo $val1['rolling_avg']; ?>" placeholder="months" >							
 		        </div>			
                 <div class="col-md-11 text-right">
 				       <input type="hidden" name="id" value="<?php //echo $id; ?>">
