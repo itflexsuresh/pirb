@@ -423,6 +423,7 @@ function subtypereportinglist(data1=[], data2=[], customfunction=''){
 		
 		subtypedata.installationtypeid = $(this).val();
 		ajax(subtypeurl, subtypedata, subtypefn)
+		if(customfunction!='') customfunction();
 	})
 
 	function subtypefn(data){
@@ -448,6 +449,7 @@ function subtypereportinglist(data1=[], data2=[], customfunction=''){
 		
 			var reportlistingdata  = { installationtypeid : $(data1[0]).val(), subtypeid : $(this).val() };
 			ajax(reportlistingurl, reportlistingdata, reportlistingfn);
+			if(customfunction!='') customfunction();
 		})
 
 		function reportlistingfn(data){
@@ -457,12 +459,16 @@ function subtypereportinglist(data1=[], data2=[], customfunction=''){
 				var append = [];
 				$(data.result).each(function(i, v){
 					var selected = (data2[1] && data2[1]==v.id) ? 'selected="selected"' : '';
-					append.push('<option value="'+v.id+'" '+selected+' class="reportlistingappend" data-compliment="'+v.compliment+'"  data-cautionary="'+v.cautionary+'" data-refixcomplete="'+v.refix_complete+'"  data-refixincomplete="'+v.refix_incomplete+'">'+v.statement+'</option>');
+					append.push('<option value="'+v.id+'" '+selected+' class="reportlistingappend" data-reference="'+v.regulation+'" data-link="'+v.knowledge_link+'" data-comments="'+v.comments+'" data-compliment="'+v.compliment+'"  data-cautionary="'+v.cautionary+'" data-refixcomplete="'+v.refix_complete+'"  data-refixincomplete="'+v.refix_incomplete+'">'+v.statement+'</option>');
 				})
 
 				$(data1[2]).append(append);
 			}
 		}
+		
+		$(document).on('change', data1[2], function(){
+			if(customfunction!='') customfunction();
+		})
 	}
 	
 	if(customfunction!='') customfunction();
@@ -508,4 +514,77 @@ function userautocomplete(data1=[], data2=[], customfunction=''){
 		
 		if(customfunction!='') customfunction(name, id, count, electronic);
 	})
+}
+
+function chat(data1=[], data2=[]){
+	chatcontent({'cocid' : data2[0], 'fromto' : data2[1] });
+	startTimer();
+	
+	$(data1[0]).keyup(function(event){
+		var keycode = (event.keyCode ? event.keyCode : event.which);
+		if(keycode == '13'){
+			var data = 	{
+				'cocid' 		: data2[0], 
+				'fromid' 		: data2[1],
+				'toid' 			: data2[2],
+				'message' 		: $(this).val(),
+				'state1' 		: '0',
+				'type' 			: '1'
+			}
+			
+			chataction(data);
+			chatcontent({'cocid' : data2[0], 'fromto' : data2[1] }, '1');
+			$(data1[0]).val('');
+		}		
+	});
+	
+	function chatcontent(param, state=''){
+		console.log(param);
+		console.log(state);
+		ajax(
+			baseurl()+'ajax/index/ajaxchat', 
+			param, 
+			'', 
+			{ 
+				success : function(data){ 
+					if(data.status=='1'){
+						var chatdata 	= [];
+						var result 		= data.result;
+						
+						$(result).each(function(i,v){							
+							var chatappend = '<p>'+v.message+'</p>';
+							chatdata.push(chatappend)
+							
+							if(state=='2') chataction({'id' : v.id, 'state2' : '1'});
+						})
+						
+						$(data1[1]).append(chatdata.join(''));
+					}
+				}
+			}
+		);
+		
+		
+		if(state=='1') startTimer();
+		else if(state=='2') stopTimer();
+	}
+	
+	function chataction(param){
+		ajax(baseurl()+'ajax/index/ajaxchataction', param, '', { success : function(data){} });
+	}
+	
+	function chatunread(){
+		console.log('f');
+		chatcontent({'cocid' : data2[0], 'toid' : data2[1] }, '2')
+	}
+	
+	var interval;
+	
+	function startTimer(){
+		interval = setInterval(chatunread, 15000);
+	}
+	
+	function stopTimer(){
+		clearInterval(interval);
+	}
 }

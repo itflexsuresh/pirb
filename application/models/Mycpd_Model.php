@@ -4,22 +4,43 @@ class Mycpd_Model extends CC_Model
 {
 	public function getQueueList($type, $requestdata=[])
 	{
+		//print_r($requestdata['user_id'][0]);die;
+		$datetime	= 	date('Y-m-d H:i:s');
 		if ($requestdata['pagestatus'] == '1') {
 			$requestdata['pagestatus'] = array('0','1','2','3');
 			$requestdata['flag'] = array('1');
+			$this->db->select('t1.*, t2.renewal_date');
+			$this->db->from('cpd_activity_form t1');
+			$this->db->join('users t2', 't2.id = t1.user_id', 'right')->order_by('t1.id','DESC');
+			
+			if(isset($requestdata['user_id'][0])) 	$this->db->where('t1.user_id', $requestdata['user_id'][0]);
+			if(isset($requestdata['user_id'][0])) 	$this->db->where('t2.id', $requestdata['user_id'][0]);
+			$this->db->where('t2.renewal_date>=','CURDATE()', false);
+			
 		}elseif ($requestdata['pagestatus'] == '0') {
 			$requestdata['pagestatus'] = array('4');
 			$requestdata['flag'] = array('2');
+			$this->db->select('t1.*, t2.renewal_date');
+			$this->db->from('cpd_activity_form t1');
+			$this->db->join('users t2', 't2.id = t1.user_id', 'right')->order_by('t1.id','DESC');
+			
+			if(isset($requestdata['user_id'][0])) 	$this->db->where('t1.user_id', $requestdata['user_id'][0]);
+			if(isset($requestdata['user_id'][0])) 	$this->db->where('t2.id', $requestdata['user_id'][0]);
+			$this->db->where('t2.renewal_date<=','CURDATE()', false);
 		}
 		//print_r($this->db->where_in('flag', $requestdata['flag']));die;
 
 
-		$this->db->select('*');
-		$this->db->from('cpd_activity_form')->order_by('id','desc');
+		// $this->db->select('t1.*, t2.renewal_date');
+		// $this->db->from('cpd_activity_form t1');
+		// $this->db->join('users t2', 't2.id = t1.user_id', 'right')->order_by('t1.id','DESC');
 		
-		if(isset($requestdata['user_id'][0])) 	$this->db->where('user_id', $requestdata['user_id'][0]);
-		if(isset($requestdata['status']))		$this->db->where_in('flag', $requestdata['flag']);
-		$this->db->where_in('flag', $requestdata['flag']);
+		// if(isset($requestdata['user_id'][0])) 	$this->db->where('t1.user_id', $requestdata['user_id'][0]);
+		// if(isset($requestdata['user_id'][0])) 	$this->db->where('t2.id', $requestdata['user_id'][0]);
+		// $this->db->where('t2.renewal_date>=','CURDATE()', false);
+		//print_r($this->db->last_query());
+		// if(isset($requestdata['status']))		$this->db->where_in('flag', $requestdata['flag']);
+		// $this->db->where_in('flag', $requestdata['flag']);
 
 		
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){

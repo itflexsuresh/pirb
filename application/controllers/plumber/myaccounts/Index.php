@@ -85,7 +85,7 @@ class Index extends CC_Controller
 										'orderstatus' 	=> 	'',			
 							     		'action'	    => 	'
 																<div class="col-md-6">
-																	<a  href="' .base_url().'assets/inv_pdf/'.$result['inv_id'].'.pdf" ><img src="'.base_url().'assets/images/pdf.png" height="50" width="50"></a>
+																	<a  href="' .base_url().'assets/inv_pdf/'.$result['inv_id'].'.pdf" target="_blank" ><img src="'.base_url().'assets/images/pdf.png" height="50" width="50"></a>
 																	'.(isset($action) ? $action : '').'
 																</div>'
 									];
@@ -285,9 +285,17 @@ td {
 		$current_date = date('Y-m-d H:i:s');
 		$invId 	= $this->session->userdata('pay_purchaseorder');
 		$requestData['status'] = '1';
-		$requestData1['expirydate'] = $current_date;
+		$requestData3['flag'] 	= '2';
+		$futureDate = date('Y-m-d H:i:s', strtotime('+1 year', strtotime($current_date)) );
+		//print_r($futureDate);die;
+
+		$requestData1['expirydate'] = $futureDate;
+		$requestData1['renewal_date'] = $current_date;
+
 		$query 	= $this->db->update('invoice', $requestData, ['inv_id' => $invId,'user_id' => $userid]);
 		$query2 = $this->db->update('users', $requestData1, ['id' => $userid]);
+		//$query3 = $this->db->update('cpd_activity_form', $requestData3);
+
 		if ($query && $query2) {
 			$this->session->set_flashdata('success','Registration Renewed Sucessfully.');
 			redirect('plumber/profile/Index');

@@ -274,7 +274,7 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 	});
 	$( document ).ready(function() {
 		
-		datepicker('#startdate', ['currentdate']);
+		datepicker('#startdate', ['enddate']);
 	});
 
 	// Search activity

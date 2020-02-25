@@ -15,6 +15,7 @@ class Index extends CC_Controller
 		$this->load->model('Plumber_Model');
 	 	$this->load->model('Coc_Model');
 	}
+	
 
 	public function index($pagestatus='',$id='')
 	{
@@ -131,9 +132,8 @@ class Index extends CC_Controller
 
 	public function Cron()
 	{	
-		$result = $this->Renewal_Model->getUserids();
-		
-		// echo '<pre>'; print_r($result); die;
+		$result = $this->Renewal_Model->getUserids();		
+		// echo '<pre>'; print_r($result); die;		
 		foreach($result as $data)
 		{
 			$inv_type = '1';
