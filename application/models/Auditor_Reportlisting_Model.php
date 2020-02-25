@@ -93,7 +93,7 @@ class Auditor_Reportlisting_Model extends CC_Model
 		}
 		else
 		{
-			$this->db->update('auditor_report_listing', $request, ['id' => $userid]);
+			$this->db->update('auditor_report_listing', $request, ['id' => $id]);
 		}
 
 		if($this->db->trans_status() === FALSE)
