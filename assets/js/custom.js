@@ -555,7 +555,7 @@ function chat(data1=[], data2=[], data3=[]){
 						var result 		= data.result;
 						
 						$(result).each(function(i,v){
-							var chatappend = '<div class="chatbar_section"><div class="chatbar_wrapper '+((v.from_id==data2[1]) ? '' : 'chatbar_wrapper_right')+'"><p>'+v.name+' '+formatdate(v.created_at, 3)+'</p>';							
+							var chatappend = '<div class="chatbar_section"><div class="chatbar_wrapper '+((v.from_id!=data2[1]) ? 'chatbar_wrapper_right' : '')+'"><p class="chatbar_user">'+v.name+'  '+formatdate(v.created_at, 3)+'</p>';							
 							if(v.type=='2'){
 								var ext = v.attachment.split('.').pop().toLowerCase();
 								if(ext=='jpg' || ext=='jpeg' || ext=='png' || ext=='tif' || ext=='tiff'){
@@ -566,8 +566,11 @@ function chat(data1=[], data2=[], data3=[]){
 								
 								chatappend += '<img src="'+filesrc+'" width="100">';
 							}else{
-								chatappend += '<div class="chatbar"><p>'+v.message+'</p></div>';
-							}							
+								chatappend += '<div class="chatbar"><p class="chatbar_message">'+v.message+'</p></div>';
+							}	
+							
+							if(v.from_id!=data2[1]) chatappend += '<div class="clear"></div>';
+								
 							chatappend += '</div></div>';
 							
 							chatdata.push(chatappend)

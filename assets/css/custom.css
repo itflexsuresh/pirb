@@ -1501,3 +1501,42 @@ p.back_license {transform: none !important;margin: 0 !important;}
 .review_noaudit{
 	background-color: #00ffff;
 }
+
+
+/* Chat */
+
+.chatbar_section{
+	width : 100%;
+	display : inline-block;
+}
+
+.chatbar_wrapper{
+	width : 50%;
+}
+
+.chatbar_wrapper_right{
+	float : right;
+}
+
+.chatbar{
+    border-radius: 5px;
+    padding: 10px;
+    margin: 0 0 15px 0;
+	border: 1px solid lightgrey;
+}
+
+.chatbar_wrapper .chatbar{
+   background : #D2FFFF;
+}
+
+.chatbar_wrapper_right .chatbar{
+   background : #E9E9E9;
+}
+
+.chatbar_user{
+	margin: 0 0 5px;
+}
+
+.chatbar_message{
+	margin: 0;
+}
