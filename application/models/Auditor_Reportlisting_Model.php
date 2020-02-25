@@ -11,13 +11,13 @@ class Auditor_Reportlisting_Model extends CC_Model
 
 		$this->db->join('installationsubtype t2','t2.installationtype_id=t1.installationtype_id	AND t2.id=t1.subtype_id	','left');
 	 	$this->db->join('installationtype t3','t3.id=t1.installationtype_id','left');
-	 	// $this->db->join('report_listing t4', 't4.statement=t1.statement_id', 'left');
-		// print_r($requestdata);
-		// exit;
+	 	
 		// $user_id			= 	$this->getUserID();
-		// echo $user_id;
-		$this->db->where('t1.user_id', $requestdata['user_id']);
+		
+		
 		if(isset($requestdata['id'])) $this->db->where('t1.id', $requestdata['id']);
+		if(isset($requestdata['user_id'])) $this->db->where('t1.user_id', $requestdata['user_id']);
+
 		if(isset($requestdata['installationtypeid'])) $this->db->where('t1.installationtype_id', $requestdata['installationtypeid']);
 		if(isset($requestdata['subtypeid'])) $this->db->where('t1.subtype_id', $requestdata['subtypeid']);
 		//if(isset($requestdata['statementid'])) $this->db->where('t1.statement_id', $requestdata['statementid']);
@@ -35,15 +35,9 @@ class Auditor_Reportlisting_Model extends CC_Model
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = strtolower((trim($requestdata['search']['value'])));
 			$this->db->like('t1.favour_name', $searchvalue);
-			// $this->db->or_like('t1.installationtype_id', $searchvalue);
-			// $this->db->or_like('t2.name', $searchvalue);
-			// $this->db->or_like('t3.name', $searchvalue);
-			
 			
 		}
 		
-// echo $this->db->last_query();
-// exit;
 		if($type=='count'){
 			$result = $this->db->count_all_results();
 
@@ -75,7 +69,7 @@ class Auditor_Reportlisting_Model extends CC_Model
 		$request		=	[
 
 			'updated_at' 		=> $datetime,
-			'updated_by' 		=> $userid
+			'updated_by' 		=> $id
 		];
 		
 		$request['user_id'] = $userid;	

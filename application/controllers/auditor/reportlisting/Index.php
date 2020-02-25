@@ -57,8 +57,8 @@ class Index extends CC_Controller
 	{
 
 		$post 			= $this->input->post();		
-		$post['user_id'] = $this->getUserId();
-		
+		$post['user_id'] = $this->getUserID();
+
 		$totalcount 	= $this->Auditor_Reportlisting_Model->getList('count', ['status' => ['0','1']]+$post);
 		$results 		= $this->Auditor_Reportlisting_Model->getList('all', ['status' => ['0','1']]+$post);
 
@@ -90,6 +90,4 @@ class Index extends CC_Controller
 
 		echo json_encode($json);
 	}
-
-	
 }
