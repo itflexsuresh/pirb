@@ -364,29 +364,26 @@ class Coc_Ordermodel extends CC_Model
 	
 	public function autosearchPlumber($postData){
 		
+		$designations = array('4', '5' );
 		$this->db->select('concat(ud.name, " ", ud.surname) as name,cc.count,u.type,ud.status,u.id,up.coc_electronic');
 		$this->db->from('users_detail ud');
 		$this->db->join('users u', 'u.id=ud.user_id','inner');
 		$this->db->join('users_plumber up', 'up.user_id=ud.user_id','inner');
 		$this->db->join('coc_count cc', 'cc.user_id=ud.user_id','inner');
 		$this->db->where(['ud.status' => '1', 'u.type' => '3']);
-		$this->db->where_in('up.designation', ['4','5','6']);
-		$this->db->like('ud.name',$postData['search_keyword']);
-		$this->db->or_like('ud.surname',$postData['search_keyword']);
-		$this->db->or_like('up.registration_no',$postData['search_keyword']);
-		$this->db->group_by("ud.id");
-		
+		$this->db->where_in('up.designation', $designations);
+
+		$this->db->group_start();
+			$this->db->like('ud.name',$postData['search_keyword']);
+			$this->db->or_like('ud.surname',$postData['search_keyword']);		
+			$this->db->or_like('up.registration_no',$postData['search_keyword']);
+		$this->db->group_end();
+
+		$this->db->group_by("ud.id");		
 		$query = $this->db->get();
 		$result = $query->result_array();
-
-		$result_new = [];
-		foreach ($result as $key => $value) {
-			if($value['type']=='3' && $value['status']==1){
-				$result_new[] = $value;
-			}
-		}
 		
-		return $result_new;
+		return $result;
 	}
 
 	public function autosearchReseller($postData){

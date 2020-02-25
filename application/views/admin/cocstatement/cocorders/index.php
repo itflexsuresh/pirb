@@ -476,7 +476,18 @@ function userwrapper(value){
 
 
 $('#user_search').keyup(function(){
-	userautocomplete(["#user_search", "#user_id", "#user_suggestion"], [$(this).val(), $('[name="purchase_type"]:checked').val()], custom_user_select);
+	
+	var strlength = $.trim($('#user_search').val()).length;	
+	if(strlength > 0)  {
+		userautocomplete(["#user_search", "#user_id", "#user_suggestion"], [$(this).val(), $('[name="purchase_type"]:checked').val()], custom_user_select);
+		console.log(strlength);
+		$("#user_suggestion").show();
+	}
+	else{
+		console.log(strlength);
+		$("#user_suggestion").hide();
+		$("#user_suggestion").html('');
+	}
 })
 
 function custom_user_select(name, id, limit, electronic) {
