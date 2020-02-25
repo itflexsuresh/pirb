@@ -389,17 +389,19 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="chatcontent" id="chatcontent"></div>
-			<div class="chatfooter">
-				<div class="input-group">
-					<input type="text" class="form-control" id="chattext">
-					<div class="input-group-append">
-						<span class="input-group-text">
-							<i class="fa fa-paperclip" id="chatattachment"></i>
-							<input type="file" name="file" class="displaynone" id="chatattachmentfile">
-						</span>
+			<?php if($pagetype=='1'){ ?>
+				<div class="chatfooter">
+					<div class="input-group">
+						<input type="text" class="form-control" id="chattext">
+						<div class="input-group-append">
+							<span class="input-group-text">
+								<i class="fa fa-paperclip" id="chatattachment"></i>
+								<input type="file" name="file" class="displaynone" id="chatattachmentfile">
+							</span>
+						</div>
 					</div>
 				</div>
-			</div>
+			<?php } ?>
 		</div>
 	</div>
 </div>
