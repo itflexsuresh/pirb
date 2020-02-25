@@ -391,7 +391,10 @@
 				<div class="input-group">
 					<input type="text" class="form-control" id="chattext">
 					<div class="input-group-append">
-						<span class="input-group-text"><i class="fa fa-paperclip" id="chatattachment"></i></span>
+						<span class="input-group-text">
+							<i class="fa fa-paperclip" id="chatattachment"></i>
+							<input type="file" class="displaynone" id="chatattachmentfile">
+						</span>
 					</div>
 				</div>
 			</div>
@@ -562,7 +565,7 @@ $(function(){
 	datepicker('.auditdate');	
 	select2('#workmanship, #plumberverification, #cocverification');
 	citysuburb(['#province','#city', '#suburb'], ['<?php echo $cityid; ?>', '<?php echo $suburbid; ?>']);
-	subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], ['', '']);
+	subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], ['', ''], reviewpoint);
 	fileupload(["#r_file", "./assets/uploads/auditor/statement/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.rfileappend', reviewpath, pdfimg], 'multiple');
 	chat(['#chattext', '#chatcontent'], [cocid, fromid, toid]);
 	
@@ -919,7 +922,7 @@ function reviewmodalclear(data=''){
 	
 	$('#incompletepoint, #completepoint, #cautionarypoint, #complimentpoint, #noauditpoint').val(0);
 	$('.r_auditorreportlist, .r_installationtype, .r_reference, .r_link, .r_comments, .r_file, .r_point, .r_id').val('');
-	subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], ['', '']);
+	subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], ['', ''], reviewpoint);
 	$('.rfileappend').html('');
 	$('.reviewform').find("p.error_class_1").remove();
 	$('.reviewform').find(".error_class_1").removeClass('error_class_1');
