@@ -16,8 +16,13 @@ $auditoremail 			= isset($result['auditoremail']) ? $result['auditoremail'] : ''
 ?>
 
 <div class="">
+	<div class="">
+		<h2>PIRB AUDIT REVIEW REPORT</h2>
+		<img src="<?php echo base_url().'assets/images/pitrb-logo.png'; ?>">
+	</div>
+	
 	<h3>COC DETAILS</h3>
-	<div class="row">					
+	<div class="">					
 		<div class="">
 			<label>Certificate No</label>
 			<input type="text" value="<?php echo $cocid; ?>">
@@ -57,7 +62,7 @@ $auditoremail 			= isset($result['auditoremail']) ? $result['auditoremail'] : ''
 	</div>
 	
 	<h3>AUDITOR DETAILS</h3>
-	<div class="row">							
+	<div class="">							
 		<div class="">			
 			<label>Auditors Name and Surname</label>
 			<input type="text" value="<?php echo $auditorname; ?>">

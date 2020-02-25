@@ -418,8 +418,12 @@ class CC_Controller extends CI_Controller
 	{
 		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);
 		$pagedata['reviewlist']		= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
-		$html = $this->load->view('pdf/auditreport', (isset($pagedata) ? $pagedata : ''));
-		
+		$html = $this->load->view('pdf/auditreport', (isset($pagedata) ? $pagedata : ''), true);
+		$this->pdf->loadHtml($html);
+		$this->pdf->setPaper('A4', 'portrait');
+		$this->pdf->render();
+		$output = $this->pdf->output();
+		$this->pdf->stream('Audit Report '.$id);
 	}
 
 	public function resellersprofile($id, $pagedata=[], $extras=[])
