@@ -39,7 +39,6 @@
 	$contactno 				= isset($result['cl_contact_no']) ? $result['cl_contact_no'] : '';
 	$alternateno 			= isset($result['cl_alternate_no']) ? $result['cl_alternate_no'] : '';
 	
-	
 	$statementid 			= isset($result['as_id']) ? $result['as_id'] : '';
 	$auditdate 				= isset($result['as_audit_date']) && $result['as_audit_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['as_audit_date'])) : '';
 	$workmanshipid 			= isset($result['as_workmanship']) ? $result['as_workmanship'] : '';

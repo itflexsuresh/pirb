@@ -417,6 +417,7 @@ class CC_Controller extends CI_Controller
 	public function pdfauditreport($id)
 	{
 		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);
+		$pagedata['reviewlist']		= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
 		$html = $this->load->view('pdf/auditreport', (isset($pagedata) ? $pagedata : ''));
 		
 	}

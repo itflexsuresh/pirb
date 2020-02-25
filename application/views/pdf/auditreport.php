@@ -10,6 +10,9 @@ $province 				= isset($result['cl_province_name']) ? $result['cl_province_name']
 $city 					= isset($result['cl_city_name']) ? $result['cl_city_name'] : '';
 $suburb 				= isset($result['cl_suburb_name']) ? $result['cl_suburb_name'] : '';
 
+$auditorname 			= isset($result['auditorname']) ? $result['auditorname'] : '';
+$auditormobile 			= isset($result['auditormobile']) ? $result['auditormobile'] : '';
+$auditoremail 			= isset($result['auditoremail']) ? $result['auditoremail'] : '';
 ?>
 
 <div class="">
@@ -17,94 +20,56 @@ $suburb 				= isset($result['cl_suburb_name']) ? $result['cl_suburb_name'] : '';
 	<div class="row">					
 		<div class="">
 			<label>Certificate No</label>
-			<input type="text" class="" name="name" value="<?php echo $cocid; ?>">
+			<input type="text" value="<?php echo $cocid; ?>">
 		</div>					
 		<div class="">			
 			<label>Plumbing Work Completion Date</label>
-			<input type="text" class="" name="name" value="<?php echo $cocid; ?>">
-		</div>					
-		<div class="col-md-12">
-			<div class="">
-				<label>Owners Name</label>
-				<input type="text" class="" name="name" value="<?php echo $name; ?>" disabled>
-			</div>
-		</div>
-		<div class="col-md-12">
-			<div class="">
-				<label>Name of Complex/Flat (if applicable)</label>
-				<input type="text" class="" name="address" value="<?php echo $address; ?>" disabled>
-			</div>
-		</div>
-		<div class="">
-			<div class="">
-				<label>Street</label>
-				<input type="text" class="" name="street" value="<?php echo $street; ?>" disabled>
-			</div>
-		</div>
-		<div class="">
-			<div class="">
-				<label>Number</label>
-				<input type="text" class="" name="number" value="<?php echo $number; ?>" disabled>
-			</div>
-		</div>
-		<div class="col-md-4">
-			<div class="">
-				<label>Province</label>
-				<?php
-					echo form_dropdown('province', $province, $provinceid, ['id' => 'province', 'class'=>'', 'disabled' => 'disabled']);
-				?>
-			</div>
-		</div>
-		<div class="col-md-4">
-			<div class="">
-				<label>City</label>
-				<?php 
-					echo form_dropdown('city', [], $cityid, ['id' => 'city', 'class' => '', 'disabled' => 'disabled']); 
-				?>
-			</div>
-		</div>
-		<div class="col-md-4">
-			<div class="">
-				<label>Suburb</label>
-				<?php
-					echo form_dropdown('suburb', [], $suburbid, ['id' => 'suburb', 'class'=>'', 'disabled' => 'disabled']);
-				?>
-			</div>
-		</div>
-		<div class="">
-			<div class="">
-				<label>Contact Mobile</label>
-				<input type="text" class="" name="contact_no" id="contact_no" value="<?php echo $contactno; ?>" disabled>
-			</div>
-		</div>
-		<div class="">
-			<div class="">
-				<label>Alternate Contact</label>
-				<input type="text" class="" name="alternate_no" id="alternate_no" value="<?php echo $alternateno; ?>" disabled>
-			</div>
-		</div>
+			<input type="text" value="<?php echo $completiondate; ?>">
+		</div>						
+		<div class="">			
+			<label>Owners Name</label>
+			<input type="text" value="<?php echo $name; ?>">
+		</div>								
+		<div class="">			
+			<label>Name of Complex/Flat (if applicable)</label>
+			<input type="text" value="<?php echo $address; ?>">
+		</div>								
+		<div class="">			
+			<label>Street</label>
+			<input type="text" value="<?php echo $street; ?>">
+		</div>								
+		<div class="">			
+			<label>Number</label>
+			<input type="text" value="<?php echo $number; ?>">
+		</div>							
+		<div class="">			
+			<label>Province</label>
+			<input type="text" value="<?php echo $province; ?>">
+		</div>							
+		<div class="">			
+			<label>City</label>
+			<input type="text" value="<?php echo $city; ?>">
+		</div>							
+		<div class="">			
+			<label>Suburb</label>
+			<input type="text" value="<?php echo $suburb; ?>">
+		</div>	
 	</div>
 	
 	<h3>AUDITOR DETAILS</h3>
-	<div class="row">
-		<div class="">
-			<div class="">
-				<label>Auditors Name and Surname</label>
-				<input type="text" class="" value="<?php echo $auditorname; ?>" disabled>
-			</div>
-		</div>
-		<div class="">
-			<div class="">
-				<label>Phone (Mobile)</label>
-				<input type="text" class="" value="<?php echo $auditormobile; ?>" disabled>
-			</div>
-		</div>
-		<div class="">
-			<div class="">
-				<label>Email</label>
-				<input type="text" class="" value="<?php echo $auditorstatus; ?>" disabled>
-			</div>
-		</div>
+	<div class="row">							
+		<div class="">			
+			<label>Auditors Name and Surname</label>
+			<input type="text" value="<?php echo $auditorname; ?>">
+		</div>	
+		<div class="">			
+			<label>Phone (Mobile)</label>
+			<input type="text" value="<?php echo $auditormobile; ?>">
+		</div>	
+		<div class="">			
+			<label>Email</label>
+			<input type="text" value="<?php echo $auditoremail; ?>">
+		</div>	
 	</div>
 	
 	<div>
@@ -122,7 +87,23 @@ $suburb 				= isset($result['cl_suburb_name']) ? $result['cl_suburb_name'] : '';
 			<th>Comments</th>
 			<th>Images</th>
 		</tr>
-		<tr class="reviewnotfound">
-		</tr>
+		<?php foreach($reviewlist as $list){ ?>
+			<tr>
+				<td><?php echo isset($this->config->item('reviewtype')[$list['reviewtype']]) ? $this->config->item('reviewtype')[$list['reviewtype']] : ''; ?></td>
+				<td><?php echo $list['statementname']; ?></td>
+				<td><?php echo $list['reference']; ?></td>
+				<td><?php echo $list['comments']; ?></td>
+				<td>
+					<?php 
+						$filelist = array_filter(explode(',', $list['file'])); 
+						foreach($filelist as $file){
+					?>
+							<img src="<?php echo base_url().'assets/uploads/auditor/statement/'.$file; ?>" width="50">
+					<?php
+						}
+					?>
+				</td>
+			</tr>
+		<?php } ?>
 	</table>
 </div>

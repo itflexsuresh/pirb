@@ -34,6 +34,7 @@ class Coc_Model extends CC_Model
 			rd.company as resellercompany,
 			concat(ad.name, " ", ad.surname) as auditorname, 
 			ad.mobile_phone as auditormobile, 
+			a.email as auditoremail, 
 			ad.status as auditorstatus, 
 			'.implode(',', $auditorstatement).'
 		');
@@ -49,6 +50,7 @@ class Coc_Model extends CC_Model
 		$this->db->join('plumberallocate pa', 'pa.stockid=sm.id', 'left'); // Reseller Allocate
 		$this->db->join('users_detail rd', 'rd.user_id=pa.company_details', 'left'); // Reseller Company Details
 		$this->db->join('users_detail ad', 'ad.user_id=sm.auditorid', 'left'); // Auditor
+		$this->db->join('users a', 'a.id=sm.auditorid', 'left'); // Auditor
 		$this->db->join('auditor_statement aas', 'aas.coc_id=sm.id', 'left'); // Auditor Statement
 		
 		if((isset($requestdata['search']['value']) && $requestdata['search']['value']!='') || (isset($requestdata['order']['0']['column']) && $requestdata['order']['0']['column']!='' && isset($requestdata['order']['0']['dir']) && $requestdata['order']['0']['dir']!='')){
