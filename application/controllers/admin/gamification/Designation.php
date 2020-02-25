@@ -10,29 +10,31 @@ class Designation extends CC_Controller
 	}
 	
 	public function index($id='')
-	{		
-       
+	{
+		
+		if($this->input->post()){
+			
+                $requestData 	= 	$this->input->post();
 
-		$permission_list = $this->Designation_Model->getPermissions(); 
-        $fotmatted_list = array();
-        for($k=0;$k<count($permission_list);$k++) 
-        {
-	        $fotmatted_list[$permission_list[$k]->deg_name][$k]['id'] = $permission_list[$k]->id;
-	        
-         	$fotmatted_list[$permission_list[$k]->deg_name][$k]['name'] = $permission_list[$k]->name;
-         	$fotmatted_list[$permission_list[$k]->deg_name][$k]['points'] = $permission_list[$k]->points;
-        }
-		$pagedata['permission_list'] = $fotmatted_list;	
+            	$data 	=  $this->Designation_Model->action($requestData);
+			if($data) $this->session->set_flashdata('success', 'Designation Specialisation Points
+ '.(($id=='') ? 'updated' : 'updated').' successfully.');
+			else $this->session->set_flashdata('error', 'Try Later.');
+			
+			redirect('admin/gamification/designation'); 
+		}
+		$post 			= $this->input->post();
 		$pagedata['notification'] 			= $this->getNotification();
-		// $pagedata['result']	 				= $this->Designation_Model->getList('all');
-		$data['plugins']					= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
+		$pagedata['msggrp'] 				= $this->config->item('messagegroup');
+		$pagedata['results'] 				= $this->Designation_Model->getPointList('all');
+	//	$pagedata['result'] 		= $this->Designation_Model->getWarningList('all', ['status' => ['0','1']]+$post);
+		
+		$data['plugins']					= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
+
 		$data['content'] 					= $this->load->view('admin/gamification/designation', (isset($pagedata) ? $pagedata : ''), true);
-
 		$this->layout2($data);
-       
 	}
-
-public function editpoint($id = ''){
+	public function editpoint($id = ''){
 
 if($this->input->post())
 {
@@ -43,9 +45,9 @@ if(isset($post['id']) && $post['id']!='')
 
 $data =  $this->Designation_Model->action($post);
 
-if($data) $this->session->set_flashdata('success', 'Gamification Specialisation Points '.(($id=='') ? 'updated' : 'updated').' successfully.');
+if($data) $this->session->set_flashdata('success', 'Designation Specialisation Points
+ '.(($id=='') ? 'updated' : 'updated').' successfully.');
 else $this->session->set_flashdata('error', 'Try Later.');
-
 
 }
 
@@ -54,13 +56,23 @@ else $this->session->set_flashdata('error', 'Try Later.');
 }
 public function edit_check()
 {
+
+
 $post = $this->input->post();
-$data 			=  $this->Designation_Model->edit_check($post);
+$id = $post['id'];
+
+$edit = array();
+
+if($id!='')
+{
+$query = $this->db->query("SELECT * FROM specialisation where id = $id");    
+$edit = $query->row_array();
 
 }
-	
+echo json_encode($edit);
+
+// $post = $this->input->post();
+// $data 			=  $this->Designation_Model->edit_check($post);
+
 }
-
-
-
-
+}
