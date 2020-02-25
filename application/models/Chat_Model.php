@@ -9,7 +9,7 @@ class Chat_Model extends CC_Model
 		$this->db->join('users_detail ud1', 'ud1.user_id = c.from_id', 'left');
 	
 		if(isset($requestdata['c.id']))		$this->db->where('c.id', $requestdata['id']);
-		if(isset($requestdata['c.coc_id']))	$this->db->where('c.cocid', $requestdata['coc_id']);
+		if(isset($requestdata['c.cocid']))	$this->db->where('c.coc_id', $requestdata['cocid']);
 			
 		if(isset($requestdata['fromto'])){
 			$this->db->group_start();

@@ -388,6 +388,7 @@
 
 <div class="row">
 	<div class="col-12">
+		<h4 class="card-title">Chat (History)</h4>
 		<div class="card">
 			<div class="chatcontent" id="chatcontent"></div>
 			<?php if(($pagetype=='1' && $roletype=='5') || ($pagetype=='2' && $roletype=='3' && $auditcomplete!='1')){ ?>
