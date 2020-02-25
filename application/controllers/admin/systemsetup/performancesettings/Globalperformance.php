@@ -17,10 +17,7 @@ class Globalperformance extends CC_Controller
                 $requestData 	= 	$this->input->post();
 
             	$data 	=  $this->Global_performance_Model->action($requestData);
-          
-				if($data) $this->session->set_flashdata('success', 'Global Settings '.(($id=='') ? 'updated' : 'updated').' successfully.');
-			
-			if(isset($data)) $this->session->set_flashdata('success', $message);
+			if($data) $this->session->set_flashdata('success', 'Global Performance Settings '.(($id=='') ? 'updated' : 'updated').' successfully.');
 			else $this->session->set_flashdata('error', 'Try Later.');
 			
 			redirect('admin/systemsetup/performancesettings/Globalperformance'); 
