@@ -260,7 +260,7 @@ class index extends CC_Controller
 		$this->db->join('users_plumber t3', 't3.user_id=t1.user_id','left');
 		$this->db->where('t2.type', '3');
 		$this->db->where('t2.status', '1');
-		$this->db->->where('MONTH(t1.cpd_start_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND t1.status="1" OR t1.status="2"');
+		$this->db->where('MONTH(t1.cpd_start_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND t1.status="1" OR t1.status="2"');
 		// $this->db->where('t1.status', '1');
 		// $this->db->or_where('t1.status', '2');
 		//$this->db->group_by('t1.user_id');
