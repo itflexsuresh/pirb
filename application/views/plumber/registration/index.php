@@ -1500,13 +1500,17 @@ function skillsextras(){
 	}
 }
 
-$('#name').bind('keyup blur',function(){ 
-    var node = $(this);
-    node.val(node.val().replace(/[^a-z]/g,'') ); }
-);
-$('#surname').bind('keyup blur',function(){ 
-    var node = $(this);
-    node.val(node.val().replace(/[^a-z]/g,'') ); }
-);
+$('#name').bind('keyup blur', function() { 
+    $(this).val(function(i, val) {
+        return val.replace(/[^a-z\s]/gi,''); 
+    });
+});
+
+$('#surname').bind('keyup blur', function() { 
+    $(this).val(function(i, val) {
+        return val.replace(/[^a-z\s]/gi,''); 
+    });
+});
+
 </script>
 
