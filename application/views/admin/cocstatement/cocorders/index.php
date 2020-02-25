@@ -1,5 +1,6 @@
 <?php
 
+
 $vat 					= $settings["vat_percentage"];
 $cocpaperwork 			= $cocpaperwork["amount"];
 $cocelectronic 			= $cocelectronic["amount"];
