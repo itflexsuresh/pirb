@@ -23,12 +23,17 @@ class Chat_Model extends CC_Model
 			$this->db->group_end();
 		}
 		
-		if(isset($requestdata['tofrom'])){
+		if(isset($requestdata['checkfrom'])){
 			$this->db->group_start();
-				$this->db->group_start();
-					$this->db->where('to_id', $requestdata['tofrom']);
-					$this->db->where('state2', '0');
-				$this->db->group_end();
+				$this->db->where('from_id', $requestdata['checkfrom']);
+				$this->db->where('state1', '0');
+			$this->db->group_end();
+		}
+		
+		if(isset($requestdata['checkto'])){
+			$this->db->group_start();
+				$this->db->where('to_id', $requestdata['checkto']);
+				$this->db->where('state2', '0');
 			$this->db->group_end();
 		}
 		

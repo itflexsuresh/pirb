@@ -533,14 +533,12 @@ function chat(data1=[], data2=[]){
 			}
 			
 			chataction(data);
-			chatcontent({'cocid' : data2[0], 'fromto' : data2[1] }, '1');
+			chatcontent({'cocid' : data2[0], 'checkfrom' : data2[1] }, 'checkfrom');
 			$(data1[0]).val('');
 		}		
 	});
 	
 	function chatcontent(param, state=''){
-		console.log(param);
-		console.log(state);
 		ajax(
 			baseurl()+'ajax/index/ajaxchat', 
 			param, 
@@ -555,7 +553,8 @@ function chat(data1=[], data2=[]){
 							var chatappend = '<p>'+v.message+'</p>';
 							chatdata.push(chatappend)
 							
-							if(state=='2') chataction({'id' : v.id, 'state2' : '1'});
+							if(state=='checkfrom') chataction({'id' : v.id, 'state1' : '1'});
+							else if(state=='checkto') chataction({'id' : v.id, 'state2' : '1'});
 						})
 						
 						$(data1[1]).append(chatdata.join(''));
@@ -563,10 +562,6 @@ function chat(data1=[], data2=[]){
 				}
 			}
 		);
-		
-		
-		if(state=='1') startTimer();
-		else if(state=='2') stopTimer();
 	}
 	
 	function chataction(param){
@@ -574,8 +569,7 @@ function chat(data1=[], data2=[]){
 	}
 	
 	function chatunread(){
-		console.log('f');
-		chatcontent({'cocid' : data2[0], 'toid' : data2[1] }, '2')
+		chatcontent({'cocid' : data2[0], 'checkto' : data2[1] }, 'checkto')
 	}
 	
 	var interval;

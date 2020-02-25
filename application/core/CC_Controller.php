@@ -222,9 +222,10 @@ class CC_Controller extends CI_Controller
 		else return [];
 	}
 	
-	public function getAuditorReportingList()
+	public function getAuditorReportingList($userid)
 	{
-		$data = $this->Auditor_Reportlisting_Model->getList('all', ['status' => ['1']]);
+		$requestData = $this->input->post();
+		$data = $this->Auditor_Reportlisting_Model->getList('all', ['status' => ['1'], 'user_id' => $userid]);
 
 		if(count($data) > 0) return ['' => 'Select My Report Listings/Favourites']+array_column($data, 'favour_name', 'id');
 		else return [];
@@ -397,7 +398,7 @@ class CC_Controller extends CI_Controller
 		$pagedata['notification'] 				= $this->getNotification();
 		$pagedata['province'] 					= $this->getProvinceList();
 		$pagedata['installationtype']			= $this->getInstallationTypeList();
-		$pagedata['auditorreportlist']			= $this->getAuditorReportingList();
+		$pagedata['auditorreportlist']			= $this->getAuditorReportingList((isset($extras['auditorid']) ? $extras['auditorid'] : ''));
 		$pagedata['workmanshippt']				= $this->getWorkmanshipPoint();
 		$pagedata['plumberverificationpt']		= $this->getPlumberVerificationPoint();
 		$pagedata['cocverificationpt']			= $this->getCocVerificationPoint();
