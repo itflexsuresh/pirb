@@ -413,6 +413,13 @@ class CC_Controller extends CI_Controller
 		$data['content'] 			= $this->load->view('common/auditstatement', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
+	
+	public function pdfauditreport($id)
+	{
+		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);
+		$html = $this->load->view('pdf/auditreport', (isset($pagedata) ? $pagedata : ''));
+		
+	}
 
 	public function resellersprofile($id, $pagedata=[], $extras=[])
 	{

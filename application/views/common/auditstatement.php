@@ -273,10 +273,10 @@
 								</div>
 							</div>
 						</div>
-					</div>
-					<?php if($roletype=='5' && $pagetype=='1'){ ?>
-						<div class="col-md-6">
-							<div class="row">							
+					</div>					
+					<div class="col-md-6">
+						<div class="row">	
+							<?php if($roletype=='5' && $pagetype=='1'){ ?>
 								<div class="col-md-12">
 									<div class="form-group custom-control custom-radio">							
 										<input type="radio" class="custom-control-input" name="hold" id="hold" value="1" <?php if($hold=='1'){ echo 'checked'; } ?>>
@@ -288,11 +288,19 @@
 										<label>Why was Audit placed on hold?</label>	
 										<textarea class="form-control"  name="reason" id="reason" rows="4" cols="50"><?php echo $reason; ?></textarea>			
 									</div>
-								</div>						
+								</div>		
+							<?php } ?>		
+							<?php if($auditcomplete=='1' && $pagetype=='2'){ ?>		
+								<div class="col-md-12">
+									<a href="<?php echo base_url().'/'.$auditreport; ?>">
+										<img src="<?php echo $pdfimg; ?>" width="50">
+										<span>Audit Report</span>
+									</a>
+								</div>
+							<?php } ?>				
 								
-							</div>
 						</div>
-					<?php } ?>
+					</div>
 				</div>
 				
 				<div class="row form-group">

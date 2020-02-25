@@ -25,11 +25,13 @@ class Coc_Model extends CC_Model
 			ud.file2 as u_file,
 			ud.status as u_status,
 			'.implode(',', $coclog).',
+			p.name as cl_province_name,
+			c.name as cl_city_name,
+			s.name as cl_suburb_name,
 			cd1.company as plumbercompany,
 			up.registration_no as plumberregno, 
 			pa.createddate as resellercreateddate,
 			rd.company as resellercompany,
-			s.name as cl_suburb_name,
 			concat(ad.name, " ", ad.surname) as auditorname, 
 			ad.mobile_phone as auditormobile, 
 			ad.status as auditorstatus, 
@@ -39,9 +41,11 @@ class Coc_Model extends CC_Model
 		$this->db->join('users_plumber up', 'up.user_id=sm.user_id', 'left');
 		$this->db->join('users_detail ud', 'ud.user_id=sm.user_id', 'left');
 		$this->db->join('users u', 'u.id=sm.user_id', 'left');
-		$this->db->join('coc_log cl', 'cl.coc_id=sm.id', 'left');
+		$this->db->join('coc_log cl', 'cl.coc_id=sm.id', 'left'); // Coc Log
+		$this->db->join('province p', 'p.id=cl.province', 'left'); // Coc Log
+		$this->db->join('city c', 'c.id=cl.city', 'left'); // Coc Log
+		$this->db->join('suburb s', 's.id=cl.suburb', 'left'); // Coc Log
 		$this->db->join('users_detail cd1', 'cd1.user_id=cl.company_details', 'left');
-		$this->db->join('suburb s', 's.id=cl.suburb', 'left');
 		$this->db->join('plumberallocate pa', 'pa.stockid=sm.id', 'left'); // Reseller Allocate
 		$this->db->join('users_detail rd', 'rd.user_id=pa.company_details', 'left'); // Reseller Company Details
 		$this->db->join('users_detail ad', 'ad.user_id=sm.auditorid', 'left'); // Auditor
