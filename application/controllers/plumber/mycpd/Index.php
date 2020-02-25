@@ -428,4 +428,5 @@ class index extends CC_Controller
 	// 	}
 		
 	// }
+	}
 }
