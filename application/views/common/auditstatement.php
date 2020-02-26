@@ -1011,13 +1011,13 @@ function pointcalculation(){
 	var plumberverification = $('#plumberverification').val();
 	var cocverification = $('#cocverification').val();
 	
-	var workmanshipval 			= (workmanshippt[workmanship]) ? parseFloat(workmanshippt[workmanship]) : 0;
-	var plumberverificationval 	= (plumberverificationpt[plumberverification]) ? parseFloat(plumberverificationpt[plumberverification]) : 0;
-	var cocverificationval 		= (cocverificationpt[cocverification]) ? parseFloat(cocverificationpt[cocverification]) : 0;
+	var workmanshipval 			= (workmanshippt[workmanship]) ? parseFloat(workmanshippt[workmanship]).replace("+", "") : 0;
+	var plumberverificationval 	= (plumberverificationpt[plumberverification]) ? parseFloat(plumberverificationpt[plumberverification]).replace("+", "") : 0;
+	var cocverificationval 		= (cocverificationpt[cocverification]) ? parseFloat(cocverificationpt[cocverification]).replace("+", "") : 0;
 	
 	var reviewval = 0;
 	$(document).find('.reviewappend').each(function(){
-		reviewval += parseFloat($(this).find('td:eq(4)').text());
+		reviewval += parseFloat($(this).find('td:eq(4)').text()).replace("+", "");
 	})
 	
 	$('#workmanshippoint').val(workmanshipval);

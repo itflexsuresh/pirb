@@ -528,18 +528,20 @@ function chat(data1=[], data2=[], data3=[]){
 	$(data1[0]).keyup(function(event){
 		var keycode = (event.keyCode ? event.keyCode : event.which);
 		if(keycode == '13'){
-			var data = 	{
-				'cocid' 		: data2[0], 
-				'fromid' 		: data2[1],
-				'toid' 			: data2[2],
-				'message' 		: $(this).val(),
-				'state1' 		: '0',
-				'type' 			: '1'
+			if($(this).val()!=''){
+				var data = 	{
+					'cocid' 		: data2[0], 
+					'fromid' 		: data2[1],
+					'toid' 			: data2[2],
+					'message' 		: $(this).val(),
+					'state1' 		: '0',
+					'type' 			: '1'
+				}
+				
+				chataction(data);
+				chatcontent({'cocid' : data2[0], 'checkfrom' : data2[1] }, 'checkfrom');
+				$(data1[0]).val('');
 			}
-			
-			chataction(data);
-			chatcontent({'cocid' : data2[0], 'checkfrom' : data2[1] }, 'checkfrom');
-			$(data1[0]).val('');
 		}		
 	});
 	

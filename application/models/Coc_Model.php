@@ -367,7 +367,7 @@ class Coc_Model extends CC_Model
 		if(isset($data['specialisations'])) 	$request['specialisations'] 		= implode(',', $data['specialisations']);
 		if(isset($data['installation_detail'])) $request['installation_detail'] 	= $data['installation_detail'];
 		if(isset($data['file1'])) 				$request['file1'] 					= $data['file1'];
-		if(isset($data['agreement'])) 			$request['agreement'] 				= implode(',', $data['agreement']);
+		if(isset($data['agreement'])) 			$request['agreement'] 				= $data['agreement'];
 		if(isset($data['file1'])) 				$request['file1'] 					= $data['file1'];
 		if(isset($data['company_details'])) 	$request['company_details'] 		= $data['company_details'];
 		if(isset($data['submit']) && $data['submit']=='log') $request['log_date'] 	= date('Y-m-d');
