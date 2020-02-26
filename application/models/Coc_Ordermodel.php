@@ -364,14 +364,13 @@ class Coc_Ordermodel extends CC_Model
 	
 	public function autosearchPlumber($postData){
 		
-		$designations = array('4', '6' );
 		$this->db->select('concat(ud.name, " ", ud.surname) as name,cc.count,u.type,ud.status,u.id,up.coc_electronic');
 		$this->db->from('users_detail ud');
 		$this->db->join('users u', 'u.id=ud.user_id','inner');
 		$this->db->join('users_plumber up', 'up.user_id=ud.user_id','inner');
 		$this->db->join('coc_count cc', 'cc.user_id=ud.user_id','inner');
 		$this->db->where(['ud.status' => '1', 'u.type' => '3']);
-		$this->db->where_in('up.designation', $designations);
+		$this->db->where_in('up.designation', ['4', '6']);
 
 		$this->db->group_start();
 			$this->db->like('ud.name',$postData['search_keyword']);
@@ -388,13 +387,11 @@ class Coc_Ordermodel extends CC_Model
 
 	public function autosearchReseller($postData){
 		
-		// $this->db->select('concat(ud.name, " ", ud.surname) as name,cc.count,u.id, "0" as coc_electronic');
 		$this->db->select('ud.status,ud.company as name,cc.count,u.id, "0" as coc_electronic');
 		$this->db->from('users_detail ud');
 		$this->db->join('users u', 'u.id=ud.user_id','inner');
 		$this->db->join('coc_count cc', 'cc.user_id=ud.user_id','inner');
 		$this->db->where(['ud.status' => '1', 'u.type' => '6']);
-		// $this->db->where('name!=""');
 		$this->db->like('ud.name',$postData['search_keyword']);
 		$this->db->or_like('ud.surname',$postData['search_keyword']);
 		$this->db->or_like('ud.company',$postData['search_keyword']);
@@ -421,11 +418,7 @@ class Coc_Ordermodel extends CC_Model
 		$this->db->join('auditor_availability t3', 't3.user_id=ud.user_id','left');
 		$this->db->join('stock_management t4', 't4.auditorid=ud.user_id','left');
 		$this->db->where(['u.status' => '1','u.type' => '5','t3.status' => '1']);
-		// $this->db->where('name!=""');
 		$this->db->or_like(array('ud.name' => $postData['search_keyword'], 'ud.surname' => $postData['search_keyword']));
-		// $this->db->like('ud.name',$postData['search_keyword']);
-		// $this->db->or_like('ud.surname',$postData['search_keyword']);
-		// $this->db->where('t3.status','1');
 		$this->db->group_by("ud.id");
 		
 		$query = $this->db->get();
