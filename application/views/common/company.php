@@ -375,7 +375,7 @@
 						<input type="hidden" name="user_id" value="<?php echo $id; ?>">
 						<input type="hidden" name="usersdetailid" value="<?php echo $usersdetailid; ?>">
 						<input type="hidden" name="userscompanyid" value="<?php echo $userscompanyid; ?>">
-						<?php if(!isset($disablebtn)){ ?>
+						<?php if(!isset($disablebtn) || $pagetype=='registration'){ ?>
 							<button type="submit" name="submit" value="submit" class="btn btn-primary">Submit</button>
 						<?php } ?>
 					</div>
