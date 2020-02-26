@@ -29,6 +29,7 @@
 								<th>Customer</th>
 								<th>Address</th>
 								<th>Plumber Company</th>
+								<th>Reseller Name</th>
 								<th>Action</th>
 							</tr>							
 						</thead>
@@ -54,6 +55,7 @@
 							{ "data": "customer" },
 							{ "data": "address" },
 							{ "data": "company" },
+							{ "data": "reseller" },
 							{ "data": "action" }
 						],
 			target	:	[7],
