@@ -175,7 +175,7 @@
 			<div class="card-body">			
 <?php } ?>			
 				<form class="form" method="post" action="">					
-					<?php if(($roletype=='1' && $approval_status=='1') || $roletype=='4'){ ?>
+					<?php if(($roletype=='1' && $approval_status=='1') || ($pagetype!='registration' && $roletype=='4')){ ?>
 						<div class="col-md-12 application_field_wrapper mb-15">
 							<?php if($disabled1!=''){ ?>
 								<div class="application_field_status">
