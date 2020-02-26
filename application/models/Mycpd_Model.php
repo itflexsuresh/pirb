@@ -15,7 +15,7 @@ class Mycpd_Model extends CC_Model
 			
 			if(isset($requestdata['user_id'][0])) 	$this->db->where('t1.user_id', $requestdata['user_id'][0]);
 			if(isset($requestdata['user_id'][0])) 	$this->db->where('t2.id', $requestdata['user_id'][0]);
-			$this->db->where('t2.renewal_date>=','CURDATE()', false);
+			$this->db->where('t2.renewal_date<=','t1.created_at', false);
 			
 		}elseif ($requestdata['pagestatus'] == '0') {
 			$requestdata['pagestatus'] = array('4');
