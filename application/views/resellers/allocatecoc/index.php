@@ -71,7 +71,7 @@ if(isset($id) && $id >0)
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
-								<input type="search" autocomplete="off" class="form-control"  name="search_reg_no" id="search_reg_no"  value="<?php if(isset($id) && $id >0){ echo $searchbox; }?>" placeholder="Type in Plumbers reg number; name or surname" onkeyup="search_func(this.value);">
+								<input type="search" autocomplete="off" class="form-control"  name="search_reg_no" id="search_reg_no"  value="<?php if(isset($id) && $id >0){ echo $searchbox; }?>" placeholder="Type in Plumbers reg number; name or surname">
 								<input type="hidden" id="user_id_hide" name="user_id_hide" value="0">
 								<div id="plumber_suggesstion" style="display: none;"></div>
 
@@ -297,6 +297,19 @@ if(isset($id) && $id >0)
 
 <script type="text/javascript">
 
+$('#search_reg_no').keyup(function(){
+	
+	var strlength = $.trim($('#search_reg_no').val()).length;	
+	if(strlength > 0)  {
+		userautocomplete(["#search_reg_no", "#user_id_hide", "#plumber_suggesstion"], [$(this).val(), '3']);
+		$("#plumber_suggesstion").show();
+	}
+	else{
+		$("#plumber_suggesstion").hide();
+		$("#plumber_suggesstion").html('');
+	}
+})
+/*
 var req = null;
 function search_func(value)
 {
@@ -331,7 +344,7 @@ function selectuser(val,id,limit) {
 	$("#user_id_hide").val(id);
 	$("#plumber_suggesstion").hide();
 }
-
+*/
 $(function(){
 
 	validation(
