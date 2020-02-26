@@ -156,10 +156,11 @@ if(isset($id) && $id >0)
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<input type="number" class="form-control"  name="rangebalace_coc" id="rangebalace_coc"  value="">
+							<input type="text" class="form-control"  name="rangebalace_coc" id="rangebalace_coc"  value="">
 						</div>
 					</div>
 				</div>
+				
 
 				<div class="row">
 					<div class="col-md-3">
@@ -445,7 +446,7 @@ $(function(){
 	
 })
 
-$('#rangebalace_coc').on('keyup change',function(){
+$('#rangebalace_coc').on('keyup',function(){
 	ajax('<?php echo base_url()."resellers/allocatecoc/index/allocate_coc_range"; ?>', {'rangebalace_coc' : $(this).val()}, allocate_coc_range_set);
 });
 
