@@ -10,6 +10,7 @@ class Index extends CC_Controller
 		$this->load->model('Resellers_allocatecoc_Model');
 		$this->load->model('Plumber_Model');
 		$this->load->model('Coc_Model');
+		$this->load->model('Stock_Model');
 	}
 	
 	public function index()
@@ -404,6 +405,17 @@ class Index extends CC_Controller
 
 	public function pdfgenerate($plumberid){
 			
+	}
+
+	public function allocate_coc_range(){
+		$post = $this->input->post();		  		
+		$user_id = $this->getUserID();
+		// $rangebalace_coc = isset($post['rangebalace_coc']) && is_int($post['rangebalace_coc']) ? $post['rangebalace_coc'] : 0;
+		$stock = $this->Stock_Model->getResellerRange('all',['user_id'=>$user_id],$post['rangebalace_coc']);
+		$allocate_start = isset($stock['allocate_start']) ? $stock['allocate_start'] : '';
+		$allocate_end = isset($stock['allocate_end']) ? $stock['allocate_end'] : '';
+
+		echo json_encode(['allocate_start'=>$allocate_start,'allocate_end'=>$allocate_end]);
 	}
 	
 }

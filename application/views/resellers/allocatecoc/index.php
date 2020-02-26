@@ -151,15 +151,31 @@ if(isset($id) && $id >0)
 				<div class="row">
 					<div class="col-md-3">
 						<div class="form-group">
+							<label>Number of COC's to be Allocated to Licensed Plumber : </label>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<input type="number" class="form-control"  name="rangebalace_coc" id="rangebalace_coc"  value="">
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-3">
+						<div class="form-group">
 							<label>Certificate No Start Range : </label>
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
+							<input type="text" value="" readonly name="startrange" id="startrange">
+
 						<?php
-							if(count($rangedata) > 0){
-								echo form_dropdown('startrange', $rangedata, $startrange, ['id' => 'startrange', 'class'=>'form-control']);
-							}
+							// if(count($rangedata) > 0){
+							// 	echo form_dropdown('startrange', $rangedata, $startrange, ['id' => 'startrange', 'class'=>'form-control']);
+							// }
+
 						?>	
 						</div>
 					</div>
@@ -173,27 +189,18 @@ if(isset($id) && $id >0)
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">							
+							<input type="text" value="" readonly name="endrange" id="endrange">
+
 						<?php
-							if(count($rangedata) > 0){
-								echo form_dropdown('endrange', $rangedata, $endrange, ['id' => 'endrange', 'class'=>'form-control']);
-							}
+							// if(count($rangedata) > 0){
+							// 	echo form_dropdown('endrange', $rangedata, $endrange, ['id' => 'endrange', 'class'=>'form-control']);
+							// }
 						?>
 						</div>
 					</div>
 				</div>
 
-				<div class="row">
-					<div class="col-md-3">
-						<div class="form-group">
-							<label>Number of COC's to be Allocated to Licensed Plumber : </label>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<input type="text" class="form-control"  name="rangebalace_coc" id="rangebalace_coc"  value="">
-						</div>
-					</div>
-				</div>
+				
 
 				<div class="row">
 					<div class="col-md-12">
@@ -375,18 +382,18 @@ $(function(){
 			$('#submit2').prop('disabled', true);	
 		}
 	});
-	$('#startrange').on('change', function() {
-		var startrange = parseInt(this.value);
-		var endrange = parseInt($('#endrange').val());
-		var range = endrange - startrange + 1;		
-		$('#rangebalace_coc').val(range);
-	});
-	$('#endrange').on('change', function() {
-		var endrange = parseInt(this.value);
-		var startrange = parseInt($('#startrange').val());
-		var range = endrange - startrange + 1;		
-		$('#rangebalace_coc').val(range);
-	});
+	// $('#startrange').on('change', function() {
+	// 	var startrange = parseInt(this.value);
+	// 	var endrange = parseInt($('#endrange').val());
+	// 	var range = endrange - startrange + 1;		
+	// 	$('#rangebalace_coc').val(range);
+	// });
+	// $('#endrange').on('change', function() {
+	// 	var endrange = parseInt(this.value);
+	// 	var startrange = parseInt($('#startrange').val());
+	// 	var range = endrange - startrange + 1;		
+	// 	$('#rangebalace_coc').val(range);
+	// });
 
 
 	$('#submit2').on('click',function(){		
@@ -438,6 +445,14 @@ $(function(){
 	
 })
 
+$('#rangebalace_coc').on('keyup change',function(){
+	ajax('<?php echo base_url()."resellers/allocatecoc/index/allocate_coc_range"; ?>', {'rangebalace_coc' : $(this).val()}, allocate_coc_range_set);
+});
+
+function allocate_coc_range_set(data){
+	$('#startrange').val(data.allocate_start);
+	$('#endrange').val(data.allocate_end);
+}
 
 </script>
 
