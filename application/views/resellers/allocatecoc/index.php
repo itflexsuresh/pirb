@@ -160,7 +160,7 @@ if(isset($id) && $id >0)
 						</div>
 					</div>
 				</div>
-				
+
 
 				<div class="row">
 					<div class="col-md-3">
@@ -447,6 +447,8 @@ $(function(){
 })
 
 $('#rangebalace_coc').on('keyup',function(){
+	$('#startrange').val('');
+	$('#endrange').val('');
 	ajax('<?php echo base_url()."resellers/allocatecoc/index/allocate_coc_range"; ?>', {'rangebalace_coc' : $(this).val()}, allocate_coc_range_set);
 });
 
