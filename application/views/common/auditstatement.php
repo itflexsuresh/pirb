@@ -984,6 +984,8 @@ function refixcheck(){
 		}
 	})
 	
+	$('#auditstatus').val(1);
+	
 	if(reportcheck==1){
 		$('.refix_wrapper').removeClass('displaynone');
 		$('.refixdateappend').text(formatdate(newdate, 1));
@@ -992,7 +994,6 @@ function refixcheck(){
 		if($('.attachmenthidden').val()!=''){
 			$('.refix_wrapper, .report_wrapper, .auditcomplete_wrapper, .refixmodaltext, #submitreport').removeClass('displaynone');
 			$('.refixdateappend').text(formatdate(newdate, 1));
-			$('#auditstatus').val(0);
 		}
 	}else if(reportcheck==3){
 		if($('.attachmenthidden').val()!='') $('.report_wrapper, .auditcomplete_wrapper, #submitreport').removeClass('displaynone');

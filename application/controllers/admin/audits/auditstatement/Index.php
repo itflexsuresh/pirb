@@ -81,11 +81,25 @@ class Index extends CC_Controller
 	
 	public function viewcoc($id, $plumberid)
 	{
-		$this->coclogaction($id, ['pagetype' => 'view', 'roletype' => $this->config->item('roleadmin')], ['redirect' => 'admin/audits/auditstatement/index', 'userid' => $plumberid]);
+		$this->coclogaction(
+			$id, 
+			['pagetype' => 'view', 'roletype' => $this->config->item('roleadmin'), 'electroniccocreport' => 'admin/audits/auditstatement/index/electroniccocreport/'.$id.'/'.$plumberid, 'noncompliancereport' => 'admin/audits/auditstatement/index/noncompliancereport/'.$id.'/'.$plumberid], 
+			['redirect' => 'admin/audits/auditstatement/index', 'userid' => $plumberid]
+		);
 	}
 	
 	public function auditreport($id)
 	{
 		$this->pdfauditreport($id);
+	}
+	
+	public function electroniccocreport($id, $userid)
+	{	
+		$this->pdfelectroniccocreport($id, $userid);
+	}
+	
+	public function noncompliancereport($id, $userid)
+	{	
+		$this->pdfnoncompliancereport($id, $userid);
 	}
 }

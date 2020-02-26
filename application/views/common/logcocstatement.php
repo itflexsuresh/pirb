@@ -253,6 +253,14 @@
 								<button type="button" data-toggle="modal" data-target="#noncompliancemodal" class="btn btn-primary">Add a Non Compliance</button>
 							</div>
 						<?php } ?>
+						<?php if($coctypeid=='1' && $logdate!=''){ ?>
+							<div class="row text-right">
+								<a href="<?php echo base_url().$noncompliancereport;?>">
+									<span>Non Compliance Notice</span>
+									<img src="<?php echo $pdfimg; ?>" width="50">
+								</a>
+							</div>
+						<?php } ?>
 					</div>
 
 					<div class="row">
@@ -268,18 +276,18 @@
 									<p>(Image/File Size Smaller than 5mb)</p>
 								</div>
 							</div>
-
+						<?php } ?>
+						<?php if(count($noncompliance) > 0 && $logdate!=''){ ?>
 							<div class="col-md-6">
-								<h4 class="card-title add_top_value">View Electronic COC </h4>
+								<h4 class="card-title add_top_value">View Electronic COC</h4>
 								<div class="form-group">
 									<div>
-										<a href="<?php echo base_url();?>auditor/auditstatement/index/electroniccoc_report/<?php echo $cocid; ?>/<?php echo $userid; ?>" data-toggle="tooltip" data-placement="top">
-										<img src="<?php echo base_url();?>assets/images/pdf.png" height="60" width="80">
+										<a href="<?php echo base_url().$electroniccocreport;?>">
+										<img src="<?php echo $pdfimg; ?>" width="50">
 										</a>
 									</div>
 								</div>
 							</div>
-
 						<?php } ?>
 						<div class="col-md-12">
 							<h4 class="card-title add_top_value">Installation Images</h4>

@@ -414,29 +414,6 @@ class CC_Controller extends CI_Controller
 		$this->layout2($data);
 	}
 	
-	public function pdfauditreport($id)
-	{
-		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);
-		$pagedata['reviewlist']		= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
-		$html = $this->load->view('pdf/auditreport', (isset($pagedata) ? $pagedata : ''), true);
-		$this->pdf->loadHtml($html);
-		$this->pdf->setPaper('A4', 'portrait');
-		$this->pdf->render();
-		$output = $this->pdf->output();
-		$this->pdf->stream('Audit Report '.$id);
-	}
-
-	public function pdfelectroniccoc_report($id,$userid)
-	{		
-		$pagedata['userdata']	 		= $this->Plumber_Model->getList('row', ['id' => $userid]);
-		$pagedata['specialisations']	= explode(',', $pagedata['userdata']['specialisations']);
-		$pagedata['result']		    	= $this->Coc_Model->getCOCList('row', ['id' => $id]);
-		$pagedata['designation2'] 		= $this->config->item('designation2');
-
-		$html = $this->load->view('pdf/pdfelectroniccoc_report', (isset($pagedata) ? $pagedata : ''));
-		
-	}
-
 	public function resellersprofile($id, $pagedata=[], $extras=[])
 	{
 		if($id!=''){
@@ -568,4 +545,33 @@ class CC_Controller extends CI_Controller
 		
 		$this->layout2($data);
 	}
+	
+	public function pdfauditreport($id)
+	{
+		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);
+		$pagedata['reviewlist']		= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
+		$html = $this->load->view('pdf/auditreport', (isset($pagedata) ? $pagedata : ''), true);
+		$this->pdf->loadHtml($html);
+		$this->pdf->setPaper('A4', 'portrait');
+		$this->pdf->render();
+		$output = $this->pdf->output();
+		$this->pdf->stream('Audit Report '.$id);
+	}
+
+	public function pdfelectroniccocreport($id, $userid)
+	{		
+		$pagedata['userdata']	 		= $this->Plumber_Model->getList('row', ['id' => $userid]);
+		$pagedata['specialisations']	= explode(',', $pagedata['userdata']['specialisations']);
+		$pagedata['result']		    	= $this->Coc_Model->getCOCList('row', ['id' => $id]);
+		$pagedata['designation2'] 		= $this->config->item('designation2');
+
+		$html = $this->load->view('pdf/electroniccocreport', (isset($pagedata) ? $pagedata : ''));
+	}
+	
+	public function pdfnoncompliancereport($id, $userid)
+	{		
+		$noncompliance	= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $userid]);	
+
+		$html = $this->load->view('pdf/noncompliancereport', (isset($pagedata) ? $pagedata : ''));
+	}	
 }

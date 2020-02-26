@@ -1,14 +1,7 @@
 <?php
-require_once APPPATH.'libraries/dompdf/autoload.inc.php';
-use Dompdf\Dompdf;
-
-echo '<pre>'; print_r($userdata);
-echo '<pre>'; print_r($specialisations);
-echo '<pre>'; print_r($result);
-
 $cocid 					= isset($result['id']) ? $result['id'] : '';	
 $completiondate 		= isset($result['cl_completion_date']) && $result['cl_completion_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_completion_date'])) : '';
-$cl_order_no 					= isset($result['cl_order_no']) ? $result['cl_order_no'] : '';
+$cl_order_no 			= isset($result['cl_order_no']) ? $result['cl_order_no'] : '';
 $name 					= isset($result['cl_name']) ? $result['cl_name'] : '';
 $address 				= isset($result['cl_address']) ? $result['cl_address'] : '';
 $street 				= isset($result['cl_street']) ? $result['cl_street'] : '';
@@ -17,26 +10,22 @@ $province 				= isset($result['cl_province_name']) ? $result['cl_province_name']
 $city 					= isset($result['cl_city_name']) ? $result['cl_city_name'] : '';
 $suburb 				= isset($result['cl_suburb_name']) ? $result['cl_suburb_name'] : '';
 
-$cl_contact_no 				= isset($result['cl_contact_no']) ? $result['cl_contact_no'] : '';
+$cl_contact_no 			= isset($result['cl_contact_no']) ? $result['cl_contact_no'] : '';
+?>
 
-
-
-$html='
 <!DOCTYPE html> 
 <html>
   <head>
     <title>Electronic COC PDF</title>
-  </head>    
-            
+  </head>                
   <body style="-webkit-print-color-adjust: exact; margin:0;  font-family: arial; width:100%; ">
-
       <div id="wrapper">
           <div class="certificate-block">
               <div class="container" style="width:1300px; margin:0 auto; padding:16px 25px 25px 25px; border: 4px solid #00aeef; border-radius: 50px;">
                   <div class="uper-block">
-                      <h2 align="center" style="padding-bottom:10px; margin:0;"><img  src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/text-img.png"  style="width:96%; margin:0 auto;"></h2>
+                      <h2 align="center" style="padding-bottom:10px; margin:0;"><img src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/text-img.png"  style="width:96%; margin:0 auto;"></h2>
                       <div class="logo-block" style="width:48%; float: left; ">
-                          <img style="margin-top: 50px; width: 100%; height: auto;" width: 70%; height: auto; src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/logo-img.png" />
+                          <img style="margin-top: 50px; width: 100%; height: auto; width: 70%; height: auto; src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/logo-img.png" />
                       </div>
                       <div class="rt-side" style="float: right;width: 50%;padding: 20px 0 0 15px;margin-top: 50px; box-sizing: border-box;">
                           <div class="box" style="height: 40px; padding:7px 4px 3px 6px; margin: 0 0 4px; background: #d1d3d4;">
@@ -54,7 +43,7 @@ $html='
                   </div>
                   <div class="down-block" style="padding-bottom: 4px; margin-top: 70px;">
                       <div class="lt-side" style="float: left; width:50%;">
-                          <labeel style="font-size: 18px; line-height: 22px; font-weight: 400; color: #000; padding: 0; margin: 0px 30px; float: left;">Plumbing Work <br>Completion Date:</labeel> <span style="width:60%;height: 40px;border: 1px solid #bbbcbe;display: inline-block;padding: 0;margin: 0;float: right;">'.$completiondate.'</span>
+                          <label style="font-size: 18px; line-height: 22px; font-weight: 400; color: #000; padding: 0; margin: 0px 30px; float: left;">Plumbing Work <br>Completion Date:</labeel> <span style="width:60%;height: 40px;border: 1px solid #bbbcbe;display: inline-block;padding: 0;margin: 0;float: right;">'.$completiondate.'</span>
                       </div>
                       <div class="rt-side" style="float: right; width:47%; clear: both;">
                           <label style="font-size: 18px;line-height: 23px;font-weight: 400;color: #000;padding: 0;margin:11px 0 0;float: left;">INSURANCE CLAIM/ORDER NO. (If relevant)</label><span style="width: 40%;height: 25px;border: 1px solid #bbbcbe;display: inline-block;padding: 0;margin:11px 0 0;float: right;">'.$cl_order_no.'</span>
@@ -515,17 +504,6 @@ $html='
   </div>
   </div>
   </body>
-</html>';
+</html>
 
-$pdfFilePath = 'electroniccoc.pdf';
-$filePath = FCPATH.'assets/inv_pdf/';
-
-$dompdf = new DOMPDF();
-
-$dompdf->loadHtml($html);
-$dompdf->setPaper('A2', 'portrait');
-$dompdf->render();
-$output = $dompdf->output();
-file_put_contents($filePath.$pdfFilePath, $output);
-?>
 
