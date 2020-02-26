@@ -52,26 +52,23 @@ if(isset($result) && $result){
 					 				<td></td>
 					 				<td></td>
 					 			</tr>
-					 			<?php if(count($permission_list) > 0)
-					         {
-					          	foreach($permission_list as $key=>$val)
+					 			<?php 
+					          	foreach($results as $key=>$val)
 					         	{  
-                              //print_r($val);
+
 								?> 
 							<tr>
-								<td><?php  echo $key; ?></td>
+								<td><?php  echo $val['name']; ?></td>
 
-							<?php foreach($val as $k=>$v){
+							<?php
                            
    							?>
-								<td><?php echo $v['points'];?></td>
-								
-							<?php }?>
-								<td><a href="#edit_user" class="open-edit_user" id="edit_points" data-toggle="modal" data-user_id="<?php echo $v['id']; ?>"><i class="fa fa-pencil-alt"></i></a></td>
+								<td><?php echo $val['points'];?></td>							
+								<td><a href="#edit_user" class="open-edit_user" id="edit_points" data-toggle="modal" data-user_id="<?php echo $val['id']; ?>"><i class="fa fa-pencil-alt"></i></a></td>
 							</tr>
 							
 						</tbody>
-						<?php }}?>
+						<?php }?>
 					    </table>
 
 				      
@@ -108,7 +105,6 @@ if(isset($result) && $result){
 									<input type="hidden" name="skill_id" class="skill_id" id="form_id">
 									<button type="submit" class="btn btn-success save" id="save">Save</button>
 								</div>
-								
 							</form>
 						</div>
 					</div>
@@ -130,7 +126,7 @@ $.ajax({
                data : { id : $(this).attr('data-user_id') },
                success: function (jdata) {
                    var jsonData=jdata
-                   console.log(jsonData.name)
+                //   console.log(jsonData.name)
                    $('#name').val(jsonData.name);
                    $('#points').val(jsonData.points);
                    $('#form_id').val(point);

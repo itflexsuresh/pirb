@@ -154,6 +154,7 @@ function formatdate(date, type){
 	var date = new Date(date)
 	if(type==1)				return ('0' + date.getDate()).slice(-2)+"-"+('0' + (date.getMonth()+1)).slice(-2)+ "-" +date.getFullYear();
 	else if(type==2)		return date.getFullYear()+"/"+('0' + (date.getMonth()+1)).slice(-2)+ "/" +('0' + date.getDate()).slice(-2);
+	else if(type==3)		return ('0' + date.getDate()).slice(-2)+"-"+('0' + (date.getMonth()+1)).slice(-2)+ "-" +date.getFullYear()+' '+('0' + date.getHours()).slice(-2)+':'+('0' + date.getMinutes()).slice(-2)+':'+('0' + date.getSeconds()).slice(-2);
 }
 
 function numberonly(selector){
@@ -188,7 +189,7 @@ function editor(selector, validation='', height=300){
 	});
 }
 
-function fileupload(data1=[], data2=[], multiple=''){
+function fileupload(data1=[], data2=[], multiple='', customfunction=''){
 	var ajaxurl 	= baseurl()+"ajax/index/ajaxfileupload";
 	
 	var selector 	= data1[0];
@@ -212,28 +213,32 @@ function fileupload(data1=[], data2=[], multiple=''){
 	})
 	
 	function fileappend(data){
-		if(data.file_name && data2.length){
+		if((data.file_name && data2.length) || (data.file_name && customfunction!='')){
 			var file 		= data.file_name;
 			
-			if(data2[1] && data2[2]){
-				var ext = data.file_name.split('.').pop().toLowerCase();
-				
-				if(ext=='jpg' || ext=='jpeg' || ext=='png' || ext=='tif' || ext=='tiff'){
-					var filesrc = data2[2]+'/'+file;
-				}else if(ext=='pdf'){
-					var filesrc = data2[3];
-				}
-			}
-			
-			if(multiple==''){
-				$(data2[0]).val(file);
-				
-				if(filesrc){
-					$(data2[1]).attr('src', filesrc);
-				}				
+			if(customfunction!=''){
+				customfunction(file);
 			}else{
-				if(filesrc){
-					$(data2[1]).append('<div class="multipleupload"><input type="hidden" value="'+file+'" name="'+data2[0]+'"><img src="'+filesrc+'" width="100"><i class="fa fa-times"></i></div>');
+				if(data2[1] && data2[2]){
+					var ext = data.file_name.split('.').pop().toLowerCase();
+					
+					if(ext=='jpg' || ext=='jpeg' || ext=='png' || ext=='tif' || ext=='tiff'){
+						var filesrc = data2[2]+'/'+file;
+					}else if(ext=='pdf'){
+						var filesrc = data2[3];
+					}
+				}
+				
+				if(multiple==''){
+					$(data2[0]).val(file);
+					
+					if(filesrc){
+						$(data2[1]).attr('src', filesrc);
+					}				
+				}else{
+					if(filesrc){
+						$(data2[1]).append('<div class="multipleupload"><input type="hidden" value="'+file+'" name="'+data2[0]+'"><img src="'+filesrc+'" width="100"><i class="fa fa-times"></i></div>');
+					}
 				}
 			}
 		}
@@ -516,31 +521,31 @@ function userautocomplete(data1=[], data2=[], customfunction=''){
 	})
 }
 
-function chat(data1=[], data2=[]){
+function chat(data1=[], data2=[], data3=[]){
 	chatcontent({'cocid' : data2[0], 'fromto' : data2[1] });
 	startTimer();
 	
 	$(data1[0]).keyup(function(event){
 		var keycode = (event.keyCode ? event.keyCode : event.which);
 		if(keycode == '13'){
-			var data = 	{
-				'cocid' 		: data2[0], 
-				'fromid' 		: data2[1],
-				'toid' 			: data2[2],
-				'message' 		: $(this).val(),
-				'state1' 		: '0',
-				'type' 			: '1'
+			if($(this).val()!=''){
+				var data = 	{
+					'cocid' 		: data2[0], 
+					'fromid' 		: data2[1],
+					'toid' 			: data2[2],
+					'message' 		: $(this).val(),
+					'state1' 		: '0',
+					'type' 			: '1'
+				}
+				
+				chataction(data);
+				chatcontent({'cocid' : data2[0], 'checkfrom' : data2[1] }, 'checkfrom');
+				$(data1[0]).val('');
 			}
-			
-			chataction(data);
-			chatcontent({'cocid' : data2[0], 'fromto' : data2[1] }, '1');
-			$(data1[0]).val('');
 		}		
 	});
 	
 	function chatcontent(param, state=''){
-		console.log(param);
-		console.log(state);
 		ajax(
 			baseurl()+'ajax/index/ajaxchat', 
 			param, 
@@ -551,11 +556,29 @@ function chat(data1=[], data2=[]){
 						var chatdata 	= [];
 						var result 		= data.result;
 						
-						$(result).each(function(i,v){							
-							var chatappend = '<p>'+v.message+'</p>';
+						$(result).each(function(i,v){
+							var chatappend = '<div class="chatbar_section"><div class="chatbar_wrapper '+((v.from_id!=data2[1]) ? 'chatbar_wrapper_right' : '')+'"><p class="chatbar_user">'+v.name+'  '+formatdate(v.created_at, 3)+'</p>';							
+							if(v.type=='2'){
+								var ext = v.attachment.split('.').pop().toLowerCase();
+								if(ext=='jpg' || ext=='jpeg' || ext=='png' || ext=='tif' || ext=='tiff'){
+									var filesrc = data3[0]+'/'+v.attachment;
+								}else if(ext=='pdf'){
+									var filesrc = data3[1];
+								}
+								
+								chatappend += '<img src="'+filesrc+'" width="100">';
+							}else{
+								chatappend += '<div class="chatbar"><p class="chatbar_message">'+v.message+'</p></div>';
+							}	
+							
+							if(v.from_id!=data2[1]) chatappend += '<div class="clear"></div>';
+								
+							chatappend += '</div></div>';
+							
 							chatdata.push(chatappend)
 							
-							if(state=='2') chataction({'id' : v.id, 'state2' : '1'});
+							if(state=='checkfrom') chataction({'id' : v.id, 'state1' : '1'});
+							else if(state=='checkto') chataction({'id' : v.id, 'state2' : '1'});
 						})
 						
 						$(data1[1]).append(chatdata.join(''));
@@ -563,10 +586,6 @@ function chat(data1=[], data2=[]){
 				}
 			}
 		);
-		
-		
-		if(state=='1') startTimer();
-		else if(state=='2') stopTimer();
 	}
 	
 	function chataction(param){
@@ -574,9 +593,31 @@ function chat(data1=[], data2=[]){
 	}
 	
 	function chatunread(){
-		console.log('f');
-		chatcontent({'cocid' : data2[0], 'toid' : data2[1] }, '2')
+		chatcontent({'cocid' : data2[0], 'checkto' : data2[1] }, 'checkto')
 	}
+	
+	// File Upload
+	
+	$('#chatattachment').click(function(){
+		$('#chatattachmentfile').click();
+		fileupload(["#chatattachmentfile", "./assets/uploads/chat/"+data2[0]+"/", ['jpg','gif','jpeg','png','pdf','tiff']], [], '', chatattachmentaction);
+	})
+	
+	function chatattachmentaction(file){
+		var data = 	{
+			'cocid' 		: data2[0], 
+			'fromid' 		: data2[1],
+			'toid' 			: data2[2],
+			'attachment' 	: file,
+			'state1' 		: '0',
+			'type' 			: '2'
+		}
+		
+		chataction(data);
+		chatcontent({'cocid' : data2[0], 'checkfrom' : data2[1] }, 'checkfrom');
+	}
+	
+	// Timer
 	
 	var interval;
 	

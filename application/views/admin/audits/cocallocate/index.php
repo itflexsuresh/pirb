@@ -180,7 +180,10 @@
 				ajax('<?php echo base_url()."admin/audits/cocallocate/index/auditor_allocate"; ?>', {'coc_id' : coc_id,'auditor_id' : auditor_id,'user_id' : user_id}, auditor_allocate);
 			} else {
 				$(this).prop('checked', false);
-				alert('Please select Auditor');
+				// alert('Please select Auditor');
+				// $('div.message').text('Please select Auditor').css('color','red').show();				
+				$('div.message').remove();				
+				$("#DataTables_Table_1_length").after("<div class='message' style='color:red'>Please select Auditor</div>");
 			}
 			// $('.allocate:checked').parent('.allocate_section').find('.user_search').attr('disabled',true);
 			// $('.allocate:checked').hide();
@@ -188,12 +191,15 @@
 	});
 	
 	function auditor_allocate(){
-		alert('Auditor Allocated successfully');
+		// alert('Auditor Allocated successfully');
+		$('div.message').remove();				
+		$("#DataTables_Table_1_length").after("<div class='message' style='color:green'>Auditor Allocated successfully</div>");
 		$('.allocate:checked').parent('.allocate_section').find('.user_search').attr('disabled',true);
 		$('.allocate:checked').hide();
 	}
 
 	$(document).on('keyup', '.user_search', function(){
+		$('div.message').remove();
 		user_search = '#'+$(this).attr('id');
 		auditor_id = $(this).parent('div').find(".auditor_id");
 		auditor_id.attr('value','');
@@ -220,6 +226,7 @@
 	}
 	
 	$(document).on('click', '.autocompletelist'+appendclass, function(){
+		$('div.message').remove();
 		var id = $(this).attr('data-id');
 		var name = $(this).attr('data-name');
 
@@ -270,6 +277,7 @@
 	}
 
 	function cocdisplay(destroy=0,user_id=''){		
+		$('div.message').remove();
 		var options = {
 			url 	: 	'<?php echo base_url()."admin/audits/cocallocate/index/DTcoc"; ?>',		
 			data    :   { user_id : user_id, start_date_range:$('#start_date_range').val(), end_date_range:$('#end_date_range').val(), start_coc_range:$('#start_coc_range').val(), end_coc_range:$('#end_coc_range').val(), max_allocate_plumber:$('#max_allocate_plumber').val(),province:$('#province1').val(), city:$('#city1').val() }, 
@@ -298,5 +306,10 @@
 #DataTables_Table_1_info
  {
 	display: none;
+}
+div.message {
+	text-align: right;
+	padding-right: 10px;
+	padding-top: 20px;
 }
 </style>

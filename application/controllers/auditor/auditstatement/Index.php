@@ -75,11 +75,30 @@ class Index extends CC_Controller
 	
 	public function view($id)
 	{
-		$this->getAuditStatement($id, ['pagetype' => 'view', 'viewcoc' => 'auditor/auditstatement/index/viewcoc', 'roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index', 'auditorid' => $this->getUserID()]);
+		$this->getAuditStatement($id, ['pagetype' => 'view', 'viewcoc' => 'auditor/auditstatement/index/viewcoc', 'auditreport' => 'auditor/auditstatement/index/auditreport/'.$id, 'roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index', 'auditorid' => $this->getUserID()]);
 	}
 	
 	public function viewcoc($id, $plumberid)
 	{
-		$this->coclogaction($id, ['pagetype' => 'view', 'roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index', 'userid' => $plumberid]);
+		$this->coclogaction(
+			$id, 
+			['pagetype' => 'view', 'roletype' => $this->config->item('roleauditor'), 'electroniccocreport' => 'auditor/auditstatement/index/electroniccocreport/'.$id.'/'.$plumberid, 'noncompliancereport' => 'auditor/auditstatement/index/noncompliancereport/'.$id.'/'.$plumberid], 
+			['redirect' => 'auditor/auditstatement/index', 'userid' => $plumberid]
+		);
+	}
+	
+	public function auditreport($id)
+	{
+		$this->pdfauditreport($id);
+	}
+
+	public function electroniccocreport($id, $userid)
+	{	
+		$this->pdfelectroniccocreport($id, $userid);
+	}
+	
+	public function noncompliancereport($id, $userid)
+	{	
+		$this->pdfnoncompliancereport($id, $userid);
 	}
 }

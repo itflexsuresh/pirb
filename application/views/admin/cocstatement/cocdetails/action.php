@@ -10,7 +10,7 @@
 	$coctype 				= isset($this->config->item('coctype')[$result['type']]) ? $this->config->item('coctype')[$result['type']] : '';
 	
 	$companyname 			= isset($result['resellercompany']) ? $result['resellercompany'] : (isset($result['plumbercompany']) ? $result['plumbercompany'] : '');
-	$allocationdate 		= isset($result['resellercreateddate']) && $result['resellercreateddate']!='1970-01-01' ? date('d-m-Y', strtotime($result['resellercreateddate'])) : '';
+	$allocationdate 		= isset($result['resellercreateddate']) && $result['resellercreateddate']!='1970-01-01' ? date('d-m-Y H:i:s', strtotime($result['resellercreateddate'])) : '';
 	
 	$plumberid 				= isset($result['u_id']) ? $result['u_id'] : '';
 	$plumberregno 			= isset($result['plumberregno']) ? $result['plumberregno'] : '';

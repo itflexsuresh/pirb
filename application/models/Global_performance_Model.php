@@ -43,7 +43,9 @@ class Global_performance_Model extends CC_Model
 
     public function action($data)
 	{ 
-		$this->db->trans_begin();
+		// echo "<pre>";
+		// print_r($data);die;
+		 $this->db->trans_begin();
 		
 		$userid	  = 	$this->getUserID();
 		$id       =     $data['id'];
@@ -62,23 +64,36 @@ class Global_performance_Model extends CC_Model
     	  foreach($notification_points as $n => $p)
     	{
 
-        
     		$this->db->update('gps_notification', ['point' => $p],['id' => $n]);
     	
-    	
+ 
     	}
-    	 $status = $data['status'];
+    	  for ($i=1; $i <= 4; $i++) { 
+		    if (isset($data['status'][$i])=='on') {
+		   		$vals = '1';
+		   		$this->db->update('gps_notification', ['status' => $vals],['id' => $i]);
+		   	}else{
+				$vals = '0';
+				$this->db->update('gps_notification', ['status' => $vals],['id' => $i]);
+		   	}
+    	  }
+        if(isset($data['rolling_avg'])) $request['rolling_avg'] = $data['rolling_avg'];
+
       
-
-    	  $notice_points= (isset($data['status'])) ? $data['status'] : '0';
-    	  foreach($notice_points as $s1 => $p1)
-    	{
-    
-    		$this->db->update('gps_notification', ['status' => $p1],['id' => $s1]);
+		if($data['rolling_avg']!=''){
+			$this->db->update('gps_notification', $request, ['id' => '1']);
+		}
+        if($data['rolling_avg']!=''){
+			$this->db->update('gps_notification', $request, ['id' => '2']);
+		}
+		if($data['rolling_avg']!=''){
+			$this->db->update('gps_notification', $request, ['id' => '3']);
+		}
+		if($data['rolling_avg']!=''){
+			$this->db->update('gps_notification', $request, ['id' => '4']);
+		}
     	
-    	}
-    	
-
+		// if($this->db->trans_status() === FALSE || if($notice_point_update))
 		if($this->db->trans_status() === FALSE)
 		{
 			$this->db->trans_rollback();
@@ -89,9 +104,8 @@ class Global_performance_Model extends CC_Model
 			$this->db->trans_commit();
 			return true;
 		}
+	
 	}
-
-
 
 }
 

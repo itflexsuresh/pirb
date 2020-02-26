@@ -1,8 +1,8 @@
 <?php
-if(isset($results) && $results){
-
+if(isset($result) && $result){
+// print_r($result);exit();
 	//$id 			= $results['id'];
-	//$points			= (set_value('points')) ? set_value('points') : $results['point'];
+	// $points			= (set_value('points')) ? set_value('points') : $results['point'];
 
 	$heading		= 'Update';
 }else{
@@ -81,18 +81,20 @@ if(isset($results) && $results){
 								<td class="point">
 									<input type="text" size="2" min="0" id="points" name="points1[<?php echo $val1['id'];?>]"  value="<?php echo $val1['point'];?>" style="margin: 0px 20px;width: 10%;">
 								</td>
+
 								<td>
                                 <div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
-								<input type="checkbox" class="custom-control-input" name="status[<?php echo $val1['id'];?>]" id="status_<?php echo $val1['id'];?>" <?php if($val1['status']==1) echo 'checked';?>>
+								<input type="checkbox" class="custom-control-input" name="status[<?php echo $val1['id'];?>]" id="status_<?php echo $val1['id'];?>" <?php echo ($val1['status']=='1') ? 'checked="checked"' : ''; ?>>
 								<label class="custom-control-label" for="status_<?php echo $val1['id'];?>"></label>
 							    </div></td>
+							    
 							</tr>
 							<?php }?>
 						</tbody>
 					    </table></br>
                 <div class="form-group">
 					<label style="text-align: bold">Performance Rolling Averages</label>&nbsp&nbsp&nbsp &nbsp &nbsp  
-					<input type="text" class="form-group" id="avg" name="average"  placeholder="month" >							
+					<input type="text" class="form-group" id="avg" name="rolling_avg"  value="<?php echo $val1['rolling_avg']; ?>" placeholder="months" >							
 		        </div>			
                 <div class="col-md-11 text-right">
 				       <input type="hidden" name="id" value="<?php //echo $id; ?>">

@@ -39,7 +39,6 @@
 	$contactno 				= isset($result['cl_contact_no']) ? $result['cl_contact_no'] : '';
 	$alternateno 			= isset($result['cl_alternate_no']) ? $result['cl_alternate_no'] : '';
 	
-	
 	$statementid 			= isset($result['as_id']) ? $result['as_id'] : '';
 	$auditdate 				= isset($result['as_audit_date']) && $result['as_audit_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['as_audit_date'])) : '';
 	$workmanshipid 			= isset($result['as_workmanship']) ? $result['as_workmanship'] : '';
@@ -47,6 +46,7 @@
 	$cocverification 		= isset($result['as_coc_verification']) ? $result['as_coc_verification'] : '';
 	$hold 					= isset($result['as_hold']) ? $result['as_hold'] : '';
 	$reason 				= isset($result['as_reason']) ? $result['as_reason'] : '';
+	$auditcomplete 			= isset($result['as_auditcomplete']) ? $result['as_auditcomplete'] : '';
 	
 	$reviewtableclass		= ['1' => 'review_failure', '2' => 'review_cautionary', '3' => 'review_compliment', '4' => 'review_noaudit'];
 	
@@ -68,6 +68,8 @@
 		
 	if($workmanshipid=='' && $roletype=='1') $workmanship = [];
 	if($plumberverification=='' && $roletype=='1') $yesno = [];
+	
+	$chatfilepath	= base_url().'assets/uploads/chat/'.$cocid.'/';
 ?>
 
 <div class="row page-titles">
@@ -270,10 +272,10 @@
 								</div>
 							</div>
 						</div>
-					</div>
-					<?php if($roletype=='5' && $pagetype=='1'){ ?>
-						<div class="col-md-6">
-							<div class="row">							
+					</div>					
+					<div class="col-md-6">
+						<div class="row">	
+							<?php if($roletype=='5' && $pagetype=='1'){ ?>
 								<div class="col-md-12">
 									<div class="form-group custom-control custom-radio">							
 										<input type="radio" class="custom-control-input" name="hold" id="hold" value="1" <?php if($hold=='1'){ echo 'checked'; } ?>>
@@ -285,11 +287,19 @@
 										<label>Why was Audit placed on hold?</label>	
 										<textarea class="form-control"  name="reason" id="reason" rows="4" cols="50"><?php echo $reason; ?></textarea>			
 									</div>
-								</div>						
+								</div>		
+							<?php } ?>		
+							<?php if($auditcomplete=='1' && $pagetype=='2'){ ?>		
+								<div class="col-md-12">
+									<a href="<?php echo base_url().'/'.$auditreport; ?>">
+										<img src="<?php echo $pdfimg; ?>" width="50">
+										<span>Audit Report</span>
+									</a>
+								</div>
+							<?php } ?>				
 								
-							</div>
 						</div>
-					<?php } ?>
+					</div>
 				</div>
 				
 				<div class="row form-group">
@@ -312,7 +322,7 @@
 									<?php } ?>
 								</tr>
 								<tr class="reviewnotfound">
-									<td colspan="7">No Record Found</td>
+									<td colspan="8">No Record Found</td>
 								</tr>
 							</table>
 							<input type="hidden" class="attachmenthidden" name="attachmenthidden"> 
@@ -385,16 +395,22 @@
 
 <div class="row">
 	<div class="col-12">
+		<h4 class="card-title">Chat (History)</h4>
 		<div class="card">
 			<div class="chatcontent" id="chatcontent"></div>
-			<div class="chatfooter">
-				<div class="input-group">
-					<input type="text" class="form-control" id="chattext">
-					<div class="input-group-append">
-						<span class="input-group-text"><i class="fa fa-paperclip" id="chatattachment"></i></span>
+			<?php if(($pagetype=='1' && $roletype=='5') || ($pagetype=='2' && $roletype=='3' && $auditcomplete!='1')){ ?>
+				<div class="chatfooter">
+					<div class="input-group">
+						<input type="text" class="form-control" id="chattext">
+						<div class="input-group-append">
+							<span class="input-group-text">
+								<i class="fa fa-paperclip" id="chatattachment"></i>
+								<input type="file" name="file" class="displaynone" id="chatattachmentfile">
+							</span>
+						</div>
 					</div>
 				</div>
-			</div>
+			<?php } ?>
 		</div>
 	</div>
 </div>
@@ -545,6 +561,7 @@ var plumberverificationpt 	= JSON.parse('<?php echo json_encode($plumberverifica
 var cocverificationpt 		= JSON.parse('<?php echo json_encode($cocverificationpt); ?>');
 var noaudit		= '<?php echo $noaudit; ?>';
 var filepath 	= '<?php echo $filepath; ?>';
+var chatpath 	= '<?php echo $chatfilepath; ?>';
 var reviewpath 	= '<?php echo $reviewpath; ?>';
 var pdfimg		= '<?php echo $pdfimg; ?>';
 var pagetype	= '<?php echo $pagetype; ?>';
@@ -562,9 +579,9 @@ $(function(){
 	datepicker('.auditdate');	
 	select2('#workmanship, #plumberverification, #cocverification');
 	citysuburb(['#province','#city', '#suburb'], ['<?php echo $cityid; ?>', '<?php echo $suburbid; ?>']);
-	subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], ['', '']);
+	subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], ['', ''], reviewpoint);
 	fileupload(["#r_file", "./assets/uploads/auditor/statement/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.rfileappend', reviewpath, pdfimg], 'multiple');
-	chat(['#chattext', '#chatcontent'], [cocid, fromid, toid]);
+	chat(['#chattext', '#chatcontent'], [cocid, fromid, toid], [chatpath, pdfimg]);
 	
 	var reviewlist = $.parseJSON('<?php echo json_encode($reviewlist); ?>');
 	if(reviewlist.length > 0){
@@ -919,7 +936,7 @@ function reviewmodalclear(data=''){
 	
 	$('#incompletepoint, #completepoint, #cautionarypoint, #complimentpoint, #noauditpoint').val(0);
 	$('.r_auditorreportlist, .r_installationtype, .r_reference, .r_link, .r_comments, .r_file, .r_point, .r_id').val('');
-	subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], ['', '']);
+	subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], ['', ''], reviewpoint);
 	$('.rfileappend').html('');
 	$('.reviewform').find("p.error_class_1").remove();
 	$('.reviewform').find(".error_class_1").removeClass('error_class_1');
@@ -967,6 +984,8 @@ function refixcheck(){
 		}
 	})
 	
+	$('#auditstatus').val(1);
+	
 	if(reportcheck==1){
 		$('.refix_wrapper').removeClass('displaynone');
 		$('.refixdateappend').text(formatdate(newdate, 1));
@@ -975,7 +994,6 @@ function refixcheck(){
 		if($('.attachmenthidden').val()!=''){
 			$('.refix_wrapper, .report_wrapper, .auditcomplete_wrapper, .refixmodaltext, #submitreport').removeClass('displaynone');
 			$('.refixdateappend').text(formatdate(newdate, 1));
-			$('#auditstatus').val(0);
 		}
 	}else if(reportcheck==3){
 		if($('.attachmenthidden').val()!='') $('.report_wrapper, .auditcomplete_wrapper, #submitreport').removeClass('displaynone');
@@ -993,13 +1011,13 @@ function pointcalculation(){
 	var plumberverification = $('#plumberverification').val();
 	var cocverification = $('#cocverification').val();
 	
-	var workmanshipval 			= (workmanshippt[workmanship]) ? parseFloat(workmanshippt[workmanship]) : 0;
-	var plumberverificationval 	= (plumberverificationpt[plumberverification]) ? parseFloat(plumberverificationpt[plumberverification]) : 0;
-	var cocverificationval 		= (cocverificationpt[cocverification]) ? parseFloat(cocverificationpt[cocverification]) : 0;
+	var workmanshipval 			= (workmanshippt[workmanship]) ? parseFloat(workmanshippt[workmanship].replace("+", "")) : 0;
+	var plumberverificationval 	= (plumberverificationpt[plumberverification]) ? parseFloat(plumberverificationpt[plumberverification].replace("+", "")) : 0;
+	var cocverificationval 		= (cocverificationpt[cocverification]) ? parseFloat(cocverificationpt[cocverification].replace("+", "")) : 0;
 	
 	var reviewval = 0;
 	$(document).find('.reviewappend').each(function(){
-		reviewval += parseFloat($(this).find('td:eq(4)').text());
+		reviewval += parseFloat($(this).find('td:eq(4)').text().replace("+", ""));
 	})
 	
 	$('#workmanshippoint').val(workmanshipval);

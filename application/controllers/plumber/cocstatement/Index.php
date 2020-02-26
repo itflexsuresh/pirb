@@ -69,11 +69,31 @@ class Index extends CC_Controller
 	
 	public function view($id)
 	{
-		$this->coclogaction($id, ['pagetype' => 'view', 'roletype' => $this->config->item('roleplumber')], ['redirect' => 'plumber/cocstatement/index', 'userid' => $this->getUserID()]);
+		$this->coclogaction(
+			$id, 
+			['pagetype' => 'view', 'roletype' => $this->config->item('roleplumber'), 'electroniccocreport' => 'plumber/cocstatement/index/electroniccocreport/'.$id, 'noncompliancereport' => 'plumber/cocstatement/index/noncompliancereport/'.$id], 
+			['redirect' => 'plumber/cocstatement/index', 'userid' => $this->getUserID()]
+		);
 	}
 	
 	public function action($id)
 	{
-		$this->coclogaction($id, ['pagetype' => 'action', 'roletype' => $this->config->item('roleplumber')], ['redirect' => 'plumber/cocstatement/index', 'userid' => $this->getUserID()]);
+		$this->coclogaction(
+			$id, 
+			['pagetype' => 'action', 'roletype' => $this->config->item('roleplumber'), 'electroniccocreport' => 'plumber/cocstatement/index/electroniccocreport/'.$id, 'noncompliancereport' => 'plumber/cocstatement/index/noncompliancereport/'.$id], 
+			['redirect' => 'plumber/cocstatement/index', 'userid' => $this->getUserID()]
+		);
+	}
+	
+	public function electroniccocreport($id)
+	{	
+		$userid = $this->getUserID();
+		$this->pdfelectroniccocreport($id, $userid);
+	}
+	
+	public function noncompliancereport($id)
+	{	
+		$userid = $this->getUserID();
+		$this->pdfnoncompliancereport($id, $userid);
 	}
 }

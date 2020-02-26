@@ -21,7 +21,7 @@
 	$installationdetail 	= isset($result['cl_installation_detail']) ? $result['cl_installation_detail'] : '';
 	$file1 					= isset($result['cl_file1']) ? $result['cl_file1'] : '';
 	$file2 					= isset($result['cl_file2']) ? array_filter(explode(',', $result['cl_file2'])) : [];
-	$agreementid 			= isset($result['cl_agreement']) ? explode(',', $result['cl_agreement']) : [];
+	$agreementid 			= isset($result['cl_agreement']) ? $result['cl_agreement'] : '';
 	
 	$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/log/';
 	$pdfimg 				= base_url().'assets/images/pdf.png';
@@ -253,6 +253,14 @@
 								<button type="button" data-toggle="modal" data-target="#noncompliancemodal" class="btn btn-primary">Add a Non Compliance</button>
 							</div>
 						<?php } ?>
+						<?php if(count($noncompliance) > 0 && $logdate!=''){ ?>
+							<div class="row text-right">
+								<a href="<?php echo base_url().$noncompliancereport;?>">
+									<span>Non Compliance Notice</span>
+									<img src="<?php echo $pdfimg; ?>" width="50">
+								</a>
+							</div>
+						<?php } ?>
 					</div>
 
 					<div class="row">
@@ -266,6 +274,18 @@
 									<input type="file" id="file1_file" class="file1_file">
 									<input type="hidden" name="file1" class="file1" value="<?php echo $file1; ?>">
 									<p>(Image/File Size Smaller than 5mb)</p>
+								</div>
+							</div>
+						<?php } ?>
+						<?php if($coctypeid=='1' && $logdate!=''){ ?>
+							<div class="col-md-6">
+								<h4 class="card-title add_top_value">View Electronic COC</h4>
+								<div class="form-group">
+									<div>
+										<a href="<?php echo base_url().$electroniccocreport;?>">
+										<img src="<?php echo $pdfimg; ?>" width="50">
+										</a>
+									</div>
 								</div>
 							</div>
 						<?php } ?>
@@ -307,8 +327,8 @@
 						<tr>
 							<td style="text-align: center; background-color: #ffeae5; vertical-align: middle;">
 								<div class="table-action">
-									<div class="custom-control custom-checkbox">
-										<input type="checkbox" id="agreement1" name="agreement[]" value="1" class="custom-control-input" <?php echo (in_array('1', $agreementid)) ? 'checked="checked"' : ''; ?>>
+									<div class="custom-control custom-radio">
+										<input type="radio" id="agreement1" name="agreement" value="1" class="custom-control-input" <?php echo ($agreementid=='1') ? 'checked="checked"' : ''; ?>>
 										<label class="custom-control-label" for="agreement1"></label>
 									</div>
 								</div>	
@@ -318,8 +338,8 @@
 						<tr>
 							<td style="text-align: center; background-color: #ffeae5; vertical-align: middle;">
 								<div class="table-action">
-									<div class="custom-control custom-checkbox">
-										<input type="checkbox" id="agreement2" name="agreement[]" value="2" class="custom-control-input" <?php echo (in_array('2', $agreementid)) ? 'checked="checked"' : ''; ?>>
+									<div class="custom-control custom-radio">
+										<input type="radio" id="agreement2" name="agreement" value="2" class="custom-control-input" <?php echo ($agreementid=='2') ? 'checked="checked"' : ''; ?>>
 										<label class="custom-control-label" for="agreement2"></label>
 									</div>
 								</div>	
@@ -521,9 +541,8 @@ $(function(){
 			'specialisations[]':{
 				required    : true
 			},
-			'agreement[]':{
-				required    : true,
-				maxlength	: 2
+			agreement:{
+				required    : true
 			}
 			
 		},
@@ -569,7 +588,7 @@ $(function(){
 				required    : "Please check the specialisations",
 				maxlength	: "Please check the specialisations"
 			},
-			'agreement[]':{
+			agreement:{
 				required    : "Please check the agreement",
 				maxlength   : "Please check the agreement"
 			}
