@@ -49,7 +49,7 @@ class Index extends CC_Controller
 			if(isset($requestData['plumberid']) > 0){
 				// print_r($requestData);
 				$plumberid = $requestData['plumberid'];
-				$this->insertOrders();
+				//$this->insertOrders();
 				$data 	=  $this->Resellers_allocatecoc_Model->action($requestData);
 				if($data) $message = 'Resellers Allocated Coc'.(($plumberid=='') ? 'created' : 'updated').' successfully.';				
 				redirect('resellers/cocstatement/index');

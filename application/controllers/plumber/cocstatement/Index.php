@@ -48,6 +48,7 @@ class Index extends CC_Controller
 										'customer' 			=> 	$result['cl_name'],
 										'address' 			=> 	$result['cl_address'],
 										'company' 			=> 	$result['plumbercompany'],
+										'reseller' 			=> 	$result['resellername'],
 										'action'			=> 	'
 																	<div class="table-action">
 																		'.$action.'

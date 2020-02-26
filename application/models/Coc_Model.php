@@ -32,6 +32,7 @@ class Coc_Model extends CC_Model
 			up.registration_no as plumberregno, 
 			pa.createddate as resellercreateddate,
 			rd.company as resellercompany,
+			concat(rd.name, " ", rd.surname) as resellername, 
 			concat(ad.name, " ", ad.surname) as auditorname, 
 			ad.mobile_phone as auditormobile, 
 			a.email as auditoremail, 
@@ -46,9 +47,9 @@ class Coc_Model extends CC_Model
 		$this->db->join('province p', 'p.id=cl.province', 'left'); // Coc Log
 		$this->db->join('city c', 'c.id=cl.city', 'left'); // Coc Log
 		$this->db->join('suburb s', 's.id=cl.suburb', 'left'); // Coc Log
-		$this->db->join('users_detail cd1', 'cd1.user_id=cl.company_details', 'left'); // Plumber Company Details
+		$this->db->join('users_detail cd1', 'cd1.user_id=cl.company_details', 'left'); // Plumber Details
 		$this->db->join('plumberallocate pa', 'pa.stockid=sm.id', 'left'); // Reseller Allocate
-		$this->db->join('users_detail rd', 'rd.user_id=pa.company_details', 'left'); // Reseller Company Details
+		$this->db->join('users_detail rd', 'rd.user_id=pa.company_details', 'left'); // Reseller Details
 		$this->db->join('users_detail ad', 'ad.user_id=sm.auditorid', 'left'); // Auditor
 		$this->db->join('users a', 'a.id=sm.auditorid', 'left'); // Auditor
 		$this->db->join('auditor_statement aas', 'aas.coc_id=sm.id', 'left'); // Auditor Statement
