@@ -51,8 +51,8 @@
 				<tr>
 					<td>
 						<img class="id_logo" src="<?php echo base_url();?>assets/images/pitrb-logo.png">
-						<p>Reg No: <?php echo ($registration_no!='') ? $registration_no : '-'; ?></p>
-						<p>Renewal Date: <?php echo $renewal_date; ?></p>
+						<p class="register-num">Reg No: <?php echo ($registration_no!='') ? $registration_no : '-'; ?></p>
+						<p class="rene-date">Renewal Date: <?php echo $renewal_date; ?></p>
 					</td>
 					<td>
 						<img class="id_admin" src="<?php echo $photoidimg; ?>">
@@ -70,14 +70,14 @@
 			</tbody>
 		</table>
 	</div>
-	<div class="col-md-6">
+	<div class="col-md-6 alter_img">
 		<table id="id_Card_back">
 			<tbody style="width: 90%; display: inline-block;">
 				
 				<?php if($designation2id != '1' and $designation2id != '2' and $designation2id != '3'){ ?>
 				<tr>
 					<td colspan="2">
-						<p>This card holder is only entitled to purchase and issue Plumbing COC’s for the following categories of plumbing and plumbing specialisations</p>
+						<p class="first-card-txt">This card holder is only entitled to purchase and issue Plumbing COC’s for the following categories of plumbing and plumbing specialisations</p>
 					</td>
 				</tr>
 			
@@ -88,7 +88,7 @@
 							foreach($specialisationsid as $specialisationsdata){
 								if($specialisationskey==0){
 					?>
-									<td class="add_width">
+									<td colspan="2" class="add_width img-txt">
 								
 					<?php
 								}
@@ -96,16 +96,16 @@
 							
 							
 								<?php
-									if($specialisationsdata	 =='1'){ echo "<img src='".$spl1 ."'>";} 
-									if($specialisationsdata	 =='2'){ echo "<img src='".$spl2 ."'>";} 
-									if($specialisationsdata	 =='3'){ echo "<img src='".$spl3 ."'>";} 
-									if($specialisationsdata	 =='4'){ echo "<img src='".$spl4 ."'>";} 
-									if($specialisationsdata	 =='5'){ echo "<img src='".$spl5 ."'>";} 
+									if($specialisationsdata	 =='1'){ echo "<span><p><img src='".$spl1 ."'></p></span>";} 
+									if($specialisationsdata	 =='2'){ echo "<span><p><img src='".$spl2 ."'></p></span>";} 
+									if($specialisationsdata	 =='3'){ echo "<span><p><img src='".$spl3 ."'></p></span>";} 
+									if($specialisationsdata	 =='4'){ echo "<span><p><img src='".$spl4 ."'></p></span>";} 
+									if($specialisationsdata	 =='5'){ echo "<span><p><img src='".$spl5 ."'></p></span>";} 
 									else{
-									if($specialisationsdata	 =='6'){ echo "<img src='".$spl6 ."'>";}
+									if($specialisationsdata	 =='6'){ echo "<span><p><img src='".$spl6 ."'></p></span>";}
 									}
 									?>
-												<?php echo isset($specialisations[$specialisationsdata]) ? $specialisations[$specialisationsdata] : '-'; ?>
+								<div class="txt-img-card"><?php echo isset($specialisations[$specialisationsdata]) ? $specialisations[$specialisationsdata] : '-'; ?></div>
 											
 					<?php
 								if($specialisationskey==2 || (count($specialisationsid)-1)==$specialisationskey){
@@ -132,15 +132,14 @@
 					?>
 				</tr>
 				<tr style="border-top: 1px solid #000;">
-					<td style="border-right: 1px solid #000; height: 92px;">
-						<p class="emp_title">Current Employer: </p> 
-						<p class="plumber_name add_style"><?php echo  $companyname; ?></p>
-						<p style="width: 100%;">Lost or Found <?php echo $work_phone; ?> <br>
-						Verification can be done via www.pirb.co.za</p>
+					<td class="curr_emptxt" style="border-right: 1px solid #000; height: 206px; vertical-align: middle;">
+						<span class="curr_txts"><p class="emp_title">Current <br> Employer </p> 
+						<p class="plumber_name add_style"><?php echo  $companyname; ?></p></span>
+						<p class="alter_lost_veri" style="width: 100%;">Lost or Found <?php echo $work_phone; ?> <br>Verification can be done via www.pirb.co.za</p>
 					</td>
 					<?php if($designation2id != '1' and $designation2id != '2' and $designation2id != '3'){ ?>
-					<td>
-						<p style="width: 100%;">Specialisations</p>
+					<td style=" vertical-align: top;">
+						<p style="width: 100%; margin-right: 0; margin-left: 0;">Specialisations</p>
 						<?php 
 							if(count($specialisationsid) > 0){
 								foreach($specialisationsid as $specialisationsdata){
@@ -165,8 +164,8 @@
 			</tbody>
 			<tbody style="width: 10%; display: inline-block;">
 				<tr style="height: 300px;">
-					<td class="add_idcard_color" colspan="2" style="text-align: center; padding: 15px;">
-						<p class="back_license" style="transform: rotate(-90deg);margin: -66px;"><?php echo isset($designation2[$designation2id]) ? $designation2[$designation2id] : '-'; ?></p>
+					<td class="add_idcard_color" colspan="2" style="text-align: center; padding: 0px;">
+						<p class="back_license" style="transform: rotate(-90deg);margin: -48px;"><?php echo isset($designation2[$designation2id]) ? $designation2[$designation2id] : '-'; ?></p>
 					</td>
 				</tr>
 			</tbody>
