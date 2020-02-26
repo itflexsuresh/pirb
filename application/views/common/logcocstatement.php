@@ -253,7 +253,7 @@
 								<button type="button" data-toggle="modal" data-target="#noncompliancemodal" class="btn btn-primary">Add a Non Compliance</button>
 							</div>
 						<?php } ?>
-						<?php if($coctypeid=='1' && $logdate!=''){ ?>
+						<?php if(count($noncompliance) > 0 && $logdate!=''){ ?>
 							<div class="row text-right">
 								<a href="<?php echo base_url().$noncompliancereport;?>">
 									<span>Non Compliance Notice</span>
@@ -277,7 +277,7 @@
 								</div>
 							</div>
 						<?php } ?>
-						<?php if(count($noncompliance) > 0 && $logdate!=''){ ?>
+						<?php if($coctypeid=='1' && $logdate!=''){ ?>
 							<div class="col-md-6">
 								<h4 class="card-title add_top_value">View Electronic COC</h4>
 								<div class="form-group">
