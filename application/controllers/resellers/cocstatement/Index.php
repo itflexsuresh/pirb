@@ -36,7 +36,7 @@ class Index extends CC_Controller
 					$status = "Allocated";
 					$name = $result['name']." ".$result['surname'];
 					$timestamp = strtotime($result['allocation_date']);
-					$newDate = date('d-F-Y h:i', $timestamp);
+					$newDate = date('d-F-Y H:i:s', $timestamp);
 				}
 				else{
 					$status = "In stock";
