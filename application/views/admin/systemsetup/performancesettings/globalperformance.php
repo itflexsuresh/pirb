@@ -1,9 +1,5 @@
 <?php
 if(isset($result) && $result){
-// print_r($result);exit();
-	//$id 			= $results['id'];
-	// $points			= (set_value('points')) ? set_value('points') : $results['point'];
-
 	$heading		= 'Update';
 }else{
 	$id 			= '';
@@ -45,12 +41,21 @@ if(isset($result) && $result){
 					 		</thead>
 					 		<tbody>
 					 			<?php foreach($results as $key=>$val){
+					 			
 					 		  ?>
 							<tr>
-								<td class="key"><?php echo $val['description'];?></td>
+                                <?php if($val['type'] == 1 || $val['type'] == 3 || $val['type'] == 5|| $val['type'] == 7 ){?>
+				        		<td class="key" style="font-weight:bold; text-align:left;"><?php echo $val['description'];?></td>
+				        	<?php }
+				        	else { ?>
+				        		<td class="key" style="text-align:right;" ><?php echo $val['description'];?></td>
+				        		<?php } ?>
 								<td class="point">
+									<?php if($val['type']!=1 && $val['type']!=3 && $val['type']!=5 ){?>
 									<input type="text" size="2" min="0" id="points" name="points[<?php echo $val['id']; ?>]"  value="<?php echo $val['point'];?>" style="margin: 0px 20px;width: 40%;">
+								<?php }?>
 								</td>
+
 								<td class="wording" ><?php echo $val['wording'];?></td>
 							</tr>
 						<?php 	}?>
@@ -93,7 +98,7 @@ if(isset($result) && $result){
 						</tbody>
 					    </table></br>
                 <div class="form-group">
-					<label style="text-align: bold">Performance Rolling Averages</label>&nbsp&nbsp&nbsp &nbsp &nbsp  
+					<label style="font-weight:bold;">Performance Rolling Averages</label>&nbsp&nbsp&nbsp &nbsp &nbsp  
 					<input type="text" class="form-group" id="avg" name="rolling_avg"  value="<?php echo $val1['rolling_avg']; ?>" placeholder="months" >							
 		        </div>			
                 <div class="col-md-11 text-right">
