@@ -55,6 +55,7 @@ class Index extends CC_Controller
 		$pagedata['worktype'] 			= $this->config->item('worktype');
 		$pagedata['specialization']		= $this->config->item('specialization');
 		$pagedata['pagetype'] 			= 'registration';
+		$pagedata['roletype'] 			= $this->config->item('rolecompany');
 		$pagedata['result'] 			= $result;
 		
 		$pagedata['commoncompany'] 		= $this->load->view('common/company', (isset($pagedata) ? $pagedata : ''), true);
