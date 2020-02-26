@@ -355,6 +355,11 @@ $config['rejectreason'] 			= 	[
 											'4' => 'Other',
 										];			
 
+$config['companyrejectreason'] 		= 	[
+											'1' => 'Cannot Verifiy',
+											'2' => 'Other',
+										];			
+
 $config['plumberstatus'] 			= 	[
 											'0' => 'Pending',
 											'1' => 'Active',
@@ -362,6 +367,14 @@ $config['plumberstatus'] 			= 	[
 											'3' => 'Expired',
 											'4' => 'Deceased',
 											'5' => 'Resigned',
+										];
+										
+$config['companystatus'] 			= 	[
+											'0' => 'Pending',
+											'1' => 'Active',
+											'2' => 'Expired',
+											'3' => 'Suspended',
+											'4' => 'Closed Down'
 										];
 										
 $config['specialisations'] 			= 	[

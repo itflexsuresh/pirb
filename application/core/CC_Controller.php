@@ -53,7 +53,7 @@ class CC_Controller extends CI_Controller
 					else redirect('plumber/registration/index'); 
 				}elseif($userDetails['type']=='4'){
 					if($userDetails['formstatus']=='1') redirect('company/profile/index'); 
-					else redirect('company/registration/company'); 
+					else redirect('company/registration/index'); 
 				}elseif($userDetails['type']=='5'){
 					redirect('auditor/profile/index'); 
 				}elseif($userDetails['type']=='6'){
@@ -334,59 +334,30 @@ class CC_Controller extends CI_Controller
 		$this->layout2($data);
 	}
 	
-	public function getAuditStatement($id, $pagedata=[], $extras=[])
-	{		
-		$extraparam = [];
-		if(isset($extras['auditorid'])) $extraparam['auditorid'] 	= $extras['auditorid'];
-		if(isset($extras['plumberid'])) $extraparam['user_id'] 		= $extras['plumberid'];		
-		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]+$extraparam);	
-		$pagedata['settings'] 		= $this->Systemsettings_Model->getList('row');
+	public function companyprofile($id, $pagedata=[], $extras=[])
+	{
+		$result = $this->Company_Model->getList('row', ['id' => $id, 'type' => '4', 'status' => ['1', '2']]);
+		if(!$result){
+			redirect($extras['redirect']); 
+		}
 		
 		if($this->input->post()){
-			$datetime 		=  date('Y-m-d H:i:s');
-			$requestData 	=  $this->input->post();
-			$data 			=  $this->Auditor_Model->actionStatement($requestData);
-						
-			if($data){
-				if(isset($requestData['auditcomplete']) && $requestData['auditcomplete']=='1' && $requestData['submit']=='submitreport'){
-					if($requestData['auditstatus']=='1'){	
-						//Invoice and Order
-						$inspectionrate = $this->getRates($this->config->item('inspection'));
-						$invoicedata = [
-							'description' 	=> 'Audit undertaken for '.$pagedata['result']['u_name'].' on COC '.$pagedata['result']['id'].'. Date of Review Submission '.date('d-m-Y', strtotime($datetime)),
-							'user_id'		=> (isset($extras['auditorid'])) ? $extras['auditorid'] : '',
-							'total_cost'	=> $inspectionrate,
-							'status'		=> '2',
-							'created_at'	=> $datetime
-						];
-						$this->db->insert('invoice', $invoicedata);
-						$insertid = $this->db->insert_id();
-						unset($invoicedata['total_cost']);
-						$invoicedata = $invoicedata+['cost_value' => $inspectionrate, 'total_due' => $inspectionrate, 'inv_id' => $insertid];
-						$this->db->insert('coc_orders', $invoicedata);
-						
-						// Email
-						$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '21', 'emailstatus' => '1']);
-						if($notificationdata){
-							$body 	= str_replace(['{Plumbers Name and Surname}', '{COC number}'], [$pagedata['result']['u_name'], $pagedata['result']['id']], $notificationdata['email_body']);
-							$this->CC_Model->sentMail($pagedata['result']['u_email'], $notificationdata['subject'], $body);
-						}
-						
-						// Stock
-						$this->db->update('stock_management', ['audit_status' => '1'], ['id' => $pagedata['result']['id']]);
-					}elseif($requestData['auditstatus']=='0'){
-						$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '22', 'emailstatus' => '1']);
-	
-						if($notificationdata){
-							$body 	= str_replace(['{Plumbers Name and Surname}', '{COC number}', '{refix number} '], [$pagedata['result']['u_name'], $pagedata['result']['id'], $pagedata['settings']['refix_period']], $notificationdata['email_body']);
-							$this->CC_Model->sentMail($pagedata['result']['u_email'], $notificationdata['subject'], $body);
-						}
-						
-						$this->db->update('stock_management', ['audit_status' => '3'], ['id' => $pagedata['result']['id']]);
-					}
-				} 
+			$requestData 			= 	$this->input->post();
+			$requestData['user_id'] = 	$id;
+			
+			$companydata 	=  $this->Company_Model->action($requestData);
 				
-				$this->session->set_flashdata('success', 'Successfully updated.');
+			if(isset($requestData['submit']) && $requestData['submit']=='approvalsubmit'){
+				$commentdata 	=  $this->Comment_Model->action($requestData);				
+			}
+			
+			if($companydata || (isset($commentdata) && $commentdata)){
+				$data		= '1';
+				$message 	= 'Company '.(($id=='') ? 'created' : 'updated').' successfully.';
+			}
+			
+			if(isset($data)){
+				$this->session->set_flashdata('success', $message);
 			}else{
 				$this->session->set_flashdata('error', 'Try Later.');
 			}
@@ -394,23 +365,20 @@ class CC_Controller extends CI_Controller
 			redirect($extras['redirect']); 
 		}
 		
-		$pagedata['userid'] 					= $this->getUserID();
-		$pagedata['notification'] 				= $this->getNotification();
-		$pagedata['province'] 					= $this->getProvinceList();
-		$pagedata['installationtype']			= $this->getInstallationTypeList();
-		$pagedata['auditorreportlist']			= $this->getAuditorReportingList((isset($extras['auditorid']) ? $extras['auditorid'] : ''));
-		$pagedata['workmanshippt']				= $this->getWorkmanshipPoint();
-		$pagedata['plumberverificationpt']		= $this->getPlumberVerificationPoint();
-		$pagedata['cocverificationpt']			= $this->getCocVerificationPoint();
-		$pagedata['cocverificationpt']			= $this->getCocVerificationPoint();
-		$pagedata['noaudit']					= $this->getAuditorPoints($this->config->item('noaudit'));
-		$pagedata['workmanship'] 				= $this->config->item('workmanship');
-		$pagedata['yesno'] 						= $this->config->item('yesno');		
-		$pagedata['reviewtype'] 				= $this->config->item('reviewtype');	
-		$pagedata['reviewlist']					= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
+		$userid			= 	$result['id'];
 		
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'sweetalert', 'validation', 'select2'];
-		$data['content'] 			= $this->load->view('common/auditstatement', (isset($pagedata) ? $pagedata : ''), true);
+		$pagedata['notification'] 			= $this->getNotification();
+		$pagedata['province'] 				= $this->getProvinceList();
+		$pagedata['approvalstatus'] 		= $this->config->item('approvalstatus');
+		$pagedata['companyrejectreason'] 	= $this->config->item('companyrejectreason');
+		$pagedata['worktype'] 				= $this->config->item('worktype');
+		$pagedata['specialization']			= $this->config->item('specialization');
+		$pagedata['companystatus']			= $this->config->item('companystatus');
+		$pagedata['comments'] 				= $this->Comment_Model->getList('all', ['user_id' => $id]);
+		$pagedata['result'] 				= $result;
+		
+		$data['plugins']				= ['validation','datepicker','inputmask','select2'];
+		$data['content'] 				= $this->load->view('common/company', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
 	
@@ -543,6 +511,86 @@ class CC_Controller extends CI_Controller
 		$data['plugins']				= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker', 'inputmask'];
 		$data['content'] 				= $this->load->view('common/logcocstatement', (isset($pagedata) ? $pagedata : ''), true);
 		
+		$this->layout2($data);
+	}
+	
+	public function getAuditStatement($id, $pagedata=[], $extras=[])
+	{		
+		$extraparam = [];
+		if(isset($extras['auditorid'])) $extraparam['auditorid'] 	= $extras['auditorid'];
+		if(isset($extras['plumberid'])) $extraparam['user_id'] 		= $extras['plumberid'];		
+		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]+$extraparam);	
+		$pagedata['settings'] 		= $this->Systemsettings_Model->getList('row');
+		
+		if($this->input->post()){
+			$datetime 		=  date('Y-m-d H:i:s');
+			$requestData 	=  $this->input->post();
+			$data 			=  $this->Auditor_Model->actionStatement($requestData);
+						
+			if($data){
+				if(isset($requestData['auditcomplete']) && $requestData['auditcomplete']=='1' && $requestData['submit']=='submitreport'){
+					if($requestData['auditstatus']=='1'){	
+						//Invoice and Order
+						$inspectionrate = $this->getRates($this->config->item('inspection'));
+						$invoicedata = [
+							'description' 	=> 'Audit undertaken for '.$pagedata['result']['u_name'].' on COC '.$pagedata['result']['id'].'. Date of Review Submission '.date('d-m-Y', strtotime($datetime)),
+							'user_id'		=> (isset($extras['auditorid'])) ? $extras['auditorid'] : '',
+							'total_cost'	=> $inspectionrate,
+							'status'		=> '2',
+							'created_at'	=> $datetime
+						];
+						$this->db->insert('invoice', $invoicedata);
+						$insertid = $this->db->insert_id();
+						unset($invoicedata['total_cost']);
+						$invoicedata = $invoicedata+['cost_value' => $inspectionrate, 'total_due' => $inspectionrate, 'inv_id' => $insertid];
+						$this->db->insert('coc_orders', $invoicedata);
+						
+						// Email
+						$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '21', 'emailstatus' => '1']);
+						if($notificationdata){
+							$body 	= str_replace(['{Plumbers Name and Surname}', '{COC number}'], [$pagedata['result']['u_name'], $pagedata['result']['id']], $notificationdata['email_body']);
+							$this->CC_Model->sentMail($pagedata['result']['u_email'], $notificationdata['subject'], $body);
+						}
+						
+						// Stock
+						$this->db->update('stock_management', ['audit_status' => '1'], ['id' => $pagedata['result']['id']]);
+					}elseif($requestData['auditstatus']=='0'){
+						$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '22', 'emailstatus' => '1']);
+	
+						if($notificationdata){
+							$body 	= str_replace(['{Plumbers Name and Surname}', '{COC number}', '{refix number} '], [$pagedata['result']['u_name'], $pagedata['result']['id'], $pagedata['settings']['refix_period']], $notificationdata['email_body']);
+							$this->CC_Model->sentMail($pagedata['result']['u_email'], $notificationdata['subject'], $body);
+						}
+						
+						$this->db->update('stock_management', ['audit_status' => '3'], ['id' => $pagedata['result']['id']]);
+					}
+				} 
+				
+				$this->session->set_flashdata('success', 'Successfully updated.');
+			}else{
+				$this->session->set_flashdata('error', 'Try Later.');
+			}
+			
+			redirect($extras['redirect']); 
+		}
+		
+		$pagedata['userid'] 					= $this->getUserID();
+		$pagedata['notification'] 				= $this->getNotification();
+		$pagedata['province'] 					= $this->getProvinceList();
+		$pagedata['installationtype']			= $this->getInstallationTypeList();
+		$pagedata['auditorreportlist']			= $this->getAuditorReportingList((isset($extras['auditorid']) ? $extras['auditorid'] : ''));
+		$pagedata['workmanshippt']				= $this->getWorkmanshipPoint();
+		$pagedata['plumberverificationpt']		= $this->getPlumberVerificationPoint();
+		$pagedata['cocverificationpt']			= $this->getCocVerificationPoint();
+		$pagedata['cocverificationpt']			= $this->getCocVerificationPoint();
+		$pagedata['noaudit']					= $this->getAuditorPoints($this->config->item('noaudit'));
+		$pagedata['workmanship'] 				= $this->config->item('workmanship');
+		$pagedata['yesno'] 						= $this->config->item('yesno');		
+		$pagedata['reviewtype'] 				= $this->config->item('reviewtype');	
+		$pagedata['reviewlist']					= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
+		
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'sweetalert', 'validation', 'select2'];
+		$data['content'] 			= $this->load->view('common/auditstatement', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
 	

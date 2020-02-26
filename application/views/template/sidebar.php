@@ -171,7 +171,11 @@ $formstatus  	= $userdata['formstatus'];
 
 				 ?>
 					<li><a href="javascript:void(0);">Dashboard</a></li>
-					<li><a href="<?php echo base_url().'company/registration/company'; ?>">My Profile</a></li>
+					<?php if($formstatus=='1'){ ?>
+						<li><a href="<?php echo base_url().'company/profile/index'; ?>">My Profile</a></li>
+					<?php }elseif($formstatus=='0'){ ?>
+						<li><a href="<?php echo base_url().'company/registration/index'; ?>">My Profile</a></li>
+					<?php } ?>
                     <?php 
                         
                        $this->db->select('*');

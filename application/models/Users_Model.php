@@ -114,6 +114,8 @@ class Users_Model extends CC_Model
 		}
 		
 		if($id==''){
+			$users['created_at'] 		= $datetime;
+			$users['updated_at'] 		= $datetime;
 			$result 	= $this->db->insert('users', $users);
 			$insertid 	= $this->db->insert_id();
 		}else{
