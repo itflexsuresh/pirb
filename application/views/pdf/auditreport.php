@@ -20,6 +20,12 @@ table.coc_details_overall h3 {
     margin: 0;
     margin-bottom: 10px;
 }	
+table.reviewtable h3 {
+    border-bottom: 1.5px solid #000;
+    display: inline-block;
+    margin: 0;
+    margin-bottom: 10px;
+}	
 table.coc_details_overall td, table.auditor_details_overall td {
     padding: 5px;
     width: 33.3%;
@@ -61,7 +67,7 @@ table.table.table-bordered.reviewtable {
 }
 h3.audit-table-heading {
     border-bottom: 1.5px solid #000;
-    display: inline-block;
+    width: auto;
     margin: 20px 0 20px;
 }
 table.table.table-bordered.reviewtable td {
@@ -72,12 +78,28 @@ table.table.table-bordered.reviewtable td {
 table.table.table-bordered.reviewtable th {
     border: 1px solid #000;
 	padding: 15px;    
+	text-align: center;
 }
 table.coc_details_overall label, table.auditor_details_overall label {
     font-weight: bold;
 }
 table.notice-license-text tbody tr td {
     padding: 5px;
+}
+.review_failure{
+    background-color: #ffa58f;
+}
+
+.review_cautionary{
+    background-color: #ffc;
+}
+
+.review_compliment{
+    background-color: #9f9;
+}
+
+.review_noaudit{
+    background-color: #00ffff;
 }
 </style>
 
@@ -97,6 +119,8 @@ $auditorname 			= isset($result['auditorname']) ? $result['auditorname'] : '';
 $auditormobile 			= isset($result['auditormobile']) ? $result['auditormobile'] : '';
 $auditoremail 			= isset($result['auditoremail']) ? $result['auditoremail'] : '';
 
+$reviewtableclass		= ['1' => 'review_failure', '2' => 'review_cautionary', '3' => 'review_compliment', '4' => 'review_noaudit'];
+
 function base64conversion($path){
 	$type = pathinfo($path, PATHINFO_EXTENSION);
 	$data = file_get_contents($path);
@@ -112,7 +136,7 @@ function base64conversion($path){
 					<tbody>
 						<tr>
 							<td><h2>PIRB AUDIT REVIEW REPORT</h2></td>
-							<td><img src="<?php echo base64conversion(base_url().'assets/images/pitrb-logo.png'); ?>"></td>                   
+							<td style="text-align: right; width:250px;"><img width="200px" src="<?php echo base64conversion(base_url().'assets/images/pitrb-logo.png'); ?>"></td>                   
 						</tr>
 					</tbody>
 				</table>
@@ -188,7 +212,7 @@ function base64conversion($path){
 				<table class="notice-license-text">
 					<thead>
 						<tr>
-						<th><h3>NOTICE TO LICENSED PLUMBER</h3></th>
+						<th><h3 style="text-align:center;">NOTICE TO LICENSED PLUMBER</h3></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -207,9 +231,9 @@ function base64conversion($path){
 		
 		<tr>
 			<td>
-			<h3 class="audit-table-heading">AUDIT REVIEW</h3>
 				<table class="table table-bordered reviewtable">    
 					<thead>
+					<tr style="width:200px;"><th style="border:none; padding-left:0px; width:100%; text-align: left;"><h3>AUDIT REVIEW</h3></th></tr>
 						<tr>
 							<th>Review Type</th>
 							<th>Statement</th>
@@ -222,7 +246,7 @@ function base64conversion($path){
 					<tbody>
 						<?php foreach($reviewlist as $list){ ?>
 							<tr>
-								<td><?php echo isset($this->config->item('reviewtype')[$list['reviewtype']]) ? $this->config->item('reviewtype')[$list['reviewtype']] : ''; ?></td>
+								<td class="<?php echo isset($reviewtableclass[$list['reviewtype']]) ? $reviewtableclass[$list['reviewtype']] : ''; ?>"><?php echo isset($this->config->item('reviewtype')[$list['reviewtype']]) ? $this->config->item('reviewtype')[$list['reviewtype']] : ''; ?></td>
 								<td><?php echo $list['statementname']; ?></td>
 								<td><?php echo $list['reference']; ?></td>
 								<td><?php echo $list['comments']; ?></td>
