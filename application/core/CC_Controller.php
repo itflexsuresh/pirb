@@ -590,7 +590,7 @@ class CC_Controller extends CI_Controller
 		$pagedata['reviewlist']					= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
 		$pagedata['menu']						= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
 		
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'sweetalert', 'validation', 'select2'];
+		$data['plugins']			= ['datepicker', 'sweetalert', 'validation', 'select2'];
 		$data['content'] 			= $this->load->view('common/auditstatement/review', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}

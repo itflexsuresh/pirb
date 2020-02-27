@@ -3,9 +3,7 @@
 class Auditor_Model extends CC_Model
 {
 	public function getList($type, $requestdata=[])
-	{ 
-		////////////////////print_r($requestdata);die;
-		
+	{ 		
 		$user 			= ['u.id as id', 'u.email','u.type','u.status as usstatus', 'u.password_raw'];
 		$usersdetail 	= ['ud.id as userdetailid','ud.name','ud.surname','ud.company_name','ud.reg_no','ud.vat_no','ud.vat_vendor','ud.mobile_phone','ud.work_phone','ud.file1','ud.file2','ud.identity_no'];		
 		$useraddress 	= ['ua.id as useraddressid', 'ua.address', 'ua.province', 'ua.city', 'ua.suburb', 'ua.postal_code'];
@@ -537,15 +535,18 @@ class Auditor_Model extends CC_Model
 	
 	public function getReviewList($type, $requestdata=[])
 	{
-		$this->db->select('ar.*,rl.statement statementname,i.name installationtypename,s.name subtypename');
+		$this->db->select('ar.*,rl.statement statementname,i.name installationtypename,s.name subtypename,concat(ad.name, " ", ad.surname) auditorname');
 		$this->db->from('auditor_review ar');
 		$this->db->join('report_listing rl', 'rl.id=ar.statement', 'left');
 		$this->db->join('installationtype i', 'i.id=ar.installationtype', 'left');
 		$this->db->join('installationsubtype s', 's.id=ar.subtype', 'left');
+		$this->db->join('users_detail ad', 'ad.user_id=ar.auditor_id', 'left');
 		
 		if(isset($requestdata['id'])) 		$this->db->where('ar.id', $requestdata['id']);
 		if(isset($requestdata['coc_id'])) 	$this->db->where('ar.coc_id', $requestdata['coc_id']);
 		if(isset($requestdata['reviewtype'])) 	$this->db->where('ar.reviewtype', $requestdata['reviewtype']);
+		if(isset($requestdata['auditorid'])) 	$this->db->where('ar.auditor_id', $requestdata['auditorid']);
+		if(isset($requestdata['plumberid'])) 	$this->db->where('ar.plumber_id', $requestdata['plumberid']);
 		if(isset($requestdata['status'])) 	$this->db->where('ar.status', $requestdata['status']);
 		
 		if($type=='count'){
