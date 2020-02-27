@@ -328,7 +328,8 @@ class CC_Controller extends CI_Controller
 		$pagedata['specialisations'] 	= $this->config->item('specialisations');
 		$pagedata['comments'] 			= $this->Comment_Model->getList('all', ['user_id' => $id]);
 		$pagedata['defaultsettings'] 	= $this->Systemsettings_Model->getList('row');
-		$pagedata['menu']			= $this->load->view('common/plumber/menu', ['id'=>$id],true);
+		$pagedata['menu']				= $this->load->view('common/plumber/menu', ['id'=>$id],true);
+		
 		$data['plugins']				= ['validation','datepicker','inputmask','select2'];
 		$data['content'] 				= $this->load->view('common/plumber/profile', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
@@ -599,9 +600,10 @@ class CC_Controller extends CI_Controller
 	{
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);	
+		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['auditorid' => $pagedata['result']['auditorid'], 'plumberid' => $pagedata['result']['user_id']]);	
 		$pagedata['menu']			= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
 		
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker'];
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'morrischart'];
 		$data['content'] 			= $this->load->view('common/auditstatement/history', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}

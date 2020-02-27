@@ -541,13 +541,44 @@ class Auditor_Model extends CC_Model
 		$this->db->join('installationtype i', 'i.id=ar.installationtype', 'left');
 		$this->db->join('installationsubtype s', 's.id=ar.subtype', 'left');
 		$this->db->join('users_detail ad', 'ad.user_id=ar.auditor_id', 'left');
+		$this->db->join('custom c4', 'c4.c_id=ar.reviewtype and c4.type="4"', 'left');
 		
-		if(isset($requestdata['id'])) 		$this->db->where('ar.id', $requestdata['id']);
-		if(isset($requestdata['coc_id'])) 	$this->db->where('ar.coc_id', $requestdata['coc_id']);
+		if(isset($requestdata['id'])) 			$this->db->where('ar.id', $requestdata['id']);
+		if(isset($requestdata['coc_id'])) 		$this->db->where('ar.coc_id', $requestdata['coc_id']);
 		if(isset($requestdata['reviewtype'])) 	$this->db->where('ar.reviewtype', $requestdata['reviewtype']);
 		if(isset($requestdata['auditorid'])) 	$this->db->where('ar.auditor_id', $requestdata['auditorid']);
 		if(isset($requestdata['plumberid'])) 	$this->db->where('ar.plumber_id', $requestdata['plumberid']);
-		if(isset($requestdata['status'])) 	$this->db->where('ar.status', $requestdata['status']);
+		if(isset($requestdata['status'])) 		$this->db->where('ar.status', $requestdata['status']);
+		
+		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
+			$searchvalue = $requestdata['search']['value'];
+			
+			if(isset($requestdata['page'])){
+				$page = $requestdata['page'];
+				$this->db->group_start();
+					if($page=='adminaudithistroy'){					
+						$this->db->like('DATE_FORMAT(ar.created_at,"%d-%m-%Y")', $searchvalue, 'both');
+						$this->db->or_like('ad.name', $searchvalue, 'both');
+						$this->db->or_like('i.name', $searchvalue, 'both');
+						$this->db->or_like('s.name', $searchvalue, 'both');
+						$this->db->or_like('rl.statement', $searchvalue, 'both');
+						$this->db->or_like('c4.name', $searchvalue, 'both');					
+					}
+				$this->db->group_end();
+			}
+		}
+		if(isset($requestdata['order']['0']['column']) && $requestdata['order']['0']['column']!='' && isset($requestdata['order']['0']['dir']) && $requestdata['order']['0']['dir']!=''){
+			if(isset($requestdata['page'])){
+				$page = $requestdata['page'];				
+				if($page=='adminaudithistroy'){
+					$column = ['ar.created_at', 'ad.name', 'i.name', 's.name', 'rl.statement', 'c4.name'];
+					$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+				}
+			}
+		}
+		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
+			$this->db->limit($requestdata['length'], $requestdata['start']);
+		}
 		
 		if($type=='count'){
 			$result = $this->db->count_all_results();
@@ -621,7 +652,32 @@ class Auditor_Model extends CC_Model
 	{
 		return $this->db->where('id', $id)->delete('auditor_review');
 	}
-
+	
+	public function getReviewHistoryCount($requestdata=[])
+	{
+		$auditorid = $requestdata['auditorid'];
+		$plumberid = $requestdata['plumberid'];
+		
+		$count = $this->db->select('count(id) as count')->where(['auditor_id' => $auditorid, 'plumber_id' => $plumberid])->get('auditor_statement')->row_array();
+		$total = $this->db->select('count(id) as count')->where(['auditor_id' => $auditorid, 'plumber_id' => $plumberid])->get('auditor_review')->row_array();
+		$refixincomplete = $this->db->select('count(id) as count')->where(['auditor_id' => $auditorid, 'plumber_id' => $plumberid, 'reviewtype' => '1', 'status' => '0'])->get('auditor_review')->row_array();
+		$refixcomplete = $this->db->select('count(id) as count')->where(['auditor_id' => $auditorid, 'plumber_id' => $plumberid, 'reviewtype' => '1', 'status' => '1'])->get('auditor_review')->row_array();
+		$cautionary = $this->db->select('count(id) as count')->where(['auditor_id' => $auditorid, 'plumber_id' => $plumberid, 'reviewtype' => '2'])->get('auditor_review')->row_array();
+		$compliment = $this->db->select('count(id) as count')->where(['auditor_id' => $auditorid, 'plumber_id' => $plumberid, 'reviewtype' => '3'])->get('auditor_review')->row_array();
+		$noaudit = $this->db->select('count(id) as count')->where(['auditor_id' => $auditorid, 'plumber_id' => $plumberid, 'reviewtype' => '4'])->get('auditor_review')->row_array();
+		
+		$result = [
+			'count' => $count['count'],
+			'total' => $total['count'],
+			'refixincomplete' => $refixincomplete['count'],
+			'refixcomplete' => $refixcomplete['count'],
+			'cautionary' => $cautionary['count'],
+			'compliment' => $compliment['count'],
+			'noaudit' => $noaudit['count']
+		];
+		
+		return $result;
+	}
 	
 	
 	public function actionStatement($data)

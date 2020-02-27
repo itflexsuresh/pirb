@@ -271,7 +271,7 @@ class Index extends CC_Controller
 		if(count($results) > 0){
 			foreach($results as $result){
 				$totalrecord[] = 	[
-										'date' 				=> 	date('Y-m-d', strtotime($result['created_at'])),
+										'date' 				=> 	date('d-m-Y', strtotime($result['created_at'])),
 										'auditor' 			=> 	$result['auditorname'],
 										'installationtype' 	=> 	$result['installationtypename'],
 										'subtype' 			=> 	$result['subtypename'],
