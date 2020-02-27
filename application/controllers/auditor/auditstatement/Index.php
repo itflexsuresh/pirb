@@ -70,12 +70,12 @@ class Index extends CC_Controller
 	
 	public function action($id)
 	{
-		$this->getAuditStatement($id, ['pagetype' => 'action', 'viewcoc' => 'auditor/auditstatement/index/viewcoc', 'roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index', 'auditorid' => $this->getUserID()]);
+		$this->getauditreview($id, ['pagetype' => 'action', 'viewcoc' => 'auditor/auditstatement/index/viewcoc', 'roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index', 'auditorid' => $this->getUserID()]);
 	}
 	
 	public function view($id)
 	{
-		$this->getAuditStatement($id, ['pagetype' => 'view', 'viewcoc' => 'auditor/auditstatement/index/viewcoc', 'auditreport' => 'auditor/auditstatement/index/auditreport/'.$id, 'roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index', 'auditorid' => $this->getUserID()]);
+		$this->getauditreview($id, ['pagetype' => 'view', 'viewcoc' => 'auditor/auditstatement/index/viewcoc', 'auditreport' => 'auditor/auditstatement/index/auditreport/'.$id, 'roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index', 'auditorid' => $this->getUserID()]);
 	}
 	
 	public function viewcoc($id, $plumberid)
@@ -85,6 +85,16 @@ class Index extends CC_Controller
 			['pagetype' => 'view', 'roletype' => $this->config->item('roleauditor'), 'electroniccocreport' => 'auditor/auditstatement/index/electroniccocreport/'.$id.'/'.$plumberid, 'noncompliancereport' => 'auditor/auditstatement/index/noncompliancereport/'.$id.'/'.$plumberid], 
 			['redirect' => 'auditor/auditstatement/index', 'userid' => $plumberid]
 		);
+	}
+	
+	public function history($id)
+	{
+		$this->getaudithistory($id, ['roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index']);
+	}
+	
+	public function diary($id)
+	{
+		$this->getauditdiary($id, ['roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index']);
 	}
 	
 	public function auditreport($id)

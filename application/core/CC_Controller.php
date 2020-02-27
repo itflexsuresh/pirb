@@ -514,7 +514,7 @@ class CC_Controller extends CI_Controller
 		$this->layout2($data);
 	}
 	
-	public function getAuditStatement($id, $pagedata=[], $extras=[])
+	public function getauditreview($id, $pagedata=[], $extras=[])
 	{		
 		$extraparam = [];
 		if(isset($extras['auditorid'])) $extraparam['auditorid'] 	= $extras['auditorid'];
@@ -588,9 +588,10 @@ class CC_Controller extends CI_Controller
 		$pagedata['yesno'] 						= $this->config->item('yesno');		
 		$pagedata['reviewtype'] 				= $this->config->item('reviewtype');	
 		$pagedata['reviewlist']					= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
+		$pagedata['menu']						= $this->load->view('common/auditstatement/menu', ['roletype' => $pagedata['roletype'], 'id' => $id], true);
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'sweetalert', 'validation', 'select2'];
-		$data['content'] 			= $this->load->view('common/auditstatement', (isset($pagedata) ? $pagedata : ''), true);
+		$data['content'] 			= $this->load->view('common/auditstatement/review', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
 	

@@ -76,7 +76,7 @@ class Index extends CC_Controller
 	
 	public function view($id)
 	{
-		$this->getAuditStatement($id, ['pagetype' => 'view', 'viewcoc' => 'admin/audits/auditstatement/index/viewcoc', 'auditreport' => 'admin/audits/auditstatement/index/auditreport/'.$id, 'roletype' => $this->config->item('roleadmin')], ['redirect' => 'admin/audits/auditstatement/index']);
+		$this->getauditreview($id, ['pagetype' => 'view', 'viewcoc' => 'admin/audits/auditstatement/index/viewcoc', 'auditreport' => 'admin/audits/auditstatement/index/auditreport/'.$id, 'roletype' => $this->config->item('roleadmin')], ['redirect' => 'admin/audits/auditstatement/index']);
 	}
 	
 	public function viewcoc($id, $plumberid)
@@ -86,6 +86,16 @@ class Index extends CC_Controller
 			['pagetype' => 'view', 'roletype' => $this->config->item('roleadmin'), 'electroniccocreport' => 'admin/audits/auditstatement/index/electroniccocreport/'.$id.'/'.$plumberid, 'noncompliancereport' => 'admin/audits/auditstatement/index/noncompliancereport/'.$id.'/'.$plumberid], 
 			['redirect' => 'admin/audits/auditstatement/index', 'userid' => $plumberid]
 		);
+	}
+	
+	public function history($id)
+	{
+		$this->getaudithistory($id, ['roletype' => $this->config->item('roleadmin')], ['redirect' => 'admin/audits/auditstatement/index']);
+	}
+	
+	public function diary($id)
+	{
+		$this->getauditdiary($id, ['roletype' => $this->config->item('roleadmin')], ['redirect' => 'admin/audits/auditstatement/index']);
 	}
 	
 	public function auditreport($id)
