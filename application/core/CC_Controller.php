@@ -588,10 +588,30 @@ class CC_Controller extends CI_Controller
 		$pagedata['yesno'] 						= $this->config->item('yesno');		
 		$pagedata['reviewtype'] 				= $this->config->item('reviewtype');	
 		$pagedata['reviewlist']					= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
-		$pagedata['menu']						= $this->load->view('common/auditstatement/menu', ['roletype' => $pagedata['roletype'], 'id' => $id], true);
+		$pagedata['menu']						= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'sweetalert', 'validation', 'select2'];
 		$data['content'] 			= $this->load->view('common/auditstatement/review', (isset($pagedata) ? $pagedata : ''), true);
+		$this->layout2($data);
+	}
+	
+	public function getaudithistory($id, $pagedata=[], $extras=[])
+	{
+		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);	
+		$pagedata['menu']			= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
+		
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker'];
+		$data['content'] 			= $this->load->view('common/auditstatement/history', (isset($pagedata) ? $pagedata : ''), true);
+		$this->layout2($data);
+	}
+	
+	public function getauditdiary($id, $pagedata=[], $extras=[])
+	{
+		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);	
+		$pagedata['menu']			= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
+		
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'sweetalert', 'validation', 'select2'];
+		$data['content'] 			= $this->load->view('common/auditstatement/history', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
 	
