@@ -94,6 +94,19 @@ class Index extends CC_Controller
 	
 	public function diary($id)
 	{
+		if($this->input->post()){
+			$requestData 				=   $this->input->post();
+			$requestData['coc_id'] 		= 	$id;
+			$requestData['user_id'] 	= 	$this->getUserID();
+			
+			$commentdata 	=  $this->Auditor_Comment_Model->action($requestData);	
+			
+			if($commentdata) $this->session->set_flashdata('success', 'Comment Added Successfully.');	
+			else $this->session->set_flashdata('error', 'Try Later.');
+			
+			redirect('auditor/auditstatement/index/diary/'.$id); 
+		}			
+		
 		$this->getauditdiary($id, ['roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index']);
 	}
 	

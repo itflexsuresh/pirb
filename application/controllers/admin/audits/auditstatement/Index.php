@@ -7,6 +7,7 @@ class Index extends CC_Controller
 	{
 		parent::__construct();
 		$this->load->model('Coc_Model');
+		$this->load->model('Auditor_Comment_Model');
 	}
 	
 	public function index()
@@ -95,6 +96,19 @@ class Index extends CC_Controller
 	
 	public function diary($id)
 	{
+		if($this->input->post()){
+			$requestData 				= 	$this->input->post();
+			$requestData['coc_id'] 		= 	$id;
+			$requestData['user_id'] 	= 	$this->getUserID();
+		
+			$commentdata 	=  $this->Auditor_Comment_Model->action($requestData);	
+			
+			if($commentdata) $this->session->set_flashdata('success', 'Comment Added Successfully.');	
+			else $this->session->set_flashdata('error', 'Try Later.');
+			
+			redirect('admin/audits/auditstatement/index/diary/'.$id); 
+		}			
+		
 		$this->getauditdiary($id, ['roletype' => $this->config->item('roleadmin')], ['redirect' => 'admin/audits/auditstatement/index']);
 	}
 	

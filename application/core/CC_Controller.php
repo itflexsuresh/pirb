@@ -22,6 +22,7 @@ class CC_Controller extends CI_Controller
 		$this->load->model('Noncompliance_Model');
 		$this->load->model('Auditor_Reportlisting_Model');
 		$this->load->model('Global_performance_Model');
+		$this->load->model('Auditor_Comment_Model');
 		
 		$this->load->library('pdf');
 		$this->load->library('phpqrcode/qrlib');
@@ -612,6 +613,7 @@ class CC_Controller extends CI_Controller
 	{
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);	
+		$pagedata['comments']		= $this->Auditor_Comment_Model->getList('all', ['coc_id' => $id]);	
 		$pagedata['menu']			= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'sweetalert', 'validation', 'select2'];

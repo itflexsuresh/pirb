@@ -24,7 +24,48 @@
 <div class="row">
 	<div class="col-12">
 		<div class="card">
-		
+			
+			<h4 class="card-title">Audit Comments (Comments related specifically to this Audit)</h4>
+			<div class="row">
+				<div class="col-md-12">			
+					<div class="comment_section">
+						<?php
+							foreach($comments as $comment){
+						?>
+								<p><?php echo date('d-m-Y', strtotime($comment['created_at'])).' '.$comment['username'].' '.$comment['comments']; ?></p>
+						<?php
+							}
+						?>
+					</div>				
+					<div class="form-group ">
+						<label>Comments</label>
+						<form action="" method="post" class="form">
+							<input type="text" class="form-control" placeholder="Type your Comment here" name="comments" id="comments">
+							<button type="submit" name="submit" class="btn btn-primary">Add Comment</button>
+						</form>
+					</div>							
+				</div>				
+			</div>				
+			
 		</div>
 	</div>
 </div>		
+
+<script>
+$(function(){
+	
+	validation(
+		'.form',
+		{
+			comments : {
+				required	: true
+			}
+		},
+		{
+			comments 	: {
+				required	: "Comments field is required."
+			}
+		}
+	);
+})
+</script>
