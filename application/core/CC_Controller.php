@@ -597,6 +597,7 @@ class CC_Controller extends CI_Controller
 	
 	public function getaudithistory($id, $pagedata=[], $extras=[])
 	{
+		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);	
 		$pagedata['menu']			= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
 		
@@ -607,11 +608,12 @@ class CC_Controller extends CI_Controller
 	
 	public function getauditdiary($id, $pagedata=[], $extras=[])
 	{
+		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);	
 		$pagedata['menu']			= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'sweetalert', 'validation', 'select2'];
-		$data['content'] 			= $this->load->view('common/auditstatement/history', (isset($pagedata) ? $pagedata : ''), true);
+		$data['content'] 			= $this->load->view('common/auditstatement/diary', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
 	
