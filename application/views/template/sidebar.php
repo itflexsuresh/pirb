@@ -49,17 +49,12 @@ $formstatus  	= $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'admin/systemsetup/qualificationroutes/qualificationroute'; ?>">Qualification Routes</a></li>
 							<li><a href="<?php echo base_url().'admin/systemsetup/message/message'; ?>">Messages</a></li>
                              
-							<li> 
+							
+	                                                <li><a href="<?php echo base_url().'admin/systemsetup/performancesettings/plumberperformance'; ?>">Plumber Performance Settings</a></li>
+							<li><a href="<?php echo base_url().'admin/systemsetup/performancesettings/globalperformance'; ?>">Global Performance Settings</a></li>
+
+
 								
-								<a href="javascript:void(0)" aria-expanded="false" class="sub_menu">Performance Settings</a>
-								<ul aria-expanded="false" class="collapse">
-									<li><a href="<?php echo base_url().'admin/systemsetup/performancesettings/plumberperformance'; ?>">Plumber Performance Settings</a></li>
-									<li><a href="<?php echo base_url().'admin/systemsetup/performancesettings/globalperformance'; ?>">Global Performance Settings</a></li>
-
-
-								</ul>
-
-							</li>
 						</ul>						
 					</li>
 
