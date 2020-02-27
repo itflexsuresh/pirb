@@ -337,7 +337,7 @@ class CC_Controller extends CI_Controller
 	
 	public function companyprofile($id, $pagedata=[], $extras=[])
 	{
-		$result = $this->Company_Model->getList('row', ['id' => $id, 'type' => '4', 'status' => ['1', '2']]);
+		$result = $this->Company_Model->getList('row', ['id' => $id, 'type' => '4', 'status' => ['0','1', '2']]);
 		if(!$result){
 			redirect($extras['redirect']); 
 		}
