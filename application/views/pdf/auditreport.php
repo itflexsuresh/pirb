@@ -96,6 +96,12 @@ $suburb 				= isset($result['cl_suburb_name']) ? $result['cl_suburb_name'] : '';
 $auditorname 			= isset($result['auditorname']) ? $result['auditorname'] : '';
 $auditormobile 			= isset($result['auditormobile']) ? $result['auditormobile'] : '';
 $auditoremail 			= isset($result['auditoremail']) ? $result['auditoremail'] : '';
+
+function base64conversion($path){
+	$type = pathinfo($path, PATHINFO_EXTENSION);
+	$data = file_get_contents($path);
+	return 'data:image/' . $type . ';base64,' . base64_encode($data);
+}
 ?>
 
 <table class="page_overall_auditreport">
@@ -106,7 +112,7 @@ $auditoremail 			= isset($result['auditoremail']) ? $result['auditoremail'] : ''
 					<tbody>
 						<tr>
 							<td><h2>PIRB AUDIT REVIEW REPORT</h2></td>
-							<td><img src="<?php echo base_url().'assets/images/pitrb-logo.png'; ?>"></td>                   
+							<td><img src="<?php echo base64conversion(base_url().'assets/images/pitrb-logo.png'); ?>"></td>                   
 						</tr>
 					</tbody>
 				</table>
@@ -225,7 +231,7 @@ $auditoremail 			= isset($result['auditoremail']) ? $result['auditoremail'] : ''
 										$filelist = array_filter(explode(',', $list['file'])); 
 										foreach($filelist as $file){
 									?>
-											<img src="<?php echo base_url().'assets/uploads/auditor/statement/'.$file; ?>" width="50">
+											<img src="<?php echo base64conversion(base_url().'assets/uploads/auditor/statement/'.$file); ?>" width="50">
 									<?php
 										}
 									?>
