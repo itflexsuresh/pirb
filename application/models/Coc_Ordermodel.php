@@ -135,7 +135,7 @@ class Coc_Ordermodel extends CC_Model
 				$request['status'] 		= 	'1';
 				 if ($inv_id) {
 					$result 			= $this->db->update('invoice', $request, ['inv_id' => $inv_id,'user_id' => $requestdata['user_id']]);
-				 	$result 			= $this->db->update('coc_orders', $request, ['id' => $inv_id,'user_id' => $requestdata['user_id'] ]);
+				 	$result 			= $this->db->update('coc_orders', $request, ['inv_id' => $inv_id,'user_id' => $requestdata['user_id'] ]);
 
 				 	$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
 
@@ -176,16 +176,19 @@ class Coc_Ordermodel extends CC_Model
 
 		        if($rowData["status"]=='1'){
 
-		        	 $paid = "<img style='width: 290px' src='".$_SERVER['DOCUMENT_ROOT']."/auditit_new/pirb/assets/images/paid.jpg>";
+		        	 $paid = '<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/paid.png">';
+
 		        	 $paid_status = "PAID";
 		        	
 		        }
 		        else{
 
-		        	$paid ="<img style='width: 290px' src='".$_SERVER['DOCUMENT_ROOT']."/auditit_new/pirb/assets/images/unpaid2.jpg>";
-		        	$paid_status = "UNPAID";
+		        	$paid ='<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/unpaid.png">';
+
+		        	$paid_status = 'UNPAID';
 		        	
 		        }
+		        
 		        $stringaarr = explode("@@@",$rowData['areas']);
 		        $provincesettings = explode("@@@",$rowData2['provincesettings']);
 		        $province_arr = explode('@-@', $provincesettings[1]);
