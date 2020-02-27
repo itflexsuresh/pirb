@@ -24,7 +24,7 @@
 							<tr>
 								<th>COC Number</th>
 								<th>Status</th>
-								<th>Date of Purchase/Logged COC</th>
+								<th>Date of Allocation/Logged COC</th>
 								<th>COC Type</th>
 								<th>Customer</th>
 								<th>Address</th>
