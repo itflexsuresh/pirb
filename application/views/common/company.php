@@ -204,7 +204,7 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Registration Date</label>
-										<input type="text" class="form-control" value="<?php echo $createdat; ?>" disabled>						
+										<input type="text" class="form-control" value="<?php echo date('d-m-Y', strtotime($createdat)); ?>" disabled>						
 									</div>
 								</div>
 								<div class="col-md-6">
