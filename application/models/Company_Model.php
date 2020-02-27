@@ -8,10 +8,10 @@ class Company_Model extends CC_Model
 								'u.id','u.email','u.formstatus','u.expirydate','u.type','u.status','u.created_at' 
 							];
 		$usersdetail 	= 	[ 
-								'ud.id as usersdetailid','ud.company','ud.reg_no','ud.vat_no','ud.contact_person','ud.work_phone','ud.mobile_phone','ud.work_type','ud.specialisations','ud.status as companystatus'
+								'ud.id as usersdetailid','ud.company','ud.reg_no','ud.vat_no','ud.contact_person','ud.work_phone','ud.mobile_phone','ud.specialisations','ud.status as companystatus'
 							];
 		$userscompany 	= 	[ 
-								'uc.id as userscompanyid','uc.message','uc.approval_status','uc.reject_reason','uc.reject_reason_other'
+								'uc.id as userscompanyid','uc.work_type','uc.message','uc.approval_status','uc.reject_reason','uc.reject_reason_other'
 							];
 				
 		$this->db->select('
@@ -59,7 +59,6 @@ class Company_Model extends CC_Model
 			if($type=='all') 		$result = $query->result_array();
 			elseif($type=='row') 	$result = $query->row_array();
 		}
-		
 		return $result;
 	}
 	
@@ -70,13 +69,12 @@ class Company_Model extends CC_Model
 		$userid			= 	$this->getUserID();
 		$datetime		= 	date('Y-m-d H:i:s');
 				
-		if(isset($data['name'])) 				$request1['company_name'] 		= $data['name'];
+		if(isset($data['name'])) 				$request1['company'] 			= $data['name'];
 		if(isset($data['reg_no'])) 				$request1['reg_no'] 			= $data['reg_no'];
 		if(isset($data['vat_no'])) 				$request1['vat_no'] 			= $data['vat_no'];
 		if(isset($data['contact_person'])) 		$request1['contact_person'] 	= $data['contact_person'];
 		if(isset($data['work_phone'])) 			$request1['work_phone'] 		= $data['work_phone'];
 		if(isset($data['mobile_phone'])) 		$request1['mobile_phone'] 		= $data['mobile_phone'];
-		if(isset($data['worktype'])) 			$request1['work_type'] 			= implode(',', $data['worktype']);
 		if(isset($data['specilisations'])) 		$request1['specialisations']	= implode(',', $data['specilisations']);
 		if(isset($data['companystatus'])) 		$request1['status'] 			= $data['companystatus'];
 		
@@ -103,9 +101,11 @@ class Company_Model extends CC_Model
 			}
 		}
 		
+		if(isset($data['worktype'])) 				$request3['work_type'] 				= implode(',', $data['worktype']);
+		if(isset($data['approval_status']))			$request3['approval_status'] 		= '0';
 		if(isset($data['message'])) 				$request3['message'] 				= $data['message'];
 		if(isset($data['approval_status'])) 		$request3['approval_status'] 		= $data['approval_status'];
-		if(isset($data['reject_reason'])) 			$request3['reject_reason'] 			= $data['reject_reason'];
+		if(isset($data['reject_reason'])) 			$request3['reject_reason'] 			= implode(',', $data['reject_reason']);
 		if(isset($data['reject_reason_other'])) 	$request3['reject_reason_other'] 	= $data['reject_reason_other'];
 		
 		if(isset($request3)){
@@ -120,8 +120,8 @@ class Company_Model extends CC_Model
 		}
 		
 		if(isset($data['formstatus'])) 		$request4['formstatus'] 	= $data['formstatus'];
-		if(isset($data['status'])) 			$request4['status']			= $data['status'];		
-		if(isset($data['companystatus']) && $data['companystatus']=='2') 	$request4['status'] 		= '2';
+		if(isset($data['companystatus'])) 	$request4['status']			= $data['companystatus'];		
+		//if(isset($data['companystatus']) && $data['companystatus']=='2') 	$request4['status'] 		= '2';
 		if(isset($request4)){
 			if(isset($data['user_id'])){
 				$userid = $data['user_id'];	

@@ -12,7 +12,7 @@
 	$contact_person 		= isset($result['contact_person']) ? $result['contact_person'] : '';
 	$mobilephone 			= isset($result['mobile_phone']) ? $result['mobile_phone'] : '';
 	$workphone 				= isset($result['work_phone']) ? $result['work_phone'] : '';
-	$companystatusid 		= isset($result['companystatus']) ? $result['companystatus'] : '';
+	$companystatusid 		= isset($result['status']) ? $result['status'] : '';
 	
 	$physicaladdress 		= isset($result['physicaladdress']) ? explode('@-@', $result['physicaladdress']) : [];
 	$addressid1 			= isset($physicaladdress[0]) ? $physicaladdress[0] : '';
@@ -50,6 +50,13 @@
 		$disabled1array 	= [];
 		$disabled2 			= 'disabled';
 		$disabled2array 	= ['disabled' => 'disabled'];
+	}elseif($roletype=='4' && $approval_status=='2'){
+		$disabled1 			= 'disabledrej';
+		$disabled1array 	= ['disabled' => 'disabled'];
+		$disabled2 			= '';
+		$disabled2array 	= [];
+		
+		$disablebtn			= '1';
 	}else{
 		$disabled1 			= '';
 		$disabled1array 	= [];
@@ -177,9 +184,14 @@
 				<form class="form" method="post" action="">					
 					<?php if(($roletype=='1' && $approval_status=='1') || ($pagetype!='registration' && $roletype=='4')){ ?>
 						<div class="col-md-12 application_field_wrapper mb-15">
-							<?php if($disabled1!=''){ ?>
+							<?php if($disabled1=='disabled'){ ?>
 								<div class="application_field_status">
 									<p>Application Pending</p>
+								</div>
+							<?php } ?>
+							<?php if($disabled1=='disabledrej'){ ?>
+								<div class="application_field_status">
+									<p>Application Rejected</p>
 								</div>
 							<?php } ?>
 							<div class="row">
@@ -216,13 +228,13 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Company Name *</label>
-								<input type="text" class="form-control"  name="name" value="<?php echo $company; ?>">
+								<input type="text" class="form-control" id="name" name="name" value="<?php echo $company; ?>">
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Company Registration Number *</label>
-								<input type="text" class="form-control"  name="reg_no" value="<?php echo $reg_no; ?>">
+								<input type="text" class="form-control" id="reg_no" name="reg_no" value="<?php echo $reg_no; ?>">
 							</div>
 						</div>
 					</div>
@@ -230,7 +242,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>VAT Number</label>
-								<input type="text" class="form-control"  name="vat_no" value="<?php echo $vat_no; ?>">
+								<input type="text" class="form-control" id="vat_no" name="vat_no" value="<?php echo $vat_no; ?>">
 							</div>
 						</div>
 					</div>
@@ -238,7 +250,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Primary Contact Person *</label>
-								<input type="text" class="form-control"  name="contact_person" value="<?php echo $contact_person; ?>">
+								<input type="text" class="form-control" id="contact_person" name="contact_person" value="<?php echo $contact_person; ?>">
 								</div>
 						</div>
 					</div>
@@ -250,7 +262,7 @@
 								<label>Physical Address *</label>
 								<input type="hidden" class="form-control" name="address[1][id]" value="<?php echo $addressid1; ?>">
 								<input type="hidden" class="form-control" name="address[1][type]" value="1">
-								<input type="text" class="form-control" name="address[1][address]"  value="<?php echo $address1; ?>">
+								<input type="text" class="form-control" id="physicallsaddr" name="address[1][address]"  value="<?php echo $address1; ?>">
 							</div>
 						</div>
 						<div class="col-md-6">
@@ -260,7 +272,7 @@
 								<label>Postal Address *</label>
 								<input type="hidden" class="form-control" name="address[2][id]" value="<?php echo $addressid2; ?>">
 								<input type="hidden" class="form-control" name="address[2][type]" value="2">
-								<input type="text" class="form-control" name="address[2][address]" value="<?php echo $address2; ?>">
+								<input type="text" class="form-control" id="postalarrs" name="address[2][address]" value="<?php echo $address2; ?>">
 							</div>
 						</div>
 					</div>
@@ -323,7 +335,7 @@
 						<div class="col-md-6 offset-6">
 							<div class="form-group">
 								<label>Postal Code *</label>
-								<input type="text" class="form-control" name="address[2][postal_code]" value="<?php echo $postalcode2; ?>">
+								<input type="text" class="form-control" id="postaladdrcomp" name="address[2][postal_code]" value="<?php echo $postalcode2; ?>">
 							</div>
 						</div>
 					</div>
@@ -400,6 +412,119 @@ $(function(){
 	rejectwrapper(approvalstatus);
 	
 	rejectother();
+
+	validation( 
+		'.form',
+		{
+			name : {
+				required	: true,
+			},
+			reg_no : {
+				required	: true,
+			},
+			vat_no : {
+				required	: true,
+			},
+			contact_person : {
+				required	: true,
+			},
+			'address[1][address]' : {
+				required	: true,
+			},
+			'address[2][address]' : {
+				required	: true,
+			},
+			 'address[1][province]' : {
+				required	: true,
+			},
+			'address[2][province]' : {
+				required	: true,
+			},
+			'address[1][city]' : {
+				required	: true,
+			},
+			'address[2][city]' : {
+				required	: true,
+			},
+			'address[1][suburb]' : {
+				required	: true,
+			},
+			'address[2][suburb]' : {
+				required	: true,
+			},
+			'address[2][postal_code]' : {
+				required	: true,
+			},
+			'worktype[]' : {
+				required	: true,
+			},
+			'specilisations[]' : {
+				required	: true,
+			},
+			 work_phone : {
+				required	: true,
+			},
+			mobile_phone : {
+				required	: true,
+			},
+			
+		},
+		{
+			name : {
+				required	: "Company name field is required.",
+			},
+			reg_no : {
+				required	: "Registration number field is required.",
+			},
+			vat_no : {
+				required	: "VAT field is required.",
+			},
+			contact_person : {
+				required	: "Contact preson field is required.",
+			},
+			'address[1][address]' : {
+				required	: "Phydical address field is required.",
+			},
+			'address[2][address]' : {
+				required	: "Postal address field is required.",
+			},
+			'address[1][province]' : {
+				required	: "Physical Province field is required.",
+			},
+			'address[2][province]' : {
+				required	: "Postal Province field is required.",
+			},
+			'address[1][city]' : {
+				required	: "Physical City field is required.",
+			},
+			'address[2][city]' : {
+				required	: "Postal City field is required.",
+			},
+			'address[1][suburb]' : {
+				required	: "Physical Suburb field is required.",
+			},
+			'address[2][suburb]' : {
+				required	: "Postal Suburb field is required.",
+			},
+			'address[2][postal_code]' : {
+				required	: "Postal Code field is required.",
+			},
+			'worktype[]' : {
+				required	: "Worktype is required.",
+			},
+			'specilisations[]' : {
+				required	: "Specilisations is required.",
+			},
+			work_phone : {
+				required	: "Work phone field is required.",
+			},
+			mobile_phone : {
+				required	: "Mobile phone field is required.",
+			},
+		}
+
+			
+	);
 })
 	
 	
