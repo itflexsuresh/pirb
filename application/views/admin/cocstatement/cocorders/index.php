@@ -452,10 +452,11 @@ $(function(){
 
 function coc_type_show(){
 	purchase_type_val = $('input[name="purchase_type"]:checked').val();
+	$('.electronic input').prop("checked",false);	
 	if(purchase_type_val==6){
-		$('.electronic').hide();
+		$('.electronic input').attr('disabled',true);
 	} else {
-		$('.electronic').show();		
+		$('.electronic input').removeAttr('disabled');		
 	}
 }
 
