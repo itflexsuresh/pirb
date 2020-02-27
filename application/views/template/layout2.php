@@ -29,6 +29,9 @@
 			if(in_array('datepicker', $plugins)){ 
 				echo '<link href="'.base_url().'assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">';
 			}
+			if(in_array('morrischart', $plugins)){ 
+				echo '<link href="'.base_url().'assets/plugins/morrisjs/morris.css" rel="stylesheet">';
+			}
 		?>
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -117,6 +120,10 @@
 			}
 			if(in_array('tinymce', $plugins)){ 
 				echo '<script src="'.base_url().'assets/plugins/tinymce/js/tinymce.min.js"></script>';
+			}
+			if(in_array('morrischart', $plugins)){ 
+				echo '<script src="'.base_url().'assets/plugins/morrisjs/morris.min.js"></script>';
+				echo '<script src="'.base_url().'assets/plugins/raphael/raphael-min.js"></script>';
 			}
 		?>
 		

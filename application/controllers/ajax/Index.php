@@ -261,4 +261,34 @@ class Index extends CC_Controller
 		echo json_encode($json);
 	}
 
+	public function ajaxdtaudithistory()
+	{
+		$post 			= $this->input->post();
+		$totalcount 	= $this->Auditor_Model->getReviewList('count', $post);
+		$results 		= $this->Auditor_Model->getReviewList('all', $post);
+		
+		$totalrecord 	= [];
+		if(count($results) > 0){
+			foreach($results as $result){
+				$totalrecord[] = 	[
+										'date' 				=> 	date('d-m-Y', strtotime($result['created_at'])),
+										'auditor' 			=> 	$result['auditorname'],
+										'installationtype' 	=> 	$result['installationtypename'],
+										'subtype' 			=> 	$result['subtypename'],
+										'statementname' 	=> 	$result['statementname'],
+										'finding' 			=> 	$this->config->item('reviewtype')[$result['reviewtype']]
+									];
+			}
+		}
+		
+		$json = array(
+			"draw"            => intval($post['draw']),   
+			"recordsTotal"    => intval($totalcount),  
+			"recordsFiltered" => intval($totalcount),
+			"data"            => $totalrecord
+		);
+
+		echo json_encode($json);
+	}
+
 }

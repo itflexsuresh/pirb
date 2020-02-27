@@ -328,9 +328,10 @@ class CC_Controller extends CI_Controller
 		$pagedata['specialisations'] 	= $this->config->item('specialisations');
 		$pagedata['comments'] 			= $this->Comment_Model->getList('all', ['user_id' => $id]);
 		$pagedata['defaultsettings'] 	= $this->Systemsettings_Model->getList('row');
+		$pagedata['menu']				= $this->load->view('common/plumber/menu', ['id'=>$id],true);
 		
 		$data['plugins']				= ['validation','datepicker','inputmask','select2'];
-		$data['content'] 				= $this->load->view('common/plumber', (isset($pagedata) ? $pagedata : ''), true);
+		$data['content'] 				= $this->load->view('common/plumber/profile', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
 	
@@ -514,7 +515,7 @@ class CC_Controller extends CI_Controller
 		$this->layout2($data);
 	}
 	
-	public function getAuditStatement($id, $pagedata=[], $extras=[])
+	public function getauditreview($id, $pagedata=[], $extras=[])
 	{		
 		$extraparam = [];
 		if(isset($extras['auditorid'])) $extraparam['auditorid'] 	= $extras['auditorid'];
@@ -588,9 +589,33 @@ class CC_Controller extends CI_Controller
 		$pagedata['yesno'] 						= $this->config->item('yesno');		
 		$pagedata['reviewtype'] 				= $this->config->item('reviewtype');	
 		$pagedata['reviewlist']					= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
+		$pagedata['menu']						= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
+		
+		$data['plugins']			= ['datepicker', 'sweetalert', 'validation', 'select2'];
+		$data['content'] 			= $this->load->view('common/auditstatement/review', (isset($pagedata) ? $pagedata : ''), true);
+		$this->layout2($data);
+	}
+	
+	public function getaudithistory($id, $pagedata=[], $extras=[])
+	{
+		$pagedata['notification'] 	= $this->getNotification();
+		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);	
+		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['auditorid' => $pagedata['result']['auditorid'], 'plumberid' => $pagedata['result']['user_id']]);	
+		$pagedata['menu']			= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
+		
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'morrischart'];
+		$data['content'] 			= $this->load->view('common/auditstatement/history', (isset($pagedata) ? $pagedata : ''), true);
+		$this->layout2($data);
+	}
+	
+	public function getauditdiary($id, $pagedata=[], $extras=[])
+	{
+		$pagedata['notification'] 	= $this->getNotification();
+		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);	
+		$pagedata['menu']			= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'sweetalert', 'validation', 'select2'];
-		$data['content'] 			= $this->load->view('common/auditstatement', (isset($pagedata) ? $pagedata : ''), true);
+		$data['content'] 			= $this->load->view('common/auditstatement/diary', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
 	

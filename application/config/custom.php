@@ -27,18 +27,19 @@ $config['inspection'] 				= 	'20';
 
 // Global Performance Table
 
-$config['verypoor']	 				= 	'4';
-$config['poor']	 					= 	'5';
-$config['good']	 					= 	'6';
-$config['excellent']	 			= 	'7';
+$config['verypoor']	 				= 	'2';
+$config['poor']	 					= 	'3';
+$config['good']	 					= 	'4';
+$config['excellent']	 			= 	'5';
 
-$config['plumberverificationyes']	= 	'9';
-$config['plumberverificationno']	= 	'10';
+$config['plumberverificationyes']	= 	'7';
+$config['plumberverificationno']	= 	'8';
 
-$config['cocverificationyes']		= 	'12';
-$config['cocverificationno']		= 	'13';
+$config['cocverificationyes']		= 	'10';
+$config['cocverificationno']		= 	'11';
 
-$config['noaudit']					= 	'14';
+$config['noaudit']					= 	'12';
+
 
 
 $config['usertype1'] 				= 	[
