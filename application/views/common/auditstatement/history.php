@@ -42,7 +42,9 @@ $noauditpercentage 			= round(($noaudit/$total)*100,2).'%';
 <div class="row">
 	<div class="col-12">
 		<div class="card">
-			<div id="reviewchart"></div>
+			<?php if($roletype=='1'){ ?>
+				<div id="reviewchart"></div>
+			<?php } ?>
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group">
@@ -123,6 +125,7 @@ $noauditpercentage 			= round(($noaudit/$total)*100,2).'%';
 
 
 <script>
+	var roletype 		= '<?php echo $roletype; ?>';
 	var auditorid 		= '<?php echo $auditorid; ?>';
 	var plumberid 		= '<?php echo $plumberid; ?>';
 	var count 			= '<?php echo $count; ?>';
@@ -137,7 +140,7 @@ $noauditpercentage 			= round(($noaudit/$total)*100,2).'%';
 		
 		var options = {
 			url 	: 	'<?php echo base_url()."ajax/index/ajaxdtaudithistory"; ?>',
-			data	:	{auditorid : auditorid, plumberid : plumberid, page : 'adminaudithistroy'},
+			data	:	{plumberid : plumberid, page : 'adminaudithistroy'},
 			columns : 	[
 				{ "data": "date" },
 				{ "data": "auditor" },
@@ -150,48 +153,50 @@ $noauditpercentage 			= round(($noaudit/$total)*100,2).'%';
 		
 		ajaxdatatables('.datatables', options);
 		
-	var barcolor = ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4'];
-	
-	Morris.Bar({
-		barSizeRatio:0.4,
-        element: 'reviewchart',
-        data: [
-			{
-				y: 'Total Number of Audit Findings',
-				a: total
-			}, 
-			{
-				y: 'Compliments',
-				a: compliment
-			}, 
-			{
-				y: 'Cautionary',
-				a: cautionary
-			}, 
-			{
-				y: 'Refix (Complete)',
-				a: refixcomplete
-			}, 
-			{
-				y: 'Refix (In-Complete)',
-				a: refixincomplete
-			}, 
-			{
-				y: 'No Audit',
-				a: noaudit
-			}
-		],
-        xkey: 'y',
-		xLabelMargin : 1,
-        ykeys: ['a'],
-        labels: ['Audit'],
-		barColors: function (row, series, type) {
-			return barcolor[row.x];
-		}, 
-        hideHover: 'auto',
-        gridLineColor: '#000',
-        resize: true
-    });
+		if(roletype=='1'){
+			var barcolor = ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4'];
+		
+			Morris.Bar({
+				barSizeRatio:0.4,
+				element: 'reviewchart',
+				data: [
+					{
+						y: 'Total Number of Audit Findings',
+						a: total
+					}, 
+					{
+						y: 'Compliments',
+						a: compliment
+					}, 
+					{
+						y: 'Cautionary',
+						a: cautionary
+					}, 
+					{
+						y: 'Refix (Complete)',
+						a: refixcomplete
+					}, 
+					{
+						y: 'Refix (In-Complete)',
+						a: refixincomplete
+					}, 
+					{
+						y: 'No Audit',
+						a: noaudit
+					}
+				],
+				xkey: 'y',
+				xLabelMargin : 1,
+				ykeys: ['a'],
+				labels: ['Audit'],
+				barColors: function (row, series, type) {
+					return barcolor[row.x];
+				}, 
+				hideHover: 'auto',
+				gridLineColor: '#000',
+				resize: true
+			});
+		}
 	});
 	
 </script>

@@ -80,6 +80,7 @@ $formstatus  	= $userdata['formstatus'];
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Company</span></a>
 						<ul aria-expanded="false" class="collapse">
 							<li><a href="<?php echo base_url().'admin/company/index'; ?>">Company</a></li>
+							<li><a href="<?php echo base_url().'admin/company/index/rejected'; ?>">Rejected Applications</a></li>
 						</ul>
 					</li>
 					<li class="step three"> 
