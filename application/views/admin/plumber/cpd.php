@@ -16,6 +16,7 @@
 <?php 
 echo $notification; 
 if($roletype=='1'){ echo isset($menu) ? $menu : ''; } 
+$pagestatus = isset($pagestatus) ? $pagestatus : '';
 ?>
 
 

@@ -58,7 +58,7 @@ class Mycpd_Model extends CC_Model
 				$this->db->or_like('cpd_activity', $searchvalue);
 				$this->db->or_like('cpd_start_date', $searchvalue);
 				$this->db->or_like('points', $searchvalue);
-				$this->db->or_like('status', $searchvalue);
+				// $this->db->or_like('status', $searchvalue);
 			$this->db->group_end();
 
 		}
