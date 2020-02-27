@@ -162,8 +162,13 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 										<div class="row">
 											<?php
 												foreach($coctype as $key => $value){
+													if($key==1){
+														$class = "electronic";
+													} else {
+														$class = "paper";														
+													}
 											?>
-													<div class="col-md-5">
+													<div class="col-md-5 <?php echo $class; ?>">
 														<div class="custom-control custom-radio">
 															<input type="radio" name="coc_type" id="<?php echo $key.'-'.$value; ?>" class="custom-control-input coc_type <?php if($key=='1'){ echo 'electronic_radio';} ?>" value="<?php echo $key; ?>" <?php if($coc_type==$key){ echo 'checked="checked"'; } ?>>
 															<label class="custom-control-label" for="<?php echo $key.'-'.$value; ?>"><?php echo $value; ?></label>
@@ -437,8 +442,22 @@ $(function(){
 	// $(".comments, .order_cancelled").hide();
 	allocation_show();
 	cert_range_show();
+	coc_type_show();
+
+	$("input[name='purchase_type']").click(function(){
+		coc_type_show();
+	});
+
 });
 
+function coc_type_show(){
+	purchase_type_val = $('input[name="purchase_type"]:checked').val();
+	if(purchase_type_val==6){
+		$('.electronic').hide();
+	} else {
+		$('.electronic').show();		
+	}
+}
 
 $("#plumber, #reseller").click(function(){
 	userwrapper($(this).val())
