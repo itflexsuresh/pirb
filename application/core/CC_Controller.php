@@ -158,7 +158,7 @@ class CC_Controller extends CI_Controller
 	{
 		$data = $this->Company_Model->getList('all', ['status' => ['1']]);
 		
-		if(count($data) > 0) return ['' => 'Select Company']+array_column($data, 'company_name', 'id');
+		if(count($data) > 0) return ['' => 'Select Company']+array_column($data, 'company', 'id');
 		else return [];
 	}
 	
