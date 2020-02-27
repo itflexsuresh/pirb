@@ -583,13 +583,14 @@ function chat(data1=[], data2=[], data3=[]){
 						
 						$(data1[1]).append(chatdata.join(''));
 					}
-				}
+				},
+				asynchronous : 1
 			}
 		);
 	}
 	
 	function chataction(param){
-		ajax(baseurl()+'ajax/index/ajaxchataction', param, '', { success : function(data){} });
+		ajax(baseurl()+'ajax/index/ajaxchataction', param, '', { success : function(data){}, asynchronous : 1 });
 	}
 	
 	function chatunread(){

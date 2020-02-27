@@ -38,6 +38,8 @@ class Chat_Model extends CC_Model
 			$this->db->group_end();
 		}
 		
+		$this->db->order_by('c.created_at', 'asc');
+		
 		if($type=='count'){
 			$result = $this->db->count_all_results();
 		}else{
