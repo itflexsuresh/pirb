@@ -203,13 +203,13 @@ if(isset($id) && $id >0)
 
 				
 
-				<div class="row">
+				<!-- <div class="row">
 					<div class="col-md-12">
 						<div class="form-group">
 							<label>Caution: Number of COC that been selected for allocation is greater than the number of permitted COC's that can be allocated to the Plumber.</label>
 						</div>
 					</div>
-				</div>
+				</div> -->
 
 				<div class="row">
 					<div class="col-md-3">
