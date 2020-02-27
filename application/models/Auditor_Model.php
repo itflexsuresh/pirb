@@ -658,13 +658,13 @@ class Auditor_Model extends CC_Model
 		$auditorid = $requestdata['auditorid'];
 		$plumberid = $requestdata['plumberid'];
 		
-		$count = $this->db->select('count(id) as count')->where(['auditor_id' => $auditorid, 'plumber_id' => $plumberid])->get('auditor_statement')->row_array();
-		$total = $this->db->select('count(id) as count')->where(['auditor_id' => $auditorid, 'plumber_id' => $plumberid])->get('auditor_review')->row_array();
-		$refixincomplete = $this->db->select('count(id) as count')->where(['auditor_id' => $auditorid, 'plumber_id' => $plumberid, 'reviewtype' => '1', 'status' => '0'])->get('auditor_review')->row_array();
-		$refixcomplete = $this->db->select('count(id) as count')->where(['auditor_id' => $auditorid, 'plumber_id' => $plumberid, 'reviewtype' => '1', 'status' => '1'])->get('auditor_review')->row_array();
-		$cautionary = $this->db->select('count(id) as count')->where(['auditor_id' => $auditorid, 'plumber_id' => $plumberid, 'reviewtype' => '2'])->get('auditor_review')->row_array();
-		$compliment = $this->db->select('count(id) as count')->where(['auditor_id' => $auditorid, 'plumber_id' => $plumberid, 'reviewtype' => '3'])->get('auditor_review')->row_array();
-		$noaudit = $this->db->select('count(id) as count')->where(['auditor_id' => $auditorid, 'plumber_id' => $plumberid, 'reviewtype' => '4'])->get('auditor_review')->row_array();
+		$count = $this->db->select('count(id) as count')->where(['plumber_id' => $plumberid])->get('auditor_statement')->row_array();
+		$total = $this->db->select('count(id) as count')->where(['plumber_id' => $plumberid])->get('auditor_review')->row_array();
+		$refixincomplete = $this->db->select('count(id) as count')->where(['plumber_id' => $plumberid, 'reviewtype' => '1', 'status' => '0'])->get('auditor_review')->row_array();
+		$refixcomplete = $this->db->select('count(id) as count')->where(['plumber_id' => $plumberid, 'reviewtype' => '1', 'status' => '1'])->get('auditor_review')->row_array();
+		$cautionary = $this->db->select('count(id) as count')->where(['plumber_id' => $plumberid, 'reviewtype' => '2'])->get('auditor_review')->row_array();
+		$compliment = $this->db->select('count(id) as count')->where(['plumber_id' => $plumberid, 'reviewtype' => '3'])->get('auditor_review')->row_array();
+		$noaudit = $this->db->select('count(id) as count')->where(['plumber_id' => $plumberid, 'reviewtype' => '4'])->get('auditor_review')->row_array();
 		
 		$result = [
 			'count' => $count['count'],
