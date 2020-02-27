@@ -27,7 +27,7 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 				
 				<div class="row add_top_value">
 					<div class="col-md-6">
-						<a href="<?php echo base_url()."admin/plumber/index/cpd/".$id; ?>" class="active_link_btn">CURRENT YEAR</a>  <a href="<?php echo base_url()."admin/plumber/index/cpd/".$id; ?>" class="archive_link_btn">PREVIOUS YEARS</a>
+						<a href="<?php echo base_url()."admin/plumber/index/cpd/".$id."/1"; ?>" class="active_link_btn">CURRENT YEAR</a>  <a href="<?php echo base_url()."admin/plumber/index/cpd/".$id."/2"; ?>" class="archive_link_btn">PREVIOUS YEARS</a>
 					</div>					
 				</div>
 				<div id="active" class="table-responsive m-t-40">

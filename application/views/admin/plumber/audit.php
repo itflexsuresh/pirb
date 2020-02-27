@@ -49,7 +49,7 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 		
 		var options = {
 			url 	: 	'<?php echo base_url()."admin/plumber/index/DTAuditStatement"; ?>',
-			data    : 	{ user_id : '<?php echo $id; ?>'},
+			data    : 	{ page : 'plumberauditorstatement', user_id : '<?php echo $id; ?>'},
 			columns : 	[
 							{ "data": "cocno" },
 							{ "data": "status" },

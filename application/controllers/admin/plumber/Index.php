@@ -151,12 +151,12 @@ class Index extends CC_Controller
 	}
 	
 
-	public function DTCpdQueue($pagestatus='',$id='')
+	public function DTCpdQueue()
 	{
 		$post 			= $this->input->post();
 
-		$totalcount 	= $this->Mycpd_Model->getQueueList('count', ['status' => [$post['pagestatus']], 'user_id' => [$post['user_id']]]+$post);
-		$results 		= $this->Mycpd_Model->getQueueList('all', ['status' => [$post['pagestatus']], 'user_id' => [$post['user_id']]]+$post);
+		$totalcount 	= $this->Mycpd_Model->getQueueList('count', ['status' => $post['pagestatus'], 'user_id' => $post['user_id']]+$post);
+		$results 		= $this->Mycpd_Model->getQueueList('all', ['status' => $post['pagestatus'], 'user_id' => $post['user_id']]+$post);
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
