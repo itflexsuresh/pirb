@@ -132,7 +132,7 @@
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
 		<h4 class="text-themecolor"><?php echo $dynamicheading; ?></h4>
-	</div>
+	</div>	
 	<div class="col-md-7 align-self-center text-right">
 		<div class="d-flex justify-content-end align-items-center">
 			<ol class="breadcrumb">
@@ -144,6 +144,7 @@
 </div>
 
 <?php echo $notification; ?>
+<?php if($roletype=='1'){ echo isset($menu) ? $menu : ''; }?>
 
 <?php if($roletype=='1' && ($approval_status=='0' || $approval_status=='2')){ ?>
 	<form class="form1" method="post">

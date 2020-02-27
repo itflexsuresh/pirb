@@ -328,9 +328,9 @@ class CC_Controller extends CI_Controller
 		$pagedata['specialisations'] 	= $this->config->item('specialisations');
 		$pagedata['comments'] 			= $this->Comment_Model->getList('all', ['user_id' => $id]);
 		$pagedata['defaultsettings'] 	= $this->Systemsettings_Model->getList('row');
-		
+		$pagedata['menu']			= $this->load->view('common/plumber/menu', ['id'=>$id],true);
 		$data['plugins']				= ['validation','datepicker','inputmask','select2'];
-		$data['content'] 				= $this->load->view('common/plumber', (isset($pagedata) ? $pagedata : ''), true);
+		$data['content'] 				= $this->load->view('common/plumber/profile', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
 	
