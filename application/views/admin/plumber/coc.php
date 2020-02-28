@@ -6,20 +6,26 @@ if($roletype=='1'){
 	$heading = 'Audit Report';
 }
 
-$plumberid			= '';
-$auditorid			= '';
+$plumberid	 = '';
+$auditorid	 = '';
 
-$count 			 = isset($history2['count']) ? $history2['count'] : '';
-$total 			 = isset($history2['total']) ? $history2['total'] : '';
+$logged 	 = isset($logged) ? $logged : '';
+$allocated 	 = isset($allocated) ? $allocated : '';
+$nonlogged 	 = isset($nonlogged) ? $nonlogged : '';
+if($logged == '')
+	$logged = 0;
 
-$logged 			 = isset($history2['logged']) ? $history2['logged'] : '';
-$audited 			 = isset($history2['audited']) ? $history2['audited'] : '';
-$allocated 	 = isset($history2['allocated']) ? $history2['allocated'] : '';
-$nonlogged 	 = isset($history2['nonlogged']) ? $history2['nonlogged'] : '';
+if($allocated == '')
+	$allocated = 0;
 
+if($nonlogged == '')
+	$nonlogged = 0;
+
+
+$count 			 = isset($history['count']) ? $history['count'] : '';
+$total 			 = isset($history['total']) ? $history['total'] : '';
 $refixincomplete = isset($history['refixincomplete']) ? $history['refixincomplete'] : '';
 $refixcomplete 	 = isset($history['refixcomplete']) ? $history['refixcomplete'] : '';
-
 
 if($refixincomplete > 0)
 	$refixincompletepercentage 	= round(($refixincomplete/$total)*100,2).'%'; 
@@ -30,7 +36,6 @@ if($refixcomplete > 0)
 	$refixcompletepercentage 	= round(($refixcomplete/$total)*100,2).'%'; 
 else
 	$refixcompletepercentage = 0;
-
 
 ?>
 
@@ -110,12 +115,11 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 
 		var auditorid 		= '<?php echo $auditorid; ?>';
 		var plumberid 		= '<?php echo $plumberid; ?>';
-		var count 			= '<?php echo $count; ?>';
-		var logged 			= '<?php echo $logged; ?>';
+		var total 			= '<?php echo $total; ?>';
 		var refixincomplete = '<?php echo $refixincomplete; ?>';
 		var refixcomplete 	= '<?php echo $refixcomplete; ?>';
-		var nonlogged 		= '<?php echo $nonlogged; ?>';
-		var audited 		= '<?php echo $audited; ?>';
+		var logged 			= '<?php echo $logged; ?>';
+		var nonlogged 		= '<?php echo $nonlogged; ?>';		
 		var allocated 		= '<?php echo $allocated; ?>';
 
 		var barcolor = ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4'];
@@ -125,20 +129,20 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 	        element: 'reviewchart',
 	        data: [
 				{
-					y: 'No of Non Logged Coc',
+					y: 'No of Non Logged Coc`s:',
 					a: nonlogged
 				}, 
 				{
-					y: 'No of Non Logged Coc Allocated',
+					y: 'No of Non Logged Coc`s- Allocated:',
 					a: allocated
 				}, 
 				{
-					y: 'No of Coc Logged',
+					y: 'No of Coc`s Logged:',
 					a: logged
 				}, 
 				{
-					y: 'No of Coc Audited to Date:',
-					a: audited
+					y: 'No of Coc`s Audited to Date:',
+					a: total
 				}, 
 				{
 					y: 'Refix (Complete)',

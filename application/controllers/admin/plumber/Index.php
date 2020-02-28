@@ -239,8 +239,10 @@ class Index extends CC_Controller
 		$pagedata['user_details'] 	= $userdata1;
 		$pagedata['menu']			= $this->load->view('common/plumber/menu', ['id'=>$id],true);
 		$pagedata['notification'] 	= $this->getNotification();		
-		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['auditorid' => '', 'plumberid' => $id]);
-		$pagedata['history2']		= $this->Auditor_Model->getReviewHistory2Count(['auditorid' => '', 'plumberid' => $id]);
+		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['auditorid' => '', 'plumberid' => $id]);				
+		$pagedata['logged']		= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['2']]);
+		$pagedata['allocated']		= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['4']]);
+		$pagedata['nonlogged ']		= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['5']]);
 
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'morrischart'];
 		$data['content'] 			= $this->load->view('admin/plumber/coc', (isset($pagedata) ? $pagedata : ''), true);
