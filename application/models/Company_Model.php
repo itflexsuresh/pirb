@@ -35,6 +35,7 @@ class Company_Model extends CC_Model
 		if(isset($requestdata['type'])) 				$this->db->where('u.type', $requestdata['type']);
 		if(isset($requestdata['formstatus']))			$this->db->where_in('u.formstatus', $requestdata['formstatus']);
 		if(isset($requestdata['status']))				$this->db->where_in('u.status', $requestdata['status']);
+		if(isset($requestdata['companystatus']))		$this->db->where_in('ud.status', $requestdata['companystatus']);
 		if(isset($requestdata['approvalstatus']))		$this->db->where_in('uc.approval_status', $requestdata['approvalstatus']);
 		
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
