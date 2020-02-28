@@ -31,10 +31,9 @@ class Company_Model extends CC_Model
 		$this->db->join('users_plumber lm', 'lm.company_details=u.id and (lm.designation="4" or lm.designation="6")', 'left');
 		$this->db->join('users_plumber lttq', 'lttq.company_details=u.id and (lttq.designation="1" or lttq.designation="2" or lttq.designation="3" or lttq.designation="5")', 'left');
 		
-		
 		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);
 		if(isset($requestdata['type'])) 				$this->db->where('u.type', $requestdata['type']);
-		$this->db->where('u.formstatus', '1');
+		if(isset($requestdata['formstatus']))			$this->db->where_in('u.formstatus', $requestdata['formstatus'][0]);
 		if(isset($requestdata['status']))				$this->db->where_in('u.status', $requestdata['status']);
 		if(isset($requestdata['companystatus']))		$this->db->where_in('ud.status', $requestdata['companystatus']);
 		if(isset($requestdata['approvalstatus']))		$this->db->where_in('uc.approval_status', $requestdata['approvalstatus']);

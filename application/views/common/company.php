@@ -344,7 +344,7 @@
 					</div>
 					<h4 class="card-title">Contact Details</h4>
 					<div class="row">
-						<?php if ($pagetype!='registration') { ?>
+						<?php if ($pagetype!='registration' && $result['formstatus'] !='0') { ?>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Home Phone:</label>
@@ -372,7 +372,7 @@
 								<p>Note all SMS and OTP notifications will be sent to this mobile number above</p>
 							</div>
 						</div>
-						<?php if ($pagetype!='registration') { ?>
+						<?php if ($pagetype!='registration' && $result['formstatus'] !='0') { ?>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Secondary Mobile Phone:</label>
@@ -387,7 +387,7 @@
 								<p>Note: this email will be used as your user profile name and all emails notifications will be sent to it</p>
 							</div>
 						</div>
-						<?php if ($pagetype!='registration') { ?>
+						<?php if ($pagetype!='registration' && $result['formstatus'] !='0') { ?>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Secondary Email Address:</label>
@@ -421,8 +421,8 @@
 						<input type="hidden" name="user_id" value="<?php echo $id; ?>">
 						<input type="hidden" name="usersdetailid" value="<?php echo $usersdetailid; ?>">
 						<input type="hidden" name="userscompanyid" value="<?php echo $userscompanyid; ?>">
-						<?php if ($roletype!='1') { 
-							if(!isset($disablebtn) or $pagetype=='registration'){ ?>
+						<?php if ($roletype!='1') {
+							if(!isset($disablebtn) || ($pagetype=='registration') || ($pagetype=='companyprofile' && $result['formstatus'] =='0')){ ?>
 							<button type="button" id="save" name="save" value="save" class="btn btn-primary">Save</button>
 							<button type="button" id="sub-reg" name="submit" value="submit" class="btn btn-primary">Submit</button>
 							<button type="submit" id="hid_sub_reg" name="submit" value="submit" class="btn btn-primary" style="display: none;">Submit</button>

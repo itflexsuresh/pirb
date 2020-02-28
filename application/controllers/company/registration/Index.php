@@ -15,6 +15,7 @@ class Index extends CC_Controller
 	{
 		$userid		= 	$this->getUserID();
 		$result		= 	$this->Company_Model->getList('row', ['id' => $userid, 'type' => '4', 'status' => ['0','1']]);
+		//die;
 		
 		if(!$result){
 			redirect('admin/company/index');
@@ -26,15 +27,14 @@ class Index extends CC_Controller
 		
 		if($this->input->post()){
 			$requestData 				= 	$this->input->post();
-
-			if (isset($requestData)) {
+			if (isset($requestData['save1'])) {
 				$requestData['formstatus'] 	= 	'0';
 				$mark ="Application saved.";
 			}else{
 				$requestData['formstatus'] 	= 	'1';
 				$mark ="Thanks for submitting the application.";
 			}
-			
+
 			$requestData['user_id']	 	= 	$userid;
 			
 			$requestData['status'] 		= 	'1';
@@ -54,8 +54,11 @@ class Index extends CC_Controller
 			}else{
 				$this->session->set_flashdata('error', 'Try Later.');
 			}
-			
-			redirect('company/profile/index'); 
+			if ($mark =="Application saved.") {
+				redirect('company/registration/index');
+			}else{
+				redirect('company/profile/index'); 
+			}			
 		}
 		
 	

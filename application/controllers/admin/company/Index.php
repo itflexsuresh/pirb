@@ -20,8 +20,8 @@ class Index extends CC_Controller
     public function DTcompanylist()
     {
         $post = $this->input->post();
-        $totalcount 	= $this->Company_Model->getList('count', ['type' => '4', 'approvalstatus' => ['0', '1'], 'formstatus' => '1', 'status' => ['0', '1', '2']] + $post);
-        $results 		= $this->Company_Model->getList('all', ['type' => '4', 'approvalstatus' => ['0', '1'], 'status' => ['0', '1', '2']] + $post);
+        $totalcount 	= $this->Company_Model->getList('count', ['type' => '4', 'approvalstatus' => ['0', '1'], 'formstatus' => ['1'], 'status' => ['0', '1', '2']] + $post);
+        $results 		= $this->Company_Model->getList('all', ['type' => '4', 'approvalstatus' => ['0', '1'], 'formstatus' => ['1'], 'status' => ['0', '1', '2']] + $post);
         $companystatus	= $this->config->item('companystatus');
         
         $totalrecord = [];
