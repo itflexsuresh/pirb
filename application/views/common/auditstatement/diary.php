@@ -32,7 +32,7 @@
 						<?php
 							foreach($comments as $comment){
 						?>
-								<p><?php echo date('d-m-Y', strtotime($comment['created_at'])).' '.$comment['username'].' '.$comment['comments']; ?></p>
+								<p><?php echo date('d-m-Y', strtotime($comment['created_at'])).' - '.$comment['username'].' : '.$comment['comments']; ?></p>
 						<?php
 							}
 						?>
