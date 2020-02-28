@@ -600,10 +600,11 @@ function chat(data1=[], data2=[], data3=[]){
 	// File Upload
 	
 	$('#chatattachment').click(function(){
-		$('#chatattachmentfile').click();
-		fileupload(["#chatattachmentfile", "./assets/uploads/chat/"+data2[0]+"/", ['jpg','gif','jpeg','png','pdf','tiff']], [], '', chatattachmentaction);
+		$('#chatattachmentfile').click();		
 	})
 	
+	fileupload(["#chatattachmentfile", "./assets/uploads/chat/"+data2[0]+"/", ['jpg','gif','jpeg','png','pdf','tiff']], [], '', chatattachmentaction);
+		
 	function chatattachmentaction(file){
 		var data = 	{
 			'cocid' 		: data2[0], 
@@ -616,6 +617,7 @@ function chat(data1=[], data2=[], data3=[]){
 		
 		chataction(data);
 		chatcontent({'cocid' : data2[0], 'checkfrom' : data2[1] }, 'checkfrom');
+		$('#chatattachmentfile').val('');
 	}
 	
 	// Timer
@@ -623,7 +625,7 @@ function chat(data1=[], data2=[], data3=[]){
 	var interval;
 	
 	function startTimer(){
-		interval = setInterval(chatunread, 15000);
+		interval = setInterval(chatunread, 5000);
 	}
 	
 	function stopTimer(){
