@@ -516,12 +516,11 @@ $(function(){
 			var otpver = $('#otpnumber').val();
 			ajaxOTPVerify(otpver);
 		});
-
-
-	$("#contact_person").keyup(function(e) {
- 	  var regex = /^[A-Za-z]+$/;
-  	if (regex.test(this.value) === true)
-   		return  false;
+		
+	$('#contact_person').bind('keyup blur', function() { 
+	    $(this).val(function(i, val) {
+	        return val.replace(/[^a-z\s]/gi,''); 
+	    });
 	});
 
 		 //     $("#contact_person").filter(function(value) {
