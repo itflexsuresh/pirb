@@ -63,4 +63,28 @@ class Index extends CC_Controller
 		$data['content'] 				= $this->load->view('company/registration/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
+
+	public function ajaxOTP(){
+		if ($this->input->post()) {
+			$requestData1 = $this->input->post();
+			$requestData2['user_id'] 				=	$requestData1['user_id'];
+			$requestData2['mobile'] 				= 	$requestData1['mobile_phone'];
+			$requestData2['otp'] 					= 	rand ( 10000 , 99999 );
+			
+			$result = $this->Company_Model->ajaxOTP($requestData2);
+
+			$data = array('otp' => $requestData2['otp']);
+			echo json_encode($data);
+		}
+	}
+
+	public function OTPVerification(){
+		if ($this->input->post()) {
+			$requestData 						= $this->input->post();
+			$result 							= $this->Company_Model->OTPVerification($requestData);
+			echo $result;
+		}
+	}
+
+	
 }

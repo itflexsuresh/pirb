@@ -4,6 +4,7 @@
 	$userscompanyid 		= isset($result['userscompanyid']) ? $result['userscompanyid'] : '';
 	
 	$email 					= isset($result['email']) ? $result['email'] : '';
+	$email2 				= isset($result['email2']) ? $result['email2'] : '';
 	$createdat 				= isset($result['created_at']) ? $result['created_at'] : '';
 	
 	$company 				= isset($result['company']) ? $result['company'] : '';
@@ -11,7 +12,9 @@
 	$vat_no 				= isset($result['vat_no']) ? $result['vat_no'] : '';
 	$contact_person 		= isset($result['contact_person']) ? $result['contact_person'] : '';
 	$mobilephone 			= isset($result['mobile_phone']) ? $result['mobile_phone'] : '';
+	$mobile_phone2 			= isset($result['mobile_phone2']) ? $result['mobile_phone2'] : '';
 	$workphone 				= isset($result['work_phone']) ? $result['work_phone'] : '';
+	$home_phone 			= isset($result['home_phone']) ? $result['home_phone'] : '';
 	$companystatusid 		= isset($result['status']) ? $result['status'] : '';
 	
 	$physicaladdress 		= isset($result['physicaladdress']) ? explode('@-@', $result['physicaladdress']) : [];
@@ -94,7 +97,7 @@
 
 <?php echo $notification; ?>
 
-
+<h5 class="card-title app_status">Application Status:</h5>
 <?php if($roletype=='1' && ($approval_status=='0' || $approval_status=='2')){ ?>
 	<form class="form1" method="post">
 		<div class="row">
@@ -181,7 +184,7 @@
 		<div class="card">
 			<div class="card-body">			
 <?php } ?>			
-				<form class="form" method="post" action="">					
+				<form class="form" id="reg_forms" method="post" action="">					
 					<?php if(($roletype=='1' && $approval_status=='1') || ($pagetype!='registration' && $roletype=='4')){ ?>
 						<div class="col-md-12 application_field_wrapper mb-15">
 							<?php if($disabled1=='disabled'){ ?>
@@ -216,7 +219,7 @@
 									</div>
 								</div>
 								<div class="col-md-12">
-									<label>Specific Message to Plumber</label>
+									<label>Specific Message to Company</label>
 									<textarea class="form-control" rows="5" name="message" <?php echo $disabled2; ?>><?php echo $message; ?></textarea>
 								</div>
 							</div>					
@@ -341,6 +344,15 @@
 					</div>
 					<h4 class="card-title">Contact Details</h4>
 					<div class="row">
+						<?php if ($pagetype!='registration') { ?>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Home Phone:</label>
+									<input type="text" class="form-control" name="home_phone" id="home_phone" value="<?php echo $home_phone; ?>">
+								</div>
+							</div>
+						<?php } ?>
+						
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Work Phone:</label>
@@ -349,18 +361,40 @@
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>Mobile Phone *</label>
+								<?php if ($pagetype=='registration') {
+									$mobile_lable = "Mobile Phone of Primary Contact*:";
+								}else{
+									$mobile_lable = "Mobile Phone*:";
+								}
+								?>
+								<label><?php echo $mobile_lable; ?></label>
 								<input type="text" class="form-control" name="mobile_phone" id="mobile_phone" value="<?php echo $mobilephone; ?>">
 								<p>Note all SMS and OTP notifications will be sent to this mobile number above</p>
 							</div>
 						</div>
+						<?php if ($pagetype!='registration') { ?>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Secondary Mobile Phone:</label>
+									<input type="text" class="form-control" name="secondary_phone" id="secondary_phone" value="<?php echo $mobile_phone2; ?>">
+								</div>
+							</div>
+						<?php } ?>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Email Address *</label>
-								<input type="text" class="form-control" id="email" name="email" value="<?php echo $email; ?>" readonly>
+								<input type="text" class="form-control" value="<?php echo $email; ?>" readonly>
 								<p>Note: this email will be used as your user profile name and all emails notifications will be sent to it</p>
 							</div>
 						</div>
+						<?php if ($pagetype!='registration') { ?>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Secondary Email Address:</label>
+									<input type="text" class="form-control" name="email" id="email" value="<?php echo $email2; ?>">
+								</div>
+							</div>
+						<?php } ?>
 					</div>					
 					<div class="row">
 						<div class="col-md-6">
@@ -372,7 +406,7 @@
 							</div>
 						</div>
 						<div class="col-md-6">
-							<h4 class="card-title">Specilisations</h4>
+							<h4 class="card-title">Specialisations</h4>
 							<div class="col-md-6">
 							<?php foreach ($specialization as $key => $value) { 
 								?>
@@ -387,11 +421,55 @@
 						<input type="hidden" name="user_id" value="<?php echo $id; ?>">
 						<input type="hidden" name="usersdetailid" value="<?php echo $usersdetailid; ?>">
 						<input type="hidden" name="userscompanyid" value="<?php echo $userscompanyid; ?>">
-						<?php if(!isset($disablebtn) || $pagetype=='registration'){ ?>
+						<?php if ($roletype!='1') { 
+							if(!isset($disablebtn) or $pagetype=='registration'){ ?>
+							<button type="button" id="sub-reg" name="submit" value="submit" class="btn btn-primary">Submit</button>
+							<button type="submit" id="hid_sub_reg" name="submit" value="submit" class="btn btn-primary" style="display: none;">Submit</button>
+						<?php }
+						 }else{ ?> 
 							<button type="submit" name="submit" value="submit" class="btn btn-primary">Submit</button>
 						<?php } ?>
 					</div>
 				</form>
+
+<div id="skillmodal" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<form class="skillform">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">A One Time Pin (OTP) was sent to the Licensed Plumber with the following Mobile Number`</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label><?php // echo $username['name']." ".$username['surname']; ?></label>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<input id="sampleOtp" type="text" class="form-control skill_training" readonly>
+								<div class="invalidOTP" style="color: red;"> Given OTP is Invalid ! </div>
+								<label>Enter OTP</label>
+								<input name="otpnumber" id="otpnumber" type="text" class="form-control skill_training">
+							</div>
+							<div class="otp-status"></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<input type="hidden" name="skill_id" class="skill_id">
+					<button type="button" class="btn btn-success verify">Verify</button>
+					<button type="button" class="btn btn-success resend">Resend</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 				
 <?php if($pagetype!='registration'){ ?>			
 			</div>
@@ -401,9 +479,46 @@
 <?php } ?>
 
 <script type="text/javascript">
+
 $(function(){
+
+	
+
+	$('#skillmodal').modal('hide');
+
+		$('#sub-reg').on('click',function(){
+			var formvalid = 0;
+			if($('.form').valid()==false){
+				if(formvalid==0) formvalid = 0; 
+			}else{
+				ajaxotp();			
+				$('#skillmodal').modal('show');
+				$('.invalidOTP').hide();
+			}
+		});
+
+		$('.resend').on('click',function(){
+			ajaxotp();
+		});
+		$('.verify').on('click',function(){
+			var otpver = $('#otpnumber').val();
+			ajaxOTPVerify(otpver);
+		});
+
+
+	$("#contact_person").keyup(function(e) {
+ 	  var regex = /^[A-Za-z]+$/;
+  	if (regex.test(this.value) === true)
+   		return  false;
+	});
+
+		 //     $("#contact_person").filter(function(value) {
+			// 		return /^[A-Za-z]+$/.test(value); // Allow digits only, using a RegExp
+			// });
+		
+
 	select2('#province1, #city1, #suburb1, #province2, #city2, #suburb2');
-	inputmask('#work_phone, #mobile_phone', 1);
+	inputmask('#work_phone, #mobile_phone,#home_phone,#secondary_phone', 1);
 	citysuburb(['#province1','#city1', '#suburb1'], ['<?php echo $city1; ?>', '<?php echo $suburb1; ?>'], ['#addcity1', '#addcitysubmit1', '#addsuburb1', '#addsuburbsubmit1']);
 	citysuburb(['#province2','#city2', '#suburb2'], ['<?php echo $city2; ?>', '<?php echo $suburb2; ?>'], ['#addcity2', '#addcitysubmit2', '#addsuburb2', '#addsuburbsubmit2']);
 	
@@ -422,6 +537,18 @@ $(function(){
 			reg_no : {
 				required	: true,
 			},
+			email : {
+				email		: true,
+				remote		: 	{
+								url	: "<?php echo base_url().'authentication/login/emailvalidation'; ?>",
+								type: "post",
+								async: false,
+								data: {
+										id 		: '<?php echo $id; ?>',
+										type 	: '4'
+										}
+									}
+								},
 			vat_no : {
 				required	: true,
 			},
@@ -488,6 +615,9 @@ $(function(){
 			'address[2][address]' : {
 				required	: "Postal address field is required.",
 			},
+			email : {
+					remote		: "Email already exists."
+				},
 			'address[1][province]' : {
 				required	: "Physical Province field is required.",
 			},
@@ -573,6 +703,46 @@ function rejectother(){
 		$('.reject_reason_other_wrapper').addClass('displaynone');
 	}
 }
+
+function ajaxotp(){
+		$.ajax({
+			type  : 'ajax',
+			url   : '<?php echo base_url().'company/registration/Index/ajaxOTP'; ?>',
+			async : true,
+			dataType : 'json',
+			method 	: 'POST',
+			data: {user_id:'<?php echo $id; ?>', mobile_phone: $('#mobile_phone').val(), },
+			success: function(data) {
+				$('#sampleOtp').val(data.otp);
+			}
+		});
+	}
+
+
+	
+	function ajaxOTPVerify(data){
+		var otpver = data;
+		$.ajax({
+				type  		: 'ajax',
+				url   		: '<?php echo base_url().'company/registration/Index/OTPVerification'; ?>',
+				async 		: true,
+				dataType 	: 'json',
+				method 		: 'POST',
+				data 		: {user_id:'<?php echo $id; ?>', otp: otpver},
+				success: function(data) {
+					if (data == 0) {
+						$('.invalidOTP').show();
+					}else{
+						//$('#reg_forms').submit();
+						$( "#hid_sub_reg" ).trigger( "click" );
+
+					}
+
+					console.log(data);
+				}
+			});
+
+	}
 
 </script>
 

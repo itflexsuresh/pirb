@@ -8,7 +8,7 @@ class Company_Model extends CC_Model
 								'u.id','u.email','u.formstatus','u.expirydate','u.type','u.status','u.created_at' 
 							];
 		$usersdetail 	= 	[ 
-								'ud.id as usersdetailid','ud.company','ud.reg_no','ud.vat_no','ud.contact_person','ud.work_phone','ud.mobile_phone','ud.specialisations','ud.status as companystatus'
+								'ud.id as usersdetailid','ud.company','ud.reg_no','ud.vat_no','ud.contact_person','ud.work_phone','ud.mobile_phone','ud.specialisations','ud.email2','ud.mobile_phone2','ud.home_phone','ud.status as companystatus'
 							];
 		$userscompany 	= 	[ 
 								'uc.id as userscompanyid','uc.work_type','uc.message','uc.approval_status','uc.reject_reason','uc.reject_reason_other'
@@ -42,12 +42,16 @@ class Company_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['u.id', 'ud.name', 'ud.name', 'ud.name', 'ud.name', 'ud.name'];
+			$column = ['u.id', 'ud.company', 'u.status', 'ud.name', 'ud.name', 'ud.name'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
-			$this->db->like('ud.name', $searchvalue);
+			$this->db->group_start(); // Open bracket
+			$this->db->like('u.id', $searchvalue);
+			$this->db->or_like('ud.company', $searchvalue);
+			$this->db->or_like('u.status', $searchvalue);
+			$this->db->group_end(); // Open bracket
 		}
 		
 		$this->db->group_by('u.id');
@@ -76,6 +80,11 @@ class Company_Model extends CC_Model
 		if(isset($data['contact_person'])) 		$request1['contact_person'] 	= $data['contact_person'];
 		if(isset($data['work_phone'])) 			$request1['work_phone'] 		= $data['work_phone'];
 		if(isset($data['mobile_phone'])) 		$request1['mobile_phone'] 		= $data['mobile_phone'];
+
+		if(isset($data['home_phone'])) 			$request1['home_phone'] 		= $data['home_phone'];
+		if(isset($data['secondary_phone'])) 	$request1['mobile_phone2'] 		= $data['secondary_phone'];
+		if(isset($data['email'])) 				$request1['email2'] 			= $data['email'];
+
 		if(isset($data['specilisations'])) 		$request1['specialisations']	= implode(',', $data['specilisations']);
 		if(isset($data['companystatus'])) 		$request1['status'] 			= $data['companystatus'];
 		
@@ -121,7 +130,8 @@ class Company_Model extends CC_Model
 		}
 		
 		if(isset($data['formstatus'])) 		$request4['formstatus'] 	= $data['formstatus'];
-		if(isset($data['companystatus'])) 	$request4['status']			= $data['companystatus'];		
+		if(isset($data['companystatus'])) 	$request4['status']			= $data['companystatus'];
+		if(isset($data['approval_status'])) $request4['status']			= '1';
 		//if(isset($data['companystatus']) && $data['companystatus']=='2') 	$request4['status'] 		= '2';
 		if(isset($request4)){
 			if(isset($data['user_id'])){
@@ -139,6 +149,35 @@ class Company_Model extends CC_Model
 		{
 			$this->db->trans_commit();
 			return true;
+		}
+	}
+
+		public function ajaxOTP($requestdata){
+		$query = $this->db->get_where('otp', array('user_id' => $requestdata['user_id']) );
+		$count = $query->num_rows();
+		if ($count == 1) {
+			$this->db->set('otp',$requestdata['otp']);
+			$this->db->where('user_id', $requestdata['user_id']);
+			$this->db->update('otp');
+		}else{
+			$result = $this->db->insert('otp',$requestdata);
+		}
+
+	}
+
+	public function OTPVerification($requestdata){
+		$result = $this->db->select('*')
+		->from('otp')
+		->where('user_id',$requestdata['user_id'])
+		->where('otp',$requestdata['otp'])
+		->order_by('id', 'DESC')
+		->limit(1)
+		->get()
+		->row_array();
+		if ($result) {
+			return '1';
+		}else{
+			return '0';
 		}
 	}
 }

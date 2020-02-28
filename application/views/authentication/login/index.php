@@ -29,9 +29,18 @@
 	<?php if($usertype!='' && $usertype!='5' && $usertype!='6'){ ?>
 		<div class="col-sm-6">
 			<div class="card card-body">
-				<h4 class="card-title">Individual Registration with the PIRB</h4>
+				<?php
+					if ($usertype=='4') {
+						$header_title = "Company Registration with the PIRB";
+						$pointer_title = "Why Register my Company with the PIRB?";
+					}else{
+						$header_title = "Individual Registration with the PIRB";
+						$pointer_title = "About the Registration Process";
+					}
+				?>
+				<h4 class="card-title"><?php echo $header_title; ?></h4>
 				<h5 class="card-subtitle"> Register as a Individaul with the Plumbing Regsitration Board </h5>
-				<a style="cursor: pointer;">About the Registration Process</a>
+				<a style="cursor: pointer;"><?php echo $pointer_title; ?></a>
 				<form method="post" action="<?php echo base_url().'login/'.$usertypename; ?>" class="form-horizontal mt-4 register">
 					<div class="form-group">
 						<label for="email2">Email ID</label>
