@@ -684,17 +684,14 @@ class Auditor_Model extends CC_Model
 		$auditorid = $requestdata['auditorid'];
 		$plumberid = $requestdata['plumberid'];
 		
-		$logged = $this->db->select('count(id) as count')->where(['user_id' => $plumberid, 'coc_status' => '2'])->get('stock_management')->row_array();
-		$allocated = $this->db->select('count(id) as count')->where(['user_id' => $plumberid, 'coc_status' => '4'])->get('stock_management')->row_array();
-		$nonlogged = $this->db->select('count(id) as count')->where(['user_id' => $plumberid, 'coc_status' => '5'])->get('stock_management')->row_array();
+		$developmental = $this->db->select('sum(points) as count')->where(['user_id' => $plumberid, 'cpd_stream' => '1'])->get('cpd_activity_form')->row_array();
+		$workbased = $this->db->select('sum(points) as count')->where(['user_id' => $plumberid, 'cpd_stream' => '2'])->get('cpd_activity_form')->row_array();
+		$individual = $this->db->select('sum(points) as count')->where(['user_id' => $plumberid, 'cpd_stream' => '3'])->get('cpd_activity_form')->row_array();
 		
 		$result = [
-			'count' => $count['count'],
-			'total' => $total['count'],
-			'audited' => $audited['count'],
-			'logged' => $logged['count'],
-			'allocated' => $allocated['count'],
-			'nonlogged' => $nonlogged['count']
+			'developmental' => $developmental['count'],
+			'workbased' => $workbased['count'],
+			'individual' => $individual['count']
 		];
 		
 		return $result;
