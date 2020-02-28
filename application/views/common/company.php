@@ -53,6 +53,7 @@
 		$disabled1array 	= [];
 		$disabled2 			= 'disabled';
 		$disabled2array 	= ['disabled' => 'disabled'];
+		$save_flag 			= '1';
 	}elseif($roletype=='4' && $approval_status=='2'){
 		$disabled1 			= 'disabledrej';
 		$disabled1array 	= ['disabled' => 'disabled'];
@@ -422,11 +423,13 @@
 						<input type="hidden" name="usersdetailid" value="<?php echo $usersdetailid; ?>">
 						<input type="hidden" name="userscompanyid" value="<?php echo $userscompanyid; ?>">
 						<?php if ($roletype!='1') {
-							if(!isset($disablebtn) || ($pagetype=='registration') || ($pagetype=='companyprofile' && $result['formstatus'] =='0')){ ?>
+							if((!isset($disablebtn) &&  !isset($save_flag)) || ($pagetype=='registration') || ($pagetype=='companyprofile' && $result['formstatus'] =='0')){ ?>
 							<button type="button" id="save" name="save" value="save" class="btn btn-primary">Save</button>
 							<button type="button" id="sub-reg" name="submit" value="submit" class="btn btn-primary">Submit</button>
 							<button type="submit" id="hid_sub_reg" name="submit" value="submit" class="btn btn-primary" style="display: none;">Submit</button>
-						<?php }
+						<?php }else{
+							echo '<button type="submit" name="submit" value="submit" class="btn btn-primary">Submit</button>';
+						}
 						 }else{ ?> 
 							<button type="submit" name="submit" value="submit" class="btn btn-primary">Submit</button>
 						<?php } ?>
