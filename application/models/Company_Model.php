@@ -20,17 +20,25 @@ class Company_Model extends CC_Model
 			'.implode(',', $userscompany).',
 			concat_ws("@-@", ua1.id, ua1.user_id, ua1.address, ua1.suburb, ua1.city, ua1.province, ua1.postal_code, ua1.type)  as physicaladdress,
 			concat_ws("@-@", ua2.id, ua2.user_id, ua2.address, ua2.suburb, ua2.city, ua2.province, ua2.postal_code, ua2.type)  as postaladdress,
-			count(lm.id) as lmcount,
-			count(lttq.id) as lttqcount
+			(
+				SELECT
+				count(lttq.id)
+				FROM users_plumber lttq
+				WHERE lttq.company_details = u.id and (lttq.designation="1" or lttq.designation="2" or lttq.designation="3" or lttq.designation="5")
+			) as lttqcount,
+			(
+				SELECT
+				count(lm.id)
+				FROM users_plumber lm
+				WHERE lm.company_details = u.id and (lm.designation="4" or lm.designation="6")
+			) as lmcount
 		');
 		$this->db->from('users u');
 		$this->db->join('users_detail ud', 'ud.user_id=u.id', 'left');
 		$this->db->join('users_company uc', 'uc.user_id=u.id', 'left');
 		$this->db->join('users_address ua1', 'ua1.user_id=u.id and ua1.type="1"', 'left');		
 		$this->db->join('users_address ua2', 'ua2.user_id=u.id and ua2.type="2"', 'left');
-		$this->db->join('users_plumber lm', 'lm.company_details=u.id and (lm.designation="4" or lm.designation="6")', 'left');
-		$this->db->join('users_plumber lttq', 'lttq.company_details=u.id and (lttq.designation="1" or lttq.designation="2" or lttq.designation="3" or lttq.designation="5")', 'left');
-		
+			
 		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);
 		if(isset($requestdata['type'])) 				$this->db->where('u.type', $requestdata['type']);
 		if(isset($requestdata['formstatus']))			$this->db->where_in('u.formstatus', $requestdata['formstatus'][0]);
@@ -42,7 +50,7 @@ class Company_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['u.id', 'ud.company', 'u.status', 'ud.name', 'ud.name', 'ud.name'];
+			$column = ['u.id', 'ud.company', 'u.status'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
