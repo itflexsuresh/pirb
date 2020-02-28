@@ -22,14 +22,11 @@
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
 							<tr>
-								<th>COC Number</th>
-								<th>Status</th>
-								<th>Date of Allocation/Logged COC</th>
-								<th>COC Type</th>
-								<th>Customer</th>
-								<th>Address</th>
-								<th>Plumber Company</th>
-								<th>Reseller Name</th>
+								<th>Date of Performance</th>
+								<th>Performance Type</th>
+								<th>Comments</th>
+								<th>Point Allocation</th>
+								<th>Attachment</th>
 								<th>Action</th>
 							</tr>							
 						</thead>
@@ -46,19 +43,16 @@
 		
 		var options = {
 			url 	: 	'<?php echo base_url()."plumber/performancestatus/index/DTPerformancestatus"; ?>',
-			data 	: 	{ page : 'plumbercocstatement' },
+			data 	: 	{ page : 'plumberperformancestatus' },
 			columns : 	[
-							{ "data": "cocno" },
-							{ "data": "cocstatus" },
-							{ "data": "purchased" },
-							{ "data": "coctype" },
-							{ "data": "customer" },
-							{ "data": "address" },
-							{ "data": "company" },
-							{ "data": "reseller" },
+							{ "data": "date" },
+							{ "data": "type" },
+							{ "data": "comments" },
+							{ "data": "point" },
+							{ "data": "attachment" },
 							{ "data": "action" }
 						],
-			target	:	[7],
+			target	:	[4,5],
 			sort	:	'0'
 		};
 		

@@ -673,6 +673,11 @@ class CC_Controller extends CI_Controller
 		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations]);
 
 		$html = $this->load->view('pdf/electroniccocreport', (isset($pagedata) ? $pagedata : ''));
+		$this->pdf->loadHtml($html);
+		$this->pdf->setPaper('A4', 'portrait');
+		$this->pdf->render();
+		$output = $this->pdf->output();
+		$this->pdf->stream('Electronic COC Report '.$id);
 	}
 	
 	public function pdfnoncompliancereport($id, $userid)
