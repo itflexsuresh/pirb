@@ -7,6 +7,7 @@ class Index extends CC_Controller
 	{
 		parent::__construct();
 		$this->load->model('Plumber_Model');
+		$this->load->model('Global_performance_Model');
 	}
 	
 	public function index()
@@ -20,25 +21,23 @@ class Index extends CC_Controller
 	public function DTPerformancestatus()
 	{
 		$userid 		= $this->getUserID();
+		$date			= date('Y-m-d', strtotime(date('Y-m-d').'+1 days'));
+		
 		$post 			= $this->input->post();
-		$totalcount 	= $this->Plumber_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => ['2','4','5']]+$post);
-		$results 		= $this->Plumber_Model->getCOCList('all', ['user_id' => $userid, 'coc_status' => ['2','4','5']]+$post);
+		$totalcount 	= $this->Plumber_Model->performancestatus('count', ['plumberid' => $userid, 'date' => $date]+$post);
+		$results 		= $this->Plumber_Model->performancestatus('all', ['plumberid' => $userid, 'date' => $date]+$post);
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){				
 				$totalrecord[] = 	[
-										'cocno' 			=> 	$result['id'],
-										'cocstatus' 		=> 	$cocstatus,
-										'purchased' 		=> 	$allocation_log_date,
-										'coctype' 			=> 	$coctype,
-										'customer' 			=> 	$result['cl_name'],
-										'address' 			=> 	$result['cl_address'],
-										'company' 			=> 	$result['plumbercompany'],
-										'reseller' 			=> 	$result['resellername'],
+										'date' 				=> 	date('d-m-Y', strtotime($result['date'])),
+										'type' 				=> 	$result['type'],
+										'comments' 			=> 	$result['comments'],
+										'point' 			=> 	$result['point'],
+										'attachment' 		=> 	$result['attachment'],
 										'action'			=> 	'
-																	<div class="table-action">
-																		'.$action.'
+																	<div class="table-action">																		
 																	</div>
 																'
 									];

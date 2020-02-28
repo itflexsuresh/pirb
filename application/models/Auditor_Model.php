@@ -728,6 +728,7 @@ class Auditor_Model extends CC_Model
 		if(isset($data['reportdate']))		 			$request['reportdate'] 					= date('Y-m-d H:i:s');
 		if(isset($data['auditcomplete']))		 		$request['auditcomplete'] 				= $data['auditcomplete'];
 		if(isset($data['auditcomplete'])) 				$request['status'] 						= '1';
+		if(isset($data['auditcomplete'])) 				$request['auditcompletedate'] 			= date('Y-m-d');
 
 		if($id==''){
 			$request['created_at'] = $datetime;
