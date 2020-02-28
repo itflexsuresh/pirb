@@ -356,7 +356,7 @@
 						
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>Work Phone:</label>
+								<label>Work Phone*:</label>
 								<input type="text" class="form-control" name="work_phone" id="work_phone" value="<?php echo $workphone; ?>">
 							</div>
 						</div>
