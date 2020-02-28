@@ -56,6 +56,7 @@ class Global_performance_Model extends CC_Model
     	{
         
     		$this->db->update('gps_point', ['point' => $v],['id' => $k]);
+    		
 
     	}
 
@@ -77,21 +78,7 @@ class Global_performance_Model extends CC_Model
 				$this->db->update('gps_notification', ['status' => $vals],['id' => $i]);
 		   	}
     	  }
-        if(isset($data['rolling_avg'])) $request['rolling_avg'] = $data['rolling_avg'];
-
-      
-		if($data['rolling_avg']!=''){
-			$this->db->update('gps_notification', $request, ['id' => '1']);
-		}
-        if($data['rolling_avg']!=''){
-			$this->db->update('gps_notification', $request, ['id' => '2']);
-		}
-		if($data['rolling_avg']!=''){
-			$this->db->update('gps_notification', $request, ['id' => '3']);
-		}
-		if($data['rolling_avg']!=''){
-			$this->db->update('gps_notification', $request, ['id' => '4']);
-		}
+       
     	
 		// if($this->db->trans_status() === FALSE || if($notice_point_update))
 		if($this->db->trans_status() === FALSE)
@@ -99,8 +86,8 @@ class Global_performance_Model extends CC_Model
 			$this->db->trans_rollback();
 			return false;
 		}
-		else
-		{
+		else		{
+
 			$this->db->trans_commit();
 			return true;
 		}
