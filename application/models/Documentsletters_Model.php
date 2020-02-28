@@ -1,6 +1,6 @@
 <?php
 
-class Documents_Modelss extends CC_Model
+class Documentsletters_Model extends CC_Model
 {
 	
 	public function getList($type, $requestdata=[])
@@ -46,7 +46,8 @@ class Documents_Modelss extends CC_Model
 		$datetime				= 	date('Y-m-d H:i:s');		
 		$request['created_at'] = $datetime;
 		if(isset($data['description'])) $request['description'] = $data['description'];
-		if(isset($data['image'])) $request['image'] 			= $data['image'];
+		if(isset($data['file1'])) $request['file'] 			= $data['file1'];
+		if(isset($data['plumberid'])) $request['user_id'] = $data['plumberid'];
 		
 		if(isset($request)){	
 			$documentsid	= 	$data['documentsid'];			
@@ -59,18 +60,8 @@ class Documents_Modelss extends CC_Model
 			}					
 		}
 				
-				
-		if($this->db->trans_status() === FALSE)
-		{
-			$this->db->trans_rollback();
-			return false;
-		}
-		else
-		{
-			$this->db->trans_commit();
-			return $idarray;
-		}
+		return $documentsid;
+
 	}
-	
 	
 }

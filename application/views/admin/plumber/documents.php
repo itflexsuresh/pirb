@@ -1,7 +1,21 @@
 <?php
+
 $description 	= isset($result['description']) ? $result['description'] : '';
 $documentsid 	= isset($result['id']) ? $result['id'] : '';
-$file 			= isset($result['file']) ? $result['file'] : '';
+
+$pdfimg 		= base_url().'assets/uploads/auditor/pdf.png';
+$profileimg 	= base_url().'assets/images/profile.jpg';
+$image 			= isset($result['file']) ? $result['file'] : set_value ('file');	
+$filepath 		= base_url().'assets/uploads/auditor/';
+$filepath1		= (isset($result['file']) && $result['file']!='') ? $filepath.$result['file'] : base_url().'assets/uploads/auditor/profile.jpg';
+if($image!=''){
+	$explodefile2 	= explode('.', $image);
+	$extfile2 		= array_pop($explodefile2);
+	$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath1;
+}else{
+	$photoidimg 	= $profileimg;
+}
+
 ?>
 
 <div class="row page-titles">
@@ -23,7 +37,7 @@ $file 			= isset($result['file']) ? $result['file'] : '';
 <div class="row">
 	<div class="col-12">
 		<div class="card">
-			<form class="mt-4 form documents" action="" method="post">
+			<form class="mt-4 form documents" method="post" enctype="multipart/form-data">
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
@@ -37,17 +51,18 @@ $file 			= isset($result['file']) ? $result['file'] : '';
 					<div class="col-md-6">
 						<h4 class="card-title">Attachments</h4>
 						<div class="form-group">
-							<div class="photo_upload">
-								<img src="<?php echo ($file!='') ? $filepath.$file : base_url().'assets/images/profile.jpg'; ?>" class="photo_image" width="100">
+							<div>
+								<img src="<?php echo $photoidimg; ?>" class="auditor_photo" width="100">
 							</div>
-							<input type="file" class="photo_file">
-							<input type="hidden" name="image" class="photo" value="<?php echo $file; ?>">
+							<input type="file" class="auditor_image">
+							<input type="hidden" name="file1" class="auditor_picture" value="<?php echo $image; ?>">
 							<p>(Image/File Size Smaller than 5mb)</p>
 						</div>
 					</div>
 				</div>
 
 				<div class="col-md-12 text-left">
+					<input type="hidden" name="plumberid" id="plumberid" value="<?php echo $plumberid; ?>">
 					<input type="hidden" name="documentsid" id="documentsid" value="<?php echo $documentsid; ?>">
 					<input type="submit" name="submit" id="submit" value="submit" class="btn btn-primary">
 				</div>				
@@ -78,7 +93,7 @@ $(function(){
 
 	datatable();
 
-	fileupload([".photo_file", "./assets/uploads/documents/<?php echo $id; ?>/",['jpg','gif','jpeg','png','pdf','tiff']], ['.photo', '.photo_image', '<?php echo base_url()."assets/uploads/documents/".$id; ?>', '<?php echo base_url()."assets/images/pdf.png"?>']);
+	fileupload([".auditor_image", "./assets/uploads/auditor/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.auditor_picture', '.auditor_photo', '<?php echo base_url()."assets/uploads/auditor/"; ?>']);
 	
 	validation(
 		'.documents',
@@ -123,7 +138,7 @@ $('.search').on('click',function(){
 function datatable(destroy=0){
 	var documentsid		= $('#documentsid').val();
 	var options = {
-		url 	: 	'<?php echo base_url()."resellers/cocstatement/index/DTResellers"; ?>',
+		url 	: 	'<?php echo base_url()."admin/plumber/index/DTDocuments"; ?>',
 		data    :   { customsearch : 'listsearch1',documentsid : documentsid},  			
 		destroy :   destroy,  			
 		columns : 	[							

@@ -12,6 +12,7 @@ class Index extends CC_Controller
 		$this->load->model('Installationtype_Model');
 		$this->load->model('Noncompliance_Model');
 		$this->load->model('Accounts_Model');
+		$this->load->model('Documentsletters_Model');
 	}
 	
 	public function index()
@@ -442,12 +443,12 @@ class Index extends CC_Controller
 		echo json_encode($json);
 	}
 
-	public function documents($id,$documentsid='')
+	public function documents($plumberid,$documentsid='')
 	{
 		if($documentsid!=''){
-			$result = $this->Documents_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
+			$result = $this->Documentsletters_Model->getList('row', ['id' => $documentsid]);
 			if($result){
-				$pagedata['result'] = $result;
+				$pagedata['result'] = $result;				
 
 			}else{
 				$this->session->set_flashdata('error', 'No Record Found.');
@@ -457,20 +458,24 @@ class Index extends CC_Controller
 		}
 		
 		if($this->input->post()){
-			$requestData 	= 	$this->input->post();
-			print_r($requestData); die;
-			$data 	=  $this->Documents_Model->action($requestData);			
-			if($data) $this->session->set_flashdata('success', 'Documents Letters'.(($id=='') ? 'created' : 'updated').' successfully.');
-			else $this->session->set_flashdata('error', 'Try Later.');
-			
-			if($extras['redirect']) redirect($extras['redirect']); 
-			else redirect('admin/plumber/index');
+			$requestData 	= 	$this->input->post();			
+			$result 	=  $this->Documentsletters_Model->action($requestData);				
+			if($result){
+			 $this->session->set_flashdata('success', 'Documents Letters '.(($result=='') ? 'created' : 'updated').' successfully.');
+
+			 redirect('admin/plumber/index/documents/'.$plumberid);
+			}
+			else{
+			 $this->session->set_flashdata('error', 'Try Later.');
+			}
+
 		}
 		
 		$pagedata['notification'] 	= $this->getNotification();
+		$pagedata['plumberid'] 	= $plumberid;
 		
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','inputmask'];
-		$data['content'] 			= $this->load->view('admin/plumber/documents', (isset($pagedata) ? $pagedata : ''), true);
+		$data['plugins'] = ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','inputmask'];
+		$data['content'] = $this->load->view('admin/plumber/documents', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
 
@@ -478,21 +483,20 @@ class Index extends CC_Controller
 	{
 		
 		$post 		= $this->input->post();	
-		$totalcount =  $this->Documents_Model->getList('count',$post);
-		$results 	=  $this->Documents_Model->getList('all',$post);
+		$totalcount =  $this->Documentsletters_Model->getList('count',$post);
+		$results 	=  $this->Documentsletters_Model->getList('all',$post);
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
 				
-				$timestamp = strtotime($result['allocation_date']);
+				$timestamp = strtotime($result['created_at']);
 				$newDate = date('d-F-Y H:i:s', $timestamp);	
-				$file = "";
-				$action = "";
+				$action = '<div class="table-action"><a href="' . base_url() . 'admin/plumber/index/documents/'.$result['user_id'].'/' . $result['id'] . '" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a></div>';
 
 				$totalrecord[] = 	[	
 										'description'=> 	$result['description'],	
 										'datetime' 	 => 	$newDate,
-										'file' 	 	 => 	$file,
+										'file' 	 	 => 	$result['file'],
 										'action' 	 => 	$action,
 										
 									];

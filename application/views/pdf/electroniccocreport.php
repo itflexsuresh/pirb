@@ -11,9 +11,11 @@ $city 					= isset($result['cl_city_name']) ? $result['cl_city_name'] : '';
 $suburb 				= isset($result['cl_suburb_name']) ? $result['cl_suburb_name'] : '';
 
 $cl_contact_no 			= isset($result['cl_contact_no']) ? $result['cl_contact_no'] : '';
-?>
+$installationtypeid   = isset($result['cl_installationtype']) ? explode(',', $result['cl_installationtype']) : [];
+$specialisationsid    = isset($result['cl_specialisations']) ? explode(',', $result['cl_specialisations']) : [];
 
-<!DOCTYPE html> 
+
+echo'<!DOCTYPE html> 
 <html>
   <head>
     <title>Electronic COC PDF</title>
@@ -102,80 +104,27 @@ $cl_contact_no 			= isset($result['cl_contact_no']) ? $result['cl_contact_no'] :
                              <h4 style="font-size:18px; margin:0;">Tick</h4>
                          </div>
                          <div style="clear:both;"></div>
-                      </div>
+                      </div>'; 
+
+                      foreach ($installation as $key => $value) { ?>
+                        
+                        
                        <div class="top" style="border-bottom: 1px solid #adabad;">
                          <div class="block_sec" style="width:79%; float: left; border-right: 1px solid #adabad; background: #fff; padding: 10px 0;">
-                          <h5 style="font-size:20px; line-height:18px; color: #000; font-weight: 400; margin:0; padding: 0 0 0 5px; ">Installation, Replacement and/or Repair of a <span style="font-weight: 600; color: #d2232a;">Hot water System</span></h5>
+                          <h5 style="font-size:20px; line-height:18px; color: #000; font-weight: 400; margin:0; padding: 0 0 0 5px; "><?php echo substr($value['name'],0,45); ?><span style="font-weight: 600; color: #d2232a;"><?php echo substr($value['name'],45); ?></span></h5>
                          </div>
                          <div class="block_sec" style="width:10%; float: left; border-right: 1px solid #adabad; text-align: center; ">
-                             <h4 style="padding: 2px 0;font-size: 9px;line-height: 16px; margin:0;">&nbsp;  </h4>
+                             <h4 style="padding: 2px 0;font-size: 16px;line-height: 16px; margin:0;"><?php echo $value['code'];?></h4>
                          </div>
                          <div class="block_sec" style="width:10%; float: left; text-align: center;">
-                             <h4 style="padding-top:2px; margin:0;"> </h4>
+                             <h4 style="padding-top:2px; margin:0;"><?php echo (in_array($value['id'], $installationtypeid)) ? '&#10004;' : ''; ?></h4>
                          </div>
                          <div style="clear:both;"></div>
                       </div>
-                      <div class="top" style="border-bottom: 1px solid #adabad;">
-                         <div class="block_sec" style="width:79%; float: left; border-right: 1px solid #adabad; background: #eff9fe; padding: 10px 0;">
-                          <h5 style="font-size:20px; line-height:18px; color: #000; font-weight: 400; padding: 0 0 0 5px; margin:0; ">Installation, Replacement and/or Repair of a <span style="font-weight: 600; color: #00aeef;">Cold water System</span></h5>
-                         </div>
-                        <div class="block_sec" style="width:10%; float: left; border-right: 1px solid #adabad; text-align: center; ">
-                             <h4 style="padding: 2px 0;font-size: 9px;line-height: 16px; margin:0;">&nbsp;  </h4>
-                         </div>
-                         <div class="block_sec" style="width:10%; float: left; text-align: center;">
-                             <h4 style="padding-top:2px; margin:0;"></h4>
-                         </div>
-                         <div style="clear:both;"></div>
-                      </div>
-                      <div class="top" style="border-bottom: 1px solid #adabad;">
-                         <div class="block_sec" style="width:79%; float: left; border-right: 1px solid #adabad; background: #f0eff7; padding: 10px 0;">
-                          <h5 style="font-size:20px; line-height:18px; color: #000; font-weight: 400; padding: 0 0 0 5px;  margin:0;">Installation, Replacement and/or Repair of a <span style="font-weight: 600; color: #5b579c;">Sanitary-ware and Sanitary-fittings</span></h5>
-                         </div>
-                         <div class="block_sec" style="width:10%; float: left; border-right: 1px solid #adabad; text-align: center; ">
-                             <h4 style="padding: 2px 0;font-size: 9px;line-height: 16px; margin:0;">&nbsp;  </h4>
-                         </div>
-                         <div class="block_sec" style="width:10%; float: left; text-align: center;">
-                             <h4 style="padding-top:2px; margin:0;"> </h4>
-                         </div>
-                         <div style="clear:both;"></div>
-                      </div>
-                       <div class="top" style="border-bottom: 1px solid #adabad;">
-                         <div class="block_sec" style="width:79%; float: left; border-right: 1px solid #adabad; background: #fff; padding: 10px 0;">
-                          <h5 style="font-size:20px; line-height:18px; color: #000; font-weight: 400; margin:0; padding: 0 0 0 5px; ">Installation, Replacement and/or Repair of a <span style="font-weight: 600; color: #d2232a;">Below-ground Drainage System</span></h5>
-                         </div>
-                         <div class="block_sec" style="width:10%; float: left; border-right: 1px solid #adabad; text-align: center; ">
-                             <h4 style="padding: 2px 0;font-size: 9px;line-height: 16px; margin:0;">&nbsp;  </h4>
-                         </div>
-                         <div class="block_sec" style="width:10%; float: left; text-align: center;">
-                             <h4 style="padding-top:2px; margin:0;"></h4>
-                         </div>
-                         <div style="clear:both;"></div>
-                      </div>
-                      <div class="top" style="border-bottom: 1px solid #adabad;">
-                          <div class="block_sec" style="width:79%; float: left; border-right: 1px solid #adabad; background: #eff9fe; padding: 10px 0;">
-                            <h5 style="font-size:20px; line-height:18px; color: #000; font-weight: 400; padding: 0 0 0 5px; margin:0; ">Installation, Replacement and/or Repair of a <span style="font-weight: 600; color: #00aeef;">Above-ground Drainage System</span></h5>
-                          </div>
-                          <div class="block_sec" style="width:10%; float: left; border-right: 1px solid #adabad; text-align: center; ">
-                             <h4 style="padding: 2px 0;font-size: 9px;line-height: 16px; margin:0;">&nbsp;  </h4>
-                         </div>
-                         <div class="block_sec" style="width:10%; float: left; text-align: center;">
-                             <h4 style="padding-top:2px; margin:0;"> </h4>
-                         </div>
-                         <div style="clear:both;"></div>
-                      </div>
-                      <div class="top" style="border-bottom: 1px solid #adabad;">
-                         <div class="block_sec" style="width:79%; float: left; border-right: 1px solid #adabad; background: #f0eff7; padding: 10px 0;">
-                          <h5 style="font-size:20px; line-height:18px; color: #000; font-weight: 400; padding: 0 0 0 5px;  margin:0;">Installation, Replacement and/or Repair of a <span style="font-weight: 600; color: #5b579c;">Rain Water Disposal System</span></h5>
-                         </div>
-                         <div class="block_sec" style="width:10%; float: left; border-right: 1px solid #adabad; text-align: center; ">
-                             <h4 style="padding: 2px 0;font-size: 9px;line-height: 16px; margin:0;">&nbsp;  </h4>
-                         </div>
-                         <div class="block_sec" style="width:10%; float: left; text-align: center;">
-                             <h4 style="padding-top:2px; margin:0;"></h4>
-                         </div>
-                         <div style="clear:both;"></div>
-                      </div>
-                  </div>
+                      
+          <?php       }
+
+          echo' </div>
                   <div class="up_block" style="margin: 6px 0 0; border: 1px solid #adabad;">
                       <div class="top" style="border-bottom: 1px solid #adabad;">
                          <div class="block_sec" style="width:79%; float: left; border-right: 1px solid #adabad; background: #d1e28d; text-align: center; padding:10px 0;">
@@ -189,32 +138,26 @@ $cl_contact_no 			= isset($result['cl_contact_no']) ? $result['cl_contact_no'] :
                              <h4 style="font-size:18px; margin:0;">Tick</h4>
                          </div>
                          <div style="clear:both;"></div>
-                      </div>
+                      </div>';
+
+                      foreach ($specialisations as $key => $value) { ?>
+
                       <div class="top" style="border-bottom: 1px solid #adabad;">
-                         <div class="block_sec" style="width:79%; float: left; border-right: 1px solid #adabad; background: #fff5ed; padding: 10px 0;">
-                          <h5 style="font-size:19px; line-height:18px; color: #000; font-weight: 400; padding: 0 0 0 5px;  margin:0;">Installation, Replacement and/or Repair of a <span style="font-weight: 600; color: #f36f21;">Solar Water Heating System</span></h5>
+                         <div class="block_sec" style="width:79%; float: left; border-right: 1px solid #adabad; background: #fff; padding: 10px 0;">
+                          <h5 style="font-size:20px; line-height:18px; color: #000; font-weight: 400; margin:0; padding: 0 0 0 5px; "><?php echo substr($value['name'],0,45); ?><span style="font-weight: 600; color: #d2232a;"><?php echo substr($value['name'],45); ?></span></h5>
                          </div>
                          <div class="block_sec" style="width:10%; float: left; border-right: 1px solid #adabad; text-align: center; ">
-                             <h4 style="padding: 2px 0;font-size: 9px;line-height: 16px; margin:0;">&nbsp;  </h4>
+                             <h4 style="padding: 2px 0;font-size: 16px;line-height: 16px; margin:0;"><?php echo $value['code'];?></h4>
                          </div>
                          <div class="block_sec" style="width:10%; float: left; text-align: center;">
-                             <h4 style="padding-top:2px; margin:0;"> </h4>
+                             <h4 style="padding-top:2px; margin:0;"><?php echo (in_array($value['id'], $specialisationsid)) ? '&#10004;' : ''; ?></h4>
                          </div>
                          <div style="clear:both;"></div>
                       </div>
-                      <div class="top" style="border-bottom: 1px solid #adabad;">
-                         <div class="block_sec" style="width:79%; float: left; border-right: 1px solid #adabad; background: #f5e9e3; padding: 10px 0;">
-                          <h5 style="font-size:19px; line-height:18px; color: #000; font-weight: 400; padding: 0 0 0 5px; margin:0; ">Installation, Replacement and/or Repair of a <span style="font-weight: 600; color: #790000;">Heat Pump </span></h5>
-                         </div>
-                         <div class="block_sec" style="width:10%; float: left; border-right: 1px solid #adabad; text-align: center; ">
-                             <h4 style="padding: 2px 0;font-size: 9px;line-height: 16px; margin:0;">&nbsp;  </h4>
-                         </div>
-                         <div class="block_sec" style="width:10%; float: left; text-align: center;">
-                             <h4 style="padding-top:2px; margin:0;"></h4>
-                         </div>
-                         <div style="clear:both;"></div>
-                      </div>
-                  </div>
+
+            <?php     }  
+
+          echo' </div>
                   <div class="block" style="text-align: center;">
                                           
                       <p style="padding: 5px 0; margin: 0; font-size: 16px; line-height: 12px; color: #000; font-weight: 400; font-style: italic;">See explanations of the above on the reverse of this certificate</p>
@@ -504,6 +447,6 @@ $cl_contact_no 			= isset($result['cl_contact_no']) ? $result['cl_contact_no'] :
   </div>
   </div>
   </body>
-</html>
+</html>';
 
 
