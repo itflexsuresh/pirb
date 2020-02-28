@@ -672,8 +672,14 @@ class CC_Controller extends CI_Controller
 	
 	public function pdfnoncompliancereport($id, $userid)
 	{		
-		$noncompliance	= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $userid]);	
+		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);
+		$pagedata['noncompliance'] 	= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $userid]);	
 
-		$html = $this->load->view('pdf/noncompliancereport', (isset($pagedata) ? $pagedata : ''));
+		$html = $this->load->view('pdf/noncompliancereport', (isset($pagedata) ? $pagedata : ''), true);
+		$this->pdf->loadHtml($html);
+		$this->pdf->setPaper('A4', 'portrait');
+		$this->pdf->render();
+		$output = $this->pdf->output();
+		$this->pdf->stream('Audit Report '.$id);
 	}	
 }
