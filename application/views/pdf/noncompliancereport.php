@@ -229,6 +229,7 @@ function base64conversion($path){
 						<tr>
 							<td><?php echo $list['details']; ?></td>
 							<td><?php echo $list['action']; ?></td>
+							<td><?php echo $list['reference']; ?></td>
 							<td>
 								<?php 
 									$filelist = array_filter(explode(',', $list['file'])); 
