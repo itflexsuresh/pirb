@@ -99,7 +99,7 @@ if(isset($result) && $result){
 					    </table></br>
                 <div class="form-group">
 					<label style="font-weight:bold;">Performance Rolling Averages</label>&nbsp&nbsp&nbsp &nbsp &nbsp  
-					<input type="text" class="form-group" id="avg" name="rolling_avg"  value="<?php echo $val1['rolling_avg']; ?>" placeholder="months" >							
+					<input type="text" class="form-group" id="avg" name="points[<?php echo $val['id']; ?>]"  value="<?php echo $val['point']; ?>" placeholder="months" >							
 		        </div>			
                 <div class="col-md-11 text-right">
 				       <input type="hidden" name="id" value="<?php //echo $id; ?>">
