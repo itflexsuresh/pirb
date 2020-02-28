@@ -145,7 +145,8 @@ class Index extends CC_Controller
 		$pagedata['menu']			= $this->load->view('common/plumber/menu', ['id'=>$id],true);
 		$pagedata['notification'] 	= $this->getNotification();
 		
-		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['auditorid' => '', 'plumberid' => $id]);
+		$pagedata['history']		= $this->Auditor_Model->getReviewHistory2Count(['auditorid' => '', 'plumberid' => $id]);
+		$pagedata['settings_cpd']	= $this->Systemsettings_Model->getList('all',['user_id' => $id]);
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'morrischart'];
 
@@ -310,6 +311,8 @@ class Index extends CC_Controller
 		$pagedata['notification'] 	= $this->getNotification();
 		
 		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['auditorid' => '', 'plumberid' => $id]);	
+
+		$pagedata['loggedcoc']		= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['2']]);
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'morrischart'];
 		$data['content'] 			= $this->load->view('admin/plumber/audit', (isset($pagedata) ? $pagedata : ''), true);
@@ -439,9 +442,70 @@ class Index extends CC_Controller
 		echo json_encode($json);
 	}
 
-	public function documents($id)
+	public function documents($id,$documentsid='')
 	{
-		$this->plumberprofile($id, ['roletype' => $this->config->item('roleadmin'), 'pagetype' => 'applications'], ['redirect' => 'admin/plumber/index/rejected']);
+		if($documentsid!=''){
+			$result = $this->Documents_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
+			if($result){
+				$pagedata['result'] = $result;
+
+			}else{
+				$this->session->set_flashdata('error', 'No Record Found.');
+				if($extras['redirect']) redirect($extras['redirect']); 
+				else redirect('admin/plumber/index'); 
+			}
+		}
+		
+		if($this->input->post()){
+			$requestData 	= 	$this->input->post();
+			print_r($requestData); die;
+			$data 	=  $this->Documents_Model->action($requestData);			
+			if($data) $this->session->set_flashdata('success', 'Documents Letters'.(($id=='') ? 'created' : 'updated').' successfully.');
+			else $this->session->set_flashdata('error', 'Try Later.');
+			
+			if($extras['redirect']) redirect($extras['redirect']); 
+			else redirect('admin/plumber/index');
+		}
+		
+		$pagedata['notification'] 	= $this->getNotification();
+		
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','inputmask'];
+		$data['content'] 			= $this->load->view('admin/plumber/documents', (isset($pagedata) ? $pagedata : ''), true);
+		$this->layout2($data);
+	}
+
+	public function DTDocuments()
+	{
+		
+		$post 		= $this->input->post();	
+		$totalcount =  $this->Documents_Model->getList('count',$post);
+		$results 	=  $this->Documents_Model->getList('all',$post);
+		$totalrecord 	= [];
+		if(count($results) > 0){
+			foreach($results as $result){
+				
+				$timestamp = strtotime($result['allocation_date']);
+				$newDate = date('d-F-Y H:i:s', $timestamp);	
+				$file = "";
+				$action = "";
+
+				$totalrecord[] = 	[	
+										'description'=> 	$result['description'],	
+										'datetime' 	 => 	$newDate,
+										'file' 	 	 => 	$file,
+										'action' 	 => 	$action,
+										
+									];
+			}
+		}
+		
+		$json = array(			  
+			"recordsTotal"    => intval($totalcount),  
+			"recordsFiltered" => intval($totalcount),
+			"data"            => $totalrecord
+		);
+
+		echo json_encode($json);
 	}
 
 	public function diary($id)
