@@ -130,9 +130,10 @@ class Company_Model extends CC_Model
 		}
 		
 		if(isset($data['formstatus'])) 		$request4['formstatus'] 	= $data['formstatus'];
-		if(isset($data['companystatus'])) 	$request4['status']			= $data['companystatus'];
+		//if(isset($data['companystatus'])) 	$request4['status']			= $data['companystatus'];
 		if(isset($data['approval_status'])) $request4['status']			= '1';
-		//if(isset($data['companystatus']) && $data['companystatus']=='2') 	$request4['status'] 		= '2';
+		if(isset($data['companystatus']) && $data['companystatus']=='2') 	$request4['status'] 		= '2';
+		if(isset($data['companystatus']) && $data['companystatus']=='1') 	$request4['status'] 		= '1';
 		if(isset($request4)){
 			if(isset($data['user_id'])){
 				$userid = $data['user_id'];	
