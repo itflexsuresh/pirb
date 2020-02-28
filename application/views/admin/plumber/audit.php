@@ -69,6 +69,23 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 			<div class="card-body">
 				<h4 class="card-title">Audit Details for <?php echo $user_details['name']." ".$user_details['surname']?></h4>
 				
+				<div class="row">
+					<div class="col-md-2">
+						<label >Number of Logged COC's</label>
+					</div>
+					<div class="col-md-3">
+						<input type="text" class="form-control" name="loggedcoc" value="<?php echo $loggedcoc; ?>">
+					</div>
+					<div class="col-md-2">
+						<label>Number Audits Done to Date</label>
+					</div>
+					<div class="col-md-3">
+						<input type="text" class="form-control" name="auditdone" value="<?php echo $total; ?>">
+					</div>
+					<div class="col-md-2">
+						<input type="text" class="form-control" name="percentage" value="<?php //echo $percentage; ?>">
+					</div>
+				</div>
 				<div id="reviewchart"></div>
 				
 				<div class="table-responsive m-t-40">

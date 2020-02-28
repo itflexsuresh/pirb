@@ -9,39 +9,63 @@ if($roletype=='1'){
 $plumberid			= '';
 $auditorid			= '';
 
-$count 			 = isset($history['count']) ? $history['count'] : '';
-$total 			 = isset($history['total']) ? $history['total'] : '';
-$refixincomplete = isset($history['refixincomplete']) ? $history['refixincomplete'] : '';
-$refixcomplete 	 = isset($history['refixcomplete']) ? $history['refixcomplete'] : '';
-$compliment 	 = isset($history['compliment']) ? $history['compliment'] : '';
-$cautionary 	 = isset($history['cautionary']) ? $history['cautionary'] : '';
-$noaudit 		 = isset($history['noaudit']) ? $history['noaudit'] : '';
+$cpdarray = explode("@@@", $settings_cpd[0]['cpd']);
+$devarray = explode("@-@", $cpdarray[0]);
+$workarray = explode("@-@", $cpdarray[1]);
+$indarray = explode("@-@", $cpdarray[2]);
+
+if($user_details['designation'] == '1'){
+	$developmental1 = isset($devarray[6]) ? $devarray[6] : '';
+	$workbased1 = isset($workarray[6]) ? $workarray[6] : '';
+	$individual1 = isset($indarray[6]) ? $indarray[6] : '';
+}
+elseif($user_details['designation'] == '2'){
+	$developmental1 = isset($devarray[5]) ? $devarray[5] : '';
+	$workbased1 = isset($workarray[5]) ? $workarray[5] : '';
+	$individual1 = isset($indarray[5]) ? $indarray[5] : '';
+}
+elseif($user_details['designation'] == '3'){
+	$developmental1 = isset($devarray[4]) ? $devarray[4] : '';
+	$workbased1 = isset($workarray[4]) ? $workarray[4] : '';
+	$individual1 = isset($indarray[4]) ? $indarray[4] : '';
+}
+elseif($user_details['designation'] == '4'){
+	$developmental1 = isset($devarray[3]) ? $devarray[3] : '';
+	$workbased1 = isset($workarray[3]) ? $workarray[3] : '';
+	$individual1 = isset($indarray[3]) ? $indarray[3] : '';
+}
+elseif($user_details['designation'] == '6'){
+	$developmental1 = isset($devarray[2]) ? $devarray[2] : '';
+	$workbased1 = isset($workarray[2]) ? $workarray[2] : '';
+	$individual1 = isset($indarray[2]) ? $indarray[2] : '';
+}
+
+$developmental = isset($history['developmental']) ? $history['developmental'] : '';
+$workbased 	   = isset($history['workbased']) ? $history['workbased'] : '';
+$individual    = isset($history['individual']) ? $history['individual'] : '';
+
+if($developmental == '')
+	$developmental = 0;
+
+if($workbased == '')
+	$workbased = 0;
+
+if($individual == '')
+	$individual = 0;
 
 
-if($refixincomplete > 0)
-	$refixincompletepercentage 	= round(($refixincomplete/$total)*100,2).'%'; 
-else
-	$refixincompletepercentage = 0;
+if($developmental1 == '')
+	$developmental1 = 0;
 
-if($refixcomplete > 0)
-	$refixcompletepercentage 	= round(($refixcomplete/$total)*100,2).'%'; 
-else
-	$refixcompletepercentage = 0;
+if($workbased1 == '')
+	$workbased1 = 0;
 
-if($compliment > 0)
-	$complimentpercentage 		= round(($compliment/$total)*100,2).'%';
-else
-	$complimentpercentage = 0;
+if($individual1 == '')
+	$individual1 = 0;
 
-if($cautionary > 0)
-	$cautionarypercentage 		= round(($cautionary/$total)*100,2).'%';
-else
-	$cautionarypercentage = 0;
+$total = $developmental + $workbased + $individual;
+$total1 = $developmental1 + $workbased1 + $individual1;
 
-if($noaudit > 0)
-	$noauditpercentage 			= round(($noaudit/$total)*100,2).'%';
-else
-	$noauditpercentage = 0;
 ?>
 
 <div class="row page-titles">
@@ -64,6 +88,18 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 $pagestatus = isset($pagestatus) ? $pagestatus : '';
 ?>
 
+<style>
+.target {
+  height: 10px;
+  width: 10px;
+  background-color: #4472C4;
+}
+.achieved {
+  height: 10px;
+  width: 10px;
+  background-color: #ED7D31;
+}
+</style>
 
 <div class="row">
 	<div class="col-12">
@@ -72,6 +108,9 @@ $pagestatus = isset($pagestatus) ? $pagestatus : '';
 				<h4 class="card-title">CPD Activties for <?php echo $user_details['name']." ".$user_details['surname']?></h4>
 
 				<div id="reviewchart"></div>
+				
+				<div class="target"></div><label>Target</label>				
+				<div class="achieved"></div><label>Achieved</label>
 				
 				<div class="row add_top_value">
 					<div class="col-md-6">
@@ -119,54 +158,55 @@ $pagestatus = isset($pagestatus) ? $pagestatus : '';
 		};
 		
 		ajaxdatatables('.datatables', options);
-		
-		var auditorid 		= '<?php echo $auditorid; ?>';
-	var plumberid 		= '<?php echo $plumberid; ?>';
-	var count 			= '<?php echo $count; ?>';
-	var total 			= '<?php echo $total; ?>';
-	var refixincomplete = '<?php echo $refixincomplete; ?>';
-	var refixcomplete 	= '<?php echo $refixcomplete; ?>';
-	var compliment 		= '<?php echo $compliment; ?>';
-	var cautionary 		= '<?php echo $cautionary; ?>';
-	var noaudit 		= '<?php echo $noaudit; ?>';
+	
+	var auditorid 	= '<?php echo $auditorid; ?>';
+	var plumberid 	= '<?php echo $plumberid; ?>';
+	var developmental = '<?php echo $developmental; ?>';
+	var workbased 	= '<?php echo $workbased; ?>';
+	var individual 	= '<?php echo $individual; ?>';
+	var total 		= '<?php echo $total; ?>';
+	var developmental1 = '<?php echo $developmental1; ?>';
+	var workbased1 	= '<?php echo $workbased1; ?>';
+	var individual1 	= '<?php echo $individual1; ?>';
+	var total1		= '<?php echo $total1; ?>';
 
-	var barcolor = ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4'];
+	// var barcolor1 = ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4'];
+	var barcolor = ['#4472C4','#ED7D31','#4472C4','#ED7D31'];
 	
 	Morris.Bar({
 		barSizeRatio:0.4,
         element: 'reviewchart',
         data: [
 			{
-				y: 'Total Number of Audit Findings',
-				a: total
+				y: 'Development',
+				a: developmental1,
+				b: developmental
 			}, 
 			{
-				y: 'Compliments',
-				a: compliment
+				y: 'Work-Base',
+				a: workbased1,
+				b: workbased
 			}, 
 			{
-				y: 'Cautionary',
-				a: cautionary
+				y: 'Individual',
+				a: individual1,
+				b: individual
 			}, 
 			{
-				y: 'Refix (Complete)',
-				a: refixcomplete
-			}, 
-			{
-				y: 'Refix (In-Complete)',
-				a: refixincomplete
-			}, 
-			{
-				y: 'No Audit',
-				a: noaudit
+				y: 'Total',
+				a: total1,
+				b: total
 			}
 		],
         xkey: 'y',
 		xLabelMargin : 1,
-        ykeys: ['a'],
-        labels: ['Audit'],
-		barColors: function (row, series, type) {
-			return barcolor[row.x];
+        ykeys: ['a','b'],
+        
+        labels: ['Target','Achieved'],
+		barColors: function (row, series, type) {			
+			if(series.key == "a") return "#4472C4";
+			if(series.key == "b") return "#ED7D31";
+			// return barcolor[row.x];
 		}, 
         hideHover: 'auto',
         gridLineColor: '#000',
