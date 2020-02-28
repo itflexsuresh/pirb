@@ -71,6 +71,7 @@ table.table.table-bordered.reviewtable td {
 table.table.table-bordered.reviewtable th {
     border: 1px solid #000;
 	padding: 15px;    
+	text-align: center;
 }
 table.coc_details_overall label, table.auditor_details_overall label {
     font-weight: bold;
@@ -125,7 +126,7 @@ function base64conversion($path){
 				<table class="notice-license-text">
 					<thead>
 						<tr>
-						<th><h3>NOTICE TO HOME OWNERS</h3></th>
+						<th style="text-align: center;"><h3>NOTICE TO HOME OWNERS</h3></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -204,7 +205,7 @@ function base64conversion($path){
 					<tr>
 							<td style="padding: 0;"><input type="text" value="<?php echo $plumbername; ?>"></td>
 							<td><input type="text" value="<?php echo $plumbercompany; ?>"></td>
-							<td><input type="text" value="<?php echo $plumberwork; ?>"></td>                   
+							<td><input type="text" value="<?php echo $plumberwork; ?>"></td>
 					</tr>
 					</tbody>
 				</table>
