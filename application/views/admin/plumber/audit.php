@@ -6,8 +6,8 @@ if($roletype=='1'){
 	$heading = 'Audit Report';
 }
 
-$plumberid			= $result['user_id'];
-$auditorid			= $result['auditorid'];
+$plumberid			= '';
+$auditorid			= '';
 
 $count 			 = isset($history['count']) ? $history['count'] : '';
 $total 			 = isset($history['total']) ? $history['total'] : '';

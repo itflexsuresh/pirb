@@ -678,6 +678,31 @@ class Auditor_Model extends CC_Model
 		
 		return $result;
 	}
+
+	public function getReviewHistory2Count($requestdata=[])
+	{
+		$auditorid = $requestdata['auditorid'];
+		$plumberid = $requestdata['plumberid'];
+		
+		$count = $this->db->select('count(id) as count')->where(['user_id' => $plumberid])->get('stock_management')->row_array();
+		$total = $this->db->select('count(id) as count')->where(['user_id' => $plumberid])->get('stock_management')->row_array();
+		
+		$audited = $this->db->select('count(id) as count')->where(['user_id' => $plumberid, 'audit_status' => '1'])->get('stock_management')->row_array();
+		$logged = $this->db->select('count(id) as count')->where(['user_id' => $plumberid, 'coc_status' => '2'])->get('stock_management')->row_array();
+		$allocated = $this->db->select('count(id) as count')->where(['user_id' => $plumberid, 'coc_status' => '4'])->get('stock_management')->row_array();
+		$nonlogged = $this->db->select('count(id) as count')->where(['user_id' => $plumberid, 'coc_status' => '5'])->get('stock_management')->row_array();
+		
+		$result = [
+			'count' => $count['count'],
+			'total' => $total['count'],
+			'audited' => $audited['count'],
+			'logged' => $logged['count'],
+			'allocated' => $allocated['count'],
+			'nonlogged' => $nonlogged['count']
+		];
+		
+		return $result;
+	}
 	
 	
 	public function actionStatement($data)

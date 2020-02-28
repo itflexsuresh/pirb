@@ -1,3 +1,39 @@
+<?php
+
+if($roletype=='1'){
+	$heading = 'Manage Allocted Audits';
+}else if($roletype=='3' || $roletype=='5'){
+	$heading = 'Audit Report';
+}
+
+$plumberid			= '';
+$auditorid			= '';
+
+$count 			 = isset($history2['count']) ? $history2['count'] : '';
+$total 			 = isset($history2['total']) ? $history2['total'] : '';
+
+$logged 			 = isset($history2['logged']) ? $history2['logged'] : '';
+$audited 			 = isset($history2['audited']) ? $history2['audited'] : '';
+$allocated 	 = isset($history2['allocated']) ? $history2['allocated'] : '';
+$nonlogged 	 = isset($history2['nonlogged']) ? $history2['nonlogged'] : '';
+
+$refixincomplete = isset($history['refixincomplete']) ? $history['refixincomplete'] : '';
+$refixcomplete 	 = isset($history['refixcomplete']) ? $history['refixcomplete'] : '';
+
+
+if($refixincomplete > 0)
+	$refixincompletepercentage 	= round(($refixincomplete/$total)*100,2).'%'; 
+else
+	$refixincompletepercentage = 0;
+
+if($refixcomplete > 0)
+	$refixcompletepercentage 	= round(($refixcomplete/$total)*100,2).'%'; 
+else
+	$refixcompletepercentage = 0;
+
+
+?>
+
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
 		<h4 class="text-themecolor">COC</h4>
@@ -22,6 +58,8 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 		<div class="card">
 			<div class="card-body">
 				<h4 class="card-title">COC Details for <?php echo $user_details['name']." ".$user_details['surname']?></h4>
+
+				<div id="reviewchart"></div>
 				
 				<div class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
@@ -68,5 +106,61 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 		};
 		
 		ajaxdatatables('.datatables', options);
+
+
+		var auditorid 		= '<?php echo $auditorid; ?>';
+		var plumberid 		= '<?php echo $plumberid; ?>';
+		var count 			= '<?php echo $count; ?>';
+		var logged 			= '<?php echo $logged; ?>';
+		var refixincomplete = '<?php echo $refixincomplete; ?>';
+		var refixcomplete 	= '<?php echo $refixcomplete; ?>';
+		var nonlogged 		= '<?php echo $nonlogged; ?>';
+		var audited 		= '<?php echo $audited; ?>';
+		var allocated 		= '<?php echo $allocated; ?>';
+
+		var barcolor = ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4'];
+		
+		Morris.Bar({
+			barSizeRatio:0.4,
+	        element: 'reviewchart',
+	        data: [
+				{
+					y: 'No of Non Logged Coc',
+					a: nonlogged
+				}, 
+				{
+					y: 'No of Non Logged Coc Allocated',
+					a: allocated
+				}, 
+				{
+					y: 'No of Coc Logged',
+					a: logged
+				}, 
+				{
+					y: 'No of Coc Audited to Date:',
+					a: audited
+				}, 
+				{
+					y: 'Refix (Complete)',
+					a: refixcomplete
+				}, 
+				{
+					y: 'Refix(In Complete)',
+					a: refixincomplete
+				}
+			],
+	        xkey: 'y',
+			xLabelMargin : 1,
+	        ykeys: ['a'],
+	        labels: ['Audit'],
+			barColors: function (row, series, type) {
+				return barcolor[row.x];
+			}, 
+	        hideHover: 'auto',
+	        gridLineColor: '#000',
+	        resize: true
+	    });
+
+
 	});
 </script>

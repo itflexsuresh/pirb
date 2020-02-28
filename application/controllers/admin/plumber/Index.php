@@ -135,16 +135,20 @@ class Index extends CC_Controller
 
 	public function cpd($id,$pagestatus='')
 	{
-		$userdata1					= $this->Plumber_Model->getList('row', ['id' => $id]);
-		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['company'] 		= $this->getCompanyList();
 		$pagedata['plumberstatus'] 	= $this->config->item('plumberstatus');
+		$pagedata['pagestatus'] 	= $this->getPageStatus($pagestatus);		
+		$userdata1					= $this->Plumber_Model->getList('row', ['id' => $id]);
 		$pagedata['roletype']		= $this->config->item('roleadmin');
-		$pagedata['pagestatus'] 	= $this->getPageStatus($pagestatus);
 		$pagedata['id'] 			= $id;
 		$pagedata['user_details'] 	= $userdata1;
 		$pagedata['menu']			= $this->load->view('common/plumber/menu', ['id'=>$id],true);
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'datepicker'];
+		$pagedata['notification'] 	= $this->getNotification();
+		
+		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['auditorid' => '', 'plumberid' => $id]);
+		
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'morrischart'];
+
 		$data['content'] 			= $this->load->view('admin/plumber/cpd', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$this->layout2($data);		
@@ -234,8 +238,11 @@ class Index extends CC_Controller
 		$pagedata['id'] 			= $id;
 		$pagedata['user_details'] 	= $userdata1;
 		$pagedata['menu']			= $this->load->view('common/plumber/menu', ['id'=>$id],true);
-		$pagedata['notification'] 	= $this->getNotification();
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
+		$pagedata['notification'] 	= $this->getNotification();		
+		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['auditorid' => '', 'plumberid' => $id]);
+		$pagedata['history2']		= $this->Auditor_Model->getReviewHistory2Count(['auditorid' => '', 'plumberid' => $id]);
+
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'morrischart'];
 		$data['content'] 			= $this->load->view('admin/plumber/coc', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
@@ -300,9 +307,7 @@ class Index extends CC_Controller
 		$pagedata['menu']			= $this->load->view('common/plumber/menu', ['id'=>$id],true);
 		$pagedata['notification'] 	= $this->getNotification();
 		
-		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);
-		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['auditorid' => $pagedata['result']['auditorid'], 'plumberid' => $pagedata['result']['user_id']]);	
-		
+		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['auditorid' => '', 'plumberid' => $id]);	
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'morrischart'];
 		$data['content'] 			= $this->load->view('admin/plumber/audit', (isset($pagedata) ? $pagedata : ''), true);
