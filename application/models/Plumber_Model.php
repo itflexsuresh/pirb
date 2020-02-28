@@ -317,7 +317,34 @@ class Plumber_Model extends CC_Model
 		$this->db->where(['user_id' => $plumberid, 'status' => '1']);
 		$result2 = $this->db->get_compiled_select();
 		
-		$query = $this->db->query("select * from ($result1 UNION $result2) as data order by date desc");
+		
+		$query = "select * from ($result1 UNION $result2) as data where 1=1 ";
+		
+		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
+			$searchvalue = $requestdata['search']['value'];
+			
+			if(isset($requestdata['page'])){
+				$page = $requestdata['page'];
+				
+				if($page=='plumberperformancestatus'){			
+					$query .= ' and (DATE_FORMAT(date,"%d-%m-%Y") like "%'.$searchvalue.'%" or type like "%'.$searchvalue.'%" or comments like "%'.$searchvalue.'%" or point like "%'.$searchvalue.'%")';
+				}				
+			}
+		}
+		if(isset($requestdata['order']['0']['column']) && $requestdata['order']['0']['column']!='' && isset($requestdata['order']['0']['dir']) && $requestdata['order']['0']['dir']!=''){
+			if(isset($requestdata['page'])){
+				$page = $requestdata['page'];				
+				if($page=='plumberperformancestatus'){
+					$column = ['date', 'type', 'comments', 'point'];
+					$query .= ' order by '.$column[$requestdata['order']['0']['column']].' '.$requestdata['order']['0']['dir'];
+				}
+			}
+		}
+		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
+			$query .= ' limit '.$requestdata['start'].', '.$requestdata['length'];
+		}
+		
+		$query = $this->db->query($query);
 		
 		if($type=='count'){
 			$result = count($query->result_array());

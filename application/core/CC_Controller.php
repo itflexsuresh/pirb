@@ -205,6 +205,11 @@ class CC_Controller extends CI_Controller
 		];
 	}
 	
+	public function getRollingAverage()
+	{
+		return $this->getAuditorPoints($this->config->item('rollingaverage'));
+	}
+	
 	public function getPlumberRates()
 	{
 		return 	[

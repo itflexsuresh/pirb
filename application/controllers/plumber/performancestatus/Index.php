@@ -13,15 +13,19 @@ class Index extends CC_Controller
 	public function index()
 	{
 		$pagedata['notification'] 	= $this->getNotification();
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
+		$pagedata['warning']		= $this->Global_performance_Model->getWarningList('all', ['status' => ['1']]);
+		
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'morrischart'];
 		$data['content'] 			= $this->load->view('plumber/performancestatus/index', (isset($pagedata) ? $pagedata : ''), true);
+		
 		$this->layout2($data);
 	}
 	
 	public function DTPerformancestatus()
 	{
 		$userid 		= $this->getUserID();
-		$date			= date('Y-m-d', strtotime(date('Y-m-d').'+1 days'));
+		$rollingavg 	= $this->getRollingAverage();
+		$date			= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
 		
 		$post 			= $this->input->post();
 		$totalcount 	= $this->Plumber_Model->performancestatus('count', ['plumberid' => $userid, 'date' => $date]+$post);

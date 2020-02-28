@@ -40,7 +40,7 @@ $config['cocverificationno']		= 	'11';
 
 $config['noaudit']					= 	'12';
 
-$config['rollingaverage']			= 	'12';
+$config['rollingaverage']			= 	'13';
 
 
 
