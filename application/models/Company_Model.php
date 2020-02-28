@@ -87,7 +87,9 @@ class Company_Model extends CC_Model
 
 		if(isset($data['specilisations'])) 		$request1['specialisations']	= implode(',', $data['specilisations']);
 		if(isset($data['companystatus'])) 		$request1['status'] 			= $data['companystatus'];
-		
+		if(isset($data['approval_status']) && $data['approval_status']=='1'){
+			$request1['status'] 	= '1';
+		}
 		if(isset($request1)){
 			$usersdetailid	= 	$data['usersdetailid'];
 			if(isset($data['user_id'])) $request1['user_id'] = $data['user_id'];
