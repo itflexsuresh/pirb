@@ -28,7 +28,7 @@ class Mycpd_Model extends CC_Model
 			if(isset($requestdata['cpd_stream'][0])) 	$this->db->where('t1.cpd_stream', $requestdata['cpd_stream'][0]);
 			if(isset($requestdata['status'][0])) 	$this->db->where('t1.status', $requestdata['status'][0]);
 			if(isset($requestdata['user_id'][0])) 	$this->db->where('t2.id', $requestdata['user_id'][0]);
-			$this->db->where('t2.renewal_date<=','CURDATE()', false);
+			$this->db->where('t2.renewal_date>=','CURDATE()', false);
 		}
 		//print_r($this->db->where_in('flag', $requestdata['flag']));die;
 
