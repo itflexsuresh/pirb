@@ -282,7 +282,7 @@ class Plumber_Model extends CC_Model
 		}else{
 			$count 		= $this->getList('count', ['type' => '3', 'approvalstatus' => ['1']]);
 			$count 		= ($counts=='') ? $count+1 : $counts;
-			$checkcount = str_pad($count, 6, '0', STR_PAD_LEFT);
+			$checkcount = str_pad($count, 5, '0', STR_PAD_LEFT);
 			
 			$checkregno = $this->getList('count', ['type' => '3', 'approvalstatus' => ['1'], 'searchregno' => $checkcount]);			
 			if($checkregno > 0){				
@@ -300,6 +300,6 @@ class Plumber_Model extends CC_Model
 			$prefix = '/'.substr($year, 2, 2);
 		}
 		
-		return str_pad($count, 6, '0', STR_PAD_LEFT).$prefix;
+		return str_pad($count, 5, '0', STR_PAD_LEFT).$prefix;
 	}
 }
