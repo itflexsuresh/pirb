@@ -26,8 +26,17 @@ class Index extends CC_Controller
 		
 		if($this->input->post()){
 			$requestData 				= 	$this->input->post();
+
+			if (isset($requestData)) {
+				$requestData['formstatus'] 	= 	'0';
+				$mark ="Application saved.";
+			}else{
+				$requestData['formstatus'] 	= 	'1';
+				$mark ="Thanks for submitting the application.";
+			}
+			
 			$requestData['user_id']	 	= 	$userid;
-			$requestData['formstatus'] 	= 	'1';
+			
 			$requestData['status'] 		= 	'1';
 			$data 						=  	$this->Company_Model->action($requestData);
 			
@@ -41,7 +50,7 @@ class Index extends CC_Controller
 					$this->CC_Model->sentMail($companydata['email'], $notificationdata['subject'], $body);
 				}
 				*/
-				$this->session->set_flashdata('success', 'Thanks for submitting the application.');
+				$this->session->set_flashdata('success', $mark);
 			}else{
 				$this->session->set_flashdata('error', 'Try Later.');
 			}
@@ -86,5 +95,5 @@ class Index extends CC_Controller
 		}
 	}
 
-	
+
 }

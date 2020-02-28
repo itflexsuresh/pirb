@@ -185,7 +185,7 @@
 			<div class="card-body">			
 <?php } ?>			
 				<form class="form" id="reg_forms" method="post" action="">					
-					<?php if(($roletype=='1' && $approval_status=='1') || ($pagetype!='registration' && $roletype=='4')){ ?>
+					<?php if(($roletype=='1' && $approval_status=='1') || ($pagetype!='registration' && $roletype=='4' && $result['formstatus'] !='0')){ ?>
 						<div class="col-md-12 application_field_wrapper mb-15">
 							<?php if($disabled1=='disabled'){ ?>
 								<div class="application_field_status">
@@ -423,6 +423,7 @@
 						<input type="hidden" name="userscompanyid" value="<?php echo $userscompanyid; ?>">
 						<?php if ($roletype!='1') { 
 							if(!isset($disablebtn) or $pagetype=='registration'){ ?>
+							<button type="button" id="save" name="save" value="save" class="btn btn-primary">Save</button>
 							<button type="button" id="sub-reg" name="submit" value="submit" class="btn btn-primary">Submit</button>
 							<button type="submit" id="hid_sub_reg" name="submit" value="submit" class="btn btn-primary" style="display: none;">Submit</button>
 						<?php }
@@ -495,6 +496,14 @@ $(function(){
 				$('#skillmodal').modal('show');
 				$('.invalidOTP').hide();
 			}
+		});
+
+		$('#save').on('click',function(){			
+			 // $('#reg_forms').removeAttr('novalidate');
+			 // $('#reg_forms').removeClass("form");
+			 $(".form").validate().settings.ignore = "*";
+			 $("#hid_sub_reg"). prop("name", "save1");
+			 $( "#hid_sub_reg" ).trigger( "click" );
 		});
 
 		$('.resend').on('click',function(){
