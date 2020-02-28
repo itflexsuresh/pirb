@@ -662,10 +662,15 @@ class CC_Controller extends CI_Controller
 
 	public function pdfelectroniccocreport($id, $userid)
 	{		
-		$pagedata['userdata']	 		= $this->Plumber_Model->getList('row', ['id' => $userid]);
+		$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid]);
+		$pagedata['userdata']	 		= $userdata;
 		$pagedata['specialisations']	= explode(',', $pagedata['userdata']['specialisations']);
 		$pagedata['result']		    	= $this->Coc_Model->getCOCList('row', ['id' => $id]);
 		$pagedata['designation2'] 		= $this->config->item('designation2');
+		$specialisations 				= explode(',', $userdata['specialisations']);
+		$pagedata['installationtype']	= $this->getInstallationTypeList();
+		$pagedata['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => []]);
+		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations]);
 
 		$html = $this->load->view('pdf/electroniccocreport', (isset($pagedata) ? $pagedata : ''));
 	}

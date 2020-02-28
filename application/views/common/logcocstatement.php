@@ -282,7 +282,7 @@
 								<h4 class="card-title add_top_value">View Electronic COC</h4>
 								<div class="form-group">
 									<div>
-										<a href="<?php echo base_url().$electroniccocreport;?>">
+										<a href="<?php echo base_url().$electroniccocreport;?>" target="_blank">
 										<img src="<?php echo $pdfimg; ?>" width="50">
 										</a>
 									</div>
