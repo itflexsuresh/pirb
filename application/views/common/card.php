@@ -132,7 +132,7 @@
                     ?>
                 </tr>
                 <tr style="border-top: 1px solid #000;">
-                    <td class="curr_emptxt" style="border-right: 1px solid #000; height: 206px; vertical-align: middle;">
+                    <td class="curr_emptxt" style="border-right: 1px solid #000; height: 203px; vertical-align: middle;">
                         <span class="curr_txts"><p class="emp_title">Current <br> Employer </p> 
                         <p class="plumber_name add_style"><?php echo  $companyname; ?></p></span>
                         <p class="alter_lost_veri" style="width: 100%;">Lost or Found <?php echo $work_phone; ?> <br>Verification can be done via www.pirb.co.za</p>
@@ -163,7 +163,7 @@
                 
             </tbody>
             <tbody style="width: 10%; display: inline-block;">
-                <tr style="height: 300px;">
+                <tr style="height: 298px;">
                     <td class="add_idcard_color" colspan="2" style="text-align: center; padding: 0px;">
                         <p class="back_license" style="transform: rotate(-90deg);margin: -48px;"><?php echo isset($designation2[$designation2id]) ? $designation2[$designation2id] : '-'; ?></p>
                     </td>
