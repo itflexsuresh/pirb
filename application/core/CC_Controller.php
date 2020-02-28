@@ -680,6 +680,6 @@ class CC_Controller extends CI_Controller
 		$this->pdf->setPaper('A4', 'portrait');
 		$this->pdf->render();
 		$output = $this->pdf->output();
-		$this->pdf->stream('Audit Report '.$id);
+		$this->pdf->stream('Non Compliance Report '.$id);
 	}	
 }
