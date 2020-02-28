@@ -83,13 +83,13 @@ class Index extends CC_Controller
 		$this->coclogaction(
 			$id, 
 			['pagetype' => 'view', 'roletype' => $this->config->item('roleauditor'), 'electroniccocreport' => 'auditor/auditstatement/index/electroniccocreport/'.$id.'/'.$plumberid, 'noncompliancereport' => 'auditor/auditstatement/index/noncompliancereport/'.$id.'/'.$plumberid], 
-			['redirect' => 'auditor/auditstatement/index', 'userid' => $plumberid]
+			['redirect' => 'auditor/auditstatement/index', 'userid' => $plumberid, 'auditorid' => $this->getUserID()]
 		);
 	}
 	
 	public function history($id)
 	{
-		$this->getaudithistory($id, ['roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index']);
+		$this->getaudithistory($id, ['roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index', 'auditorid' => $this->getUserID()]);
 	}
 	
 	public function diary($id)
@@ -107,7 +107,7 @@ class Index extends CC_Controller
 			redirect('auditor/auditstatement/index/diary/'.$id); 
 		}			
 		
-		$this->getauditdiary($id, ['roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index']);
+		$this->getauditdiary($id, ['roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index', 'auditorid' => $this->getUserID()]);
 	}
 	
 	public function auditreport($id)

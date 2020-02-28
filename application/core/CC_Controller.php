@@ -460,6 +460,13 @@ class CC_Controller extends CI_Controller
 	public function coclogaction($id, $pagedata=[], $extras=[])
 	{
 		$userid							= $extras['userid'];
+		$auditorid						= isset($extras['auditorid']) ? ['auditorid' => $extras['auditorid']] : [];
+		$result							= $this->Coc_Model->getCOCList('row', ['id' => $id, 'user_id' => $userid]+$auditorid);
+		if(!$result){
+			$this->session->set_flashdata('error', 'No Record Found.');
+			redirect($extras['redirect']); 
+		}
+		
 		$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid]);
 		$specialisations 				= explode(',', $userdata['specialisations']);
 		
@@ -499,7 +506,7 @@ class CC_Controller extends CI_Controller
 		$pagedata['installationtype']	= $this->getInstallationTypeList();
 		$pagedata['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => []]);
 		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations]);
-		$pagedata['result']				= $this->Coc_Model->getCOCList('row', ['id' => $id]);
+		$pagedata['result']				= $result;
 		
 		$noncompliance					= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $userid]);		
 		$pagedata['noncompliance']		= [];
@@ -521,7 +528,12 @@ class CC_Controller extends CI_Controller
 		$extraparam = [];
 		if(isset($extras['auditorid'])) $extraparam['auditorid'] 	= $extras['auditorid'];
 		if(isset($extras['plumberid'])) $extraparam['user_id'] 		= $extras['plumberid'];		
-		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]+$extraparam);	
+		$result	= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]+$extraparam);	
+		if(!$result){
+			$this->session->set_flashdata('error', 'No Record Found.');
+			redirect($extras['redirect']); 
+		}
+		
 		$pagedata['settings'] 		= $this->Systemsettings_Model->getList('row');
 		
 		if($this->input->post()){
@@ -590,6 +602,7 @@ class CC_Controller extends CI_Controller
 		$pagedata['yesno'] 						= $this->config->item('yesno');		
 		$pagedata['reviewtype'] 				= $this->config->item('reviewtype');	
 		$pagedata['reviewlist']					= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
+		$pagedata['result']						= $result;
 		$pagedata['menu']						= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$data['plugins']			= ['datepicker', 'sweetalert', 'validation', 'select2'];
@@ -599,8 +612,15 @@ class CC_Controller extends CI_Controller
 	
 	public function getaudithistory($id, $pagedata=[], $extras=[])
 	{
+		$auditorid					= isset($extras['auditorid']) ? ['auditorid' => $extras['auditorid']] : [];
+		$result						= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]+$auditorid);	
+		if(!$result){
+			$this->session->set_flashdata('error', 'No Record Found.');
+			redirect($extras['redirect']); 
+		}
+		
 		$pagedata['notification'] 	= $this->getNotification();
-		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);	
+		$pagedata['result']			= $result;
 		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['auditorid' => $pagedata['result']['auditorid'], 'plumberid' => $pagedata['result']['user_id']]);	
 		$pagedata['menu']			= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
 		
@@ -611,8 +631,15 @@ class CC_Controller extends CI_Controller
 	
 	public function getauditdiary($id, $pagedata=[], $extras=[])
 	{
+		$auditorid					= isset($extras['auditorid']) ? ['auditorid' => $extras['auditorid']] : [];
+		$result	= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]+$auditorid);	
+		if(!$result){
+			$this->session->set_flashdata('error', 'No Record Found.');
+			redirect($extras['redirect']); 
+		}
+		
 		$pagedata['notification'] 	= $this->getNotification();
-		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);	
+		$pagedata['result']			= $result;
 		$pagedata['comments']		= $this->Auditor_Comment_Model->getList('all', ['coc_id' => $id]);	
 		$pagedata['menu']			= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
 		
