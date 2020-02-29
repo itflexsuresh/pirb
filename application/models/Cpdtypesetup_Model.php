@@ -117,7 +117,7 @@ class Cpdtypesetup_Model extends CC_Model
 			$requestData1['updated_at'] = 	$datetime;
 			$requestData1['updated_by']	= 	$user_id;
 			if ($requestdata['status']=='1') {
-				$requestData1['approved_date'] = date('Y-m-d H:i:s');
+				$requestData1['approved_date'] = date('Y-m-d');
 			}
 
 			$query = $this->db->update('cpd_activity_form', $requestData1, ['id' => $id]);
