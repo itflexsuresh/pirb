@@ -41,6 +41,9 @@
 </div>
 
 <script>
+	var results = $.parseJSON('<?php echo json_encode($results); ?>');
+	var warning = $.parseJSON('<?php echo json_encode($warning); ?>');
+	
 	$(function(){
 		
 		var options = {
@@ -60,28 +63,38 @@
 		
 		ajaxdatatables('.datatables', options);
 		
-		var line = new Morris.Line({
-		element: 'performancechart',
-		resize: true,
-		data: [
-			{y: '2011 Q1', item1: 2666},
-			{y: '2011 Q2', item1: 2778},
-			{y: '2011 Q3', item1: 4912},
-			{y: '2011 Q4', item1: 3767},
-			{y: '2012 Q1', item1: 6810},
-			{y: '2012 Q2', item1: 5670},
-			{y: '2012 Q3', item1: 4820},
-			{y: '2012 Q4', item1: 15073},
-			{y: '2013 Q1', item1: 10687},
-			{y: '2013 Q2', item1: 8432}
-		],
-		xkey: 'y',
-		ykeys: ['item1'],
-		labels: ['Item 1'],
-		gridLineColor: '#eef0f2',
-		lineColors: ['#009efb'],
-		lineWidth: 1,
-		hideHover: 'auto'
-		});
+		var chartdata = [];
+		$(results).each(function(i, v){
+			chartdata.push({y: v.date, item1: v.point});
+		})
+		
+		var chart = {
+			element: 'performancechart',
+			resize: true,
+			data: chartdata,
+			xkey: 'y',
+			ykeys: ['item1'],
+			labels: ['Point'],
+			gridLineColor: '#000',
+			lineColors: ['#000'],
+			lineWidth: 1,
+			hideHover: 'auto',
+			behaveLikeLine : true,
+			xLabelFormat: function (x) { return formatdate(x, 1).toString(); }
+		}
+		
+		if(warning.length){
+			var goalarray 	= [];
+			var max 		= '';
+			$(warning).each(function(i,v){
+				goalarray.push(v.point);
+				max = v.point;
+			})
+			chart['goals'] 				= goalarray;
+			chart['goalLineColors'] 	= ['#FFF8E3', '#FFEEB9', '#FBB596', '#FF0000'];
+			chart['ymin'] 				= max;
+		}
+		
+		var line = new Morris.Area(chart);
 	});
 </script>

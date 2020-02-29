@@ -309,7 +309,7 @@ class Plumber_Model extends CC_Model
 		
 		$this->db->select('auditcompletedate as date, "Audit" as type, "" as comments, point as point, "" as attachment, "1" as flag');
 		$this->db->from('auditor_statement');		
-		$this->db->where(['plumber_id' => $plumberid, 'auditcomplete' => '1', 'auditcompletedate <=' => $date]);
+		$this->db->where(['plumber_id' => $plumberid, 'auditcomplete' => '1']);
 		$result1 = $this->db->get_compiled_select();
 		
 		$this->db->select('"" as date, "CPD" as type, comments as comments, points as point, file1 as attachment, "2" as flag');
