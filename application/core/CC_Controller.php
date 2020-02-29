@@ -582,7 +582,7 @@ class CC_Controller extends CI_Controller
 							$this->CC_Model->sentMail($pagedata['result']['u_email'], $notificationdata['subject'], $body);
 						}
 						
-						$this->db->update('stock_management', ['audit_status' => '3'], ['id' => $pagedata['result']['id']]);
+						$this->db->update('stock_management', ['audit_status' => '4'], ['id' => $pagedata['result']['id']]);
 					}
 				} 
 				

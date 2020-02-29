@@ -460,10 +460,11 @@ $config['cocreason'] 			=		[
 										];
 										
 $config['auditstatus'] 			=		[
-											'1'		=>	'Audited (Completed)',
-											'2'		=>	'Auditor allocated',
+											'1'		=>	'Audit Complete',
+											'2'		=>	'Pending',
 											'3'		=>	'Refix Required',
-											'4'		=>	'Refix Reneged'
+											'4'		=>	'Audit Complete (with Refix(s))',
+											'5'		=>	'On hold'
 										];
 										
 $config['audits_status1'] 		= 		[
