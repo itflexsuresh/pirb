@@ -18,8 +18,16 @@
 			<div class="card-body">
 				<h4 class="card-title">Performance Status</h4>
 				
-				<div id="performancechart"></div>
-				 
+				<?php if(count($results) > 0){ ?>
+					<div id="performancechart"></div>
+				<?php } ?>
+				
+				<div class="row m-t-30">
+					<div class="col-md-12">
+						<a href="<?php echo base_url().'plumber/performancestatus/index'; ?>" class="btn btn-primary">Active</a>
+						<a href="<?php echo base_url().'plumber/performancestatus/index/index/2'; ?>" class="btn btn-primary">Archived</a>
+					</div>
+				</div>
 				<div class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
@@ -29,7 +37,9 @@
 								<th>Comments</th>
 								<th>Point Allocation</th>
 								<th>Attachment</th>
-								<th>Action</th>
+								<?php if($pagestatus!='1'){ ?>
+									<th>Action</th>
+								<?php } ?>
 							</tr>							
 						</thead>
 					</table>
@@ -43,21 +53,29 @@
 <script>
 	var results = $.parseJSON('<?php echo json_encode($results); ?>');
 	var warning = $.parseJSON('<?php echo json_encode($warning); ?>');
+	var pagestatus = '<?php echo $pagestatus; ?>';
 	
 	$(function(){
-		
-		var options = {
-			url 	: 	'<?php echo base_url()."plumber/performancestatus/index/DTPerformancestatus"; ?>',
-			data 	: 	{ page : 'plumberperformancestatus' },
-			columns : 	[
+		var column	= 	[
 							{ "data": "date" },
 							{ "data": "type" },
 							{ "data": "comments" },
 							{ "data": "point" },
-							{ "data": "attachment" },
-							{ "data": "action" }
-						],
-			target	:	[4,5],
+							{ "data": "attachment" }
+						];
+		
+		if(pagestatus!=1){
+			column.push({'data' : 'action'});
+			var target = [4,5];
+		}else{
+			var target = [4];
+		}
+		
+		var options = {
+			url 	: 	'<?php echo base_url()."plumber/performancestatus/index/DTPerformancestatus"; ?>',
+			data 	: 	{ page : 'plumberperformancestatus', archive : pagestatus},
+			columns : 	column,
+			target	:	target,
 			sort	:	'0'
 		};
 		
@@ -79,8 +97,8 @@
 			lineColors: ['#000'],
 			lineWidth: 1,
 			hideHover: 'auto',
-			behaveLikeLine : true,
-			xLabelFormat: function (x) { return formatdate(x, 1).toString(); }
+			xLabelFormat: function (x) { return formatdate(x, 1).toString(); },
+			continuousLine:true
 		}
 		
 		if(warning.length){
@@ -95,6 +113,16 @@
 			chart['ymin'] 				= max;
 		}
 		
-		var line = new Morris.Area(chart);
+		var line = new Morris.Line(chart);
 	});
+	
+	$(document).on('click', '.archive', function(){
+		var action 	= 	'<?php echo base_url().'plumber/performancestatus/index/action'; ?>';
+		var data	= 	'\
+		<input type="hidden" value="'+$(this).attr('data-id')+'" name="id">\
+		<input type="hidden" value="'+$(this).attr('data-flag')+'" name="flag">\
+		';
+
+		sweetalert(action, data);
+	})
 </script>

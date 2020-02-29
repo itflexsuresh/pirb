@@ -8,6 +8,7 @@ public function __construct()
 		parent::__construct();
 		$this->load->helper('url');
 		$this->load->model('Cron_Model');
+		$this->load->model('Plumber_Model');
 	}
 
 
@@ -33,7 +34,13 @@ public function __construct()
                    	
       }
       	
-      }
+    }
+	
+	
+    public function performancestatusarchivecron()
+	{
+		$this->Plumber_Model->performancestatusarchivecron();
+	}
 
 }
 
