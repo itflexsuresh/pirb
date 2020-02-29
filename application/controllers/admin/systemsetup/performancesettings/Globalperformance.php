@@ -26,6 +26,7 @@ class Globalperformance extends CC_Controller
 		$pagedata['notification'] 			= $this->getNotification();
 		$pagedata['msggrp'] 				= $this->config->item('messagegroup');
 		$pagedata['results'] 				= $this->Global_performance_Model->getPointList('all');
+		$pagedata['results1'] 				= $this->Global_performance_Model->getPointList('all');
 		$pagedata['result'] 		= $this->Global_performance_Model->getWarningList('all', ['status' => ['0','1']]+$post);
 		
 		$data['plugins']					= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
