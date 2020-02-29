@@ -745,4 +745,52 @@ class CC_Controller extends CI_Controller
 		$data['content'] 			= $this->load->view('plumber/mycpd/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
+	
+	public function performancestatusmail()
+	{
+		$warnings	= $this->Global_performance_Model->getWarningList('all', ['status' => ['1']]);
+		$rollingavg = $this->getRollingAverage();
+		$date		= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
+		
+		$datas = $this->Plumber_Model->performancestatus('all', ['plumbergroup' => '1', 'archive' => '0', 'date' => $date]);
+		foreach($datas as $data){
+			$explodepoint 	= explode(',', $data['point']);
+			$plumberid		= $data['userid'];
+			
+			foreach($explodepoint as $plumberpoint){
+				$warninglevel 	= '';
+				$warningtext 	= '';
+				
+				for($i=0; $i<count($warnings); $i++){					
+					if($plumberpoint < 0){					
+						$warningpoint = $warnings[$i]['point'];
+						$warningstart = isset($warnings[$i-1]['point']) ? $warnings[$i-1]['point'] : '0';
+						
+						if((abs($warningstart) < abs($plumberpoint)) && (abs($warningpoint) > abs($plumberpoint))){
+							$warninglevel = $i+1;
+							$warningtext  = $warnings[$i]['warning'];
+						}
+					}
+				}
+				
+				if($warninglevel!=''){
+					$userDetails = $this->getUserDetails($plumberid);
+					$userwarning = $userDetails['performancestatus'];
+					if($userwarning!=$warninglevel){
+						$this->db->update('users', ['performancestatus' => $warninglevel], ['id' => $plumberid]);
+						$notificationid 	= ['9', '10', '11', '12'];
+						$notificationdata 	= $this->Communication_Model->getList('row', ['id' => $notificationid[$warninglevel-1], 'emailstatus' => '1']);
+	
+						if($notificationdata){
+							$plumber 	= $this->Plumber_Model->getList('row', ['id' => $plumberid]);
+							$body 		= str_replace(['{Plumbers Name and Surname}', '{Performance warning status}'], [$plumber['name'].' '.$plumber['surname'], $warningtext], $notificationdata['email_body']);
+							$this->CC_Model->sentMail($plumber['email'], $notificationdata['subject'], $body);
+						}
+					}
+				}else{
+					$this->db->update('users', ['performancestatus' => '0'], ['id' => $plumberid]);
+				}
+			}
+		}
+	}
 }
