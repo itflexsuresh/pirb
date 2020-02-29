@@ -180,7 +180,7 @@ class Index extends CC_Controller
 				else{
 					$statuz 	= $this->config->item('approvalstatus')[$result['status']];
 					$awardPts 	= $result['points'];
-					$action 	= '<div class="table-action"><a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a></div>';
+					$action 	= '<div class="table-action"><a href="'.base_url().'admin/plumber/index/viewcpd/'.$post['pagestatus'].'/'.$result['id'].'/'.$post['user_id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a></div>';
 				}
 
 				// Attachments
@@ -214,6 +214,11 @@ class Index extends CC_Controller
 		);
 
 		echo json_encode($json);
+	}
+
+	public function viewcpd($pagestatus='',$id='',$userid='')
+	{
+		$this->mycptindex($pagestatus,$id,$userid);
 	}
 
 	public function performance($id,$pagestatus='')
