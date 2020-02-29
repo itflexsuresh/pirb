@@ -617,8 +617,16 @@ class Index extends CC_Controller
 
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
-			echo "<pre>";print_r($requestData);die;
+			$data = $this->Plumber_Model->plumberdiary($requestData);
+			if($data) $message = 'Comment added successfully.';
+
+			if(isset($data)) $this->session->set_flashdata('success', $message);
+			else $this->session->set_flashdata('error', 'Try Later.');
+
+			redirect('admin/plumber/index/diary/'.$requestData['user_id'].''); 
+
 		}
+		
 
 		//print_r($id);die;
 		//$this->plumberdiary($id, ['roletype' => $this->config->item('roleadmin'), 'pagetype' => 'applications'], ['redirect' => 'admin/plumber/index/diary']);
@@ -626,6 +634,7 @@ class Index extends CC_Controller
 		$pagedata['user_role']		= $this->config->item('roletype');
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['roletype']		= $this->config->item('roleadmin');
+		$pagedata['menu']				= $this->load->view('common/plumber/menu', ['id'=>$result['id']],true);
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'datepicker'];
 		$data['content'] 			= $this->load->view('admin/plumber/diary', (isset($pagedata) ? $pagedata : ''), true);
 		
