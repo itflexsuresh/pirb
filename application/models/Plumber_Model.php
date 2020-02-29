@@ -321,7 +321,7 @@ class Plumber_Model extends CC_Model
 		$this->db->where(['status' => '1']);
 		$result2 = $this->db->get_compiled_select();
 		
-		if($requestdata['plumbergroup']) $query = "select group_concat(point separator ',') as point, userid from ($result1 UNION $result2) as data where 1=1 group by userid order by date asc";
+		if(isset($requestdata['plumbergroup'])) $query = "select group_concat(point separator ',') as point, userid from ($result1 UNION $result2) as data where 1=1 group by userid order by date asc";
 		else $query = "select * from ($result1 UNION $result2) as data where 1=1 ";
 		
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
