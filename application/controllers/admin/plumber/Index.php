@@ -605,38 +605,6 @@ class Index extends CC_Controller
 
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
-			echo "<pre>";print_r($requestData);die;
-		}
-
-		//print_r($id);die;
-		//$this->plumberdiary($id, ['roletype' => $this->config->item('roleadmin'), 'pagetype' => 'applications'], ['redirect' => 'admin/plumber/index/diary']);
-		$pagedata['user_id']		= $result['id'];
-		$pagedata['user_role']		= $this->config->item('roletype');
-		$pagedata['notification'] 	= $this->getNotification();
-		$pagedata['roletype']		= $this->config->item('roleadmin');
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'datepicker'];
-		$data['content'] 			= $this->load->view('admin/plumber/diary', (isset($pagedata) ? $pagedata : ''), true);
-		
-		$this->layout2($data);		
-	}
-
-	public function diary($id='')
-	{
-		if($id!=''){
-			$result = $this->Plumber_Model->getList('row', ['id' => $id, 'type' => '3', 'status' => ['1', '2']]);
-			$DBcomments = $this->Comment_Model->getList('all', ['user_id' => $id, 'type' => '3', 'status' => ['1', '2']]);
-		
-			if($result && $DBcomments){
-				$pagedata['result'] 		= $result;
-				$pagedata['comments']		= $DBcomments;
-			}else{
-				$this->session->set_flashdata('error', 'No comments Found.');
-				//redirect('admin/plumber/index'); 
-			}
-		}
-
-		if($this->input->post()){
-			$requestData 	= 	$this->input->post();
 			$data = $this->Plumber_Model->plumberdiary($requestData);
 			if($data) $message = 'Comment added successfully.';
 
