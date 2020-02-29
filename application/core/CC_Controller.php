@@ -541,6 +541,7 @@ class CC_Controller extends CI_Controller
 		}
 		
 		$pagedata['settings'] 		= $this->Systemsettings_Model->getList('row');
+		$pagedata['result']			= $result;
 		
 		if($this->input->post()){
 			$datetime 		=  date('Y-m-d H:i:s');
@@ -608,7 +609,6 @@ class CC_Controller extends CI_Controller
 		$pagedata['yesno'] 						= $this->config->item('yesno');		
 		$pagedata['reviewtype'] 				= $this->config->item('reviewtype');	
 		$pagedata['reviewlist']					= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
-		$pagedata['result']						= $result;
 		$pagedata['menu']						= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$data['plugins']			= ['datepicker', 'sweetalert', 'validation', 'select2'];
