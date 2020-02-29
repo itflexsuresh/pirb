@@ -305,7 +305,7 @@ class Plumber_Model extends CC_Model
 	
 	public function performancestatus($type, $requestdata=[]){	
 		
-		$this->db->select('id as id, auditcompletedate as date, "Audit" as type, "" as comments, point as point, "" as attachment, "1" as flag');
+		$this->db->select('id as id, auditcompletedate as date, "Audit" as type, "" as comments, point as point, "" as attachment, plumber_id as userid, "1" as flag');
 		$this->db->from('auditor_statement');		
 		if(isset($requestdata['plumberid'])) $this->db->where('plumber_id', $requestdata['plumberid']);
 		if(isset($requestdata['archive'])) $this->db->where('archive', $requestdata['archive']);
@@ -313,7 +313,7 @@ class Plumber_Model extends CC_Model
 		$this->db->where(['auditcomplete' => '1']);
 		$result1 = $this->db->get_compiled_select();
 		
-		$this->db->select('id as id, approved_date as date, "CPD" as type, comments as comments, points as point, file1 as attachment, "2" as flag');
+		$this->db->select('id as id, approved_date as date, "CPD" as type, comments as comments, points as point, file1 as attachment, user_id as userid, "2" as flag');
 		$this->db->from('cpd_activity_form');	
 		if(isset($requestdata['plumberid'])) $this->db->where('user_id', $requestdata['plumberid']);
 		if(isset($requestdata['archive'])) $this->db->where('archive', $requestdata['archive']);
@@ -321,7 +321,8 @@ class Plumber_Model extends CC_Model
 		$this->db->where(['status' => '1']);
 		$result2 = $this->db->get_compiled_select();
 		
-		$query = "select * from ($result1 UNION $result2) as data where 1=1 ";
+		if(isset($requestdata['plumbergroup'])) $query = "select group_concat(point separator ',') as point, userid from ($result1 UNION $result2) as data where 1=1 group by userid order by date asc";
+		else $query = "select * from ($result1 UNION $result2) as data where 1=1 ";
 		
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];

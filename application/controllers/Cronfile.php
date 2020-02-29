@@ -41,7 +41,6 @@ public function __construct()
 	{
 		$this->Plumber_Model->performancestatusarchivecron();
 	}
-
 }
 
 	
