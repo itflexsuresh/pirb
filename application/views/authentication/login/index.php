@@ -19,7 +19,7 @@
 					<div><a href="<?php echo base_url('forgotpassword/'.$usertypename); ?>">Forgot Password</a></div>
 					<?php if($usertype!=''){ ?>
 						<?php if($usertype=='3'){ ?><div><a href="<?php echo base_url('login/company'); ?>">PIRB Company Login</a></div><?php } ?>		
-						<?php if($usertype=='4'){ ?><div><a href="<?php echo base_url('login/plumber'); ?>">PIRB Plumber Login</a></div><?php } ?>		
+						<?php if($usertype=='4'){ ?><div><a href="<?php echo base_url('login/plumber'); ?>">Login as PIRB Individual</a></div><?php } ?>		
 					<?php } ?>					
 				</div>
 				<button type="submit" name="submit" value="login" class="btn btn-success">Login</button>
@@ -32,14 +32,20 @@
 				<?php
 					if ($usertype=='4') {
 						$header_title = "Company Registration with the PIRB";
+						$header_title2 = "Register a Plumbing Company with the Plumbing Registration Board";
+						$footer = "Register as an Individual with the PIRB"; 
+						$footer2 = "Login as PIRB Individual"; 
 						$pointer_title = "Why Register my Company with the PIRB?";
 					}else{
 						$header_title = "Individual Registration with the PIRB";
+						$header_title2 = "Register as a Individaul with the Plumbing Regsitration Board";
+						$footer = "Register Plumber with the PIRB"; 
+						$footer2 = "PIRB Plumber Login";
 						$pointer_title = "About the Registration Process";
 					}
 				?>
 				<h4 class="card-title"><?php echo $header_title; ?></h4>
-				<h5 class="card-subtitle"> Register as a Individaul with the Plumbing Regsitration Board </h5>
+				<h5 class="card-subtitle"> <?php echo $header_title2; ?> </h5>
 				<a style="cursor: pointer;"><?php echo $pointer_title; ?></a>
 				<form method="post" action="<?php echo base_url().'login/'.$usertypename; ?>" class="form-horizontal mt-4 register">
 					<div class="form-group">
@@ -67,8 +73,8 @@
 						<p>Password must be 8 to 24 characters, is case sensitive, and cannot contain spaces.</p>
 					</div>
 					<div class="text-center">
-						<?php if($usertype=='3'){ ?><a href="<?php echo base_url('login/company'); ?>">Register your Company with the PIRB</a><?php } ?>
-						<?php if($usertype=='4'){ ?><a href="<?php echo base_url('login/plumber'); ?>">Register Plumber with the PIRB</a><?php } ?>
+						<?php if($usertype=='3'){ ?><a href="<?php echo base_url('login/company'); ?>"><?php echo $footer2; ?></a><?php } ?>
+						<?php if($usertype=='4'){ ?><a href="<?php echo base_url('login/plumber'); ?>"><?php echo $footer; ?></a><?php } ?>
 					</div>
 					<input type="hidden" value="<?php echo $usertype; ?>" name="type">
 					<button type="submit" name="submit" value="register" class="btn btn-success">Register</button>
