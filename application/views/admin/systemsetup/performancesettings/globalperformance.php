@@ -44,19 +44,27 @@ if(isset($result) && $result){
 					 			
 					 		  ?>
 							<tr>
-                                <?php if($val['type'] == 1 || $val['type'] == 3 || $val['type'] == 5|| $val['type'] == 7 ){?>
+                                <?php if($val['type'] == 1 || $val['type'] == 3 || $val['type'] == 5|| $val['type'] == 7 ){
+                                     
+                                	?>
 				        		<td class="key" style="font-weight:bold; text-align:left;"><?php echo $val['description'];?></td>
 				        	<?php }
-				        	else { ?>
-				        		<td class="key" style="text-align:right;" ><?php echo $val['description'];?></td>
-				        		<?php } ?>
-								<td class="point">
-									<?php if($val['type']!=1 && $val['type']!=3 && $val['type']!=5 ){?>
-									<input type="text" size="2" min="0" id="points" name="points[<?php echo $val['id']; ?>]"  value="<?php echo $val['point'];?>" style="margin: 0px 20px;width: 40%;">
-								<?php }?>
-								</td>
+				        	else { 
 
+                                   if($val['id']!=13){
+				        		?>
+				        		<td class="key" style="text-align:right;" ><?php echo $val['description'];?></td>
+				        		<?php }}if($val['id']!=13){ ?>
+								<td class="point">
+									<?php if($val['type']!=1 && $val['type']!=3 && $val['type']!=5 ){
+                                        
+										?>
+									<input type="text" size="2" min="0" id="points" name="points[<?php echo $val['id']; ?>]"  value="<?php echo $val['point'];?>" style="margin: 0px 20px;width: 40%;">
+								<?php }}?>
+								</td>
+                                <?php if($val['id']!=13){?>
 								<td class="wording" ><?php echo $val['wording'];?></td>
+							<?php }?>
 							</tr>
 						<?php 	}?>
 						</tbody>
@@ -99,7 +107,11 @@ if(isset($result) && $result){
 					    </table></br>
                 <div class="form-group">
 					<label style="font-weight:bold;">Performance Rolling Averages</label>&nbsp&nbsp&nbsp &nbsp &nbsp  
-					<input type="text" class="form-group" id="avg" name="points[<?php echo $val['id']; ?>]"  value="<?php echo $val['point']; ?>" placeholder="months" >							
+
+					<?php foreach($results1 as $key2=>$val2){}?>
+
+					<input type="text" class="form-group" id="avg" name="points[<?php echo $val2['id']; ?>]"  value="<?php echo $val2['point']; ?>" placeholder="months" >	
+									
 		        </div>			
                 <div class="col-md-11 text-right">
 				       <input type="hidden" name="id" value="<?php //echo $id; ?>">
