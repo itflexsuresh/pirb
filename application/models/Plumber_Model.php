@@ -401,4 +401,10 @@ class Plumber_Model extends CC_Model
 			}
 		}
 	}
+	// Admin diary section
+
+	public function plumberdiary($requestdata){
+		die();
+
+	}
 }
