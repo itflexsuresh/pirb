@@ -590,6 +590,7 @@ class Index extends CC_Controller
 
 	public function diary($id='')
 	{
+		//////////////////////
 		if($id!=''){
 			$result = $this->Plumber_Model->getList('row', ['id' => $id, 'type' => '3', 'status' => ['1', '2']]);
 			$DBcomments = $this->Comment_Model->getList('all', ['user_id' => $id, 'type' => '3', 'status' => ['1', '2']]);
