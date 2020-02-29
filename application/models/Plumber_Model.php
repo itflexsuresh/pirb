@@ -303,20 +303,23 @@ class Plumber_Model extends CC_Model
 		return str_pad($count, 5, '0', STR_PAD_LEFT).$prefix;
 	}
 	
-	public function performancestatus($type, $requestdata=[]){		
-		$plumberid 	= $requestdata['plumberid'];
-		$date 		= $requestdata['date'];
+	public function performancestatus($type, $requestdata=[]){	
 		
-		$this->db->select('auditcompletedate as date, "Audit" as type, "" as comments, point as point, "" as attachment, "1" as flag');
+		$this->db->select('id as id, auditcompletedate as date, "Audit" as type, "" as comments, point as point, "" as attachment, "1" as flag');
 		$this->db->from('auditor_statement');		
-		$this->db->where(['plumber_id' => $plumberid, 'auditcomplete' => '1']);
+		if(isset($requestdata['plumberid'])) $this->db->where('plumber_id', $requestdata['plumberid']);
+		if(isset($requestdata['archive'])) $this->db->where('archive', $requestdata['archive']);
+		if(isset($requestdata['date'])) $this->db->where('auditcompletedate <', $requestdata['date']);
+		$this->db->where(['auditcomplete' => '1']);
 		$result1 = $this->db->get_compiled_select();
 		
-		$this->db->select('"" as date, "CPD" as type, comments as comments, points as point, file1 as attachment, "2" as flag');
-		$this->db->from('cpd_activity_form');		
-		$this->db->where(['user_id' => $plumberid, 'status' => '1']);
+		$this->db->select('id as id, approved_date as date, "CPD" as type, comments as comments, points as point, file1 as attachment, "2" as flag');
+		$this->db->from('cpd_activity_form');	
+		if(isset($requestdata['plumberid'])) $this->db->where('user_id', $requestdata['plumberid']);
+		if(isset($requestdata['archive'])) $this->db->where('archive', $requestdata['archive']);
+		if(isset($requestdata['date'])) $this->db->where('approved_date <', $requestdata['date']);
+		$this->db->where(['status' => '1']);
 		$result2 = $this->db->get_compiled_select();
-		
 		
 		$query = "select * from ($result1 UNION $result2) as data where 1=1 ";
 		
@@ -355,5 +358,26 @@ class Plumber_Model extends CC_Model
 		}
 		
 		return $result;
+	}
+	
+	public function performancestatusaction($data){	
+		$this->db->trans_begin();
+		
+		if($data['flag']=='1'){
+			$this->db->update('auditor_statement', ['archive' => '1'], ['id' => $data['id']]);
+		}elseif($data['flag']=='2'){
+			$this->db->update('cpd_activity_form', ['archive' => '1'], ['id' => $data['id']]);	
+		}
+		
+		if($this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+			return false;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return true;
+		}
 	}
 }
