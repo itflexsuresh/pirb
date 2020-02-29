@@ -5,34 +5,32 @@ class Mycpd_Model extends CC_Model
 	public function getQueueList($type, $requestdata=[])
 	{
 		//print_r($requestdata['user_id'][0]);die;
-		$datetime	= 	date('Y-m-d H:i:s');
+		
+		$datetime = date('Y-m-d H:i:s');
 		if ($requestdata['pagestatus'] == '1') {
-			$requestdata['pagestatus'] = array('0','1','2','3');
-			$requestdata['flag'] = array('1');
-			$this->db->select('t1.*, t2.renewal_date');
-			$this->db->from('cpd_activity_form t1');
-			$this->db->join('users t2', 't2.id = t1.user_id', 'right')->order_by('t1.id','DESC');
-			
-			if(isset($requestdata['user_id'][0])) 	$this->db->where('t1.user_id', $requestdata['user_id'][0]);
-			if(isset($requestdata['user_id'][0])) 	$this->db->where('t2.id', $requestdata['user_id'][0]);
-			$this->db->where('t2.renewal_date<=','t1.created_at', false);
-			
+		$this->db->select('t1.*, t2.renewal_date');
+		$this->db->from('cpd_activity_form t1');
+		$this->db->join('users t2', 't2.id = t1.user_id', 'left')->order_by('t1.id','DESC');
+
+		if(isset($requestdata['user_id'][0])) $this->db->where('t1.user_id', $requestdata['user_id'][0]);
+		if(isset($requestdata['id'])) $this->db->where('t1.id', $requestdata['id']);
+
+		if(isset($requestdata['user_id'][0])) $this->db->where('t2.id', $requestdata['user_id'][0]);
+
+		$this->db->where('t2.renewal_date<=','t1.created_at', false);
+
 		}elseif ($requestdata['pagestatus'] == '0') {
-			$requestdata['pagestatus'] = array('4');
-			$requestdata['flag'] = array('2');
-			$this->db->select('t1.*, t2.renewal_date');
-			$this->db->from('cpd_activity_form t1');
-			$this->db->join('users t2', 't2.id = t1.user_id', 'right')->order_by('t1.id','DESC');
-			
-			// if(isset($requestdata['user_id'][0])) 	$this->db->where('t1.user_id', $requestdata['user_id'][0]);
-			// if(isset($requestdata['cpd_stream'][0])) 	$this->db->where('t1.cpd_stream', $requestdata['cpd_stream'][0]);
-			// if(isset($requestdata['status'][0])) 	$this->db->where('t1.status', $requestdata['status'][0]);
-			// if(isset($requestdata['user_id'][0])) 	$this->db->where('t2.id', $requestdata['user_id'][0]);
-			
-			if(isset($requestdata['user_id'][0])) 	$this->db->where('t1.user_id', $requestdata['user_id'][0]);
-			if(isset($requestdata['user_id'][0])) 	$this->db->where('t2.id', $requestdata['user_id'][0]);
-			$this->db->where('t2.renewal_date>=','t1.created_at', false);
+		$this->db->select('t1.*, t2.renewal_date');
+		$this->db->from('cpd_activity_form t1');
+		$this->db->join('users t2', 't2.id = t1.user_id', 'right')->order_by('t1.id','DESC');
+
+		if(isset($requestdata['user_id'][0])) $this->db->where('t1.user_id', $requestdata['user_id'][0]);
+		if(isset($requestdata['user_id'][0])) $this->db->where('t2.id', $requestdata['user_id'][0]);
+		if(isset($requestdata['id'])) $this->db->where('t1.id', $requestdata['id']);
+
+		$this->db->where('t2.renewal_date>=','t1.created_at', false);
 		}
+
 		//print_r($this->db->where_in('flag', $requestdata['flag']));die;
 
 
