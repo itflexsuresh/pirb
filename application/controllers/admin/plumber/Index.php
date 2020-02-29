@@ -595,6 +595,7 @@ class Index extends CC_Controller
 
 	public function diary($id='')
 	{
+		echo "1";exit();
 		//////////////////////
 		if($id!=''){
 			$result = $this->Plumber_Model->getList('row', ['id' => $id, 'type' => '3', 'status' => ['1', '2']]);
