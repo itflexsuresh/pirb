@@ -757,11 +757,14 @@ class CC_Controller extends CI_Controller
 			$explodepoint 	= explode(',', $data['point']);
 			$plumberid		= $data['userid'];
 			
-			foreach($explodepoint as $plumberpoint){
-				$warninglevel 	= '';
-				$warningtext 	= '';
-				
-				for($i=0; $i<count($warnings); $i++){					
+			$warninglevel 	= '';
+			$warningtext 	= '';
+			
+			foreach($explodepoint as $plumberpoint){				
+				for($i=0; $i<count($warnings); $i++){	
+					$warninglevel 	= '';
+					$warningtext 	= '';
+			
 					if($plumberpoint < 0){					
 						$warningpoint = $warnings[$i]['point'];
 						$warningstart = isset($warnings[$i-1]['point']) ? $warnings[$i-1]['point'] : '0';
@@ -771,25 +774,25 @@ class CC_Controller extends CI_Controller
 							$warningtext  = $warnings[$i]['warning'];
 						}
 					}
-				}
-				
-				if($warninglevel!=''){
-					$userDetails = $this->getUserDetails($plumberid);
-					$userwarning = $userDetails['performancestatus'];
-					if($userwarning!=$warninglevel){
-						$this->db->update('users', ['performancestatus' => $warninglevel], ['id' => $plumberid]);
-						$notificationid 	= ['9', '10', '11', '12'];
-						$notificationdata 	= $this->Communication_Model->getList('row', ['id' => $notificationid[$warninglevel-1], 'emailstatus' => '1']);
-	
-						if($notificationdata){
-							$plumber 	= $this->Plumber_Model->getList('row', ['id' => $plumberid]);
-							$body 		= str_replace(['{Plumbers Name and Surname}', '{Performance warning status}'], [$plumber['name'].' '.$plumber['surname'], $warningtext], $notificationdata['email_body']);
-							$this->CC_Model->sentMail($plumber['email'], $notificationdata['subject'], $body);
-						}
+				}				
+			}
+						
+			if($warninglevel!=''){
+				$userDetails = $this->getUserDetails($plumberid);
+				$userwarning = $userDetails['performancestatus'];
+				if($userwarning!=$warninglevel){
+					$this->db->update('users', ['performancestatus' => $warninglevel], ['id' => $plumberid]);
+					$notificationid 	= ['9', '10', '11', '12'];
+					$notificationdata 	= $this->Communication_Model->getList('row', ['id' => $notificationid[$warninglevel-1], 'emailstatus' => '1']);
+
+					if($notificationdata){
+						$plumber 	= $this->Plumber_Model->getList('row', ['id' => $plumberid]);
+						$body 		= str_replace(['{Plumbers Name and Surname}', '{Performance warning status}'], [$plumber['name'].' '.$plumber['surname'], $warningtext], $notificationdata['email_body']);
+						$this->CC_Model->sentMail($plumber['email'], $notificationdata['subject'], $body);
 					}
-				}else{
-					$this->db->update('users', ['performancestatus' => '0'], ['id' => $plumberid]);
 				}
+			}else{
+				$this->db->update('users', ['performancestatus' => '0'], ['id' => $plumberid]);
 			}
 		}
 	}
