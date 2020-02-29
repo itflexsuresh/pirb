@@ -11,6 +11,9 @@ class Documentsletters_Model extends CC_Model
 
 		$this->db->from('documentsletters');
 		
+		if(isset($requestdata['plumberid']))
+			$this->db->where('user_id', $requestdata['plumberid']);
+
 		if(isset($requestdata['id']))
 			$this->db->where('id', $requestdata['id']);
 
