@@ -28,15 +28,10 @@ $formstatus  	= $userdata['formstatus'];
 
 					<li class="step coc_manage"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu" style="white-space: nowrap;">Coc Management</span></a>
-						<ul aria-expanded="false" class="collapse">							
-							<li> 
-								<a class="sub_menu" href="javascript:void(0)" aria-expanded="false"><span class="hide-menu">Coc Management (Statement)</span></a>
-								<ul aria-expanded="false" class="collapse">
-									<li><a href="<?php echo base_url().'admin/cocstatement/cocdetails/index'; ?>">Coc Details</a></li>
-									<li><a href="<?php echo base_url().'admin/cocstatement/cocorders/index'; ?>">Coc Orders</a></li>
-									<li><a href="<?php echo base_url().'admin/cocstatement/papermanagement/index'; ?>">Paper Management</a></li>
-								</ul>
-							</li>
+						<ul aria-expanded="false" class="collapse">	
+							<li><a href="<?php echo base_url().'admin/cocstatement/cocdetails/index'; ?>">Coc Details</a></li>
+							<li><a href="<?php echo base_url().'admin/cocstatement/cocorders/index'; ?>">Coc Orders</a></li>
+							<li><a href="<?php echo base_url().'admin/cocstatement/papermanagement/index'; ?>">Paper Management</a></li>
 						</ul>						
 					</li>
 					
