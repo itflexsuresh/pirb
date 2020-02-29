@@ -384,7 +384,7 @@ class CC_Controller extends CI_Controller
 		$pagedata['comments'] 				= $this->Comment_Model->getList('all', ['user_id' => $id]);
 		$pagedata['result'] 				= $result;
 		$pagedata['menu']					= $this->load->view('common/company/menu', ['id'=>$id],true);
-		
+		//
 		$data['plugins']				= ['validation','datepicker','inputmask','select2'];
 		$data['content'] 				= $this->load->view('common/company/company', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
