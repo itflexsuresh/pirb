@@ -31,6 +31,7 @@ class Mycpd_Model extends CC_Model
 		$this->db->where('t2.renewal_date>=','t1.created_at', false);
 		}
 
+
 		//print_r($this->db->where_in('flag', $requestdata['flag']));die;
 
 
