@@ -8,6 +8,7 @@ if($roletype=='1'){
 
 $plumberid			= '';
 $auditorid			= '';
+$developmental1 = '';
 
 $cpdarray = explode("@@@", $settings_cpd[0]['cpd']);
 $devarray = explode("@-@", $cpdarray[0]);
