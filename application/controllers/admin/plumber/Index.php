@@ -170,29 +170,17 @@ class Index extends CC_Controller
 				if ($result['status']==0) {
 					$statuz 	= 'Pending';
 					$awardPts 	= '';
-					$action 	= '
-					<div class="table-action">
-					<a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-					</div>
-					';
+					$action 	= '';//'<div class="table-action"><a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a></div>';
 				}elseif($result['status']==3){
 					$statuz 	= 'Not Submited';
 					$awardPts 	= '';
-					$action 	= '
-					<div class="table-action">
-					<a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-					</div>
-					';
+					$action 	= '';//'<div class="table-action"><a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a></div>';
 				}
 			
 				else{
 					$statuz 	= $this->config->item('approvalstatus')[$result['status']];
 					$awardPts 	= $result['points'];
-					$action 	= '
-					<div class="table-action">
-					<a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
-					</div>
-					';
+					$action 	= '<div class="table-action"><a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a></div>';
 				}
 
 				// Attachments
