@@ -403,8 +403,23 @@ class Plumber_Model extends CC_Model
 	}
 	// Admin diary section
 
-	public function plumberdiary($requestdata){
-		die();
+	public function plumberdiary($data){
+
+		$created_by = $this->getuserID();
+		$datetime 	= date('Y-m-d H:i:s');
+
+
+		if(isset($data['comments'])) 		$request1['comments'] 		= $data['comments'];
+		if(isset($data['user_id'])) 		$request1['user_id'] 		= $data['user_id'];
+		if(isset($created_by)) 				$request1['created_by'] 	= $created_by;
+		if(isset($datetime)) 				$request1['created_at'] 	= $datetime;
+		
+		$result = $this->db->insert('users_comment',$request1);
+		if ($result) {
+			return true;
+		}else{
+			return false;
+		}
 
 	}
 }
