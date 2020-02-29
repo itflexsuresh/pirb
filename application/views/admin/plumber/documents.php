@@ -143,9 +143,10 @@ $('.search').on('click',function(){
 
 function datatable(destroy=0){
 	var documentsid		= $('#documentsid').val();
+	var plumberid		= $('#plumberid').val();
 	var options = {
 		url 	: 	'<?php echo base_url()."admin/plumber/index/DTDocuments"; ?>',
-		data    :   { customsearch : 'listsearch1',documentsid : documentsid},  			
+		data    :   { customsearch : 'listsearch1',documentsid : documentsid,plumberid : plumberid},  			
 		destroy :   destroy,  			
 		columns : 	[							
 						{ "data": "datetime" },

@@ -541,7 +541,7 @@ class Index extends CC_Controller
 	public function DTDocuments()
 	{
 		
-		$post 		= $this->input->post();	
+		$post 		= $this->input->post();			
 		$totalcount =  $this->Documentsletters_Model->getList('count',$post);
 		$results 	=  $this->Documentsletters_Model->getList('all',$post);
 		$totalrecord 	= [];
@@ -550,11 +550,15 @@ class Index extends CC_Controller
 				
 				$timestamp = strtotime($result['created_at']);
 				$newDate = date('d-F-Y H:i:s', $timestamp);	
-				$file = '<div class="col-md-6">
-					<a  href="' .base_url().'assets/uploads/plumber/'.$result['file'].'"  target="_blank">
-					<img src="'.base_url().'assets/images/pdf.png" height="50" width="50">
-					</div></a>
-					';
+				$filename = isset($result['file']) ? $result['file'] : '';
+
+				if($filename ==''){
+					$file ='';
+				}
+				else{
+					$file = '<div class="col-md-6"><a  href="' .base_url().'assets/uploads/plumber/'.$result['file'].'"  target="_blank"><img src="'.base_url().'assets/images/attachement.png" height="50" width="50"></div></a>';
+				}
+
 				$action = '<div class="table-action"><a href="' . base_url() . 'admin/plumber/index/documents/'.$result['user_id'].'/' . $result['id'] . '" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a><a href="'.base_url().'admin/plumber/index/Deletefunc/'.$result['user_id'].'/' . $result['id'] .'" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash" style="color:red;"></i></a><a href="' .base_url().'assets/uploads/plumber/'.$result['file'].'" download><i class="fa fa-download" style="color:blue;"></i></a></div>';
 
 				$totalrecord[] = 	[	
