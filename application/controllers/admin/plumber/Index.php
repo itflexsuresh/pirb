@@ -260,24 +260,38 @@ class Index extends CC_Controller
 
 		$totalcount 	= $this->Coc_Model->getCOCList('count', ['coc_status' => ['2','4','5'], 'user_id' => $user_id]+$post);
 		$results 		= $this->Coc_Model->getCOCList('all', ['coc_status' => ['2','4','5'], 'user_id' => $user_id]+$post);
-		
+
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			$action = '';
 			foreach($results as $result){
 				if($result['coc_status']=='5' || $result['coc_status']=='4'){
-					$action = '<a href="'.base_url().'plumber/cocstatement/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit" disbled><i class="fa fa-pencil-alt"></i></a>';
+					$action = ''; //'<a href="'.base_url().'admin/plumber/index/actioncoc/'.$result['id'].'/'.$user_id.'" data-toggle="tooltip" data-placement="top" title="Edit" disbled><i class="fa fa-pencil-alt"></i></a>';
 				}elseif($result['coc_status']=='2'){
-					$action = '<a href="'.base_url().'plumber/cocstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
+					$action = '<a href="'.base_url().'admin/plumber/index/viewcoc/'.$result['id'].'/'.$user_id.'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
 				}
 				
 				$cocstatus = isset($this->config->item('cocstatus')[$result['coc_status']]) ? $this->config->item('cocstatus')[$result['coc_status']] : '';
 				$coctype = isset($this->config->item('coctype')[$result['type']]) ? $this->config->item('coctype')[$result['type']] : '';
 				
+				$allcateddate = isset($result['allocation_date']) ? $result['allocation_date'] : '';
+				$loggeddate = isset($result['cl_log_date']) ? $result['cl_log_date'] : '';
+				$allcated_logged_date = '';				
+				if($allcateddate != ''){
+					$allcateddate = date('d-m-Y', strtotime($allcateddate));
+					$allcated_logged_date = $allcated_logged_date.$allcateddate;
+				}
+
+				if($loggeddate != ''){
+					$loggeddate = date('d-m-Y', strtotime($loggeddate));
+					$allcated_logged_date = $allcated_logged_date.'/ '.$loggeddate;
+				}
+				
+
 				$totalrecord[] = 	[
 										'cocno' 			=> 	$result['id'],
 										'cocstatus' 		=> 	$cocstatus,
-										'purchased' 		=> 	date('d-m-Y', strtotime($result['purchased_at'])),
+										'purchased' 		=> 	$allcated_logged_date,
 										'coctype' 			=> 	$coctype,
 										'customer' 			=> 	$result['cl_name'],
 										'address' 			=> 	$result['cl_address'],
@@ -300,6 +314,36 @@ class Index extends CC_Controller
 		);
 
 		echo json_encode($json);
+	}
+
+	public function viewcoc($id,$plumberid='')
+	{
+		$this->coclogaction(
+			$id, 
+			['pagetype' => 'view', 'roletype' => $this->config->item('roleadmin'), 'electroniccocreport' => 'admin/plumber/index/electroniccocreport/'.$id.'/'.$plumberid, 'noncompliancereport' => 'admin/plumber/index/noncompliancereport/'.$id.'/'.$plumberid], 
+			['redirect' => 'admin/plumber/index', 'userid' => $plumberid]
+		);
+	}
+
+	public function actioncoc($id,$plumberid='')
+	{
+		$this->coclogaction(
+			$id, 
+			['pagetype' => 'action', 'roletype' => $this->config->item('roleadmin'), 'electroniccocreport' => 'admin/plumber/index/electroniccocreport/'.$id.'/'.$plumberid, 'noncompliancereport' => 'admin/plumber/index/noncompliancereport/'.$id.'/'.$plumberid], 
+			['redirect' => 'admin/plumber/index', 'userid' => $plumberid]
+		);
+	}
+
+	public function electroniccocreport($id,$plumberid='')
+	{	
+		$userid = $plumberid;
+		$this->pdfelectroniccocreport($id, $userid);
+	}
+	
+	public function noncompliancereport($id,$plumberid='')
+	{	
+		$userid = $plumberid;
+		$this->pdfnoncompliancereport($id, $userid);
 	}
 
 	public function audit($id)
@@ -334,7 +378,7 @@ class Index extends CC_Controller
 		if(count($results) > 0){
 			foreach($results as $result){
 				$auditstatus 	= isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';
-				$action 		= '<a href="'.base_url().'plumber/auditstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
+				$action 		= '<a href="'.base_url().'admin/plumber/index/viewaudit/'.$result['id'].'/'.$userid.'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
 				
 				$review 		= $this->Auditor_Model->getReviewList('row', ['coc_id' => $result['id'], 'reviewtype' => '1', 'status' => '0']);
 				$refixdate 		= ($review) ? date('d-m-Y', strtotime($review['created_at'].' +'.$settings['refix_period'].'days')) : '';
@@ -363,6 +407,25 @@ class Index extends CC_Controller
 		);
 
 		echo json_encode($json);
+	}
+
+	public function viewaudit($id, $plumberid='')
+	{
+		$this->getauditreview($id, ['pagetype' => 'view', 'viewcoc' => 'admin/plumber/index/viewcocaudit/'.$id.'/'.$plumberid, 'auditreport' => 'admin/plumber/index/auditreport/'.$id.'/'.$plumberid, 'roletype' => $this->config->item('roleadmin')], ['redirect' => 'admin/audits/auditstatement/index']);
+	}
+	
+	public function viewcocaudit($id, $plumberid='')
+	{
+		$this->coclogaction(
+			$id, 
+			['pagetype' => 'view', 'roletype' => $this->config->item('roleadmin'), 'electroniccocreport' => 'admin/audits/auditstatement/index/electroniccocreport/'.$id.'/'.$plumberid, 'noncompliancereport' => 'admin/audits/auditstatement/index/noncompliancereport/'.$id.'/'.$plumberid], 
+			['redirect' => 'admin/audits/auditstatement/index', 'userid' => $plumberid]
+		);
+	}
+
+	public function auditreport($id, $plumberid='')
+	{
+		$this->pdfauditreport($id);
 	}
 
 	public function accounts($id)
@@ -471,9 +534,12 @@ class Index extends CC_Controller
 
 		}
 		
+		$userdata1	= $this->Plumber_Model->getList('row', ['id' => $plumberid]);
+		$pagedata['user_details'] 	= $userdata1;
+		$pagedata['roletype']		= $this->config->item('roleadmin');
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['plumberid'] 	= $plumberid;
-		
+		$pagedata['menu']			= $this->load->view('common/plumber/menu', ['id'=>$plumberid],true);
 		$data['plugins'] = ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','inputmask'];
 		$data['content'] = $this->load->view('admin/plumber/documents', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
@@ -491,12 +557,17 @@ class Index extends CC_Controller
 				
 				$timestamp = strtotime($result['created_at']);
 				$newDate = date('d-F-Y H:i:s', $timestamp);	
-				$action = '<div class="table-action"><a href="' . base_url() . 'admin/plumber/index/documents/'.$result['user_id'].'/' . $result['id'] . '" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a></div>';
+				$file = '<div class="col-md-6">
+					<a  href="' .base_url().'assets/uploads/plumber/'.$result['file'].'"  target="_blank">
+					<img src="'.base_url().'assets/images/pdf.png" height="50" width="50">
+					</div></a>
+					';
+				$action = '<div class="table-action"><a href="' . base_url() . 'admin/plumber/index/documents/'.$result['user_id'].'/' . $result['id'] . '" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a><a href="'.base_url().'admin/plumber/index/Deletefunc/'.$result['user_id'].'/' . $result['id'] .'" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash" style="color:red;"></i></a><a href="' .base_url().'assets/uploads/plumber/'.$result['file'].'" download><i class="fa fa-download" style="color:blue;"></i></a></div>';
 
 				$totalrecord[] = 	[	
 										'description'=> 	$result['description'],	
 										'datetime' 	 => 	$newDate,
-										'file' 	 	 => 	$result['file'],
+										'file' 	 	 => 	$file,
 										'action' 	 => 	$action,
 										
 									];
@@ -510,6 +581,23 @@ class Index extends CC_Controller
 		);
 
 		echo json_encode($json);
+	}
+
+	public function Deletefunc($plumberid,$documentsid='')
+	{		
+		
+		$result = $this->Documentsletters_Model->deleteid($documentsid);
+		if($result == '1'){
+			// $url = FCPATH."assets/uploads/plumber/".$documentsid.".pdf";
+			// unlink($url);
+			$this->session->set_flashdata('success', 'Record was Deleted');
+		}
+		else{
+			$this->session->set_flashdata('error', 'Error to delete the Record.');		
+		}
+
+		$this->index();
+		redirect('admin/plumber/index/documents/'.$plumberid);
 	}
 
 	public function diary($id)

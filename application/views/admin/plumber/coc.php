@@ -72,7 +72,7 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 							<tr>
 								<th>COC Number</th>
 								<th>Status</th>
-								<th>Date of Purchase/Logged COC</th>
+								<th>Date of Allocated/Logged COC</th>
 								<th>COC Type</th>
 								<th>Customer</th>
 								<th>Address</th>

@@ -9,6 +9,7 @@ if($roletype=='1'){
 $plumberid			= '';
 $auditorid			= '';
 
+$loggedcoc 		 = isset($loggedcoc) ? $loggedcoc : '';
 $count 			 = isset($history['count']) ? $history['count'] : '';
 $total 			 = isset($history['total']) ? $history['total'] : '';
 $refixincomplete = isset($history['refixincomplete']) ? $history['refixincomplete'] : '';
@@ -17,6 +18,10 @@ $compliment 	 = isset($history['compliment']) ? $history['compliment'] : '';
 $cautionary 	 = isset($history['cautionary']) ? $history['cautionary'] : '';
 $noaudit 		 = isset($history['noaudit']) ? $history['noaudit'] : '';
 
+if($loggedcoc > 0 && $count > 0)
+	$percentage 	= round(($count/$loggedcoc)*100,2).'%'; 
+else
+	$percentage = 0;
 
 if($refixincomplete > 0)
 	$refixincompletepercentage 	= round(($refixincomplete/$total)*100,2).'%'; 
@@ -80,10 +85,10 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 						<label>Number Audits Done to Date</label>
 					</div>
 					<div class="col-md-3">
-						<input type="text" class="form-control" name="auditdone" value="<?php echo $total; ?>">
+						<input type="text" class="form-control" name="auditdone" value="<?php echo $count; ?>">
 					</div>
 					<div class="col-md-2">
-						<input type="text" class="form-control" name="percentage" value="<?php //echo $percentage; ?>">
+						<input type="text" class="form-control" name="percentage" value="<?php echo $percentage; ?>">
 					</div>
 				</div>
 				<div id="reviewchart"></div>

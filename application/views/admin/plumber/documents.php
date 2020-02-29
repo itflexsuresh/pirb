@@ -3,11 +3,11 @@
 $description 	= isset($result['description']) ? $result['description'] : '';
 $documentsid 	= isset($result['id']) ? $result['id'] : '';
 
-$pdfimg 		= base_url().'assets/uploads/auditor/pdf.png';
+$pdfimg 		= base_url().'assets/uploads/plumber/pdf.png';
 $profileimg 	= base_url().'assets/images/profile.jpg';
 $image 			= isset($result['file']) ? $result['file'] : set_value ('file');	
-$filepath 		= base_url().'assets/uploads/auditor/';
-$filepath1		= (isset($result['file']) && $result['file']!='') ? $filepath.$result['file'] : base_url().'assets/uploads/auditor/profile.jpg';
+$filepath 		= base_url().'assets/uploads/plumber/';
+$filepath1		= (isset($result['file']) && $result['file']!='') ? $filepath.$result['file'] : base_url().'assets/uploads/plumber/profile.jpg';
 if($image!=''){
 	$explodefile2 	= explode('.', $image);
 	$extfile2 		= array_pop($explodefile2);
@@ -32,11 +32,17 @@ if($image!=''){
 	</div>
 </div>
 
-<?php echo $notification; ?>
+<?php 
+echo $notification; 
+if($roletype=='1'){ echo isset($menu) ? $menu : ''; } 
+$pagestatus = isset($pagestatus) ? $pagestatus : '';
+?>
 
 <div class="row">
 	<div class="col-12">
 		<div class="card">
+			<h4 class="card-title">Documents/Letters for <?php echo $user_details['name']." ".$user_details['surname']?></h4>
+
 			<form class="mt-4 form documents" method="post" enctype="multipart/form-data">
 				<div class="row">
 					<div class="col-md-6">
@@ -52,10 +58,10 @@ if($image!=''){
 						<h4 class="card-title">Attachments</h4>
 						<div class="form-group">
 							<div>
-								<img src="<?php echo $photoidimg; ?>" class="auditor_photo" width="100">
+								<img src="<?php echo $photoidimg; ?>" class="plumber_photo" width="100">
 							</div>
-							<input type="file" class="auditor_image">
-							<input type="hidden" name="file1" class="auditor_picture" value="<?php echo $image; ?>">
+							<input type="file" class="plumber_image">
+							<input type="hidden" name="file1" class="plumber_picture" value="<?php echo $image; ?>">
 							<p>(Image/File Size Smaller than 5mb)</p>
 						</div>
 					</div>
@@ -93,7 +99,7 @@ $(function(){
 
 	datatable();
 
-	fileupload([".auditor_image", "./assets/uploads/auditor/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.auditor_picture', '.auditor_photo', '<?php echo base_url()."assets/uploads/auditor/"; ?>']);
+	fileupload([".plumber_image", "./assets/uploads/plumber/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.plumber_picture', '.plumber_photo', '<?php echo base_url()."assets/uploads/plumber/"; ?>']);
 	
 	validation(
 		'.documents',

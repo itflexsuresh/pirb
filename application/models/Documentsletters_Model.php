@@ -63,5 +63,17 @@ class Documentsletters_Model extends CC_Model
 		return $documentsid;
 
 	}
+
+	public function deleteid($id)
+	{ 
+		// $url = FCPATH."assets/uploads/plumber/".$id.".pdf";
+		// unlink($url);
+			
+		$this->db->where('id', $id);		
+		$result = $this->db->delete('documentsletters');	
+
+		return $result;
+
+	}
 	
 }
