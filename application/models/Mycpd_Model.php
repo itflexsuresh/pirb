@@ -24,11 +24,14 @@ class Mycpd_Model extends CC_Model
 			$this->db->from('cpd_activity_form t1');
 			$this->db->join('users t2', 't2.id = t1.user_id', 'right')->order_by('t1.id','DESC');
 			
+			// if(isset($requestdata['user_id'][0])) 	$this->db->where('t1.user_id', $requestdata['user_id'][0]);
+			// if(isset($requestdata['cpd_stream'][0])) 	$this->db->where('t1.cpd_stream', $requestdata['cpd_stream'][0]);
+			// if(isset($requestdata['status'][0])) 	$this->db->where('t1.status', $requestdata['status'][0]);
+			// if(isset($requestdata['user_id'][0])) 	$this->db->where('t2.id', $requestdata['user_id'][0]);
+			
 			if(isset($requestdata['user_id'][0])) 	$this->db->where('t1.user_id', $requestdata['user_id'][0]);
-			if(isset($requestdata['cpd_stream'][0])) 	$this->db->where('t1.cpd_stream', $requestdata['cpd_stream'][0]);
-			if(isset($requestdata['status'][0])) 	$this->db->where('t1.status', $requestdata['status'][0]);
 			if(isset($requestdata['user_id'][0])) 	$this->db->where('t2.id', $requestdata['user_id'][0]);
-			$this->db->where('t2.renewal_date>=','CURDATE()', false);
+			$this->db->where('t2.renewal_date>=','t1.created_at', false);
 		}
 		//print_r($this->db->where_in('flag', $requestdata['flag']));die;
 
