@@ -125,6 +125,7 @@ class CC_Model extends CI_Model
 		if(isset($data['companyid'])) 	$request['company_id'] 	= $data['companyid'];
 		if(isset($data['auditorid'])) 	$request['auditor_id'] 	= $data['auditorid'];
 		if(isset($data['cocid'])) 		$request['coc_id'] 		= $data['cocid'];
+		if(isset($data['actionid'])) 	$request['action_id']	= $data['actionid'];
 		if(isset($data['action'])) 		$request['action']	 	= $data['action'];
 		if(isset($data['type'])) 		$request['type']	 	= $data['type'];
 		

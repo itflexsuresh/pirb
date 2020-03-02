@@ -543,6 +543,7 @@ class CC_Controller extends CI_Controller
 					$message = 'Thanks for Saving the COC.';
 				}elseif($requestData['submit']=='log'){
 					$message = 'Thanks for Logging the COC.';
+					$this->CC_Model->diaryactivity(['plumberid' => $this->getUserID(), 'actionid' => $requestData['coc_id'], 'action' => '7', 'type' => '2']);
 				}
 				
 				$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '18', 'emailstatus' => '1']);
@@ -630,6 +631,8 @@ class CC_Controller extends CI_Controller
 						
 						// Stock
 						$this->db->update('stock_management', ['audit_status' => '1'], ['id' => $pagedata['result']['id']]);
+						
+						$this->CC_Model->diaryactivity(['plumberid' => $data['plumberid'], 'auditorid' => $data['auditorid'], 'cocid' => $data['cocid'], 'action' => '9', 'type' => '4']);
 					}elseif($requestData['auditstatus']=='0'){
 						$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '22', 'emailstatus' => '1']);
 	
@@ -639,6 +642,8 @@ class CC_Controller extends CI_Controller
 						}
 						
 						$this->db->update('stock_management', ['audit_status' => '4'], ['id' => $pagedata['result']['id']]);
+						
+						$this->CC_Model->diaryactivity(['plumberid' => $data['plumberid'], 'auditorid' => $data['auditorid'], 'cocid' => $data['cocid'], 'action' => '10', 'type' => '4']);
 					}
 				} 
 				
@@ -702,7 +707,7 @@ class CC_Controller extends CI_Controller
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['result']			= $result;
 		$pagedata['comments']		= $this->Auditor_Comment_Model->getList('all', ['coc_id' => $id]);	
-		$pagedata['diary']			= $this->diaryactivity(['coc_id' => $id]);	
+		$pagedata['diary']			= $this->diaryactivity(['cocid' => $id]+$auditorid);	
 		$pagedata['menu']			= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'sweetalert', 'validation', 'select2'];

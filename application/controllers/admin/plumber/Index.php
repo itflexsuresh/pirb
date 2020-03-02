@@ -13,6 +13,7 @@ class Index extends CC_Controller
 		$this->load->model('Noncompliance_Model');
 		$this->load->model('Accounts_Model');
 		$this->load->model('Documentsletters_Model');
+		$this->load->model('Diary_Model');
 	}
 	
 	public function index()
@@ -222,8 +223,24 @@ class Index extends CC_Controller
 	}
 
 	public function performance($id,$pagestatus='')
-	{
-		$this->plumberprofile($id, ['roletype' => $this->config->item('roleadmin'), 'pagetype' => 'applications'], ['redirect' => 'admin/plumber/index']);
+	{		
+		$userdata1					= $this->Plumber_Model->getList('row', ['id' => $id]);
+		$pagedata['roletype']		= $this->config->item('roleadmin');
+		$pagedata['id'] 			= $id;
+		$pagedata['user_details'] 	= $userdata1;
+		$pagedata['menu']			= $this->load->view('common/plumber/menu', ['id'=>$id],true);
+		$pagedata['notification'] 	= $this->getNotification();	
+		$rollingavg 				= $this->getRollingAverage();
+		$date						= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
+		$pagestatus					= ($pagestatus=='2' ? '1' : '0');
+		$extraparam					= $pagestatus=='0' ? ['date' => $date] : [];
+		$pagedata['pagestatus'] 	= $pagestatus;
+		$pagedata['warning']		= $this->Global_performance_Model->getWarningList('all', ['status' => ['1']]);
+		$pagedata['results']		= $this->Plumber_Model->performancestatus('all', ['plumberid' => $id, 'archive' => $pagestatus]+$extraparam);
+
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'morrischart'];
+		$data['content'] 			= $this->load->view('admin/plumber/performance', (isset($pagedata) ? $pagedata : ''), true);
+		$this->layout2($data);
 	}
 	
 	public function coc($id,$pagestatus='')
@@ -624,10 +641,10 @@ class Index extends CC_Controller
 			redirect('admin/plumber/index/diary/'.$requestData['user_id'].''); 
 
 		}
-		
 
-		//print_r($id);die;
-		//$this->plumberdiary($id, ['roletype' => $this->config->item('roleadmin'), 'pagetype' => 'applications'], ['redirect' => 'admin/plumber/index/diary']);
+
+		$pagedata['diarylist'] = $this->diaryactivity(['plumberid'=>$id]);		
+
 		$pagedata['user_id']		= $result['id'];
 		$pagedata['user_role']		= $this->config->item('roletype');
 		$pagedata['notification'] 	= $this->getNotification();
