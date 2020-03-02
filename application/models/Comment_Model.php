@@ -12,7 +12,7 @@ class Comment_Model extends CC_Model
 		if(isset($requestdata['user_id'])) 	$this->db->where('uc.user_id', $requestdata['user_id']);
 
 		$this->db->order_by('uc.id','desc');
-		
+
 		if($type=='count'){
 			$result = $this->db->count_all_results();
 		}else{
@@ -24,6 +24,7 @@ class Comment_Model extends CC_Model
 		
 		return $result;
 	}
+	
 	
 	public function action($data)
 	{
