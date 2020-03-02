@@ -18,7 +18,7 @@
 			<div class="card-body">
 				<h4 class="card-title">Performance Status</h4>
 				
-				<?php if(count($results) > 0){ ?>
+				<?php if(count($results) > 0 && $pagestatus!='1'){ ?>
 					<div id="performancechart"></div>
 				<?php } ?>
 				

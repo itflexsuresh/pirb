@@ -56,8 +56,8 @@ class Coc_Model extends CC_Model
 		
 		if((isset($requestdata['search']['value']) && $requestdata['search']['value']!='') || (isset($requestdata['order']['0']['column']) && $requestdata['order']['0']['column']!='' && isset($requestdata['order']['0']['dir']) && $requestdata['order']['0']['dir']!='')){
 			$this->db->join('custom c1', 'c1.c_id=sm.coc_status and c1.type="1"', 'left');
-			$this->db->join('custom c2', 'c2.c_id=sm.audit_status and c1.type="2"', 'left');
-			$this->db->join('custom c3', 'c3.c_id=sm.type and c1.type="3"', 'left');
+			$this->db->join('custom c2', 'c2.c_id=sm.audit_status and c2.type="2"', 'left');
+			$this->db->join('custom c3', 'c3.c_id=sm.type and c3.type="3"', 'left');
 			
 			if(isset($requestdata['page']) && $requestdata['page']=='admincocdetails'){
 				$this->db->join('users_detail ud1', 'ud1.user_id=sm.user_id', 'left');
