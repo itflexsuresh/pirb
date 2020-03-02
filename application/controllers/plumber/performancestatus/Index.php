@@ -12,9 +12,6 @@ class Index extends CC_Controller
 	
 	public function index($pagestatus='')
 	{
-		$this->Plumber_Model->performancestatusarchivecron();
-		$this->performancestatusmail();
-		
 		$userid 					= $this->getUserID();
 		$rollingavg 				= $this->getRollingAverage();
 		$date						= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));

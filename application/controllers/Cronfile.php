@@ -39,7 +39,7 @@ public function __construct()
 	
     public function performancestatusarchive()
 	{
-		$this->Plumber_Model->performancestatusarchivecron();
+		$this->performancestatusrollingaverage();
 	}
 	
     public function performancestatuswarning()
