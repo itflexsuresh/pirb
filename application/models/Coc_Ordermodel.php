@@ -120,7 +120,7 @@ class Coc_Ordermodel extends CC_Model
 
 				// $counnt = "count + 1";
 				// $increase_count = $this->db->update('coc_count', $counnt,['user_id'=>$data['user_id']]);
-				$this->db->set('count', 'count + 1',FALSE); 
+				$this->db->set('count', 'count + '.$data['quantity'].'',FALSE); 
 				$this->db->where('user_id', $data['user_id']); 
 				$increase_count = $this->db->update('coc_count'); 
 				// echo $this->db->last_query();exit;
