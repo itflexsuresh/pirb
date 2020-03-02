@@ -52,6 +52,49 @@ class Index extends CC_Controller
 
         echo json_encode($json);
     }
+
+    public function DTemplist()
+    {
+        $post = $this->input->post();
+        $totalcount     = $this->Company_Model->getEmpList('count', ['type' => '4', 'approvalstatus' => ['0', '1'], 'formstatus' => ['1'], 'status' => ['0', '1', '2']] + $post);
+        $results        = $this->Company_Model->getEmpList('all', ['type' => '4', 'approvalstatus' => ['0', '1'], 'formstatus' => ['1'], 'status' => ['0', '1', '2']] + $post);
+        $companystatus  = $this->config->item('companystatus');
+        $totalrecord = [];
+        if (count($results) > 0) {
+            foreach ($results as $result) {
+                $companystatus1 = isset($companystatus[$result['status']]) ? $companystatus[$result['status']] : '';
+                $totalrecord[] = [
+                                    'reg'           => $result['registration_no'],
+                                    'designation'   => $this->config->item('designation2')[$result['designation']],
+                                    'status'        => $this->config->item('plumberstatus')[$result['status']],
+                                    'namesurname'   => $result['name'].' '.$result['surname'],
+                                    'cpdstatus'     => '1',
+                                    'perstatus'     => '1',
+                                    'perstatus'     => '1',
+                                    'rating'        => '1',
+                                    'action'        => '
+                                                            <div class="table-action">
+                                                                <a href="' . base_url() . 'admin/company/index/empaction/'.$post['comp_id'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-eye"></i></a>
+                                                            </div>
+                                                        ',
+                ];
+            }
+        }
+       
+        $json = array(
+            "draw" => intval($post['draw']),
+            "recordsTotal" => intval($totalcount),
+            "recordsFiltered" => intval($totalcount),
+            "data" => $totalrecord,
+        );
+
+        echo json_encode($json);
+    }
+
+    public function empaction($compid,$id)
+    {
+       $this->employee(['compid' => $compid, 'id' => $id], ['roletype' => $this->config->item('roleadmin'), 'pagetype' => 'adminempdetails'], ['redirect' => 'admin/company/company/employee_listing']);
+    }
 	
 	public function action($id)
     {
@@ -105,6 +148,11 @@ class Index extends CC_Controller
     {
        // $this->plumberprofile($id, ['roletype' => $this->config->item('roleadmin'), 'pagetype' => 'rejectedapplications'], ['redirect' => 'admin/plumber/index/rejected']);
          $this->companyprofile($id, ['roletype' => $this->config->item('roleadmin'), 'pagetype' => 'rejectedapplications'], ['redirect' => 'admin/company/index/rejected']);
+    }
+
+    // Empployee Lsiting
+    public function emplist($id){
+         $this->employee($id, ['roletype' => $this->config->item('roleadmin'),'redirect' => 'admin/company/index/index']);
     }
 
 

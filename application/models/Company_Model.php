@@ -74,6 +74,55 @@ class Company_Model extends CC_Model
 		}
 		return $result;
 	}
+
+	// COMPANY EmpList
+	public function getEmpList($type, $requestdata=[])
+	{
+		 $this->db->select('t1.registration_no,t1.designation,t1.id,t1.user_id,t2.name,t2.surname,t2.mobile_phone,t3.email,t3.status,t2.file2,t1.specialisations');
+        $this->db->from('users_plumber t1');
+        $this->db->join('users_detail t2', 't2.user_id = t1.user_id', 'LEFT');
+        $this->db->join('users t3', 't3.id = t1.user_id', 'LEFT');
+        if($type=='employee'){
+            //print_r
+            $this->db->where('t1.id', $requestdata['comp_id']);
+        }else{
+            $this->db->where('t1.company_details', $requestdata['comp_id']);
+        }
+        
+
+        // if(isset($requestdata['id']))        $this->db->where('id', $requestdata['id']);
+        // //if(isset($requestdata['status']))  $this->db->where_in('status', $requestdata['status']);
+        
+        if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
+            $this->db->limit($requestdata['length'], $requestdata['start']);
+        }
+        // if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
+        //  $column = ['id', 'company_name'];
+        //  $this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+        // }
+        if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
+            $searchvalue = $requestdata['search']['value'];
+            $this->db->like('t2.name', $searchvalue);
+        }
+
+        
+        if($type=='count'){
+            $result = $this->db->count_all_results();
+        }
+        elseif($type=='employee'){
+            $query = $this->db->get();
+            
+            $result = $query->result_array();
+        }
+        else{
+            $query = $this->db->get();
+            
+            if($type=='all')        $result = $query->result_array();
+            elseif($type=='row')    $result = $query->row_array();
+        }
+        
+        return $result;
+	}
 	
 	public function action($data)
 	{
