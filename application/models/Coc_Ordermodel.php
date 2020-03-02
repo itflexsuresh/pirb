@@ -140,8 +140,9 @@ class Coc_Ordermodel extends CC_Model
 				
 				$result = $this->db->insert('coc_orders', $requestdata1);
 
-				$requestcount['count'] = $data['quantity'];
-				$result_count 		= $this->db->update('coc_count', $requestcount, ['user_id' => $data['user_id']]);
+				$this->db->set('count', 'count - '.$data['quantity'].'',FALSE); 
+				$this->db->where('user_id', $data['user_id']); 
+				$decrease_count = $this->db->update('coc_count'); 
 
 				$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $requestdata['user_id']]);
 
