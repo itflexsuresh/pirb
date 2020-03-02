@@ -23,6 +23,7 @@ class CC_Controller extends CI_Controller
 		$this->load->model('Auditor_Reportlisting_Model');
 		$this->load->model('Global_performance_Model');
 		$this->load->model('Auditor_Comment_Model');
+		$this->load->model('Diary_Model');
 		
 		$this->load->library('pdf');
 		$this->load->library('phpqrcode/qrlib');
@@ -277,7 +278,10 @@ class CC_Controller extends CI_Controller
 				
 				if(isset($requestData['submit']) && $requestData['submit']=='approvalsubmit'){
 					if(isset($requestData['approval_status'])){
+						$diaryparam = ($extras['roletype']=='1') ? ['adminid' => $this->getUserID(), 'type' => '1'] : [];
 						if($requestData['approval_status']=='1'){
+							$this->Diary_Model->action(['plumberid' => $id, 'action' => '2']+$diaryparam);
+							
 							$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '5', 'emailstatus' => '1']);
 				
 							if($notificationdata){
@@ -285,6 +289,8 @@ class CC_Controller extends CI_Controller
 								$this->CC_Model->sentMail($result['email'], $notificationdata['subject'], $body);
 							}
 						}elseif($requestData['approval_status']=='2'){
+							$this->Diary_Model->action(['plumberid' => $id, 'action' => '3']+$diaryparam);
+							
 							$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '6', 'emailstatus' => '1']);
 				
 							if($notificationdata){
@@ -293,6 +299,11 @@ class CC_Controller extends CI_Controller
 							}
 						}
 					}
+				}
+				
+				if(isset($requestData['submit']) && $requestData['submit']!='approvalsubmit'){
+					$diaryparam = ($extras['roletype']=='1') ? ['adminid' => $this->getUserID(), 'type' => '1'] : ['type' => '2'];
+					$this->Diary_Model->action(['plumberid' => $id, 'action' => '4']+$diaryparam);
 				}
 				
 				$this->session->set_flashdata('success', $message);
@@ -691,6 +702,7 @@ class CC_Controller extends CI_Controller
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['result']			= $result;
 		$pagedata['comments']		= $this->Auditor_Comment_Model->getList('all', ['coc_id' => $id]);	
+		$pagedata['diary']			= $this->diaryactivity(['coc_id' => $id]);	
 		$pagedata['menu']			= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'sweetalert', 'validation', 'select2'];
@@ -865,5 +877,11 @@ class CC_Controller extends CI_Controller
 				$this->db->update('users', ['performancestatus' => '0'], ['id' => $plumberid]);
 			}							
 		}
+	}
+	
+	public function diaryactivity($requestdata=[])
+	{
+		$data['results'] 	= $this->Diary_Model->getList('all', $requestdata);
+		return $this->load->view('common/diary', $data, true);
 	}
 }

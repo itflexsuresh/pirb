@@ -24,7 +24,7 @@
 <div class="row">
 	<div class="col-12">
 		<div class="card">
-			
+			<?php echo $diary; ?>
 			<h4 class="card-title">Audit Comments (Comments related specifically to this Audit)</h4>
 			<div class="row">
 				<div class="col-md-12">			
