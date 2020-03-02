@@ -642,7 +642,8 @@ class Index extends CC_Controller
 
 		}
 
-		$pagedata['diarylist'] = $this->diaryactivity($id);		
+
+		$pagedata['diarylist'] = $this->diaryactivity(['plumberid'=>$id]);		
 
 		$pagedata['user_id']		= $result['id'];
 		$pagedata['user_role']		= $this->config->item('roletype');
