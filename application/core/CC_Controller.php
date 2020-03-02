@@ -389,6 +389,45 @@ class CC_Controller extends CI_Controller
 		$data['content'] 				= $this->load->view('common/company/company', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
+	// Company Employee Listing
+	public function employee($id=[], $pagedata=[], $extras=[])
+	{
+
+		 if (isset($pagedata['pagetype']) && $pagedata['pagetype']=='adminempdetails') {
+			$result = $this->Company_Model->getEmpList('employee', ['comp_id' => $id['id'], 'type' => '3', 'status' => ['0','1', '2']]);
+
+			$pagedata['employee'] = $result;
+			$pagedata['specialization']	= $this->config->item('specialization');
+
+			$pagedata['company'] 		= $this->getCompanyList();
+			$pagedata['plumberstatus'] 	= $this->config->item('plumberstatus');
+			$userdata1					= $this->Plumber_Model->getList('row', ['id' => $result[0]['user_id']]);
+
+			$pagedata['user_details'] 	= $userdata1;
+
+			
+			
+			$pagedata['history']		= $this->Auditor_Model->getReviewHistory2Count(['auditorid' => '', 'plumberid' => $result[0]['user_id']]);
+			$pagedata['settings_cpd']	= $this->Systemsettings_Model->getList('all',['user_id' => $result[0]['user_id']]);
+			
+
+			$pagedata['loggedcoc']		= $this->Coc_Model->getCOCList('count', ['user_id' => $result[0]['user_id'], 'coc_status' => ['2']]);
+		 }
+		
+		if(isset($result) && !$result){
+			redirect($extras['redirect']); 
+		}
+
+		$companyID = $id['compid'];
+		$pagedata['menu']				= $this->load->view('common/company/menu', ['id'=>$companyID],true);
+		$data['plugins']				= ['datatables','validation','datepicker','inputmask','select2', 'morrischart'];
+		$pagedata['notification'] 		= $this->getNotification();
+		$pagedata['designation2']		= $this->config->item('designation2');
+		$pagedata['plumberstatus']		= $this->config->item('plumberstatus');
+		$pagedata['id'] 				= $companyID;
+		$data['content'] 				= $this->load->view('common/company/employee_listing', (isset($pagedata) ? $pagedata : ''), true);
+		$this->layout2($data);
+	}
 	
 	public function resellersprofile($id, $pagedata=[], $extras=[])
 	{
