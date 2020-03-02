@@ -619,10 +619,10 @@ class Index extends CC_Controller
 		////////////////////// $plumberid,$documentsid=''
 		if($id!=''){
 			$result = $this->Plumber_Model->getList('row', ['id' => $id, 'type' => '3', 'status' => ['1', '2']]);
+			$pagedata['result'] 		= $result;
+
 			$DBcomments = $this->Comment_Model->getList('all', ['user_id' => $id, 'type' => '3', 'status' => ['1', '2']]);
-		
-			if($result && $DBcomments){
-				$pagedata['result'] 		= $result;
+			if($DBcomments){
 				$pagedata['comments']		= $DBcomments;
 			}else{
 				// $this->session->set_flashdata('error', 'No comments Found.');
