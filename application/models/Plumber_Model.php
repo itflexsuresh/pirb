@@ -343,6 +343,8 @@ class Plumber_Model extends CC_Model
 					$query .= ' order by '.$column[$requestdata['order']['0']['column']].' '.$requestdata['order']['0']['dir'];
 				}
 			}
+		}else{
+			$query .= ' order by date asc';
 		}
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$query .= ' limit '.$requestdata['start'].', '.$requestdata['length'];
