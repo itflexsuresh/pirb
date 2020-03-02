@@ -23,6 +23,7 @@ class CC_Controller extends CI_Controller
 		$this->load->model('Auditor_Reportlisting_Model');
 		$this->load->model('Global_performance_Model');
 		$this->load->model('Auditor_Comment_Model');
+		$this->load->model('Diary_Model');
 		
 		$this->load->library('pdf');
 		$this->load->library('phpqrcode/qrlib');
@@ -691,6 +692,7 @@ class CC_Controller extends CI_Controller
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['result']			= $result;
 		$pagedata['comments']		= $this->Auditor_Comment_Model->getList('all', ['coc_id' => $id]);	
+		$pagedata['diary']			= $this->diaryactivity(['coc_id' => $id]);	
 		$pagedata['menu']			= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'sweetalert', 'validation', 'select2'];
@@ -865,5 +867,11 @@ class CC_Controller extends CI_Controller
 				$this->db->update('users', ['performancestatus' => '0'], ['id' => $plumberid]);
 			}							
 		}
+	}
+	
+	public function diaryactivity($requestdata=[])
+	{
+		$data['results'] 	= $this->Diary_Model->getList('all', $requestdata);
+		return $this->load->view('common/diary', $data, true);
 	}
 }
