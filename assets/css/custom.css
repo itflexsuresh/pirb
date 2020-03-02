@@ -1679,3 +1679,10 @@ table#id_Card_back img {
 .chatbar_message{
 	margin: 0;
 }
+
+.diarybar{
+	background: white;
+    min-height: 300px;
+    padding: 15px;
+    max-height: 300px;
+}
