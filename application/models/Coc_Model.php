@@ -49,7 +49,7 @@ class Coc_Model extends CC_Model
 		$this->db->join('suburb s', 's.id=cl.suburb', 'left'); // Coc Log
 		$this->db->join('users_detail cd1', 'cd1.user_id=cl.company_details', 'left'); // Plumber Details
 		$this->db->join('plumberallocate pa', 'pa.stockid=sm.id', 'left'); // Reseller Allocate
-		$this->db->join('users_detail rd', 'rd.user_id=pa.company_details', 'left'); // Reseller Details
+		$this->db->join('users_detail rd', 'rd.user_id=pa.resellersid', 'left'); // Reseller Details
 		$this->db->join('users_detail ad', 'ad.user_id=sm.auditorid', 'left'); // Auditor
 		$this->db->join('users a', 'a.id=sm.auditorid', 'left'); // Auditor
 		$this->db->join('auditor_statement aas', 'aas.coc_id=sm.id', 'left'); // Auditor Statement
