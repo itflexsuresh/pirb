@@ -2,9 +2,28 @@
 	<div class="col-sm-12">
 		<?php echo $notification; ?>
 	</div>
+	<?php
+					if ($usertype=='4') {
+						$card_title = "Already Registered PIRB";
+						$header_title = "Company Registration with the PIRB";
+						$header_title2 = "Register a Plumbing Company with the Plumbing Registration Board";
+						$footer = "Register as an Individual with the PIRB"; 
+						$footer2 = "Login as PIRB Individual"; 
+						$pointer_title = "Why Register my Company with the PIRB?";
+						$btn_name = "Register Now";
+					}else{
+						$card_title = "Already Registered";
+						$header_title = "Individual Registration with the PIRB";
+						$header_title2 = "Register as a Individaul with the Plumbing Regsitration Board";
+						$footer = "Register Plumber with the PIRB"; 
+						$footer2 = "PIRB Plumber Login";
+						$pointer_title = "About the Registration Process";
+						$btn_name = "Register";
+					}
+				?>
 	<div class="col-sm-6 <?php if($usertype=='' || $usertype=='5' || $usertype=='6'){ echo 'offset-3';} ?>">
 		<div class="card card-body">
-			<h4 class="card-title">Already Registered</h4>
+			<h4 class="card-title"><?php echo $card_title; ?></h4>
 			<h5 class="card-subtitle"> If you are already registered please enter your login details </h5>
 			<form method="post" action="<?php echo base_url().'login/'.$usertypename; ?>" class="form-horizontal mt-4 login">
 				<div class="form-group">
@@ -29,21 +48,7 @@
 	<?php if($usertype!='' && $usertype!='5' && $usertype!='6'){ ?>
 		<div class="col-sm-6">
 			<div class="card card-body">
-				<?php
-					if ($usertype=='4') {
-						$header_title = "Company Registration with the PIRB";
-						$header_title2 = "Register a Plumbing Company with the Plumbing Registration Board";
-						$footer = "Register as an Individual with the PIRB"; 
-						$footer2 = "Login as PIRB Individual"; 
-						$pointer_title = "Why Register my Company with the PIRB?";
-					}else{
-						$header_title = "Individual Registration with the PIRB";
-						$header_title2 = "Register as a Individaul with the Plumbing Regsitration Board";
-						$footer = "Register Plumber with the PIRB"; 
-						$footer2 = "PIRB Plumber Login";
-						$pointer_title = "About the Registration Process";
-					}
-				?>
+				
 				<h4 class="card-title"><?php echo $header_title; ?></h4>
 				<h5 class="card-subtitle"> <?php echo $header_title2; ?> </h5>
 				<a style="cursor: pointer;"><?php echo $pointer_title; ?></a>
@@ -77,7 +82,7 @@
 						<?php if($usertype=='4'){ ?><a href="<?php echo base_url('login/plumber'); ?>"><?php echo $footer; ?></a><?php } ?>
 					</div>
 					<input type="hidden" value="<?php echo $usertype; ?>" name="type">
-					<button type="submit" name="submit" value="register" class="btn btn-success">Register</button>
+					<button type="submit" name="submit" value="register" class="btn btn-success"><?php echo $btn_name; ?></button>
 				</form>
 			</div>
 		</div>
