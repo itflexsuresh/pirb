@@ -37,9 +37,14 @@ public function __construct()
     }
 	
 	
-    public function performancestatusarchivecron()
+    public function performancestatusarchive()
 	{
 		$this->Plumber_Model->performancestatusarchivecron();
+	}
+	
+    public function performancestatuswarning()
+	{
+		$this->performancestatusmail();
 	}
 }
 
