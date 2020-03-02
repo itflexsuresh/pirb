@@ -485,3 +485,8 @@ $config['reviewtype'] 			= 		[
 											'3' => 'Compliment',
 											'4' => 'No Audit Findings'
 										];										
+
+$config['diary'] 				= 		[
+											'1' => 'Registered Successfully'
+										];										
+
