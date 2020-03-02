@@ -162,6 +162,7 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 										<div class="row">
 											<?php
 												foreach($coctype as $key => $value){
+													
 													if($key==1){
 														$class = "electronic";
 													} else {
@@ -452,8 +453,8 @@ $(function(){
 
 function coc_type_show(){
 	purchase_type_val = $('input[name="purchase_type"]:checked').val();
-	$('.electronic input').prop("checked",false);	
 	if(purchase_type_val==6){
+		$('.electronic input').prop("checked",false);	
 		$('.electronic input').attr('disabled',true);
 	} else {
 		$('.electronic input').removeAttr('disabled');		
