@@ -1,10 +1,10 @@
 <?php
 $cocid 					= isset($result['id']) ? $result['id'] : '';	
-$cocid = ' '.$cocid;
+$cocid = '   '.$cocid;
 $completiondate 		= isset($result['cl_completion_date']) && $result['cl_completion_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_completion_date'])) : '';
-$completiondate = ' '.$completiondate;
+$completiondate = '   '.$completiondate;
 $cl_order_no 			= isset($result['cl_order_no']) ? $result['cl_order_no'] : '';
-$cl_order_no = ' '.$cl_order_no;
+$cl_order_no = '   '.$cl_order_no;
 $name 					= isset($result['cl_name']) ? $result['cl_name'] : '';
 $address 				= isset($result['cl_address']) ? $result['cl_address'] : '';
 $street 				= isset($result['cl_street']) ? $result['cl_street'] : '';
@@ -24,8 +24,6 @@ function base64conversion($path){
 }
 
 $textimg = base64conversion(base_url().'assets/images/text-img.png');
-$logoimg = base64conversion(base_url().'assets/images/logo-img.png');
-$tickimg = base64conversion(base_url().'assets/images/tick.png');
 
 echo'<!DOCTYPE html> 
 <html>
@@ -38,8 +36,8 @@ echo'<!DOCTYPE html>
               <div class="container" style="width:1300px; margin:0 auto; padding:16px 25px 25px 25px; border: 4px solid #00aeef; border-radius: 50px;">
                   <div class="uper-block">
                       <h2 align="center" style="padding-bottom:10px; margin:0;"><img src="'.$textimg.'"  style="width:96%; margin:0 auto;"></h2>
-                      <div class="logo-block" style="width:48%; float: left; ">
-                          <img style="margin-top: 50px; width: 100%; height: auto; width: 70%; height: auto; src="'.$logoimg.'" />
+                      <div class="logo-block" style="width:48%; float: left; ">                         
+                          <img style="margin-top: 50px; width: 100%; height: auto;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/logo-img.png" />
                       </div>
                       <div class="rt-side" style="float: right;width: 50%;padding: 20px 0 0 15px;margin-top: 50px; box-sizing: border-box;">
                           <div class="box" style="height: 40px; padding:7px 4px 3px 6px; margin: 0 0 4px; background: #d1d3d4;">
@@ -131,7 +129,7 @@ echo'<!DOCTYPE html>
                              <h4 style="padding: 2px 0;font-size: 16px;line-height: 16px; margin:0;"><?php echo $value['code'];?></h4>
                          </div>
                          <div class="block_sec" style="width:10%; float: left; text-align: center;">
-                             <h4 style="padding-top:2px; margin:0;"><?php echo (in_array($value['id'], $installationtypeid)) ? '<img style="height:20px; weight:20px;" src="<?php echo $tickimg; ?>"/>' : ''; ?></h4>
+                             <h4 style="padding-top:2px; margin:0;"><?php echo (in_array($value['id'], $installationtypeid)) ? '<img style="width: 20%; height: 20%;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/tick.png" />' : ''; ?></h4>
                          </div>
                          <div style="clear:both;"></div>
                       </div>
@@ -164,7 +162,7 @@ echo'<!DOCTYPE html>
                              <h4 style="padding: 2px 0;font-size: 16px;line-height: 16px; margin:0;"><?php echo $value['code'];?></h4>
                          </div>
                          <div class="block_sec" style="width:10%; float: left; text-align: center;">
-                             <h4 style="padding-top:2px; margin:0;"><?php echo (in_array($value['id'], $specialisationsid)) ? '&#10004;' : ''; ?></h4>
+                             <h4 style="padding-top:2px; margin:0;"><?php echo (in_array($value['id'], $specialisationsid)) ? '<img style="width: 20%; height: 20%;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/tick.png" />' : ''; ?></h4>
                          </div>
                          <div style="clear:both;"></div>
                       </div>
@@ -215,35 +213,32 @@ echo'<!DOCTYPE html>
                   <div class="white_box" style="border:1px solid #adafb1; margin:5px 0 0; font-size:16px;">
                       <div class="block" style="padding:10px 5px; border-bottom:1px solid #adafb1;">
                           <p style="line-height:25px; color: #000; padding: 0; margin: 0; ">I '.$userdata['name'].' '.$userdata['surname'].', Licensed registration number '.$userdata['registration_no'].', certify that, the above compliance certificate details are true and correct and will be logged in accordance with the prescribed requirements as defined by the PIRB.  I further certify that;<br>I further certify that (as highlighted);</p>Delete either <span style="font-weight: 700;">A</span> or <span style="font-weight: 700;">B</span> as appropriate
-                      </div>
-                      <div class="block" style="padding:5px 0 0 6px; float:right; width:32%; position:relative; ">
+                      </div>                      
                         
-                        <div class="block" style="padding:0;  float:left; width:66%; background-color:#ccc; border-right:1px solid #adafb1;border-bottom:1px solid #adafb1; display: inline-block;">
- <div class="lt-left" style="float: left; width: 6%; text-align: center; border-right:1px solid #adafb1;  display: inline-block;">
-     <p style="font-weight: 700;padding: 0;margin: 0;line-height:28px;">A</p>
- </div>
-
- <div class="rt-side"  style="float: left; width: 93%; display: inline-block;" >
-     <p style="padding:3px; margin: 0;">The above plumbing work was carried out by me or under my supervision, and that it complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</p>
- </div>
- <div class="clear"></div>
-</div>
- 
- <div class="block" style="padding:0; float:left; background-color:#ccc width:66%; border-right:1px solid #adafb1;  display: inline-block;">
-   <div class="lt-left" style="float: left; width: 6%; text-align: center; border-right:1px solid #adafb1;  display: inline-block;">
-       <p style="font-weight: 700; margin: 0;line-height:39px;">B</p>
-   </div>
-   <div class="rt-side"  style="float: left; width: 93%;  display: inline-block;" >
-       <p style="padding:3px; margin: 0;">
-I have fully inspected and tested the work started but not completed by another Licensed plumber and the necessary completion work was carried out by me or under my supervision-  complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</p>
-   </div>
-   <div class="clear"></div>
-</div>
-
-<img src="" style="height: 90px;" />
-<br/><p style="padding:4px 0;font-size:12px;  border-top:1px dashed #adafb1; text-align:center;margin:1px 10px 0 0;">Signeded (Licensed Plumber):</p>
-
+                      <div class="block" style="padding:0;  float:left; width:66%; background-color:#ccc; border-right:1px solid #adafb1;border-bottom:1px solid #adafb1;">
+                       <div class="lt-left" style="float: left; width: 6%; text-align: center; border-right:1px solid #adafb1;">
+                           <p style="font-weight: 700;padding: 0;margin: 0;line-height:28px;">A</p>
+                       </div>
+                       <div class="rt-side"  style="float: left; width: 93%;" >
+                           <p style="padding: 5px 0; margin: 0;">The above plumbing work was carried out by me or under my supervision, and that it complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</p>
+                       </div>
+                       <div class="clear"></div>
                       </div>
+ 
+                      <div class="block" style="padding:0; float:left; background-color:#ccc width:66%; border-right:1px solid #adafb1;">
+                       <div class="lt-left" style="float: left; width: 6%; text-align: center; border-right:1px solid #adafb1;">
+                           <p style="font-weight: 700; margin: 0;line-height:39px;">B</p>
+                       </div>
+                       <div class="rt-side"  style="float: left; width: 93%;" >
+                           <p style="padding:3px; margin: 0;">I have fully inspected and tested the work started but not completed by another Licensed plumber and the necessary completion work was carried out by me or under my supervision-  complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</p>
+                       </div>
+                       <div class="clear"></div>
+                      </div>
+
+                      <img src="" style="height: 90px;" />
+                      <br/><p style="padding:4px 0;font-size:12px;  border-top:1px dashed #adafb1; text-align:center;margin:1px 10px 0 0;">Signeded (Licensed Plumber):</p>
+
+                      
                       <div style="clear:both;"></div>
                   </div>
 
