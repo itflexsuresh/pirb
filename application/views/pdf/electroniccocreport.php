@@ -31,7 +31,7 @@ echo'<!DOCTYPE html>
                       </div>
                       <div class="rt-side" style="float: right;width: 50%;padding: 20px 0 0 15px;margin-top: 50px; box-sizing: border-box;">
                           <div class="box" style="height: 40px; padding:7px 4px 3px 6px; margin: 0 0 4px; background: #d1d3d4;">
-                              <h4 style="font-size: 23px;font-weight: 400;color: #000;padding:10px;float: left; margin:0;">Certificate N:</h4><span style="background: #fff;padding:12px 0;width: 70%;display: inline-block;height: 14px;float: right;">'.$cocid.'</span>
+                              <h4 style="font-size: 23px;font-weight: 400;color: #000;padding:10px;float: left; margin:0;">Certificate N:</h4><span style="background: #fff;padding:12px 0;width: 70%;display: inline-block;height: 14px;float: right;"> '.$cocid.'</span>
                               <div style="clear:both;"></div>
                           </div>
                           <div class="box" style="text-align: center;padding:10px;margin: 0 0 4px;background: #f3cfc1;;">
@@ -45,10 +45,10 @@ echo'<!DOCTYPE html>
                   </div>
                   <div class="down-block" style="padding-bottom: 4px; margin-top: 70px;">
                       <div class="lt-side" style="float: left; width:50%;">
-                          <label style="font-size: 18px; line-height: 22px; font-weight: 400; color: #000; padding: 0; margin: 0px 30px; float: left;">Plumbing Work <br>Completion Date:</labeel> <span style="width:60%;height: 40px;border: 1px solid #bbbcbe;display: inline-block;padding: 0;margin: 0;float: right;">'.$completiondate.'</span>
+                          <label style="font-size: 18px; line-height: 22px; font-weight: 400; color: #000; padding: 0; margin: 0px 30px; float: left;">Plumbing Work <br>Completion Date:</labeel> <span style="width:60%;height: 40px;border: 1px solid #bbbcbe;display: inline-block;padding: 0;margin: 0;float: right;"> '.$completiondate.'</span>
                       </div>
                       <div class="rt-side" style="float: right; width:47%; clear: both;">
-                          <label style="font-size: 18px;line-height: 23px;font-weight: 400;color: #000;padding: 0;margin:11px 0 0;float: left;">INSURANCE CLAIM/ORDER NO. (If relevant)</label><span style="width: 40%;height: 25px;border: 1px solid #bbbcbe;display: inline-block;padding: 0;margin:11px 0 0;float: right;">'.$cl_order_no.'</span>
+                          <label style="font-size: 18px;line-height: 23px;font-weight: 400;color: #000;padding: 0;margin:11px 0 0;float: left;">INSURANCE CLAIM/ORDER NO. (If relevant)</label><span style="width: 40%;height: 25px;border: 1px solid #bbbcbe;display: inline-block;padding: 0;margin:11px 0 0;float: right;"> '.$cl_order_no.'</span>
                       </div>
                       <div style="clear:both;"></div>
                   </div>
@@ -106,7 +106,9 @@ echo'<!DOCTYPE html>
                          <div style="clear:both;"></div>
                       </div>'; 
 
-                      foreach ($installation as $key => $value) { ?>
+                      foreach ($installation as $key => $value) { 
+                        $docurl = $_SERVER['DOCUMENT_ROOT'];
+                        ?>
                         
                         
                        <div class="top" style="border-bottom: 1px solid #adabad;">
@@ -117,7 +119,7 @@ echo'<!DOCTYPE html>
                              <h4 style="padding: 2px 0;font-size: 16px;line-height: 16px; margin:0;"><?php echo $value['code'];?></h4>
                          </div>
                          <div class="block_sec" style="width:10%; float: left; text-align: center;">
-                             <h4 style="padding-top:2px; margin:0;"><?php echo (in_array($value['id'], $installationtypeid)) ? '&#10004;' : ''; ?></h4>
+                             <h4 style="padding-top:2px; margin:0;"><?php echo (in_array($value['id'], $installationtypeid)) ? '<img style="height:10px; weight:10px;" src="<?php echo $docurl; ?>/auditit_new/pirb/assets/images/tick.png"/>' : ''; ?></h4>
                          </div>
                          <div style="clear:both;"></div>
                       </div>
@@ -200,13 +202,39 @@ echo'<!DOCTYPE html>
                   </div>
                   <div class="white_box" style="border:1px solid #adafb1; margin:5px 0 0; font-size:16px;">
                       <div class="block" style="padding:10px 5px; border-bottom:1px solid #adafb1;">
-                          <p style="line-height:25px; color: #000; padding: 0; margin: 0; ">I (Licensed Plumbers Name and Surname), Licensed registration number, certify that, the above compliance certificate details are true and correct and will be logged in accordance with the prescribed requirements as defined by the PIRB.  I further certify that;<br>I further certify that (as highlighted);</p>Delete either <span style="font-weight: 700;">A</span> or <span style="font-weight: 700;">B</span> as appropriate
+                          <p style="line-height:25px; color: #000; padding: 0; margin: 0; ">I '.$userdata['name'].' '.$userdata['surname'].', Licensed registration number '.$userdata['registration_no'].', certify that, the above compliance certificate details are true and correct and will be logged in accordance with the prescribed requirements as defined by the PIRB.  I further certify that;<br>I further certify that (as highlighted);</p>Delete either <span style="font-weight: 700;">A</span> or <span style="font-weight: 700;">B</span> as appropriate
                       </div>
                       <div class="block" style="padding:5px 0 0 6px; float:right; width:32%; position:relative; ">
-  
+                        
+                        <div class="block" style="padding:0;  float:left; width:66%; background-color:#ccc; border-right:1px solid #adafb1;border-bottom:1px solid #adafb1; display: inline-block;">
+ <div class="lt-left" style="float: left; width: 6%; text-align: center; border-right:1px solid #adafb1;  display: inline-block;">
+     <p style="font-weight: 700;padding: 0;margin: 0;line-height:28px;">A</p>
+ </div>
+
+ <div class="rt-side"  style="float: left; width: 93%; display: inline-block;" >
+     <p style="padding:3px; margin: 0;">The above plumbing work was carried out by me or under my supervision, and that it complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</p>
+ </div>
+ <div class="clear"></div>
+</div>
+ 
+ <div class="block" style="padding:0; float:left; background-color:#ccc width:66%; border-right:1px solid #adafb1;  display: inline-block;">
+   <div class="lt-left" style="float: left; width: 6%; text-align: center; border-right:1px solid #adafb1;  display: inline-block;">
+       <p style="font-weight: 700; margin: 0;line-height:39px;">B</p>
+   </div>
+   <div class="rt-side"  style="float: left; width: 93%;  display: inline-block;" >
+       <p style="padding:3px; margin: 0;">
+I have fully inspected and tested the work started but not completed by another Licensed plumber and the necessary completion work was carried out by me or under my supervision-  complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</p>
+   </div>
+   <div class="clear"></div>
+</div>
+
+<img src="" style="height: 90px;" />
+<br/><p style="padding:4px 0;font-size:12px;  border-top:1px dashed #adafb1; text-align:center;margin:1px 10px 0 0;">Signeded (Licensed Plumber):</p>
+
                       </div>
                       <div style="clear:both;"></div>
                   </div>
+
                   <div class="notoice" style="border:1px solid #adafb1; margin: 6px 0 0 0; background: #f3cfc1;">
                       <div class="text" style="padding:10px; background: #d2232a; text-align: center; color: #fff;">
                           <p style="padding: 0; margin: 0; font-size:18px; line-height:14px; font-weight:600;">IMPORTANCE NOTICE</p>
