@@ -1,6 +1,5 @@
 <?php 
  $compid = isset($id) ? $id : '';
-
  	// Employee Details
  	if(!empty($employee)){
 	 	$reg_no					= isset($employee[0]['registration_no']) ? $employee[0]['registration_no'] : '';
@@ -29,36 +28,47 @@
 	$workbased1 = '';
 	$individual1 = '';
 
-	$cpdarray = explode("@@@", $settings_cpd[0]['cpd']);
-	$devarray = explode("@-@", $cpdarray[0]);
-	$workarray = explode("@-@", $cpdarray[1]);
-	$indarray = explode("@-@", $cpdarray[2]);
-
-	if($user_details['designation'] == '1'){
+	if (isset($settings_cpd)) {
+		$cpdarray 	= explode("@@@", $settings_cpd[0]['cpd']);
+	}
+	if (isset($cpdarray)) {
+		$devarray 	= explode("@-@", $cpdarray[0]);
+	}
+	if (isset($cpdarray)) {
+		$workarray 	= explode("@-@", $cpdarray[1]);
+	}
+	if (isset($cpdarray)) {
+		$indarray 	= explode("@-@", $cpdarray[2]);
+	}
+	if (isset($user_details)) {
+		if($user_details['designation'] == '1'){
 		$developmental1 = isset($devarray[6]) ? $devarray[6] : '';
 		$workbased1 = isset($workarray[6]) ? $workarray[6] : '';
 		$individual1 = isset($indarray[6]) ? $indarray[6] : '';
+		}
+		elseif($user_details['designation'] == '2'){
+			$developmental1 = isset($devarray[5]) ? $devarray[5] : '';
+			$workbased1 = isset($workarray[5]) ? $workarray[5] : '';
+			$individual1 = isset($indarray[5]) ? $indarray[5] : '';
+		}
+		elseif($user_details['designation'] == '3'){
+			$developmental1 = isset($devarray[4]) ? $devarray[4] : '';
+			$workbased1 = isset($workarray[4]) ? $workarray[4] : '';
+			$individual1 = isset($indarray[4]) ? $indarray[4] : '';
+		}
+		elseif($user_details['designation'] == '4'){
+			$developmental1 = isset($devarray[3]) ? $devarray[3] : '';
+			$workbased1 = isset($workarray[3]) ? $workarray[3] : '';
+			$individual1 = isset($indarray[3]) ? $indarray[3] : '';
+		}
+		elseif($user_details['designation'] == '6'){
+			$developmental1 = isset($devarray[2]) ? $devarray[2] : '';
+			$workbased1 = isset($workarray[2]) ? $workarray[2] : '';
+			$individual1 = isset($indarray[2]) ? $indarray[2] : '';
+		}
 	}
-	elseif($user_details['designation'] == '2'){
-		$developmental1 = isset($devarray[5]) ? $devarray[5] : '';
-		$workbased1 = isset($workarray[5]) ? $workarray[5] : '';
-		$individual1 = isset($indarray[5]) ? $indarray[5] : '';
-	}
-	elseif($user_details['designation'] == '3'){
-		$developmental1 = isset($devarray[4]) ? $devarray[4] : '';
-		$workbased1 = isset($workarray[4]) ? $workarray[4] : '';
-		$individual1 = isset($indarray[4]) ? $indarray[4] : '';
-	}
-	elseif($user_details['designation'] == '4'){
-		$developmental1 = isset($devarray[3]) ? $devarray[3] : '';
-		$workbased1 = isset($workarray[3]) ? $workarray[3] : '';
-		$individual1 = isset($indarray[3]) ? $indarray[3] : '';
-	}
-	elseif($user_details['designation'] == '6'){
-		$developmental1 = isset($devarray[2]) ? $devarray[2] : '';
-		$workbased1 = isset($workarray[2]) ? $workarray[2] : '';
-		$individual1 = isset($indarray[2]) ? $indarray[2] : '';
-	}
+
+	
 
 	$developmental = isset($history['developmental']) ? $history['developmental'] : '';
 	$workbased 	   = isset($history['workbased']) ? $history['workbased'] : '';
@@ -165,12 +175,13 @@
 						</thead>
 					</table>
 				</div>
-
 				<?php if (isset($employee) && $employee!='') { ?>
-					<div class="col-md-5 align-self-center">
-					<h4 class="card-title app_status">Average Industry Rating of Company Employees</h4>
-				</div>
-				<div class="row">
+					<div class="row">
+						<div class="col-md-5 align-self-center">
+						<h4 class="card-title app_status">Average Industry Rating of Company Employees</h4>
+						</div>
+					</div>
+					<div class="row">
 					<div class="col-md-6">
 						<label>Licensed Plumber and above</label>
 						<input type="text" class="form-control" readonly name="">
@@ -182,8 +193,7 @@
 						<input type="text" class="form-control" readonly name="">
 					</div>
 				</div>
-
-					<div class="row">
+				<div class="row">
 					<div class="col-md-6">
 						<h4 class="card-title">Employee Details</h4>
 					</div>
@@ -232,7 +242,7 @@
 							</div>
 						</div>
 					</div>
-				<div class="row">
+					<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>PIRB Designation:</label>
@@ -240,7 +250,8 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-6">
 							<h4 class="card-title">Specilisations</h4>
 							<div class="col-md-6">
 							<?php foreach ($specialization as $key => $value) { 
@@ -250,7 +261,8 @@
 								
 							</div>
 						</div>
-				<div class="row">
+					</div>
+					<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Number of Logged COC's:</label>
@@ -271,13 +283,17 @@
 							<input type="text" class="form-control" readonly name=""  value="">
 						</div>
 					</div>
-				<?php } ?>
-			</div>
-			<h4 class="card-title">CPD Overview</h4>
-			<div id="reviewchart"></div>
+				</div>
+					<h4 class="card-title">CPD Overview</h4>
+				<div id="reviewchart"></div>
 				
 				<div class="target"></div><label>Target</label>				
 				<div class="achieved"></div><label>Achieved</label>
+				<?php } ?>
+				
+				
+			</div>
+			
 		</div>
 	</div>
 </div>

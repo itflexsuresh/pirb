@@ -417,8 +417,13 @@ class CC_Controller extends CI_Controller
 		if(isset($result) && !$result){
 			redirect($extras['redirect']); 
 		}
-
-		$companyID = $id;
+		
+		if (is_array($id)) {
+			$companyID =  $id['compid'];
+		}else{
+			$companyID =  $id;
+		}
+		
 		$pagedata['menu']				= $this->load->view('common/company/menu', ['id'=>$companyID],true);
 		$data['plugins']				= ['datatables','validation','datepicker','inputmask','select2', 'morrischart'];
 		$pagedata['notification'] 		= $this->getNotification();
