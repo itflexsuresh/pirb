@@ -19,6 +19,7 @@
 				<h4 class="card-title">Performance Status</h4>
 				
 				<?php if(count($results) > 0 && $pagestatus!='1'){ ?>
+					<h5>Current Performance Status = <?php echo array_sum(array_column($results, 'point')); ?></h5>
 					<div id="performancechart"></div>
 				<?php } ?>
 				

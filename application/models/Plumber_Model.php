@@ -386,9 +386,9 @@ class Plumber_Model extends CC_Model
 		$data = $this->Global_performance_Model->getPointList('row', ['id' => $this->config->item('rollingaverage')]);
 		if($data && isset($data['point']) && $data['point']!=''){
 			$this->db->trans_begin();	
-			$date = date('Y-m-d', strtotime(date('Y-m-d').'+'.$data['point'].' months'));
-			$this->db->update('auditor_statement', ['archive' => '1'], ['auditcompletedate >=' => $date,'archive' => '0']);
-			$this->db->update('cpd_activity_form', ['archive' => '1'], ['approved_date >=' => $date,'archive' => '0']);	
+			$date = date('Y-m-d', strtotime(date('Y-m-d').'-'.$data['point'].' months'));
+			$this->db->update('auditor_statement', ['archive' => '1'], ['auditcompletedate <=' => $date,'archive' => '0']);
+			$this->db->update('cpd_activity_form', ['archive' => '1'], ['approved_date <=' => $date,'archive' => '0']);	
 			
 			if($this->db->trans_status() === FALSE)
 			{
