@@ -23,6 +23,7 @@ class Diary_Model extends CC_Model
 		if(isset($requestdata['companyid'])) 	$this->db->where('d.company_id', $requestdata['companyid']);
 		if(isset($requestdata['auditorid'])) 	$this->db->where('d.auditor_id', $requestdata['auditorid']);
 		if(isset($requestdata['cocid'])) 		$this->db->where('d.coc_id', $requestdata['cocid']);
+		if(isset($requestdata['actionid'])) 	$this->db->where('d.action_id', $requestdata['actionid']);
 		if(isset($requestdata['action'])) 		$this->db->where('d.action', $requestdata['action']);
 		
 		if($type=='count'){

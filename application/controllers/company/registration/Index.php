@@ -50,6 +50,8 @@ class Index extends CC_Controller
 					$this->CC_Model->sentMail($companydata['email'], $notificationdata['subject'], $body);
 				}
 				*/
+				
+				$this->CC_Model->diaryactivity(['companyid' => $userid, 'action' => '1', 'type' => '3']);
 				$this->session->set_flashdata('success', $mark);
 			}else{
 				$this->session->set_flashdata('error', 'Try Later.');

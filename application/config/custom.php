@@ -493,5 +493,9 @@ $config['diary'] 				= 		[
 											'4' => 'Profile updated successfully.',
 											'5' => 'Purchased COC',
 											'6' => 'Allocated COC',
+											'7' => 'COC Logged',
+											'8' => 'Auditor Allocated',
+											'9' => 'Auditor Review Completed',
+											'10' => 'Auditor Review Completed with refix',
 										];										
 
