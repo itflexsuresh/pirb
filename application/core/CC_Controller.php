@@ -790,6 +790,11 @@ class CC_Controller extends CI_Controller
 						$body 		= str_replace(['{Plumbers Name and Surname}', '{Performance warning status}'], [$plumber['name'].' '.$plumber['surname'], $warningtext], $notificationdata['email_body']);
 						$this->CC_Model->sentMail($plumber['email'], $notificationdata['subject'], $body);
 					}
+					
+					if($warninglevel=='4'){
+						$this->db->update('users', ['status' => '2'], ['id' => $plumberid]);
+						$this->db->update('users_details', ['status' => '2'], ['user_id' => $plumberid]);
+					}
 				}
 			}else{
 				$this->db->update('users', ['performancestatus' => '0'], ['id' => $plumberid]);
