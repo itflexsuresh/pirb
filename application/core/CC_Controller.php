@@ -418,7 +418,7 @@ class CC_Controller extends CI_Controller
 			redirect($extras['redirect']); 
 		}
 
-		$companyID = $id['compid'];
+		$companyID = $id;
 		$pagedata['menu']				= $this->load->view('common/company/menu', ['id'=>$companyID],true);
 		$data['plugins']				= ['datatables','validation','datepicker','inputmask','select2', 'morrischart'];
 		$pagedata['notification'] 		= $this->getNotification();
