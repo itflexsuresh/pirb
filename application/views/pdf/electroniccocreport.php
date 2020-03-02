@@ -179,7 +179,7 @@ echo'<!DOCTYPE html>
                           <h4 style="font-size: 19px; line-height:18px; font-weight: 600; margin:0;">Installation Details <span style="font-size: 18px;line-height: 10px;font-weight: 400;">(Details of the work undertaken or scope of work for which the COC is being issued for)</span></h4>
                       </div>
                       <div class="box" style="background: #fff; padding: 10px 5px; border-bottom:1px solid #e7e8e9;">
-                          <h6 style="font-size:14px; margin:0;"> </h6>
+                          <h6 style="font-size:14px; margin:0;">'.$result['cl_installation_detail'].'</h6>
                       </div>
                       <div class="box" style="background: #fff; padding: 10px 5px; border-bottom:1px solid #e7e8e9;">
                           <h6 style="font-size:14px; margin:0;"> </h6>
