@@ -1,6 +1,6 @@
 <p>Diary of Activities</p>
 <div class="row">
-	<div class="col-12">
+	<div class="col-12 diarybar">
 		<?php			
 			foreach($results as $result){
 				$id 			= isset($result['id']) ? $result['id'] : '';
