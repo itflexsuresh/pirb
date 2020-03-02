@@ -487,6 +487,9 @@ $config['reviewtype'] 			= 		[
 										];										
 
 $config['diary'] 				= 		[
-											'1' => 'Registered Successfully'
+											'1' => 'Registered successfully.',
+											'2' => 'Application is approved.',
+											'3' => 'Application is rejected.',
+											'4' => 'Profile updated successfully.',
 										];										
 

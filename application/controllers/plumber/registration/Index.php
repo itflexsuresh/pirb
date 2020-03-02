@@ -41,7 +41,7 @@ class Index extends CC_Controller
 					$this->CC_Model->sentMail($plumberdata['email'], $notificationdata['subject'], $body);
 				}
 				
-				$this->Diary_Model->action(['plumberid' => $userid, 'action' => '1']);
+				$this->Diary_Model->action(['plumberid' => $userid, 'action' => '1', 'type' => '2']);
 				$this->session->set_flashdata('success', 'Thanks for submitting the application. You will get notified through email about the application status.');
 			}else{
 				$this->session->set_flashdata('error', 'Try Later.');
