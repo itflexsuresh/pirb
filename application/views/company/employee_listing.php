@@ -1,3 +1,16 @@
+ <style>
+.target {
+  width: 8px;
+    height: 9px;
+    background-color: #4472c4;
+}
+.achieved {
+     width: 8px;
+    height: 9px;
+    background-color: #ed7d31;
+}
+</style>
+
 <?php 
  $compid = isset($id) ? $id : '';
  	// Employee Details
@@ -133,6 +146,7 @@
 	// 	$noauditpercentage = 0;
 
  ?>
+
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
 		<h4 class="text-themecolor">Employee Listing</h4>
@@ -280,8 +294,8 @@
 					<h4 class="card-title">CPD Overview</h4>
 				<div id="reviewchart"></div>
 				
-				<div class="target"></div><label>Target</label>				
-				<div class="achieved"></div><label>Achieved</label>
+				<div class="target" style="width: 8px;height: 9px;background-color: #4472c4;"></div><label>Target</label>				
+				<div class="achieved" style="width: 8px;height: 9px;background-color: #ed7d31;"></div><label>Achieved</label>
 				<?php } ?>
 				
 				
