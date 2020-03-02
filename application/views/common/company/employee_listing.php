@@ -1,3 +1,16 @@
+ <style>
+.target {
+  width: 8px;
+    height: 9px;
+    background-color: #4472c4;
+}
+.achieved {
+     width: 8px;
+    height: 9px;
+    background-color: #ed7d31;
+}
+</style>
+
 <?php 
  $compid = isset($id) ? $id : '';
  	// Employee Details
@@ -99,44 +112,52 @@
 	//Adudit
 
 
-	// $loggedcoc 		 = isset($loggedcoc) ? $loggedcoc : '';
-	// $count 			 = isset($history['count']) ? $history['count'] : '';
-	// $total1 		= isset($history['total']) ? $history['total'] : '';
-	// $refixincomplete = isset($history['refixincomplete']) ? $history['refixincomplete'] : '';
-	// $refixcomplete 	 = isset($history['refixcomplete']) ? $history['refixcomplete'] : '';
-	// $compliment 	 = isset($history['compliment']) ? $history['compliment'] : '';
-	// $cautionary 	 = isset($history['cautionary']) ? $history['cautionary'] : '';
-	// $noaudit 		 = isset($history['noaudit']) ? $history['noaudit'] : '';
+	//Adudit
 
-	// if($loggedcoc > 0 && $count > 0)
-	// 	$percentage 	= round(($count/$loggedcoc)*100,2).'%'; 
-	// else
-	// 	$percentage = 0;
 
-	// if($refixincomplete > 0)
-	// 	$refixincompletepercentage 	= round(($refixincomplete/$total)*100,2).'%'; 
-	// else
-	// 	$refixincompletepercentage = 0;
+	$loggedcoc 		 = isset($loggedcoc) ? $loggedcoc : '';
+	$count 			 = isset($history['count']) ? $history['count'] : '';
+	$totals 			= isset($history['total']) ? $history['total'] : '';
+	$refixincomplete = isset($history['refixincomplete']) ? $history['refixincomplete'] : '0';
+	$refixcomplete 	 = isset($history['refixcomplete']) ? $history['refixcomplete'] : '0';
+	$compliment 	 = isset($history['compliment']) ? $history['compliment'] : '0';
+	$cautionary 	 = isset($history['cautionary']) ? $history['cautionary'] : '0';
+	$noaudit 		 = isset($history['noaudit']) ? $history['noaudit'] : '0';
 
-	// if($refixcomplete > 0)
-	// 	$refixcompletepercentage 	= round(($refixcomplete/$total)*100,2).'%'; 
-	// else
-	// 	$refixcompletepercentage = 0;
+	if($loggedcoc > 0 && $count > 0)
+		$percentage 	= round(($count/$loggedcoc)*100,2).'%'; 
+	else
+		$percentage = 0;
 
-	// if($compliment > 0)
-	// 	$complimentpercentage 		= round(($compliment/$total)*100,2).'%';
-	// else
-	// 	$complimentpercentage = 0;
 
-	// if($cautionary > 0)
-	// 	$cautionarypercentage 		= round(($cautionary/$total)*100,2).'%';
-	// else
-	// 	$cautionarypercentage = 0;
+	if($refixincomplete > 0 && $total>0 && $total!='')
+		$refixincompletepercentage 	= round(($refixincomplete/$total)*100,2).'%'; 
+	else
+		$refixincompletepercentage = 0;
 
-	// if($noaudit > 0)
-	// 	$noauditpercentage 			= round(($noaudit/$total)*100,2).'%';
-	// else
-	// 	$noauditpercentage = 0;
+
+	if($refixcomplete > 0 && $total>0 && $total!='')
+		$refixcompletepercentage 	= round(($refixcomplete/$total)*100,2).'%'; 
+	else
+		$refixcompletepercentage = 0;
+
+
+	if($compliment > 0 && $total>0 && $total!='')
+		$complimentpercentage 		= round(($compliment/$total)*100,2).'%';
+	else
+		$complimentpercentage = 0;
+
+
+	if($cautionary > 0 && $total>0 && $total!='')
+		$cautionarypercentage 		= round(($cautionary/$total)*100,2).'%';
+	else
+		$cautionarypercentage = 0;
+
+
+	if($noaudit > 0 && $total>0 && $total!='')
+		$noauditpercentage 			= round(($noaudit/$total)*100,2).'%';
+	else
+		$noauditpercentage = 0;
 
  ?>
 <div class="row page-titles">
@@ -287,8 +308,28 @@
 					<h4 class="card-title">CPD Overview</h4>
 				<div id="reviewchart"></div>
 				
-				<div class="target"></div><label>Target</label>				
-				<div class="achieved"></div><label>Achieved</label>
+				<div class="target" style="width: 8px;height: 9px;background-color: #4472c4;"></div><label>Target</label>				
+				<div class="achieved" style="width: 8px;height: 9px;background-color: #ed7d31;"></div><label>Achieved</label>
+				<div id="reviewchart1"></div>
+				<div class="row">
+					<div class="col-md-2">
+						<label >Number of Logged COC's</label>
+					</div>
+					<div class="col-md-3">
+						<input type="text" class="form-control" name="loggedcoc" value="<?php echo $loggedcoc; ?>">
+					</div>
+					<div class="col-md-2">
+						<label>Number Audits Done to Date</label>
+					</div>
+					<div class="col-md-3">
+						<input type="text" class="form-control" name="auditdone" value="<?php echo $count; ?>">
+					</div>
+					<div class="col-md-2">
+						<input type="text" class="form-control" name="percentage" value="<?php echo $percentage; ?>">
+					</div>
+				</div>
+				<div class="target" style="width: 8px;height: 9px;background-color: #4472c4;"></div><label>Target</label>				
+				<div class="achieved" style="width: 8px;height: 9px;background-color: #ed7d31;"></div><label>Achieved</label>
 				<?php } ?>
 				
 				
@@ -367,6 +408,57 @@
 			if(series.key == "a") return "#4472C4";
 			if(series.key == "b") return "#ED7D31";
 			// return barcolor[row.x];
+		}, 
+        hideHover: 'auto',
+        gridLineColor: '#000',
+        resize: true
+    });
+
+    var auditorid 		= '<?php echo $auditorid; ?>';
+	var totals 			= '<?php echo $total; ?>';
+	var refixincomplete = '<?php echo $refixincomplete; ?>';
+	var refixcomplete 	= '<?php echo $refixcomplete; ?>';
+	var compliment 		= '<?php echo $compliment; ?>';
+	var cautionary 		= '<?php echo $cautionary; ?>';
+	var noaudit 		= '<?php echo $noaudit; ?>';
+
+	var barcolor = ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4'];
+	
+	Morris.Bar({
+		barSizeRatio:0.4,
+        element: 'reviewchart1',
+        data: [
+			{
+				y: 'Total Number of Audit Findings',
+				a: total
+			}, 
+			{
+				y: 'Compliments',
+				a: compliment
+			}, 
+			{
+				y: 'Cautionary',
+				a: cautionary
+			}, 
+			{
+				y: 'Refix (Complete)',
+				a: refixcomplete
+			}, 
+			{
+				y: 'Refix (In-Complete)',
+				a: refixincomplete
+			}, 
+			{
+				y: 'No Audit',
+				a: noaudit
+			}
+		],
+        xkey: 'y',
+		xLabelMargin : 1,
+        ykeys: ['a'],
+        labels: ['Audit'],
+		barColors: function (row, series, type) {
+			return barcolor[row.x];
 		}, 
         hideHover: 'auto',
         gridLineColor: '#000',

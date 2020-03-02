@@ -84,8 +84,7 @@ class Employee_listing extends CC_Controller
 
 			$pagedata['loggedcoc']		= $this->Coc_Model->getCOCList('count', ['user_id' => $result[0]['user_id'], 'coc_status' => ['2']]);
 		
-		
-		
+		//print_r($pagedata['loggedcoc']);die;
 		$companyID = $this->getuserID();
 		$data['plugins']				= ['datatables','validation','datepicker','inputmask','select2', 'morrischart'];
 		$pagedata['notification'] 		= $this->getNotification();
