@@ -39,7 +39,7 @@
 					</div>
 				</div>
 
-				<div class="col-md-12">
+				<div class="col-md-12 diarybar">
 					<div class="form-group ">
 						<label>Admin Comment</label>
 						<div class="comment_section">
