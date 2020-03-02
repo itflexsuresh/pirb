@@ -11,6 +11,7 @@ class Index extends CC_Controller
 		$this->load->model('Systemsettings_Model');
 		$this->load->model('CC_Model');
 		$this->load->model('Plumber_Model');
+		$this->load->model('Diary_Model');
 	}
 	
 	public function index()
@@ -192,7 +193,7 @@ class Index extends CC_Controller
 			
 					$result0 = $this->Coc_Model->action($requestData0, 3);
 					
-
+				$this->CC_Model->diaryactivity(['plumberid' => $this->getUserID(), 'action' => '5', 'type' => '2']);
 
 
 

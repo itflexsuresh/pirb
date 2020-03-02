@@ -491,5 +491,7 @@ $config['diary'] 				= 		[
 											'2' => 'Application is approved.',
 											'3' => 'Application is rejected.',
 											'4' => 'Profile updated successfully.',
+											'5' => 'Purchased COC',
+											'6' => 'Allocated COC',
 										];										
 

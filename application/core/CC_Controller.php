@@ -280,7 +280,7 @@ class CC_Controller extends CI_Controller
 					if(isset($requestData['approval_status'])){
 						$diaryparam = ($extras['roletype']=='1') ? ['adminid' => $this->getUserID(), 'type' => '1'] : [];
 						if($requestData['approval_status']=='1'){
-							$this->Diary_Model->action(['plumberid' => $id, 'action' => '2']+$diaryparam);
+							$this->CC_Model->diaryactivity(['plumberid' => $id, 'action' => '2']+$diaryparam);
 							
 							$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '5', 'emailstatus' => '1']);
 				
@@ -289,7 +289,7 @@ class CC_Controller extends CI_Controller
 								$this->CC_Model->sentMail($result['email'], $notificationdata['subject'], $body);
 							}
 						}elseif($requestData['approval_status']=='2'){
-							$this->Diary_Model->action(['plumberid' => $id, 'action' => '3']+$diaryparam);
+							$this->CC_Model->diaryactivity(['plumberid' => $id, 'action' => '3']+$diaryparam);
 							
 							$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '6', 'emailstatus' => '1']);
 				
@@ -303,7 +303,7 @@ class CC_Controller extends CI_Controller
 				
 				if(isset($requestData['submit']) && $requestData['submit']!='approvalsubmit'){
 					$diaryparam = ($extras['roletype']=='1') ? ['adminid' => $this->getUserID(), 'type' => '1'] : ['type' => '2'];
-					$this->Diary_Model->action(['plumberid' => $id, 'action' => '4']+$diaryparam);
+					$this->CC_Model->diaryactivity(['plumberid' => $id, 'action' => '4']+$diaryparam);
 				}
 				
 				$this->session->set_flashdata('success', $message);

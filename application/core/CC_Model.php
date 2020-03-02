@@ -109,4 +109,36 @@ class CC_Model extends CI_Model
 			return '';
 		}
 	}
+	
+	public function diaryactivity($data)
+	{
+		$this->db->trans_begin();
+		
+		$datetime		= 	date('Y-m-d H:i:s');
+		
+		$request		=	[
+			'datetime' 		=> $datetime
+		];
+		
+		if(isset($data['adminid'])) 	$request['admin_id'] 	= $data['adminid'];
+		if(isset($data['plumberid'])) 	$request['plumber_id'] 	= $data['plumberid'];
+		if(isset($data['companyid'])) 	$request['company_id'] 	= $data['companyid'];
+		if(isset($data['auditorid'])) 	$request['auditor_id'] 	= $data['auditorid'];
+		if(isset($data['cocid'])) 		$request['coc_id'] 		= $data['cocid'];
+		if(isset($data['action'])) 		$request['action']	 	= $data['action'];
+		if(isset($data['type'])) 		$request['type']	 	= $data['type'];
+		
+		$this->db->insert('diary', $request);
+		
+		if($this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+			return false;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
 }
