@@ -767,8 +767,8 @@ class CC_Controller extends CI_Controller
 						$warningend = isset($warnings[$i+1]['point']) ? $warnings[$i+1]['point'] : '0';
 						
 						if(
-							($warningend!='0' && ((abs($warningpoint) < abs($plumberpoint)) && (abs($warningend) > abs($plumberpoint)))) ||
-							($warningend=='0' && ((abs($warningpoint) < abs($plumberpoint))))
+							($warningend!='0' && ((abs($warningpoint) <= abs($plumberpoint)) && (abs($warningend) > abs($plumberpoint)))) ||
+							($warningend=='0' && ((abs($warningpoint) <= abs($plumberpoint))))
 						){
 							$warninglevel = $i+1;
 							$warningtext  = $warnings[$i]['warning'];
@@ -793,7 +793,7 @@ class CC_Controller extends CI_Controller
 					
 					if($warninglevel=='4'){
 						$this->db->update('users', ['status' => '2'], ['id' => $plumberid]);
-						$this->db->update('users_details', ['status' => '2'], ['user_id' => $plumberid]);
+						$this->db->update('users_detail', ['status' => '2'], ['user_id' => $plumberid]);
 					}
 				}
 			}else{
