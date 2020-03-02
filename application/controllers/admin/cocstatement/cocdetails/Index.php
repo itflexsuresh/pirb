@@ -35,6 +35,14 @@ class Index extends CC_Controller
 				$coctype 	= isset($this->config->item('coctype')[$result['type']]) ? $this->config->item('coctype')[$result['type']] : '';
 				$status 	= isset($this->config->item('cocstatus')[$result['coc_status']]) ? $this->config->item('cocstatus')[$result['coc_status']] : '';
 				
+				if($coctype!='1'){
+					$action		= 	'<div class="table-action">
+										<a href="'.base_url().'admin/cocstatement/cocdetails/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+									</div>';
+				}else{
+					$action 	= 	'';
+				}
+				
 				$totalrecord[] = 	[
 										'cocno' 		=> 	$result['id'],
 										'coctype' 		=> 	$coctype,
@@ -42,11 +50,7 @@ class Index extends CC_Controller
 										'plumber' 		=> 	($result['u_type']=='3') ? $result['u_name'] : '-',
 										'reseller' 		=> 	($result['u_type']=='6') ? $result['u_name'] : '-',
 										'auditor' 		=> 	($result['u_type']=='5') ? $result['u_name'] : '-',
-										'action'		=> 	'
-																<div class="table-action">
-																	<a href="'.base_url().'admin/cocstatement/cocdetails/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-																</div>
-															'
+										'action'		=> 	$action
 									];
 			}
 		}
