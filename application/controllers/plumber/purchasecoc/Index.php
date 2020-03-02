@@ -165,7 +165,7 @@ class Index extends CC_Controller
 				$requestData1['coc_type']		= 	$requestData['coc_type'];
 				
 				$result1 = $this->Coc_Model->action($requestData1, 1);
-				$this->CC_Model->diaryactivity(['plumberid' => $this->getUserID(), 'actionid' => $result1, 'action' => '5', 'type' => '2']);
+				$this->CC_Model->diaryactivity(['plumberid' => $this->getUserID(), 'action' => '5', 'type' => '2']);
 				
 					$requestData2['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
 					$requestData2['user_id']			= 	$this->getUserID();
