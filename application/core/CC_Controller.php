@@ -764,9 +764,12 @@ class CC_Controller extends CI_Controller
 			
 					if($plumberpoint < 0){					
 						$warningpoint = $warnings[$i]['point'];
-						$warningstart = isset($warnings[$i-1]['point']) ? $warnings[$i-1]['point'] : '0';
+						$warningend = isset($warnings[$i+1]['point']) ? $warnings[$i+1]['point'] : '0';
 						
-						if((abs($warningstart) < abs($plumberpoint)) && (abs($warningpoint) > abs($plumberpoint))){
+						if(
+							($warningend!='0' && ((abs($warningpoint) < abs($plumberpoint)) && (abs($warningend) > abs($plumberpoint)))) ||
+							($warningend=='0' && ((abs($warningpoint) < abs($plumberpoint))))
+						){
 							$warninglevel = $i+1;
 							$warningtext  = $warnings[$i]['warning'];
 						}					
