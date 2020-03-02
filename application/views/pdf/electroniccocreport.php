@@ -1,7 +1,10 @@
 <?php
 $cocid 					= isset($result['id']) ? $result['id'] : '';	
+$cocid = ' '.$cocid;
 $completiondate 		= isset($result['cl_completion_date']) && $result['cl_completion_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_completion_date'])) : '';
+$completiondate = ' '.$completiondate;
 $cl_order_no 			= isset($result['cl_order_no']) ? $result['cl_order_no'] : '';
+$cl_order_no = ' '.$cl_order_no;
 $name 					= isset($result['cl_name']) ? $result['cl_name'] : '';
 $address 				= isset($result['cl_address']) ? $result['cl_address'] : '';
 $street 				= isset($result['cl_street']) ? $result['cl_street'] : '';
@@ -14,6 +17,15 @@ $cl_contact_no 			= isset($result['cl_contact_no']) ? $result['cl_contact_no'] :
 $installationtypeid   = isset($result['cl_installationtype']) ? explode(',', $result['cl_installationtype']) : [];
 $specialisationsid    = isset($result['cl_specialisations']) ? explode(',', $result['cl_specialisations']) : [];
 
+function base64conversion($path){
+  $type = pathinfo($path, PATHINFO_EXTENSION);
+  $data = file_get_contents($path);
+  return 'data:image/' . $type . ';base64,' . base64_encode($data);
+}
+
+$textimg = base64conversion(base_url().'assets/images/text-img.png');
+$logoimg = base64conversion(base_url().'assets/images/logo-img.png');
+$tickimg = base64conversion(base_url().'assets/images/tick.png');
 
 echo'<!DOCTYPE html> 
 <html>
@@ -25,13 +37,13 @@ echo'<!DOCTYPE html>
           <div class="certificate-block">
               <div class="container" style="width:1300px; margin:0 auto; padding:16px 25px 25px 25px; border: 4px solid #00aeef; border-radius: 50px;">
                   <div class="uper-block">
-                      <h2 align="center" style="padding-bottom:10px; margin:0;"><img src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/text-img.png"  style="width:96%; margin:0 auto;"></h2>
+                      <h2 align="center" style="padding-bottom:10px; margin:0;"><img src="'.$textimg.'"  style="width:96%; margin:0 auto;"></h2>
                       <div class="logo-block" style="width:48%; float: left; ">
-                          <img style="margin-top: 50px; width: 100%; height: auto; width: 70%; height: auto; src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/logo-img.png" />
+                          <img style="margin-top: 50px; width: 100%; height: auto; width: 70%; height: auto; src="'.$logoimg.'" />
                       </div>
                       <div class="rt-side" style="float: right;width: 50%;padding: 20px 0 0 15px;margin-top: 50px; box-sizing: border-box;">
                           <div class="box" style="height: 40px; padding:7px 4px 3px 6px; margin: 0 0 4px; background: #d1d3d4;">
-                              <h4 style="font-size: 23px;font-weight: 400;color: #000;padding:10px;float: left; margin:0;">Certificate N:</h4><span style="background: #fff;padding:12px 0;width: 70%;display: inline-block;height: 14px;float: right;"> '.$cocid.'</span>
+                              <h4 style="font-size: 23px;font-weight: 400;color: #000;padding:10px;float: left; margin:0;">Certificate N:</h4><span style="background: #fff;padding:12px 0;width: 70%;display: inline-block;height: 14px;float: right;">'.$cocid.'</span>
                               <div style="clear:both;"></div>
                           </div>
                           <div class="box" style="text-align: center;padding:10px;margin: 0 0 4px;background: #f3cfc1;;">
@@ -119,7 +131,7 @@ echo'<!DOCTYPE html>
                              <h4 style="padding: 2px 0;font-size: 16px;line-height: 16px; margin:0;"><?php echo $value['code'];?></h4>
                          </div>
                          <div class="block_sec" style="width:10%; float: left; text-align: center;">
-                             <h4 style="padding-top:2px; margin:0;"><?php echo (in_array($value['id'], $installationtypeid)) ? '<img style="height:10px; weight:10px;" src="<?php echo $docurl; ?>/auditit_new/pirb/assets/images/tick.png"/>' : ''; ?></h4>
+                             <h4 style="padding-top:2px; margin:0;"><?php echo (in_array($value['id'], $installationtypeid)) ? '<img style="height:20px; weight:20px;" src="<?php echo $tickimg; ?>"/>' : ''; ?></h4>
                          </div>
                          <div style="clear:both;"></div>
                       </div>
