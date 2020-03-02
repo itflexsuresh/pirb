@@ -19,11 +19,12 @@ class Index extends CC_Controller
 		$rollingavg 				= $this->getRollingAverage();
 		$date						= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
 		$pagestatus					= ($pagestatus=='2' ? '1' : '0');
+		$extraparam					= $pagestatus=='0' ? ['date' => $date] : [];
 		
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['pagestatus'] 	= $pagestatus;
 		$pagedata['warning']		= $this->Global_performance_Model->getWarningList('all', ['status' => ['1']]);
-		$pagedata['results']		= $this->Plumber_Model->performancestatus('all', ['plumberid' => $userid, 'date' => $date, 'archive' => $pagestatus]);
+		$pagedata['results']		= $this->Plumber_Model->performancestatus('all', ['plumberid' => $userid, 'archive' => $pagestatus]+$extraparam);
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'morrischart'];
 		$data['content'] 			= $this->load->view('plumber/performancestatus/index', (isset($pagedata) ? $pagedata : ''), true);
