@@ -39,8 +39,11 @@ class Index extends CC_Controller
 		$date			= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
 		
 		$post 			= $this->input->post();
-		$totalcount 	= $this->Plumber_Model->performancestatus('count', ['plumberid' => $userid, 'date' => $date]+$post);
-		$results 		= $this->Plumber_Model->performancestatus('all', ['plumberid' => $userid, 'date' => $date]+$post);
+		if($post['archive']=='0'){
+			$post['date'] = $date;
+		}
+		$totalcount 	= $this->Plumber_Model->performancestatus('count', ['plumberid' => $userid]+$post);
+		$results 		= $this->Plumber_Model->performancestatus('all', ['plumberid' => $userid]+$post);
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
