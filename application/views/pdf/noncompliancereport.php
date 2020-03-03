@@ -247,6 +247,13 @@ function base64conversion($path){
 				</table>
 			</td>
 		</tr>
+		
+		<tr>
+			<td>
+				<h5>DISCLAIMER: This doument was developed by PIRB to assist plumbers in providing a non compliance notice.  The responsibility </h5>
+				<h5>for notifying the user & owner, lies with the lisenced plumber. This document is simply a guide & is not exhaustive.</h5>
+			</td>
+		</tr>
 
 	</tbody>
 </table>
