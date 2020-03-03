@@ -86,7 +86,7 @@ class Coc_Ordermodel extends CC_Model
 
 	public function action($data){
 		
-		//echo "<pre>"; print_r($data);die;
+		echo "<pre>"; print_r($data);die;
 		if(isset($data['quantity'])) 		$requestdata['description'] 	= 'Purchase of '.$data['quantity'].' PIRB Certificate of Compliance';	
 		if(isset($data['created_at'])) 	    $requestdata['created_at'] 		= date('Y-m-d H:i:s', strtotime($data['created_at']));
 		if(isset($data['user_id']))			$requestdata['user_id'] 		= $data['user_id'];	
@@ -120,9 +120,12 @@ class Coc_Ordermodel extends CC_Model
 
 				// $counnt = "count + 1";
 				// $increase_count = $this->db->update('coc_count', $counnt,['user_id'=>$data['user_id']]);
-				$this->db->set('count', 'count + '.$data['quantity'].'',FALSE); 
-				$this->db->where('user_id', $data['user_id']); 
-				$increase_count = $this->db->update('coc_count'); 
+				if (isset($data['admin_status'])) {
+					$this->db->set('count', 'count + '.$data['quantity'].'',FALSE); 
+					$this->db->where('user_id', $data['user_id']); 
+					$increase_count = $this->db->update('coc_count'); 
+				}
+				
 				// echo $this->db->last_query();exit;
 			} else {
 				$result1 = $this->db->insert('invoice', $requestdata);
@@ -140,6 +143,7 @@ class Coc_Ordermodel extends CC_Model
 				
 				$result = $this->db->insert('coc_orders', $requestdata1);
 
+				
 				$this->db->set('count', 'count - '.$data['quantity'].'',FALSE); 
 				$this->db->where('user_id', $data['user_id']); 
 				$decrease_count = $this->db->update('coc_count'); 
