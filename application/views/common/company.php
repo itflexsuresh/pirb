@@ -729,7 +729,7 @@ function ajaxOTPVerify(data){
 	ajax('<?php echo base_url().'ajax/index/ajaxotpverification'; ?>', {otp: data}, '', { 
 		success:function(data){
 			if (data == 0) {
-				$('#otp').parent().append('<p class="tagline error_otp">Incorrect OTP</p>');
+				$('#otpnumber').parent().append('<p class="tagline error_otp">Incorrect OTP</p>');
 			}else{
 				$( "#hid_sub_reg" ).trigger( "click" );
 			}
