@@ -231,7 +231,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 										</div>
 										<div class="col-md-12">
 											<div class="form-group">
-												<input id="sampleOtp" type="text" class="form-control skill_training" readonly>
+												<input id="sampleOtp" type="text" class="form-control skill_training displaynone" readonly>
 												<div class="invalidOTP" style="color: red;"> Given OTP is Invalid ! </div>
 												<label>Enter OTP</label>
 												<input name="otpnumber" id="otpnumber" type="text" class="form-control skill_training">
@@ -471,7 +471,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 		ajax('<?php echo base_url().'ajax/index/ajaxotp'; ?>', {}, '', { 
 			success:function(data){
 				if(data!=''){
-					$('#sampleOtp').val(data);
+					$('#sampleOtp').removeClass('displaynone').val(data);
 				}
 			}
 		})

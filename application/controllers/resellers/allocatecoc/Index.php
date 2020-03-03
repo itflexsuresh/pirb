@@ -63,6 +63,7 @@ class Index extends CC_Controller
 		$pagedata['company'] 		= $this->getCompanyList();
 		$pagedata['designation2'] 		= $this->config->item('designation2');
 		$pagedata['specialisations'] 	= $this->config->item('specialisations');
+		$pagedata['userid'] 	= $this->getUserID();
 
 		
 		
