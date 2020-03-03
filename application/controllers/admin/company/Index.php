@@ -98,7 +98,7 @@ class Index extends CC_Controller
 	
 	public function action($id)
     {
-       $this->companyprofile($id, ['roletype' => $this->config->item('roleadmin'), 'pagetype' => 'adminprofile'], ['redirect' => 'admin/company/company/index']);
+        $this->companyprofile($id, ['roletype' => $this->config->item('roleadmin'), 'pagetype' => 'adminprofile'], ['redirect' => 'admin/company/index']);
     }
 
     public function rejected()
