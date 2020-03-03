@@ -170,7 +170,6 @@ class Resellers_allocatecoc_Model extends CC_Model
 				$users1 = $this->db->update('stock_management', $request2, ['id' => $updateid]);
 
 			}
-
 			
 			$balace_coc = $data['balace_coc1'];
 			$rangebalace_coc = $data['rangebalace_coc'];
