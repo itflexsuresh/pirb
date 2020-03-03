@@ -889,4 +889,57 @@ class CC_Controller extends CI_Controller
 		$data['results'] 	= $this->Diary_Model->getList('all', $requestdata);
 		return $this->load->view('common/diary', $data, true);
 	}
+	
+	public function sms($data)
+	{
+		$param = [
+			'Type' 		=> 'sendparam',
+			'username' 	=> 'PIRB%20Registration',
+			'password' 	=> 'Plumber',
+			'numto' 	=> $data['no'],
+			'data1' 	=> $data['msg']
+		];
+		
+		$url = 'http://www.mymobileapi.com/api5/http5.aspx';
+		
+		$this->curlRequest($url, 'GET', $param);
+	}
+	
+	public function curlRequest($url, $method, $param=[])
+	{
+		$curl = curl_init(); 
+
+        if (!$curl) {
+            die("Couldn't initialize a cURL handle"); 
+        }
+		
+		if($method=='GET' && count($param) > 0){
+			$url = $url.'?'.http_build_query($param);
+		}
+		
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Accept: application/json')); 
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); 
+        
+		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method); 
+		
+		if($method=='POST' && count($param) > 0){			
+			$param = json_encode($param);
+			curl_setopt($curl, CURLOPT_POSTFIELDS, $param);
+		}
+		
+        $result = curl_exec($curl); 
+
+        if (curl_errno($curl)){
+			return false;
+            //echo 'cURL error: ' . curl_error($curl); 
+        }else{ 
+           // print_r(curl_getinfo($curl)); 
+        }
+		
+        curl_close($curl);
+		
+		
+		return $result;
+	}
 }
