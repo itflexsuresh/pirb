@@ -154,6 +154,11 @@ class Index extends CC_Controller
     public function emplist($id){
          $this->employee($id, ['roletype' => $this->config->item('roleadmin'),'redirect' => 'admin/company/index/index']);
     }
+	
+	 public function diary($id){
+        //print_r($id);die;
+        $this->companydiary($id, ['roletype' => $this->config->item('roleadmin'),'redirect' => 'admin/company/index/index']);
+    }
 
 
 }
