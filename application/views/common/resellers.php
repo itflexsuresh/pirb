@@ -278,7 +278,8 @@ else{ ?>
 						<div class="form-group">
 							<label>Number of CoC's Able to purchase number *</label>	
 							<input type="text" class="form-control" id="coc_purchase_limit" name="coc_purchase_limit"  value="<?php echo $coc_purchase_limit; ?>" onkeypress="myFunction()">
-							<input type="hidden" id="stockcount" name="stockcount" value="<?php echo $stock_count;?>">
+							<input type="hidden" id="totalstockcount" name="totalstockcount" value="<?php echo $stock_count;?>">
+							<input type="hidden" id="stockcount" name="stockcount" value="<?php echo $stock_count-$coc_purchase_limit ;?>">
 							<span id="stockcountlimet" style="color:red"></span>
 							</div>						
 							</div>
@@ -320,17 +321,17 @@ else {
 <script type="text/javascript">
 
 
-$("#coc_purchase_limit").keyup(function(){
-  var limitval = $("#coc_purchase_limit").val();
-  var stockcount = $("#stockcount").val();
-  var totalcount = stockcount-limitval;
-  if(totalcount < 0){  	
-  	$('#stockcountlimet').text("Stock Count is "+stockcount);
-  }
-  else{
-  	$('#stockcountlimet').text("");	
-  }
-});
+// $("#coc_purchase_limit").keyup(function(){
+//   var limitval = $("#coc_purchase_limit").val();
+//   var stockcount = $("#stockcount").val();
+//   var totalcount = stockcount-limitval;
+//   if(totalcount < 0){  	
+//   	$('#stockcountlimet').text("Stock Count is "+stockcount);
+//   }
+//   else{
+//   	$('#stockcountlimet').text("");	
+//   }
+// });
 
 $(function(){
 	datatable();
@@ -429,16 +430,16 @@ $(function(){
 
 	$('#submit').click(function(e){
 		
-		var limitval = $("#coc_purchase_limit").val();
-		var stockcount = $("#stockcount").val();
-		var totalcount = stockcount-limitval;
-		if(totalcount < 0){  	
-			event.preventDefault();
-			$('#stockcountlimet').text("Stock Count is "+stockcount);
-		}
-		else{
-			$('#stockcountlimet').text("");	
-		}		
+		// var limitval = $("#coc_purchase_limit").val();
+		// var stockcount = $("#stockcount").val();
+		// var totalcount = stockcount-limitval;
+		// if(totalcount < 0){  	
+		// 	event.preventDefault();
+		// 	$('#stockcountlimet').text("Stock Count is "+stockcount);
+		// }
+		// else{
+		// 	$('#stockcountlimet').text("");	
+		// }		
 		
 		if($('form.resellers').valid()==false){
 			accord = $('.error_class_1').parents('.collapse').addClass('show');			
