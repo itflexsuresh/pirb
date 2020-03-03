@@ -471,7 +471,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 		ajax('<?php echo base_url().'ajax/index/ajaxotp'; ?>', {}, '', { 
 			success:function(data){
 				if(data!=''){
-					$('#sampleOtp').val(otp);
+					$('#sampleOtp').val(data);
 				}
 			}
 		})
