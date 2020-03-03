@@ -456,7 +456,6 @@
 						<div class="col-md-12">
 							<div class="form-group">
 								<input id="sampleotp" type="text" class="form-control skill_training" readonly>
-								<div class="invalidOTP" style="color: red;"> Given OTP is Invalid ! </div>
 								<label>Enter OTP</label>
 								<input name="otpnumber" id="otpnumber" type="text" class="form-control skill_training">
 							</div>

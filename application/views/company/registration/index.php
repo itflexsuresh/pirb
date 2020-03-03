@@ -55,27 +55,6 @@
 	</div>
 </div>
 
-<div id="otpmodal" class="modal fade" role="dialog">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-body">
-				<div class="row">
-					<p>Please confirm that you wish to sumbit your PIRB Registation Application.</p>
-					<p>A One Time Pin (OTP) was sent to the following Mobile Number: {***-*** *123}</p>
-					<div>
-						<input id="sampleotp" type="text" class="form-control displaynone" readonly>
-						<p>Enter OTP</p>
-						<input type="text" name="otp" id="otp">
-					</div>
-				</div>
-				<button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-				<button type="button" class="btn btn-success resendotp">Resend</button>
-				<button type="button" class="btn btn-success verifyotp">Verify</button>
-			</div>
-		</div>
-	</div>
-</div>
-
 <script type="text/javascript">
 
 
@@ -84,8 +63,7 @@ $(function(){
 })
 
 $('#submit').click(function(e){	
-	if($('.form').valid()==false){			
-		$('#otpmodal').modal('show');
+	if($('.form').valid()==false){	
 		return true;
 	}
 })
