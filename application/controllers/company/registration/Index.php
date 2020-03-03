@@ -72,7 +72,7 @@ class Index extends CC_Controller
 		$pagedata['roletype'] 			= $this->config->item('rolecompany');
 		$pagedata['result'] 			= $result;
 		
-		$pagedata['commoncompany'] 		= $this->load->view('common/company', (isset($pagedata) ? $pagedata : ''), true);
+		$pagedata['commoncompany'] 		= $this->load->view('common/company/company', (isset($pagedata) ? $pagedata : ''), true);
 		$data['plugins']				= ['sweetalert', 'validation', 'datepicker', 'inputmask', 'select2'];
 		$data['content'] 				= $this->load->view('company/registration/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
