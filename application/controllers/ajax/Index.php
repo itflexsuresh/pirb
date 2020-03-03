@@ -313,7 +313,8 @@ class Index extends CC_Controller
 		}
 	}
 
-	public function ajaxotpverification($requestdata){
+	public function ajaxotpverification(){
+		$requestdata = $this->input->post();
 		$result = $this->db->from('otp')->where(['otp' => $requestdata['otp'], 'user_id' => $requestdata['userid']])->get()->row_array();
 		if ($result) {
 			echo '1';
