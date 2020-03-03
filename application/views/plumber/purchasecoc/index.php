@@ -371,7 +371,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 			});
 			*/
 			
-			ajax('<?php echo base_url().'ajax/index/ajaxotpverification'; ?>', {userid : '<?php echo $userid; ?>', otp: otpver}, '', { 
+			ajax('<?php echo base_url().'ajax/index/ajaxotpverification'; ?>', {otp: otpver}, '', { 
 				success:function(data){
 					if (data == 0) {
 						$('.invalidOTP').show();

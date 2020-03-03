@@ -63,8 +63,8 @@
 					<p>Please confirm that you wish to sumbit your PIRB Registation Application.</p>
 					<p>A One Time Pin (OTP) was sent to the following Mobile Number: {***-*** *123}</p>
 					<div>
+						<input id="sampleotp" type="text" class="form-control displaynone" readonly>
 						<p>Enter OTP</p>
-						<p class="enterotp"></p>
 						<input type="text" name="otp" id="otp">
 					</div>
 				</div>
