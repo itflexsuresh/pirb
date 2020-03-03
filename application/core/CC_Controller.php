@@ -445,6 +445,43 @@ class CC_Controller extends CI_Controller
 		$this->layout2($data);
 	}
 	
+	public function companydiary($id='')
+	{
+		if($id!=''){
+			$result = $this->Company_Model->getList('row', ['id' => $id, 'type' => '4', 'status' => ['1', '2']]);
+			$pagedata['result'] 		= $result;
+			$DBcomments = $this->Comment_Model->getList('all', ['user_id' => $id, 'type' => '4', 'status' => ['1', '2']]);
+			if($DBcomments){
+				$pagedata['comments']		= $DBcomments;
+			}
+		}
+
+		if($this->input->post()){
+			$requestData 	= 	$this->input->post();
+			$data = $this->Company_Model->companydiary($requestData);
+			if($data) $message = 'Comment added successfully.';
+
+			if(isset($data)) $this->session->set_flashdata('success', $message);
+			else $this->session->set_flashdata('error', 'Try Later.');
+
+			redirect('admin/company/index/diary/'.$requestData['user_id'].''); 
+
+		}
+
+
+		$pagedata['diarylist'] = $this->diaryactivity(['companyid'=>$id]);		
+
+		$pagedata['user_id']		= $result['id'];
+		$pagedata['user_role']		= $this->config->item('roletype');
+		$pagedata['notification'] 	= $this->getNotification();
+		$pagedata['roletype']		= $this->config->item('roleadmin');
+		$pagedata['menu']			= $this->load->view('common/company/menu', ['id'=>$result['id']],true);
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'datepicker'];
+		$data['content'] 			= $this->load->view('common/company/diary', (isset($pagedata) ? $pagedata : ''), true);
+		
+		$this->layout2($data);		
+	}
+	
 	public function resellersprofile($id, $pagedata=[], $extras=[])
 	{
 		if($id!=''){
