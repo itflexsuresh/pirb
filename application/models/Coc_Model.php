@@ -32,6 +32,7 @@ class Coc_Model extends CC_Model
 			up.registration_no as plumberregno, 
 			pa.createddate as resellercreateddate,
 			rd.company as resellercompany,
+			rd.user_id as resellersid,
 			concat(rd.name, " ", rd.surname) as resellername, 
 			concat(ad.name, " ", ad.surname) as auditorname, 
 			ad.mobile_phone as auditormobile, 
@@ -290,37 +291,6 @@ class Coc_Model extends CC_Model
 		
 
 	}
-
-	public function ajaxOTP($requestdata){
-		$query = $this->db->get_where('otp', array('user_id' => $requestdata['user_id']) );
-		$count = $query->num_rows();
-		if ($count == 1) {
-			$this->db->set('otp',$requestdata['otp']);
-			$this->db->where('user_id', $requestdata['user_id']);
-			$this->db->update('otp');
-		}else{
-			$result = $this->db->insert('otp',$requestdata);
-
-		}
-		
-	}
-
-	public function OTPVerification($requestdata){
-		$result = $this->db->select('*')
-		->from('otp')
-		->where('user_id',$requestdata['user_id'])
-		->where('otp',$requestdata['otp'])
-		->order_by('id', 'DESC')
-		->limit(1)
-		->get()
-		->row_array();
-		if ($result) {
-			return '1';
-		}else{
-			return '0';
-		}
-
-	}
 	
 	public function checkcocpermitted($userid)
 	{
@@ -391,6 +361,13 @@ class Coc_Model extends CC_Model
 				$this->db->set('count', 'count + 1',FALSE); 
 				$this->db->where('user_id', $userid); 
 				$increase_count = $this->db->update('coc_count'); 
+				
+				$checkreseller = $this->getCOCList('row', ['id'=>$data['coc_id']]);
+				if($checkreseller['resellersid'] != ''){
+					$this->db->set('count', 'count + 1',FALSE);
+					$this->db->where('user_id', $checkreseller['resellersid']);
+					$this->db->update('coc_count');
+				}
 			}
 			
 			if(isset($cocstatus)) $this->db->update('stock_management', ['coc_status' => $cocstatus], ['id' => $data['coc_id']]);

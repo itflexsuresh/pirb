@@ -231,7 +231,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 										</div>
 										<div class="col-md-12">
 											<div class="form-group">
-												<input id="sampleOtp" type="text" class="form-control skill_training" readonly>
+												<input id="sampleOtp" type="text" class="form-control skill_training displaynone" readonly>
 												<div class="invalidOTP" style="color: red;"> Given OTP is Invalid ! </div>
 												<label>Enter OTP</label>
 												<input name="otpnumber" id="otpnumber" type="text" class="form-control skill_training">
@@ -349,6 +349,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 				delivery_cost = $('#cost_f_delivery').val();
 			}
 
+			/*
 			$.ajax({
 				type  		: 'ajax',
 				url   		: '<?php echo base_url().'plumber/purchasecoc/Index/OTPVerification'; ?>',
@@ -368,6 +369,17 @@ if (in_array($plumberstatus, $plumber_status)) {
 					console.log(data);
 				}
 			});
+			*/
+			
+			ajax('<?php echo base_url().'ajax/index/ajaxotp'; ?>', {userid : '<?php echo $userid; ?>', otp: otpver}, '', { 
+				success:function(data){
+					if (data == 0) {
+						$('.invalidOTP').show();
+					}else{
+						ajaxInsert(delivery_type, cocType, delivery_cost);
+					}
+				}
+			})
 		});
 
 		$('.coc_type').click(function(){
@@ -452,9 +464,17 @@ if (in_array($plumberstatus, $plumber_status)) {
 			method 	: 'POST',
 			data: {generate:'otp', ammount: $('#totaldue1').val(), item_description: $('#item_description').val(),payment_method: $('#payment_method').val(), m_payment_id: $('#m_payment_id').val(), },
 			success: function(data) {
-				$('#sampleOtp').val(data.otp);
+				//$('#sampleOtp').val(data.otp);
 			}
 		});
+		
+		ajax('<?php echo base_url().'ajax/index/ajaxotp'; ?>', {}, '', { 
+			success:function(data){
+				if(data!=''){
+					$('#sampleOtp').removeClass('displaynone').val(data);
+				}
+			}
+		})
 	}
 
 	// function calculations(data,value){

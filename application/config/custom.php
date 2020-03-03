@@ -43,6 +43,7 @@ $config['noaudit']					= 	'12';
 $config['rollingaverage']			= 	'13';
 
 
+$config['otpstatus'] 				= 	'1';
 
 $config['usertype1'] 				= 	[
 											'plumber' 	=> '3',

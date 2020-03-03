@@ -265,7 +265,7 @@ if(isset($id) && $id >0)
 									</div>
 									<div class="col-md-12">
 										<div class="form-group">
-											<input id="sampleOtp" type="text" class="form-control skill_training" readonly>
+											<input id="sampleOtp" type="text" class="form-control skill_training displaynone" readonly>
 											<div class="invalidOTP" style="color: red;"> Given OTP is Invalid ! </div>
 											<label>Enter OTP</label>
 											<input name="otpnumber" id="otpnumber" type="text" class="form-control skill_training">
@@ -424,37 +424,27 @@ $(function(){
 	});
 
 	function ajaxotp(){
-		$.ajax({
-			type  : 'ajax',
-			url   : '<?php echo base_url().'resellers/allocatecoc/Index/ajaxOTP'; ?>',
-			async : true,
-			dataType : 'json',
-			method 	: 'POST',
-			data: {generate:'otp'},
-			success: function(data) {
-				$('#sampleOtp').val(data.otp);
+		ajax('<?php echo base_url().'ajax/index/ajaxotp'; ?>', {}, '', { 
+			success:function(data){
+				if(data!=''){
+					$('#sampleOtp').removeClass('displaynone').val(data);
+				}
 			}
-		});
+		})
 	}
 
 	$('.verify').on('click',function(){
 		var otpver = $('#otpnumber').val();
-		$.ajax({
-			type  		: 'ajax',
-			url   		: '<?php echo base_url().'resellers/allocatecoc/Index/OTPVerification'; ?>',
-			async 		: true,
-			dataType 	: 'json',
-			method 		: 'POST',
-			data 		: { otp: otpver},
-			success: function(data) {
+		
+		ajax('<?php echo base_url().'ajax/index/ajaxotp'; ?>', {userid : '<?php echo $userid; ?>', otp: otpver}, '', { 
+			success:function(data){
 				if (data == 0) {
 					$('.invalidOTP').show();
 				}else{
 					$('.form2').submit();
 				}
-				console.log(data);
 			}
-		});
+		})
 	});
 	
 })

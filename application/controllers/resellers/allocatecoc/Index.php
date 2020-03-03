@@ -63,6 +63,7 @@ class Index extends CC_Controller
 		$pagedata['company'] 		= $this->getCompanyList();
 		$pagedata['designation2'] 		= $this->config->item('designation2');
 		$pagedata['specialisations'] 	= $this->config->item('specialisations');
+		$pagedata['userid'] 	= $this->getUserID();
 
 		
 		
@@ -70,27 +71,6 @@ class Index extends CC_Controller
 		$data['content'] 			= $this->load->view('resellers/allocatecoc/index', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$this->layout2($data);
-	}
-
-	public function ajaxOTP(){
-		if ($this->input->post()) {
-			$requestData1 = $this->input->post();
-			$requestData2['user_id'] 				=	$this->getUserID();			
-			$requestData2['otp'] 					= 	rand ( 10000 , 99999 );
-			$result = $this->Coc_Model->ajaxOTP($requestData2);
-			$data = array('otp' => $requestData2['otp']);
-			echo json_encode($data);
-		}
-
-	}
-
-	public function OTPVerification(){
-		if ($this->input->post()) {
-			$requestData 						= $this->input->post();
-			$requestData['user_id'] 			=	$this->getUserID();			
-			$result 							= $this->Coc_Model->OTPVerification($requestData);
-			echo $result;
-		}
 	}
 
 	public function insertOrders(){

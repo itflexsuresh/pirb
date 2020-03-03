@@ -290,5 +290,35 @@ class Index extends CC_Controller
 
 		echo json_encode($json);
 	}
+	
+	
+	public function ajaxotp(){
+		$userdata 	= $this->getUserDetails();
+		$userid 	= $userdata['id'];
+		$mobile 	= str_replace([' ', '(', ')', '-'], ['', '', '', ''], trim($userdata['mobile_phone']));
+		$otp		= rand (10000, 99999);
+		
+		$query = $this->db->get_where('otp', ['user_id' => $userid]);
+		if ($query->num_rows() == 1) {
+			$this->db->update('otp', ['otp' => $otp, 'mobile' => $mobile], ['user_id' => $userid]);
+		}else{
+			$this->db->insert('otp', ['otp' => $otp, 'mobile' => $mobile, 'user_id' => $userid]);
+		}		
+		
+		if($this->config->item('otpstatus')=='1'){
+			echo $otp;
+		}else{
+			$this->sms(['no' => $mobile, 'msg' => 'One Time Password is '.$otp]);
+			echo '';
+		}
+	}
 
+	public function ajaxotpverification($requestdata){
+		$result = $this->db->from('otp')->where(['otp' => $requestdata['otp'], 'user_id' => $requestdata['userid']])->get()->row_array();
+		if ($result) {
+			echo '1';
+		}else{
+			echo '0';
+		}
+	}
 }
