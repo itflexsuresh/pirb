@@ -196,8 +196,7 @@
 						</thead>
 					</table>
 				</div>
-				<?php if (isset($employee) && $employee!='') { ?>
-					<div class="row">
+				<div class="row">
 						<div class="col-md-5 align-self-center">
 						<h4 class="card-title app_status">Average Industry Rating of Company Employees</h4>
 						</div>
@@ -214,6 +213,8 @@
 						<input type="text" class="form-control" readonly name="">
 					</div>
 				</div>
+				<?php if (isset($employee) && $employee!='') { ?>
+
 				<div class="row">
 					<div class="col-md-6">
 						<h4 class="card-title">Employee Details</h4>
