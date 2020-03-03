@@ -295,7 +295,7 @@ class Index extends CC_Controller
 	public function ajaxotp(){
 		$userdata 	= $this->getUserDetails();
 		$userid 	= $userdata['id'];
-		$mobile 	= $userdata['mobile_phone'];
+		$mobile 	= str_replace([' ', '(', ')', '-'], ['', '', '', ''], trim($userdata['mobile_phone']));
 		$otp		= rand (10000, 99999);
 		
 		$query = $this->db->get_where('otp', ['user_id' => $userid]);
@@ -316,9 +316,9 @@ class Index extends CC_Controller
 	public function ajaxotpverification($requestdata){
 		$result = $this->db->from('otp')->where(['otp' => $requestdata['otp'], 'user_id' => $requestdata['userid']])->get()->row_array();
 		if ($result) {
-			return '1';
+			echo '1';
 		}else{
-			return '0';
+			echo '0';
 		}
 	}
 }
