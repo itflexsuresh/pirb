@@ -284,20 +284,6 @@
 							</div>
 						</div>
 					</div>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>Number Audits Done to Date:</label>
-							<input type="text" class="form-control" readonly name=""  value="">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label></label>
-							<input type="text" class="form-control" readonly name=""  value="">
-						</div>
-					</div>
-				</div>
 					<h4 class="card-title">CPD Overview</h4>
 				<div id="reviewchart"></div>
 				
