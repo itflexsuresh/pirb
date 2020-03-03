@@ -455,8 +455,7 @@
 						</div>
 						<div class="col-md-12">
 							<div class="form-group">
-								<input id="sampleOtp" type="text" class="form-control skill_training" readonly>
-								<div class="invalidOTP" style="color: red;"> Given OTP is Invalid ! </div>
+								<input id="sampleotp" type="text" class="form-control skill_training" readonly>
 								<label>Enter OTP</label>
 								<input name="otpnumber" id="otpnumber" type="text" class="form-control skill_training">
 							</div>
@@ -715,45 +714,28 @@ function rejectother(){
 	}
 }
 
+
 function ajaxotp(){
-		$.ajax({
-			type  : 'ajax',
-			url   : '<?php echo base_url().'company/registration/Index/ajaxOTP'; ?>',
-			async : true,
-			dataType : 'json',
-			method 	: 'POST',
-			data: {user_id:'<?php echo $id; ?>', mobile_phone: $('#mobile_phone').val(), },
-			success: function(data) {
-				$('#sampleOtp').val(data.otp);
+	ajax('<?php echo base_url().'ajax/index/ajaxotp'; ?>', {}, '', { 
+		success:function(data){
+			if(data!=''){
+				$('#sampleotp').removeClass('displaynone').val(data);
 			}
-		});
-	}
+		}
+	})
+}
 
-
-	
-	function ajaxOTPVerify(data){
-		var otpver = data;
-		$.ajax({
-				type  		: 'ajax',
-				url   		: '<?php echo base_url().'company/registration/Index/OTPVerification'; ?>',
-				async 		: true,
-				dataType 	: 'json',
-				method 		: 'POST',
-				data 		: {user_id:'<?php echo $id; ?>', otp: otpver},
-				success: function(data) {
-					if (data == 0) {
-						$('.invalidOTP').show();
-					}else{
-						//$('#reg_forms').submit();
-						$( "#hid_sub_reg" ).trigger( "click" );
-
-					}
-
-					console.log(data);
-				}
-			});
-
-	}
+function ajaxOTPVerify(data){
+	ajax('<?php echo base_url().'ajax/index/ajaxotpverification'; ?>', {otp: data}, '', { 
+		success:function(data){
+			if (data == 0) {
+				$('#otpnumber').parent().append('<p class="tagline error_otp">Incorrect OTP</p>');
+			}else{
+				$( "#hid_sub_reg" ).trigger( "click" );
+			}
+		}
+	})
+}
 
 </script>
 

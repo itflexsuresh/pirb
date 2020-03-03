@@ -95,18 +95,4 @@ class Index extends CC_Controller
 		
 		echo json_encode($json);
 	}
-	
-	public function ajaxplumberdata()
-	{
-		$userid		= 	$this->getUserID();
-		$result		= 	$this->Plumber_Model->getList('row', ['id' => $userid, 'status' => ['0','1']]);
-		
-		if($result){
-			$json = ['status' => '1', 'result' => $result];
-		}else{
-			$json = ['status' => '0'];
-		}
-		
-		echo json_encode($json);
-	}
 }

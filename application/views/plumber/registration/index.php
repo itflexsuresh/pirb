@@ -787,10 +787,10 @@
 			<div class="modal-body">
 				<div class="row">
 					<p>Please confirm that you wish to sumbit your PIRB Registation Application.</p>
-					<p>A One Time Pin (OTP) was sent to the following Mobile Number: {***-*** *123}</p>
+					<p>A One Time Pin (OTP) was sent to the following Mobile Number: <?php echo $mobilephone; ?></p>
 					<div>
+						<input id="sampleotp" type="text" class="form-control displaynone" readonly>
 						<p>Enter OTP</p>
-						<p class="enterotp"></p>
 						<input type="text" name="otp" id="otp">
 					</div>
 				</div>
@@ -807,7 +807,6 @@
 var userid		= '<?php echo $userid; ?>';
 var filepath 	= '<?php echo $filepath; ?>';
 var pdfimg		= '<?php echo $pdfimg; ?>';
-var randno		= '<?php echo mt_rand(0000,9999); ?>';
 
 $(function(){
 	checkstep();
@@ -1235,10 +1234,11 @@ $('#submit').click(function(e){
 	
 	if(formvalid==0){		
 		for(var i=2; i<=5; i++){		
-			var data = $('#submit'+i).parents('form').serialize()+'&'+$.param({ 'otp' : randno, 'usersdetailid': $('#usersdetailid').val(), 'usersplumberid': $('#usersplumberid').val() });
+			var data = $('#submit'+i).parents('form').serialize()+'&'+$.param({ 'usersdetailid': $('#usersdetailid').val(), 'usersplumberid': $('#usersplumberid').val() });
 			ajax('<?php echo base_url()."/plumber/registration/index/ajaxregistration"; ?>', data, registration, { asynchronous : 1 });				
 		}
 		
+		ajaxotp();
 		$('#otpmodal').modal('show');
 		return true;
 	}else{
@@ -1248,23 +1248,34 @@ $('#submit').click(function(e){
 	}
 })
 
-$(document).on('click', '.verifyotp', function(){
-	ajax('<?php echo base_url()."/plumber/registration/index/ajaxplumberdata"; ?>', '', verifyotp);
-})
+$(document).on('click', '.resendotp', function(){
+	ajaxotp();
+});
 
-function verifyotp(data){
-	$('.error_otp').remove();
-	$('.enterotp').html(data.result.otp);
-	if(data.status=='1'){
-		if($('#otp').val()==data.result.otp){
-			$('#completeapplication').click();
-		}else{
-			$('#otp').parent().append('<p class="tagline error_otp">Incorrect OTP</p>');
+function ajaxotp(){
+	ajax('<?php echo base_url().'ajax/index/ajaxotp'; ?>', {}, '', { 
+		success:function(data){
+			if(data!=''){
+				$('#sampleotp').removeClass('displaynone').val(data);
+			}
 		}
-	}else{
-		$('#otp').parent().append('Try Later');
-	}
+	})
 }
+
+$(document).on('click', '.verifyotp', function(){
+	$('.error_otp').remove();
+	var otp = $('#otp').val();
+	
+	ajax('<?php echo base_url().'ajax/index/ajaxotpverification'; ?>', {otp: otp}, '', { 
+		success:function(data){
+			if (data == 0) {
+				$('#otp').parent().append('<p class="tagline error_otp">Incorrect OTP</p>');
+			}else{
+				$('#completeapplication').click();
+			}
+		}
+	})
+});
 
 $('.progress-circle[data-id="1"]').addClass('active');
 $('a.stepbar[data-id="1"]').addClass('active');

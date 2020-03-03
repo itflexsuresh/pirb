@@ -458,8 +458,8 @@
 					<p>A One Time Pin (OTP) was sent to the Licensed Plumber with the following Mobile Number:</p>
 					<p><?php echo $userdata['name'].' '.$userdata['surname']; ?> - <?php echo $userdata['mobile_phone']; ?></p>
 					<div>
+						<input id="sampleotp" type="text" class="form-control displaynone" readonly>
 						<p>Enter OTP</p>
-						<div class="testotp"></div>
 						<input type="text" name="otp" id="otp">
 					</div>
 				</div>
@@ -658,39 +658,40 @@ $(document).on('click', '.savecocbtn', function(){
 
 $(document).on('click', '.logcocbtn', function(){
 	if($('.form').valid()){
+		ajaxotp();
 		$('#otpmodal').modal('show');
 	}
 })
 
-function otpgeneration(type=''){
-	var randno = Math.floor(1000 + Math.random() * 9000);
-	if(localstorage('get', 'logotp')!=null && type==''){
-		localstorage('set', 'logotp', randno);
-	}else{
-		localstorage('set', 'logotp', randno);
-	}
-
-	$('.testotp').text(localstorage('get', 'logotp'));
-}
-
-$('#otpmodal').on('show.bs.modal', function () {
-	otpgeneration();
-})
 
 $(document).on('click', '.resendotp', function(){
-	$('.error_otp').remove();
-	otpgeneration(1);
-})
+	ajaxotp();
+});
+
+function ajaxotp(){
+	ajax('<?php echo base_url().'ajax/index/ajaxotp'; ?>', {}, '', { 
+		success:function(data){
+			if(data!=''){
+				$('#sampleotp').removeClass('displaynone').val(data);
+			}
+		}
+	})
+}
 
 $(document).on('click', '.verifyotp', function(){
 	$('.error_otp').remove();
+	var otp = $('#otp').val();
 	
-	if($('#otp').val()==localstorage('get', 'logotp')){
-		$('#submitbtn').attr('value', 'log').click();
-	}else{
-		$('#otp').parent().append('<p class="tagline error_otp">Incorrect OTP</p>');
-	}
-})
+	ajax('<?php echo base_url().'ajax/index/ajaxotpverification'; ?>', {otp: otp}, '', { 
+		success:function(data){
+			if (data == 0) {
+				$('#otp').parent().append('<p class="tagline error_otp">Incorrect OTP</p>');
+			}else{
+				$('#submitbtn').attr('value', 'log').click();
+			}
+		}
+	})
+});
 
 $('#noncompliancemodal').on('hidden.bs.modal', function () {
     noncomplianceclear();

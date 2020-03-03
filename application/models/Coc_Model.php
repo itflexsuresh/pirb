@@ -362,12 +362,12 @@ class Coc_Model extends CC_Model
 				$this->db->where('user_id', $userid); 
 				$increase_count = $this->db->update('coc_count'); 
 				
-				$checkreseller = $this->getCOCList('row', ['id'=>$data['coc_id']]);
-				if($checkreseller['resellersid'] != ''){
-					$this->db->set('count', 'count + 1',FALSE);
-					$this->db->where('user_id', $checkreseller['resellersid']);
-					$this->db->update('coc_count');
-				}
+				// $checkreseller = $this->getCOCList('row', ['id'=>$data['coc_id']]);
+				// if($checkreseller['resellersid'] != ''){
+				// 	$this->db->set('count', 'count + 1',FALSE);
+				// 	$this->db->where('user_id', $checkreseller['resellersid']);
+				// 	$this->db->update('coc_count');
+				// }
 			}
 			
 			if(isset($cocstatus)) $this->db->update('stock_management', ['coc_status' => $cocstatus], ['id' => $data['coc_id']]);
