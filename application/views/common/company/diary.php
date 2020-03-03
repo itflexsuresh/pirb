@@ -1,8 +1,9 @@
 <?php
+$commentsz 	= isset($comments) ?  $comments : '';
+$diarylist 	= isset($diarylist) ?  $diarylist : '';
+
 	if($roletype=='1'){
-		$heading = 'Manage Allocted Audits';
-	}else if($roletype=='3' || $roletype=='5'){
-		$heading = 'Audit Report';
+		$heading = 'Diary/Comments for '.$result['company'].'';
 	}
 ?>
 
@@ -20,27 +21,35 @@
 	</div>
 </div>
 <?php echo $notification; ?>
-<?php if($roletype=='1' || $roletype=='5'){ echo isset($menu) ? $menu : ''; } ?>
+<?php if($roletype=='1'){ echo isset($menu) ? $menu : ''; } ?>
 <div class="row">
 	<div class="col-12">
 		<div class="card">
 			
-			<h4 class="card-title">Audit Comments (Comments related specifically to this Audit)</h4>
+			<h4 class="card-title"><?php echo $heading; ?></h4>
 			<div class="row">
-				<div class="col-md-12">			
+				<div class="col-md-12">		
+					<div class="form-group ">						
+						<div class="comment_section">
+							<?php echo $diarylist; ?>
+						</div>
+					</div>	
 					<div class="comment_section">
 						<?php
+						if ($commentsz!='') {
 							foreach($comments as $comment){
-						?>
-								<p><?php echo date('d-m-Y', strtotime($comment['created_at'])).' - '.$comment['username'].' : '.$comment['comments']; ?></p>
-						<?php
+						
+								echo '<p>'.date('d-m-Y', strtotime($comment['created_at'])).' - '.$user_role[$comment['created_by']].' : '.$comment['comments'].'</p>';
+						
 							}
+						}
 						?>
 					</div>				
 					<div class="form-group ">
 						<label>Comments</label>
 						<form action="" method="post" class="form">
 							<input type="text" class="form-control" placeholder="Type your Comment here" name="comments" id="comments">
+							<input type="hidden" class="form-control" name="user_id" id="user_id" value="<?php echo $user_id; ?>">
 							<button type="submit" name="submit" class="btn btn-primary">Add Comment</button>
 						</form>
 					</div>							
