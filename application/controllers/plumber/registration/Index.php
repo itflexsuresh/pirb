@@ -45,7 +45,7 @@ class Index extends CC_Controller
 					$smsdata 	= $this->Communication_Model->getList('row', ['id' => '4', 'smsstatus' => '1']);
 		
 					if($smsdata){
-						$sms = $smsdata['sms_body']);
+						$sms = $smsdata['sms_body'];
 						$this->sms(['no' => $plumberdata['mobile_phone'], 'msg' => $sms]);
 					}
 				}
