@@ -436,7 +436,7 @@ $(function(){
 	$('.verify').on('click',function(){
 		var otpver = $('#otpnumber').val();
 		
-		ajax('<?php echo base_url().'ajax/index/ajaxotp'; ?>', {userid : '<?php echo $userid; ?>', otp: otpver}, '', { 
+		ajax('<?php echo base_url().'ajax/index/ajaxotpverification'; ?>', {userid : '<?php echo $userid; ?>', otp: otpver}, '', { 
 			success:function(data){
 				if (data == 0) {
 					$('.invalidOTP').show();
