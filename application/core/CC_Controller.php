@@ -288,6 +288,15 @@ class CC_Controller extends CI_Controller
 								$body 	= str_replace(['{Plumbers Name and Surname}', '{email}'], [$result['name'].' '.$result['surname'], $result['email']], $notificationdata['email_body']);
 								$this->CC_Model->sentMail($result['email'], $notificationdata['subject'], $body);
 							}
+							
+							if($this->config->item('otpstatus')!='1'){
+								$smsdata 	= $this->Communication_Model->getList('row', ['id' => '5', 'smsstatus' => '1']);
+					
+								if($smsdata){
+									$sms = str_replace(['{primary email}'], [$result['email']], $smsdata['sms_body']);
+									$this->sms(['no' => $result['mobile_phone'], 'msg' => $sms]);
+								}
+							}
 						}elseif($requestData['approval_status']=='2'){
 							$this->CC_Model->diaryactivity(['plumberid' => $id, 'action' => '3']+$diaryparam);
 							
@@ -296,6 +305,15 @@ class CC_Controller extends CI_Controller
 							if($notificationdata){
 								$body 	= str_replace(['{Plumbers Name and Surname}'], [$result['name'].' '.$result['surname']], $notificationdata['email_body']);
 								$this->CC_Model->sentMail($result['email'], $notificationdata['subject'], $body);
+							}
+							
+							if($this->config->item('otpstatus')!='1'){
+								$smsdata 	= $this->Communication_Model->getList('row', ['id' => '6', 'smsstatus' => '1']);
+					
+								if($smsdata){
+									$sms = $smsdata['sms_body'];
+									$this->sms(['no' => $result['mobile_phone'], 'msg' => $sms]);
+								}
 							}
 						}
 					}
@@ -581,13 +599,22 @@ class CC_Controller extends CI_Controller
 				}elseif($requestData['submit']=='log'){
 					$message = 'Thanks for Logging the COC.';
 					$this->CC_Model->diaryactivity(['plumberid' => $this->getUserID(), 'actionid' => $requestData['coc_id'], 'action' => '7', 'type' => '2']);
-				}
+										
+					$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '18', 'emailstatus' => '1']);
 				
-				$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '18', 'emailstatus' => '1']);
+					if($notificationdata){
+						$body 	= str_replace(['{Plumbers Name and Surname}', '{number}'], [$userdata['name'].' '.$userdata['surname'], $id], $notificationdata['email_body']);
+						$this->CC_Model->sentMail($userdata['email'], $notificationdata['subject'], $body);
+					}				
+					
+					if($this->config->item('otpstatus')!='1'){
+						$smsdata 	= $this->Communication_Model->getList('row', ['id' => '18', 'smsstatus' => '1']);
 			
-				if($notificationdata){
-					$body 	= str_replace(['{Plumbers Name and Surname}', '{number}'], [$userdata['name'].' '.$userdata['surname'], $id], $notificationdata['email_body']);
-					$this->CC_Model->sentMail($userdata['email'], $notificationdata['subject'], $body);
+						if($smsdata){
+							$sms = str_replace(['{number of COC}'], [$id], $smsdata['sms_body']);
+							$this->sms(['no' => $userdata['mobile_phone'], 'msg' => $sms]);
+						}
+					}
 				}
 			}
 			
@@ -666,6 +693,16 @@ class CC_Controller extends CI_Controller
 							$this->CC_Model->sentMail($pagedata['result']['u_email'], $notificationdata['subject'], $body);
 						}
 						
+						// SMS
+						if($this->config->item('otpstatus')!='1'){
+							$smsdata 	= $this->Communication_Model->getList('row', ['id' => '21', 'smsstatus' => '1']);
+				
+							if($smsdata){
+								$sms = str_replace(['{number of COC}'], [$id], $smsdata['sms_body']);
+								$this->sms(['no' => $pagedata['result']['u_mobile'], 'msg' => $sms]);
+							}
+						}
+						
 						// Stock
 						$this->db->update('stock_management', ['audit_status' => '1'], ['id' => $pagedata['result']['id']]);
 						
@@ -676,6 +713,15 @@ class CC_Controller extends CI_Controller
 						if($notificationdata){
 							$body 	= str_replace(['{Plumbers Name and Surname}', '{COC number}', '{refix number} '], [$pagedata['result']['u_name'], $pagedata['result']['id'], $pagedata['settings']['refix_period']], $notificationdata['email_body']);
 							$this->CC_Model->sentMail($pagedata['result']['u_email'], $notificationdata['subject'], $body);
+						}
+						
+						if($this->config->item('otpstatus')!='1'){
+							$smsdata 	= $this->Communication_Model->getList('row', ['id' => '22', 'smsstatus' => '1']);
+				
+							if($smsdata){
+								$sms = str_replace(['{number of COC}'], [$id], $smsdata['sms_body']);
+								$this->sms(['no' => $pagedata['result']['u_mobile'], 'msg' => $sms]);
+							}
 						}
 						
 						$this->db->update('stock_management', ['audit_status' => '4'], ['id' => $pagedata['result']['id']]);
@@ -910,6 +956,15 @@ class CC_Controller extends CI_Controller
 						$this->CC_Model->sentMail($plumber['email'], $notificationdata['subject'], $body);
 					}
 					
+					if($this->config->item('otpstatus')!='1'){
+						$smsdata 	= $this->Communication_Model->getList('row', ['id' => $notificationid[$warninglevel-1], 'smsstatus' => '1']);
+			
+						if($smsdata){
+							$sms = str_replace(['{performance warning status}.'], [$warningtext], $smsdata['sms_body']);
+							$this->sms(['no' => $plumber['mobile_phone'], 'msg' => $sms]);
+						}
+					}
+					
 					if($warninglevel=='4'){
 						$this->db->update('users', ['status' => '2'], ['id' => $plumberid]);
 						$this->db->update('users_detail', ['status' => '2'], ['user_id' => $plumberid]);
@@ -929,11 +984,13 @@ class CC_Controller extends CI_Controller
 	
 	public function sms($data)
 	{
+		$no = str_replace([' ', '(', ')', '-'], ['', '', '', ''], trim($data['no']));
+		
 		$param = [
 			'Type' 		=> 'sendparam',
 			'username' 	=> 'PIRB%20Registration',
 			'password' 	=> 'Plumber',
-			'numto' 	=> $data['no'],
+			'numto' 	=> $no,
 			'data1' 	=> $data['msg']
 		];
 		

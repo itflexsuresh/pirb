@@ -40,6 +40,15 @@ class Index extends CC_Controller
 					$body 	= str_replace(['{Plumbers Name and Surname}', '{Company}'], [$plumberdata['name'].' '.$plumberdata['surname'], $plumberdata['companyname']], $notificationdata['email_body']);
 					$this->CC_Model->sentMail($plumberdata['email'], $notificationdata['subject'], $body);
 				}
+			
+				if($this->config->item('otpstatus')!='1'){
+					$smsdata 	= $this->Communication_Model->getList('row', ['id' => '4', 'smsstatus' => '1']);
+		
+					if($smsdata){
+						$sms = $smsdata['sms_body']);
+						$this->sms(['no' => $plumberdata['mobile_phone'], 'msg' => $sms]);
+					}
+				}
 				
 				$this->CC_Model->diaryactivity(['plumberid' => $userid, 'action' => '1', 'type' => '2']);
 				$this->session->set_flashdata('success', 'Thanks for submitting the application. You will get notified through email about the application status.');
