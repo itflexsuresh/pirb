@@ -92,9 +92,6 @@ class Index extends CC_Controller
 			$item_description 						= 	$requestData1['item_description']; 
 			$payment_method 						= 	$requestData1['payment_method'];
 			$m_payment_id 							= 	$requestData1['m_payment_id'];
-
-			//$requestData2['mobile'] 				= 	$requestData['users']['mobile_phone'];
-			//$requestData2['otp'] 					= 	rand ( 10000 , 99999 );
 			$ammount 								= 	$requestData1['ammount'];
 
 			$param = array(
@@ -127,26 +124,10 @@ class Index extends CC_Controller
 			$getString = substr( $pfOutput, 0, -1 );
 
 			$pfSignature = md5( $getString );
-
-			
-			//$result = $this->Coc_Model->ajaxOTP($requestData2);
-
-			//$data = array('otp' => $requestData2['otp'], 'signature' => $pfSignature );
-			//echo json_encode($data);
 		}
 
 	}
 
-/*
-	public function OTPVerification(){
-		if ($this->input->post()) {
-			$requestData 						= $this->input->post();
-			$requestData['user_id'] 			=	$this->getUserID();			
-			$result 							= $this->Coc_Model->OTPVerification($requestData);
-			echo $result;
-		}
-	}
-*/
 	public function return(){
 		$userid 				=	$this->getUserID();
 

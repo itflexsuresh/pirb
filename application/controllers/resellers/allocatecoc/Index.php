@@ -72,27 +72,6 @@ class Index extends CC_Controller
 		$this->layout2($data);
 	}
 
-	public function ajaxOTP(){
-		if ($this->input->post()) {
-			$requestData1 = $this->input->post();
-			$requestData2['user_id'] 				=	$this->getUserID();			
-			$requestData2['otp'] 					= 	rand ( 10000 , 99999 );
-			$result = $this->Coc_Model->ajaxOTP($requestData2);
-			$data = array('otp' => $requestData2['otp']);
-			echo json_encode($data);
-		}
-
-	}
-
-	public function OTPVerification(){
-		if ($this->input->post()) {
-			$requestData 						= $this->input->post();
-			$requestData['user_id'] 			=	$this->getUserID();			
-			$result 							= $this->Coc_Model->OTPVerification($requestData);
-			echo $result;
-		}
-	}
-
 	public function insertOrders(){
 		if ($this->input->post()) {
 

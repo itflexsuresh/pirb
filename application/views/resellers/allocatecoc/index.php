@@ -424,37 +424,27 @@ $(function(){
 	});
 
 	function ajaxotp(){
-		$.ajax({
-			type  : 'ajax',
-			url   : '<?php echo base_url().'resellers/allocatecoc/Index/ajaxOTP'; ?>',
-			async : true,
-			dataType : 'json',
-			method 	: 'POST',
-			data: {generate:'otp'},
-			success: function(data) {
-				$('#sampleOtp').val(data.otp);
+		ajax('<?php echo base_url().'ajax/index/ajaxotp'; ?>', {}, '', { 
+			success:function(data){
+				if(data!=''){
+					$('#sampleOtp').val(data);
+				}
 			}
-		});
+		})
 	}
 
 	$('.verify').on('click',function(){
 		var otpver = $('#otpnumber').val();
-		$.ajax({
-			type  		: 'ajax',
-			url   		: '<?php echo base_url().'resellers/allocatecoc/Index/OTPVerification'; ?>',
-			async 		: true,
-			dataType 	: 'json',
-			method 		: 'POST',
-			data 		: { otp: otpver},
-			success: function(data) {
+		
+		ajax('<?php echo base_url().'ajax/index/ajaxotp'; ?>', {userid : '<?php echo $userid; ?>', otp: otpver}, '', { 
+			success:function(data){
 				if (data == 0) {
 					$('.invalidOTP').show();
 				}else{
 					$('.form2').submit();
 				}
-				console.log(data);
 			}
-		});
+		})
 	});
 	
 })
