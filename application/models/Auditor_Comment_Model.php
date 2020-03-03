@@ -12,7 +12,7 @@ class Auditor_Comment_Model  extends CC_Model
 		if(isset($requestdata['user_id'])) 	$this->db->where('ac.user_id', $requestdata['user_id']);
 		if(isset($requestdata['coc_id'])) 	$this->db->where('ac.coc_id', $requestdata['coc_id']);
 		
-		$this->db->order_by('id', 'asc');
+		$this->db->order_by('ac.id', 'desc');
 		
 		if($type=='count'){
 			$result = $this->db->count_all_results();

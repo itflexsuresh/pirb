@@ -26,6 +26,8 @@ class Diary_Model extends CC_Model
 		if(isset($requestdata['actionid'])) 	$this->db->where('d.action_id', $requestdata['actionid']);
 		if(isset($requestdata['action'])) 		$this->db->where('d.action', $requestdata['action']);
 		
+		$this->db->order_by('d.id', 'desc');
+		
 		if($type=='count'){
 			$result = $this->db->count_all_results();
 		}else{
