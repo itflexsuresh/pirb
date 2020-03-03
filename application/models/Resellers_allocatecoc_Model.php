@@ -187,7 +187,7 @@ class Resellers_allocatecoc_Model extends CC_Model
 			$result_resel = $query_resel->row_array();
 
 			$balace_coc2 = $result_resel['count'];
-			$coccount2 = $balace_coc2-$rangebalace_coc;
+			$coccount2 = $balace_coc2+$rangebalace_coc;
 			$request11['count'] = $coccount2;
 			$users11 = $this->db->update('coc_count', $request11, ['user_id' => $resellersid]);
 			
