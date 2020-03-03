@@ -97,7 +97,7 @@
 </div>
 
 <?php echo $notification; ?>
-
+<?php if($roletype=='1'){ echo isset($menu) ? $menu : ''; } ?>
 <h5 class="card-title app_status">Application Status:</h5>
 <?php if($roletype=='1' && ($approval_status=='0' || $approval_status=='2')){ ?>
 	<form class="form1" method="post">
