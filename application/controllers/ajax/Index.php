@@ -132,8 +132,6 @@ class Index extends CC_Controller
 		if(isset($post['action']) && $post['action']=='delete'){
 			$result = $this->Plumber_Model->deleteSkillList($post['skillid']);
 		}else{
-			$post['user_id'] 	= $this->getUserID();
-		
 			if(isset($post['action']) && $post['action']=='edit'){
 				$result['skillid'] = $post['skillid'];
 			}else{
