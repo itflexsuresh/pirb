@@ -11,6 +11,7 @@ $filepath1		= (isset($result['file']) && $result['file']!='') ? $filepath.$resul
 if($image!=''){
 	$explodefile2 	= explode('.', $image);
 	$extfile2 		= array_pop($explodefile2);
+
 	$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath1;
 }else{
 	$photoidimg 	= $profileimg;
@@ -96,10 +97,12 @@ $pagestatus = isset($pagestatus) ? $pagestatus : '';
 
 
 $(function(){
+	var filepath 	= '<?php echo $filepath; ?>';
+	var pdfimg		= '<?php echo $pdfimg; ?>';
 
 	datatable();
 
-	fileupload([".plumber_image", "./assets/uploads/plumber/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.plumber_picture', '.plumber_photo', '<?php echo base_url()."assets/uploads/plumber/"; ?>']);
+	fileupload([".plumber_image", "./assets/uploads/plumber/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.plumber_picture', '.plumber_photo', filepath, pdfimg]);
 	
 	validation(
 		'.documents',
