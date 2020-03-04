@@ -38,9 +38,6 @@
 								<th>Comments</th>
 								<th>Point Allocation</th>
 								<th>Attachment</th>
-								<?php if($pagestatus!='1'){ ?>
-									<th>Action</th>
-								<?php } ?>
 							</tr>							
 						</thead>
 					</table>
@@ -65,18 +62,11 @@
 							{ "data": "attachment" }
 						];
 		
-		if(pagestatus!=1){
-			column.push({'data' : 'action'});
-			var target = [4,5];
-		}else{
-			var target = [4];
-		}
-		
 		var options = {
 			url 	: 	'<?php echo base_url()."plumber/performancestatus/index/DTPerformancestatus"; ?>',
 			data 	: 	{ page : 'plumberperformancestatus', archive : pagestatus},
 			columns : 	column,
-			target	:	target,
+			target	:	[4],
 			sort	:	'0'
 		};
 		

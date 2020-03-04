@@ -1,44 +1,3 @@
-<?php
-
-if($roletype=='1'){
-	$heading = 'Manage Allocted Audits';
-}else if($roletype=='3' || $roletype=='5'){
-	$heading = 'Audit Report';
-}
-
-$plumberid	 = '';
-$auditorid	 = '';
-
-$logged 	 = isset($logged) ? $logged : '';
-$allocated 	 = isset($allocated) ? $allocated : '';
-$nonlogged 	 = isset($nonlogged) ? $nonlogged : '';
-if($logged == '')
-	$logged = 0;
-
-if($allocated == '')
-	$allocated = 0;
-
-if($nonlogged == '')
-	$nonlogged = 0;
-
-
-$count 			 = isset($history['count']) ? $history['count'] : '';
-$total 			 = isset($history['total']) ? $history['total'] : '';
-$refixincomplete = isset($history['refixincomplete']) ? $history['refixincomplete'] : '';
-$refixcomplete 	 = isset($history['refixcomplete']) ? $history['refixcomplete'] : '';
-
-if($refixincomplete > 0)
-	$refixincompletepercentage 	= round(($refixincomplete/$total)*100,2).'%'; 
-else
-	$refixincompletepercentage = 0;
-
-if($refixcomplete > 0)
-	$refixcompletepercentage 	= round(($refixcomplete/$total)*100,2).'%'; 
-else
-	$refixcompletepercentage = 0;
-
-?>
-
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
 		<h4 class="text-themecolor">Performance Status</h4>
@@ -46,45 +5,49 @@ else
 	<div class="col-md-7 align-self-center text-right">
 		<div class="d-flex justify-content-end align-items-center">
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="j<?php echo base_url().'plumber/dashboard'; ?>">Home</a></li>
+				<li class="breadcrumb-item"><a href="j<?php echo base_url().'admin/dashboard'; ?>">Home</a></li>
 				<li class="breadcrumb-item active">Performance Status</li>
 			</ol>
 		</div>
 	</div>
 </div>
-
 <?php 
 echo $notification; 
-if($roletype=='1'){ echo isset($menu) ? $menu : ''; } 
+echo isset($menu) ? $menu : '';
 ?>
-
 <div class="row">
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">Performance Status for <?php echo $user_details['name']." ".$user_details['surname']?></h4>
-
+				<h4 class="card-title">Performance Status</h4>
+				
 				<?php if(count($results) > 0 && $pagestatus!='1'){ ?>
 					<h5>Current Performance Status = <?php echo array_sum(array_column($results, 'point')); ?></h5>
 					<div id="performancechart"></div>
 				<?php } ?>
 				
-				<!-- <div class="table-responsive m-t-40">
+				<div class="row m-t-30">
+					<div class="col-md-12">
+						<a href="<?php echo base_url().'admin/plumber/index/performance/'.$plumberid; ?>" class="btn btn-primary">Active</a>
+						<a href="<?php echo base_url().'admin/plumber/index/performance/'.$plumberid.'/2'; ?>" class="btn btn-primary">Archived</a>
+					</div>
+				</div>
+				<div class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
 							<tr>
-								<th>COC Number</th>
-								<th>Status</th>
-								<th>Date of Allocated/Logged COC</th>
-								<th>COC Type</th>
-								<th>Customer</th>
-								<th>Address</th>
-								<th>Plumber Company</th>
-								<th>Action</th>
+								<th>Date of Performance</th>
+								<th>Performance Type</th>
+								<th>Comments</th>
+								<th>Point Allocation</th>
+								<th>Attachment</th>
+								<?php if($pagestatus!='1'){ ?>
+									<th>Action</th>
+								<?php } ?>
 							</tr>							
 						</thead>
 					</table>
-				</div> -->
+				</div>
 
 			</div>
 		</div>
@@ -92,31 +55,36 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 </div>
 
 <script>
+	var results = $.parseJSON('<?php echo json_encode($results); ?>');
+	var warning = $.parseJSON('<?php echo json_encode($warning); ?>');
+	var pagestatus = '<?php echo $pagestatus; ?>';
+	var id = '<?php echo $id; ?>';
+	
 	$(function(){
+		var column	= 	[
+							{ "data": "date" },
+							{ "data": "type" },
+							{ "data": "comments" },
+							{ "data": "point" },
+							{ "data": "attachment" }
+						];
 		
-		// var options = {
-		// 	url 	: 	'<?php //echo base_url()."admin/plumber/index/DTCocStatement"; ?>',			
-		// 	data    : { page : 'plumbercocstatement', user_id : '<?php //echo $id; ?>'},
-		// 	columns : 	[
-		// 					{ "data": "cocno" },
-		// 					{ "data": "cocstatus" },
-		// 					{ "data": "purchased" },
-		// 					{ "data": "coctype" },
-		// 					{ "data": "customer" },
-		// 					{ "data": "address" },
-		// 					{ "data": "company" },
-		// 					{ "data": "action" }
-		// 				],
-		// 	target	:	[7],
-		// 	sort	:	'0'
-		// };
+		if(pagestatus!=1){
+			column.push({'data' : 'action'});
+			var target = [4,5];
+		}else{
+			var target = [4];
+		}
 		
-		// ajaxdatatables('.datatables', options);
-
-
-		var results = $.parseJSON('<?php echo json_encode($results); ?>');
-		var warning = $.parseJSON('<?php echo json_encode($warning); ?>');
-		var pagestatus = '<?php echo $pagestatus; ?>';
+		var options = {
+			url 	: 	'<?php echo base_url()."admin/plumber/index/DTPerformancestatus"; ?>',
+			data 	: 	{ page : 'plumberperformancestatus', archive : pagestatus, id:id},
+			columns : 	column,
+			target	:	target,
+			sort	:	'0'
+		};
+		
+		ajaxdatatables('.datatables', options);
 		
 		var chartdata = [];
 		$(results).each(function(i, v){
@@ -151,7 +119,16 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 		}
 		
 		var line = new Morris.Line(chart);
-
-
 	});
+	
+	$(document).on('click', '.archive', function(){
+		var action 	= 	'<?php echo base_url().'admin/plumber/index/performanceaction'; ?>';
+		var data	= 	'\
+		<input type="hidden" value="'+$(this).attr('data-id')+'" name="id">\
+		<input type="hidden" value="'+id+'" name="plumberid">\
+		<input type="hidden" value="'+$(this).attr('data-flag')+'" name="flag">\
+		';
+
+		sweetalert(action, data);
+	})
 </script>

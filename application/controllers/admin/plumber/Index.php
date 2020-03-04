@@ -222,25 +222,91 @@ class Index extends CC_Controller
 		$this->mycptindex($pagestatus,$id,$userid);
 	}
 
-	public function performance($id,$pagestatus='')
+	public function performance($id, $pagestatus='')
 	{		
-		$userdata1					= $this->Plumber_Model->getList('row', ['id' => $id]);
-		$pagedata['roletype']		= $this->config->item('roleadmin');
-		$pagedata['id'] 			= $id;
-		$pagedata['user_details'] 	= $userdata1;
-		$pagedata['menu']			= $this->load->view('common/plumber/menu', ['id'=>$id],true);
-		$pagedata['notification'] 	= $this->getNotification();	
+		$userid 					= $id;
 		$rollingavg 				= $this->getRollingAverage();
 		$date						= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
 		$pagestatus					= ($pagestatus=='2' ? '1' : '0');
 		$extraparam					= $pagestatus=='0' ? ['date' => $date] : [];
+		
+		$pagedata['plumberid'] 		= $id;
+		$pagedata['menu']			= $this->load->view('common/plumber/menu', ['id'=>$id],true);
+		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['pagestatus'] 	= $pagestatus;
 		$pagedata['warning']		= $this->Global_performance_Model->getWarningList('all', ['status' => ['1']]);
-		$pagedata['results']		= $this->Plumber_Model->performancestatus('all', ['plumberid' => $id, 'archive' => $pagestatus]+$extraparam);
-
+		$pagedata['results']		= $this->Plumber_Model->performancestatus('all', ['plumberid' => $userid, 'archive' => $pagestatus]+$extraparam);
+		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'morrischart'];
 		$data['content'] 			= $this->load->view('admin/plumber/performance', (isset($pagedata) ? $pagedata : ''), true);
+		
 		$this->layout2($data);
+	}
+	
+	public function DTPerformancestatus()
+	{
+		$post 			= $this->input->post();
+		
+		$userid 		= $post['id'];
+		$rollingavg 	= $this->getRollingAverage();
+		$date			= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
+		
+		if($post['archive']=='0'){
+			$post['date'] = $date;
+		}
+		$totalcount 	= $this->Plumber_Model->performancestatus('count', ['plumberid' => $userid]+$post);
+		$results 		= $this->Plumber_Model->performancestatus('all', ['plumberid' => $userid]+$post);
+		
+		$totalrecord 	= [];
+		if(count($results) > 0){
+			$filepath	= base_url().'assets/uploads/cpdqueue/';
+			$pdfimg 	= base_url().'assets/images/pdf.png';
+			
+			foreach($results as $result){	
+				$attachment = $result['attachment'];
+				if($attachment!=''){						
+					$explodeattachment 	= explode('.', $attachment);
+					$extfile 			= array_pop($explodeattachment);
+					$file 				= (in_array($extfile, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$attachment;
+					$attachment 		= '<img src="'.$file.'" width="100">';
+				}else{
+					$attachment 		= '';
+				}
+							
+				$totalrecord[] = 	[
+										'date' 				=> 	date('d-m-Y', strtotime($result['date'])),
+										'type' 				=> 	$result['type'],
+										'comments' 			=> 	$result['comments'],
+										'point' 			=> 	$result['point'],
+										'attachment' 		=> 	$attachment,
+										'action'			=> 	'
+																	<div class="table-action">	
+																		<a href="javascript:void(0);" class="archive" data-id="'.$result['id'].'" data-flag="'.$result['flag'].'"><i class="fa fa-archive"></i></a>
+																	</div>
+																'
+									];
+			}
+		}
+		
+		$json = array(
+			"draw"            => intval($post['draw']),   
+			"recordsTotal"    => intval($totalcount),  
+			"recordsFiltered" => intval($totalcount),
+			"data"            => $totalrecord
+		);
+
+		echo json_encode($json);
+	}
+	
+	public function performanceaction()
+	{
+		$requestData	=	$this->input->post();
+		$data 			= 	$this->Plumber_Model->performancestatusaction($requestData);
+		
+		if(isset($data)) $this->session->set_flashdata('success', 'Successfully archived.');
+		else $this->session->set_flashdata('error', 'Try Later.');
+			
+		redirect('admin/plumber/index/performance/'.$requestData['plumberid']); 
 	}
 	
 	public function coc($id,$pagestatus='')
