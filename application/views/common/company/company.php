@@ -305,6 +305,15 @@
 								<?php 
 									echo form_dropdown('address[1][city]', [], $city1, ['id' => 'city1', 'class' => 'form-control']); 
 								?>
+								<div>
+										<a href="javascript:void(0);" id="addcity1">Add City</a>
+										<div class="input-group addcity_wrapper displaynone">
+											<input type="text" class="form-control" placeholder="Add City">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary" id="addcitysubmit1" type="button">Add</button>
+											</div>
+										</div>
+									</div>
 							</div>
 						</div>
 						<div class="col-md-6">
@@ -313,6 +322,15 @@
 								<?php 
 									echo form_dropdown('address[2][city]', [], $city2, ['id' => 'city2', 'class' => 'form-control']); 
 								?>
+								<div>
+										<a href="javascript:void(0);" id="addcity2">Add City</a>
+										<div class="input-group addcity_wrapper displaynone">
+											<input type="text" class="form-control" placeholder="Add City">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary" id="addcitysubmit2" type="button">Add</button>
+											</div>
+										</div>
+									</div>
 							</div>
 						</div>
 					</div>
@@ -323,6 +341,15 @@
 								<?php
 									echo form_dropdown('address[1][suburb]', [], $suburb1, ['id' => 'suburb1', 'class'=>'form-control']);
 								?>
+								<div>
+										<a href="javascript:void(0);" id="addsuburb1">Add Suburb</a>
+										<div class="input-group addsuburb_wrapper displaynone">
+											<input type="text" class="form-control" placeholder="Add Suburb">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary" id="addsuburbsubmit1" type="button">Add</button>
+											</div>
+										</div>
+									</div>
 							</div>
 						</div>
 
@@ -332,6 +359,15 @@
 								<?php
 									echo form_dropdown('address[2][suburb]', [], $suburb2, ['id' => 'suburb2', 'class'=>'form-control']);
 								?>
+								<div>
+										<a href="javascript:void(0);" id="addsuburb2">Add Suburb</a>
+										<div class="input-group addsuburb_wrapper displaynone">
+											<input type="text" class="form-control" placeholder="Add Suburb">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary" id="addsuburbsubmit2" type="button">Add</button>
+											</div>
+										</div>
+									</div>
 							</div>
 						</div>
 					</div>
