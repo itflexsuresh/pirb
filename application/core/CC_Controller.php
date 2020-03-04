@@ -272,7 +272,7 @@ class CC_Controller extends CI_Controller
 					if($extras['redirect']) redirect($extras['redirect']); 
 					else redirect('admin/plumber/index'); 
 				}else{
-					$stockcount = $coclimit - $userpaperstock
+					$stockcount = $coclimit - $userpaperstock;
 				}
 				
 				$this->Coc_Model->actionCocCount(['count' => $stockcount, 'user_id' => $id]);				
