@@ -527,6 +527,15 @@ class Index extends CC_Controller
 		 	if ($template['email_active'] == '1') {
 
 		 		$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body,$filePath.$pdfFilePath);
+		 		
+		 		if($this->config->item('otpstatus')!='1'){
+		 			$smsdata 	= $this->Communication_Model->getList('row', ['id' => '17', 'smsstatus' => '1']);
+					
+					if($smsdata){
+						$sms = str_replace(['{number of COC}'], [$orders['quantity']], $smsdata['sms_body']);
+						$this->sms(['no' => $userdata1['mobile_phone'], 'msg' => $sms]);
+					}
+				}
 		 	}
 			 
 			redirect('plumber/purchasecoc/index/notify');
