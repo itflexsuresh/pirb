@@ -16,7 +16,7 @@
 						$header_title = "Individual Registration with the PIRB";
 						$header_title2 = "Register as a Individaul with the Plumbing Regsitration Board";
 						$footer = "Register Plumber with the PIRB"; 
-						$footer2 = "PIRB Plumber Login";
+						$footer2 = "Register your company with the PIRB";
 						$pointer_title = "About the Registration Process";
 						$btn_name = "Register";
 					}
