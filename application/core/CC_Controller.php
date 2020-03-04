@@ -266,7 +266,7 @@ class CC_Controller extends CI_Controller
 				$coclimit 		= $requestData['coc_purchase_limit'];
 				$userpaperstock = $this->Paper_Model->getList('count', ['nococstatus' => '2', 'userid' => $id]); 
 				
-				if($coclimit <= $userpaperstock){
+				if($coclimit < $userpaperstock){
 					$this->session->set_flashdata('error', 'Plumber already has '.$userpaperstock.' coc without logged.');
 					
 					if($extras['redirect']) redirect($extras['redirect']); 
