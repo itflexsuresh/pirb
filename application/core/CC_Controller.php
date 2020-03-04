@@ -19,6 +19,7 @@ class CC_Controller extends CI_Controller
 		$this->load->model('Coc_Model');
 		$this->load->model('Communication_Model');
 		$this->load->model('Plumber_Model');
+		$this->load->model('Paper_Model');
 		$this->load->model('Noncompliance_Model');
 		$this->load->model('Auditor_Reportlisting_Model');
 		$this->load->model('Global_performance_Model');
@@ -261,13 +262,27 @@ class CC_Controller extends CI_Controller
 			$requestData 			= 	$this->input->post();
 			$requestData['user_id'] = 	$id;
 			
+			if(isset($requestData['coc_purchase_limit'])){
+				$coclimit 		= $requestData['coc_purchase_limit'];
+				$userpaperstock = $this->Paper_Model->getList('count', ['nococstatus' => '2', 'userid' => $id]); 
+				
+				if($coclimit <= $userpaperstock){
+					$this->session->set_flashdata('error', 'Plumber already has '.$userpaperstock.' coc without logged.');
+					
+					if($extras['redirect']) redirect($extras['redirect']); 
+					else redirect('admin/plumber/index'); 
+				}else{
+					$stockcount = $coclimit - $userpaperstock
+				}
+				
+				$this->Coc_Model->actionCocCount(['count' => $stockcount, 'user_id' => $id]);				
+			}
+			
 			$plumberdata 	=  $this->Plumber_Model->action($requestData);
 				
 			if(isset($requestData['submit']) && $requestData['submit']=='approvalsubmit'){
 				$commentdata 	=  $this->Comment_Model->action($requestData);				
 			}
-			
-			if(isset($requestData['coc_purchase_limit'])) $this->Coc_Model->actionCocCount(['count' => $requestData['coc_purchase_limit'], 'user_id' => $id]);
 			
 			if($plumberdata || (isset($commentdata) && $commentdata)){
 				$data		= '1';

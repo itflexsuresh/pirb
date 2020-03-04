@@ -11,28 +11,12 @@ class Index extends CC_Controller
 	
 	public function index()
 	{
-		$userid = $this->getUserID();
-		$result['ar'] = $this->Paper_Model->getCount('row', ['id' => $userid, 'status' => ['0','1']]);		
-		$result['un'] = $this->Paper_Model->getList('row', ['id' => $userid, 'status' => ['0','1']]);
+		$userid 				= $this->getUserID();
+		$pagedata['count'] 		= $this->Paper_Model->getList('count', ['cocstatus' => '1']);		
+		$pagedata['result'] 	= $this->Paper_Model->getList('count');
 
-		
-		if($result)
-		{
-			$pagedata['result'] = $result;
-		}
-		else
-		{
-			$this->session->set_flashdata('error', 'No Record Found.');
-			redirect('admin/cocstatement/papermanagement/index'); 
-		}
-		
 		if($this->input->post()){
-
-
-			$requestData 	= 	$this->input->post();	
-			
-			//$id				=	$requestData['id'];
-			
+			$requestData 	= 	$this->input->post();				
 			$data 			=  	$this->Paper_Model->action($requestData);			
 
 			if(isset($data)) $this->session->set_flashdata('success', ' COC '.(($id =='') ? 'Generated' : 'updated').' successfully.');
@@ -42,13 +26,11 @@ class Index extends CC_Controller
 		}
 		
 		$pagedata['notification'] 	= $this->getNotification();
-		//$pagedata['provincelist'] 	= $this->getProvinceList();	
 		$pagedata['userid']			= $userid;		
 
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
 		$data['content'] 			= $this->load->view('admin/cocstatement/papermanagement/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
-
 	}
 
 	

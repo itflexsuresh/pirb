@@ -1,12 +1,6 @@
 <?php
-
-
-$id 			= isset($result['un']['id']) ? $result['un']['id'] : set_value('id');
-
-if(isset($id) && $id!=''){
-	$id++;
-}
-$count =  isset($result['ar']['total']) ? $result['ar']['total'] : set_value('coc_status');
+$id 			= $result+1;
+$count 			= $count;
 ?>
 
 <div class="row page-titles">
@@ -26,10 +20,8 @@ $count =  isset($result['ar']['total']) ? $result['ar']['total'] : set_value('co
 <div class="row">
 	<div class="col-12">
 		<div class="card">
-			<div class="card-body">
-				
+			<div class="card-body">				
 				<form class="form" method="post">
-
 					<h4 class="card-title">Paper Certificate Stock Management</h4>
 					<div class="row">
 						<div class="col-md-12">
@@ -64,52 +56,44 @@ $count =  isset($result['ar']['total']) ? $result['ar']['total'] : set_value('co
 								</div>
 							</div>
 
-							<div class="row text-right">						
-								
-									<button type="submit" name="submit" value="submit" class="btn btn-block btn-primary btn-rounded">Generate COC Stock</button>
-								
+							<div class="row text-right">			
+								<button type="submit" name="submit" value="submit" class="btn btn-block btn-primary btn-rounded">Generate COC Stock</button>		
 							</div>	
 						</div>	
-						</div>															
-					</form>
-				</div>
+					</div>															
+				</form>
 			</div>
 		</div>
 	</div>
+</div>
 
 
-	<script type="text/javascript">
+<script type="text/javascript">
+	$(function(){
 
-		$(function(){
+		validation(
+			'.form',
+			{	
+				cocstock : {
+					required	: true,
 
-			validation(
-				'.form',
-				{	
-					cocstock : {
-						required	: true,
-
-					}
-				},
-
-				{
-					cocstock 	: {
-						required	: "Please enter the cocstock."
-					}										
 				}
-				);
-
-			
-			$('#cocstock').keyup(function()
+			},
 			{
-				ths_val = $(this).val();				
-				second = $('#range_start').val();
-				third = (parseInt(ths_val)+parseInt(second));
-				$('#range_end').val(third);
-			});
-
+				cocstock 	: {
+					required	: "Please enter the cocstock."
+				}										
+			}
+		);
 
 		
-
-
+		$('#cocstock').keyup(function()
+		{
+			var cocstock = $(this).val()!='' && $(this).val()!=undefined ? parseInt($(this).val()) : '';				
+			var rangestart = parseInt($('#range_start').val());
+			
+			if(cocstock!='') $('#range_end').val(cocstock+rangestart);
+			else $('#range_end').val('');
 		});
-	</script>
+	});
+</script>
