@@ -493,7 +493,7 @@ class Index extends CC_Controller
 										'description' 	=> 	$result['description'],
 										'invoiceno' 	=> 	$result['inv_id'],
 										'invoicedate' 	=> 	date('d-m-Y', strtotime($result['created_at'])),
-										'invoicevalue' 	=> 	$result['total_cost'],
+										'invoicevalue' 	=> 	$result['total_due'],
 										'invoicestatus' => 	$invoicestatus,
 										'orderstatus' 	=> 	'',			
 							     		'action'	    => 	'

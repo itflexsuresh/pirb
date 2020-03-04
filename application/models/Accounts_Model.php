@@ -27,7 +27,7 @@ class Accounts_Model extends CC_Model
 			$this->db->like('t1.inv_id', $searchvalue);
 			$this->db->or_like('t1.description', $searchvalue);
             $this->db->or_like('DATE_FORMAT(t1.created_at,"%d-%m-%Y")', $searchvalue);
-            $this->db->or_like('t1.total_cost', $searchvalue);
+            $this->db->or_like('t1.total_due', $searchvalue);
             $this->db->or_like('t1.internal_inv', $searchvalue);
             $this->db->or_like('t3.name', $searchvalue);
             $this->db->or_like('t3.surname', $searchvalue);
