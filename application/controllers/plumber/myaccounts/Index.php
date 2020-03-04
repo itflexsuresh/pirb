@@ -56,7 +56,7 @@ class Index extends CC_Controller
 					$this->session->set_userdata('pay_purchaseorder', $result['inv_id']);
 
 					$action = 	'
-									<input type="hidden" id="feeamt" value="'.$result['total_cost'].'">
+									<input type="hidden" id="feeamt" value="'.$result['total_due'].'">
 									<input type="hidden" id="name" value="'.$userdata1['name'].'">
 									<input type="hidden" id="surname" value="'.$userdata1['surname'].'">
 									<input type="hidden" id="usremail" value="'.$userdata1['email'].'">
@@ -80,7 +80,7 @@ class Index extends CC_Controller
 										'description' 	=> 	$result['description'],
 										'invoiceno' 	=> 	$result['inv_id'],
 										'invoicedate' 	=> 	date('d-m-Y', strtotime($result['created_at'])),
-										'invoicevalue' 	=> 	$result['total_cost'],
+										'invoicevalue' 	=> 	$result['total_due'],
 										'invoicestatus' => 	$invoicestatus,
 										'orderstatus' 	=> 	'',			
 							     		'action'	    => 	'
