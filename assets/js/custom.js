@@ -632,3 +632,65 @@ function chat(data1=[], data2=[], data3=[]){
 		clearInterval(interval);
 	}
 }
+
+function barchart(selector, options){
+	var myChart = echarts.init(document.getElementById(selector));
+	
+	var series = [];
+	$(options['series']).each(function(i, v){
+		series.push({
+			name		: 	v.name,
+			type		: 	'bar',
+			barMaxWidth	: 	60,
+			itemStyle	: 	{
+								normal: {
+									color: function(params) {
+										return (v.colors) ? v.colors[params.dataIndex] : v.color
+									},
+									label : {
+										show: true, 
+										position: 'top'
+									}
+								}
+							},
+			data		: 	v.yaxis
+		})
+	})
+	console.log(series);
+	option = {
+		tooltip : {
+			trigger: 'item'
+		},
+		calculable : true,
+		grid: {
+			borderWidth: 0
+		},
+		xAxis : [
+			{
+				type : 'category',
+				data : 	options['xaxis'],
+				splitLine: { show: false },
+				axisLine: {show: false},	
+				axisTick : {show: false},		
+				axisLabel:{interval:0}			
+			}
+		],
+		yAxis : [
+			{
+				type : 'value',
+				axisLine: {show: false}
+			}
+		],
+		series : series
+	};
+                    
+
+	myChart.setOption(option, true), $(function() {
+		function resize() {
+			setTimeout(function() {
+				myChart.resize()
+			}, 100)
+		}
+		$(window).on("resize", resize), $(".icon-menu").on("click", resize)
+	});
+}

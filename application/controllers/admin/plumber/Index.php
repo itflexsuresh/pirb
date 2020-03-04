@@ -150,7 +150,7 @@ class Index extends CC_Controller
 		$pagedata['history']		= $this->Auditor_Model->getReviewHistory2Count(['auditorid' => '', 'plumberid' => $id]);
 		$pagedata['settings_cpd']	= $this->Systemsettings_Model->getList('all',['user_id' => $id]);
 		
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'morrischart'];
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'echarts'];
 
 		$data['content'] 			= $this->load->view('admin/plumber/cpd', (isset($pagedata) ? $pagedata : ''), true);
 		
@@ -252,11 +252,11 @@ class Index extends CC_Controller
 		$pagedata['menu']			= $this->load->view('common/plumber/menu', ['id'=>$id],true);
 		$pagedata['notification'] 	= $this->getNotification();		
 		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['auditorid' => '', 'plumberid' => $id]);				
-		$pagedata['logged']		= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['2']]);
+		$pagedata['logged']			= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['2']]);
 		$pagedata['allocated']		= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['4']]);
 		$pagedata['nonlogged ']		= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['5']]);
 
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'morrischart'];
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'echarts'];
 		$data['content'] 			= $this->load->view('admin/plumber/coc', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
@@ -369,7 +369,7 @@ class Index extends CC_Controller
 
 		$pagedata['loggedcoc']		= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['2']]);
 		
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'morrischart'];
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'echarts'];
 		$data['content'] 			= $this->load->view('admin/plumber/audit', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 

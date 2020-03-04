@@ -125,6 +125,9 @@
 				echo '<script src="'.base_url().'assets/plugins/morrisjs/morris.min.js"></script>';
 				echo '<script src="'.base_url().'assets/plugins/raphael/raphael-min.js"></script>';
 			}
+			if(in_array('echarts', $plugins)){ 
+				echo '<script src="'.base_url().'assets/plugins/echarts/echarts-all.js"></script>';
+			}
 		?>
 		
 		<script src="<?php echo base_url().'assets/js/custom.min.js'; ?>"></script>

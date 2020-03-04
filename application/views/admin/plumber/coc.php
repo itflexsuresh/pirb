@@ -64,7 +64,7 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 			<div class="card-body">
 				<h4 class="card-title">COC Details for <?php echo $user_details['name']." ".$user_details['surname']?></h4>
 
-				<div id="reviewchart"></div>
+				<div id="reviewchart" style="width:100%; height:400px;"></div>
 				
 				<div class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
@@ -121,50 +121,31 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 		var logged 			= '<?php echo $logged; ?>';
 		var nonlogged 		= '<?php echo $nonlogged; ?>';		
 		var allocated 		= '<?php echo $allocated; ?>';
-
-		var barcolor = ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4'];
 		
-		Morris.Bar({
-			barSizeRatio:0.4,
-	        element: 'reviewchart',
-	        data: [
-				{
-					y: 'No of Non Logged Coc`s:',
-					a: nonlogged
-				}, 
-				{
-					y: 'No of Non Logged Coc`s- Allocated:',
-					a: allocated
-				}, 
-				{
-					y: 'No of Coc`s Logged:',
-					a: logged
-				}, 
-				{
-					y: 'No of Coc`s Audited to Date:',
-					a: total
-				}, 
-				{
-					y: 'Refix (Complete)',
-					a: refixcomplete
-				}, 
-				{
-					y: 'Refix(In Complete)',
-					a: refixincomplete
-				}
-			],
-	        xkey: 'y',
-			xLabelMargin : 1,
-	        ykeys: ['a'],
-	        labels: ['Audit'],
-			barColors: function (row, series, type) {
-				return barcolor[row.x];
-			}, 
-	        hideHover: 'auto',
-	        gridLineColor: '#000',
-	        resize: true
-	    });
-
-
+		barchart(
+			'reviewchart',
+			{
+				xaxis : [
+					'Non Logged Coc`s',
+					'Non Logged Coc`s Allocated',
+					'Coc`s Logged',
+					'Coc`s Audited to Date',
+					'Refix (Complete)',
+					'Refix(In Complete)'
+				],
+				series : [{
+					name : 'COC',
+					yaxis : [
+						nonlogged,
+						allocated,
+						logged,
+						total,
+						refixcomplete,
+						refixincomplete
+					],
+					colors : ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4']
+				}]
+			}
+		);
 	});
 </script>
