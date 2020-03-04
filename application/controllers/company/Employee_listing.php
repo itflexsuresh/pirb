@@ -15,7 +15,7 @@ class Employee_listing extends CC_Controller
 	{
 
 		$companyID = $this->getuserID();
-		$data['plugins']				= ['datatables','validation','datepicker','inputmask','select2', 'morrischart'];
+		$data['plugins']				= ['datatables','validation','datepicker','inputmask','select2', 'echarts'];
 		$pagedata['notification'] 		= $this->getNotification();
 		$pagedata['designation2']		= $this->config->item('designation2');
 		$pagedata['plumberstatus']		= $this->config->item('plumberstatus');
@@ -86,7 +86,7 @@ class Employee_listing extends CC_Controller
 		
 		//print_r($pagedata['loggedcoc']);die;
 		$companyID = $this->getuserID();
-		$data['plugins']				= ['datatables','validation','datepicker','inputmask','select2', 'morrischart'];
+		$data['plugins']				= ['datatables','validation','datepicker','inputmask','select2', 'echarts'];
 		$pagedata['notification'] 		= $this->getNotification();
 		$pagedata['designation2']		= $this->config->item('designation2');
 		$pagedata['plumberstatus']		= $this->config->item('plumberstatus');

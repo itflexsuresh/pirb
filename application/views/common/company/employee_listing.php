@@ -285,11 +285,12 @@
 						</div>
 					</div>
 					<h4 class="card-title">CPD Overview</h4>
-				<div id="reviewchart"></div>
+					
+				<div id="reviewchart" style="width:100%; height:400px;"></div>
 				
 				<div class="target" style="width: 8px;height: 9px;background-color: #4472c4;"></div><label>Target</label>				
 				<div class="achieved" style="width: 8px;height: 9px;background-color: #ed7d31;"></div><label>Achieved</label>
-				<div id="reviewchart1"></div>
+				<div id="reviewchart1" style="width:100%; height:400px;"></div>
 				<div class="row">
 					<div class="col-md-2">
 						<label >Number of Logged COC's</label>
@@ -339,110 +340,85 @@
 		
 		ajaxdatatables('.datatables', options);
 
-			var auditorid 	= '<?php echo $auditorid; ?>';
-	var plumberid 	= '<?php echo $plumberid; ?>';
-	var developmental = '<?php echo $developmental; ?>';
-	var workbased 	= '<?php echo $workbased; ?>';
-	var individual 	= '<?php echo $individual; ?>';
-	var total 		= '<?php echo $total; ?>';
-	var developmental1 = '<?php echo $developmental1; ?>';
-	var workbased1 	= '<?php echo $workbased1; ?>';
-	var individual1 	= '<?php echo $individual1; ?>';
-	var total1		= '<?php echo $total1; ?>';
-
-	// var barcolor1 = ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4'];
-	var barcolor = ['#4472C4','#ED7D31','#4472C4','#ED7D31'];
-	
-	Morris.Bar({
-		barSizeRatio:0.4,
-        element: 'reviewchart',
-        data: [
+		var auditorid 	= '<?php echo $auditorid; ?>';
+		var plumberid 	= '<?php echo $plumberid; ?>';
+		var developmental = '<?php echo $developmental; ?>';
+		var workbased 	= '<?php echo $workbased; ?>';
+		var individual 	= '<?php echo $individual; ?>';
+		var total 		= '<?php echo $total; ?>';
+		var developmental1 = '<?php echo $developmental1; ?>';
+		var workbased1 	= '<?php echo $workbased1; ?>';
+		var individual1 	= '<?php echo $individual1; ?>';
+		var total1		= '<?php echo $total1; ?>';
+		
+		
+		barchart(
+			'reviewchart',
 			{
-				y: 'Development',
-				a: developmental1,
-				b: developmental
-			}, 
-			{
-				y: 'Work-Base',
-				a: workbased1,
-				b: workbased
-			}, 
-			{
-				y: 'Individual',
-				a: individual1,
-				b: individual
-			}, 
-			{
-				y: 'Total',
-				a: total1,
-				b: total
+				xaxis : [
+					'Development',
+					'Work-Base',
+					'Individual',
+					'Total'
+				],
+				series : [
+					{
+						name : 'CPD',
+						yaxis : [
+							developmental1,
+							workbased1,
+							individual1,
+							total1
+						],
+						color : '#4472C4'
+					},
+					{
+						name : 'CPD',
+						yaxis : [
+							developmental,
+							workbased,
+							individual,
+							total
+						],
+						color : '#ED7D31'
+					}
+				]
 			}
-		],
-        xkey: 'y',
-		xLabelMargin : 1,
-        ykeys: ['a','b'],
-        
-        labels: ['Target','Achieved'],
-		barColors: function (row, series, type) {			
-			if(series.key == "a") return "#4472C4";
-			if(series.key == "b") return "#ED7D31";
-			// return barcolor[row.x];
-		}, 
-        hideHover: 'auto',
-        gridLineColor: '#000',
-        resize: true
-    });
+		);
 
-    var auditorid 		= '<?php echo $auditorid; ?>';
-	var totals 			= '<?php echo $total; ?>';
-	var refixincomplete = '<?php echo $refixincomplete; ?>';
-	var refixcomplete 	= '<?php echo $refixcomplete; ?>';
-	var compliment 		= '<?php echo $compliment; ?>';
-	var cautionary 		= '<?php echo $cautionary; ?>';
-	var noaudit 		= '<?php echo $noaudit; ?>';
-
-	var barcolor = ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4'];
-	
-	Morris.Bar({
-		barSizeRatio:0.4,
-        element: 'reviewchart1',
-        data: [
+		var auditorid 		= '<?php echo $auditorid; ?>';
+		var totals 			= '<?php echo $total; ?>';
+		var refixincomplete = '<?php echo $refixincomplete; ?>';
+		var refixcomplete 	= '<?php echo $refixcomplete; ?>';
+		var compliment 		= '<?php echo $compliment; ?>';
+		var cautionary 		= '<?php echo $cautionary; ?>';
+		var noaudit 		= '<?php echo $noaudit; ?>';
+		
+		barchart(
+			'reviewchart1',
 			{
-				y: 'Total Number of Audit Findings',
-				a: total
-			}, 
-			{
-				y: 'Compliments',
-				a: compliment
-			}, 
-			{
-				y: 'Cautionary',
-				a: cautionary
-			}, 
-			{
-				y: 'Refix (Complete)',
-				a: refixcomplete
-			}, 
-			{
-				y: 'Refix (In-Complete)',
-				a: refixincomplete
-			}, 
-			{
-				y: 'No Audit',
-				a: noaudit
+				xaxis : [
+					'Total No of Audit Findings',
+					'Compliments',
+					'Cautionary',
+					'Refix (Complete)',
+					'Refix(In Complete)',
+					'No Audit'
+				],
+				series : [{
+					name : 'Audit',
+					yaxis : [
+						total,
+						compliment,
+						cautionary,
+						refixcomplete,
+						refixincomplete,
+						noaudit
+					],
+					colors : ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4']
+				}]
 			}
-		],
-        xkey: 'y',
-		xLabelMargin : 1,
-        ykeys: ['a'],
-        labels: ['Audit'],
-		barColors: function (row, series, type) {
-			return barcolor[row.x];
-		}, 
-        hideHover: 'auto',
-        gridLineColor: '#000',
-        resize: true
-    });
+		);
     
 	});
 

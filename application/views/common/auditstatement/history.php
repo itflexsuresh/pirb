@@ -43,7 +43,7 @@ $noauditpercentage 			= round(($noaudit/$total)*100,2).'%';
 	<div class="col-12">
 		<div class="card">
 			<?php if($roletype=='1'){ ?>
-				<div id="reviewchart"></div>
+				<div id="reviewchart" style="width:100%; height:400px;"></div>
 			<?php } ?>
 			<div class="row">
 				<div class="col-md-6">
@@ -154,48 +154,30 @@ $noauditpercentage 			= round(($noaudit/$total)*100,2).'%';
 		ajaxdatatables('.datatables', options);
 		
 		if(roletype=='1'){
-			var barcolor = ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4'];
-		
-			Morris.Bar({
-				barSizeRatio:0.4,
-				element: 'reviewchart',
-				data: [
-					{
-						y: 'Total Number of Audit Findings',
-						a: total
-					}, 
-					{
-						y: 'Compliments',
-						a: compliment
-					}, 
-					{
-						y: 'Cautionary',
-						a: cautionary
-					}, 
-					{
-						y: 'Refix (Complete)',
-						a: refixcomplete
-					}, 
-					{
-						y: 'Refix (In-Complete)',
-						a: refixincomplete
-					}, 
-					{
-						y: 'No Audit',
-						a: noaudit
-					}
-				],
-				xkey: 'y',
-				xLabelMargin : 1,
-				ykeys: ['a'],
-				labels: ['Audit'],
-				barColors: function (row, series, type) {
-					return barcolor[row.x];
-				}, 
-				hideHover: 'auto',
-				gridLineColor: '#000',
-				resize: true
-			});
+			barchart(
+				'reviewchart',
+				{
+					xaxis : [
+						'Total No of Audit Findings',
+						'Compliments',
+						'Cautionary',
+						'Refix (Complete)',
+						'Refix(In Complete)',
+						'No Audit'
+					],
+					series : [{
+						name : 'Audit',
+						yaxis : [
+							total,
+							compliment,
+							cautionary,
+							refixcomplete,
+							refixincomplete,
+							noaudit
+						],
+						colors : ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4']
+					}]
+				}
 		}
 	});
 	

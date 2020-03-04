@@ -454,7 +454,7 @@ class CC_Controller extends CI_Controller
 		}
 		
 		$pagedata['menu']				= $this->load->view('common/company/menu', ['id'=>$companyID],true);
-		$data['plugins']				= ['datatables','validation','datepicker','inputmask','select2', 'morrischart'];
+		$data['plugins']				= ['datatables','validation','datepicker','inputmask','select2', 'echarts'];
 		$pagedata['notification'] 		= $this->getNotification();
 		$pagedata['designation2']		= $this->config->item('designation2');
 		$pagedata['plumberstatus']		= $this->config->item('plumberstatus');
@@ -773,7 +773,7 @@ class CC_Controller extends CI_Controller
 		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['auditorid' => $pagedata['result']['auditorid'], 'plumberid' => $pagedata['result']['user_id']]);	
 		$pagedata['menu']			= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
 		
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'morrischart'];
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'echarts'];
 		$data['content'] 			= $this->load->view('common/auditstatement/history', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
