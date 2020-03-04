@@ -110,7 +110,7 @@ $pagestatus = isset($pagestatus) ? $pagestatus : '';
 			<div class="card-body">
 				<h4 class="card-title">CPD Activties for <?php echo $user_details['name']." ".$user_details['surname']?></h4>
 
-				<div id="reviewchart"></div>
+				<div id="reviewchart" style="width:100%; height:400px;"></div>
 				
 				<div class="target"></div><label>Target</label>				
 				<div class="achieved"></div><label>Achieved</label>
@@ -172,51 +172,42 @@ $pagestatus = isset($pagestatus) ? $pagestatus : '';
 	var workbased1 	= '<?php echo $workbased1; ?>';
 	var individual1 	= '<?php echo $individual1; ?>';
 	var total1		= '<?php echo $total1; ?>';
-
-	// var barcolor1 = ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4'];
-	var barcolor = ['#4472C4','#ED7D31','#4472C4','#ED7D31'];
 	
-	Morris.Bar({
-		barSizeRatio:0.4,
-        element: 'reviewchart',
-        data: [
-			{
-				y: 'Development',
-				a: developmental1,
-				b: developmental
-			}, 
-			{
-				y: 'Work-Base',
-				a: workbased1,
-				b: workbased
-			}, 
-			{
-				y: 'Individual',
-				a: individual1,
-				b: individual
-			}, 
-			{
-				y: 'Total',
-				a: total1,
-				b: total
-			}
-		],
-        xkey: 'y',
-		xLabelMargin : 1,
-        ykeys: ['a','b'],
-        
-        labels: ['Target','Achieved'],
-		barColors: function (row, series, type) {			
-			if(series.key == "a") return "#4472C4";
-			if(series.key == "b") return "#ED7D31";
-			// return barcolor[row.x];
-		}, 
-        hideHover: 'auto',
-        gridLineColor: '#000',
-        resize: true
-    });
+	barchart(
+		'reviewchart',
+		{
+			xaxis : [
+				'Development',
+				'Work-Base',
+				'Individual',
+				'Total'
+			],
+			series : [
+				{
+					name : 'CPD',
+					yaxis : [
+						developmental1,
+						workbased1,
+						individual1,
+						total1
+					],
+					color : '#4472C4'
+				},
+				{
+					name : 'CPD',
+					yaxis : [
+						developmental,
+						workbased,
+						individual,
+						total
+					],
+					color : '#ED7D31'
+				}
+			]
+		}
+	);
 		
-	});
+});
 
 	var req2 = null;
 	function search_activity(value)
