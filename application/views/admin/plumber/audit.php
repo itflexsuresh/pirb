@@ -82,7 +82,7 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 						<input type="text" class="form-control" name="loggedcoc" value="<?php echo $loggedcoc; ?>">
 					</div>
 					<div class="col-md-2">
-						<label>Number Audits Done to Date</label>
+						<label>Number of Audits Done to Date</label>
 					</div>
 					<div class="col-md-3">
 						<input type="text" class="form-control" name="auditdone" value="<?php echo $count; ?>">
