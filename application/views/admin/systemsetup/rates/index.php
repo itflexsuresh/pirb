@@ -17,6 +17,14 @@ if(isset($result) && $result){
 	$status			= set_value('status');
 	$heading		= 'Add';
 }
+
+// $validfrom 		= isset($result['validfrom']) ? $result['validfrom'] : '';
+if($validfrom!='')
+	$vdate=date('d/m/Y',strtotime($validfrom));
+else
+	$vdate=date('d/m/Y');
+
+
 ?>
 
 <div class="row page-titles">
@@ -54,7 +62,7 @@ if(isset($result) && $result){
 						<div class="row">
 						<div class="form-group col-md-6">
 							<label for="name">Valid From Date</label>
-							<input type="text" autocomplete="off" class="form-control" id="valid-from" name="validfrom" placeholder="Enter Date *" value="<?php $vdate=date('d/m/Y',strtotime($validfrom)); echo $vdate; ?>">
+							<input type="text" autocomplete="off" class="form-control" id="valid-from" name="validfrom" placeholder="Enter Date *" value="<?php echo $vdate; ?>">
 						</div>
                         <?php if($futuredate!=0){?>
                         <div class="form-group col-md-6">
