@@ -498,5 +498,7 @@ $config['diary'] 				= 		[
 											'8' => 'Auditor Allocated',
 											'9' => 'Auditor Review Completed',
 											'10' => 'Auditor Review Completed with refix',
-										];										
+										];	
+
+$config['currency'] 			= 		'R';
 

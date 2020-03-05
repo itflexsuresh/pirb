@@ -155,6 +155,7 @@ class Index extends CC_Controller
 			$provincesettings = explode("@@@",$rowData2['provincesettings']);
 
 			$designation	=	$this->config->item('designation2')[$rowData['designation']];
+			$currency    = $this->config->item('currency');
 			$html = '<!DOCTYPE html>
 					<html>
 					<head>
@@ -271,7 +272,7 @@ class Index extends CC_Controller
 					<table align="right" class="custom_reg_uniq" style="margin-top: 10px;">
 					<thead>
 					<tr>
-					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer Compnay Reg</th>
+					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer Company Reg</th>
 					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer VAT Reg</th>
 					<th style="padding: 10px;   font-size: 14px; text-align: center;">Invoice Date</th>
 					</tr>
@@ -325,9 +326,9 @@ class Index extends CC_Controller
 					<tbody>
 					<tr>
 					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">'.$rowData['description'].'</td>
-					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;">'.$rowData['quantity'].'</td>
-					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</td>
-					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</td>
+					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;">1</td>
+					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$rowData['cost_value'].'</td>
+					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$rowData['cost_value'].'</td>
 					</tr>
 					</tbody>
 					</table>	
@@ -359,17 +360,17 @@ class Index extends CC_Controller
 
 					<tr style="text-align: center;">
 					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">Sub Total</td>					
-					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$rowData['cost_value'].'</td>
+					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$currency.$rowData['cost_value'].'</td>
 					</tr>
 
 					<tr style="text-align: center;">
 					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">VAT Total</td>
-					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$rowData['vat'].'</td>
+					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$currency.$rowData['vat'].'</td>
 					</tr>
 
 					<tr style="text-align: center;">
 					<td bgcolor="#ccc" style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">Total</td>
-					<td bgcolor="#ccc" style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$rowData['total_due'].'</td>
+					<td bgcolor="#ccc" style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$currency.$rowData['total_due'].'</td>
 					</tr>
 
 					</tbody>

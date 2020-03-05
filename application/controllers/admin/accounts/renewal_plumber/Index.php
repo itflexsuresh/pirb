@@ -159,7 +159,7 @@ class Index extends CC_Controller
 			$renewal_date =  date('d/m/Y', $new_date);
 
 
-			$result = $this->Renewal_Model->insertdata($userid,$designation,'2');
+			$result = $this->Renewal_Model->updatedata($userid,$designation,'2');			
 			$invoice_id = $result['invoice_id'];
 			$cocorder_id = $result['cocorder_id'];
 			
@@ -221,7 +221,8 @@ class Index extends CC_Controller
 					$stringaarr4 = isset($stringaarr[4]) ? $stringaarr[4] : '';
 					$provincesettings = explode("@@@",$rowData2['provincesettings']);
 
-					$designation	=	$this->config->item('designation2')[$rowData['designation']];
+					$designation =	$this->config->item('designation2')[$rowData['designation']];
+					$currency    = $this->config->item('currency');
 					
 					$html = '<!DOCTYPE html>
 					<html>
@@ -332,7 +333,7 @@ class Index extends CC_Controller
 					<table align="right" class="custom_reg_uniq" style="margin-top: 10px;">
 					<thead>
 					<tr>
-					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer Compnay Reg</th>
+					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer Company Reg</th>
 					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer VAT Reg</th>
 					<th style="padding: 10px;   font-size: 14px; text-align: center;">Invoice Date</th>
 					</tr>
@@ -387,8 +388,8 @@ class Index extends CC_Controller
 					<tr>
 					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">PIRB year registration fee for '.$designation.' for '.$rowData['username'].' '.$rowData['surname'].', registration number '.$rowData['registration_no'].'</td>				
 					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;">'.$rowData['quantity'].'</td>
-					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</td>
-					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</td>
+					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$rowData['cost_value'].'</td>
+					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$rowData['cost_value'].'</td>
 					</tr>
 					</tbody>
 					</table>	
@@ -420,17 +421,17 @@ class Index extends CC_Controller
 
 					<tr style="text-align: center;">
 					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">Sub Total</td>					
-					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$rowData['cost_value'].'</td>
+					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$currency.$rowData['cost_value'].'</td>
 					</tr>
 
 					<tr style="text-align: center;">
 					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">VAT Total</td>
-					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$rowData['vat'].'</td>
+					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$currency.$rowData['vat'].'</td>
 					</tr>
 
 					<tr style="text-align: center;">
 					<td bgcolor="#ccc" style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">Total</td>
-					<td bgcolor="#ccc" style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$rowData['total_due'].'</td>
+					<td bgcolor="#ccc" style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$currency.$rowData['total_due'].'</td>
 					</tr>
 
 					</tbody>
@@ -493,11 +494,12 @@ class Index extends CC_Controller
 			$userid = $data['id'];
 			$designation = $data['designation'];
 			$invoice_id = $data['inv_id'];
+			$cocid = $data['cocid'];
 
-			$delete_result = $this->Renewal_Model->deleteid($invoice_id);
+			// $delete_result = $this->Renewal_Model->deleteid($invoice_id);
 
 			$designation = $data['designation'];
-			$insert_result = $this->Renewal_Model->insertdata($userid,$designation,'3');
+			$insert_result = $this->Renewal_Model->updatedata($userid,$designation,'3',$invoice_id,$cocid);
 			$invoice_id = $insert_result['invoice_id'];
 			$cocorder_id = $insert_result['cocorder_id'];
 			
@@ -559,6 +561,7 @@ class Index extends CC_Controller
 				$provincesettings = explode("@@@",$rowData2['provincesettings']);
 
 				$designation	=	$this->config->item('designation2')[$rowData['designation']];
+				$currency    = $this->config->item('currency');
 				
 				$html = '<!DOCTYPE html>
 				<html>
@@ -669,7 +672,7 @@ class Index extends CC_Controller
 					<table align="right" class="custom_reg_uniq" style="margin-top: 10px;">
 					<thead>
 					<tr>
-					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer Compnay Reg</th>
+					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer Company Reg</th>
 					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer VAT Reg</th>
 					<th style="padding: 10px;   font-size: 14px; text-align: center;">Invoice Date</th>
 					</tr>
@@ -724,8 +727,8 @@ class Index extends CC_Controller
 					<tr>
 					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">PIRB year registration fee for '.$designation.' for '.$rowData['username'].' '.$rowData['surname'].', registration number '.$rowData['registration_no'].'</td>				
 					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;">'.$rowData['quantity'].'</td>
-					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</td>
-					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</td>
+					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$rowData['cost_value'].'</td>
+					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$rowData['cost_value'].'</td>
 					</tr>
 					</tbody>
 					</table>	
@@ -757,17 +760,17 @@ class Index extends CC_Controller
 
 					<tr style="text-align: center;">
 					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">Sub Total</td>					
-					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$rowData['cost_value'].'</td>
+					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$currency.$rowData['cost_value'].'</td>
 					</tr>
 
 					<tr style="text-align: center;">
 					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">VAT Total</td>
-					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$rowData['vat'].'</td>
+					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$currency.$rowData['vat'].'</td>
 					</tr>
 
 					<tr style="text-align: center;">
 					<td bgcolor="#ccc" style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">Total</td>
-					<td bgcolor="#ccc" style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$rowData['total_due'].'</td>
+					<td bgcolor="#ccc" style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$currency.$rowData['total_due'].'</td>
 					</tr>
 
 					</tbody>
@@ -827,11 +830,13 @@ class Index extends CC_Controller
 			$userid = $data['id'];
 			$designation = $data['designation'];
 			$invoice_id = $data['inv_id'];
+			$cocid = $data['cocid'];
 
-			$delete_result = $this->Renewal_Model->deleteid($invoice_id);
+			// $delete_result = $this->Renewal_Model->deleteid($invoice_id);
 
 			$designation = $data['designation'];
-			$insert_result = $this->Renewal_Model->insertdata($userid,$designation,'4');
+			$insert_result = $this->Renewal_Model->updatedata($userid,$designation,'4',$invoice_id,$cocid);
+			
 			$invoice_id = $insert_result['invoice_id'];
 			$cocorder_id = $insert_result['cocorder_id'];
 			$cocorder_id2 = $insert_result['cocorder_id2'];
@@ -903,6 +908,7 @@ class Index extends CC_Controller
 				$provincesettings = explode("@@@",$rowData2['provincesettings']);
 
 				$designation	=	$this->config->item('designation2')[$rowData['designation']];
+				$currency    = $this->config->item('currency');
 				
 				$html = '<!DOCTYPE html>
 				<html>
@@ -1013,7 +1019,7 @@ class Index extends CC_Controller
 					<table align="right" class="custom_reg_uniq" style="margin-top: 10px;">
 					<thead>
 					<tr>
-					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer Compnay Reg</th>
+					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer Company Reg</th>
 					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer VAT Reg</th>
 					<th style="padding: 10px;   font-size: 14px; text-align: center;">Invoice Date</th>
 					</tr>
@@ -1068,14 +1074,14 @@ class Index extends CC_Controller
 					<tr>
 					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">PIRB year registration fee for '.$designation.' for '.$rowData['username'].' '.$rowData['surname'].', registration number '.$rowData['registration_no'].'</td>				
 					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;">'.$rowData['quantity'].'</td>
-					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</td>
-					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</td>
+					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$rowData['cost_value'].'</td>
+					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$rowData['cost_value'].'</td>
 					</tr>
 					<tr>
 					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Late Penalty Fee</td>				
 					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;">1</td>
-					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$lateamount.'</td>
-					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$lateamount.'</td>
+					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$lateamount.'</td>
+					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$lateamount.'</td>
 					</tr>
 					</tbody>
 					</table>	
@@ -1107,17 +1113,17 @@ class Index extends CC_Controller
 
 					<tr style="text-align: center;">
 					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">Sub Total</td>					
-					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$total_subtotal.'</td>
+					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$currency.$total_subtotal.'</td>
 					</tr>
 
 					<tr style="text-align: center;">
 					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">VAT Total</td>
-					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$total_vatamount.'</td>
+					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$currency.$total_vatamount.'</td>
 					</tr>
 
 					<tr style="text-align: center;">
 					<td bgcolor="#ccc" style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">Total</td>
-					<td bgcolor="#ccc" style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$total.'</td>
+					<td bgcolor="#ccc" style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$currency.$total.'</td>
 					</tr>
 
 					</tbody>

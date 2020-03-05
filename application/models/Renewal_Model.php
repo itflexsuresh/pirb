@@ -76,17 +76,17 @@ class Renewal_Model extends CC_Model
 
 	public function getUserids_alert2()
 	{	
-		$this->db->select('us.id, us.expirydate, up.designation, inv.inv_id');		
+		$this->db->select('us.id, us.expirydate, up.designation, inv.inv_id, coc.id as cocid');	
 		$this->db->from('users us');
 		$this->db->join('users_plumber as up', 'up.user_id=us.id', 'inner');
 		$this->db->join('invoice inv', 'inv.user_id=us.id', 'inner');
+		$this->db->join('coc_orders coc', 'coc.inv_id=inv.inv_id', 'inner');
 		$this->db->where('inv.inv_type', '2' );
 		$this->db->where('inv.status', '0' );
 		$this->db->where('us.type', '3' );
 		$this->db->where('us.status', '1' );
 		$this->db->where("DATEDIFF(us.expirydate,now()) = 7");		
-		$result = $this->db->get()->result_array();
-		
+		$result = $this->db->get()->result_array();		
 		return $result;
 	}
 
@@ -100,10 +100,11 @@ class Renewal_Model extends CC_Model
 		$penalty_result = $this->db->get()->row_array();
 		$penalty = $penalty_result['penalty'];
 
-		$this->db->select('us.id, us.expirydate, up.designation, inv.inv_id');		
+		$this->db->select('us.id, us.expirydate, up.designation, inv.inv_id, coc.id as cocid');		
 		$this->db->from('users us');
 		$this->db->join('users_plumber as up', 'up.user_id=us.id', 'inner');
 		$this->db->join('invoice inv', 'inv.user_id=us.id', 'inner');
+		$this->db->join('coc_orders coc', 'coc.inv_id=inv.inv_id', 'inner');
 		$this->db->where('inv.inv_type', '3' );
 		$this->db->where('inv.status', '0' );
 		$this->db->where('us.type', '3' );
@@ -149,7 +150,7 @@ class Renewal_Model extends CC_Model
 		return $lateamount_result;
 	}
 
-	public function insertdata($userid,$designation,$inv_type)
+	public function updatedata($userid,$designation,$inv_type,$invoice_id='',$cocid='')
 	{
 		$this->db->select('amount');
 		$this->db->from('rates');
@@ -193,18 +194,51 @@ class Renewal_Model extends CC_Model
 		$total = $vat_amount + $rate;
 
 		$currentdate = date('Y-m-d h:i:s');		
-		
-		if($inv_type == '4'){
-			$this->db->insert('invoice', ['description' => "Registration Fee", 'user_id' => $userid, 'status' => '0', 'inv_type' => $inv_type,  'coc_type' => '0',  'delivery_type' => '2', 'total_cost' => $rate1, 'vat'=>$vat_amount1, 'created_at' => $currentdate]) ;
-			$result['invoice_id'] = $this->db->insert_id();
-		}
-		else{
+		$request['description'] = 'Registration Fee';
+		$request['user_id'] = $userid;
+		$request['status'] = '0';
+		$request['inv_type'] = $inv_type;
+		$request['coc_type'] = '0';
+		$request['delivery_type'] = '2';		
+		$request['created_at'] = $currentdate;
+
+		if($inv_type == '2'){
 			$this->db->insert('invoice', ['description' => "Registration Fee", 'user_id' => $userid, 'status' => '0', 'inv_type' => $inv_type,  'coc_type' => '0',  'delivery_type' => '2', 'total_cost' => $rate, 'vat'=>$vat_amount, 'created_at' => $currentdate]) ;
 			$result['invoice_id'] = $this->db->insert_id();
 		}
+		elseif($inv_type == '4'){			
+			$request['total_cost'] = $rate1;
+			$request['vat'] = $vat_amount1;
+			$result['invoice_id'] = $invoice_id;
+		}
+		else{			
+			$request['total_cost'] = $rate;
+			$request['vat'] = $vat_amount;
+			$result['invoice_id'] = $invoice_id;
+		}
 		
-		$this->db->insert('coc_orders', ['user_id' => $userid, 'description' => "Registration Fee",'quantity' => '1', 'status' => '0',  'cost_value' => $rate, 'coc_type' => '0',  'delivery_type' => '2', 'total_due' => $total, 'vat'=>$vat_amount, 'inv_id' => $result['invoice_id'], 'created_at' => $currentdate, 'created_by' => $userid]);
-		$result['cocorder_id']  = $this->db->insert_id();
+		$this->db->update('invoice', $request, ['inv_id' => $invoice_id]);
+		
+		if($inv_type == '2'){
+			$this->db->insert('coc_orders', ['user_id' => $userid, 'description' => "Registration Fee",'quantity' => '1', 'status' => '0',  'cost_value' => $rate, 'coc_type' => '0',  'delivery_type' => '2', 'total_due' => $total, 'vat'=>$vat_amount, 'inv_id' => $result['invoice_id'], 'created_at' => $currentdate, 'created_by' => $userid]);
+			$result['cocorder_id']  = $this->db->insert_id();
+		}
+		else{
+			$request1['description'] = 'Registration Fee';
+			$request1['user_id'] = $userid;
+			$request1['quantity'] = '1';
+			$request1['status'] = '0';
+			$request1['cost_value'] = $rate;
+			$request1['coc_type'] = '0';
+			$request1['delivery_type'] = '2';
+			$request1['total_due'] = $total;	
+			$request1['vat'] = $vat_amount;
+			$request1['inv_id'] = $invoice_id;			
+			$request1['created_at'] = $currentdate;
+			$request1['created_by'] = $userid;
+			$this->db->update('coc_orders', $request1, ['id' => $cocid]);
+			$result['cocorder_id']  = $cocid;
+		}
 
 		if($inv_type == '4'){
 			$this->db->insert('coc_orders', ['user_id' => $userid, 'description' => "Late Penalty Fee",'quantity' => '1', 'status' => '0',  'cost_value' => $lateamount, 'coc_type' => '0',  'delivery_type' => '2', 'total_due' => $total_lateamount, 'vat'=>$vat_lateamount, 'inv_id' => $result['invoice_id'], 'created_at' => $currentdate, 'created_by' => $userid]);
