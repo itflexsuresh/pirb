@@ -136,7 +136,7 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 							</div>
 							<div class="form-group">
 								<label>Number Of COC's Requested</label>
-								<input type="number" id="quantity" class="form-control" min="<?php echo $quantity; ?>" value="<?php echo $quantity; ?>" name="quantity" for="quantity">							  
+								<input type="number" id="quantity" class="form-control" min="<?php echo $quantity; ?>" value="<?php echo $quantity; ?>" name="quantity" for="quantity" <?php if($id > 0){ ?>readonly="true"<?php } ?>>							  
 							</div>
 						</div>
 						
