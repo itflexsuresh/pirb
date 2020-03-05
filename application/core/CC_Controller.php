@@ -265,9 +265,11 @@ class CC_Controller extends CI_Controller
 			$requestData['user_id'] = 	$id;
 			
 			if(isset($requestData['coc_purchase_limit'])){
-				$coclimit 		= $requestData['coc_purchase_limit'];
-				$userpaperstock = $this->Paper_Model->getList('count', ['nococstatus' => '2', 'userid' => $id]); 
+				$currentcoclimit	= $result['coc_purchase_limit'];
+				$coclimit 			= $requestData['coc_purchase_limit'];
 				
+				/*
+				$userpaperstock 	= $this->Paper_Model->getList('count', ['nococstatus' => '2', 'userid' => $id]); 				
 				if($coclimit < $userpaperstock){
 					$this->session->set_flashdata('error', 'Plumber already has '.$userpaperstock.' coc without logged.');
 					
@@ -277,7 +279,16 @@ class CC_Controller extends CI_Controller
 					$stockcount = $coclimit - $userpaperstock;
 				}
 				
-				$this->Coc_Model->actionCocCount(['count' => $stockcount, 'user_id' => $id]);				
+				$this->Coc_Model->actionCocCount(['count' => $stockcount, 'user_id' => $id]);		
+				*/
+				
+				if($currentcoclimit < $coclimit){
+					$this->Coc_Model->actionCocCount(['count' => ($coclimit - $currentcoclimit), 'user_id' => $id]);	
+				}else{
+					$this->session->set_flashdata('error', 'Coc limit cannot decrease.');
+					if($extras['redirect']) redirect($extras['redirect']); 
+					else redirect('admin/plumber/index'); 
+				}
 			}
 			
 			$plumberdata 	=  $this->Plumber_Model->action($requestData);
