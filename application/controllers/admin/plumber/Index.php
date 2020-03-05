@@ -634,14 +634,18 @@ class Index extends CC_Controller
 				$timestamp = strtotime($result['created_at']);
 				$newDate = date('d-F-Y H:i:s', $timestamp);	
 				$filename = isset($result['file']) ? $result['file'] : '';
-
-				if($filename ==''){
-					$file ='';
+				
+				$filepath	= base_url().'assets/uploads/plumber/';
+				$pdfimg 	= base_url().'assets/images/pdf.png';
+				$file 		= '';
+				
+				if($filename!=''){
+					$explodefile 	= explode('.', $filename);
+					$extfile 		= array_pop($explodefile);
+					$imgpath 		= (in_array($extfile, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$filename;
+					$file = '<div class="col-md-6"><a href="' .$imgpath.'" target="_blank"><img src="'.$imgpath.'" height="50" width="50"></div></a>';
 				}
-				else{
-					$file = '<div class="col-md-6"><a  href="' .base_url().'assets/uploads/plumber/'.$result['file'].'"  target="_blank"><img src="'.base_url().'assets/images/attachement.png" height="50" width="50"></div></a>';
-				}
-
+				
 				$action = '<div class="table-action"><a href="' . base_url() . 'admin/plumber/index/documents/'.$result['user_id'].'/' . $result['id'] . '" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a><a href="'.base_url().'admin/plumber/index/Deletefunc/'.$result['user_id'].'/' . $result['id'] .'" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash" style="color:red;"></i></a><a href="' .base_url().'assets/uploads/plumber/'.$result['file'].'" download><i class="fa fa-download" style="color:blue;"></i></a></div>';
 
 				$totalrecord[] = 	[	
