@@ -1,6 +1,5 @@
 <?php
-$id 			= $result+1;
-$count 			= $count;
+$id 			= (isset($result['id']) && $result['id']!='') ? $result['id']+1 : 1;
 ?>
 
 <div class="row page-titles">

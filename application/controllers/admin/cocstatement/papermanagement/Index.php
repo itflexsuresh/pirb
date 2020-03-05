@@ -13,7 +13,7 @@ class Index extends CC_Controller
 	{
 		$userid 				= $this->getUserID();
 		$pagedata['count'] 		= $this->Paper_Model->getList('count', ['cocstatus' => '1']);		
-		$pagedata['result'] 	= $this->Paper_Model->getList('count');
+		$pagedata['result'] 	= $this->Paper_Model->getList('row');
 
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();				
