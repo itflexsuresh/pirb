@@ -1,15 +1,15 @@
 <?php
 // print_r($result);
 $usersdetailid 			= isset($result['usersdetailid']) ? $result['usersdetailid'] : '';
-$usersid 			= isset($result['usersid']) ? $result['usersid'] : '';
+$usersid 				= isset($result['usersid']) ? $result['usersid'] : '';
 $coccountid 			= isset($result['coccountid']) ? $result['coccountid'] : '';
-$company_name 				= isset($result['company_name']) ? $result['company_name'] : '';	
+$company_name 			= isset($result['company_name']) ? $result['company_name'] : '';	
 $company 				= isset($result['company']) ? $result['company'] : '';
-$name 				= isset($result['name']) ? $result['name'] : '';	
+$name 					= isset($result['name']) ? $result['name'] : '';	
 $surname 				= isset($result['surname']) ? $result['surname'] : '';	
-$home_phone 				= isset($result['home_phone']) ? $result['home_phone'] : '';	
-$mobile_phone 				= isset($result['mobile_phone']) ? $result['mobile_phone'] : '';	
-$email 				= isset($result['email']) ? $result['email'] : '';	
+$home_phone 			= isset($result['home_phone']) ? $result['home_phone'] : '';	
+$mobile_phone 			= isset($result['mobile_phone']) ? $result['mobile_phone'] : '';	
+$email 					= isset($result['email']) ? $result['email'] : '';	
 $password 				= isset($result['password_raw']) ? $result['password_raw'] : '';	
 $active 				= isset($result['active']) ? $result['active'] : '';	
 $address 				= isset($result['address']) ? $result['address'] : '';	
@@ -17,9 +17,9 @@ $paddress 				= isset($result['paddress']) ? $result['paddress'] : '';
 $reg_no 				= isset($result['reg_no']) ? $result['reg_no'] : '';
 $vat_no 				= isset($result['vat_no']) ? $result['vat_no'] : '';
 $vatreg 				= isset($result['vatreg']) ? $result['vatreg'] : '';
-$coc_purchase_limit 				= isset($result['coc_purchase_limit']) ? $result['coc_purchase_limit'] : '';
+$coc_purchase_limit 	= isset($result['coc_purchase_limit']) ? $result['coc_purchase_limit'] : '';
 $status 				= isset($result['status']) ? $result['status'] : '';
-$vat_vendor 				= isset($result['vat_vendor']) ? $result['vat_vendor'] : '';
+$vat_vendor 			= isset($result['vat_vendor']) ? $result['vat_vendor'] : '';
 
 // $status = 1;
 
@@ -42,7 +42,7 @@ $postalcode2 			= isset($postaladdress[6]) ? $postaladdress[6] : '';
 $roletype 				= isset($roletype) ? $roletype : '';
 $pagetype 				= isset($pagetype) ? $pagetype : '';
 
-$adminvalue 				= isset($adminvalue) ? $adminvalue : '';
+$adminvalue 			= isset($adminvalue) ? $adminvalue : '';
 // if($roletype=='1'){
 // 	$dynamictabtitle 	= 'Plumbers';
 // 	$dynamicheading 	= 'Reseller Details';
@@ -54,7 +54,7 @@ $adminvalue 				= isset($adminvalue) ? $adminvalue : '';
 // }
 
 
-$stock_count = isset($stock_count['COUNT']) ? $stock_count['COUNT'] : '';
+$stock_count = isset($stock_count) ? $stock_count : '';
 ?>
 
 <div class="row page-titles">
@@ -278,8 +278,7 @@ else{ ?>
 						<div class="form-group">
 							<label>Number of CoC's Able to purchase number *</label>	
 							<input type="text" class="form-control" id="coc_purchase_limit" name="coc_purchase_limit"  value="<?php echo $coc_purchase_limit; ?>" onkeypress="myFunction()">
-							<input type="hidden" id="totalstockcount" name="totalstockcount" value="<?php echo $stock_count;?>">
-							<input type="hidden" id="stockcount" name="stockcount" value="<?php echo $stock_count-$coc_purchase_limit ;?>">
+							<input type="hidden" id="totalstockcount" name="totalstockcount" value="<?php echo $stock_count;?>">							
 							<span id="stockcountlimet" style="color:red"></span>
 							</div>						
 							</div>
@@ -321,17 +320,17 @@ else {
 <script type="text/javascript">
 
 
-// $("#coc_purchase_limit").keyup(function(){
-//   var limitval = $("#coc_purchase_limit").val();
-//   var stockcount = $("#stockcount").val();
-//   var totalcount = stockcount-limitval;
-//   if(totalcount < 0){  	
-//   	$('#stockcountlimet').text("Stock Count is "+stockcount);
-//   }
-//   else{
-//   	$('#stockcountlimet').text("");	
-//   }
-// });
+$("#coc_purchase_limit").keyup(function(){
+  var limitval = $("#coc_purchase_limit").val();
+  var stockcount = $("#totalstockcount").val();
+  var totalcount = limitval-stockcount;
+  if(totalcount < 0){  	
+  	$('#stockcountlimet').text("Already has "+stockcount+" coc without logged to Plumber");
+  }
+  else{
+  	$('#stockcountlimet').text("");	
+  }
+});
 
 $(function(){
 	datatable();
@@ -430,16 +429,16 @@ $(function(){
 
 	$('#submit').click(function(e){
 		
-		// var limitval = $("#coc_purchase_limit").val();
-		// var stockcount = $("#stockcount").val();
-		// var totalcount = stockcount-limitval;
-		// if(totalcount < 0){  	
-		// 	event.preventDefault();
-		// 	$('#stockcountlimet').text("Stock Count is "+stockcount);
-		// }
-		// else{
-		// 	$('#stockcountlimet').text("");	
-		// }		
+		var limitval = $("#coc_purchase_limit").val();
+		var stockcount = $("#totalstockcount").val();
+		var totalcount = limitval-stockcount;
+		if(totalcount < 0){  	
+			event.preventDefault();
+			$('#stockcountlimet').text("Already has "+stockcount+" coc without logged to Plumber");
+		}
+		else{
+			$('#stockcountlimet').text("");	
+		}		
 		
 		if($('form.resellers').valid()==false){
 			accord = $('.error_class_1').parents('.collapse').addClass('show');			

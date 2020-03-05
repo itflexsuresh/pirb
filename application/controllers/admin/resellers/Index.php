@@ -42,13 +42,11 @@ class Index extends CC_Controller
 				$totalrecord[] = 	[										
 										'name' 			=> 	$result['name'],
 										'email' 		=> 	$result['email'],										
-										'contactnumber' 		=> 	$result['mobile_phone'],
-										'stockcount' 		=> 	$stockcount,
-										'action'		=> 	'
-																<div class="table-action">
+										'contactnumber' => 	$result['mobile_phone'],
+										'stockcount' 	=> 	$stockcount,
+										'action'		=> 	'<div class="table-action">
 																	<a href="'.base_url().'admin/resellers/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-																</div>
-															'
+																</div>'
 									];
 			}
 		}

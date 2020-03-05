@@ -25,7 +25,9 @@ class CC_Controller extends CI_Controller
 		$this->load->model('Global_performance_Model');
 		$this->load->model('Auditor_Comment_Model');
 		$this->load->model('Diary_Model');
-		
+		$this->load->model('Resellers_Model');
+		$this->load->model('Resellers_allocatecoc_Model');
+
 		$this->load->library('pdf');
 		$this->load->library('phpqrcode/qrlib');
 	}
@@ -543,8 +545,10 @@ class CC_Controller extends CI_Controller
 			else redirect('admin/resellers/index');
 		}
 		
-		
-		$pagedata['stock_count'] = $this->Resellers_Model->getStockCount();
+		$post1['user_id'] = $id;
+		$post1['search']['value'] = 'in stock';
+		$pagedata['stock_count'] = $this->Resellers_allocatecoc_Model->getstockList('count',$post1);
+
 		$pagedata['adminvalue']   = $extras['adminvalue'];
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['province'] 		= $this->getProvinceList();
