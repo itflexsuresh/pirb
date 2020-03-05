@@ -282,7 +282,7 @@ class CC_Controller extends CI_Controller
 				$this->Coc_Model->actionCocCount(['count' => $stockcount, 'user_id' => $id]);		
 				*/
 				
-				if($currentcoclimit < $coclimit){
+				if($currentcoclimit <= $coclimit){
 					$this->Coc_Model->actionCocCount(['count' => ($coclimit - $currentcoclimit), 'user_id' => $id]);	
 				}else{
 					$this->session->set_flashdata('error', 'Coc limit cannot decrease.');
