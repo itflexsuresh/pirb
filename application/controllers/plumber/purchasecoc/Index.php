@@ -180,12 +180,12 @@ class Index extends CC_Controller
 
 
 
-		$insert_id 				= 	$this->db->select('id,inv_id')->from('coc_orders')->order_by('id','desc')->get()->row_array();
+		$insert_id 				= 	$result1;
 		$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
 		$request['status'] 		= 	'1';
 		 if ($insert_id) {
-			$inid 				= $insert_id['id'];
-			$inv_id 			= $insert_id['inv_id'];
+			$inid 				= $result1;
+			$inv_id 			= $result1;
 			$result 			= $this->db->update('invoice', $request, ['inv_id' => $inv_id,'user_id' => $userid]);
 		 	$result 			= $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
 
