@@ -133,6 +133,8 @@ class Stock_Model extends CC_Model
 	}
 
 	public function action($data){
+		if(isset($data['order_id'])) $inv_id	= $data['order_id'];
+
 		$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $data['user_id']]);
 			$currency    = $this->config->item('currency');
 
@@ -449,6 +451,7 @@ class Stock_Model extends CC_Model
 
 					</body>
 					</html>';
+					echo $html;die;
 
 		//////////////////////////////////////////////////////
 		$requestdata['allocation_date'] = date('Y-m-d H:i:s');
