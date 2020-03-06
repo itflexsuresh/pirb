@@ -236,7 +236,7 @@ class Stock_Model extends CC_Model
 
 		        $stringaarr = explode("@@@",$rowData['areas']);
 		        $provincesettings = explode("@@@",$rowData2['provincesettings']);
-		        $logo = base64conversion(FCPATH.'assets\images\pitrb-logo.png');
+		        $logo = urlencode( base64_encode(FCPATH.'assets\images\pitrb-logo.png') );
 
 
 
