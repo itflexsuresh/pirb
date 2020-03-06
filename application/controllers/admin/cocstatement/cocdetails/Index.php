@@ -84,7 +84,11 @@ class Index extends CC_Controller
 				$requestData['coc_id'] 	= $id;
 				
 				$data 	  =  $this->Coc_Model->actionCocDetails($requestData);
-				$message  =	'Successfully saved.';
+				
+				if($data=='4') $message = 'User has less permitted coc.';
+				elseif($data=='5') $message = 'Same user cannot be selected.';
+				else $message  = 'Successfully saved.';
+				
 				$redirect = 'admin/cocstatement/cocdetails/index';
 			}
 		

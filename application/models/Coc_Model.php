@@ -439,12 +439,14 @@ class Coc_Model extends CC_Model
 			$this->db->update('coc_count'); 
 			
 			$this->db->update('stock_management', ['user_id' => '0', 'coc_status' => '6'], ['id' => $cocid]);
+			$return = '1';
 		}elseif($recall=='2'){
 			$this->db->set('count', 'count + 1', FALSE); 
 			$this->db->where('user_id', $stockuserid); 
 			$this->db->update('coc_count'); 
 			
 			$this->db->update('stock_management', ['user_id' => '0', 'coc_status' => '7'], ['id' => $cocid]);
+			$return = '2';
 		}elseif($recall=='3'){
 			$cocstatus = (isset($data['user_type']) && $data['user_type']=='3') ? '4' : '3';
 			if(isset($data['userid']) && $stockuserid!=$data['userid']){
@@ -459,7 +461,12 @@ class Coc_Model extends CC_Model
 					$this->db->update('coc_count'); 
 					
 					$this->db->update('stock_management', ['user_id' => $data['userid'], 'coc_status' => $cocstatus], ['id' => $cocid]);
+					$return = '3';
+				}else{
+					$return = '4';
 				}
+			}else{
+				$return = '5';
 			}
 		}
 		
@@ -471,7 +478,8 @@ class Coc_Model extends CC_Model
 		else
 		{
 			$this->db->trans_commit();
-			return true;
+			if(isset($return)) return $return;
+			else return true;
 		}
 	}
 	
