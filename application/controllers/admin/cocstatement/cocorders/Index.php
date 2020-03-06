@@ -46,7 +46,7 @@ class Index extends CC_Controller
 		
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
-			print_r($requestData);die;
+			//print_r($requestData);die;
 			if($this->input->post('submit')){
 
 				$data 			=  	$this->Coc_Ordermodel->action($requestData);
@@ -69,7 +69,7 @@ class Index extends CC_Controller
 
 				// invoice PDF
 				 	$rowData = $this->Coc_Model->getListPDF('row', ['id' => $data, 'status' => ['0','1']]);
-				 	
+
 							$rowData1 = $this->Coc_Model->getPermissions('row', ['id' => $data, 'status' => ['0','1']]);
 							$rowData2 = $this->Coc_Model->getPermissions1('row', ['id' => $data, 'status' => ['0','1']]);
 
