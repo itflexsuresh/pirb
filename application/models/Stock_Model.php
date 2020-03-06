@@ -288,7 +288,7 @@ class Stock_Model extends CC_Model
 
 					<tr>
 					<td>
-					<img class="logo" style="width: 250px; margin-top:10px;" src="'.$logo.'">
+					<img class="logo" style="width: 250px; margin-top:10px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/pitrb-logo.png">
 					</td>
 
 					<td style="vertical-align: top;">
