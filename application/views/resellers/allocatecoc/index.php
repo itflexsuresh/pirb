@@ -451,17 +451,20 @@ $(function(){
 })
 
 $('#rangebalace_coc').on('keyup',function(){
-	var permitval = $('#balace_coc1').val();
-	var allocateval = $('#rangebalace_coc').val();
+	var permitval = parseInt($('#balace_coc1').val());
+	var allocateval = parseInt($('#rangebalace_coc').val());
 
-	if(parseInt(permitval) >= parseInt(allocateval)){
+	if(permitval >= allocateval){
 		$('#checklimit').text("");
 		$('#startrange').val('');
 		$('#endrange').val('');
-		ajax('<?php echo base_url()."resellers/allocatecoc/index/allocate_coc_range"; ?>', {'rangebalace_coc' : $(this).val()}, allocate_coc_range_set);
+
+		ajax('<?php echo base_url()."resellers/allocatecoc/index/allocate_coc_range"; ?>', {'rangebalace_coc' : $(this).val()}, allocate_coc_range_set,{'asynchronous':1});
 	}
 	else{
 		$('#checklimit').text("Entered value is greater than the Plumber Permitted Coc");
+		$('#startrange').val('');
+		$('#endrange').val('');
 	}
 });
 
@@ -473,6 +476,8 @@ function allocate_coc_range_set(data){
 	}
 	else{
 		$('#checklimit').text("Entered value is greater than the Reseller Permitted Coc");
+		$('#startrange').val('');
+		$('#endrange').val('');
 	}
 	
 }
