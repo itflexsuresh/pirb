@@ -134,6 +134,7 @@ class Stock_Model extends CC_Model
 
 	public function action($data){
 		
+		//////////////////////////////////////////////////////
 		$requestdata['allocation_date'] = date('Y-m-d H:i:s');
 		// if(isset($data['created_at'])) 	    $requestdata['created_at'] 		= date('Y-m-d H:i:s', strtotime($data['created_at']));
 		if($data['type']=='3'){
@@ -170,9 +171,9 @@ class Stock_Model extends CC_Model
 			$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $data['user_id']]);
 			$currency    = $this->config->item('currency');
 
-				
+				 if ($inv_id) {
 
-				 	$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
+				 					 	$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
 
 				 	$orders = $this->db->select('*')->from('coc_orders')->where(['user_id' => $data['user_id']])->order_by('id','desc')->get()->row_array();
 
@@ -231,6 +232,7 @@ class Stock_Model extends CC_Model
 		        	$paid_status = 'UNPAID';
 		        	
 		        }
+
 		        $stringaarr = explode("@@@",$rowData['areas']);
 		        $provincesettings = explode("@@@",$rowData2['provincesettings']);
 		        $logo = FCPATH.'assets\images\pitrb-logo.png';
