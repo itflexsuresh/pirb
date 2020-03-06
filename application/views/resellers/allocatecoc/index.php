@@ -157,6 +157,7 @@ if(isset($id) && $id >0)
 					<div class="col-md-4">
 						<div class="form-group">
 							<input type="text" class="form-control"  name="rangebalace_coc" id="rangebalace_coc"  value="">
+							<span id="checklimit" style="color:red"></span>
 						</div>
 					</div>
 				</div>
@@ -320,7 +321,7 @@ function search_func(value)
     if(strlength > 0)  { 
 	    req = $.ajax({
 	        type: "POST",
-	        url: '<?php echo base_url()."resellers/allocatecoc/Index/userDetails"; ?>',
+	        url: '<?php //echo base_url()."resellers/allocatecoc/Index/userDetails"; ?>',
 	        data: {'search_keyword' : value,type:type1},        
 	        beforeSend: function(){
 				// $("#search_reg_no").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
@@ -450,14 +451,30 @@ $(function(){
 })
 
 $('#rangebalace_coc').on('keyup',function(){
-	$('#startrange').val('');
-	$('#endrange').val('');
-	ajax('<?php echo base_url()."resellers/allocatecoc/index/allocate_coc_range"; ?>', {'rangebalace_coc' : $(this).val()}, allocate_coc_range_set);
+	var permitval = $('#balace_coc1').val();
+	var allocateval = $('#rangebalace_coc').val();
+
+	if(parseInt(permitval) >= parseInt(allocateval)){
+		$('#checklimit').text("");
+		$('#startrange').val('');
+		$('#endrange').val('');
+		ajax('<?php echo base_url()."resellers/allocatecoc/index/allocate_coc_range"; ?>', {'rangebalace_coc' : $(this).val()}, allocate_coc_range_set);
+	}
+	else{
+		$('#checklimit').text("Plumber Allocated COC is greater than the Plumber Permitted Coc");
+	}
 });
 
 function allocate_coc_range_set(data){
-	$('#startrange').val(data.allocate_start);
-	$('#endrange').val(data.allocate_end);
+	if(parseInt(data.allocate_start) > 0){
+		$('#checklimit').text("");
+		$('#startrange').val(data.allocate_start);
+		$('#endrange').val(data.allocate_end);	
+	}
+	else{
+		$('#checklimit').text("Reseller Allocated COC is greater than the Reseller Permitted Coc");
+	}
+	
 }
 
 </script>
