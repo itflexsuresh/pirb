@@ -17,6 +17,7 @@ class CC_Controller extends CI_Controller
 		$this->load->model('Systemsettings_Model');
 		$this->load->model('Auditor_Model');
 		$this->load->model('Coc_Model');
+		$this->load->model('Coc_Ordermodel');
 		$this->load->model('Communication_Model');
 		$this->load->model('Plumber_Model');
 		$this->load->model('Paper_Model');
