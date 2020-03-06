@@ -268,20 +268,23 @@ class CC_Controller extends CI_Controller
 				$currentcoclimit	= $result['coc_purchase_limit'];
 				$coclimit 			= $requestData['coc_purchase_limit'];
 				
-				/*
+				
 				$userpaperstock 	= $this->Paper_Model->getList('count', ['nococstatus' => '2', 'userid' => $id]); 				
-				if($coclimit < $userpaperstock){
+				$orderquantity 		= $this->Coc_Ordermodel->getCocorderList('all', ['admin_status' => '0', 'userid' => $id]);
+				$userorderstock 	= array_sum(array_column($orderquantity, 'quantity'));
+				$plumberstock		= ($userpaperstock + $userorderstock);
+				if($coclimit < $plumberstock){
 					$this->session->set_flashdata('error', 'Plumber already has '.$userpaperstock.' coc without logged.');
 					
 					if($extras['redirect']) redirect($extras['redirect']); 
 					else redirect('admin/plumber/index'); 
 				}else{
-					$stockcount = $coclimit - $userpaperstock;
+					$stockcount = $coclimit - $plumberstock;
 				}
 				
 				$this->Coc_Model->actionCocCount(['count' => $stockcount, 'user_id' => $id]);		
-				*/
 				
+				/*
 				if($currentcoclimit <= $coclimit){
 					$this->Coc_Model->actionCocCount(['count' => ($coclimit - $currentcoclimit), 'user_id' => $id]);	
 				}else{
@@ -289,6 +292,7 @@ class CC_Controller extends CI_Controller
 					if($extras['redirect']) redirect($extras['redirect']); 
 					else redirect('admin/plumber/index'); 
 				}
+				*/
 			}
 			
 			$plumberdata 	=  $this->Plumber_Model->action($requestData);
