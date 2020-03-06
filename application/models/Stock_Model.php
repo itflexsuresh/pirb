@@ -232,7 +232,7 @@ class Stock_Model extends CC_Model
 
 		        $stringaarr = explode("@@@",$rowData['areas']);
         		$provincesettings = explode("@@@",$rowData2['provincesettings']);
-		        print_r($stringaarr);die;
+		        //print_r($stringaarr);die;
 
 
 		        	$html = '<html>
