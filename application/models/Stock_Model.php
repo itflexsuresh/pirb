@@ -488,7 +488,7 @@ class Stock_Model extends CC_Model
 					</html>';
 
 		          
-		                $pdfFilePath = ''.$inv_id.'.pdf';
+		                $pdfFilePath = ''.$inv_id['inv_id'].'.pdf';
 		                $filePath = FCPATH.'assets/inv_pdf/';
 						$this->pdf->loadHtml($html);
 						$this->pdf->setPaper('A4', 'portrait');
