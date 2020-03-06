@@ -2,12 +2,14 @@
 
 $config['sitename']	 				= 	'Audit IT';
 
+$config['psidconfig']	 			= 	['2'];
 $config['roleadmin']	 			= 	'1';
 $config['rolesubadmin']	 			= 	'2';
 $config['roleplumber']	 			= 	'3';
 $config['rolecompany']	 			= 	'4';
 $config['roleauditor']	 			= 	'5';
 $config['roleresellers']	 		= 	'6';
+
 
 // Rates Table
 

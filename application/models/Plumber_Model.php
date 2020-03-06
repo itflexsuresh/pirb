@@ -39,8 +39,7 @@ class Plumber_Model extends CC_Model
 		$this->db->join('users_plumber_skill ups', 'ups.user_id=u.id', 'left');
 		$this->db->join('qualificationroute qr', 'qr.id=ups.skills', 'left'); 
 		$this->db->join('users_detail c', 'c.id=up.company_details', 'left');
-		
-		
+	
 		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);
 		if(isset($requestdata['type'])) 				$this->db->where('u.type', $requestdata['type']);
 		if(isset($requestdata['formstatus']))			$this->db->where_in('u.formstatus', $requestdata['formstatus']);
@@ -225,7 +224,7 @@ class Plumber_Model extends CC_Model
 		if(isset($data['email'])) 			$request5['email'] 			= $data['email'];
 		if(isset($data['status'])) 			$request5['status'] 		= $data['status'];
 		if(isset($data['approval_status']) && $data['approval_status']=='1' && isset($request2['registration_date'])) $request5['expirydate'] = date('Y-m-d H:i:s', strtotime($request2['registration_date']. ' +365 days'));
-		if(isset($data['plumberstatus']) && $data['plumberstatus']=='3') 	$request5['status'] = '2';
+		if(isset($data['plumberstatus']) && ($data['plumberstatus']=='3' || $data['plumberstatus']=='4' || $data['plumberstatus']=='5')) 	$request5['status'] = '2';
 		if(isset($data['plumberstatus']) && $data['plumberstatus']=='1') 	$request5['status'] = '1';
 		
 		if(isset($request5)){

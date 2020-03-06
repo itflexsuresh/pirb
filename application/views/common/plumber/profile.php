@@ -127,6 +127,10 @@
 	}
 	
 	$cardcolor = ['1' => 'learner_plumber', '2' => 'technical_assistant', '3' => 'technical_operator', '4' => 'licensed_plumber', '5' => 'qualified_plumber', '6' => 'master_plumber'];
+
+	if($roletype!='1' && in_array($plumberstatusid, $this->config->item('psidconfig'))){
+		$psidconfig = '1';
+	}
 ?>
 
 <div class="row page-titles">
@@ -810,13 +814,17 @@
 											<td>Qualification Route</td>
 											<td>Training Provider</td>
 											<td>Attachement</td>
-											<td>Action</td>
+											<?php if(!isset($psidconfig)){ ?>
+												<td>Action</td>
+											<?php } ?>
 										</tr>
 										<tr class="skillnotfound"><td colspan="6">No Record Found</td></tr>
 									</table>
+									<?php if(!isset($psidconfig)){ ?>
 									<div>
 										<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#skillmodal">Add Cert/Skill</button>
 									</div>
+									<?php } ?>
 									<input type="hidden" class="attachmenthidden" name="attachmenthidden"> 
 
 								</div>
@@ -824,14 +832,16 @@
 						</div>									
 					</div>
 					
-					<div class="col-md-12 text-right">
-						<input type="hidden" name="usersdetailid" value="<?php echo $usersdetailid; ?>">
-						<input type="hidden" name="usersplumberid" value="<?php echo $usersplumberid; ?>">
-						<?php if(!isset($disablebtn)){ ?>
-							<button type="button" id="plumbersubmit" class="btn btn-primary">Submit</button>
-						<?php } ?>
-					</div>
-
+					<?php if(!isset($psidconfig)){ ?>
+						<div class="col-md-12 text-right">
+							<input type="hidden" name="usersdetailid" value="<?php echo $usersdetailid; ?>">
+							<input type="hidden" name="usersplumberid" value="<?php echo $usersplumberid; ?>">
+							<?php if(!isset($disablebtn)){ ?>
+								<button type="button" id="plumbersubmit" class="btn btn-primary">Submit</button>
+							<?php } ?>
+						</div>
+					<?php } ?>
+					
 				</div>
 			</div>
 		</div>
@@ -1367,6 +1377,17 @@ function skills(data){
 			var attachment = '';
 		} 
 		
+		var psidconfig =	 '<?php echo !isset($psidconfig) ? "1" : ''; ?>';
+		
+		if(psidconfig=='1'){
+			var action 		= 	'<td>\
+									<a href="javascript:void(0);" class="skilledit" data-id="'+result.id+'"><i class="fa fa-pencil-alt"></i></a>\
+									<a href="javascript:void(0);" class="skillremove" data-id="'+result.id+'"><i class="fa fa-trash"></i></a>\
+								</td>';
+		}else{
+			var action 	= 	'';
+		}
+		
 		var appenddata 	= 	'\
 								<tr class="skillappend" data-id="'+result.id+'">\
 									<td>'+formatdate(result.date,1)+'</td>\
@@ -1374,10 +1395,7 @@ function skills(data){
 									<td>'+result.skillname+'</td>\
 									<td>'+result.training+'</td>\
 									<td>'+attachment+'</td>\
-									<td>\
-										<a href="javascript:void(0);" class="skilledit" data-id="'+result.id+'"><i class="fa fa-pencil-alt"></i></a>\
-										<a href="javascript:void(0);" class="skillremove" data-id="'+result.id+'"><i class="fa fa-trash"></i></a>\
-									</td>\
+									'+action+'\
 								</tr>\
 							';
 					

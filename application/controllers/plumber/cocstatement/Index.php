@@ -14,7 +14,10 @@ class Index extends CC_Controller
 	
 	public function index()
 	{
-		$pagedata['notification'] 	= $this->getNotification();
+		$userid 					= $this->getUserID();
+		
+		$pagedata['notification'] 	= $this->getNotification();		
+		$pagedata['result'] 		= $this->Plumber_Model->getList('row', ['id' => $userid, 'type' => '3', 'status' => ['1', '2']]);
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
 		$data['content'] 			= $this->load->view('plumber/cocstatement/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
@@ -31,15 +34,23 @@ class Index extends CC_Controller
 		if(count($results) > 0){
 			$action = '';
 			foreach($results as $result){
-				if($result['coc_status']=='5' || $result['coc_status']=='4'){
-					$action = '<a href="'.base_url().'plumber/cocstatement/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>';
-					$allocation_log_date = date('d-m-Y', strtotime($result['allocation_date']));
-				}elseif($result['coc_status']=='2'){
+				if($post['psidconfig']=='1'){
 					$action = '<a href="'.base_url().'plumber/cocstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
 					$allDate = date('d-m-Y', strtotime($result['allocation_date']));
 					$logDate = date('d-m-Y', strtotime($result['cl_log_date']));
 					$allocation_log_date = $logDate.'/'.$allDate;
+				}else{
+					if($result['coc_status']=='5' || $result['coc_status']=='4'){
+						$action = '<a href="'.base_url().'plumber/cocstatement/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>';
+						$allocation_log_date = date('d-m-Y', strtotime($result['allocation_date']));
+					}elseif($result['coc_status']=='2'){
+						$action = '<a href="'.base_url().'plumber/cocstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
+						$allDate = date('d-m-Y', strtotime($result['allocation_date']));
+						$logDate = date('d-m-Y', strtotime($result['cl_log_date']));
+						$allocation_log_date = $logDate.'/'.$allDate;
+					}
 				}
+				
 				
 				$cocstatus = isset($this->config->item('cocstatus')[$result['coc_status']]) ? $this->config->item('cocstatus')[$result['coc_status']] : '';
 				$coctype = isset($this->config->item('coctype')[$result['type']]) ? $this->config->item('coctype')[$result['type']] : '';

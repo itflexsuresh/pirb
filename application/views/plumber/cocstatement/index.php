@@ -1,3 +1,11 @@
+<?php 
+	if(in_array($result['plumberstatus'], $this->config->item('psidconfig'))){
+		$psidconfig = '1';
+	}else{
+		$psidconfig = '0';
+	}
+?>
+
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
 		<h4 class="text-themecolor">COC Statement</h4>
@@ -46,7 +54,7 @@
 		
 		var options = {
 			url 	: 	'<?php echo base_url()."plumber/cocstatement/index/DTCocStatement"; ?>',
-			data 	: 	{ page : 'plumbercocstatement' },
+			data 	: 	{ page : 'plumbercocstatement', psidconfig : '<?php echo $psidconfig; ?>' },
 			columns : 	[
 							{ "data": "cocno" },
 							{ "data": "cocstatus" },
