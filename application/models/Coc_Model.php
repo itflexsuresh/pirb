@@ -451,7 +451,7 @@ class Coc_Model extends CC_Model
 			$cocstatus = (isset($data['user_type']) && $data['user_type']=='3') ? '4' : '3';
 			if(isset($data['userid']) && $stockuserid!=$data['userid']){
 				$stockcheck = $this->getCOCCount('row', ['user_id' => $data['userid']]);
-				if($stockcheck['count'] < 0){
+				if($stockcheck['count'] > 0){
 					$this->db->set('count', 'count + 1', FALSE); 
 					$this->db->where('user_id', $stockuserid); 
 					$this->db->update('coc_count'); 
