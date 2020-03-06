@@ -506,12 +506,34 @@ class Index extends CC_Controller
           
                 $pdfFilePath = ''.$inv_id.'.pdf';
                 $filePath = FCPATH.'assets/inv_pdf/';
-				$this->pdf->loadHtml($html);
-				$this->pdf->setPaper('A4', 'portrait');
-				$this->pdf->render();
-				$output = $this->pdf->output();
-				file_put_contents($filePath.$pdfFilePath, $output);
-				//$this->pdf->stream($pdfFilePath);
+
+                $file_pointer = $filePath.$pdfFilePath;
+                
+                if (file_exists($file_pointer))  
+				{ 
+					!unlink($file_pointer)
+				    $this->pdf->loadHtml($html);
+					$this->pdf->setPaper('A4', 'portrait');
+					$this->pdf->render();
+					$output = $this->pdf->output();
+					file_put_contents($filePath.$pdfFilePath, $output);
+				} 
+				else 
+				{ 
+				    $this->pdf->loadHtml($html);
+					$this->pdf->setPaper('A4', 'portrait');
+					$this->pdf->render();
+					$output = $this->pdf->output();
+					file_put_contents($filePath.$pdfFilePath, $output);
+					//$this->pdf->stream($pdfFilePath);
+				} 
+
+				// $this->pdf->loadHtml($html);
+				// $this->pdf->setPaper('A4', 'portrait');
+				// $this->pdf->render();
+				// $output = $this->pdf->output();
+				// file_put_contents($filePath.$pdfFilePath, $output);
+				// //$this->pdf->stream($pdfFilePath);
 
 			 $cocTypes = $orders['coc_type'];
 			 $mail_date = date("d-m-Y", strtotime($orders['created_at']));
