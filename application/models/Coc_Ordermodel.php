@@ -18,6 +18,7 @@ class Coc_Ordermodel extends CC_Model
 		$this->db->where_in('inv.inv_type', ['1','2']);
 
 		if(isset($requestdata['id'])) 				$this->db->where('t1.id', $requestdata['id']);
+		if(isset($requestdata['userid'])) 			$this->db->where('t1.user_id', $requestdata['userid']);
 		if(isset($requestdata['admin_status']) && $requestdata['admin_status']=='closed'){
 			$this->db->where('admin_status!="0"');
 		} else {
