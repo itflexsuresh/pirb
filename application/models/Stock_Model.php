@@ -165,7 +165,7 @@ class Stock_Model extends CC_Model
 			}			
 			
 			$this->db->update('coc_orders', $requestdata1, ['id' => $data['order_id']]);
-			$delivery_rate ='';
+			$delivery_rate = array();
 
 			$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $requestdata['user_id']]);
 
@@ -174,6 +174,7 @@ class Stock_Model extends CC_Model
 				 	$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
 
 				 	$orders = $this->db->select('*')->from('coc_orders')->where(['user_id' => $requestdata['user_id']])->order_by('id','desc')->get()->row_array();
+				 	$currency    = $this->config->item('currency');
 
 				// invoice PDF
 				 	$rowData = $this->Coc_Model->getListPDF('row', ['id' => $inv_id, 'status' => ['0','1']]);
@@ -414,14 +415,14 @@ class Stock_Model extends CC_Model
 					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Purchase of '.$rowData['quantity'].' PIRB Certificate of Compliance</td>				
 					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;">'.$rowData['quantity'].'</td>
 					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$PDF_rate['amount'].'</td>
-					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</td>
+					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$rowData['cost_value'].'</td>
 					</tr>
 
 					<tr>
 					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Courier/Regsitered Post Fee</td>				
 					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;">'.$delivery_rate['amount'].'</td>
 					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$delivery_rate['amount'].'</td>
-					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</td>
+					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$rowData['cost_value'].'</td>
 					</tr>
 
 					</tbody>
@@ -454,17 +455,17 @@ class Stock_Model extends CC_Model
 
 					<tr style="text-align: center;">
 					<td style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">Sub Total</td>
-					<td style="margin: 0; padding: 5px 50px; border: 1px solid #000; ">'.$rowData['cost_value'].'</td>
+					<td style="margin: 0; padding: 5px 50px; border: 1px solid #000; ">'.$currency.$rowData['cost_value'].'</td>
 					</tr>
 
 					<tr style="text-align: center;">
 					<td style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">VAT Total</td>
-					<td style="margin: 0; padding: 5px 50px; border: 1px solid #000; ">'.$rowData['vat'].'</td>
+					<td style="margin: 0; padding: 5px 50px; border: 1px solid #000; ">'.$currency.$rowData['vat'].'</td>
 					</tr>
 
 					<tr style="text-align: center;">
 					<td bgcolor="#ccc" style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">Total</td>
-					<td bgcolor="#ccc" style="margin: 0; padding: 5px 50px; border: 1px solid #000;">'.$rowData['total_due'].'</td>
+					<td bgcolor="#ccc" style="margin: 0; padding: 5px 50px; border: 1px solid #000;">'.$currency.$rowData['total_due'].'</td>
 					</tr>
 
 					</tbody>
