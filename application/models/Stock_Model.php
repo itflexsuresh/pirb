@@ -482,7 +482,7 @@ class Stock_Model extends CC_Model
 					</body>
 					</html>';
 						
-
+echo $html;die;
 		          
 		                $pdfFilePath = ''.$inv_id.'.pdf';
 		                $filePath = FCPATH.'assets/inv_pdf/';
