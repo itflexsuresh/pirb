@@ -461,7 +461,7 @@ $('#rangebalace_coc').on('keyup',function(){
 		ajax('<?php echo base_url()."resellers/allocatecoc/index/allocate_coc_range"; ?>', {'rangebalace_coc' : $(this).val()}, allocate_coc_range_set);
 	}
 	else{
-		$('#checklimit').text("Plumber Allocated COC is greater than the Plumber Permitted Coc");
+		$('#checklimit').text("Entered value is greater than the Plumber Permitted Coc");
 	}
 });
 
@@ -472,10 +472,9 @@ function allocate_coc_range_set(data){
 		$('#endrange').val(data.allocate_end);	
 	}
 	else{
-		$('#checklimit').text("Reseller Allocated COC is greater than the Reseller Permitted Coc");
+		$('#checklimit').text("Entered value is greater than the Reseller Permitted Coc");
 	}
 	
 }
 
 </script>
-
