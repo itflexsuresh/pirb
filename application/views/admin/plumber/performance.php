@@ -159,7 +159,7 @@ echo isset($menu) ? $menu : '';
 				},
 				point : {
 					required:  	true
-				}
+				},
 				enddate : {
 					required:  	function() {
 									return $('#verification').is(':checked');
