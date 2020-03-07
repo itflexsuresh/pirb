@@ -272,10 +272,10 @@ class Index extends CC_Controller
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
-			$filepath	= ($results['flag']=='2') ? base_url().'assets/uploads/cpdqueue/' : base_url().'assets/uploads/plumber/'.$userid.'/performance/';
 			$pdfimg 	= base_url().'assets/images/pdf.png';
 			
 			foreach($results as $result){	
+				$filepath	= ($result['flag']=='2') ? base_url().'assets/uploads/cpdqueue/' : base_url().'assets/uploads/plumber/'.$userid.'/performance/';
 				$attachment = $result['attachment'];
 				if($attachment!=''){						
 					$explodeattachment 	= explode('.', $attachment);
