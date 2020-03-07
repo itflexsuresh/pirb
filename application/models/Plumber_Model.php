@@ -320,8 +320,16 @@ class Plumber_Model extends CC_Model
 		$this->db->where(['status' => '1']);
 		$result2 = $this->db->get_compiled_select();
 		
+		$this->db->select('id as id, date as date, "Admin" as type, comments as comments, point as point, attachment as attachment, plumber_id as userid, "3" as flag');
+		$this->db->from('performance_status');	
+		if(isset($requestdata['plumberid'])) $this->db->where('plumber_id', $requestdata['plumberid']);
+		if(isset($requestdata['archive'])) $this->db->where('archive', $requestdata['archive']);
+		if(isset($requestdata['date'])) $this->db->where('date <', $requestdata['date']);
+		$this->db->where(['status' => '1']);
+		$result3 = $this->db->get_compiled_select();
+		
 		if(isset($requestdata['plumbergroup'])) $query = "select group_concat(point order by date separator ',') as point, userid from ($result1 UNION $result2) as data where 1=1 group by userid order by date asc";
-		else $query = "select * from ($result1 UNION $result2) as data where 1=1 ";
+		else $query = "select * from ($result1 UNION $result2 UNION $result3) as data where 1=1 ";
 		
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
@@ -367,6 +375,8 @@ class Plumber_Model extends CC_Model
 			$this->db->update('auditor_statement', ['archive' => '1'], ['id' => $data['id']]);
 		}elseif($data['flag']=='2'){
 			$this->db->update('cpd_activity_form', ['archive' => '1'], ['id' => $data['id']]);	
+		}elseif($data['flag']=='3'){
+			$this->db->update('performance_status', ['archive' => '1'], ['id' => $data['id']]);	
 		}
 		
 		if($this->db->trans_status() === FALSE)

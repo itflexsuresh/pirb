@@ -45,7 +45,8 @@ class Performancestatus_Model extends CC_Model
 		if(isset($data['verification'])) 	$request['verification'] 	= $data['verification'];
 		if(isset($data['enddate'])) 		$request['enddate'] 		= date('Y-m-d', strtotime($data['enddate']));
 		if(isset($data['attachment'])) 		$request['attachment'] 		= $data['attachment'];
-		if(isset($data['status'])) 			$request['status'] 			= $data['status'];
+		if(isset($data['archive'])) 		$request['archive'] 		= $data['archive'];
+		$request['status'] 			= '1';
 		
 		if($id==''){
 			$request['created_at'] = $datetime;
