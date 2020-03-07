@@ -4,7 +4,7 @@ class Users_Model extends CC_Model
 {
 	public function login($data)
 	{
-		$email 		= $data['email'];
+		$email 		= trim($data['email']);
 		$password 	= md5($data['password']);
 		$type 		= $data['type'];
 
