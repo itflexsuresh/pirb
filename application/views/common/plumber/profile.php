@@ -63,10 +63,6 @@
 	$pdfimg 				= base_url().'assets/images/pdf.png';
 	$profileimg 			= base_url().'assets/images/profile.jpg';
 	
-	$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/';
-	$pdfimg 				= base_url().'assets/images/pdf.png';
-	$profileimg 			= base_url().'assets/images/profile.jpg';
-	
 	if($file2!=''){
 		$explodefile2 	= explode('.', $file2);
 		$extfile2 		= array_pop($explodefile2);

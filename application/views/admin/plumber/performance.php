@@ -1,3 +1,8 @@
+<?php 
+	$filepath		= base_url().'assets/uploads/plumber/'.$plumberid.'/performance/';
+	$pdfimg 		= base_url().'assets/images/pdf.png';
+	$profileimg 	= base_url().'assets/images/profile.jpg';
+?>
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
 		<h4 class="text-themecolor">Performance Status</h4>
@@ -19,10 +24,88 @@ echo isset($menu) ? $menu : '';
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">Performance Status</h4>
+				<h4 class="card-title">Performance Status for </h4>
 				
-				<?php if(count($results) > 0 && $pagestatus!='1'){ ?>
-					<h5>Current Performance Status = <?php echo array_sum(array_column($results, 'point')); ?></h5>
+				<form action="" method="post" class="psform">
+					<div class="row">
+						<div class="col-md-8">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Performance Type*</label>
+										<?php
+											echo form_dropdown('type', $performancelist, '', ['id' => 'type', 'class'=>'form-control']);
+										?>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Performance Point Allocation*</label>
+										<input type="text" name="point" class="form-control" id="point">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label>Date of Performance</label>
+									<div class="form-group">
+										<div class="input-group">
+											<input type="text" class="form-control date" name="date">
+											<div class="input-group-append">
+												<span class="input-group-text"><i class="icon-calender"></i></span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Comments</label>
+										<textarea class="form-control" name="comments" rows="6"></textarea>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label class="checkbox">
+											<input type="checkbox" name="verification" class="verification" value="1">
+											<p>This has an end date</p> 
+										</label>
+									</div>
+								</div>
+								<div class="col-md-6 enddate_wrapper displaynone">
+									<label>End Date</label>
+									<div class="form-group">
+										<div class="input-group">
+											<input type="text" class="form-control enddate" name="enddate">
+											<div class="input-group-append">
+												<span class="input-group-text"><i class="icon-calender"></i></span>
+											</div>
+										</div>
+									</div>
+								</div>	
+							</div>
+						</div>		
+						<div class="col-md-4">
+							<div class="row">
+								<div class="col-md-12">
+									<h4 class="card-title">Attachement</h4>
+									<div class="form-group">
+										<div>
+											<img src="<?php echo base_url().'assets/images/profile.jpg'; ?>" class="attachment_image" width="100">
+										</div>
+										<input type="file" id="file" class="attachment_file">
+										<label for="file" class="choose_file">Choose File</label>
+										<input type="hidden" name="attachment" class="attachment" value="">
+										<p>(Image/File Size Smaller than 5mb)</p>
+									</div>
+								</div>
+							</div>
+						</div>													
+						<div class="col-md-12">
+							<input type="hidden" value="<?php echo $plumberid; ?>" name="plumberid">
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</div>			 
+				</form>
+				
+				<?php if(count($results) > 0 && $pagestatus!='1'){ ?>0
 					<div id="performancechart"></div>
 				<?php } ?>
 				
@@ -55,12 +138,39 @@ echo isset($menu) ? $menu : '';
 </div>
 
 <script>
-	var results = $.parseJSON('<?php echo json_encode($results); ?>');
-	var warning = $.parseJSON('<?php echo json_encode($warning); ?>');
-	var pagestatus = '<?php echo $pagestatus; ?>';
-	var id = '<?php echo $id; ?>';
-	
+	var results 	= $.parseJSON('<?php echo json_encode($results); ?>');
+	var warning 	= $.parseJSON('<?php echo json_encode($warning); ?>');
+	var pagestatus 	= '<?php echo $pagestatus; ?>';
+	var id		 	= '<?php echo $id; ?>';
+	var filepath 	= '<?php echo $filepath; ?>';
+	var pdfimg		= '<?php echo $pdfimg; ?>';
+	var plumberid	= '<?php echo $plumberid; ?>';
+
 	$(function(){
+		select2('.type');
+		datepicker('.date, .enddate');
+		fileupload([".attachment_file", "./assets/uploads/plumber/"+plumberid+"/performance/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.attachment', '.attachment_image', filepath, pdfimg]);
+		
+		validation(
+			'.psform',
+			{
+				type : {
+					required:  	true
+				},
+				point : {
+					required:  	true
+				}
+			},
+			{
+				type 	: {
+					required	: "Please select Performance Type."
+				},
+				point 	: {
+					required	: "Please fill point."
+				}
+			}
+		);
+		
 		var column	= 	[
 							{ "data": "date" },
 							{ "data": "type" },
@@ -119,6 +229,8 @@ echo isset($menu) ? $menu : '';
 		}
 		
 		var line = new Morris.Line(chart);
+				
+		enddate();
 	});
 	
 	$(document).on('click', '.archive', function(){
@@ -131,4 +243,29 @@ echo isset($menu) ? $menu : '';
 
 		sweetalert(action, data);
 	})
+	
+	
+	$('#type').change(function(){
+		ajax('<?php echo base_url()."ajax/index/ajaxplumberperformancelist"; ?>', {id : $(this).val()}, '', {
+			success:function(data){
+				if(data.status=='1'){
+					var result = data.result;
+					$('#point').val(result.allocation)
+				}
+			}
+		});
+	})
+	
+	$('.verification').click(function(){
+		enddate();
+	})
+
+	function enddate(){		
+		if($('.verification').is(':checked')){
+			$('.enddate_wrapper').removeClass('displaynone');
+		}else{
+			$('.enddate_wrapper').addClass('displaynone');
+		}
+	}
+
 </script>

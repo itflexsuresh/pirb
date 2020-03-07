@@ -28,6 +28,7 @@ class CC_Controller extends CI_Controller
 		$this->load->model('Diary_Model');
 		$this->load->model('Resellers_Model');
 		$this->load->model('Resellers_allocatecoc_Model');
+		$this->load->model('Plumberperformance_Model');
 
 		$this->load->library('pdf');
 		$this->load->library('phpqrcode/qrlib');
@@ -165,6 +166,14 @@ class CC_Controller extends CI_Controller
 		$data = $this->Company_Model->getList('all', ['type' => '4', 'status' => ['1'], 'companystatus' => ['1']]);
 		
 		if(count($data) > 0) return ['' => 'Select Company']+array_column($data, 'company', 'id');
+		else return [];
+	}
+	
+	public function getPlumberPerformanceList()
+	{
+		$data = $this->Plumberperformance_Model->getList('all', ['status' => ['1']]);
+		
+		if(count($data) > 0) return array_column($data, 'type', 'id');
 		else return [];
 	}
 	

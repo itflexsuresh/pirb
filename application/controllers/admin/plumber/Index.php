@@ -14,6 +14,7 @@ class Index extends CC_Controller
 		$this->load->model('Accounts_Model');
 		$this->load->model('Documentsletters_Model');
 		$this->load->model('Diary_Model');
+		$this->load->model('Performancestatus_Model');
 	}
 	
 	public function index()
@@ -223,7 +224,17 @@ class Index extends CC_Controller
 	}
 
 	public function performance($id, $pagestatus='')
-	{		
+	{	
+		if($this->input->post()){
+			$requestData	=	$this->input->post();
+			$data 			= 	$this->Performancestatus_Model->action($requestData);
+			
+			if(isset($data)) $this->session->set_flashdata('success', 'Successfully Saved.');
+			else $this->session->set_flashdata('error', 'Try Later.');
+				
+			redirect('admin/plumber/index/performance/'.$id); 
+		}
+		
 		$userid 					= $id;
 		$rollingavg 				= $this->getRollingAverage();
 		$date						= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
@@ -233,11 +244,12 @@ class Index extends CC_Controller
 		$pagedata['plumberid'] 		= $id;
 		$pagedata['menu']			= $this->load->view('common/plumber/menu', ['id'=>$id],true);
 		$pagedata['notification'] 	= $this->getNotification();
+		$pagedata['performancelist']= $this->getPlumberPerformanceList();
 		$pagedata['pagestatus'] 	= $pagestatus;
 		$pagedata['warning']		= $this->Global_performance_Model->getWarningList('all', ['status' => ['1']]);
 		$pagedata['results']		= $this->Plumber_Model->performancestatus('all', ['plumberid' => $userid, 'archive' => $pagestatus]+$extraparam);
 		
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'morrischart'];
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker', 'select2', 'morrischart'];
 		$data['content'] 			= $this->load->view('admin/plumber/performance', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$this->layout2($data);

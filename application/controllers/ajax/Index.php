@@ -13,6 +13,7 @@ class Index extends CC_Controller
 		$this->load->model('Noncompliance_Model');
 		$this->load->model('Coc_Ordermodel');
 		$this->load->model('Reportlisting_Model');
+		$this->load->model('Plumberperformance_Model');
 		$this->load->model('Auditor_Reportlisting_Model');
 		$this->load->model('Chat_Model');
 	}
@@ -204,6 +205,20 @@ class Index extends CC_Controller
 	{
 		$post = $this->input->post();  
 		$data = $this->Auditor_Reportlisting_Model->getList('row', ['id' => $post['id'], 'status' => ['1']]);
+		
+		if($data){
+			$json = ['status' => '1', 'result' => $data];
+		}else{
+			$json = ['status' => '0', 'result' => []];
+		}
+		
+		echo json_encode($json);
+	}
+	
+	public function ajaxplumberperformancelist()
+	{
+		$post = $this->input->post();  
+		$data = $this->Plumberperformance_Model->getList('row', ['id' => $post['id']]);
 		
 		if($data){
 			$json = ['status' => '1', 'result' => $data];
