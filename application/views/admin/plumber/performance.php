@@ -64,7 +64,7 @@ echo isset($menu) ? $menu : '';
 								<div class="col-md-12">
 									<div class="form-group">
 										<label class="checkbox">
-											<input type="checkbox" name="verification" class="verification" value="1">
+											<input type="checkbox" name="verification" class="verification" id="verification" value="1">
 											<p>This has an end date</p> 
 										</label>
 									</div>
@@ -160,6 +160,11 @@ echo isset($menu) ? $menu : '';
 				point : {
 					required:  	true
 				}
+				enddate : {
+					required:  	function() {
+									return $('#verification').is(':checked');
+								}
+				}
 			},
 			{
 				type 	: {
@@ -167,6 +172,9 @@ echo isset($menu) ? $menu : '';
 				},
 				point 	: {
 					required	: "Please fill point."
+				},
+				enddate 	: {
+					required	: "Please fill end date."
 				}
 			}
 		);
