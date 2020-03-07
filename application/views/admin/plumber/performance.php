@@ -148,7 +148,7 @@ echo isset($menu) ? $menu : '';
 
 	$(function(){
 		select2('.type');
-		datepicker('.dateofperformance, .enddate');
+		datepicker('.dateofperformance, .enddate', ['currentdate']);
 		fileupload([".attachment_file", "./assets/uploads/plumber/"+plumberid+"/performance/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.attachment', '.attachment_image', filepath, pdfimg]);
 		
 		validation(
