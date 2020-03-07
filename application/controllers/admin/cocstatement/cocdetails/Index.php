@@ -35,9 +35,9 @@ class Index extends CC_Controller
 				$coctype 	= isset($this->config->item('coctype')[$result['type']]) ? $this->config->item('coctype')[$result['type']] : '';
 				$status 	= isset($this->config->item('cocstatus')[$result['coc_status']]) ? $this->config->item('cocstatus')[$result['coc_status']] : '';
 				
-				if($result['coc_status']=='1' && $result['coc_orders_status']=='1'){
+				if($result['coc_status']=='1' && $result['coc_orders_status']=='6'){
 					$status = 'Recalled';
-				}else if($result['coc_status']=='1' && $result['coc_orders_status']=='2'){
+				}else if($result['coc_status']=='1' && $result['coc_orders_status']=='7'){
 					$status = 'Cancelled';
 				}
 				
