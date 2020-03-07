@@ -1706,3 +1706,9 @@ table#id_Card_back img {
     padding: 10px 0;
     border-radius: 3px;
 }
+.auditmenuactive{
+	background: lightgrey;
+}
+.auditmenuactive a{
+	color: black;
+}
