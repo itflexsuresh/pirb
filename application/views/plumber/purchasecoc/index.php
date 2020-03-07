@@ -18,6 +18,8 @@ $coc_counts 			= $coc_count['count'];
 $postage 				= $postage["amount"];
 $couriour 				= $couriour["amount"];
 $collectedbypirb 		= $collectedbypirb["amount"];
+
+$admin_allot 			= isset($userorderstock) ? $userorderstock : '';
 ?>
 <?php
 $plumber_status = array(3, 4, 5);
@@ -51,6 +53,13 @@ if (in_array($plumberstatus, $plumber_status)) {
 
 					<h4 class="card-title">Purchase COC</h4>
 					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label class="add_max_height">Number of COCs yet to allot by admin</label>
+								<input type="text" id="admin_allot" class="form-control" name="admin_allot" value="<?php  echo $admin_allot; ?>" readonly>
+							</div>
+						</div>
+
 						<div class="col-md-4">
 							<div class="form-group">
 								<label class="add_max_height">Number of Non Logged COC's</label>
