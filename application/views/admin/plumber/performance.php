@@ -48,7 +48,7 @@ echo isset($menu) ? $menu : '';
 									<label>Date of Performance</label>
 									<div class="form-group">
 										<div class="input-group">
-											<input type="text" class="form-control date" name="date">
+											<input type="text" class="form-control dateofperformance" name="date">
 											<div class="input-group-append">
 												<span class="input-group-text"><i class="icon-calender"></i></span>
 											</div>
@@ -148,7 +148,7 @@ echo isset($menu) ? $menu : '';
 
 	$(function(){
 		select2('.type');
-		datepicker('.date, .enddate');
+		datepicker('.dateofperformance, .enddate');
 		fileupload([".attachment_file", "./assets/uploads/plumber/"+plumberid+"/performance/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.attachment', '.attachment_image', filepath, pdfimg]);
 		
 		validation(
