@@ -361,7 +361,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 			/*
 			$.ajax({
 				type  		: 'ajax',
-				url   		: '<?php echo base_url().'plumber/purchasecoc/Index/OTPVerification'; ?>',
+				url   		: '<?php // echo base_url().'plumber/purchasecoc/Index/OTPVerification'; ?>',
 				async 		: true,
 				dataType 	: 'json',
 				method 		: 'POST',
