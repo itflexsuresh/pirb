@@ -178,6 +178,7 @@ $noauditpercentage 			= round(($noaudit/$total)*100,2).'%';
 						colors : ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4']
 					}]
 				}
+			)
 		}
 	});
 	
