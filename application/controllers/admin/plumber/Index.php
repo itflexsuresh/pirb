@@ -242,6 +242,7 @@ class Index extends CC_Controller
 		$extraparam					= $pagestatus=='0' ? ['date' => $date] : [];
 		
 		$pagedata['plumberid'] 		= $id;
+		$pagedata['userdata']		= $this->Plumber_Model->getList('row', ['id' => $id]);
 		$pagedata['menu']			= $this->load->view('common/plumber/menu', ['id'=>$id],true);
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['performancelist']= $this->getPlumberPerformanceList();
@@ -271,7 +272,7 @@ class Index extends CC_Controller
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
-			$filepath	= base_url().'assets/uploads/cpdqueue/';
+			$filepath	= ($results['flag']=='2') ? base_url().'assets/uploads/cpdqueue/' : base_url().'assets/uploads/plumber/'.$userid.'/performance/';
 			$pdfimg 	= base_url().'assets/images/pdf.png';
 			
 			foreach($results as $result){	

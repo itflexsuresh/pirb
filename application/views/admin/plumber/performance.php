@@ -24,7 +24,7 @@ echo isset($menu) ? $menu : '';
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">Performance Status for </h4>
+				<h4 class="card-title">Performance Status for <?php echo $userdata['name'].' '.$userdata['surname']; ?></h4>
 				
 				<form action="" method="post" class="psform">
 					<div class="row">
