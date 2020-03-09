@@ -404,7 +404,7 @@
 			<?php if(($pagetype=='1' && $roletype=='5') || ($pagetype=='2' && $roletype=='3' && $auditcomplete!='1')){ ?>
 				<div class="chatfooter">
 					<div class="input-group">
-						<input type="text" class="form-control" id="chattext" placeholder="Type your message here">
+						<textarea class="form-control" id="chattext" placeholder="Type your message here"></textarea>
 						<div class="input-group-append">
 							<span class="input-group-text">
 								<i class="fa fa-paperclip" id="chatattachment"></i>
@@ -413,6 +413,10 @@
 						</div>
 					</div>
 				</div>
+				<audio id="beeepaudio">
+					<source src="<?php echo base_url().'assets/music/beep.mp3'; ?>" type="audio/mpeg">
+					Your browser does not support the audio element.
+				</audio>
 			<?php } ?>
 		</div>
 	</div>

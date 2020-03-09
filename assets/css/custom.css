@@ -1684,8 +1684,14 @@ table#id_Card_back img {
 	margin: 15px 0 0;
 }
 
+#chatcontent{
+	min-height: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
 #chattext{
-	height :60px;
+	height :60px!important;
 }
 
 .diarybar, .comment_section{

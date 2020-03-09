@@ -522,13 +522,16 @@ function userautocomplete(data1=[], data2=[], customfunction=''){
 }
 
 function chat(data1=[], data2=[], data3=[]){
+	var audioselector = document.getElementById('beeepaudio');
 	chatcontent({'cocid' : data2[0], 'fromto' : data2[1] });
-	startTimer();
+	startread();
+	startunread();
 	
 	$(data1[0]).keyup(function(event){
 		var keycode = (event.keyCode ? event.keyCode : event.which);
-		if(keycode == '13'){
-			if($(this).val()!=''){
+		
+		if(keycode == '13' && !event.shiftKey){			
+			if($.trim($(this).val())!=''){
 				var data = 	{
 					'cocid' 		: data2[0], 
 					'fromid' 		: data2[1],
@@ -539,10 +542,13 @@ function chat(data1=[], data2=[], data3=[]){
 				}
 				
 				chataction(data);
-				chatcontent({'cocid' : data2[0], 'checkfrom' : data2[1] }, 'checkfrom');
 				$(data1[0]).val('');
 			}
 		}		
+		
+		if(keycode == '13' && event.shiftKey){
+			$(this).val('\n');
+		}
 	});
 	
 	function chatcontent(param, state=''){
@@ -555,8 +561,10 @@ function chat(data1=[], data2=[], data3=[]){
 					if(data.status=='1'){
 						var chatdata 	= [];
 						var result 		= data.result;
+						var sound		= '0';
 						
 						$(result).each(function(i,v){
+							sound = '1';
 							var chatappend = '<div class="chatbar_section"><div class="chatbar_wrapper '+((v.from_id!=data2[1]) ? 'chatbar_wrapper_right' : '')+'"><p class="chatbar_user">'+v.name+'  '+formatdate(v.created_at, 3)+'</p>';							
 							if(v.type=='2'){
 								var ext = v.attachment.split('.').pop().toLowerCase();
@@ -582,6 +590,8 @@ function chat(data1=[], data2=[], data3=[]){
 						})
 						
 						$(data1[1]).append(chatdata.join(''));
+						
+						if(sound=='1' && state=='checkto') audioselector.play();
 					}
 				},
 				asynchronous : 1
@@ -591,10 +601,6 @@ function chat(data1=[], data2=[], data3=[]){
 	
 	function chataction(param){
 		ajax(baseurl()+'ajax/index/ajaxchataction', param, '', { success : function(data){}, asynchronous : 1 });
-	}
-	
-	function chatunread(){
-		chatcontent({'cocid' : data2[0], 'checkto' : data2[1] }, 'checkto')
 	}
 	
 	// File Upload
@@ -616,21 +622,38 @@ function chat(data1=[], data2=[], data3=[]){
 		}
 		
 		chataction(data);
-		chatcontent({'cocid' : data2[0], 'checkfrom' : data2[1] }, 'checkfrom');
 		$('#chatattachmentfile').val('');
 	}
 	
 	// Timer
 	
-	var interval;
-	
-	function startTimer(){
-		interval = setInterval(chatunread, 5000);
+	function chatread(){
+		chatcontent({'cocid' : data2[0], 'checkfrom' : data2[1] }, 'checkfrom');
 	}
 	
-	function stopTimer(){
-		clearInterval(interval);
+	function chatunread(){
+		chatcontent({'cocid' : data2[0], 'checkto' : data2[1] }, 'checkto');
 	}
+	
+	var readinterval;
+	var unreadinterval;
+	
+	function startread(){
+		readinterval = setInterval(chatread, 5000);
+	}
+	
+	function stopread(){
+		clearInterval(readinterval);
+	}
+	
+	function startunread(){
+		unreadinterval = setInterval(chatunread, 5000);
+	}
+	
+	function stopunread(){
+		clearInterval(unreadinterval);
+	}
+	
 }
 
 function barchart(selector, options){
