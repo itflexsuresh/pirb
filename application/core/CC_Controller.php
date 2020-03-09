@@ -713,6 +713,14 @@ class CC_Controller extends CI_Controller
 			$data 			=  $this->Auditor_Model->actionStatement($requestData);
 						
 			if($data){
+				if($requestData['submit']=='save' && isset($requestData['hold'])){
+					$this->db->update('stock_management', ['audit_status' => '5'], ['id' => $pagedata['result']['id']]);
+				}elseif($requestData['submit']=='save' && !isset($requestData['hold']) && $requestData['auditstatus']=='0'){
+					$this->db->update('stock_management', ['audit_status' => '3'], ['id' => $pagedata['result']['id']]);
+				}elseif($requestData['submit']=='save' && !isset($requestData['hold']) && $requestData['auditstatus']=='1'){
+					$this->db->update('stock_management', ['audit_status' => '2'], ['id' => $pagedata['result']['id']]);
+				}
+				
 				if(isset($requestData['auditcomplete']) && $requestData['auditcomplete']=='1' && $requestData['submit']=='submitreport'){
 					if($requestData['auditstatus']=='1'){	
 						//Invoice and Order

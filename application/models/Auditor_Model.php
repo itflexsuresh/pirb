@@ -723,13 +723,14 @@ class Auditor_Model extends CC_Model
 		if(isset($data['cocverificationpoint'])) 		$request['cocverification_point'] 		= $data['cocverificationpoint'];
 		if(isset($data['reviewpoint'])) 				$request['review_point'] 				= $data['reviewpoint'];
 		if(isset($data['point'])) 						$request['point'] 						= $data['point'];
-		if(isset($data['hold'])) 						$request['hold'] 						= $data['hold'];
 		if(isset($data['reason'])) 						$request['reason'] 						= $data['reason'];
 		if(isset($data['reportdate']))		 			$request['reportdate'] 					= date('Y-m-d H:i:s');
-		if(isset($data['auditcomplete']))		 		$request['auditcomplete'] 				= $data['auditcomplete'];
-		if(isset($data['auditcomplete'])) 				$request['status'] 						= '1';
-		if(isset($data['auditcomplete'])) 				$request['auditcompletedate'] 			= date('Y-m-d');
+		if(isset($data['auditcomplete']) && isset($data['submit']) && $data['submit']=='submitreport')	$request['auditcomplete'] 		= $data['auditcomplete'];
+		if(isset($data['auditcomplete']) && isset($data['submit']) && $data['submit']=='submitreport') 	$request['status'] 				= '1';
+		if(isset($data['auditcomplete']) && isset($data['submit']) && $data['submit']=='submitreport') 	$request['auditcompletedate'] 	= date('Y-m-d');
 
+		$request['hold'] = (isset($data['hold'])) ? $data['hold'] : '0';
+		
 		if($id==''){
 			$request['created_at'] = $datetime;
 			$request['created_by'] = $userid;
