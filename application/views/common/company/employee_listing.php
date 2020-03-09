@@ -278,7 +278,7 @@
 							<div class="col-md-6">
 							<?php foreach ($specialization as $key => $value) { 
 								?>
-								<input type="checkbox" readonly name="specilisations[]" value="<?php echo $key ?>"<?php echo (in_array($key, $specialisations)) ? 'checked="checked"' : ''; ?>> <?php echo $value ?><br>
+								<input type="checkbox" disabled name="specilisations[]" value="<?php echo $key ?>"<?php echo (in_array($key, $specialisations)) ? 'checked="checked"' : ''; ?>> <?php echo $value ?><br>
 							<?php }; ?>
 								
 							</div>
