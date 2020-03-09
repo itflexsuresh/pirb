@@ -124,6 +124,13 @@ class Company_Model extends CC_Model
         
         return $result;
 	}
+
+	public function getauditPoints($id){
+		$this->db->select('id, plumber_id, sum(point) as performance');
+		$this->db->from('auditor_statement');
+		$result = $this->db->where('plumber_id',$id)->get()->result_array();
+		return $result;
+	}
 	
 	public function action($data)
 	{
