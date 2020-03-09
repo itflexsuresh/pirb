@@ -34,8 +34,7 @@ class Employee_listing extends CC_Controller
         $totalrecord = [];
         if (count($results) > 0) {
             foreach ($results as $result) {
-            	 foreach ($results as $result) {
-                $desigcount     = $this->Company_Model->getdesignationCount($result['designation'], $post['comp_id']);
+                $desigcount     = $this->Company_Model->getdesignationCount(['designation' => $result['designation'], 'comID' => $post['comp_id']]);
                 //print_r($desigcount);die;
                 $per_points = $this->Company_Model->getauditPoints($result['user_id']);
 
@@ -46,26 +45,24 @@ class Employee_listing extends CC_Controller
                     $points         = '0';
                     $performance    = '0';
                 }
-                
                 if ($result['designation']=='6' || $result['designation']=='4') {
                    $divclass = 'lm';
                 }else{
                     $divclass = 'other';
                 }
                 $overall = round((number_format($points+$performance)/$desigcount[0]['desigcount']),1);
-
                 $companystatus1 = isset($companystatus[$result['status']]) ? $companystatus[$result['status']] : '';
                 $totalrecord[] = [
                                     'reg'           => $result['registration_no'],
                                     'designation'   => $this->config->item('designation2')[$result['designation']],
                                     'status'        => $this->config->item('plumberstatus')[$result['status']],
                                     'namesurname'   => $result['name'].' '.$result['surname'],
-                                    'cpdstatus'     => $result['points'],
+                                    'cpdstatus'     => $points,
                                     'perstatus'     => $performance,
                                     'rating'        => '<input type="hidden" value="'.$overall.'" class="'.$divclass.'">'.$overall.'',
                                     'action'        => '
                                                             <div class="table-action">
-                                                                <a href="' . base_url() . 'company/employee_listing/employees/'.$post['comp_id'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-eye"></i></a>
+                                                                <a href="' . base_url() . 'admin/company/index/empaction/'.$post['comp_id'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
                                                             </div>
                                                         ',
                 ];
