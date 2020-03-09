@@ -243,7 +243,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Plumbers Image</label>
-							<img src="<?php echo base_url().'/assets/uploads/plumber/'.$user_id.'/'.$file2; ?>" alt="" width="42" height="42">
+							<img src="<?php echo base_url().'/assets/uploads/plumber/'.$user_id.'/'.$file2; ?>" id="plumber_profile" alt="" width="42" height="42">
 						</div>
 					</div>
 				</div>
@@ -269,7 +269,7 @@
 							<div class="col-md-6">
 							<?php foreach ($specialization as $key => $value) { 
 								?>
-								<input type="checkbox" readonly name="specilisations[]" value="<?php echo $key ?>"<?php echo (in_array($key, $specialisations)) ? 'checked="checked"' : ''; ?>> <?php echo $value ?><br>
+								<input type="checkbox" disabled name="specilisations[]" value="<?php echo $key ?>"<?php echo (in_array($key, $specialisations)) ? 'checked="checked"' : ''; ?>> <?php echo $value ?><br>
 							<?php }; ?>
 								
 							</div>
@@ -313,6 +313,10 @@
 		
 <script>
 	$(function(){
+		$('#plumber_profile').click(function() {
+		   	var loc = $(this).attr("src");
+     		window.open(loc, '_blank');
+		});
 		
 		var options = {
 			url 	: 	'<?php echo base_url()."company/employee_listing/DTemplist"; ?>',
