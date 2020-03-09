@@ -195,13 +195,13 @@
 					<div class="row">
 					<div class="col-md-6">
 						<label>Licensed Plumber and above</label>
-						<input type="text" class="form-control" readonly name="">
+						<input type="text" class="form-control" readonly id="lm_plumber" name="">
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-6">
 						<label>Non Licensed Plumbers</label>
-						<input type="text" class="form-control" readonly name="">
+						<input type="text" class="form-control" id="others" readonly name="">
 					</div>
 				</div>
 				<?php if (isset($employee) && $employee!='') { ?>
@@ -317,6 +317,23 @@
 		   	var loc = $(this).attr("src");
      		window.open(loc, '_blank');
 		});
+
+		setTimeout(function(){
+			var lmcount =  $('.lm').length
+			var sum = 0;	
+			$('.lm').each(function(){	
+	        	sum += Number($(this).val());
+	    	});
+	    	$('#lm_plumber').val(sum/lmcount);
+
+	    	var others1 =  $('.other').length
+			var sum1 = 0;	
+			$('.other').each(function(){	
+	        	sum1 += Number($(this).val());
+	    	});
+	    	$('#others').val(sum1/others1);
+
+		}, 1000);
 		
 		var options = {
 			url 	: 	'<?php echo base_url()."company/employee_listing/DTemplist"; ?>',

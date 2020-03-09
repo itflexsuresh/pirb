@@ -46,6 +46,12 @@ class Employee_listing extends CC_Controller
                     $points         = '0';
                     $performance    = '0';
                 }
+                
+                if ($result['designation']=='6' || $result['designation']=='4') {
+                   $divclass = 'lm';
+                }else{
+                    $divclass = 'other';
+                }
                 $overall = round((number_format($points+$performance)/$desigcount[0]['desigcount']),1);
 
                 $companystatus1 = isset($companystatus[$result['status']]) ? $companystatus[$result['status']] : '';
@@ -56,7 +62,7 @@ class Employee_listing extends CC_Controller
                                     'namesurname'   => $result['name'].' '.$result['surname'],
                                     'cpdstatus'     => $result['points'],
                                     'perstatus'     => $performance,
-                                    'rating'        => $overall,
+                                    'rating'        => '<input type="hidden" value="'.$overall.'" class="'.$divclass.'">'.$overall.'',
                                     'action'        => '
                                                             <div class="table-action">
                                                                 <a href="' . base_url() . 'company/employee_listing/employees/'.$post['comp_id'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-eye"></i></a>
