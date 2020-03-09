@@ -62,7 +62,7 @@ class Index extends CC_Controller
         $totalrecord = [];
         if (count($results) > 0) {
             foreach ($results as $result) {
-                $desigcount     = $this->Company_Model->getdesignationCount($result['designation'], $post['comp_id']);
+                $desigcount     = $this->Company_Model->getdesignationCount(['designation' => $result['designation'], 'comID' => $post['comp_id']]);
                 //print_r($desigcount);die;
                 $per_points = $this->Company_Model->getauditPoints($result['user_id']);
 

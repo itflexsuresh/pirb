@@ -574,6 +574,6 @@ class Index extends CC_Controller
 
 	public function notify(){
 		$this->session->set_flashdata('success','COC Purchase Sucessfully.');
-		redirect('plumber/profile/Index');
+		redirect('plumber/myaccounts/index');
 	}
 }
