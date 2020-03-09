@@ -320,7 +320,7 @@
 
 		setTimeout(function(){
 			var lmcount =  $('.lm').length
-			if (others1===0) {
+			if (lmcount===0) {
 	    		$('#lm_plumber').val('0');
 	    	}else{
 	    		var sum = 0;	
