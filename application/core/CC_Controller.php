@@ -941,7 +941,7 @@ class CC_Controller extends CI_Controller
 			$date = date('Y-m-d', strtotime(date('Y-m-d').'-'.$data['point'].' months'));
 			$this->db->update('auditor_statement', ['archive' => '1'], ['auditcompletedate <=' => $date,'archive' => '0']);
 			$this->db->update('cpd_activity_form', ['archive' => '1'], ['approved_date <=' => $date,'archive' => '0']);	
-			$this->db->update('performance_status', ['archive' => '1'], ['end_date <=' => $date,'archive' => '0']);	
+			$this->db->update('performance_status', ['archive' => '1'], ['enddate <=' => $date,'archive' => '0']);	
 			
 			if($this->db->trans_status() === FALSE)
 			{
