@@ -230,69 +230,25 @@
 					</form>
 				</div>
 				
-				<?php if(($cocstatusid=='3' && $allocationdate=='') || ($cocstatusid=='4' && $allocationdate=='')){ ?>
+				<?php if(($cocstatusid=='3' && $allocationdate=='') || ($cocstatusid=='4' && $allocationdate=='') || ($cocstatusid=='7')){ ?>
 					<h4 class="card-title">Recalled/Reallocate/Cancel a COC</h4>
 					<form action="" method="post" class="form2">
-						<div class="row">				
-							<div class="col-md-12">
-								<div class="form-group">
-									<div class="row">
-										<?php
-											foreach($cocrecall as $key => $value){
-												if($coctypeid=='1' && $key=='2') continue; 
-										?>
-												<div class="col-md-2">
-													<div class="custom-control custom-radio">
-														<input type="radio" name="recall" data-id="<?php echo $key; ?>" id="cocrecall<?php echo $key; ?>" class="custom-control-input cocrecall" value="<?php echo $key; ?>">
-														<label class="custom-control-label" for="cocrecall<?php echo $key; ?>"><?php echo $value; ?></label>
-													</div>
-												</div>
-										<?php
-											}
-										?>
-									</div>
-								</div>
-							</div>	
-							<div class="col-md-12 coc_reallocate displaynone">
-								<div class="col-md-12">
-									<div class="row form-group">
-										<div class="col-md-3">
-											<div class="custom-control custom-radio">
-												<input type="radio" id="plumber" name="user_type" class="custom-control-input" value="3">
-												<label class="custom-control-label" for="plumber">Plumber</label>
-											</div>
-										</div>
-										<?php if($coctypeid!='1'){ ?>
-											<div class="col-md-3">
-												<div class="custom-control custom-radio">
-													<input type="radio" id="reseller" name="user_type" class="custom-control-input" value="6">
-													<label class="custom-control-label" for="reseller">Reseller</label>
-												</div>
-											</div>
-										<?php } ?>
-									</div>
-								</div>
-								<div class="col-md-12 user_wrapper displaynone">
-									<div class="form-group">
-										<label></label>
-										<input type="text" class="form-control" id="user_search">
-										<input type="hidden" id="user_id" name="userid">
-										<div id="user_suggestion"></div>
-									</div>
-								</div>				
-							</div>		
-							<div class="col-md-12 coc_cancel displaynone">
+						<?php if($cocstatusid=='7'){ ?>
+							<input type="hidden" value="revoked" name="revoked">
+							<button type="submit" name="submit" value="details" class="btn btn-primary">Revoke</button>
+						<?php } else{ ?>
+							<div class="row">				
 								<div class="col-md-12">
 									<div class="form-group">
-										<label>Reason Canceling COC</label>
 										<div class="row">
 											<?php
-												foreach($cocreason as $key => $value){
+												foreach($cocrecall as $key => $value){
+													if($coctypeid=='1' && $key=='2') continue; 
 											?>
 													<div class="col-md-2">
 														<div class="custom-control custom-radio">
-															<input type="radio" name="reason" id="cocreason<?php echo $key.'-'.$value; ?>" class="custom-control-input" value="<?php echo $key; ?>">
-															<label class="custom-control-label" for="cocreason<?php echo $key.'-'.$value; ?>"><?php echo $value; ?></label>
+															<input type="radio" name="recall" data-id="<?php echo $key; ?>" id="cocrecall<?php echo $key; ?>" class="custom-control-input cocrecall" value="<?php echo $key; ?>">
+															<label class="custom-control-label" for="cocrecall<?php echo $key; ?>"><?php echo $value; ?></label>
 														</div>
 													</div>
 											<?php
@@ -301,22 +257,71 @@
 										</div>
 									</div>
 								</div>	
-								<div class="col-md-3">
-									<label>Add Document</label>
-									<div class="form-group">
-										<div>
-											<img src="<?php echo $profileimg; ?>" class="document_image" width="100">
+								<div class="col-md-12 coc_reallocate displaynone">
+									<div class="col-md-12">
+										<div class="row form-group">
+											<div class="col-md-3">
+												<div class="custom-control custom-radio">
+													<input type="radio" id="plumber" name="user_type" class="custom-control-input" value="3">
+													<label class="custom-control-label" for="plumber">Plumber</label>
+												</div>
+											</div>
+											<?php if($coctypeid!='1'){ ?>
+												<div class="col-md-3">
+													<div class="custom-control custom-radio">
+														<input type="radio" id="reseller" name="user_type" class="custom-control-input" value="6">
+														<label class="custom-control-label" for="reseller">Reseller</label>
+													</div>
+												</div>
+											<?php } ?>
 										</div>
-										<input type="file" class="document_file">
-										<input type="hidden" name="document" class="document" value="">
-										<p>(Image/File Size Smaller than 5mb)</p>
 									</div>
+									<div class="col-md-12 user_wrapper displaynone">
+										<div class="form-group">
+											<label></label>
+											<input type="text" class="form-control" id="user_search">
+											<input type="hidden" id="user_id" name="userid">
+											<div id="user_suggestion"></div>
+										</div>
+									</div>				
+								</div>		
+								<div class="col-md-12 coc_cancel displaynone">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label>Reason Canceling COC</label>
+											<div class="row">
+												<?php
+													foreach($cocreason as $key => $value){
+												?>
+														<div class="col-md-2">
+															<div class="custom-control custom-radio">
+																<input type="radio" name="reason" id="cocreason<?php echo $key.'-'.$value; ?>" class="custom-control-input" value="<?php echo $key; ?>">
+																<label class="custom-control-label" for="cocreason<?php echo $key.'-'.$value; ?>"><?php echo $value; ?></label>
+															</div>
+														</div>
+												<?php
+													}
+												?>
+											</div>
+										</div>
+									</div>	
+									<div class="col-md-3">
+										<label>Add Document</label>
+										<div class="form-group">
+											<div>
+												<img src="<?php echo $profileimg; ?>" class="document_image" width="100">
+											</div>
+											<input type="file" class="document_file">
+											<input type="hidden" name="document" class="document" value="">
+											<p>(Image/File Size Smaller than 5mb)</p>
+										</div>
+									</div>
+								</div>							
+								<div class="col-md-12 text-right">
+									<button type="submit" name="submit" value="details" class="btn btn-primary">Cancel/Reallocate/Recalled</button>
 								</div>
-							</div>							
-							<div class="col-md-12 text-right">
-								<button type="submit" name="submit" value="details" class="btn btn-primary">Cancel/Reallocate/Recalled</button>
 							</div>
-						</div>
+						<?php } ?>
 					</form>
 				<?php } ?>
 				

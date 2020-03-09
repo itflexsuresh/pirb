@@ -37,8 +37,6 @@ class Index extends CC_Controller
 				
 				if($result['coc_status']=='1' && $result['coc_orders_status']=='6'){
 					$status = 'Recalled';
-				}else if($result['coc_status']=='1' && $result['coc_orders_status']=='7'){
-					$status = 'Cancelled';
 				}
 				
 				if($result['coc_status']!='1'){

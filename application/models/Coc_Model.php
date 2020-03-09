@@ -420,59 +420,61 @@ class Coc_Model extends CC_Model
 		$userid			= 	$this->getUserID();
 		$datetime		= 	date('Y-m-d H:i:s');
 		$cocid			=	$data['coc_id'];
-		$recall			=	$data['recall'];
 		
-		$request		=	[
-			'coc_id' 			=> $cocid,
-			'recall' 			=> $recall,
-			'reason' 			=> isset($data['reason']) && $recall=='2' ? $data['reason'] : '',
-			'document' 			=> isset($data['document']) && $recall=='2' ? $data['document'] : '',
-			'user_id' 			=> isset($data['userid']) && $recall=='3' ? $data['userid'] : '',
-			'created_at' 		=> $datetime,
-			'created_by' 		=> $userid,
-			'updated_at' 		=> $datetime,
-			'updated_by' 		=> $userid
-		];
-
-		$this->db->insert('coc_details', $request);
-		
-		$stock 			= $this->getCOCList('row', ['id' => $cocid]);
-		$stockuserid 	= $stock['user_id'];
-		
-		if($recall=='1'){			
-			$this->db->set('count', 'count + 1', FALSE); 
-			$this->db->where('user_id', $stockuserid); 
-			$this->db->update('coc_count'); 
-			
-			$this->db->update('stock_management', ['user_id' => '0', 'coc_status' => '1', 'coc_orders_status' => '6'], ['id' => $cocid]);
+		if(isset($data['revoked'])){
+			$this->db->update('stock_management', ['coc_status' => '4', 'coc_orders_status' => null], ['id' => $cocid]);
 			$return = '1';
-		}elseif($recall=='2'){
-			$this->db->set('count', 'count + 1', FALSE); 
-			$this->db->where('user_id', $stockuserid); 
-			$this->db->update('coc_count'); 
+		}else{
+			$recall			=	$data['recall'];
 			
-			$this->db->update('stock_management', ['user_id' => '0', 'coc_status' => '1', 'coc_orders_status' => '7'], ['id' => $cocid]);
-			$return = '2';
-		}elseif($recall=='3'){
-			$cocstatus = (isset($data['user_type']) && $data['user_type']=='3') ? '4' : '3';
-			if(isset($data['userid']) && $stockuserid!=$data['userid']){
-				$stockcheck = $this->getCOCCount('row', ['user_id' => $data['userid']]);
-				if($stockcheck['count'] > 0){
-					$this->db->set('count', 'count + 1', FALSE); 
-					$this->db->where('user_id', $stockuserid); 
-					$this->db->update('coc_count'); 
-					
-					$this->db->set('count', 'count - 1', FALSE); 
-					$this->db->where('user_id', $data['userid']); 
-					$this->db->update('coc_count'); 
-					
-					$this->db->update('stock_management', ['user_id' => $data['userid'], 'coc_status' => $cocstatus, 'coc_orders_status' => '8'], ['id' => $cocid]);
-					$return = '3';
+			$request		=	[
+				'coc_id' 			=> $cocid,
+				'recall' 			=> $recall,
+				'reason' 			=> isset($data['reason']) && $recall=='2' ? $data['reason'] : '',
+				'document' 			=> isset($data['document']) && $recall=='2' ? $data['document'] : '',
+				'user_id' 			=> isset($data['userid']) && $recall=='3' ? $data['userid'] : '',
+				'created_at' 		=> $datetime,
+				'created_by' 		=> $userid,
+				'updated_at' 		=> $datetime,
+				'updated_by' 		=> $userid
+			];
+
+			$this->db->insert('coc_details', $request);
+			
+			$stock 			= $this->getCOCList('row', ['id' => $cocid]);
+			$stockuserid 	= $stock['user_id'];
+			
+			if($recall=='1'){			
+				$this->db->set('count', 'count + 1', FALSE); 
+				$this->db->where('user_id', $stockuserid); 
+				$this->db->update('coc_count'); 
+				
+				$this->db->update('stock_management', ['user_id' => '0', 'coc_status' => '1', 'coc_orders_status' => '6'], ['id' => $cocid]);
+				$return = '1';
+			}elseif($recall=='2'){
+				$this->db->update('stock_management', ['coc_status' => '7', 'coc_orders_status' => '7'], ['id' => $cocid]);
+				$return = '2';
+			}elseif($recall=='3'){
+				$cocstatus = (isset($data['user_type']) && $data['user_type']=='3') ? '4' : '3';
+				if(isset($data['userid']) && $stockuserid!=$data['userid']){
+					$stockcheck = $this->getCOCCount('row', ['user_id' => $data['userid']]);
+					if($stockcheck['count'] > 0){
+						$this->db->set('count', 'count + 1', FALSE); 
+						$this->db->where('user_id', $stockuserid); 
+						$this->db->update('coc_count'); 
+						
+						$this->db->set('count', 'count - 1', FALSE); 
+						$this->db->where('user_id', $data['userid']); 
+						$this->db->update('coc_count'); 
+						
+						$this->db->update('stock_management', ['user_id' => $data['userid'], 'coc_status' => $cocstatus, 'coc_orders_status' => '8'], ['id' => $cocid]);
+						$return = '3';
+					}else{
+						$return = '4';
+					}
 				}else{
-					$return = '4';
+					$return = '5';
 				}
-			}else{
-				$return = '5';
 			}
 		}
 		
