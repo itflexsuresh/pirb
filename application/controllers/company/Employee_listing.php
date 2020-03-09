@@ -31,19 +31,22 @@ class Employee_listing extends CC_Controller
         $totalcount     = $this->Company_Model->getEmpList('count', ['type' => '4', 'approvalstatus' => ['0', '1'], 'formstatus' => ['1'], 'status' => ['0', '1', '2']] + $post);
         $results        = $this->Company_Model->getEmpList('all', ['type' => '4', 'approvalstatus' => ['0', '1'], 'formstatus' => ['1'], 'status' => ['0', '1', '2']] + $post);
         $companystatus  = $this->config->item('companystatus');
+        $empcount = $totalcount;
         $totalrecord = [];
         if (count($results) > 0) {
             foreach ($results as $result) {
-            	$per_points = $this->Company_Model->getauditPoints($result['user_id']);
+            	 foreach ($results as $result) {
+                $per_points = $this->Company_Model->getauditPoints($result['user_id']);
 
                 if ($result['points']!='' && $per_points[0]['performance']!='') {
                     $points         = $result['points'];
                     $performance    = $per_points[0]['performance'];
                 }else{
-                    $points         = 0;
-                    $performance    = 0;
+                    $points         = '0';
+                    $performance    = '0';
                 }
-            	
+                $overall = round((number_format($points+$performance)/$empcount),2);
+
                 $companystatus1 = isset($companystatus[$result['status']]) ? $companystatus[$result['status']] : '';
                 $totalrecord[] = [
                                     'reg'           => $result['registration_no'],
@@ -52,7 +55,7 @@ class Employee_listing extends CC_Controller
                                     'namesurname'   => $result['name'].' '.$result['surname'],
                                     'cpdstatus'     => $result['points'],
                                     'perstatus'     => $performance,
-                                    'rating'        => '1',
+                                    'rating'        => $overall,
                                     'action'        => '
                                                             <div class="table-action">
                                                                 <a href="' . base_url() . 'company/employee_listing/employees/'.$post['comp_id'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-eye"></i></a>
