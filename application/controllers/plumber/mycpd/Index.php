@@ -319,7 +319,7 @@ class index extends CC_Controller
 				$smsdata 	= $this->Communication_Model->getList('row', ['id' => '6', 'smsstatus' => '1']);
 					
 					if($smsdata){
-						$sms = str_replace([$smsbody1, $smsbody2, $smsdata['sms_body']);
+						$sms = str_replace([$smsbody1, $smsbody2, $smsdata['sms_body']]);
 						$this->sms(['no' => $userQuery['mobile_phone'], 'msg' => $sms]);
 					}
 		 	}
