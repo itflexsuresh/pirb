@@ -84,7 +84,7 @@ class Index extends CC_Controller
                                     'rating'        => $overall,
                                     'action'        => '
                                                             <div class="table-action">
-                                                                <a href="' . base_url() . 'admin/company/index/empaction/'.$post['comp_id'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-eye"></i></a>
+                                                                <a href="' . base_url() . 'admin/company/index/empaction/'.$post['comp_id'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
                                                             </div>
                                                         ',
                 ];
