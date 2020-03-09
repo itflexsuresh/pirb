@@ -40,8 +40,7 @@ class Employee_listing extends CC_Controller
                                     'designation'   => $this->config->item('designation2')[$result['designation']],
                                     'status'        => $this->config->item('plumberstatus')[$result['status']],
                                     'namesurname'   => $result['name'].' '.$result['surname'],
-                                    'cpdstatus'     => '1',
-                                    'perstatus'     => '1',
+                                    'cpdstatus'     => $result['points'],
                                     'perstatus'     => '1',
                                     'rating'        => '1',
                                     'action'        => '
