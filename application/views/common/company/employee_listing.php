@@ -336,7 +336,11 @@
 				$('.lm').each(function(){	
 		        	sum += Number($(this).val());
 		    	});
-		    	$('#lm_plumber').val(parseFloat(sum/lmcount).toFixed(2));
+		    	if (parseFloat(sum/lmcount).toFixed(2)==='0.00') {
+		    		$('#lm_plumber').val('0');
+		    	}else{
+		    		$('#lm_plumber').val(parseFloat(sum/lmcount).toFixed(2));
+		    	}		    	
 	    	}
 			
 
@@ -348,7 +352,11 @@
 				$('.other').each(function(){	
 		        	sum1 += Number($(this).val());
 		    	});
-		    	$('#others').val(parseFloat(sum1/others1).toFixed(2));
+		    	if (parseFloat(sum1/others1).toFixed(2)===0.00) {
+		    		$('#others').val('0');
+		    	}else{
+		    		$('#others').val(parseFloat(sum1/others1).toFixed(2));
+		    	}		    	
 	    	}
 			
 
