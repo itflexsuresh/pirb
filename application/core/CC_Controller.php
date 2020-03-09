@@ -468,7 +468,7 @@ class CC_Controller extends CI_Controller
 			$result = $this->Company_Model->getEmpList('employee', ['comp_id' => $id['id'], 'type' => '3', 'status' => ['0','1', '2']]);
 
 			$pagedata['employee'] = $result;
-			$pagedata['specialization']	= $this->config->item('specialization');
+			$pagedata['specialization']	= $this->config->item('specialisations');
 
 			$pagedata['company'] 		= $this->getCompanyList();
 			$pagedata['plumberstatus'] 	= $this->config->item('plumberstatus');
