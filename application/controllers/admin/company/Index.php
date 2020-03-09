@@ -72,7 +72,7 @@ class Index extends CC_Controller
                     $points         = '0';
                     $performance    = '0';
                 }
-                $overall = round((number_format($points+$performance)/$empcount),2);
+                $overall = round((number_format($points+$performance)/$empcount),1);
                 $companystatus1 = isset($companystatus[$result['status']]) ? $companystatus[$result['status']] : '';
                 $totalrecord[] = [
                                     'reg'           => $result['registration_no'],
