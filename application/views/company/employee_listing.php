@@ -320,18 +320,28 @@
 
 		setTimeout(function(){
 			var lmcount =  $('.lm').length
-			var sum = 0;	
-			$('.lm').each(function(){	
-	        	sum += Number($(this).val());
-	    	});
-	    	$('#lm_plumber').val(sum/lmcount);
+			if (others1===0) {
+	    		$('#lm_plumber').val('0');
+	    	}else{
+	    		var sum = 0;	
+				$('.lm').each(function(){	
+		        	sum += Number($(this).val());
+		    	});
+		    	$('#lm_plumber').val(parseFloat(sum/lmcount).toFixed(2));
+	    	}
+			
 
 	    	var others1 =  $('.other').length
-			var sum1 = 0;	
-			$('.other').each(function(){	
-	        	sum1 += Number($(this).val());
-	    	});
-	    	$('#others').val(sum1/others1);
+	    	if (others1===0) {
+	    		$('#others').val('0');
+	    	}else{
+	    		var sum1 = 0;	
+				$('.other').each(function(){	
+		        	sum1 += Number($(this).val());
+		    	});
+		    	$('#others').val(parseFloat(sum1/others1).toFixed(2));
+	    	}
+			
 
 		}, 1000);
 		
