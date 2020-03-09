@@ -77,7 +77,7 @@ class Index extends CC_Controller
 	
 	public function view($id)
 	{
-		$this->getauditreview($id, ['pagetype' => 'view', 'viewcoc' => 'admin/audits/auditstatement/index/viewcoc', 'auditreport' => 'admin/audits/auditstatement/index/auditreport/'.$id, 'roletype' => $this->config->item('roleadmin')], ['redirect' => 'admin/audits/auditstatement/index']);
+		$this->getauditreview($id, ['pagetype' => 'view', 'viewcoc' => 'admin/audits/auditstatement/index/viewcoc', 'seperatechat' => 'admin/audits/auditstatement/index/seperatechat/'.$id.'/view', 'auditreport' => 'admin/audits/auditstatement/index/auditreport/'.$id, 'roletype' => $this->config->item('roleadmin')], ['redirect' => 'admin/audits/auditstatement/index']);
 	}
 	
 	public function viewcoc($id, $plumberid)
@@ -87,6 +87,11 @@ class Index extends CC_Controller
 			['pagetype' => 'view', 'roletype' => $this->config->item('roleadmin'), 'electroniccocreport' => 'admin/audits/auditstatement/index/electroniccocreport/'.$id.'/'.$plumberid, 'noncompliancereport' => 'admin/audits/auditstatement/index/noncompliancereport/'.$id.'/'.$plumberid], 
 			['redirect' => 'admin/audits/auditstatement/index', 'userid' => $plumberid]
 		);
+	}
+	
+	public function seperatechat($id, $pagetype)
+	{
+		$this->getchat($id, ['roletype' => $this->config->item('roleadmin'), 'pagetype' => $pagetype], ['redirect' => 'admin/audits/auditstatement/index']);
 	}
 	
 	public function history($id)

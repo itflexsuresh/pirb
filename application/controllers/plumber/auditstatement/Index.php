@@ -62,7 +62,7 @@ class Index extends CC_Controller
 	
 	public function view($id)
 	{
-		$this->getauditreview($id, ['pagetype' => 'view', 'viewcoc' => 'plumber/auditstatement/index/viewcoc', 'auditreport' => 'plumber/auditstatement/index/auditreport/'.$id, 'roletype' => $this->config->item('roleplumber')], ['redirect' => 'plumber/auditstatement/index', 'plumberid' => $this->getUserID()]);
+		$this->getauditreview($id, ['pagetype' => 'view', 'viewcoc' => 'plumber/auditstatement/index/viewcoc', 'seperatechat' => 'plumber/auditstatement/index/seperatechat/'.$id.'/view', 'auditreport' => 'plumber/auditstatement/index/auditreport/'.$id, 'roletype' => $this->config->item('roleplumber')], ['redirect' => 'plumber/auditstatement/index', 'plumberid' => $this->getUserID()]);
 	}
 	
 	public function viewcoc($id, $plumberid)
@@ -72,6 +72,11 @@ class Index extends CC_Controller
 			['pagetype' => 'view', 'roletype' => $this->config->item('roleplumber'), 'electroniccocreport' => 'plumber/auditstatement/index/electroniccocreport/'.$id.'/'.$plumberid, 'noncompliancereport' => 'plumber/auditstatement/index/noncompliancereport/'.$id.'/'.$plumberid], 
 			['redirect' => 'plumber/auditstatement/index', 'userid' => $plumberid]
 		);
+	}
+	
+	public function seperatechat($id, $pagetype)
+	{
+		$this->getchat($id, ['roletype' => $this->config->item('roleplumber'), 'pagetype' => $pagetype], ['redirect' => 'plumber/auditstatement/index']);
 	}
 	
 	public function auditreport($id)

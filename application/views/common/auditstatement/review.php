@@ -398,7 +398,9 @@
 	<div class="col-12">
 		<h4 class="card-title">Chat (History)</h4>
 		<div class="card">
-			<div class="chatcontent" id="chatcontent"></div>
+			<div class="chatcontent" id="chatcontent">
+				<p><a href="javascript:void(0);" data-url="<?php echo isset($seperatechat) ? base_url().$seperatechat : ''; ?>" id="seperatechat">Open In a Seperate Chat Window</a></p>
+			</div>
 			<?php if(($pagetype=='1' && $roletype=='5') || ($pagetype=='2' && $roletype=='3' && $auditcomplete!='1')){ ?>
 				<div class="chatfooter">
 					<div class="input-group">
@@ -584,6 +586,10 @@ $(function(){
 	subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], ['', ''], reviewpoint);
 	fileupload(["#r_file", "./assets/uploads/auditor/statement/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.rfileappend', reviewpath, pdfimg], 'multiple');
 	chat(['#chattext', '#chatcontent'], [cocid, fromid, toid], [chatpath, pdfimg]);
+	
+	$('#seperatechat').click(function(){
+		if($(this).attr('data-url')!='') window.open($(this).attr('data-url'), "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
+	})
 	
 	var reviewlist = $.parseJSON('<?php echo json_encode($reviewlist); ?>');
 	if(reviewlist.length > 0){
