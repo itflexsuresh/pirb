@@ -252,7 +252,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Plumbers Image</label>
-							<img src="<?php echo base_url().'/assets/uploads/plumber/'.$user_id.'/'.$file2; ?>" alt="" width="42" height="42">
+							<img src="<?php echo base_url().'/assets/uploads/plumber/'.$user_id.'/'.$file2; ?>" id="plumber_profile" alt="" width="42" height="42">
 						</div>
 					</div>
 				</div>
@@ -321,6 +321,11 @@
 		
 <script>
 	$(function(){
+
+		$('#plumber_profile').click(function() {
+		   	var loc = $(this).attr("src");
+     		window.open(loc, '_blank');
+		});
 		
 		var options = {
 			url 	: 	'<?php echo base_url()."admin/company/index/DTemplist"; ?>',

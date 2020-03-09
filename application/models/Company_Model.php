@@ -78,7 +78,7 @@ class Company_Model extends CC_Model
 	// COMPANY EmpList
 	public function getEmpList($type, $requestdata=[])
 	{
-		 $this->db->select('t1.registration_no,t1.designation,t1.id,t1.user_id,t2.name,t2.surname,t2.mobile_phone,t3.email,t3.status,t2.file2,t1.specialisations');
+		 $this->db->select('t1.registration_no,t1.designation,t1.id,t1.user_id,t2.name,t2.surname,t2.mobile_phone,t3.email,t3.status,t2.file2,t2.specialisations');
         $this->db->from('users_plumber t1');
         $this->db->join('users_detail t2', 't2.user_id = t1.user_id', 'LEFT');
         $this->db->join('users t3', 't3.id = t1.user_id', 'LEFT');
