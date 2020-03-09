@@ -62,14 +62,12 @@ class Index extends CC_Controller
         $totalrecord = [];
         if (count($results) > 0) {
             foreach ($results as $result) {
-                if ($result['points']!='' && $result['performance']!='') {
-                    $points         = $result['points'];
-                    $performance    = $result['performance'];
+                if ($result['points']!='') {
+                    $points = $result['points'];
                 }else{
-                    $points         = 0;
-                    $performance    = 0;
+                    $points = 0;
                 }
-
+                
                 $companystatus1 = isset($companystatus[$result['status']]) ? $companystatus[$result['status']] : '';
                 $totalrecord[] = [
                                     'reg'           => $result['registration_no'],
@@ -77,7 +75,7 @@ class Index extends CC_Controller
                                     'status'        => $this->config->item('plumberstatus')[$result['status']],
                                     'namesurname'   => $result['name'].' '.$result['surname'],
                                     'cpdstatus'     => $points,
-                                    'perstatus'     => $performance,
+                                    'perstatus'     => '1',
                                     'rating'        => '1',
                                     'action'        => '
                                                             <div class="table-action">
