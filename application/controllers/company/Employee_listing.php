@@ -34,11 +34,13 @@ class Employee_listing extends CC_Controller
         $totalrecord = [];
         if (count($results) > 0) {
             foreach ($results as $result) {
-            	if ($result['points']!='') {
-            		$points = $result['points'];
-            	}else{
-            		$points = 0;
-            	}
+            	if ($result['points']!='' && $result['performance']!='') {
+                    $points         = $result['points'];
+                    $performance    = $result['performance'];
+                }else{
+                    $points         = 0;
+                    $performance    = 0;
+                }
             	
                 $companystatus1 = isset($companystatus[$result['status']]) ? $companystatus[$result['status']] : '';
                 $totalrecord[] = [
@@ -47,7 +49,7 @@ class Employee_listing extends CC_Controller
                                     'status'        => $this->config->item('plumberstatus')[$result['status']],
                                     'namesurname'   => $result['name'].' '.$result['surname'],
                                     'cpdstatus'     => $points,
-                                    'perstatus'     => '1',
+                                    'perstatus'     => $performance,
                                     'rating'        => '1',
                                     'action'        => '
                                                             <div class="table-action">
