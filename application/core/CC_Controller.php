@@ -850,6 +850,19 @@ class CC_Controller extends CI_Controller
 		$this->layout2($data);
 	}
 	
+	public function getchat($id, $data=[], $extras=[])
+	{
+		$auditorid	= isset($extras['auditorid']) ? ['auditorid' => $extras['auditorid']] : [];
+		$result		= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]+$auditorid);	
+		if(!$result){
+			$this->session->set_flashdata('error', 'No Record Found.');
+			redirect($extras['redirect']); 
+		}
+		$data['result']	= $result;
+		
+		$this->load->view('common/auditstatement/chat', $data);
+	}
+	
 	public function pdfauditreport($id)
 	{
 		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);
