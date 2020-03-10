@@ -43,7 +43,16 @@
 
 
 <script type="text/javascript">
-	jQuery(document).ready(function(){  
-		opener.CallParent();
-	});
+var roletype 	= '<?php echo $roletype; ?>';
+var chatpath 	= '<?php echo $chatfilepath; ?>';
+var pdfimg		= '<?php echo $pdfimg; ?>';
+var cocid 		= '<?php echo $cocid; ?>';
+var plumberid 	= '<?php echo $plumberid; ?>';
+var auditorid 	= '<?php echo $auditorid; ?>';
+var fromid		= (roletype=='3') ? plumberid : auditorid;
+var toid		= (roletype=='3') ? auditorid : plumberid;
+
+$(function(){
+	chat(['#chattext', '#chatcontent'], [cocid, fromid, toid], [chatpath, pdfimg]);
+})
 </script>

@@ -580,10 +580,6 @@ var fromid		= (roletype=='3') ? plumberid : auditorid;
 var toid		= (roletype=='3') ? auditorid : plumberid;
 var validator;
 
-window.CallParent = function() {
-	chat(['.chattext', '.chatcontent'], [cocid, fromid, toid], [chatpath, pdfimg]);
-}
-
 $(function(){
 	if($('#hold').is(':checked')) $('#hold').data('approvalHoldValue', true);
 	reason()

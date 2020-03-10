@@ -401,6 +401,8 @@ class Coc_Model extends CC_Model
 		if(isset($requestdata['id']))		$this->db->where('id', $requestdata['id']);
 		if(isset($requestdata['coc_id']))	$this->db->where('coc_id', $requestdata['coc_id']);
 						
+		$this->db->order_by('id', 'desc');
+		
 		if($type=='count'){
 			$result = $this->db->count_all_results();
 		}else{

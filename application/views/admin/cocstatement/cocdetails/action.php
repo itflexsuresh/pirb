@@ -236,6 +236,7 @@
 						<?php if($cocstatusid=='7'){ ?>
 							<?php
 								if(isset($cocrecall[$cocdetails['recall']])){ echo '<h5 class="m-b-25">'.$cocrecall[$cocdetails['recall']].'</h5>'; }
+								if($cocdetails['created_at']){ echo '<label>Date</label><p>'.date('d-m-Y', strtotime($cocdetails['created_at'])).'</p>'; }
 								if(isset($cocreason[$cocdetails['reason']])){ echo '<label>Reason Canceling COC</label><p>'.$cocreason[$cocdetails['reason']].'</p>'; }
 								
 								$filename		= $cocdetails['document'];
