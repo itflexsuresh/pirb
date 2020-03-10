@@ -27,7 +27,7 @@
 					}
 				?>
 				<?php echo isset($diary[$action]) ? $diary[$action] : ''; ?>
-				<?php echo ($cocid!='') ? ' - '.$cocid : ''; ?>
+				<?php echo ($cocid!='' && $cocid!='0') ? ' - '.$cocid : ''; ?>
 			</div>
 		<?php 
 			}

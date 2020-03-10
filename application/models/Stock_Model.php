@@ -156,12 +156,12 @@ class Stock_Model extends CC_Model
 				if($data['coc_type']==1){
 					for($i=1;$i<=$data['coc_count'];$i++){
 						$result1 = $this->db->insert('stock_management', $requestdata);
-						$this->diaryactivity(['adminid' => $this->getUserID(), 'plumberid' => $data['user_id'], 'action' => '6', 'type' => '1']);
+						$this->diaryactivity(['adminid' => $this->getUserID(), 'plumberid' => $data['user_id'], 'cocid' => $this->db->insert_id(), 'action' => '6', 'type' => '1']);
 					}		
 				} else if($data['coc_type']==2) {
 					for($i=$data['allocate_start'];$i<=$data['allocate_end'];$i++){
 					 	$result1 = $this->db->update('stock_management', $requestdata, ['id' => $i]);
-						$this->diaryactivity(['adminid' => $this->getUserID(), 'plumberid' => $data['user_id'], 'action' => '6', 'type' => '1']);
+						$this->diaryactivity(['adminid' => $this->getUserID(), 'plumberid' => $data['user_id'], 'cocid' => $i, 'action' => '6', 'type' => '1']);
 					}
 				}
 			}			
