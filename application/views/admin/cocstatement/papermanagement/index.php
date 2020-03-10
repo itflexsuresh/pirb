@@ -87,7 +87,7 @@ $id 			= (isset($result['id']) && $result['id']!='') ? $result['id']+1 : 1;
 			columns : 	[
 			{ "data": "stock" },
 			{ "data": "range_start" },
-			{ "data": "range_end" }
+			{ "data": "range_end" },
 			{ "data": "createdat" }
 			]
 		};
