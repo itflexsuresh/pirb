@@ -234,6 +234,16 @@
 					<h4 class="card-title">Recalled/Reallocate/Cancel a COC</h4>
 					<form action="" method="post" class="form2">
 						<?php if($cocstatusid=='7'){ ?>
+							<?php
+								if(isset($cocrecall[$cocdetails['recall']])){ echo '<h5 class="m-b-25">'.$cocrecall[$cocdetails['recall']].'</h5>'; }
+								if(isset($cocreason[$cocdetails['reason']])){ echo '<label>Reason Canceling COC</label><p>'.$cocreason[$cocdetails['reason']].'</p>'; }
+								
+								$filename		= $cocdetails['document'];
+								$explodefile 	= explode('.', $filename);
+								$extfile 		= array_pop($explodefile);
+								$imgpath 		= (in_array($extfile, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$filename;
+								echo '<label>Document</label><p><a href="' .$imgpath.'" target="_blank"><img src="'.$imgpath.'" width="100"></a></p>';
+							?>
 							<input type="hidden" value="revoked" name="revoked">
 							<button type="submit" name="submit" value="details" class="btn btn-primary">Revoke</button>
 						<?php } else{ ?>

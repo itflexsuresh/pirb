@@ -27,8 +27,8 @@ class Index extends CC_Controller
 	{
 		$userid 		= $this->getUserID();
 		$post 			= $this->input->post();
-		$totalcount 	= $this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => ['2','4','5']]+$post);
-		$results 		= $this->Coc_Model->getCOCList('all', ['user_id' => $userid, 'coc_status' => ['2','4','5']]+$post);
+		$totalcount 	= $this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => ['2','4','5','7']]+$post);
+		$results 		= $this->Coc_Model->getCOCList('all', ['user_id' => $userid, 'coc_status' => ['2','4','5','7']]+$post);
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
@@ -48,9 +48,12 @@ class Index extends CC_Controller
 						$allDate = date('d-m-Y', strtotime($result['allocation_date']));
 						$logDate = date('d-m-Y', strtotime($result['cl_log_date']));
 						$allocation_log_date = $logDate.'/'.$allDate;
+					}elseif($result['coc_status']=='7'){
+						$action 	= '';
+						$allDate 	= date('d-m-Y', strtotime($result['allocation_date']));
+						$allocation_log_date = $allDate;
 					}
 				}
-				
 				
 				$cocstatus = isset($this->config->item('cocstatus')[$result['coc_status']]) ? $this->config->item('cocstatus')[$result['coc_status']] : '';
 				$coctype = isset($this->config->item('coctype')[$result['type']]) ? $this->config->item('coctype')[$result['type']] : '';

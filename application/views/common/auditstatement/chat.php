@@ -27,7 +27,7 @@
 			<?php if(($pagetype=='1' && $roletype=='5') || ($pagetype=='2' && $roletype=='3' && $auditcomplete!='1')){ ?>
 				<div class="chatfooter">
 					<div class="input-group">
-						<input type="text" class="form-control" id="chattext" placeholder="Type your message here">
+						<input type="text" class="form-control chattext" id="chattext" placeholder="Type your message here">
 						<div class="input-group-append">
 							<span class="input-group-text">
 								<i class="fa fa-paperclip" id="chatattachment"></i>
@@ -43,16 +43,7 @@
 
 
 <script type="text/javascript">
-var roletype 	= '<?php echo $roletype; ?>';
-var chatpath 	= '<?php echo $chatfilepath; ?>';
-var pdfimg		= '<?php echo $pdfimg; ?>';
-var cocid 		= '<?php echo $cocid; ?>';
-var plumberid 	= '<?php echo $plumberid; ?>';
-var auditorid 	= '<?php echo $auditorid; ?>';
-var fromid		= (roletype=='3') ? plumberid : auditorid;
-var toid		= (roletype=='3') ? auditorid : plumberid;
-
-$(function(){
-	chat(['#chattext', '#chatcontent'], [cocid, fromid, toid], [chatpath, pdfimg]);
-})
+	jQuery(document).ready(function(){  
+		opener.CallParent();
+	});
 </script>

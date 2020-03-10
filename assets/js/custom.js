@@ -531,6 +531,8 @@ function chat(data1=[], data2=[], data3=[]){
 		var keycode = (event.keyCode ? event.keyCode : event.which);
 		
 		if(keycode == '13' && !event.shiftKey){			
+			$(this).val( $(this).val().replace( /\r?\n/gi, '' ) );
+			
 			if($.trim($(this).val())!=''){
 				var data = 	{
 					'cocid' 		: data2[0], 
