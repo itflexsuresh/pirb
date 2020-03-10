@@ -756,6 +756,7 @@
 				</div>
 				<div class="modal-footer">
 					<input type="hidden" name="skill_id" class="skill_id">
+					<input type="hidden" name="user_id" value="<?php echo $userid; ?>">
 					<button type="button" class="btn btn-success skillsubmit">Submit</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
