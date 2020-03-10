@@ -134,7 +134,8 @@
 				},
 				password 			: {
 					required	: true,
-					minlength	: 5
+					minlength	: 8,
+					maxlength	: 24,
 				},
 				verifypassword 		: {
 					required	: true,
@@ -153,7 +154,8 @@
 				},
 				password 			: {
 					required	: "Password field is required.",
-					minlength	: "Password must be minium 5 character.."
+					minlength	: "Password must be minium 8 character.."
+					minlength	: "Password must be maximum 24 character.."
 				},
 				verifypassword 		: {
 					required	: "Verify Password field is required.",
