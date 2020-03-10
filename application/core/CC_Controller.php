@@ -1056,8 +1056,8 @@ class CC_Controller extends CI_Controller
 			'Type' 		=> 'sendparam',
 			'username' 	=> 'PIRB%20Registration',
 			'password' 	=> 'Plumber',
-			'numto' 	=> $no,
-			'data1' 	=> $data['msg']
+			'numto' 	=> '+'.$no,
+			'data1' 	=> str_replace(' ', '_', $data['msg'])
 		];
 		
 		$url = 'http://www.mymobileapi.com/api5/http5.aspx';

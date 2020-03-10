@@ -404,7 +404,7 @@
 			<?php if(($pagetype=='1' && $roletype=='5') || ($pagetype=='2' && $roletype=='3' && $auditcomplete!='1')){ ?>
 				<div class="chatfooter">
 					<div class="input-group">
-						<textarea class="form-control" id="chattext" placeholder="Type your message here"></textarea>
+						<input type="text" class="form-control chattext" id="chattext" placeholder="Type your message here">
 						<div class="input-group-append">
 							<span class="input-group-text">
 								<i class="fa fa-paperclip" id="chatattachment"></i>
@@ -580,6 +580,10 @@ var fromid		= (roletype=='3') ? plumberid : auditorid;
 var toid		= (roletype=='3') ? auditorid : plumberid;
 var validator;
 
+window.CallParent = function() {
+	chat(['.chattext', '.chatcontent'], [cocid, fromid, toid], [chatpath, pdfimg]);
+}
+
 $(function(){
 	if($('#hold').is(':checked')) $('#hold').data('approvalHoldValue', true);
 	reason()
@@ -589,7 +593,7 @@ $(function(){
 	citysuburb(['#province','#city', '#suburb'], ['<?php echo $cityid; ?>', '<?php echo $suburbid; ?>']);
 	subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], ['', ''], reviewpoint);
 	fileupload(["#r_file", "./assets/uploads/auditor/statement/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.rfileappend', reviewpath, pdfimg], 'multiple');
-	chat(['#chattext', '#chatcontent'], [cocid, fromid, toid], [chatpath, pdfimg]);
+	chat(['.chattext', '.chatcontent'], [cocid, fromid, toid], [chatpath, pdfimg]);
 	
 	$('#seperatechat').click(function(){
 		if($(this).attr('data-url')!='') window.open($(this).attr('data-url'), "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");

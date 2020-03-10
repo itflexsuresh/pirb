@@ -109,6 +109,7 @@ class Index extends CC_Controller
 		$pagedata['cocreason']		= $this->config->item('cocreason');
 		$pagedata['comments']		= $this->Coc_Details_Comment_Model->getList('all', ['coc_id' => $id]);
 		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id]);
+		$pagedata['cocdetails']		= $this->Coc_Model->getCOcDetails('row', ['coc_id' => $id]);
 		
 		$data['plugins']			= ['validation'];
 		$data['content'] 			= $this->load->view('admin/cocstatement/cocdetails/action', (isset($pagedata) ? $pagedata : ''), true);

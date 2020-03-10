@@ -358,6 +358,8 @@ class Index extends CC_Controller
 					$action = ''; //'<a href="'.base_url().'admin/plumber/index/actioncoc/'.$result['id'].'/'.$user_id.'" data-toggle="tooltip" data-placement="top" title="Edit" disbled><i class="fa fa-pencil-alt"></i></a>';
 				}elseif($result['coc_status']=='2'){
 					$action = '<a href="'.base_url().'admin/plumber/index/viewcoc/'.$result['id'].'/'.$user_id.'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
+				}elseif($result['coc_status']=='7'){
+					$action = '';
 				}
 				
 				$cocstatus = isset($this->config->item('cocstatus')[$result['coc_status']]) ? $this->config->item('cocstatus')[$result['coc_status']] : '';
