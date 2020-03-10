@@ -32,7 +32,6 @@ class Paper_Model extends CC_Model
 	{ 	
 		$this->db->select('*');
 		$this->db->from('stock_management_log');
-		$this->db->order_by('id', 'desc');
 
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
