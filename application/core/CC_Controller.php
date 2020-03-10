@@ -1067,13 +1067,17 @@ class CC_Controller extends CI_Controller
 	
 	public function curlRequest($url, $method, $param=[])
 	{
+		$curlaction['url'] = $url;
+		
 		$curl = curl_init(); 
 
         if (!$curl) {
             die("Couldn't initialize a cURL handle"); 
         }
 		
+		
 		if($method=='GET' && count($param) > 0){
+			$curlaction['request'] = json_encode($param);
 			$url = $url.'?'.http_build_query($param);
 		}
 		
@@ -1085,21 +1089,52 @@ class CC_Controller extends CI_Controller
 		
 		if($method=='POST' && count($param) > 0){			
 			$param = json_encode($param);
+			$curlaction['request'] = $param;
 			curl_setopt($curl, CURLOPT_POSTFIELDS, $param);
 		}
 		
         $result = curl_exec($curl); 
 
         if (curl_errno($curl)){
-			return false;
+			//return false;
             //echo 'cURL error: ' . curl_error($curl); 
+			$curlaction['error'] = curl_error($curl); 
         }else{ 
            // print_r(curl_getinfo($curl)); 
+		   $curlaction['info'] = curl_getinfo($curl); 
         }
 		
         curl_close($curl);
 		
-		
+		$curlaction['response'] = $result; 
+		$this->curlAction($curlaction);
 		return $result;
+	}
+	
+	public function curlAction($data)
+	{
+		$this->db->trans_begin();
+		
+		$datetime		= 	date('Y-m-d H:i:s');
+		
+		if(isset($data['url']))		 		$request['url'] 			= $data['url'];
+		if(isset($data['request']))		 	$request['request'] 		= $data['request'];
+		if(isset($data['response']))		$request['response'] 		= $data['response'];
+		if(isset($data['error']))			$request['error'] 			= $data['error'];
+		if(isset($data['info']))			$request['info'] 			= $data['info'];
+		
+		$request['datetime'] 	= $datetime;
+		$this->db->insert('sms_log', $request);
+				
+		if($this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+			return false;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return true;
+		}
 	}
 }
