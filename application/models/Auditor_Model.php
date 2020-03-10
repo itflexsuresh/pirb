@@ -372,7 +372,7 @@ class Auditor_Model extends CC_Model
 				}
 			}
 		}else{
-			$this->db->empty_table('users_auditor_area');
+			$this->db->where('user_id', $id)->delete('users_auditor_area');
 		}
 		
 		if((!isset($userdata) && !isset($userdetaildata) && !isset($useraddressdata) && !isset($userbankdata) && !isset($usersarea)) && $this->db->trans_status() === FALSE)
@@ -520,7 +520,7 @@ class Auditor_Model extends CC_Model
 				}
 			}
 		}else{
-			$this->db->empty_table('users_auditor_area');
+			$this->db->where('user_id', $id)->delete('users_auditor_area');
 		}
 		
 		if((!isset($userdata) && !isset($userdetaildata) && !isset($useraddressdata) && !isset($userbankdata) && !isset($usersarea)) && $this->db->trans_status() === FALSE)
