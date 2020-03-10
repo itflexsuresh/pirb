@@ -538,9 +538,6 @@ $(function(){
 			'installationtype[]':{
 				required    : true
 			},
-			'specialisations[]':{
-				required    : true
-			},
 			agreement:{
 				required    : true
 			}
