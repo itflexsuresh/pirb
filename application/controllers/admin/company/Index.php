@@ -27,7 +27,7 @@ class Index extends CC_Controller
         $totalrecord = [];
         if (count($results) > 0) {
             foreach ($results as $result) {
-				$companystatus1 = isset($companystatus[$result['status']]) ? $companystatus[$result['status']] : '';
+				$companystatus1 = isset($companystatus[$result['companystatus']]) ? $companystatus[$result['companystatus']] : '';
                 $totalrecord[] = [
 									'id' 			=> $result['id'],
 									'company' 		=> $result['company'],
