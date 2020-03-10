@@ -11,6 +11,7 @@ class Index extends CC_Controller
 		$this->load->model('Plumber_Model');
 		$this->load->model('Coc_Model');
 		$this->load->model('Stock_Model');
+		$this->load->model('Communication_Model');
 	}
 	
 	public function index()
@@ -135,9 +136,7 @@ class Index extends CC_Controller
 			{
 				$inid 				= $cocorderid;
 				$inv_id 			= $invoiceid;				
-
-				$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
-
+				
 				$orders = $this->db->select('*')->from('coc_orders')->where(['inv_id' => $invoiceid])->get()->row_array();
 				
 
@@ -340,19 +339,24 @@ class Index extends CC_Controller
 				$cocTypes = $orders['coc_type'];
 				$mail_date = date("d-m-Y", strtotime($orders['created_at']));				  
 			 	
-			 	$array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}'];	
-
-				$array2 = [$userdata1['name']." ".$userdata1['surname'], $mail_date, $orders['quantity'], $this->config->item('coctype')[$cocTypes]];
-
-				$body = str_replace($array1, $array2, $template['email_body']);
-
-			 	if ($template['email_active'] == '1') {
-
-			 		$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body,$filePath.$pdfFilePath);
-			 	}			
-			 }
-
-			
+				$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '17', 'emailstatus' => '1']);
+				
+				if($notificationdata){
+					$array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}'];	
+					$array2 = [$userdata1['name']." ".$userdata1['surname'], $mail_date, $orders['quantity'], $this->config->item('coctype')[$cocTypes]];
+					$body 	= str_replace($array1, $array2, $notificationdata['email_body']);
+					$this->CC_Model->sentMail($userdata1['email'], $notificationdata['subject'], $body, $filePath.$pdfFilePath);
+				}
+				
+				if($this->config->item('otpstatus')!='1'){
+					$smsdata 	= $this->Communication_Model->getList('row', ['id' => '17', 'smsstatus' => '1']);
+		
+					if($smsdata){
+						$sms = str_replace(['{number of COC}'], [$orders['quantity']], $smsdata['sms_body']);
+						$this->sms(['no' => $userdata1['mobile_phone'], 'msg' => $sms]);
+					}
+				}
+			}
 		}
 	}
 
