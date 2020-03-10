@@ -43,7 +43,7 @@
 	$accno 			= isset($result['account_no']) ? $result['account_no'] : set_value ('account_no');
 	$type 			= isset($result['account_type']) ? $result['account_type'] : set_value ('account_type');
 
-	$areas 			= isset($result['areas']) ? explode('@-@', $result['areas']) : [];
+	$areas 			= isset($result['areas']) ? array_filter(explode('@-@', $result['areas'])) : [];
 
 	$heading 		= isset($result['id']) ? 'Update' : 'Save';   
 	$profileimg 			= base_url().'assets/images/profile.jpg';
@@ -607,9 +607,6 @@
 			sweetalertautoclose('Area already exists.');
 			return false;
 		}
-		if (data2[0]===undefined || data2[1]===undefined || data2[2]===undefined) {
-			return false;
-		}else{
 			var append			= 	'\
         							<tr class="">\
         								<td>'+data2[0]+'</td>\
@@ -627,7 +624,7 @@
 
         $('#area_table').append(append);
         areacount++;
-    }
+    
 		}
 
     $(document).on('click', '.area_remove', function(){
