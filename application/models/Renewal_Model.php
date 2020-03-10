@@ -118,7 +118,7 @@ class Renewal_Model extends CC_Model
 	public function getUserids_alert4()
 	{
 		
-		$this->db->select('us.id, us.email, us.expirydate, up.designation, inv.inv_id, ud.name, ud.surname');	
+		$this->db->select('us.id, us.email, us.expirydate, up.designation, inv.inv_id, ud.name, ud.surname, ud.mobile_phone');	
 		$this->db->from('users us');
 		$this->db->join('users_plumber as up', 'up.user_id=us.id', 'inner');
 		$this->db->join('users_detail as ud', 'ud.user_id=us.id', 'inner');
