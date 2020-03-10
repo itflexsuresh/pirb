@@ -92,6 +92,11 @@
 	
 <script>
 	$(function(){
+
+		jQuery.validator.addMethod("noSpace", function(value, element) { 
+  			return value.indexOf(" ") < 0 && value != ""; 
+		}, "No space please and don't leave it empty");
+
 		validation(
 			'.login',
 			{
@@ -136,10 +141,12 @@
 					required	: true,
 					minlength	: 8,
 					maxlength	: 24,
+					noSpace		: true
 				},
 				verifypassword 		: {
 					required	: true,
-					equalTo		: "#password2"
+					equalTo		: "#password2",
+					noSpace		: true
 				}
 			},
 			{
@@ -154,8 +161,8 @@
 				},
 				password 			: {
 					required	: "Password field is required.",
-					minlength	: "Password must be minium 8 character.."
-					minlength	: "Password must be maximum 24 character.."
+					minlength	: "Password must be minium 8 character..",
+					maxlength	: "Password must be maximum 24 character..",
 				},
 				verifypassword 		: {
 					required	: "Verify Password field is required.",
