@@ -607,8 +607,10 @@
 			sweetalertautoclose('Area already exists.');
 			return false;
 		}
-		
-    	var append			= 	'\
+		if (data2[0]===undefined || data2[1]===undefined || data2[2]===undefined) {
+			return false;
+		}else{
+			var append			= 	'\
         							<tr class="">\
         								<td>'+data2[0]+'</td>\
         								<td>'+data2[1]+'</td>\
@@ -626,6 +628,7 @@
         $('#area_table').append(append);
         areacount++;
     }
+		}
 
     $(document).on('click', '.area_remove', function(){
     	$(this).parent().parent().remove();
