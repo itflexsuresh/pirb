@@ -38,7 +38,7 @@ class Paper_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['id', 'stock', 'range_start', 'range_end', 'created_at'];
+			$column = ['stock', 'range_start', 'range_end', 'created_at'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
