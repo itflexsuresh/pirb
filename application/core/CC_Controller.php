@@ -1101,7 +1101,7 @@ class CC_Controller extends CI_Controller
 			$curlaction['error'] = curl_error($curl); 
         }else{ 
            // print_r(curl_getinfo($curl)); 
-		   $curlaction['info'] = curl_getinfo($curl); 
+		   $curlaction['info'] = json_encode(curl_getinfo($curl)); 
         }
 		
         curl_close($curl);
@@ -1124,7 +1124,7 @@ class CC_Controller extends CI_Controller
 		if(isset($data['info']))			$request['info'] 			= $data['info'];
 		
 		$request['datetime'] 	= $datetime;
-		$this->db->insert('sms_log', $request);
+		$this->db->insert('curl_log', $request);
 				
 		if($this->db->trans_status() === FALSE)
 		{

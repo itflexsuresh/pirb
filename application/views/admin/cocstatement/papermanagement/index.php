@@ -112,7 +112,7 @@ $id 			= (isset($result['id']) && $result['id']!='') ? $result['id']+1 : 1;
 			var cocstock = $(this).val()!='' && $(this).val()!=undefined ? parseInt($(this).val()) : '';				
 			var rangestart = parseInt($('#range_start').val());
 			
-			if(cocstock!='') $('#range_end').val(cocstock+rangestart);
+			if(cocstock!='') $('#range_end').val((cocstock+rangestart)-1);
 			else $('#range_end').val('');
 		});
 	});
