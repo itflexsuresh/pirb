@@ -14,6 +14,7 @@ class Index extends CC_Controller
 		$this->load->model('Renewal_Model');
 		$this->load->model('Plumber_Model');
 	 	$this->load->model('Coc_Model');
+	 	$this->load->model('Communication_Model');
 	}
 	
 
@@ -168,8 +169,6 @@ class Index extends CC_Controller
 				$inv_id 			= $invoice_id;
 
 				$userdata1	= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
-
-				$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '1'])->get()->row_array();
 
 				$orders = $this->db->select('*')->from('coc_orders')->where(['inv_id' => $invoice_id])->get()->row_array();
 
@@ -464,17 +463,25 @@ class Index extends CC_Controller
 									
 					$cocTypes = $orders['coc_type'];
 					$mail_date = date("d-m-Y", strtotime($orders['created_at']));
-
-					$array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}','{renewal_date}'];
-
-					$array2 = [$userdata1['name']." ".$userdata1['surname'], $mail_date, $orders['quantity'], $this->config->item('coctype2')[$cocTypes],$renewal_date];
-
-					$body = str_replace($array1, $array2, $template['email_body']);
-
-					if ($template['email_active'] == '1') {
-						// echo $userdata1['email'].": ".$filePath.$pdfFilePath."</br>";
-						$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body,$filePath.$pdfFilePath);						
-					}	
+					
+					
+					$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '1', 'emailstatus' => '1']);
+					
+					if($notificationdata){
+						$array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}','{renewal_date}'];
+						$array2 = [$userdata1['name']." ".$userdata1['surname'], $mail_date, $orders['quantity'], $this->config->item('coctype2')[$cocTypes],$renewal_date];
+						$body 	= str_replace($array1, $array2, $notificationdata['email_body']);
+						$this->CC_Model->sentMail($userdata1['email'], $notificationdata['subject'], $body, $filePath.$pdfFilePath);
+					}
+					
+					if($this->config->item('otpstatus')!='1'){
+						$smsdata 	= $this->Communication_Model->getList('row', ['id' => '1', 'smsstatus' => '1']);
+			
+						if($smsdata){
+							$sms = $smsdata['sms_body'];
+							$this->sms(['no' => $userdata1['mobile_phone'], 'msg' => $sms]);
+						}
+					}
 
 				}			 
 
@@ -507,8 +514,6 @@ class Index extends CC_Controller
 				$inv_id 			= $invoice_id;
 
 				$userdata1	= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
-
-				$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '2'])->get()->row_array();
 
 				$orders = $this->db->select('*')->from('coc_orders')->where(['inv_id' => $invoice_id])->get()->row_array();
 
@@ -803,18 +808,24 @@ class Index extends CC_Controller
 								
 				$cocTypes = $orders['coc_type'];
 				$mail_date = date("d-m-Y", strtotime($orders['created_at']));
-
-				$array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}'];
-
-				$array2 = [$userdata1['name']." ".$userdata1['surname'], $mail_date, $orders['quantity'], $this->config->item('coctype2')[$cocTypes]];
-
-				$body = str_replace($array1, $array2, $template['email_body']);
-
-				if ($template['email_active'] == '1') {
-					// echo $userdata1['email'].": ".$filePath.$pdfFilePath."</br>";
-					$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body,$filePath.$pdfFilePath);						
-				}	
-
+							
+				$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '2', 'emailstatus' => '1']);
+				
+				if($notificationdata){
+					$array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}'];
+					$array2 = [$userdata1['name']." ".$userdata1['surname'], $mail_date, $orders['quantity'], $this->config->item('coctype2')[$cocTypes]];
+					$body 	= str_replace($array1, $array2, $notificationdata['email_body']);
+					$this->CC_Model->sentMail($userdata1['email'], $notificationdata['subject'], $body, $filePath.$pdfFilePath);
+				}
+				
+				if($this->config->item('otpstatus')!='1'){
+					$smsdata 	= $this->Communication_Model->getList('row', ['id' => '2', 'smsstatus' => '1']);
+		
+					if($smsdata){
+						$sms = $smsdata['sms_body'];
+						$this->sms(['no' => $userdata1['mobile_phone'], 'msg' => $sms]);
+					}
+				}
 			}
 			
 		}
@@ -845,8 +856,6 @@ class Index extends CC_Controller
 				$inv_id 			= $invoice_id;
 
 				$userdata1	= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
-
-				$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '3'])->get()->row_array();
 
 				$orders = $this->db->select('*')->from('coc_orders')->where(['inv_id' => $invoice_id])->get()->row_array();
 
@@ -1156,17 +1165,24 @@ class Index extends CC_Controller
 								
 				$cocTypes = $orders['coc_type'];
 				$mail_date = date("d-m-Y", strtotime($orders['created_at']));
-
-				$array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}'];
-
-				$array2 = [$userdata1['name']." ".$userdata1['surname'], $mail_date, $orders['quantity'], $this->config->item('coctype2')[$cocTypes]];
-
-				$body = str_replace($array1, $array2, $template['email_body']);
-
-				if ($template['email_active'] == '1') {
-					// echo $userdata1['email'].": ".$filePath.$pdfFilePath."</br>";
-					$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body,$filePath.$pdfFilePath);						
-				}	
+				
+				$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '3', 'emailstatus' => '1']);
+				
+				if($notificationdata){
+					$array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}'];
+					$array2 = [$userdata1['name']." ".$userdata1['surname'], $mail_date, $orders['quantity'], $this->config->item('coctype2')[$cocTypes]];
+					$body 	= str_replace($array1, $array2, $notificationdata['email_body']);
+					$this->CC_Model->sentMail($userdata1['email'], $notificationdata['subject'], $body, $filePath.$pdfFilePath);
+				}
+				
+				if($this->config->item('otpstatus')!='1'){
+					$smsdata 	= $this->Communication_Model->getList('row', ['id' => '3', 'smsstatus' => '1']);
+		
+					if($smsdata){
+						$sms = $smsdata['sms_body'];
+						$this->sms(['no' => $userdata1['mobile_phone'], 'msg' => $sms]);
+					}
+				}
 
 			}
 			
@@ -1190,14 +1206,23 @@ class Index extends CC_Controller
 			$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '3'])->get()->row_array();
 			 
 			$mail_date = date("d-m-Y");
-			$array1 = ['{Plumbers Name and Surname}','{date of purchase}'];
-			$array2 = [$data['name']." ".$data['surname'], $mail_date];
-
-			$body = str_replace($array1, $array2, $template['email_body']);
-
-			if ($template['email_active'] == '1') {					
-				$this->CC_Model->sentMail($data['email'],$template['subject'],$body);						
-			}	
+			$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '3', 'emailstatus' => '1']);
+				
+			if($notificationdata){
+				$array1 = ['{Plumbers Name and Surname}','{date of purchase}'];
+				$array2 = [$data['name']." ".$data['surname'], $mail_date];
+				$body 	= str_replace($array1, $array2, $notificationdata['email_body']);
+				$this->CC_Model->sentMail($data['email'], $notificationdata['subject'], $body);
+			}
+			
+			if($this->config->item('otpstatus')!='1'){
+				$smsdata 	= $this->Communication_Model->getList('row', ['id' => '3', 'smsstatus' => '1']);
+	
+				if($smsdata){
+					$sms = $smsdata['sms_body'];
+					$this->sms(['no' => $data['mobile_phone'], 'msg' => $sms]);
+				}
+			}
 			
 		}
 		
