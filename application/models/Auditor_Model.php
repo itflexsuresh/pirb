@@ -387,7 +387,7 @@ class Auditor_Model extends CC_Model
 
 	public function profileAction($data)
 	{
-		//print_r($data);die;
+		//echo "<pre>";print_r($data['area']);die;
 
 		
 		$this->db->trans_begin();
@@ -517,6 +517,8 @@ class Auditor_Model extends CC_Model
 					$usersarea = $this->db->update('users_auditor_area', $request5, ['id' => $request5['id']]);
 				}
 			}
+		}else{
+			$this->db->empty_table('users_auditor_area');
 		}
 		
 		if((!isset($userdata) && !isset($userdetaildata) && !isset($useraddressdata) && !isset($userbankdata) && !isset($usersarea)) && $this->db->trans_status() === FALSE)

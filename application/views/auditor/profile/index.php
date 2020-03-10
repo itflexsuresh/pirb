@@ -568,6 +568,8 @@
         var areacitytxt 	= $('#area_city :selected').text();
         var areasuburbtxt 	= $('#area_suburb :selected').text();
 
+        //if (areaprovinceval || areacityval || areasuburbval || areaprovincetxt || areacitytxt || areasuburbtxt) {}
+
         areadata([areaprovinceval, areacityval, areasuburbval], [areaprovincetxt, areacitytxt, areasuburbtxt]);
           
     });
@@ -596,8 +598,10 @@
 			sweetalertautoclose('Area already exists.');
 			return false;
 		}
-		
-    	var append			= 	'\
+		if (data2[0]===undefined && data2[1]===undefined && data2[2]===undefined) {
+			return false;
+		}else{
+			var append			= 	'\
         							<tr class="">\
         								<td>'+data2[0]+'</td>\
         								<td>'+data2[1]+'</td>\
@@ -614,6 +618,10 @@
 
         $('#area_table').append(append);
         areacount++;
+		}
+		
+		
+    	
     }
 
     $(document).on('click', '.area_remove', function(){
