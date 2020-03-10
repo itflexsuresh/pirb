@@ -38,7 +38,7 @@ class Paper_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['id', 'stock', 'range_start', 'range_end'];
+			$column = ['id', 'stock', 'range_start', 'range_end', 'created_at'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
@@ -46,6 +46,7 @@ class Paper_Model extends CC_Model
 			$this->db->like('stock', $searchvalue);
 			$this->db->or_like('range_start', $searchvalue);
 			$this->db->or_like('range_end', $searchvalue);
+			$this->db->or_like('DATE_FORMAT(created_at,"%d-%m-%Y")', $searchvalue, 'both');
 		}
 				
 		if($type=='count')

@@ -68,6 +68,7 @@ $id 			= (isset($result['id']) && $result['id']!='') ? $result['id']+1 : 1;
 								<th>Stock</th>
 								<th>Start Range</th>
 								<th>End Range</th>
+								<th>Created At</th>
 							</tr>
 						</thead>
 					</table>
@@ -87,6 +88,7 @@ $id 			= (isset($result['id']) && $result['id']!='') ? $result['id']+1 : 1;
 			{ "data": "stock" },
 			{ "data": "range_start" },
 			{ "data": "range_end" }
+			{ "data": "createdat" }
 			]
 		};
 		ajaxdatatables('.datatables', options);

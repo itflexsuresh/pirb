@@ -42,9 +42,10 @@ class Index extends CC_Controller
 		if(count($results) > 0){
 			foreach($results as $result){
 				$totalrecord[] = 	[
-										'stock' 	=> 	$result['stock'],
+										'createdat' 	=> 	date('d-m-Y', strtotime($result['created_at'])),
+										'stock' 		=> 	$result['stock'],
 										'range_start' 	=> 	$result['range_start'],
-										'range_end'	=> 	$result['range_end']
+										'range_end'		=> 	$result['range_end']
 									];
 			}
 		}
