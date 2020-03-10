@@ -33,7 +33,31 @@ class Index extends CC_Controller
 		$this->layout2($data);
 	}
 
-	
+	public function DTStocklog(){
+		$post 			= $this->input->post();
+		$totalcount 	= $this->Paper_Model->getLogList('count',$post);
+		$results 		= $this->Paper_Model->getLogList('all',$post);
+
+		$totalrecord 	= [];
+		if(count($results) > 0){
+			foreach($results as $result){
+				$totalrecord[] = 	[
+										'stock' 	=> 	$result['stock'],
+										'range_start' 	=> 	$result['range_start'],
+										'range_end'	=> 	$result['range_end']
+									];
+			}
+		}
+		
+		$json = array(
+			"draw"            => intval($post['draw']),   
+			"recordsTotal"    => intval($totalcount),  
+			"recordsFiltered" => intval($totalcount),
+			"data"            => $totalrecord
+		);
+
+		echo json_encode($json);
+	}
 
 	
 }

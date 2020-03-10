@@ -27,6 +27,41 @@ class Paper_Model extends CC_Model
 		
 		 return $result;		
 	}
+
+	public function getLogList($type, $requestdata=[])
+	{ 	
+		$this->db->select('*');
+		$this->db->from('stock_management_log');
+		$this->db->order_by('id', 'desc');
+
+		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
+			$this->db->limit($requestdata['length'], $requestdata['start']);
+		}
+		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
+			$column = ['id', 'stock', 'range_start', 'range_end'];
+			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+		}
+		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
+			$searchvalue = $requestdata['search']['value'];
+			$this->db->like('stock', $searchvalue);
+			$this->db->or_like('range_start', $searchvalue);
+			$this->db->or_like('range_end', $searchvalue);
+		}
+				
+		if($type=='count')
+		{
+			$result = $this->db->count_all_results();
+		}
+		else
+		{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		 return $result;		
+	}
 	
 	public function action($data)
 	{	

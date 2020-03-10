@@ -61,6 +61,17 @@ $id 			= (isset($result['id']) && $result['id']!='') ? $result['id']+1 : 1;
 						</div>	
 					</div>															
 				</form>
+				<div class="table-responsive m-t-40">
+					<table class="table table-bordered table-striped datatables fullwidth">
+						<thead>
+							<tr>
+								<th>Stock</th>
+								<th>Start Range</th>
+								<th>End Range</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -69,6 +80,16 @@ $id 			= (isset($result['id']) && $result['id']!='') ? $result['id']+1 : 1;
 
 <script type="text/javascript">
 	$(function(){
+
+		var options = {
+			url 	: 	'<?php echo base_url()."admin/cocstatement/papermanagement/index/DTStocklog"; ?>',
+			columns : 	[
+			{ "data": "stock" },
+			{ "data": "range_start" },
+			{ "data": "range_end" }
+			]
+		};
+		ajaxdatatables('.datatables', options);
 
 		validation(
 			'.form',
