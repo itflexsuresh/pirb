@@ -199,7 +199,8 @@ class index extends CC_Controller
 
 	public function monthlyMail(){
 
-		
+		$corn_start_date = date('Y-m-d H:i:s');
+
 		$currentDate 		= date('m-d-Y');
 		$currentMonth 		= date('m');
 		$lastMonth 			= date('m', strtotime($currentMonth.' -1'));
@@ -225,7 +226,7 @@ class index extends CC_Controller
 		//$this->db->group_by('t1.user_id');
 		$userQuery = $this->db->get()->result_array();
 		$settingsCPD = $this->db->select('*')->from('settings_cpd')->get()->result_array();
-		$template 	= $this->db->select('*')->from('email_notification')->where('category_id','6')->where('sms_active','1')->get()->row_array();	
+		$template 	= $this->db->select('*')->from('email_notification')->where('id','14')->where('sms_active','1')->get()->row_array();	
 
 		
 		
@@ -316,7 +317,7 @@ class index extends CC_Controller
 		 		$smsbody1 = ['{total Points}','{total points required}', '{next registration date}'];
 				$smsbody2 = [$total, $totalDB, date('m-d-Y', strtotime($value['expirydate']))];
 
-				$smsdata 	= $this->Communication_Model->getList('row', ['id' => '6', 'smsstatus' => '1']);
+				$smsdata 	= $this->Communication_Model->getList('row', ['id' => '14', 'smsstatus' => '1']);
 					
 					if($smsdata){
 						$sms = str_replace([$smsbody1, $smsbody2, $smsdata['sms_body']]);
