@@ -15,7 +15,7 @@
 	$mobile_phone2 			= isset($result['mobile_phone2']) ? $result['mobile_phone2'] : '';
 	$workphone 				= isset($result['work_phone']) ? $result['work_phone'] : '';
 	$home_phone 			= isset($result['home_phone']) ? $result['home_phone'] : '';
-	$companystatusid 		= isset($result['status']) ? $result['status'] : '';
+	$companystatusid 		= isset($result['companystatus']) ? $result['companystatus'] : '';
 	
 	$physicaladdress 		= isset($result['physicaladdress']) ? explode('@-@', $result['physicaladdress']) : [];
 	$addressid1 			= isset($physicaladdress[0]) ? $physicaladdress[0] : '';
