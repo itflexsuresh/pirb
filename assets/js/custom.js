@@ -543,7 +543,7 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 		var keycode = (event.keyCode ? event.keyCode : event.which);
 		
 		if(keycode == '13' && !event.shiftKey){			
-			$(this).val( $(this).val().replace( /\r?\n/gi, '' ) );
+			//$(this).val( $(this).val().replace( /\r?\n/gi, '' ) );
 			
 			if($.trim($(this).val())!=''){
 				var data = 	{

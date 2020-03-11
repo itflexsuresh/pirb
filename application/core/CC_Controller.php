@@ -51,8 +51,9 @@ class CC_Controller extends CI_Controller
 	public function middleware($type='')
 	{
 		$userDetails = $this->getUserDetails();
+		
 		if($type=='1'){
-			if($userDetails){
+			if($userDetails){				
 				if($userDetails['type']=='1'){
 					redirect('admin/administration/installationtype'); 
 				}elseif($userDetails['type']=='3'){
@@ -70,6 +71,22 @@ class CC_Controller extends CI_Controller
 		}else{
 			if(!$userDetails){
 				redirect('');
+			}else{			
+				$segment1 = $this->uri->segment(1);
+				
+				if($userDetails['type']=='1' && $segment1!='admin'){
+					redirect('admin/administration/installationtype'); 
+				}elseif($userDetails['type']=='3' && $segment1!='plumber'){
+					if($userDetails['formstatus']=='1') redirect('plumber/profile/index'); 
+					else redirect('plumber/registration/index'); 
+				}elseif($userDetails['type']=='4' && $segment1!='company'){
+					if($userDetails['formstatus']=='1') redirect('company/profile/index'); 
+					else redirect('company/registration/index'); 
+				}elseif($userDetails['type']=='5' && $segment1!='auditor'){
+					redirect('auditor/profile/index'); 
+				}elseif($userDetails['type']=='6' && $segment1!='resellers'){
+					redirect('resellers/profile/index'); 
+				}
 			}
 		}
 	}
