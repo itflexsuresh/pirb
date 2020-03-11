@@ -232,12 +232,12 @@ class Index extends CC_Controller
 
            				$PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
            				$delivery_rate =  $this->db->select('amount')->from('rates')->where('id',$delivery_method)->get()->row_array();
-						$reg_amount 		=	$rowData['quantity']*$delivery_rate['amount'];
+						
            				$courierdetails = '<tr>
 					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Courier/Regsitered Post Fee</td>				
-					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;">'.$rowData['quantity'].'</td>
+					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;"></td>
 					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency2.$delivery_rate['amount'].'</td>
-					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$reg_amount.'</td>
+					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$rowData['cost_value'].'</td>
 					</tr>';
 
            			}
