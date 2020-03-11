@@ -592,7 +592,7 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 									var filesrc = data3[1];
 								}
 								
-								chatappend += '<img src="'+filesrc+'" width="100">';
+								chatappend += '<a href="'+data3[0]+'/'+v.attachment+'" target="_blank"><img src="'+filesrc+'" width="100"></a>';
 							}else{
 								chatappend += '<div class="chatbar"><p class="chatbar_message">'+v.message+'</p></div>';
 							}	
