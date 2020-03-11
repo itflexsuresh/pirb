@@ -212,6 +212,7 @@ class Index extends CC_Controller
            				$coc_type_id = 13;
            				$delivery_rate['amount'] = 0;
            				$PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
+           				$courierdetails = "";
 
            			}elseif($rowData['coc_type'] == '2'){
            				$coc_type_id = 14;
@@ -225,7 +226,12 @@ class Index extends CC_Controller
 
            				$PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
            				$delivery_rate =  $this->db->select('amount')->from('rates')->where('id',$delivery_method)->get()->row_array();
-
+           				$courierdetails = '<tr>
+					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Courier/Regsitered Post Fee</td>				
+					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;">'.$rowData['quantity'].'</td>
+					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$delivery_rate['amount'].'</td>
+					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$rowData['cost_value'].'</td>
+					</tr>';
 
            			}
            			$total_subtotal = $delivery_rate['amount']+$rowData['cost_value'];
@@ -442,12 +448,7 @@ class Index extends CC_Controller
 					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$rowData['cost_value'].'</td>
 					</tr>
 
-					<tr>
-					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Courier/Regsitered Post Fee</td>				
-					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;">'.$delivery_rate['amount'].'</td>
-					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$delivery_rate['amount'].'</td>
-					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$rowData['cost_value'].'</td>
-					</tr>
+					'.$courierdetails.'
 
 					</tbody>
 					</table>	
