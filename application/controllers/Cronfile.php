@@ -39,12 +39,28 @@ public function __construct()
 	
     public function performancestatusarchive()
 	{
+		$fileName = 'http://diyesh.com/auditit_new/pirb/cronfile/performancestatusarchive';
+		$starttime = date('Y-m-d H:i:s');
+
 		$this->performancestatusrollingaverage();
+
+		$endtime = date('Y-m-d H:i:s');
+		if ($starttime && $endtime) {
+			$cron_start = $this->cronLog(['filename' => $fileName, 'start_time' => $starttime, 'end_time' => $endtime]);
+		}
 	}
 	
     public function performancestatuswarning()
 	{
+		$fileName = 'http://diyesh.com/auditit_new/pirb/cronfile/performancestatuswarning';
+		$starttime = date('Y-m-d H:i:s');
+
 		$this->performancestatusmail();
+
+		$endtime = date('Y-m-d H:i:s');
+		if ($starttime && $endtime) {
+			$cron_start = $this->cronLog(['filename' => $fileName, 'start_time' => $starttime, 'end_time' => $endtime]);
+		}
 	}
 }
 
