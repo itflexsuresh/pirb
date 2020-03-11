@@ -365,7 +365,7 @@
 		
 		
 		var options = {
-			url 	: 	'<?php echo base_url()."admin/company/index/DTemplist"; ?>',
+			url 	: 	'<?php echo base_url()."company/employee_listing/DTemplist"; ?>',
 			data 	: {"comp_id": "<?php echo $compid; ?>"},
 			columns : 	[
 							{ "data": "reg" },
@@ -377,8 +377,6 @@
 							{ "data": "rating" },
 							{ "data": "action" }
 						],
-
-						
 						
 		};
 		
