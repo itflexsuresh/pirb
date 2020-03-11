@@ -1138,14 +1138,11 @@ class CC_Controller extends CI_Controller
 		}
 	}
 
-	public function cronLog($filename){
-		$requestdata0['	filename'] 		= $filename;
-		$requestdata0['	start_time'] 	= date('Y-m-d H:i:s');
+	public function cronLog($extras=[]){
+		$requestdata0['filename'] 		= $extras['filename'];
+		$requestdata0['start_time'] 	= $extras['start_time'];
+		$requestdata0['end_time'] 		= $extras['end_time'];
 		$result = $this->db->insert('cron_log',$requestdata0);
-		$insert_id 	= $this->db->insert_id();
 
-		if ($result && $insert_id) {
-			return $insert_id;
-		}
 	}
 }

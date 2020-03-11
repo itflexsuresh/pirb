@@ -121,14 +121,15 @@ class Cpdtypesetup extends CC_Controller
 	}
 
 	public function Cron(){
+		
 		$fileName = 'http://diyesh.com/auditit_new/pirb/admin/cpd/cpdtypesetup/Cron';
-		$cron_start = $this->cronLog($fileName);
+		$starttime = date('Y-m-d H:i:s');
 		$current_date = date('Y-m-d');
 		$this->Cpdtypesetup_Model->getCronDate();
+		$endtime = date('Y-m-d H:i:s');
 
-		if ($cron_start) {
-			$requestdata0['	end_time'] 		= date('Y-m-d H:i:s');
-			$this->db->update('cron_log',$requestdata0, ['id' => $cron_start]);
+		if ($starttime && $endtime) {
+			$cron_start = $this->cronLog(['filename' => $fileName, 'start_time' => $starttime, 'end_time' => $endtime]);
 		}
 	}
 
