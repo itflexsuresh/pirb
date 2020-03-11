@@ -257,7 +257,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 
 	$( document ).ready(function() {
 		
-		datepicker('#startdate', ['currentdate']);
+		datepicker('#startdate', ['enddate']);
 	});
 	
 
