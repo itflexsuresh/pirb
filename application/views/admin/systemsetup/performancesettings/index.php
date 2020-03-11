@@ -4,7 +4,7 @@ if(isset($result) && $result){
 	$type 						= (set_value('type')) ? set_value('type') : $result['type'];
 	$allocation 				= (set_value('allocation')) ? set_value('allocation') : $result['allocation'];
 	$period 					= (set_value('period')) ? set_value('period') : $result['period'];
-	$period_date 				= (set_value('period_date')) ? set_value('period_date') : $result['period_date'];
+	$period_date 				= (set_value('period_date')) ? set_value('period_date') : date('d-m-Y', strtotime($result['period_date']));
 	$status 					= (set_value('status')) ? set_value('status') : $result['status'];
 	
 	$heading					= 'Update';
@@ -15,7 +15,7 @@ if(isset($result) && $result){
 	$period						= set_value('period');
 	$type						= set_value('type');
 	$status						= set_value('status');
-$period_date					= set_value('period_date');
+	$period_date				= set_value('period_date');
 	$heading					= 'Add';
 }
 ?>
@@ -65,7 +65,7 @@ $period_date					= set_value('period_date');
 						<div class="col-md-6">
 							<div class="form-group datewrapper displaynone">
 								<label for="period_date">Select date when Performance type is archived*</label>
-								<input type="text" autocomplete="off" class="form-control" id="period_date" name="period_date" placeholder="Enter Select date when Performance type is archived *" value="<?php echo date('d-m-Y',strtotime($period_date)); ?>">						
+								<input type="text" autocomplete="off" class="form-control" id="period_date" name="period_date" placeholder="Enter Select date when Performance type is archived *" value="<?php echo $period_date; ?>">						
 							</div>
 						</div>
 					</div>
