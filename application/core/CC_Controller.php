@@ -32,6 +32,9 @@ class CC_Controller extends CI_Controller
 
 		$this->load->library('pdf');
 		$this->load->library('phpqrcode/qrlib');
+		
+		$segment1 = $this->uri->segment(1);
+		if($segment1!='' && $segment1!='login' && $segment1!='forgotpassword' && $segment1!='authentication' && $segment1!='ajax') $this->middleware();
 	}
 	
 	public function layout1($data=[])
@@ -69,11 +72,20 @@ class CC_Controller extends CI_Controller
 				}
 			}
 		}else{
+			$segment1 = $this->uri->segment(1);
 			if(!$userDetails){
-				redirect('');
+				if($segment1=='admin'){
+					redirect(''); 
+				}elseif($segment1=='plumber'){
+					redirect('login/plumber'); 
+				}elseif($segment1=='company'){
+					redirect('login/company'); 
+				}elseif($segment1=='auditor'){
+					redirect('login/auditor'); 
+				}elseif($segment1=='resellers'){
+					redirect('login/resellers'); 
+				}
 			}else{			
-				$segment1 = $this->uri->segment(1);
-				
 				if($userDetails['type']=='1' && $segment1!='admin'){
 					redirect('admin/administration/installationtype'); 
 				}elseif($userDetails['type']=='3' && $segment1!='plumber'){
@@ -283,8 +295,7 @@ class CC_Controller extends CI_Controller
 	{
 		$result = $this->Plumber_Model->getList('row', ['id' => $id, 'type' => '3', 'status' => ['1', '2']]);
 		if(!$result){
-			if($extras['redirect']) redirect($extras['redirect']); 
-			else redirect('admin/plumber/index'); 
+			redirect($extras['redirect']); 
 		}
 		
 		if($this->input->post()){
@@ -303,23 +314,12 @@ class CC_Controller extends CI_Controller
 				if($coclimit < $plumberstock){
 					$this->session->set_flashdata('error', 'Plumber already has '.$userpaperstock.' coc without logged and '.$userorderstock.' coc waiting for approval.');
 					
-					if($extras['redirect']) redirect($extras['redirect']); 
-					else redirect('admin/plumber/index'); 
+					redirect($extras['redirect']); 
 				}else{
 					$stockcount = $coclimit - $plumberstock;
 				}
 				
-				$this->Coc_Model->actionCocCount(['count' => $stockcount, 'user_id' => $id]);		
-				
-				/*
-				if($currentcoclimit <= $coclimit){
-					$this->Coc_Model->actionCocCount(['count' => ($coclimit - $currentcoclimit), 'user_id' => $id]);	
-				}else{
-					$this->session->set_flashdata('error', 'Coc limit cannot decrease.');
-					if($extras['redirect']) redirect($extras['redirect']); 
-					else redirect('admin/plumber/index'); 
-				}
-				*/
+				$this->Coc_Model->actionCocCount(['count' => $stockcount, 'user_id' => $id]);	
 			}
 			
 			$plumberdata 	=  $this->Plumber_Model->action($requestData);
@@ -388,8 +388,7 @@ class CC_Controller extends CI_Controller
 				$this->session->set_flashdata('error', 'Try Later.');
 			}
 			
-			if($extras['redirect']) redirect($extras['redirect']); 
-			else redirect('admin/plumber/index'); 
+			redirect($extras['redirect']); 
 		}
 		
 		$userid			= 	$result['id'];
