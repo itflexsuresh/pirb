@@ -11,14 +11,35 @@ class Employee_listing extends CC_Controller
 		$this->load->model('Communication_Model');
 	}
 	
-	public function index()
+	public function index($userID='')
 	{
+        if ($userID!='') {
+
+            $result = $this->Company_Model->getEmpList('employee', ['comp_id' => $userID, 'type' => '3', 'status' => ['0','1', '2']]);
+
+           $pagedata['specialization']  = $this->config->item('specialisations');
+            $pagedata['employee'] = $result;
+            $pagedata['company']        = $this->getCompanyList();
+            $pagedata['plumberstatus']  = $this->config->item('plumberstatus');
+            $userdata1                  = $this->Plumber_Model->getList('row', ['id' => $result[0]['user_id']]);
+           // print_r($userdata1);die;
+            $pagedata['user_details']   = $userdata1;
+
+            
+            
+            $pagedata['history']        = $this->Auditor_Model->getReviewHistory2Count(['auditorid' => '', 'plumberid' => $result[0]['user_id']]);
+            $pagedata['settings_cpd']   = $this->Systemsettings_Model->getList('all',['user_id' => $result[0]['user_id']]);
+            
+
+            $pagedata['loggedcoc']      = $this->Coc_Model->getCOCList('count', ['user_id' => $result[0]['user_id'], 'coc_status' => ['2']]);
+        }
 
 		$companyID = $this->getuserID();
 		$data['plugins']				= ['datatables','validation','datepicker','inputmask','select2', 'echarts'];
 		$pagedata['notification'] 		= $this->getNotification();
 		$pagedata['designation2']		= $this->config->item('designation2');
 		$pagedata['plumberstatus']		= $this->config->item('plumberstatus');
+        $pagedata['roletype']           = '5';
 		$pagedata['id'] 				= $companyID;
 		$data['content'] 				= $this->load->view('company/employee_listing', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
@@ -62,7 +83,7 @@ class Employee_listing extends CC_Controller
                                     'rating'        => '<input type="hidden" value="'.$overall.'" class="'.$divclass.'">'.$overall.'',
                                     'action'        => '
                                                             <div class="table-action">
-                                                                <a href="' . base_url() . 'admin/company/index/empaction/'.$post['comp_id'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
+                                                                <a href="' . base_url() . 'company/employee_listing/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
                                                             </div>
                                                         ',
                 ];
