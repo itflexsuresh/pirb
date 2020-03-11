@@ -610,6 +610,7 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 						$(data1[1]).append(chatdata.join(''));
 						
 						if(sound=='1' && state=='checkto') audioselector.play();
+						scrolltobottom(data1[1].substring(1))
 					}
 				},
 				asynchronous : 1
@@ -661,6 +662,13 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 	function stopunread(){
 		clearInterval(unreadinterval);
 	}
+}
+
+function scrolltobottom(id){
+	var div = document.getElementById(id);
+	$('#' + id).animate({
+		scrollTop: div.scrollHeight - div.clientHeight
+	}, 500);
 }
 
 function barchart(selector, options){
