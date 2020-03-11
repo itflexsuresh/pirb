@@ -113,7 +113,7 @@ class Index extends CC_Controller
 					'inv_id' 		=> 	$internal_inv,
 					'created_at'    =>  $originalDate,
 					'description'   =>  $result['description'],
-					'total_cost'    => 	$result['total_cost'],
+					'total_cost'    => 	$this->config->item('currency').' '.$result['total_cost'],
 					'action'	    => 	$action,
 					'status'    		=> 	$status
 

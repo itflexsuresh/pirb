@@ -37,6 +37,8 @@
 			$total = $total_cost;
 		}
 	}
+	
+	$currency = $this->config->item('currency');
 ?>
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
@@ -153,21 +155,21 @@
 									echo '<tr>'; 
 										echo '<td>'.$description.'</td>';
 										echo '<td>1</td>';
-										echo '<td>'.$total_cost.'</td>';
-										echo '<td>'.$total_cost.'</td>';
+										echo '<td>'.$currency.$total_cost.'</td>';
+										echo '<td>'.$currency.$total_cost.'</td>';
 								
 									echo '</tr>';
 									echo '<tr>';
 										echo '<td colspan="3">Sub Total</td>';
-										echo '<td>'.$total_cost.'</td>';
+										echo '<td>'.$currency.$total_cost.'</td>';
 									echo '</tr>';									
 									echo '<tr>';
 										echo '<td colspan="3">VAT Total</td>';
-										echo '<td>'.$vatvalue.'</td>';
+										echo '<td>'.$currency.$vatvalue.'</td>';
 									echo '</tr>';									
 									echo '<tr>';
 										echo '<td colspan="3">Total</td>';
-										echo '<td>'.$total.'</td>';
+										echo '<td>'.$currency.$total.'</td>';
 									echo '</tr>';
 								?>
 									</tr>
