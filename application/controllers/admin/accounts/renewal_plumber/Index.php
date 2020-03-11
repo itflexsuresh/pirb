@@ -82,13 +82,19 @@ class Index extends CC_Controller
 					}
 				}
 
+				if ($result['total_cost']!='') {
+      $amt = $this->config->item('currency').' '.$result['total_cost'];
+      }else{
+      	$amt = $result['total_cost'];
+      }
+
 				$totalrecord[] = 	[      
 					'inv_id' 		=> 	$result['inv_id'],
 					'created_at'    =>  $newDate,
 					'name' 		    => 	$result['name'].' '.$result['surname'],
 					'registration_no' => $result['registration_no'],
 					'description'   =>  $result['description'],
-					'total_cost'    => 	$result['total_cost'],
+					'total_cost'    => 	$amt,
 					'action'	    => 	'
 
 					<div class="col-md-6">
