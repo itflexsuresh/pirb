@@ -39,6 +39,7 @@
 
 <?php
 $invoiceDate  = date("d-m-Y", strtotime($rowData['created_at']));
+$VAT          = $settings["vat_percentage"];
 
   if ($rowData['coc_type'] == '1') {
     $coc_type_id = 13;
@@ -268,7 +269,7 @@ $invoiceDate  = date("d-m-Y", strtotime($rowData['created_at']));
               </tr>
 
               <tr style="text-align: center;">
-                <td style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">VAT Total</td>
+                <td style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">VAT Total<?php echo ' '.$VAT; ?></td>
                 <td style="margin: 0; padding: 5px 50px; border: 1px solid #000; "><?php echo $currency.$rowData['vat']; ?></td>
               </tr>
 

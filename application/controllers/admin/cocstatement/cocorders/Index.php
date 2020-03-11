@@ -71,6 +71,7 @@ class Index extends CC_Controller
 				// invoice PDF
 
 				 	$pagedata['rowData'] = $this->Coc_Model->getListPDF('row', ['id' => $inv_id['inv_id'], 'status' => ['0','1']]);
+				 	$pagedata['settings']		= 	$this->Systemsettings_Model->getList('row');
 				 	$pagedata['currency']    = $this->config->item('currency');
 					$pagedata['rowData1'] = $this->Coc_Model->getPermissions('row', ['id' => $inv_id['inv_id'], 'status' => ['0','1']]);
 					$pagedata['rowData2'] = $this->Coc_Model->getPermissions1('row', ['id' => $inv_id['inv_id'], 'status' => ['0','1']]);
