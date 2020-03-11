@@ -133,6 +133,9 @@ class Index extends CC_Controller
 
 	public function Cron()
 	{	
+		$fileName = 'http://diyesh.com/auditit_new/pirb/admin/accounts/renewal_plumber/index/cron';
+		$starttime = date('Y-m-d H:i:s');
+
 		$result = $this->Renewal_Model->getUserids();		
 		// echo '<pre>'; print_r($result); die;		
 		foreach($result as $data)
@@ -488,11 +491,18 @@ class Index extends CC_Controller
 			}
 			
 		}
+		$endtime = date('Y-m-d H:i:s');
+		if ($starttime && $endtime) {
+			$cron_start = $this->cronLog(['filename' => $fileName, 'start_time' => $starttime, 'end_time' => $endtime]);
+		}
 		
 	}
 
 	public function Alert2()
 	{	
+		$fileName = 'http://diyesh.com/auditit_new/pirb/admin/accounts/renewal_plumber/index/alert2';
+		$starttime = date('Y-m-d H:i:s');
+
 		$result = $this->Renewal_Model->getUserids_alert2();	
 		// echo '<pre>'; print_r($result); die;	
 		foreach($result as $data)
@@ -829,11 +839,18 @@ class Index extends CC_Controller
 			}
 			
 		}
+		$endtime = date('Y-m-d H:i:s');
+		if ($starttime && $endtime) {
+			$cron_start = $this->cronLog(['filename' => $fileName, 'start_time' => $starttime, 'end_time' => $endtime]);
+		}
 		
 	}
 
 	public function Alert3()
 	{	
+		$fileName = 'http://diyesh.com/auditit_new/pirb/admin/accounts/renewal_plumber/index/alert3';
+		$starttime = date('Y-m-d H:i:s');
+
 		$result = $this->Renewal_Model->getUserids_alert3();			
 		// echo '<pre>'; print_r($result); die;	
 		foreach($result as $data)
@@ -1187,11 +1204,18 @@ class Index extends CC_Controller
 			}
 			
 		}
+		$endtime = date('Y-m-d H:i:s');
+		if ($starttime && $endtime) {
+			$cron_start = $this->cronLog(['filename' => $fileName, 'start_time' => $starttime, 'end_time' => $endtime]);
+		}
 		
 	}
 
 	public function Alert4()
 	{	
+		$fileName = 'http://diyesh.com/auditit_new/pirb/cronfile/performancestatusarchive';
+		$starttime = date('Y-m-d H:i:s');
+
 		$result = $this->Renewal_Model->getUserids_alert4();		
 		// echo '<pre>'; print_r($result); die;	
 		foreach($result as $data)
@@ -1227,6 +1251,10 @@ class Index extends CC_Controller
 		}
 		
 	}
+	$endtime = date('Y-m-d H:i:s');
+		if ($starttime && $endtime) {
+			$cron_start = $this->cronLog(['filename' => $fileName, 'start_time' => $starttime, 'end_time' => $endtime]);
+		}
 	
 }
 
