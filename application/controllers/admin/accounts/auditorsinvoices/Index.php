@@ -75,6 +75,12 @@ class Index extends CC_Controller
 					<img src="'.base_url().'assets/images/pdf.png" height="50" width="50">
 					</div></a>
 					';
+
+					if ($result['total_cost']!='') {
+      $amt = $this->config->item('currency').' '.$result['total_cost'];
+      }else{
+      	$amt = $result['total_cost'];
+      }
 				
 				if($result['status'] != '2'){
 					$totalrecord[] = 	[      
@@ -82,7 +88,7 @@ class Index extends CC_Controller
 						'created_at'    =>  $originalDate,
 						'name' 		    => 	$result['name'].' '.$result['surname'],
 						'description'   =>  $result['description'],
-						'total_cost'    => 	$result['total_cost'],
+						'total_cost'    => 	$amt,
 						'action'	    => 	$action,
 
 						'status'    		=> 	$status,

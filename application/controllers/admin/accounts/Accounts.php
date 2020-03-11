@@ -62,6 +62,11 @@ class Accounts extends CC_Controller
       $newDate = date("d-m-Y", strtotime($originalDate));
 
 				// $date=date("d-m-Y",);
+      if ($result['total_cost']!='') {
+      $amt = $this->config->item('currency').' '.$result['total_cost'];
+      }else{
+      	$amt = $result['total_cost'];
+      }
 				
 				$totalrecord[] = 	[      
 										'inv_id' 		=> 	$result['inv_id'],
@@ -69,7 +74,7 @@ class Accounts extends CC_Controller
 										'name' 		    => 	$result['name'].' '.$result['surname'],
 										'registration_no' 		=> 	$result['registration_no'],
 										'description'   =>  $result['description'],
-										'total_cost'    => 	$result['total_cost'],						
+										'total_cost'    => 	$amt,						
 							     		'action'	    => 	'
        
                                                                                                                 <div class="col-md-6">
