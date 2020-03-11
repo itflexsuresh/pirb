@@ -1137,4 +1137,15 @@ class CC_Controller extends CI_Controller
 			return true;
 		}
 	}
+
+	public function cronLog($extras){
+		$requestdata0['	filename'] 		= '';
+		$requestdata0['	start_time'] 	= date('Y-m-d H:i:s');
+		$result = $this->db->insert('cron_log',$requestdata0);
+		$insert_id 	= $this->db->insert_id();
+
+		if ($result && $insert_i) {
+			return $insert_id;
+		}
+	}
 }
