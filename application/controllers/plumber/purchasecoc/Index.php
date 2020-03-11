@@ -224,8 +224,10 @@ class Index extends CC_Controller
            					$delivery_method = 2;
            				}
 
-           				if ($delivery_rate['amount']!=='0' || $delivery_rate['amount']!== 0) {
+           				if ($delivery_rate['amount']=='0' || $delivery_rate['amount']== 0) {
            					$currency2 = $currency;
+           				}else{
+           					$currency2 = "";
            				}
 
            				$PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
