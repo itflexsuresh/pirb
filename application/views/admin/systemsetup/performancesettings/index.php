@@ -83,6 +83,11 @@ $period_date					= set_value('period_date');
 						</div>
 					</div>
 				</form>
+				<div class="row">
+					<div class="col-md-6">
+						<a href="<?php echo base_url().'admin/systemsetup/performancesettings/plumberperformance/index/1'; ?>" class="active_link_btn">ACTIVE</a>  <a href="<?php echo base_url().'admin/systemsetup/performancesettings/plumberperformance/index/2'; ?>" class="archive_link_btn">ARCHIVED</a>
+					</div>					
+				</div>
 				<div class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
@@ -111,7 +116,8 @@ $period_date					= set_value('period_date');
 			{ "data": "allocation" },
 			{ "data": "status" },
 			{ "data": "action" }
-			]
+			],
+			data : {pagestatus : '<?php echo $pagestatus; ?>'}
 		};
 		
 		ajaxdatatables('.datatables', options);

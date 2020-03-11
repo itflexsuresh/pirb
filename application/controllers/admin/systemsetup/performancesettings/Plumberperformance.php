@@ -9,10 +9,10 @@ class Plumberperformance extends CC_Controller
 		$this->load->model('Plumberperformance_Model');
 	}
 	
-	public function index($id='')
+	public function index($pagestatus='', $id='')
 	{
 		if($id!=''){
-			$result = $this->Plumberperformance_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
+			$result = $this->Plumberperformance_Model->getList('row', ['id' => $id, 'status' => [$pagestatus]]);
 			if($result){
 				$pagedata['result'] = $result;
 			}else{
@@ -38,6 +38,7 @@ class Plumberperformance extends CC_Controller
 			redirect('admin/systemsetup/performancesettings/Plumberperformance'); 
 		}
 		
+		$pagedata['pagestatus'] 	= $this->getPageStatus($pagestatus);
 		$pagedata['notification'] 	= $this->getNotification();
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
 		$data['content'] 			= $this->load->view('admin/systemsetup/performancesettings/index', (isset($pagedata) ? $pagedata : ''), true);
@@ -59,7 +60,7 @@ class Plumberperformance extends CC_Controller
 										'status' 	=> 	$this->config->item('statusicon')[$result['status']],
 										'action'	=> 	'
 															<div class="table-action">
-																<a href="'.base_url().'admin/systemsetup/performancesettings/plumberperformance/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+																<a href="'.base_url().'admin/systemsetup/performancesettings/plumberperformance/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
 																<a href="javascript:void(0);" data-id="'.$result['id'].'" class="delete" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
 															</div>
 														'

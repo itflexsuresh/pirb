@@ -9,6 +9,7 @@ class Plumberperformance_Model extends CC_Model
 		
 		if(isset($requestdata['id'])) 		$this->db->where('id', $requestdata['id']);
 		if(isset($requestdata['status']))	$this->db->where_in('status', $requestdata['status']);
+		if(isset($requestdata['pagestatus']))	$this->db->where_in('status', $requestdata['pagestatus']);
 		
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
