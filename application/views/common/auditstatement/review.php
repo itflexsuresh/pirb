@@ -591,15 +591,6 @@ $(function(){
 	fileupload(["#r_file", "./assets/uploads/auditor/statement/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.rfileappend', reviewpath, pdfimg], 'multiple');
 	chat(['.chattext', '.chatcontent'], [cocid, fromid, toid], [chatpath, pdfimg]);
 	
-	
-	var seperatechat = null;
-
-	$('#seperatechat').click(function(){
-		if($(this).attr('data-url')!=''){
-			seperatechat = window.open($(this).attr('data-url'), "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
-		}
-	})
-
 	var reviewlist = $.parseJSON('<?php echo json_encode($reviewlist); ?>');
 	if(reviewlist.length > 0){
 		$(reviewlist).each(function(i, v){
@@ -704,7 +695,6 @@ $(function(){
 		}
 	);
 });
-
 
 window.addEventListener('message', function(e) {
 	var splitid = e.data.split('-');

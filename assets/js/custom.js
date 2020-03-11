@@ -522,10 +522,15 @@ function userautocomplete(data1=[], data2=[], customfunction=''){
 }
 
 function chat(data1=[], data2=[], data3=[], relationship=''){
-	if(relationship=='childparent'){
-		chatcontent({'cocid' : data2[0], 'id' : data2[3] });
-		return false;
-	}else if(relationship=='parentchild'){
+	var seperatechat = null;
+	
+	$('#seperatechat').click(function(){
+		if($(this).attr('data-url')!=''){
+			seperatechat = window.open($(this).attr('data-url'), "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
+		}
+	})
+	
+	if(relationship=='childparent' || relationship=='parentchild'){
 		chatcontent({'cocid' : data2[0], 'id' : data2[3] });
 		return false;
 	}
@@ -554,8 +559,8 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 				chatcontent({'cocid' : data2[0], 'checkfrom' : data2[1] }, 'checkfrom');
 				$(data1[0]).val('');
 				
-				console.log(relationship);
-				if(relationship=='parent' || relationship=='child') window.opener.postMessage('id-'+chatid, "*");
+				if(relationship=='child') window.opener.postMessage('id-'+chatid, "*");
+				if(seperatechat!=null) seperatechat.postMessage('id-'+chatid, "*");
 			}
 		}		
 		
