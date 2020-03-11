@@ -53,6 +53,15 @@ var fromid		= (roletype=='3') ? plumberid : auditorid;
 var toid		= (roletype=='3') ? auditorid : plumberid;
 
 $(function(){
-	chat(['#chattext', '#chatcontent'], [cocid, fromid, toid], [chatpath, pdfimg]);
+	chat(['#chattext', '#chatcontent'], [cocid, fromid, toid], [chatpath, pdfimg], 'child');
 })
+
+window.addEventListener('message', function(e) {
+	var splitid = e.data.split('-');
+	if(splitid[1]) processchild(splitid[1]); 
+} , false);
+
+function processchild(id) {
+	chat(['#chattext', '#chatcontent'], [cocid, fromid, toid, id], [chatpath, pdfimg], 'parentchild');
+}
 </script>

@@ -71,8 +71,10 @@ class Chat_Model extends CC_Model
 		if($id==''){
 			$request['created_at'] 	= $datetime;
 			$this->db->insert('chat', $request);
+			$insertid = $this->db->insert_id();
 		}else{
 			$this->db->update('chat', $request, ['id' => $id]);
+			$insertid = $id;
 		}
 		
 		if($this->db->trans_status() === FALSE)
@@ -83,7 +85,7 @@ class Chat_Model extends CC_Model
 		else
 		{
 			$this->db->trans_commit();
-			return true;
+			return $insertid;
 		}
 	}
 

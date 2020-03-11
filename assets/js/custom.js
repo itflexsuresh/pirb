@@ -521,10 +521,17 @@ function userautocomplete(data1=[], data2=[], customfunction=''){
 	})
 }
 
-function chat(data1=[], data2=[], data3=[]){
+function chat(data1=[], data2=[], data3=[], relationship=''){
+	if(relationship=='childparent'){
+		chatcontent({'cocid' : data2[0], 'id' : data2[3] });
+		return false;
+	}else if(relationship=='parentchild'){
+		chatcontent({'cocid' : data2[0], 'id' : data2[3] });
+		return false;
+	}
+	
 	var audioselector = document.getElementById('beeepaudio');
 	chatcontent({'cocid' : data2[0], 'fromto' : data2[1] });
-	startread();
 	startunread();
 	
 	$(data1[0]).keyup(function(event){
@@ -543,8 +550,12 @@ function chat(data1=[], data2=[], data3=[]){
 					'type' 			: '1'
 				}
 				
-				chataction(data);
+				var chatid = chataction(data);
+				chatcontent({'cocid' : data2[0], 'checkfrom' : data2[1] }, 'checkfrom');
 				$(data1[0]).val('');
+				
+				console.log(relationship);
+				if(relationship=='parent' || relationship=='child') window.opener.postMessage('id-'+chatid, "*");
 			}
 		}		
 		
@@ -602,7 +613,9 @@ function chat(data1=[], data2=[], data3=[]){
 	}
 	
 	function chataction(param){
-		ajax(baseurl()+'ajax/index/ajaxchataction', param, '', { success : function(data){}, asynchronous : 1 });
+		var result = '';
+		ajax(baseurl()+'ajax/index/ajaxchataction', param, '', { success : function(data){ if(data.status=='1'){ result = data.result.id; } }, asynchronous : 1 });
+		return result;
 	}
 	
 	// File Upload
@@ -624,29 +637,17 @@ function chat(data1=[], data2=[], data3=[]){
 		}
 		
 		chataction(data);
+		chatcontent({'cocid' : data2[0], 'checkfrom' : data2[1] }, 'checkfrom');
 		$('#chatattachmentfile').val('');
 	}
 	
 	// Timer
 	
-	function chatread(){
-		chatcontent({'cocid' : data2[0], 'checkfrom' : data2[1] }, 'checkfrom');
-	}
-	
 	function chatunread(){
 		chatcontent({'cocid' : data2[0], 'checkto' : data2[1] }, 'checkto');
 	}
 	
-	var readinterval;
 	var unreadinterval;
-	
-	function startread(){
-		readinterval = setInterval(chatread, 5000);
-	}
-	
-	function stopread(){
-		clearInterval(readinterval);
-	}
 	
 	function startunread(){
 		unreadinterval = setInterval(chatunread, 5000);
@@ -655,7 +656,6 @@ function chat(data1=[], data2=[], data3=[]){
 	function stopunread(){
 		clearInterval(unreadinterval);
 	}
-	
 }
 
 function barchart(selector, options){

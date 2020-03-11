@@ -266,7 +266,7 @@ class Index extends CC_Controller
 		$result = $this->Chat_Model->action($post);
 
 		if($result){
-			$json 	= ['status' => '1', 'result' => []];
+			$json 	= ['status' => '1', 'result' => ['id' => $result]];
 		}else{
 			$json 	= ['status' => '0', 'result' => []];
 		}
