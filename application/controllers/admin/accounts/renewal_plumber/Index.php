@@ -1249,12 +1249,12 @@ class Index extends CC_Controller
 			}
 			
 		}
-		
-	}
-	$endtime = date('Y-m-d H:i:s');
+		$endtime = date('Y-m-d H:i:s');
 		if ($starttime && $endtime) {
 			$cron_start = $this->cronLog(['filename' => $fileName, 'start_time' => $starttime, 'end_time' => $endtime]);
 		}
+	}
+	
 	
 }
 
