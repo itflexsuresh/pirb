@@ -198,6 +198,8 @@ class index extends CC_Controller
 	}
 
 	public function monthlyMail(){
+		$fileName = 'http://diyesh.com/auditit_new/pirb/plumber/mycpd/index/monthlyMail';
+		$cron_start = $this->cronLog($fileName);
 
 		$corn_start_date = date('Y-m-d H:i:s');
 
@@ -325,6 +327,11 @@ class index extends CC_Controller
 					}
 		 	}
 		 	//print_r($body);
+		}
+		
+		if ($cron_start) {
+			$requestdata0['	end_time'] 		= date('Y-m-d H:i:s');
+			$this->db->update('cron_log',$requestdata0, ['id' => $cron_start]);
 		}
 	}
 
