@@ -45,7 +45,7 @@ $formstatus  	= $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'admin/systemsetup/message/message'; ?>">Messages</a></li>
                              
 							
-	                                                <li><a href="<?php echo base_url().'admin/systemsetup/performancesettings/plumberperformance'; ?>">Plumber Performance Settings</a></li>
+	                                                <li><a href="<?php echo base_url().'admin/systemsetup/performancesettings/plumberperformance'; ?>">Plumber Performance Types</a></li>
 							<li><a href="<?php echo base_url().'admin/systemsetup/performancesettings/globalperformance'; ?>">Global Performance Settings</a></li>
 
 
