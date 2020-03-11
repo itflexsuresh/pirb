@@ -14,7 +14,9 @@ public function __construct()
 
     public function index()
 	{
-		
+		$fileName = 'http://diyesh.com/auditit_new/pirb/cronfile/performancestatusarchive';
+		$starttime = date('Y-m-d H:i:s');
+
 	    $data=$this->Cron_Model->display_records();
 
 
@@ -33,6 +35,10 @@ public function __construct()
                   }
                    	
       }
+      $endtime = date('Y-m-d H:i:s');
+		if ($starttime && $endtime) {
+			$cron_start = $this->cronLog(['filename' => $fileName, 'start_time' => $starttime, 'end_time' => $endtime]);
+		}
       	
     }
 	
