@@ -1678,6 +1678,7 @@ table#id_Card_back img {
 
 .chatbar_message{
 	margin: 0;
+	white-space: pre-line;
 }
 
 .chatfooter{

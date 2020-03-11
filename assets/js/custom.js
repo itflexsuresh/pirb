@@ -542,8 +542,10 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 	$(data1[0]).keyup(function(event){
 		var keycode = (event.keyCode ? event.keyCode : event.which);
 		
-		if(keycode == '13' && !event.shiftKey){			
-			//$(this).val( $(this).val().replace( /\r?\n/gi, '' ) );
+		if(keycode == '13' && event.shiftKey){
+			$(this).val($(this).val());
+		}else if(keycode == '13'){	
+			if($.trim($(this).val())=='') $(this).val($(this).val().replace(/\r?\n/gi, ''));
 			
 			if($.trim($(this).val())!=''){
 				var data = 	{
@@ -564,9 +566,6 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 			}
 		}		
 		
-		if(keycode == '13' && event.shiftKey){
-			$(this).val('\n');
-		}
 	});
 	
 	function chatcontent(param, state=''){
@@ -642,9 +641,12 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 			'type' 			: '2'
 		}
 		
-		chataction(data);
+		var chatid = chataction(data);
 		chatcontent({'cocid' : data2[0], 'checkfrom' : data2[1] }, 'checkfrom');
 		$('#chatattachmentfile').val('');
+		
+		if(relationship=='child') window.opener.postMessage('id-'+chatid, "*");
+		if(seperatechat!=null) seperatechat.postMessage('id-'+chatid, "*");
 	}
 	
 	// Timer

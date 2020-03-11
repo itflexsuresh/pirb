@@ -404,7 +404,7 @@
 			<?php if(($pagetype=='1' && $roletype=='5') || ($pagetype=='2' && $roletype=='3' && $auditcomplete!='1')){ ?>
 				<div class="chatfooter">
 					<div class="input-group">
-						<input type="text" class="form-control chattext" id="chattext" placeholder="Type your message here"> 
+						<textarea class="form-control chattext" id="chattext" placeholder="Type your message here"></textarea> 
 						<div class="input-group-append">
 							<span class="input-group-text">
 								<i class="fa fa-paperclip" id="chatattachment"></i>
