@@ -130,6 +130,11 @@ $period_date					= set_value('period_date');
 				},
 				allocation : {
 					required	: true,
+				},
+				period_date : {
+					required:  	function() {
+									return $('#period').is(':checked');
+								}
 				}
 				
 			},
@@ -139,6 +144,9 @@ $period_date					= set_value('period_date');
 				},
 				allocation 	: {
 					required	: "Allocation field is required."
+				},
+				period_date 	: {
+					required	: "Please fill end date."
 				}
 			}
 		);
