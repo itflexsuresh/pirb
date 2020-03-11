@@ -75,12 +75,16 @@ class Index extends CC_Controller
 				}else{
 					$action = 	'';	
 				}
-				
+				if ($result['total_cost']!='') {
+      $amt = $this->config->item('currency').' '.$result['total_due'];
+      }else{
+      	$amt = $result['total_due'];
+      }
 				$totalrecord[] = 	[      
 										'description' 	=> 	$result['description'],
 										'invoiceno' 	=> 	$result['inv_id'],
 										'invoicedate' 	=> 	date('d-m-Y', strtotime($result['created_at'])),
-										'invoicevalue' 	=> 	$result['total_due'],
+										'invoicevalue' 	=> 	$amt,
 										'invoicestatus' => 	$invoicestatus,
 										'orderstatus' 	=> 	'',			
 							     		'action'	    => 	'
