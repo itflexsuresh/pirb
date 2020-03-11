@@ -65,7 +65,7 @@ $period_date					= set_value('period_date');
 						<div class="col-md-6">
 							<div class="form-group datewrapper displaynone">
 								<label for="period_date">Select date when Performance type is archived*</label>
-								<input type="text" autocomplete="off" class="form-control" id="period_date" name="period_date" placeholder="Enter Select date when Performance type is archived *" value="<?php echo $period_date; ?>">						
+								<input type="text" autocomplete="off" class="form-control" id="period_date" name="period_date" placeholder="Enter Select date when Performance type is archived *" value="<?php echo date('d-m-Y',strtotime($period_date)); ?>">						
 							</div>
 						</div>
 					</div>

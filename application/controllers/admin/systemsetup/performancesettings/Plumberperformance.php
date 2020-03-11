@@ -17,7 +17,7 @@ class Plumberperformance extends CC_Controller
 				$pagedata['result'] = $result;
 			}else{
 				$this->session->set_flashdata('error', 'No Record Found.');
-				redirect('admin/systemsetup/performancesettings/Plumberperformance'); 
+				redirect('admin/systemsetup/performancesettings/plumberperformance'); 
 			}
 		}
 		
@@ -35,9 +35,9 @@ class Plumberperformance extends CC_Controller
 			if(isset($data)) $this->session->set_flashdata('success', $message);
 			else $this->session->set_flashdata('error', 'Try Later.');
 			
-			redirect('admin/systemsetup/performancesettings/Plumberperformance'); 
+			redirect('admin/systemsetup/performancesettings/plumberperformance'); 
 		}
-		
+
 		$pagedata['pagestatus'] 	= $this->getPageStatus($pagestatus);
 		$pagedata['notification'] 	= $this->getNotification();
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
