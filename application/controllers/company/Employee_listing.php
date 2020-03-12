@@ -59,13 +59,18 @@ class Employee_listing extends CC_Controller
                 //print_r($desigcount);die;
                 $per_points = $this->Company_Model->getauditPoints($result['user_id']);
 
-                if ($result['points']!='' && $per_points[0]['performance']!='') {
-                    $points         = $result['points'];
-                    $performance    = $per_points[0]['performance'];
+                if ($result['points']!=''){
+                     $points         = $result['points'];
                 }else{
                     $points         = '0';
+                } 
+                if( $per_points[0]['performance']!=''){
+                    $performance    = $per_points[0]['performance'];
+                }else{
+                    
                     $performance    = '0';
                 }
+                
                 if ($result['designation']=='6' || $result['designation']=='4') {
                    $divclass = 'lm';
                 }else{
