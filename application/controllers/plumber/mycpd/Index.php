@@ -199,7 +199,7 @@ class index extends CC_Controller
 
 	public function monthlyMail(){
 		
-		$fileName = 'http://diyesh.com/auditit_new/pirb/plumber/mycpd/index/monthlyMail';
+		$fileName = base_url().'/auditit_new/pirb/plumber/mycpd/index/monthlyMail';
 		$starttime = date('Y-m-d H:i:s');
 
 		$currentDate 		= date('m-d-Y');
