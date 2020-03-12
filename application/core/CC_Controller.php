@@ -34,7 +34,7 @@ class CC_Controller extends CI_Controller
 		$this->load->library('phpqrcode/qrlib');
 		
 		$segment1 = $this->uri->segment(1);
-		if($segment1!='' && $segment1!='login' && $segment1!='forgotpassword' && $segment1!='authentication' && $segment1!='ajax') $this->middleware();
+		if($segment1!='' && $segment1!='login' && $segment1!='forgotpassword' && $segment1!='authentication' && $segment1!='ajax' && $segment1!='common') $this->middleware();
 	}
 	
 	public function layout1($data=[])

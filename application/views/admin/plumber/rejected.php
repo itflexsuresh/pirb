@@ -45,12 +45,15 @@
 
 		var options = {
 			url 	: 	'<?php echo base_url()."admin/plumber/index/DTRejectedPlumber"; ?>',
+			data    :   { page : 'adminplumberrejectedlist'},
 			columns : 	[
 							{ "data": "applicationreceived" },
 							{ "data": "name" },
 							{ "data": "reason" },
 							{ "data": "action" }
-						]
+						],
+			target	:	[2,3],
+			sort	:	'0'
 		};
 		
 		ajaxdatatables('.datatables', options);

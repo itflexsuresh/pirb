@@ -120,19 +120,6 @@ class Cpdtypesetup extends CC_Controller
 		echo json_encode($json);
 	}
 
-	public function Cron(){
-		
-		$fileName = 'http://diyesh.com/auditit_new/pirb/admin/cpd/cpdtypesetup/Cron';
-		$starttime = date('Y-m-d H:i:s');
-		$current_date = date('Y-m-d');
-		$this->Cpdtypesetup_Model->getCronDate();
-		$endtime = date('Y-m-d H:i:s');
-
-		if ($starttime && $endtime) {
-			$cron_start = $this->cronLog(['filename' => $fileName, 'start_time' => $starttime, 'end_time' => $endtime]);
-		}
-	}
-
 	public function getPDF($id){
 
 		if($id!=''){

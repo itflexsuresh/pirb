@@ -39,7 +39,14 @@ class Plumber_Model extends CC_Model
 		$this->db->join('users_plumber_skill ups', 'ups.user_id=u.id', 'left');
 		$this->db->join('qualificationroute qr', 'qr.id=ups.skills', 'left'); 
 		$this->db->join('users_detail c', 'c.id=up.company_details', 'left');
-	
+		
+		if((isset($requestdata['search']['value']) && $requestdata['search']['value']!='') || (isset($requestdata['order']['0']['column']) && $requestdata['order']['0']['column']!='' && isset($requestdata['order']['0']['dir']) && $requestdata['order']['0']['dir']!='')){
+			if(isset($requestdata['page']) && $requestdata['page']=='adminplumberlist'){
+				$this->db->join('custom c1', 'c1.c_id=up.designation and c1.type="5"', 'left');
+				$this->db->join('custom c2', 'c2.c_id=ud.status and c1.type="6"', 'left');
+			}
+		}
+		
 		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);
 		if(isset($requestdata['type'])) 				$this->db->where('u.type', $requestdata['type']);
 		if(isset($requestdata['formstatus']))			$this->db->where_in('u.formstatus', $requestdata['formstatus']);
@@ -52,15 +59,38 @@ class Plumber_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['u.id', 'ud.name'];
-			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+			if(isset($requestdata['page']) && $requestdata['page']=='adminplumberlist'){
+				$column = ['up.registration_no', 'ud.name', 'ud.surname', 'c1.name', 'u.email', 'c2.name'];
+				$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+			}elseif(isset($requestdata['page']) && $requestdata['page']=='adminplumberrejectedlist'){
+				$column = ['up.registration_date', 'ud.name'];
+				$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+			}
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
-			$this->db->like('ud.name', $searchvalue);
+						
+			if(isset($requestdata['page'])){
+				$page = $requestdata['page'];
+				
+				$this->db->group_start();
+					if($page=='adminplumberlist'){					
+						$this->db->like('up.registration_no', $searchvalue);
+						$this->db->or_like('ud.name', $searchvalue);
+						$this->db->or_like('ud.surname', $searchvalue);
+						$this->db->or_like('c1.name', $searchvalue);
+						$this->db->or_like('u.email', $searchvalue);
+						$this->db->or_like('c2.name', $searchvalue);
+					}elseif($page=='adminplumberrejectedlist'){					
+						$this->db->like('DATE_FORMAT(up.registration_date,"%d-%m-%Y")', $searchvalue, 'both');
+						$this->db->or_like('ud.name', $searchvalue);
+						$this->db->or_like('ud.surname', $searchvalue);
+					}
+				$this->db->group_end();
+			}			
 		}
 		
-		if(isset($requestdata['customsearch'])){
+		if(isset($requestdata['customsearch'])){			
 			if($requestdata['customsearch']=='listsearch1'){
 				if(isset($requestdata['search_reg_no']) && $requestdata['search_reg_no']!='') $this->db->like('up.registration_no', $requestdata['search_reg_no']);
 				if(isset($requestdata['search_plumberstatus']) && $requestdata['search_plumberstatus']!='') $this->db->like('up.status', $requestdata['search_plumberstatus']);
@@ -68,8 +98,7 @@ class Plumber_Model extends CC_Model
 				if(isset($requestdata['search_mobile_phone']) && $requestdata['search_mobile_phone']!='') $this->db->like('ud.mobile_phone', $requestdata['search_mobile_phone']);
 				if(isset($requestdata['search_dob']) && $requestdata['search_dob']!='') $this->db->like('ud.dob', date('Y-m-d', strtotime($requestdata['search_dob'])));
 				if(isset($requestdata['search_company_details']) && $requestdata['search_company_details']!='') $this->db->like('up.company_details', $requestdata['search_company_details']);
-			}
-			elseif($requestdata['customsearch']=='listsearch2'){
+			}elseif($requestdata['customsearch']=='listsearch2'){
 				if(isset($requestdata['name'])|| $requestdata['surname']!='') {
 					$this->db->like('ud.name', $requestdata['name']);
 					$this->db->or_like('ud.surname', $requestdata['surname']);
