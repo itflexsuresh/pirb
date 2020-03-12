@@ -5,6 +5,7 @@
 	$auditcomplete 			= isset($result['as_auditcomplete']) ? $result['as_auditcomplete'] : '';
 	
 	$chatfilepath			= base_url().'assets/uploads/chat/'.$cocid.'/';
+	$chatfilepath2			= './assets/uploads/chat/'.$cocid.'/';	
 	$pdfimg 				= base_url().'assets/images/pdf.png';
 	
 	if($pagetype=='action'){
@@ -45,6 +46,7 @@
 <script type="text/javascript">
 var roletype 	= '<?php echo $roletype; ?>';
 var chatpath 	= '<?php echo $chatfilepath; ?>';
+var chatpath2 	= '<?php echo $chatfilepath2; ?>';
 var pdfimg		= '<?php echo $pdfimg; ?>';
 var cocid 		= '<?php echo $cocid; ?>';
 var plumberid 	= '<?php echo $plumberid; ?>';
@@ -53,7 +55,7 @@ var fromid		= (roletype=='3') ? plumberid : auditorid;
 var toid		= (roletype=='3') ? auditorid : plumberid;
 
 $(function(){
-	chat(['#chattext', '#chatcontent'], [cocid, fromid, toid], [chatpath, pdfimg], 'child');
+	chat(['#chattext', '#chatcontent'], [cocid, fromid, toid], [chatpath, pdfimg, chatpath2], 'child');
 })
 
 window.addEventListener('message', function(e) {
@@ -62,6 +64,6 @@ window.addEventListener('message', function(e) {
 } , false);
 
 function processchild(id) {
-	chat(['#chattext', '#chatcontent'], [cocid, fromid, toid, id], [chatpath, pdfimg], 'parentchild');
+	chat(['#chattext', '#chatcontent'], [cocid, fromid, toid, id], [chatpath, pdfimg, chatpath2], 'parentchild');
 }
 </script>

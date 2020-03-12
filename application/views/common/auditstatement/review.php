@@ -70,6 +70,7 @@
 	if($plumberverification=='' && $roletype=='1') $yesno = [];
 	
 	$chatfilepath	= base_url().'assets/uploads/chat/'.$cocid.'/';
+	$downloadurl	= base_url().$downloadattachment;
 ?>
 
 <div class="row page-titles">
@@ -569,6 +570,7 @@ var cocverificationpt 		= JSON.parse('<?php echo json_encode($cocverificationpt)
 var noaudit		= '<?php echo $noaudit; ?>';
 var filepath 	= '<?php echo $filepath; ?>';
 var chatpath 	= '<?php echo $chatfilepath; ?>';
+var downloadurl	= '<?php echo $downloadurl; ?>';
 var reviewpath 	= '<?php echo $reviewpath; ?>';
 var pdfimg		= '<?php echo $pdfimg; ?>';
 var pagetype	= '<?php echo $pagetype; ?>';
@@ -589,7 +591,7 @@ $(function(){
 	citysuburb(['#province','#city', '#suburb'], ['<?php echo $cityid; ?>', '<?php echo $suburbid; ?>']);
 	subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], ['', ''], reviewpoint);
 	fileupload(["#r_file", "./assets/uploads/auditor/statement/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.rfileappend', reviewpath, pdfimg], 'multiple');
-	chat(['.chattext', '.chatcontent'], [cocid, fromid, toid], [chatpath, pdfimg]);
+	chat(['.chattext', '.chatcontent'], [cocid, fromid, toid], [chatpath, pdfimg, downloadurl]);
 	
 	var reviewlist = $.parseJSON('<?php echo json_encode($reviewlist); ?>');
 	if(reviewlist.length > 0){
@@ -702,7 +704,7 @@ window.addEventListener('message', function(e) {
 } , false);
 
 function processparent(id) {
-	chat(['.chattext', '.chatcontent'], [cocid, fromid, toid, id], [chatpath, pdfimg], 'childparent');
+	chat(['.chattext', '.chatcontent'], [cocid, fromid, toid, id], [chatpath, pdfimg, chatpath2], 'childparent');
 }
 
 $('#save').click(function(){

@@ -1092,7 +1092,7 @@ class CC_Controller extends CI_Controller
 			'username' 	=> 'PIRB Registration',
 			'password' 	=> 'Plumber',
 			'numto' 	=> '+'.$no,
-			'data1' 	=> str_replace(' ', '_', $data['msg'])
+			'data1' 	=> $data['msg']
 		];
 		
 		$url = 'http://www.mymobileapi.com/api5/http5.aspx';
@@ -1178,6 +1178,20 @@ class CC_Controller extends CI_Controller
 		$requestdata0['start_time'] 	= $extras['start_time'];
 		$requestdata0['end_time'] 		= $extras['end_time'];
 		$result = $this->db->insert('cron_log',$requestdata0);
-
+	}
+	
+	
+	public function downloadfile($file){
+		if (file_exists($file)){
+			header('Content-Description: File Transfer');
+			header('Content-Type: application/octet-stream');
+			header('Content-Disposition: attachment; filename="'.basename($file).'"');
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate');
+			header('Pragma: public');
+			header('Content-Length: ' . filesize($file));
+			readfile($file);
+			exit;
+		}
 	}
 }

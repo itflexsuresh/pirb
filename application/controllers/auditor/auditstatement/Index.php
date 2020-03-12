@@ -70,12 +70,12 @@ class Index extends CC_Controller
 	
 	public function action($id)
 	{
-		$this->getauditreview($id, ['pagetype' => 'action', 'viewcoc' => 'auditor/auditstatement/index/viewcoc', 'seperatechat' => 'auditor/auditstatement/index/seperatechat/'.$id.'/action', 'roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index', 'auditorid' => $this->getUserID()]);
+		$this->getauditreview($id, ['pagetype' => 'action', 'viewcoc' => 'auditor/auditstatement/index/viewcoc', 'downloadattachment' => 'auditor/auditstatement/index/downloadattachment', 'seperatechat' => 'auditor/auditstatement/index/seperatechat/'.$id.'/action', 'roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index', 'auditorid' => $this->getUserID()]);
 	}
 	
 	public function view($id)
 	{
-		$this->getauditreview($id, ['pagetype' => 'view', 'viewcoc' => 'auditor/auditstatement/index/viewcoc', 'seperatechat' => 'auditor/auditstatement/index/seperatechat/'.$id.'/view', 'auditreport' => 'auditor/auditstatement/index/auditreport/'.$id, 'roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index', 'auditorid' => $this->getUserID()]);
+		$this->getauditreview($id, ['pagetype' => 'view', 'viewcoc' => 'auditor/auditstatement/index/viewcoc', 'downloadattachment' => 'auditor/auditstatement/index/downloadattachment', 'seperatechat' => 'auditor/auditstatement/index/seperatechat/'.$id.'/view', 'auditreport' => 'auditor/auditstatement/index/auditreport/'.$id, 'roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index', 'auditorid' => $this->getUserID()]);
 	}
 	
 	public function viewcoc($id, $plumberid)
@@ -128,5 +128,10 @@ class Index extends CC_Controller
 	public function noncompliancereport($id, $userid)
 	{	
 		$this->pdfnoncompliancereport($id, $userid);
+	}
+	
+	public function downloadattachment($cocid, $file){
+		$file = './assets/uploads/chat/'.$cocid.'/'.$file;
+		$this->downloadfile($file);
 	}
 }

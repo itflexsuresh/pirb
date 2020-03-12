@@ -77,7 +77,7 @@ class Index extends CC_Controller
 	
 	public function view($id)
 	{
-		$this->getauditreview($id, ['pagetype' => 'view', 'viewcoc' => 'admin/audits/auditstatement/index/viewcoc', 'seperatechat' => 'admin/audits/auditstatement/index/seperatechat/'.$id.'/view', 'auditreport' => 'admin/audits/auditstatement/index/auditreport/'.$id, 'roletype' => $this->config->item('roleadmin')], ['redirect' => 'admin/audits/auditstatement/index']);
+		$this->getauditreview($id, ['pagetype' => 'view', 'viewcoc' => 'admin/audits/auditstatement/index/viewcoc', 'downloadattachment' => 'admin/audits/auditstatement/index/downloadattachment', 'seperatechat' => 'admin/audits/auditstatement/index/seperatechat/'.$id.'/view', 'auditreport' => 'admin/audits/auditstatement/index/auditreport/'.$id, 'roletype' => $this->config->item('roleadmin')], ['redirect' => 'admin/audits/auditstatement/index']);
 	}
 	
 	public function viewcoc($id, $plumberid)
@@ -130,5 +130,10 @@ class Index extends CC_Controller
 	public function noncompliancereport($id, $userid)
 	{	
 		$this->pdfnoncompliancereport($id, $userid);
+	}
+	
+	public function downloadattachment($cocid, $file){
+		$file = './assets/uploads/chat/'.$cocid.'/'.$file;
+		$this->downloadfile($file);
 	}
 }
