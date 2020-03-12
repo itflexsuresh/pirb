@@ -1294,28 +1294,30 @@ function checkstep(){
 
 
 function profilecompleteness(){
-	var percentageslide = $('.percentageslide').length;
+	var percentageslide = $('.percentageslide').length+1;
+	var fillpercentage 	= 0;
 	
 	if($('#nationality').val()=='1') percentageslide = percentageslide-2;
 	if($('#registration_card').val()=='2') percentageslide = percentageslide-1;
-	if($('#employment_details').val()=='2') percentageslide = percentageslide-1;
+	if($('#employment_details').val()=='2') percentageslide = percentageslide-1;	
+	if($('.designation:checked').val()=='4') percentageslide = percentageslide+1;
 	
-	// Designation
-	percentageslide = percentageslide+1;
-	
-	if($('.designation:checked').val()=='4'){
-		percentageslide = percentageslide+1;
-	}
-	
-	var fillpercentage = 0;
 	$('.percentageslide').each(function(){
 		if($(this).val()!=''){
 			fillpercentage = fillpercentage + 1;
 		}
 	})
 	
-	var percentage = Math.round((percentageslide * 100)/ fillpercentage);
-	$(document).find('.progressbar').attr('data-label', percentage).removeClass().addClass('css-bar css-bar-'+percentage+' progressbar');
+	if($('#nationality').val()=='1') fillpercentage = fillpercentage-2;
+	if($('#registration_card').val()=='2') fillpercentage = fillpercentage-1;
+	if($('#employment_details').val()=='2') fillpercentage = fillpercentage-1;
+	if($('.designation').is(':checked')) fillpercentage = fillpercentage + 1;
+	if($('.designation:checked').val()=='4' && $('.attachmenthidden').val()!='') fillpercentage = fillpercentage+1;
+
+	var percentage 		= Math.round((fillpercentage / percentageslide) * 100);
+	var percentagemod 	= percentage - (percentage % 5);
+	
+	$(document).find('.progressbar').attr('data-label', percentage).removeClass().addClass('css-bar css-bar-'+percentagemod+' progressbar');
 }
 
 function registration(data){
