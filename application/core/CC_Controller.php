@@ -1088,7 +1088,7 @@ class CC_Controller extends CI_Controller
 		
 		$param = [
 			'Type' 		=> 'sendparam',
-			'username' 	=> 'PIRB%20Registration',
+			'username' 	=> 'PIRB Registration',
 			'password' 	=> 'Plumber',
 			'numto' 	=> '+'.$no,
 			'data1' 	=> str_replace(' ', '_', $data['msg'])
