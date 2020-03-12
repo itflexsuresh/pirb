@@ -85,7 +85,7 @@ class Index extends CC_Controller
 		$pagedata['userid'] 			= $userid;
 		$pagedata['result'] 			= $result;
 		
-		$data['plugins']				= ['sweetalert', 'validation', 'datepicker', 'inputmask', 'select2'];
+		$data['plugins']				= ['sweetalert', 'validation', 'datepicker', 'inputmask', 'select2', 'csschart'];
 		$data['content'] 				= $this->load->view('plumber/registration/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}

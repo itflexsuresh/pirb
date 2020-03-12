@@ -1085,7 +1085,8 @@ class CC_Controller extends CI_Controller
 	public function sms($data)
 	{
 		$no = str_replace([' ', '(', ')', '-'], ['', '', '', ''], trim($data['no']));
-		
+		if($no[0]=='0') $no = substr($no, 1);
+			
 		$param = [
 			'Type' 		=> 'sendparam',
 			'username' 	=> 'PIRB Registration',

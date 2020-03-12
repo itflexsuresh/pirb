@@ -108,53 +108,9 @@
 				
 				<div class="col-md-12 pagination">
 					<a href="javascript:void(0);" id="previous">Previous</a>
-						<div class="progress-circle p10" data-id="1">
-						   <span>10%</span>
-						   <div class="left-half-clipper">
-						      <div class="first50-bar"></div>
-						      <div class="value-bar"></div>
-						   </div>
-						</div>
-
-						<div class="progress-circle p20" data-id="2">
-						   <span>20%</span>
-						   <div class="left-half-clipper">
-						      <div class="first50-bar"></div>
-						      <div class="value-bar"></div>
-						   </div>
-						</div>
-
-						<div class="progress-circle p40" data-id="3">
-						   <span>40%</span>
-						   <div class="left-half-clipper">
-						      <div class="first50-bar"></div>
-						      <div class="value-bar"></div>
-						   </div>
-						</div>
-
-						<div class="progress-circle over50 p60" data-id="4">
-						   <span>60%</span>
-						   <div class="left-half-clipper">
-						      <div class="first50-bar"></div>
-						      <div class="value-bar"></div>
-						   </div>
-						</div>
-
-						<div class="progress-circle over50 p80" data-id="5">
-						   <span>80%</span>
-						   <div class="left-half-clipper">
-						      <div class="first50-bar"></div>
-						      <div class="value-bar"></div>
-						   </div>
-						</div>
-
-						<div class="progress-circle over50 p100" data-id="6">
-						   <span>100%</span>
-						   <div class="left-half-clipper">
-						      <div class="first50-bar"></div>
-						      <div class="value-bar"></div>
-						   </div>
-						</div>
+					<div class="col-lg-3 m-b-30 progressbar_wrapper">
+						<div data-label="10%" class="css-bar css-bar-20 progressbar"></div>
+					</div>
 					<a href="javascript:void(0);" id="next">Next</a>
 				</div>
 				
@@ -174,7 +130,7 @@
 								<div class="form-group">
 									<label>Title *</label>
 									<?php
-										echo form_dropdown('title', $titlesign, $titleid, ['id'=>'title', 'class'=>'form-control']);
+										echo form_dropdown('title', $titlesign, $titleid, ['id'=>'title', 'class'=>'form-control percentageslide']);
 									?>
 								</div>
 							</div>
@@ -182,7 +138,7 @@
 								<label>Date of Birth *</label>
 								<div class="form-group">
 									<div class="input-group">
-										<input type="text" class="form-control dob" name="dob" value="<?php echo $dob; ?>">
+										<input type="text" class="form-control dob percentageslide" name="dob" value="<?php echo $dob; ?>">
 										<div class="input-group-append">
 											<span class="input-group-text"><i class="icon-calender"></i></span>
 										</div>
@@ -194,13 +150,13 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Name *</label>
-									<input type="text" class="form-control"  id="name" name="name" value="<?php echo $name; ?>">
+									<input type="text" class="form-control percentageslide"  id="name" name="name" value="<?php echo $name; ?>">
 									</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Surname *</label>
-									<input type="text" class="form-control" name="surname" id="surname" value="<?php echo $surname; ?>">
+									<input type="text" class="form-control percentageslide" name="surname" id="surname" value="<?php echo $surname; ?>">
 								</div>
 							</div>
 						</div>
@@ -209,7 +165,7 @@
 								<div class="form-group">
 									<label>Gender *</label>
 									<?php
-										echo form_dropdown('gender', $gender, $genderid, ['id'=>'gender', 'class'=>'form-control']);
+										echo form_dropdown('gender', $gender, $genderid, ['id'=>'gender', 'class'=>'form-control percentageslide']);
 									?>
 								</div>
 							</div>
@@ -217,7 +173,7 @@
 								<div class="form-group">
 									<label>Racial Status *</label>
 									<?php
-										echo form_dropdown('racial', $racial, $racialid,['id' => 'racial', 'class'=>'form-control']);
+										echo form_dropdown('racial', $racial, $racialid,['id' => 'racial', 'class'=>'form-control percentageslide']);
 									?>
 								</div>
 							</div>
@@ -227,7 +183,7 @@
 								<div class="form-group">
 									<label>South African National *</label>
 									<?php
-										echo form_dropdown('nationality', $yesno, $nationality,['id' => 'nationality', 'class'=>'form-control']);
+										echo form_dropdown('nationality', $yesno, $nationality,['id' => 'nationality', 'class'=>'form-control percentageslide']);
 									?>
 									</div>
 							</div>
@@ -243,14 +199,14 @@
 								<div class="form-group">
 									<label>Other Nationality <span class="othernationality_required">*</span></label>
 									<?php
-										echo form_dropdown('othernationality', $othernationality, $othernationalityid, ['id'=>'othernationality', 'class'=>'form-control']);
+										echo form_dropdown('othernationality', $othernationality, $othernationalityid, ['id'=>'othernationality', 'class'=>'form-control percentageslide']);
 									?>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Alternate ID *</label>
-									<input type="text" class="form-control" name="otheridcard" value="<?php echo $otheridcard; ?>">
+									<input type="text" class="form-control percentageslide" name="otheridcard" value="<?php echo $otheridcard; ?>">
 									</div>
 							</div>
 						</div>
@@ -259,7 +215,7 @@
 								<div class="form-group">
 									<label>Home Language *</label>
 									<?php
-										echo form_dropdown('homelanguage', $homelanguage, $homelanguageid, ['id'=>'homelanguage', 'class'=>'form-control']);
+										echo form_dropdown('homelanguage', $homelanguage, $homelanguageid, ['id'=>'homelanguage', 'class'=>'form-control percentageslide']);
 									?>
 								</div>
 							</div>
@@ -267,7 +223,7 @@
 								<div class="form-group">
 									<label>Disability *</label>
 									<?php
-									echo form_dropdown('disability', $disability, $disabilityid,['id'=>'disability', 'class'=>'form-control']);
+									echo form_dropdown('disability', $disability, $disabilityid,['id'=>'disability', 'class'=>'form-control percentageslide']);
 									?>
 									</div>
 							</div>
@@ -277,7 +233,7 @@
 								<div class="form-group">
 									<label>Citizen Residential Status *</label>
 									<?php
-									echo form_dropdown('citizen', $citizen, $citizenid,['id'=>'citizen', 'class'=>'form-control']);
+									echo form_dropdown('citizen', $citizen, $citizenid,['id'=>'citizen', 'class'=>'form-control percentageslide']);
 									?>
 									</div>
 							</div>
@@ -291,7 +247,7 @@
 									</div>
 									<input type="file" id="file" class="document_file">
 									<label for="file" class="choose_file">Choose File</label>
-									<input type="hidden" name="image1" class="document" value="<?php echo $file1; ?>">
+									<input type="hidden" name="image1" class="document percentageslide" value="<?php echo $file1; ?>">
 									<p>(Image/File Size Smaller than 5mb)</p>
 								</div>
 							</div>
@@ -303,7 +259,7 @@
 									</div>
 									<input type="file" id="file_2" class="photo_file">
 									<label for="file_2" class="choose_file">Choose File</label>
-									<input type="hidden" name="image2" class="photo" value="<?php echo $file2; ?>">
+									<input type="hidden" name="image2" class="photo percentageslide" value="<?php echo $file2; ?>">
 									<p>(Image/File Size Smaller than 5mb)</p>
 								</div>
 							</div>
@@ -331,7 +287,7 @@
 								<div class="form-group">
 									<label>Registration Card Required *</label>
 									<?php
-										echo form_dropdown('registration_card', $yesno, $registrationcard,['id' => 'registration_card', 'class'=>'form-control']);
+										echo form_dropdown('registration_card', $yesno, $registrationcard,['id' => 'registration_card', 'class'=>'form-control percentageslide']);
 									?>
 									</div>
 							</div>
@@ -339,7 +295,7 @@
 								<div class="form-group">
 									<label>Method of Delivery of Card <span class="delivery_card_required">*</span></label>
 									<?php
-										echo form_dropdown('delivery_card', $deliverycard, $deliverycardid,['id' => 'delivery_card', 'class'=>'form-control']);
+										echo form_dropdown('delivery_card', $deliverycard, $deliverycardid,['id' => 'delivery_card', 'class'=>'form-control percentageslide']);
 									?>
 									</div>
 							</div>
@@ -352,7 +308,7 @@
 									<label>Physical Address *</label>
 									<input type="hidden" class="form-control" name="address[1][id]" value="<?php echo $addressid1; ?>">
 									<input type="hidden" class="form-control" name="address[1][type]" value="1">
-									<input type="text" class="form-control" name="address[1][address]"  value="<?php echo $address1; ?>">
+									<input type="text" class="form-control percentageslide" name="address[1][address]"  value="<?php echo $address1; ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -362,7 +318,7 @@
 									<label>Postal Address *</label>
 									<input type="hidden" class="form-control" name="address[2][id]" value="<?php echo $addressid2; ?>">
 									<input type="hidden" class="form-control" name="address[2][type]" value="2">
-									<input type="text" class="form-control" name="address[2][address]" value="<?php echo $address2; ?>">
+									<input type="text" class="form-control percentageslide" name="address[2][address]" value="<?php echo $address2; ?>">
 								</div>
 							</div>
 						</div>
@@ -371,7 +327,7 @@
 								<div class="form-group"> 
 									<label>Province *</label>
 									<?php 
-										echo form_dropdown('address[1][province]', $province, $province1, ['id' => 'province1', 'class' => 'form-control']); 
+										echo form_dropdown('address[1][province]', $province, $province1, ['id' => 'province1', 'class' => 'form-control percentageslide']); 
 									?>
 								</div>
 							</div>
@@ -379,7 +335,7 @@
 								<div class="form-group">
 									<label>Province *</label>
 									<?php
-										echo form_dropdown('address[2][province]', $province, $province2, ['id' => 'province2', 'class'=>'form-control']);
+										echo form_dropdown('address[2][province]', $province, $province2, ['id' => 'province2', 'class'=>'form-control percentageslide']);
 									?>
 								</div>
 							</div>
@@ -389,7 +345,7 @@
 								<div class="form-group">
 									<label>City *</label>
 									<?php 
-										echo form_dropdown('address[1][city]', [], $city1, ['id' => 'city1', 'class' => 'form-control']); 
+										echo form_dropdown('address[1][city]', [], $city1, ['id' => 'city1', 'class' => 'form-control percentageslide']); 
 									?>
 									<div>
 										<a href="javascript:void(0);" id="addcity1">Add City</a>
@@ -406,7 +362,7 @@
 								<div class="form-group">
 									<label>City *</label>
 									<?php 
-										echo form_dropdown('address[2][city]', [], $city2, ['id' => 'city2', 'class' => 'form-control']); 
+										echo form_dropdown('address[2][city]', [], $city2, ['id' => 'city2', 'class' => 'form-control percentageslide']); 
 									?>
 									<div>
 										<a href="javascript:void(0);" id="addcity2">Add City</a>
@@ -425,7 +381,7 @@
 								<div class="form-group">
 									<label>Suburb *</label>
 									<?php
-										echo form_dropdown('address[1][suburb]', [], $suburb1, ['id' => 'suburb1', 'class'=>'form-control']);
+										echo form_dropdown('address[1][suburb]', [], $suburb1, ['id' => 'suburb1', 'class'=>'form-control percentageslide']);
 									?>
 									<div>
 										<a href="javascript:void(0);" id="addsuburb1">Add Suburb</a>
@@ -443,7 +399,7 @@
 								<div class="form-group">
 									<label>Suburb *</label>
 									<?php
-										echo form_dropdown('address[2][suburb]', [], $suburb2, ['id' => 'suburb2', 'class'=>'form-control']);
+										echo form_dropdown('address[2][suburb]', [], $suburb2, ['id' => 'suburb2', 'class'=>'form-control percentageslide']);
 									?>
 									
 									<div>
@@ -462,7 +418,7 @@
 							<div class="col-md-6 offset-md-6">
 								<div class="form-group">
 									<label>Postal Code *</label>
-									<input type="text" class="form-control" name="address[2][postal_code]" value="<?php echo $postalcode2; ?>">
+									<input type="text" class="form-control percentageslide" name="address[2][postal_code]" value="<?php echo $postalcode2; ?>">
 								</div>
 							</div>
 						</div>
@@ -477,7 +433,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Mobile Phone *</label>
-									<input type="text" class="form-control" name="mobile_phone" id="mobile_phone" value="<?php echo $mobilephone; ?>">
+									<input type="text" class="form-control percentageslide" name="mobile_phone" id="mobile_phone" value="<?php echo $mobilephone; ?>">
 									<p>Note all SMS and OTP notifications will be sent to this mobile number above</p>
 								</div>
 							</div>
@@ -511,7 +467,7 @@
 							<div class="col-md-4">
 								<div class="form-group">
 									<label>Billing Name *</label>
-									<input type="text" class="form-control" name="company_name" value="<?php echo $companyname; ?>">
+									<input type="text" class="form-control percentageslide" name="company_name" value="<?php echo $companyname; ?>">
 								</div>
 							</div>
 							<div class="col-md-4">
@@ -533,14 +489,14 @@
 									<label>Billing Address *</label>
 									<input type="hidden" class="form-control" name="address[3][id]" value="<?php echo $addressid3; ?>">
 									<input type="hidden" class="form-control" name="address[3][type]" value="3">
-									<input type="text" class="form-control" name="address[3][address]" value="<?php echo $address3; ?>">
+									<input type="text" class="form-control percentageslide" name="address[3][address]" value="<?php echo $address3; ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Province *</label>
 									<?php
-										echo form_dropdown('address[3][province]', $province, $province3, ['id' => 'province3', 'class'=>'form-control']);
+										echo form_dropdown('address[3][province]', $province, $province3, ['id' => 'province3', 'class'=>'form-control percentageslide']);
 									?>
 								</div>
 							</div>
@@ -548,7 +504,7 @@
 								<div class="form-group">
 									<label>City *</label>
 									<?php 
-										echo form_dropdown('address[3][city]', [], $city3, ['id' => 'city3', 'class' => 'form-control']); 
+										echo form_dropdown('address[3][city]', [], $city3, ['id' => 'city3', 'class' => 'form-control percentageslide']); 
 									?>
 									<div>
 										<a href="javascript:void(0);" id="addcity3">Add City</a>
@@ -565,7 +521,7 @@
 								<div class="form-group">
 									<label>Suburb *</label>
 									<?php 
-										echo form_dropdown('address[3][suburb]', [], $suburb3, ['id' => 'suburb3', 'class'=>'form-control']);
+										echo form_dropdown('address[3][suburb]', [], $suburb3, ['id' => 'suburb3', 'class'=>'form-control percentageslide']);
 									?>
 									<div>
 										<a href="javascript:void(0);" id="addsuburb3">Add Suburb</a>
@@ -581,7 +537,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Postal Code *</label>
-									<input type="text" class="form-control" name="address[3][postal_code]" value="<?php echo $postalcode3; ?>">
+									<input type="text" class="form-control percentageslide" name="address[3][postal_code]" value="<?php echo $postalcode3; ?>">
 								</div>
 							</div>
 						</div>
@@ -599,7 +555,7 @@
 								<div class="form-group">
 									<label>Your Employment Status</label>
 									<?php
-										echo form_dropdown('employment_details', $employmentdetail, $employmentdetailsid,['id' => 'employment_details', 'class'=>'form-control']);
+										echo form_dropdown('employment_details', $employmentdetail, $employmentdetailsid,['id' => 'employment_details', 'class'=>'form-control percentageslide']);
 									?>
 								</div>
 							</div>
@@ -608,7 +564,7 @@
 								<div class="form-group">
 									<label>Company *</label>
 									<?php
-										echo form_dropdown('company_details', $company, $companydetailsid,['id' => 'company_details', 'class'=>'form-control']);
+										echo form_dropdown('company_details', $company, $companydetailsid,['id' => 'company_details', 'class'=>'form-control percentageslide']);
 									?>									
 								</div>
 								<p>If the Company does not appear on this listing please ask the company to Register with the PIRB. Once they have been approved and registered return to the listing and select the company</p>
@@ -1278,7 +1234,6 @@ $(document).on('click', '.verifyotp', function(){
 	})
 });
 
-$('.progress-circle[data-id="1"]').addClass('active');
 $('a.stepbar[data-id="1"]').addClass('active');
 
 $('.stepbar').click(function(){
@@ -1288,9 +1243,7 @@ $('.stepbar').click(function(){
 	
 	$('.stepbar.active').addClass('un_active').removeClass('active');
 	$('.stepbar[data-id="'+step+'"]').removeClass('un_active').addClass('active');
-
-	$('.progress-circle.active').addClass('prog_hide').removeClass('active');
-	$('.progress-circle[data-id="'+step+'"]').removeClass('prog_hide').addClass('active');
+	
 	checkstep();
 })
 
@@ -1302,9 +1255,7 @@ $('#next').click(function(){
 	
 	$('.stepbar.active').addClass('un_active').removeClass('active');	
 	$('.stepbar[data-id="'+step+'"]').removeClass('un_active').addClass('active');	
-
-	$('.progress-circle.active').addClass('prog_hide').removeClass('active');	
-	$('.progress-circle[data-id="'+step+'"]').removeClass('prog_hide').addClass('active');
+	
 	checkstep();
 })
 
@@ -1316,8 +1267,6 @@ $('#previous').click(function(){
 	$('.stepbar.active').addClass('un_active').removeClass('active');	
 	$('.stepbar[data-id="'+step+'"]').removeClass('un_active').addClass('active');	
 	
-	$('.progress-circle.active').addClass('prog_hide').removeClass('active');	
-	$('.progress-circle[data-id="'+step+'"]').removeClass('prog_hide').addClass('active');
 	checkstep();
 })
 
@@ -1339,6 +1288,34 @@ function checkstep(){
 		$('.declarationname').val($('input[name="name"]').val()+' '+$('input[name="surname"]').val());
 		$('.declarationidno').val(declarationidno);
 	}
+	
+	profilecompleteness()
+}
+
+
+function profilecompleteness(){
+	var percentageslide = $('.percentageslide').length;
+	
+	if($('#nationality').val()=='1') percentageslide = percentageslide-2;
+	if($('#registration_card').val()=='2') percentageslide = percentageslide-1;
+	if($('#employment_details').val()=='2') percentageslide = percentageslide-1;
+	
+	// Designation
+	percentageslide = percentageslide+1;
+	
+	if($('.designation:checked').val()=='4'){
+		percentageslide = percentageslide+1;
+	}
+	
+	var fillpercentage = 0;
+	$('.percentageslide').each(function(){
+		if($(this).val()!=''){
+			fillpercentage = fillpercentage + 1;
+		}
+	})
+	
+	var percentage = Math.round((percentageslide * 100)/ fillpercentage);
+	$(document).find('.progressbar').attr('data-label', percentage).removeClass().addClass('css-bar css-bar-'+percentage+' progressbar');
 }
 
 function registration(data){
