@@ -1,5 +1,4 @@
 <?php
-// print_r($result);
 $usersdetailid 			= isset($result['usersdetailid']) ? $result['usersdetailid'] : '';
 $usersid 				= isset($result['usersid']) ? $result['usersid'] : '';
 $coccountid 			= isset($result['coccountid']) ? $result['coccountid'] : '';
@@ -21,8 +20,6 @@ $coc_purchase_limit 	= isset($result['coc_purchase_limit']) ? $result['coc_purch
 $status 				= isset($result['status']) ? $result['status'] : '';
 $vat_vendor 			= isset($result['vat_vendor']) ? $result['vat_vendor'] : '';
 
-// $status = 1;
-
 $physicaladdress 		= isset($result['physicaladdress']) ? explode('@-@', $result['physicaladdress']) : [];
 $addressid1 			= isset($physicaladdress[0]) ? $physicaladdress[0] : '';
 $address1				= isset($physicaladdress[2]) ? $physicaladdress[2] : '';
@@ -43,16 +40,6 @@ $roletype 				= isset($roletype) ? $roletype : '';
 $pagetype 				= isset($pagetype) ? $pagetype : '';
 
 $adminvalue 			= isset($adminvalue) ? $adminvalue : '';
-// if($roletype=='1'){
-// 	$dynamictabtitle 	= 'Plumbers';
-// 	$dynamicheading 	= 'Reseller Details';
-// 	$dynamictitle 		= 'Reseller Registration Details';
-// }elseif($roletype=='6'){
-// 	$dynamictabtitle 	= 'My';
-// 	$dynamicheading 	= 'My Profile';
-// 	$dynamictitle 		= 'My PIRB Registration Details';
-// }
-
 
 $stock_count = isset($stock_count) ? $stock_count : '';
 ?>
@@ -142,7 +129,6 @@ $stock_count = isset($stock_count) ? $stock_count : '';
 				<div class="row">
 					<div class="col-md-6">
 						<h4 class="card-title">Postal Address</h4>
-						<!-- <p class="tagline">Note all postal services will be sent to this address</p> -->
 						<div class="form-group">
 							<label>Postal Address</label>
 							<input type="hidden" class="form-control" name="address[2][id]" value="<?php echo $addressid2; ?>">
@@ -152,7 +138,6 @@ $stock_count = isset($stock_count) ? $stock_count : '';
 					</div>
 					<div class="col-md-6">
 						<h4 class="card-title">Physical Address</h4>
-						<!-- <p class="tagline">Note all delivery services will be sent to this address</p> -->
 						<div class="form-group">
 							<label>Physical Address</label>
 							<input type="hidden" class="form-control" name="address[1][id]" value="<?php echo $addressid1; ?>">
@@ -455,7 +440,7 @@ $('.search').on('click',function(){
 function datatable(destroy=0){
 	var user_id		= $('#usersid').val();	
 	var options = {
-		url 	: 	'<?php echo base_url()."resellers/cocstatement/index/DTResellers"; ?>',
+		url 	: 	'<?php echo base_url()."ajax/index/ajaxdtresellers"; ?>',
 		data    :   { customsearch : 'listsearch1',user_id : user_id,search_reg_no:$('#reg_no').val(), search_plumberstatus:$('#plumberstatus').val(), search_idcard:$('#idcard').val(), search_mobile_phone:$('#mobile_phone').val(), search_dob:$('#dob').val(), search_company_details:$('#company_details').val()},  			
 		destroy :   destroy,  			
 		columns : 	[							
