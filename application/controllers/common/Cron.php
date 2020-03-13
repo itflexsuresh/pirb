@@ -1337,7 +1337,8 @@ class Cron extends CC_Controller {
 		$date		= 	date('d-m-Y');
 		
 		foreach($plumbers as $plumber){
-			$history		= $this->Auditor_Model->getReviewHistoryCount(['plumberid' => $id])
+			$id 			= $plumber['id'];
+			$history		= $this->Auditor_Model->getReviewHistoryCount(['plumberid' => $id]);
 			$logged			= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['2']]);
 			$allocated		= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['4']]);
 			$nonlogged		= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['5']]);
