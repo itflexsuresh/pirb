@@ -7,6 +7,8 @@ class Index extends CC_Controller
 	{
 		parent::__construct();
 		$this->load->model('Auditor_allocatecoc_Model');
+		$this->load->model('Communication_Model');
+		$this->load->model('CC_Model');
 	}
 	
 	public function index()
@@ -96,8 +98,35 @@ class Index extends CC_Controller
 	public function auditor_allocate(){
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
-			$data 			=  	$this->Auditor_allocatecoc_Model->action($requestData);						
-			echo json_encode($data);
+			$result 		=  	$this->Auditor_allocatecoc_Model->action($requestData);	
+			
+			if($result){
+				$this->CC_Model->diaryactivity(['adminid' => $this->getUserID(), 'plumberid' => $requestData['user_id'], 'auditorid' => $requestData['auditor_id'], 'cocid' => $requestData['coc_id'], 'action' => '8', 'type' => '1']);
+				
+				$plumberdata	= 	$this->getUserDetails($requestData['user_id']);				
+				$auditordata	= 	$this->getUserDetails($requestData['auditor_id']);				
+				
+				$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '20', 'emailstatus' => '1']);
+				
+				if($notificationdata){
+					$array1 = ['{Plumbers Name and Surname}','{COC number}', '{Auditors Names and Surname}'];
+					$array2 = [$plumberdata['name'], $requestData['coc_id'], $auditordata['name']];
+					
+					$body 	= str_replace($array1, $array2, $notificationdata['email_body']);
+					$this->CC_Model->sentMail($plumberdata['email'], $notificationdata['subject'], $body);
+				}
+				
+				if($this->config->item('otpstatus')!='1'){
+					$smsdata 	= $this->Communication_Model->getList('row', ['id' => '20', 'smsstatus' => '1']);
+		
+					if($smsdata){
+						$sms = str_replace(['{number of COC}', '{auditors name and surname}'], [$requestData['coc_id'], $auditordata['name']], $smsdata['sms_body']);
+						$this->sms(['no' => $plumberdata['mobile_phone'], 'msg' => $sms]);
+					}
+				}
+		 	}
+			
+			echo json_encode($result);
 		}
 	}
 	
