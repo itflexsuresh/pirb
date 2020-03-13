@@ -7,7 +7,7 @@ $allocation 			= isset($result['allocation']) ? $result['allocation'] : '';
 $user_id 				= isset($result['uid']) ? $result['uid'] : ''; 
 $registration_no 		= isset($result['registration_no']) ? $result['registration_no'] : ''; 
 
-$heading				= isset($result['id']) ? 'Add' : 'Update'; 
+$heading				= isset($result['calid']) ? 'Update' : 'Add'; 
 ?>
 
 <div class="row page-titles">
