@@ -55,12 +55,13 @@ class Employee_listing extends CC_Controller
         $totalrecord = [];
         if (count($results) > 0) {
             foreach ($results as $result) {
-                $desigcount     = $this->Company_Model->getdesignationCount(['designation' => $result['designation'], 'comID' => $post['comp_id']]);
-                //print_r($desigcount);die;
+               $desigcount     = $this->Company_Model->getdesignationCount(['designation' => $result['designation']]);
+                //print_r($desigcount);
                 $per_points = $this->Company_Model->getauditPoints($result['user_id']);
+                $points     = $this->Company_Model->cpdPoints($result['user_id']);
 
-                if ($result['points']!=''){
-                     $points         = $result['points'];
+                if ($points[0]['cpd']!=''){
+                     $points         = $points[0]['cpd'];
                 }else{
                     $points         = '0';
                 } 
@@ -70,7 +71,6 @@ class Employee_listing extends CC_Controller
                     
                     $performance    = '0';
                 }
-                
                 if ($result['designation']=='6' || $result['designation']=='4') {
                    $divclass = 'lm';
                 }else{
