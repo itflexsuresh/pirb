@@ -62,12 +62,13 @@ class Index extends CC_Controller
         $totalrecord = [];
         if (count($results) > 0) {
             foreach ($results as $result) {
-                $desigcount     = $this->Company_Model->getdesignationCount(['designation' => $result['designation'], 'comID' => $post['comp_id']]);
+                $desigcount     = $this->Company_Model->getdesignationCount(['designation' => $result['designation']]);
                 //print_r($desigcount);die;
                 $per_points = $this->Company_Model->getauditPoints($result['user_id']);
+                $points     = $this->Company_Model->cpdPoints($result['user_id']);
 
-                if ($result['points']!=''){
-                     $points         = $result['points'];
+                if ($points[0]['cpd']!=''){
+                     $points         = $points[0]['cpd'];
                 }else{
                     $points         = '0';
                 } 
