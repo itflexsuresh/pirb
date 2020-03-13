@@ -819,7 +819,7 @@ class Auditor_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['ud.name', 'up.registration_no', 'cal.allocation', 'ast.auditcomplete'];
+			$column = ['ud.name', 'up.registration_no', 'cal.allocation', 'ast.auditcomplete', 'ud.surname'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
