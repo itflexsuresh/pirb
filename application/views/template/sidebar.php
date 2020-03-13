@@ -89,6 +89,7 @@ $formstatus  	= $userdata['formstatus'];
 					<li class="step five"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Audits</span></a>
 						<ul aria-expanded="false" class="collapse">
+							<li><a href="<?php echo base_url().'admin/audits/compulsory_audit/index'; ?>">Compulsory Adudit Listing</a></li>
 							<li><a href="<?php echo base_url().'admin/audits/index'; ?>">Manage Auditors</a></li>
 							<li><a href="<?php echo base_url().'admin/audits/cocallocate/index'; ?>">Manage COC Allocation for Audit</a></li>
 							<li><a href="<?php echo base_url().'admin/audits/auditstatement/index'; ?>">Manage Allocted Audits</a></li>
