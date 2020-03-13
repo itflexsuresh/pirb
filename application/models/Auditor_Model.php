@@ -659,7 +659,6 @@ class Auditor_Model extends CC_Model
 	
 	public function getReviewHistoryCount($requestdata=[])
 	{
-		$auditorid = $requestdata['auditorid'];
 		$plumberid = $requestdata['plumberid'];
 		
 		$count = $this->db->select('count(id) as count')->where(['plumber_id' => $plumberid])->get('auditor_statement')->row_array();
@@ -685,7 +684,6 @@ class Auditor_Model extends CC_Model
 
 	public function getReviewHistory2Count($requestdata=[])
 	{
-		$auditorid = $requestdata['auditorid'];
 		$plumberid = $requestdata['plumberid'];
 		
 		$developmental = $this->db->select('sum(points) as count')->where(['user_id' => $plumberid, 'cpd_stream' => '1'])->get('cpd_activity_form')->row_array();
