@@ -812,6 +812,7 @@ class Auditor_Model extends CC_Model
 		$this->db->join('compulsory_audit_listing cal', 'u1.id = cal.user_id', 'LEFT');
 		$this->db->join('auditor_statement ast', 'u1.id = ast.plumber_id', 'LEFT');
 		$this->db->where('u1.id = cal.user_id');
+		$this->db->group_by('cal.user_id');
 
 
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
