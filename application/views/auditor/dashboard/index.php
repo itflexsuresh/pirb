@@ -166,7 +166,7 @@ $noauditpercentage 			= ($noaudit!=0) ? round(($noaudit/$total)*100,2).'%' : '0%
 					{value : refixincomplete, name : 'Refix(In Complete)'},
 					{value : noaudit, name : 'No Audit'}
 				],
-				colors : ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4']				
+				colors : ['#843C0C','#FF0000','#ED7D31','#333F50','#4472C4']				
 			}
 		)
 		

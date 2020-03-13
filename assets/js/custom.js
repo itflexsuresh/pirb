@@ -693,13 +693,23 @@ function piechart(selector, options){
 		calculable : true,
 		series : [
 			{
-				name	: options['name'],
-				type	: 'pie',
-				radius 	: '55%',
-				center	: ['50%', '60%'],
-				data	: options['yaxis']
+				name		: 	options['name'],
+				type		: 	'pie',
+				radius 		: 	'55%',
+				center		: 	['50%', '60%'],
+				data		: 	options['yaxis'],
+				itemStyle 	: 	{
+									normal : {
+										label : {
+											formatter : function (params) {    
+												return params.name+'\n'+(params.percent - 0).toFixed(0) + '%'
+											}
+										}
+									}
+								}
 			}
-		]
+		],
+		color: options['colors']
 	};
 	
 	myChart.setOption(option, true), $(function() {
