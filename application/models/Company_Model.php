@@ -78,11 +78,11 @@ class Company_Model extends CC_Model
 	// COMPANY EmpList
 	public function getEmpList($type, $requestdata=[])
 	{
-		 $this->db->select('t1.registration_no,t1.designation,t1.id,t1.user_id,t2.name,t2.surname,t2.mobile_phone,t3.email,t3.status,t2.file2,t2.specialisations,t4.points');
+		 $this->db->select('t1.registration_no,t1.designation,t1.id,t1.user_id,t2.name,t2.surname,t2.mobile_phone,t3.email,t3.status,t2.file2,t2.specialisations');
 		 $this->db->from('users t3');
         $this->db->join('users_plumber t1', 't3.id = t1.user_id', 'LEFT');
         $this->db->join('users_detail t2', 't2.user_id = t1.user_id', 'LEFT');        
-        $this->db->join('cpd_activity_form t4', 't4.user_id = t1.user_id AND t4.status="1"', 'LEFT');
+        //$this->db->join('cpd_activity_form t4', 't4.user_id = t1.user_id AND t4.status="1"', 'LEFT');
         if($type=='employee'){
             //print_r
             $this->db->where('t1.id', $requestdata['comp_id']);
@@ -139,6 +139,12 @@ class Company_Model extends CC_Model
 		$this->db->select('id, plumber_id, sum(point) as performance');
 		$this->db->from('auditor_statement');
 		$result = $this->db->where('plumber_id',$id)->get()->result_array();
+		return $result;
+	}
+	public function cpdPoints($id){
+		$this->db->select('id, user_id, sum(points) as cpd');
+		$this->db->from('cpd_activity_form');
+		$result = $this->db->where('user_id',$id)->get()->result_array();
 		return $result;
 	}
 	
