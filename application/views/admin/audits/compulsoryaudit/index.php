@@ -1,17 +1,13 @@
 <?php
-if(isset($result) && $result){
-	$id 			= $result['id'];
-	$name 			= (set_value('name')) ? set_value('name') : $result['name'];
-	$status 		= (set_value('status')) ? set_value('status') : $result['status'];
-	
-	$heading		= 'Update';
-}else{
-	$id 			= '';
-	$name			= set_value('name');
-	$status			= set_value('status');
+$id 					= isset($result['calid']) ? $result['calid'] : ''; 
+if(isset($result['name']) && isset($result['surname'])) $name =  $result['name'].' '.$result['surname'];
+else $name = ''; 
+$allocation 			= isset($result['allocation']) ? $result['allocation'] : ''; 
 
-	$heading		= 'Add';
-}
+$user_id 				= isset($result['uid']) ? $result['uid'] : ''; 
+$registration_no 		= isset($result['registration_no']) ? $result['registration_no'] : ''; 
+
+$heading				= isset($result['id']) ? 'Add' : 'Update'; 
 ?>
 
 <div class="row page-titles">
@@ -37,22 +33,22 @@ if(isset($result) && $result){
 					<div class="form-group">
 						<div class="col-md-6">
 						<label for="activity">Plumber</label>
-							<input type="search" autocomplete="off" class="form-control" id="search_name" name="search_name" placeholder="Search Plumber" onkeyup="search_func(this.value);" value="<?php echo $name; ?>">
+							<input type="search" autocomplete="off" class="form-control" <?php if($id!='') echo 'readonly'; ?> id="search_name" name="search_name" placeholder="Search Plumber" onkeyup="search_func(this.value);" value="<?php echo $name; ?>">
 							<div id="plumber_suggesstion" style="display: none;"></div>		
 						</div>			
 					</div>
 					<div class="form-group">
 						<div class="col-md-6">
 						<label for="activity">Number of Compulsory Audit Allocations:</label>
-							<input type="number" autocomplete="off" class="form-control" id="allocation" name="allocation" min='1'>
+							<input type="number" autocomplete="off" class="form-control" id="allocation" name="allocation" value="<?php echo $allocation; ?>" min='1'>
 						</div>			
 					</div>
 					<div class="row">
 						
 						<div class="col-md-12 text-right">
 							<input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
-							<input type="hidden" id="user_id_hide" name="user_id_hide" value="">
-							<input type="hidden" id="user_reg" name="user_reg" value="">
+							<input type="hidden" id="user_id_hide" name="user_id_hide" value="<?php echo $user_id; ?>">
+							<input type="hidden" id="user_reg" name="user_reg" value="<?php echo $registration_no; ?>">
 							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?></button>
 						</div>
 					</div>
@@ -65,6 +61,7 @@ if(isset($result) && $result){
 								<th>Reg Number</th>
 								<th>Active Compulsory Allocations</th>
 								<th>Completed Compulsory Allocations</th>
+								<th>Action</th>
 							</tr>
 						</thead>
 					</table>
@@ -77,6 +74,20 @@ if(isset($result) && $result){
 
 <script>
 $(function(){
+
+
+	var options = {
+			url 	: 	'<?php echo base_url()."admin/audits/Compulsory_audit/DTListings"; ?>',
+			columns : 	[
+			{ "data": "name" },
+			{ "data": "reg" },
+			{ "data": "allocation" },
+			{ "data": "complete" },
+			{ "data": "action" }
+			]
+		};
+		
+		ajaxdatatables('.datatables', options);
 
 			validation(
 			'.form',

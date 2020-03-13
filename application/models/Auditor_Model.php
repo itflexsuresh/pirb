@@ -754,19 +754,60 @@ class Auditor_Model extends CC_Model
 	}
 	/// Complsory Audit
 	public function audit_compulsory($data){
-		echo "<pre>";print_r($data);die;
-		if(isset($data['search_name'])) 	$request['name'] 		= $data['search_name'];
+		if(isset($data['user_id_hide'])) 	$request['user_id'] 	= $data['user_id_hide'];
 		if(isset($data['allocation'])) 		$request['allocation'] 	= $data['allocation'];
 
-		if ($data['id']!='') {
+		if ($data['id']=='') {
 			$request['created_at'] = date("Y-m-d H:i:s");
 			$request['created_by'] = $this->getUserID();
-			echo "insert";
+			$this->db->insert('compulsory_audit_listing',$request);
+			return true;
 		}else{
 			$request['updated_at'] = date("Y-m-d H:i:s");
 			$request['updated_by'] = $this->getUserID();
-			echo "update";
+			$this->db->update('compulsory_audit_listing',$request, ['id' => $data['id']]);
+			return true;
 		}
+	}
+
+	public function getlisting($type, $requestdata=[]){
+		$this->db->select('u1.id as uid, cal.id as calid, up.registration_no, ud.name, ud.surname, cal.allocation, count(ast.auditcomplete) as completed');
+		$this->db->from('users u1');
+		$this->db->join('users_plumber up', 'u1.id = up.user_id', 'LEFT');
+		$this->db->join('users_detail ud', 'u1.id = ud.user_id', 'LEFT');
+		$this->db->join('compulsory_audit_listing cal', 'u1.id = cal.user_id', 'LEFT');
+		$this->db->join('auditor_statement ast', 'u1.id = ast.plumber_id', 'LEFT');
+		$this->db->where('u1.id = cal.user_id');
+
+
+		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
+			$this->db->limit($requestdata['length'], $requestdata['start']);
+		}
+		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
+			$column = ['ud.name', 'up.registration_no', 'cal.allocation', 'ast.auditcomplete'];
+			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+		}
+		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
+			$searchvalue = $requestdata['search']['value'];
+			$this->db->group_start();
+			$this->db->like('ud.name', $searchvalue);
+			$this->db->or_like('up.registration_no', $searchvalue);
+			$this->db->or_like('cal.allocation', $searchvalue);
+			$this->db->or_like('ast.auditcomplete', $searchvalue);
+			$this->db->group_end();
+
+		}
+
+		if($type=='count'){
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		return $result;
 	}
 
 //Plumber Reg Search

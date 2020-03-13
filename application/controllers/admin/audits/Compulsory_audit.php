@@ -13,7 +13,13 @@ class Compulsory_audit extends CC_Controller
 	public function index($id='')
 	{
 		if($id!=''){
-			print($id);die;
+			$result = $this->Auditor_Model->getlisting('row', ['id' => $id]);
+			if($result){
+				$pagedata['result'] = $result;
+			}else{
+				$this->session->set_flashdata('error', 'No Record Found.');
+				redirect('admin/audits/Compulsory_audit/index'); 
+			}
 		}
 		if($this->input->post()){
 			$requestData 	= 	$this->input->post();
@@ -22,15 +28,11 @@ class Compulsory_audit extends CC_Controller
 				$data 	=  $this->Auditor_Model->audit_compulsory($requestData);
 				if($data) $message = 'Compulsory Audit Listing '.(($id=='') ? 'created' : 'updated').' successfully.';
 			}
-			// else{
-			// 	$data 			= 	$this->Installationtype_Model->changestatus($requestData);
-			// 	$message		= 	'Installation Type deleted successfully.';
-			// }
 
 			if(isset($data)) $this->session->set_flashdata('success', $message);
 			else $this->session->set_flashdata('error', 'Try Later.');
 			
-			redirect('admin/audits/compulsoryaudit/index'); 
+			redirect('admin/audits/Compulsory_audit/index'); 
 		}
 
 		$pagedata['notification'] 	= $this->getNotification();		
@@ -42,31 +44,24 @@ class Compulsory_audit extends CC_Controller
 		$this->layout2($data);		
 	}	
 	
-	public function DTAuditors()
+	public function DTListings()
 	{
 		
 		$post 			= $this->input->post();	
-		/////////////
-		// if ($post['pagestatus']=='2') {
-		// 	$post['pagestatus'] = '0';
-		// }
-		$totalcount 	= $this->Auditor_Model->getAuditorList('count', ['type' => '5', 'status' => [$post['pagestatus']]]+$post);
-		$results 		= $this->Auditor_Model->getAuditorList('all', ['type' => '5', 'status' => [$post['pagestatus']]]+$post);
-		//print_r($results);die;
-
-		$status = 1;
-
+		$totalcount 	= $this->Auditor_Model->getlisting('count',$post);
+		$results 		= $this->Auditor_Model->getlisting('all',$post);
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){				
 				$stockcount = 0;
 				$totalrecord[] = 	[										
 										'name' 			=> 	$result['name']." ".$result['surname'],
-										'email' 		=> 	$result['work_phone'],										
-										'contactnumber' 		=> 	$result['mobile_phone'],
+										'reg' 			=> 	$result['registration_no'],										
+										'allocation' 	=> 	$result['allocation'],
+										'complete' 		=> 	$result['completed'],
 										'action'		=> 	'
 																<div class="table-action">
-																	<a href="'.base_url().'admin/audits/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+																	<a href="'.base_url().'admin/audits/Compulsory_audit/index/'.$result['uid'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
 																</div>
 															'
 									];
