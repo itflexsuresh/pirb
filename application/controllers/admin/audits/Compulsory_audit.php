@@ -10,14 +10,33 @@ class Compulsory_audit extends CC_Controller
 		$this->load->model('Auditor_Model');
 	}
 	
-	public function index($pagestatus='')
+	public function index($id='')
 	{
+		if($id!=''){
+			print($id);die;
+		}
+		if($this->input->post()){
+			$requestData 	= 	$this->input->post();
+
+			if($requestData['submit']=='submit'){
+				$data 	=  $this->Auditor_Model->audit_compulsory($requestData);
+				if($data) $message = 'Compulsory Audit Listing '.(($id=='') ? 'created' : 'updated').' successfully.';
+			}
+			// else{
+			// 	$data 			= 	$this->Installationtype_Model->changestatus($requestData);
+			// 	$message		= 	'Installation Type deleted successfully.';
+			// }
+
+			if(isset($data)) $this->session->set_flashdata('success', $message);
+			else $this->session->set_flashdata('error', 'Try Later.');
+			
+			redirect('admin/audits/compulsoryaudit/index'); 
+		}
+
 		$pagedata['notification'] 	= $this->getNotification();		
-		$pagedata['pagestatus'] 	= $this->getAuditorPageStatus($pagestatus);
-		//$pagedata['company'] 		= $this->getCompanyList();
 		
 		
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'datepicker', 'inputmask'];
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
 		$data['content'] 			= $this->load->view('admin/audits/compulsoryaudit/index', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$this->layout2($data);		
@@ -65,8 +84,37 @@ class Compulsory_audit extends CC_Controller
 	}
 
 	public function action($id='')
+	{die;
+		//$this->auditorprofile($id);
+	}
+
+	// Plumber Reg number search
+	public function userRegDetails()
 	{
-		$this->auditorprofile($id);
+
+		$postData = $this->input->post();		  
+		if($postData['type'] == 3)
+		{
+			$data 	=   $this->Auditor_Model->autosearchPlumberReg($postData);
+		}
+
+	  	// echo json_encode($data); exit;
+
+		if(!empty($data) && count($data)>0 ) {
+		?>
+			<ul id="name-list">
+			<?php
+			foreach($data as $key=>$val) {
+				$reg_no = $val["registration_no"];
+				$name_surname = $val["name"].' '.$val["surname"];
+				// if(isset($val["surname"])){
+				// 	$name = $name.' '.$val["surname"];
+				// }
+			?>
+			<li onClick="selectuser('<?php echo $reg_no; ?>','<?php echo $val["id"]; ?>','<?php echo $name_surname; ?>');"><?php echo $name_surname; ?></li>
+			<?php } ?>
+			</ul>
+<?php 	} 
 	}
 	
 }

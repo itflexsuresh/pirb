@@ -257,7 +257,7 @@ class Cpdtypesetup extends CC_Controller
 				// 	$name = $name.' '.$val["surname"];
 				// }
 			?>
-			<li onClick="selectuser('<?php echo $reg_no; ?>','<?php echo $val["id"]; ?>','<?php echo $name_surname; ?>');"><?php echo $reg_no; ?></li>
+			<li onClick="selectuser('<?php echo $reg_no; ?>','<?php echo $val["id"]; ?>','<?php echo $name_surname; ?>');"><?php echo $name_surname; ?></li>
 			<?php } ?>
 			</ul>
 <?php 	} 

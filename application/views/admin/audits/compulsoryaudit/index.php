@@ -35,19 +35,25 @@ if(isset($result) && $result){
 				<h4 class="card-title">Compulsory Audit Listing</h4>
 				<form class="mt-4 form" action="" method="post">
 					<div class="form-group">
-						<label for="name">Installation Type *</label>
-						<textarea class="form-control" id="name" name="name" placeholder="Enter Installation Type *"><?php echo $name; ?></textarea>
+						<div class="col-md-6">
+						<label for="activity">Plumber</label>
+							<input type="search" autocomplete="off" class="form-control" id="search_name" name="search_name" placeholder="Search Plumber" onkeyup="search_func(this.value);" value="<?php echo $name; ?>">
+							<div id="plumber_suggesstion" style="display: none;"></div>		
+						</div>			
+					</div>
+					<div class="form-group">
+						<div class="col-md-6">
+						<label for="activity">Number of Compulsory Audit Allocations:</label>
+							<input type="number" autocomplete="off" class="form-control" id="allocation" name="allocation" min='1'>
+						</div>			
 					</div>
 					<div class="row">
-						<div class="col-md-6">
-							<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
-								<input type="checkbox" class="custom-control-input" name="status" id="status" <?php if($status=='1') echo 'checked'; ?> value="1" checked>
-								<label class="custom-control-label" for="status">Active</label>
-							</div>
-						</div>
-						<div class="col-md-6 text-right">
+						
+						<div class="col-md-12 text-right">
 							<input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
-							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> Installtion Type</button>
+							<input type="hidden" id="user_id_hide" name="user_id_hide" value="">
+							<input type="hidden" id="user_reg" name="user_reg" value="">
+							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?></button>
 						</div>
 					</div>
 				</form>
@@ -55,9 +61,10 @@ if(isset($result) && $result){
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
 							<tr>
-								<th>Installation Type</th>
-								<th>Status</th>
-								<th>Action</th>
+								<th>Plumber</th>
+								<th>Reg Number</th>
+								<th>Active Compulsory Allocations</th>
+								<th>Completed Compulsory Allocations</th>
 							</tr>
 						</thead>
 					</table>
@@ -69,5 +76,68 @@ if(isset($result) && $result){
 </div>
 
 <script>
-	
+$(function(){
+
+			validation(
+			'.form',
+			{
+				search_name : {
+					required	: true,
+				},
+				allocation : {
+					required	: true,
+				},			
+			},
+			{
+				search_name 	: {
+					required	: "Plumber name field is required."
+				},
+				allocation 	: {
+					required	: "Compulsory audit allocations field is required."
+				},			
+			}
+			);
+});
+	var req = null;
+	function search_func(value)
+	{
+		if ($.isNumeric(value)) {
+			return false;
+		}else{
+			
+			if (req != null) req.abort();
+		    
+		    var type1 = 3;
+		    var strlength = $.trim($('#search_name').val()).length;
+		    if(strlength > 0)  { 
+			    req = $.ajax({
+			        type: "POST",
+			        url: '<?php echo base_url()."admin/audits/compulsory_audit/userRegDetails"; ?>',
+			        data: {'search_keyword' : value,type:type1},        
+			        beforeSend: function(){
+						// $("#search_reg_no").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
+					},
+			        success: function(data){          	
+			        	$("#plumber_suggesstion").html('');
+			        	$("#name_surname").val('');
+			        	$("#plumber_suggesstion").show();      	
+						$("#plumber_suggesstion").html(data);			
+						$("#search_name").css("background","#FFF");
+			        }
+			    });
+			}
+			else{
+				console.log(strlength);
+				$("#plumber_suggesstion").hide();
+			}
+		}
+	    
+	}
+
+	function selectuser(val,id,nameSurname) {
+		$("#search_name").val(nameSurname);
+		$("#user_reg").val(val);
+		$("#user_id_hide").val(id);
+		$("#plumber_suggesstion").hide();
+	}
 </script>
