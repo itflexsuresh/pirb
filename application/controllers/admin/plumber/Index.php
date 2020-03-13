@@ -148,8 +148,8 @@ class Index extends CC_Controller
 		$pagedata['menu']			= $this->load->view('common/plumber/menu', ['id'=>$id],true);
 		$pagedata['notification'] 	= $this->getNotification();
 		
-		$pagedata['history']		= $this->Auditor_Model->getReviewHistory2Count(['auditorid' => '', 'plumberid' => $id]);
-		$pagedata['settings_cpd']	= $this->Systemsettings_Model->getList('all',['user_id' => $id]);
+		$pagedata['history']		= $this->Auditor_Model->getReviewHistory2Count(['plumberid' => $id]);
+		$pagedata['settings_cpd']	= $this->Systemsettings_Model->getList('all');
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'echarts'];
 
@@ -446,7 +446,7 @@ class Index extends CC_Controller
 		$pagedata['menu']			= $this->load->view('common/plumber/menu', ['id'=>$id],true);
 		$pagedata['notification'] 	= $this->getNotification();
 		
-		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['auditorid' => '', 'plumberid' => $id]);	
+		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['plumberid' => $id]);	
 
 		$pagedata['loggedcoc']		= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['2']]);
 		

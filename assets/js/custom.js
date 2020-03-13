@@ -700,7 +700,7 @@ function barchart(selector, options){
 			data		: 	v.yaxis
 		})
 	})
-	console.log(series);
+	
 	option = {
 		tooltip : {
 			trigger: 'item'
