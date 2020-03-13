@@ -3,7 +3,7 @@
 $description 	= isset($result['description']) ? $result['description'] : '';
 $documentsid 	= isset($result['id']) ? $result['id'] : '';
 
-$pdfimg 		= base_url().'assets/uploads/company/pdf.png';
+$pdfimg 		= base_url().'assets/images/pdf.png';
 $profileimg 	= base_url().'assets/images/profile.jpg';
 $image 			= isset($result['file']) ? $result['file'] : set_value ('file');	
 $filepath 		= base_url().'assets/uploads/company/';
