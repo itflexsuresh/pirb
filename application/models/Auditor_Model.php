@@ -769,6 +769,7 @@ class Auditor_Model extends CC_Model
 			return true;
 		}
 	}
+	// compusory auditor
 
 	public function getlisting($type, $requestdata=[]){
 		$this->db->select('u1.id as uid, cal.id as calid, up.registration_no, ud.name, ud.surname, cal.allocation, count(ast.auditcomplete) as completed');
@@ -820,7 +821,6 @@ class Auditor_Model extends CC_Model
 		$this->db->join('users_detail u1', 'u1.user_id=u2.id and u2.type="3" and u2.status="1"','left');		
 		$this->db->join('users_plumber up', 'up.user_id=u1.user_id','left');
 		$this->db->where_in('up.designation', $designations);
-		// $this->db->or_like('u1.surname',$postData['search_keyword']);
 		$this->db->group_by("u1.id");		
 		$query = $this->db->get();
 		$result1 = $query->result_array(); 
@@ -839,10 +839,6 @@ class Auditor_Model extends CC_Model
 		else{
 			$result = $result1;
 		}
-
-		
-		// echo $this->db->last_query();
-
 		return $result;
 
 	}
