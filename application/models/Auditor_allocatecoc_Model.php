@@ -337,33 +337,12 @@ class Auditor_allocatecoc_Model extends CC_Model
 		if(isset($data['auditor_id']))		$requestdata['auditorid'] 		= $data['auditor_id'];	
 		$requestdata['audit_status']	=	2;
 		$requestdata['audit_allocation_date']	=	date('Y-m-d H:i:s');;
-		
-		if(isset($requestdata)){			
-			$result = $this->db->update('stock_management', $requestdata,['id'=>$data['coc_id']]);
-			$this->diaryactivity(['adminid' => $this->getUserID(), 'plumberid' => $data['user_id'], 'auditorid' => $data['auditor_id'], 'cocid' => $data['coc_id'], 'action' => '8', 'type' => '1']);
-			if($result){
-				$plumberdata			= 	$this->userDetails('row', ['user_id' => $data['user_id']]);				
-				$auditordata			= 	$this->userDetails('row', ['user_id' => $data['auditor_id']]);				
-
-			 	$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '20'])->get()->row_array();
-	
-
-			 	 $array1 = ['{Plumbers Name and Surname}','{COC number}', '{Auditors Names and Surname}'];				 
-
-				$array2 = [$plumberdata['name'], $data['coc_id'], $auditordata['name']];
-
-				$body = str_replace($array1, $array2, $template['email_body']);
-
-			 	if ($template['email_active'] == '1') {
-
-			 		$this->CC_Model->sentMail($plumberdata['email'],$template['subject'],$body);
-			 	}
-		 	}
-		}
-		return $result;
+				
+		$result = $this->db->update('stock_management', $requestdata,['id'=>$data['coc_id']]);
+		return $result;	
 	}
 
-	
+	/*
 	public function userDetails($type,$requestdata){
 		$this->db->select('concat(ud.name, " ", ud.surname) as name, email');
 		$this->db->from('users_detail ud');
@@ -380,5 +359,6 @@ class Auditor_allocatecoc_Model extends CC_Model
 		}
 		return $result;
 	}
+	*/
 	
 }
