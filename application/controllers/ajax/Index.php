@@ -338,4 +338,50 @@ class Index extends CC_Controller
 			echo '0';
 		}
 	}
+	
+	public function ajaxdtresellers()
+	{		
+		$post 		= $this->input->post();	
+		$totalcount =  $this->Resellers_allocatecoc_Model->getstockList('count',$post);
+		$results 	=  $this->Resellers_allocatecoc_Model->getstockList('all',$post);
+		$totalrecord 	= [];
+		if(count($results) > 0){
+			foreach($results as $result){				
+				if($result['allocatedby'] > 0){
+					$status = "Allocated";
+					$name = $result['name']." ".$result['surname'];
+					$timestamp = strtotime($result['allocation_date']);
+					$newDate = date('d-F-Y H:i:s', $timestamp);
+				}
+				else{
+					$status = "In stock";
+					$name = "";
+					$newDate = "";
+				}
+
+				
+
+				$stockcount = 0;				
+				$totalrecord[] = 	[										
+										'cocno' 		=> 	$result['id'],
+										'status' 		=> 	$status,										
+										'datetime' 		=> 	$newDate,
+										'invoiceno' 	=> 	$result['invoiceno'],
+										'name' 			=> 	$name,
+										'registration_no'=> $result['registration_no'],
+										'company'=> $result['company'],
+										
+									];
+			}
+		}
+		
+		$json = array(			  
+			"recordsTotal"    => intval($totalcount),  
+			"recordsFiltered" => intval($totalcount),
+			"data"            => $totalrecord
+		);
+
+		echo json_encode($json);
+	}
+
 }

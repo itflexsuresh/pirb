@@ -51,7 +51,7 @@
 	function datatable(destroy=0){
 		var user_id		= $('#usersid').val();
 		var options = {
-			url 	: 	'<?php echo base_url()."resellers/cocstatement/index/DTResellers"; ?>',
+			url 	: 	'<?php echo base_url()."ajax/index/ajaxdtresellers"; ?>',
 			data    :   { customsearch : 'listsearch1',user_id : user_id, search_reg_no:$('#reg_no').val(), search_plumberstatus:$('#plumberstatus').val(), search_idcard:$('#idcard').val(), search_mobile_phone:$('#mobile_phone').val(), search_dob:$('#dob').val(), search_company_details:$('#company_details').val()},  			
 			destroy :   destroy,  			
 			columns : 	[							
