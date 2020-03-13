@@ -46,7 +46,8 @@ $noauditpercentage 			= ($noaudit!=0) ? round(($noaudit/$total)*100,2).'%' : '0%
 						</div>
 					</div>
 					<div class="col-md-12">
-						<div id="audit" style="width:100%; height:400px;"></div>
+						<div id="auditbar" style="width:100%; height:400px;"></div>
+						<div id="auditpie" style="width:100%; height:400px;"></div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
@@ -122,7 +123,7 @@ $noauditpercentage 			= ($noaudit!=0) ? round(($noaudit/$total)*100,2).'%' : '0%
 	$(function(){
 		
 		barchart(
-			'audit',
+			'auditbar',
 			{
 				xaxis : [
 					'Total No of Audit Findings',
@@ -144,6 +145,28 @@ $noauditpercentage 			= ($noaudit!=0) ? round(($noaudit/$total)*100,2).'%' : '0%
 					],
 					colors : ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4']
 				}]
+			}
+		)
+		
+		piechart(
+			'auditpie',
+			{
+				name : 'Audit',
+				xaxis : [
+					'Compliments',
+					'Cautionary',
+					'Refix (Complete)',
+					'Refix(In Complete)',
+					'No Audit'
+				],
+				yaxis : [
+					{value : compliment, name : 'Compliments'},
+					{value : cautionary, name : 'Cautionary'},
+					{value : refixcomplete, name : 'Refix (Complete)'},
+					{value : refixincomplete, name : 'Refix(In Complete)'},
+					{value : noaudit, name : 'No Audit'}
+				],
+				colors : ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4']				
 			}
 		)
 		

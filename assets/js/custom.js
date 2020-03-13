@@ -677,6 +677,41 @@ function scrolltobottom(id){
 	}, 500);
 }
 
+function piechart(selector, options){
+	var myChart = echarts.init(document.getElementById(selector));
+	
+	option = {
+		tooltip : {
+			trigger: 'item',
+			formatter: "{a} <br/>{b} : {c} ({d}%)"
+		},
+		legend: {
+			orient 	: 'vertical',
+			x 		: 'left',
+			data	: options['xaxis']
+		},
+		calculable : true,
+		series : [
+			{
+				name	: options['name'],
+				type	: 'pie',
+				radius 	: '55%',
+				center	: ['50%', '60%'],
+				data	: options['yaxis']
+			}
+		]
+	};
+	
+	myChart.setOption(option, true), $(function() {
+		function resize() {
+			setTimeout(function() {
+				myChart.resize()
+			}, 100)
+		}
+		$(window).on("resize", resize), $(".icon-menu").on("click", resize)
+	});
+}
+
 function barchart(selector, options){
 	var myChart = echarts.init(document.getElementById(selector));
 	
