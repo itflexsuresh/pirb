@@ -62,6 +62,10 @@ function validation(selector, rules, messages, extras=[])
 	validation['errorPlacement']	= 	function(error, element) {
 											if(element.attr('data-date') == 'datepicker'){
 												$(element).parent().parent().append(error);
+											}else if(element.attr('data-checkbox') == 'checkbox1'){
+												$(element).parent().append(error);
+											}else if(element.attr('data-radio') == 'radio1'){
+												$(element).parent().append(error);
 											}else{
 												error.insertAfter(element);
 											}

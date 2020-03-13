@@ -18,6 +18,9 @@ p.error_class_1{
 .mb-15{
 	margin-bottom : 15px;
 }
+.inlineblock{
+	display : inline-block;
+}
 .authenticationlogo{
     text-align: center;
     padding: 10px 0 30px 0;

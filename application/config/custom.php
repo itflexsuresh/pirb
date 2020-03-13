@@ -211,7 +211,7 @@ $config['designation1'] 			= 	[
 											'1' => 	'
 													<div class="des_points">
 														<label>
-														<input type="radio" value="1" name="designation" class="designation"> <p>Learner Plumber</p>
+														<input type="radio" value="1" name="designation" class="designation" data-radio="radio1"> <p>Learner Plumber</p>
 														</label>
 														<p>The following designation requirements must be observed to hold and/or maintain a Learner designations;</p>
 														<ul>
@@ -226,7 +226,7 @@ $config['designation1'] 			= 	[
 											'2' => 	'
 													<div class="des_points">
 													<label>
-														<input type="radio" value="2" name="designation" class="designation"> <p>Technical Assisting Practitioner</p>
+														<input type="radio" value="2" name="designation" class="designation"  data-radio="radio1"> <p>Technical Assisting Practitioner</p>
 													</label
 														<p>The following designation requirements must be observed to hold and/or maintain a Technical Assistance Practitioner designation;</p>
 														<ul>
@@ -241,7 +241,7 @@ $config['designation1'] 			= 	[
 											'3' => 	'
 													<div class="des_points">
 													<label>
-														<input type="radio" value="3" name="designation" class="designation"> <p>Technical Operator Practitioner</p>
+														<input type="radio" value="3" name="designation" class="designation"  data-radio="radio1"> <p>Technical Operator Practitioner</p>
 													</label>
 														<p>The following designation requirements must be observed to hold and/or maintain a Technical Operating Practitioner:</p>
 														<ul>
@@ -257,7 +257,7 @@ $config['designation1'] 			= 	[
 											'4' => 	'
 													<div class="des_points">
 													<label>
-														<input type="radio" value="4" name="designation" class="designation"> <p>Licensed Plumber</p>
+														<input type="radio" value="4" name="designation" class="designation"  data-radio="radio1"> <p>Licensed Plumber</p>
 													</label>
 														<p>The following designation requirements must be observed to hold and/or maintain a Licensed Plumber Designation;</p>
 														<ul>

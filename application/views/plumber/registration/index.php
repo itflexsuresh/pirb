@@ -138,7 +138,7 @@
 								<label>Date of Birth *</label>
 								<div class="form-group">
 									<div class="input-group">
-										<input type="text" class="form-control dob percentageslide" name="dob" value="<?php echo $dob; ?>">
+										<input type="text" class="form-control dob percentageslide" name="dob" data-date="datepicker" value="<?php echo $dob; ?>">
 										<div class="input-group-append">
 											<span class="input-group-text"><i class="icon-calender"></i></span>
 										</div>
@@ -568,7 +568,6 @@
 									?>									
 								</div>
 								<p>If the Company does not appear on this listing please ask the company to Register with the PIRB. Once they have been approved and registered return to the listing and select the company</p>
-								<a href="javascript:void(0)">Register Company with the PIRB</a>
 							</div>
 						</div>
 						<div class="col-md-12 text-right">
@@ -618,22 +617,25 @@
 						<div class="row">
 							<?php echo $registerprocedure; ?>
 							<label class="checkbox">
-								<input type="checkbox" name="registerprocedure">
+								<input type="checkbox" name="registerprocedure" data-checkbox="checkbox1">
 								<p>I declare that I have fully read and understood the Procedure of Registration</p>
 							</label>
 							<?php echo $acknowledgement; ?>
 							<label class="checkbox">
-								<input type="checkbox" name="acknowledgement">
+								<input type="checkbox" name="acknowledgement" data-checkbox="checkbox1">
 								<p>I declare that I have fully read and understood the Procedure of Acknowledgement</p>
 							</label>
 							<?php echo $codeofconduct; ?>
 							<label class="checkbox">
-								<input type="checkbox" name="codeofconduct">
+								<input type="checkbox" name="codeofconduct" data-checkbox="checkbox1">
 								<p>I declare that I have fully read and understood the PIRB's Code of Conduct</p>
 							</label>
-							<label class="checkbox">
-								<input type="checkbox" name="declaration">
-								<input type="text" class="declarationname" disabled> <p>I identity number</p> <input type="text" class="declarationidno" disabled>
+							<label class="checkbox">								
+								<input type="checkbox" name="declaration" data-checkbox="checkbox1">
+								<p class="inlineblock">I</p>
+								<input type="text" class="declarationname" disabled> 
+								<p> Identity Number</p> 
+								<input type="text" class="declarationidno" disabled>
 							</label>
 							<?php echo $declaration; ?>
 							<div class="col-md-12 text-right">
