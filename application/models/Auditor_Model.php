@@ -810,7 +810,7 @@ class Auditor_Model extends CC_Model
 		return $result;
 	}
 
-//Plumber Reg Search
+//Plumber Reg Search for compusory auditor
 	public function autosearchPlumberReg($postData){ 
 		
 		$designations = array('4', '6' );
