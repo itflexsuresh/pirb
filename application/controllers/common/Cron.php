@@ -1331,6 +1331,38 @@ class Cron extends CC_Controller {
 		}
 	}
 	
+	public function monthlyperformance()
+	{	
+		$plumbers	= 	$this->Plumber_Model->getList('all', ['plumberstatus' => ['1']]);
+		$date		= 	date('d-m-Y');
+		
+		foreach($plumbers as $plumber){
+			$id 			= $plumber['id'];
+			
+			$result 		= $this->Plumber_Model->performancestatus('all', ['plumberid' => $id, 'archive' => '0']);
+			$performance 	= array_sum(array_column($result, 'point'));
+			
+			$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '13', 'emailstatus' => '1']);
+				
+			if($notificationdata){
+				$array1 = ['{Plumbers Name and Surname}', '{todays dates}', '{total value of performance}'];
+				$array2 = [$plumber['name'].' '.$plumber['surname'], $date, $performance];
+				
+				$body 	= str_replace($array1, $array2, $notificationdata['email_body']);
+				$this->CC_Model->sentMail($plumber['email'], $notificationdata['subject'], $body);
+			}
+			
+			if($this->config->item('otpstatus')!='1'){
+				$smsdata 	= $this->Communication_Model->getList('row', ['id' => '13', 'smsstatus' => '1']);
+	
+				if($smsdata){
+					$sms = str_replace(['{performance warning status}'], [$performance], $smsdata['sms_body']);
+					$this->sms(['no' => $plumber['mobile_phone'], 'msg' => $sms]);
+				}
+			}
+		}
+	}
+
 	public function monthlycoc()
 	{	
 		$plumbers	= 	$this->Plumber_Model->getList('all', ['plumberstatus' => ['1']]);
