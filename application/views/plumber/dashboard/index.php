@@ -7,13 +7,12 @@ $compliment 		= $history['compliment'];
 $cautionary 		= $history['cautionary'];
 $noaudit 			= $history['noaudit'];
 
-$refixincompletepercentage 	= round(($refixincomplete/$total)*100,2).'%'; 
-$refixcompletepercentage 	= round(($refixcomplete/$total)*100,2).'%'; 
-$complimentpercentage 		= round(($compliment/$total)*100,2).'%';
-$cautionarypercentage 		= round(($cautionary/$total)*100,2).'%';
-$noauditpercentage 			= round(($noaudit/$total)*100,2).'%';
-$auditpercentage 			= round(($count/$logged)*100,2).'%';
-
+$refixincompletepercentage 	= ($refixincomplete!=0) ? round(($refixincomplete/$total)*100,2).'%' : '0%'; 
+$refixcompletepercentage 	= ($refixcomplete!=0) ? round(($refixcomplete/$total)*100,2).'%' : '0%'; 
+$complimentpercentage 		= ($compliment!=0) ? round(($compliment/$total)*100,2).'%' : '0%'; 
+$cautionarypercentage 		= ($cautionary!=0) ? round(($cautionary/$total)*100,2).'%' : '0%'; 
+$noauditpercentage 			= ($noaudit!=0) ? round(($noaudit/$total)*100,2).'%' : '0%'; 
+$auditpercentage 			= ($count!=0 && $logged!=0) ? round(($count/$logged)*100,2).'%' : '0%'; 
 
 $developmental1 = 0;
 $workbased1 	= 0;

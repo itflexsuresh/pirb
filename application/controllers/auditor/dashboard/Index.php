@@ -13,7 +13,7 @@ class Index extends CC_Controller
 	{
 		$id 						= $this->getUserID();
 		
-		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['plumberid' => $id]);	
+		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['auditorid' => $id]);	
 		
 		$data['plugins']			= ['echarts'];
 		$data['content'] 			= $this->load->view('auditor/dashboard/index', (isset($pagedata) ? $pagedata : ''), true);
