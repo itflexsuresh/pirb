@@ -126,11 +126,14 @@ class Company_Model extends CC_Model
 	}
 
 	public function getdesignationCount($pageData){
-		$this->db->select('t1.designation, count(t1.designation) as desigcount');
-		$this->db->from('users_plumber t1');
+		$this->db->select('t0.formstatus,t1.designation, count(t1.designation) as desigcount, t1.approval_status,');
+		$this->db->from('users t0');
+		$this->db->join('users_plumber t1', 't1.user_id = t0.id', 'LEFT');
         $this->db->join('users_detail t2', 't2.user_id = t1.user_id', 'LEFT');
         if(isset($pageData['comID'])) $this->db->where('t1.company_details', $pageData['comID']);
         if(isset($pageData['designation'])) $this->db->where('t1.designation', $pageData['designation']);
+        $this->db->where('t0.formstatus', '1');
+        $this->db->where('t1.approval_status', '1');
         $result = $this->db->join('users t3', 't3.id = t1.user_id', 'LEFT')->get()->result_array();
         return $result;
 	}
