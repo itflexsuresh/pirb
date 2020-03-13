@@ -11,6 +11,7 @@ class Cron extends CC_Controller {
 		$this->load->model('Plumber_Model');
 		$this->load->model('Renewal_Model');
 		$this->load->model('Coc_Model');
+		$this->load->model('Auditor_Model');
 		
 		$this->load->model('Communication_Model');
 		$this->load->model('CC_Model');
@@ -1327,6 +1328,38 @@ class Cron extends CC_Controller {
 		$endtime = date('Y-m-d H:i:s');
 		if ($starttime && $endtime) {
 			$this->cronLog(['filename' => $fileName, 'start_time' => $starttime, 'end_time' => $endtime]);
+		}
+	}
+	
+	public function monthlycoc()
+	{	
+		$plumbers	= 	$this->Plumber_Model->getList('all', ['plumberstatus' => ['1']]);
+		$date		= 	date('d-m-Y');
+		
+		foreach($plumbers as $plumber){
+			$history		= $this->Auditor_Model->getReviewHistoryCount(['plumberid' => $id])
+			$logged			= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['2']]);
+			$allocated		= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['4']]);
+			$nonlogged		= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['5']]);
+			
+			$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '19', 'emailstatus' => '1']);
+				
+			if($notificationdata){
+				$array1 = ['{Plumbers Name and Surname}', '{todays date}', '{number1}', '{number2}', '{number3}', '{number4}'];
+				$array2 = [$plumber['name'].' '.$plumber['surname'], $date, $nonlogged, $allocated, $logged, $history['count']];
+				
+				$body 	= str_replace($array1, $array2, $notificationdata['email_body']);
+				$this->CC_Model->sentMail($plumber['email'], $notificationdata['subject'], $body);
+			}
+			
+			if($this->config->item('otpstatus')!='1'){
+				$smsdata 	= $this->Communication_Model->getList('row', ['id' => '19', 'smsstatus' => '1']);
+	
+				if($smsdata){
+					$sms = str_replace(['{number}'], [$nonlogged], $smsdata['sms_body']);
+					$this->sms(['no' => $plumber['mobile_phone'], 'msg' => $sms]);
+				}
+			}
 		}
 	}
 
