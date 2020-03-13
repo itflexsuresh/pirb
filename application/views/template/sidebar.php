@@ -108,7 +108,7 @@ $formstatus  	= $userdata['formstatus'];
 				<?php }elseif($type=='3'){ 
 
 					?>
-					<li><a href="<?php echo base_url().'plumber/registration/index'; ?>">Dashboard</a></li>
+					<li><a href="<?php echo base_url().'plumber/dashboard/index'; ?>">Dashboard</a></li>
 					
 					<?php if($formstatus=='1'){ ?>
 					<?php 
@@ -213,7 +213,7 @@ $formstatus  	= $userdata['formstatus'];
                             }
                        }
 					?>
-					<li><a href="javascript:void(0);">Dashboard</a></li>					
+					<li><a href="<?php echo base_url().'auditor/dashboard/index'; ?>">Dashboard</a></li>					
 					<li><a href="<?php echo base_url().'auditor/auditstatement/index'; ?>">Audit Statement</a></li>
 					<li><a href="<?php echo base_url().'auditor/accounts/index'; ?>">Accounts</a></li>
 					<li><a href="<?php echo base_url().'auditor/reportlisting/index'; ?>">My Report Listing</a></li>
