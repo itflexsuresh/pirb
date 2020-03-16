@@ -35,6 +35,7 @@
 		<div class="card">
 			<div class="card-body">
 				<h4 class="card-title">Managearea </h4>
+				<?php if($checkpermission){ ?>
 				<form class="mt-4 form" action="" method="post">
 					 <div class="form-group col-6">
 					 	<div class="form-group">
@@ -78,6 +79,7 @@
 						</div>
 					</div>
 				</form>
+			<?php } ?>
 								<div class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
@@ -110,7 +112,10 @@
                             {"data" :"name"},
                             { "data": "status" },	
 							{ "data": "action" }
-						]
+						],
+
+						target	:	[4],
+						sort	:	'0'
 		};
 		
 		ajaxdatatables('.datatables', options);

@@ -7,11 +7,15 @@ class Managearea extends CC_Controller
 	{
 		parent::__construct();
 		$this->load->model('Managearea_Model');
+
+		$this->checkUserPermission('4', '1');
 	}
 	
 	public function index($id='')
 	{
 		if($id!=''){
+			$this->checkUserPermission('4', '2', '1');
+
 			$result = $this->Managearea_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
 			if($result){
 				$pagedata['result'] = $result;
@@ -22,6 +26,8 @@ class Managearea extends CC_Controller
 		}
 		
 		if($this->input->post()){
+			$this->checkUserPermission('4', '2', '1');
+
 			$requestData 	= 	$this->input->post();
 
 			if($requestData['submit']=='submit'){
@@ -58,6 +64,7 @@ class Managearea extends CC_Controller
 		
 		$pagedata['notification'] 			= $this->getNotification();
 		$pagedata['provincelist'] 			= $this->getProvinceList();
+		$pagedata['checkpermission'] 		= $this->checkUserPermission('4', '2');
 		$pagedata['msggrp'] 				= $this->config->item('messagegroup');
 		$data['plugins']					= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
 		$data['content'] 					= $this->load->view('admin/administration/managearea/index', (isset($pagedata) ? $pagedata : ''), true);
@@ -69,21 +76,28 @@ class Managearea extends CC_Controller
 		$post 			= $this->input->post();
 		$totalcount 	= $this->Managearea_Model->getList('count', ['status' => ['0','1']]+$post);
 		$results 		= $this->Managearea_Model->getList('all', ['status' => ['0','1']]+$post);
+
+		$checkpermission	=	$this->checkUserPermission('4', '2');
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
+
+				if($checkpermission){
+					$action = 	'<div class="table-action">
+									<a href="'.base_url().'admin/administration/managearea/managearea/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+									<a href="javascript:void(0);" data-id="'.$result['id'].'" class="delete" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+								</div>';
+				}else{
+					$action = '';
+				}
+				
 				$totalrecord[] = 	[
 										'name' 		=> 	$result['name'],
 										'city_id' 		=> 	$result['city_name'],
 										'province_id'  =>  $result['province_name'],
 										'status' 	=> 	$this->config->item('statusicon')[$result['status']],
-										'action'	=> 	'
-															<div class="table-action">
-																<a href="'.base_url().'admin/administration/managearea/managearea/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-																<a href="javascript:void(0);" data-id="'.$result['id'].'" class="delete" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
-															</div>
-														'
+										'action'	=> 	$action
 									];
 			}
 		}
