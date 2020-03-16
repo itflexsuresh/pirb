@@ -1,5 +1,5 @@
 <?php 
-	 //echo '<pre>'; print_r($settings);
+	// echo '<pre>'; print_r($auditordet);
 // echo $_SERVER['DOCUMENT_ROOT'];
 
 	$billingname = isset($auditordetail['company_name']) ? $auditordetail['company_name'] : '';
@@ -12,7 +12,7 @@
 	$email = isset($auditordetail['email']) ? $auditordetail['email'] : '';
 	$user_id = isset($auditordetail['user_id']) ? $auditordetail['user_id'] : '';
 	$dbVat = isset($settings['vat_percentage']) ? $settings['vat_percentage'] : '';
-echo $dbVat;die;
+
 
 	$bank_name = isset($auditordetail['bank_name']) ? $auditordetail['bank_name'] : '';
 	$branch_code = isset($auditordetail['branch_code']) ? $auditordetail['branch_code'] : '';
@@ -139,7 +139,7 @@ echo $dbVat;die;
 						<div class="col-md-12">	
 							<input type="hidden" name="editid" id="editid" value="<?php echo $editid;?>">
 							<input type="hidden" name="total_cost" id="total_cost" value="<?php echo $total_cost;?>">
-							<input type="hidden" name="vat" id="vat" value="<?php echo $vatvalue.' '.$dbVat.'%';?>">
+							<input type="hidden" name="vat" id="vat" value="<?php echo $vatvalue;?>">
 							<input type="hidden" name="total" id="total" value="<?php echo $total;?>">
 							<table id="table" class="table table-bordered table-striped datatables fullwidth">
 								<thead>
@@ -165,7 +165,7 @@ echo $dbVat;die;
 										echo '<td>'.$currency.$total_cost.'</td>';
 									echo '</tr>';									
 									echo '<tr>';
-										echo '<td colspan="3">VAT Total</td>';
+										echo '<td colspan="3">VAT Total '.$dbVat.'</td>';
 										echo '<td>'.$currency.$vatvalue.'</td>';
 									echo '</tr>';									
 									echo '<tr>';
