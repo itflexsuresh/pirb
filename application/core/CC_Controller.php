@@ -47,6 +47,8 @@ class CC_Controller extends CI_Controller
 	{
 		$this->middleware();
 		$data['userdata'] 		= $this->getUserDetails();
+		$data['permission'] 	= ($data['userdata']['type']=='2') ? $this->getUserPermission() : [];
+		
 		$data['sidebar'] 		= $this->load->view('template/sidebar', $data, true);
 		$this->load->view('template/layout2', $data);
 	}
@@ -151,6 +153,10 @@ class CC_Controller extends CI_Controller
 		}else{
 			return '';
 		}
+	}
+	public function getUserPermission()
+	{
+		return $this->Users_Model->getUserPermission($this->getUserID());
 	}
 	
 	public function getNotification()

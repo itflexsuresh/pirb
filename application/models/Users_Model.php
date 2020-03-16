@@ -92,6 +92,24 @@ class Users_Model extends CC_Model
 		return $result;
 	}
 	
+	public function getUserPermission($id)
+	{
+		$this->db->select('ud.read_permission,ud.write_permission');
+		$this->db->from('users u');
+		$this->db->join('users_detail ud', 'u.id=ud.user_id', 'left');
+		$result = $this->db->where('u.id', $id)->get()->row_array();
+		
+		if($result){
+			$read 				= $result['read_permission'];
+			$write 				= $result['write_permission'];
+			$readpermission 	= explode(',', $read);
+			$writepermission 	= explode(',', $write);
+			
+			$parent = $this->db->select('group_concat(distinct(category_id) separator ",") as parent')->where_in('id', $readpermission)->or_where_in('id', $writepermission)->get('system_user_permission')->row_array();
+			return ['readpermission' => $read, 'writepermission' => $write, 'parent' => $parent['parent']];
+		}
+	}
+	
 	public function actionUsers($data)
 	{
 		$this->db->trans_begin();

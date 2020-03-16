@@ -107,8 +107,8 @@
 								<tbody>
 									<tr style="background-color:lightgray">
 										<td><?php echo $key;?></td>
-										<td>&nbsp;<input data-id="<?php echo $read_key.'_read';?>" type="checkbox" name="read[]" id="checkbox3" class="<?php echo $read_key.'_read';?> checkbox3"></td>
-										<td>&nbsp;<input data-id="<?php echo $read_key;?>" type="checkbox" name="checkbox" id="checkbox4" class="<?php echo $read_key;?> checkbox4"></td>
+										<td>&nbsp;<input data-id="<?php echo $read_key.'_read';?>" type="checkbox" id="checkbox3" class="<?php echo $read_key.'_read';?> checkbox3"></td>
+										<td>&nbsp;<input data-id="<?php echo $read_key;?>" type="checkbox" id="checkbox4" class="<?php echo $read_key;?> checkbox4"></td>
 									</tr>
 									<?php 
 									foreach($val as $k=>$v)
