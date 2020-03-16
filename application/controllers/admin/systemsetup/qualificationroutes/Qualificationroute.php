@@ -8,14 +8,14 @@ class Qualificationroute extends CC_Controller
 		parent::__construct();
 		$this->load->model('Qualificationroute_Model');
 
-		$this->checkUserPermission('10', '1');
+		$this->checkUserPermission('12', '1');
 	}
 	
 	public function index($id='')
 	{
 		if($id!=''){
 
-			$this->checkUserPermission('10', '2', '1');
+			$this->checkUserPermission('12', '2', '1');
 
 			$result = $this->Qualificationroute_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
 			if($result){
@@ -28,7 +28,7 @@ class Qualificationroute extends CC_Controller
 		
 		if($this->input->post()){
 
-			$this->checkUserPermission('10', '2', '1');
+			$this->checkUserPermission('12', '2', '1');
 
 			$requestData 	= 	$this->input->post();
 
@@ -47,7 +47,7 @@ class Qualificationroute extends CC_Controller
 		}
 		
 		$pagedata['notification'] 	= $this->getNotification();
-		$pagedata['checkpermission'] = $this->checkUserPermission('10', '2');
+		$pagedata['checkpermission'] = $this->checkUserPermission('12', '2');
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
 		$data['content'] 			= $this->load->view('admin/systemsetup/qualificationroutes/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
@@ -59,7 +59,7 @@ class Qualificationroute extends CC_Controller
 		$totalcount 	= $this->Qualificationroute_Model->getList('count', ['status' => ['0','1']]+$post);
 		$results 		= $this->Qualificationroute_Model->getList('all', ['status' => ['0','1']]+$post);
 
-		$checkpermission	=	$this->checkUserPermission('10', '2');
+		$checkpermission	=	$this->checkUserPermission('12', '2');
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
