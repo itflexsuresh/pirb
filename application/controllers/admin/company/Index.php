@@ -12,7 +12,10 @@ class Index extends CC_Controller
 
     public function index()
     {
+        $this->checkUserPermission('19', '1');
+
         $pagedata['notification'] = $this->getNotification();
+        $pagedata['checkpermission'] = $this->checkUserPermission('19', '2');
         $data['plugins'] = ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
         $data['content'] = $this->load->view('admin/company/index', (isset($pagedata) ? $pagedata : ''), true);
         $this->layout2($data);
@@ -24,10 +27,21 @@ class Index extends CC_Controller
         $totalcount 	= $this->Company_Model->getList('count', ['type' => '4', 'approvalstatus' => ['0', '1'], 'formstatus' => ['1'], 'status' => ['0', '1', '2']] + $post);
         $results 		= $this->Company_Model->getList('all', ['type' => '4', 'approvalstatus' => ['0', '1'], 'formstatus' => ['1'], 'status' => ['0', '1', '2']] + $post);
         $companystatus	= $this->config->item('companystatus');
+
+        $checkpermission = $this->checkUserPermission('19', '2');
         
         $totalrecord = [];
         if (count($results) > 0) {
             foreach ($results as $result) {
+
+                if ($checkpermission) {
+                    $action = '<div class="table-action">
+                                    <a href="' . base_url() . 'admin/company/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+                                </div>';
+                }else{
+                    $action = '';
+                }
+                
 				$companystatus1 = isset($companystatus[$result['companystatus']]) ? $companystatus[$result['companystatus']] : '';
                 $totalrecord[] = [
 									'id' 			=> $result['id'],
@@ -35,11 +49,7 @@ class Index extends CC_Controller
 									'status' 		=> $companystatus1,
 									'lmcount' 		=> $result['lmcount'],
 									'lttqcount' 	=> $result['lttqcount'],
-									'action' 		=> '
-															<div class="table-action">
-																<a href="' . base_url() . 'admin/company/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-															</div>
-														',
+									'action' 		=>  $action,
                 ];
             }
         }

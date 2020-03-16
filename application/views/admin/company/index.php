@@ -49,7 +49,9 @@
 							{ "data": "lmcount" },
 							{ "data": "lttqcount" },
 							{ "data": "action" }
-						]
+						],
+						target : [5],
+						sort : '0'
 		};
 		
 		ajaxdatatables('.datatables', options);
