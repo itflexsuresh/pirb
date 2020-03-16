@@ -58,7 +58,7 @@ class Subtype  extends CC_Controller
 		$totalcount 	= $this->Subtype_Model->getList('count', ['status' => ['0','1']]+$post);
 		$results 		= $this->Subtype_Model->getList('all', ['status' => ['0','1']]+$post);
 
-		$checkpermission	=	$this->checkUserPermission('2', '2');
+		$checkpermission	=	$this->checkUserPermission('3', '2');
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
