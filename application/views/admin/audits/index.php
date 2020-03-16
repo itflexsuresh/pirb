@@ -16,11 +16,14 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">Manage Auditors</h4>				
+				<h4 class="card-title">Manage Auditors</h4>	
+				<?php if($checkpermission){ ?>			
 				<div class="col-md-6 text-right">
-					<!-- <input type="hidden" name="id" value="<?php //echo $id; ?>"> -->
+					<!-- <input type="hidden" name="id" value="<?php //echo $id; ?>"> -->.
+
 					<button type="button" name="submit" value="submit" onclick="window.location.href='<?php echo base_url().'admin/audits/index/action'; ?>';" class="btn btn-primary">Add New</button>
 				</div>
+			<?php } ?>
 				<div class="row">
 					<div class="col-md-6">
 						<a href="<?php echo base_url().'admin/audits/index/index/1'; ?>" class="active_link_btn">Active</a>  <a href="<?php echo base_url().'admin/audits/index/index/2'; ?>" class="archive_link_btn">Archive</a>
@@ -64,7 +67,9 @@
 							{ "data": "contactnumber" },
 							{ "data": "action" }
 						],
-						data : {pagestatus : '<?php echo $pagestatus; ?>'}
+						data : {pagestatus : '<?php echo $pagestatus; ?>'},
+						target : [3],
+						sort : '0'
 		};
 		
 		ajaxdatatables('.datatables', options);

@@ -20,7 +20,13 @@ class Index extends CC_Controller
 
 	public function index($pagestatus='',$id='')
 	{
+
+		$this->checkUserPermission('22', '1');
+
 		if($id!=''){
+
+			$this->checkUserPermission('22', '2', '1');
+
 			$result = $this->Renewal_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
 			
 			if($result){
@@ -32,6 +38,9 @@ class Index extends CC_Controller
 		}
 		
 		if($this->input->post()){
+
+			$this->checkUserPermission('22', '2', '1');
+
 			$requestData 	= 	$this->input->post();
 
 			if($requestData['submit']=='submit'){
@@ -50,6 +59,7 @@ class Index extends CC_Controller
 		
 		$pagedata['notification'] 			= $this->getNotification();
 		$pagedata['provincelist'] 			= $this->getProvinceList();
+		$pagedata['checkpermission'] = $this->checkUserPermission('22', '2');
 		$pagedata['msggrp'] 				= $this->config->item('messagegroup');
 		$data['plugins']					= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
 		$data['content'] 					= $this->load->view('admin/accounts/renewal_plumber/index', (isset($pagedata) ? $pagedata : ''), true);
@@ -62,6 +72,7 @@ class Index extends CC_Controller
 		$post['status'] = '1';
 		$totalcount 	= $this->Renewal_Model->getList('count',$post);
 		$results 		= $this->Renewal_Model->getList('all', $post);
+		$checkpermission	=	$this->checkUserPermission('22', '2');
 		// echo json_encode($totalcount); die;
 		$totalrecord 	= [];
 		if(count($results) > 0)
