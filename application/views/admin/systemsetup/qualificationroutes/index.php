@@ -34,6 +34,7 @@
 		<div class="card">
 			<div class="card-body">
 				<h4 class="card-title">Qualification Route</h4>
+				<?php if ($checkpermission) { ?>
 				<form class="mt-4 form" action="" method="post">
 					<div class="form-group">
 						<label for="name">Qualification Route*</label>
@@ -52,6 +53,7 @@
 						</div>
 					</div>
 				</form>
+			<?php } ?>
 				<div class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
@@ -78,7 +80,9 @@
 							{ "data": "name" },
 							{ "data": "status" },
 							{ "data": "action" }
-						]
+						],
+						target : [2],
+						sort : '0'
 		};
 		
 		ajaxdatatables('.datatables', options);

@@ -7,11 +7,16 @@ class Rates extends CC_Controller
 	{
 		parent::__construct();
 		$this->load->model('Rates_Model');
+
+		$this->checkUserPermission('9', '1');
 	}
 	
 	public function index($id='')
 	{
 		if($id!=''){
+
+			$this->checkUserPermission('9', '2', '1');
+
 			$result = $this->Rates_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
 			if($result){
 				$pagedata['result'] = $result;
@@ -23,6 +28,9 @@ class Rates extends CC_Controller
 		
 
 		if($this->input->post()){
+
+			$this->checkUserPermission('9', '2', '1');
+
 			$requestData 	= 	$this->input->post();
 			if($requestData['submit']=='submit'){
 
@@ -53,6 +61,7 @@ class Rates extends CC_Controller
 		
 		$pagedata['notification'] 			= $this->getNotification();
 		$pagedata['msggrp'] 				= $this->config->item('messagegroup');
+		$pagedata['checkpermission'] 		= $this->checkUserPermission('9', '2');
 		$pagedata['results'] 				= $this->Rates_Model->getList('all', ['status' => ['0','1']]);
 		$data['plugins']					= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
 

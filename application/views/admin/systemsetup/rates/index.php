@@ -106,9 +106,15 @@ else
 													<td><?php echo $result['supplyitem']; ?></td>
 													<td><?php echo $result['amount']; ?></td>
 													<td><?php echo date('m/d/Y',strtotime($result['validfrom'])); ?></td>
-													<td><div class="table-action">
-																	<a href="<?php echo base_url().'admin/systemsetup/rates/rates/index/'.$result['id'].''?>" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-																</div></td>
+
+													<td>
+													<?php
+													if($checkpermission){
+													?>
+													<div class="table-action">
+														<a href="<?php echo base_url().'admin/systemsetup/rates/rates/index/'.$result['id'].''?>" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+													</div>
+													<?php } ?></td>
 												</tr>
 											<?php
 												}
