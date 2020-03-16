@@ -12,10 +12,10 @@ class Index extends CC_Controller
 
     public function index()
     {
-        $this->checkUserPermission('19', '1');
+        $this->checkUserPermission('20', '1');
 
         $pagedata['notification'] = $this->getNotification();
-        $pagedata['checkpermission'] = $this->checkUserPermission('19', '2');
+        $pagedata['checkpermission'] = $this->checkUserPermission('20', '2');
         $data['plugins'] = ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
         $data['content'] = $this->load->view('admin/company/index', (isset($pagedata) ? $pagedata : ''), true);
         $this->layout2($data);
@@ -28,7 +28,7 @@ class Index extends CC_Controller
         $results 		= $this->Company_Model->getList('all', ['type' => '4', 'approvalstatus' => ['0', '1'], 'formstatus' => ['1'], 'status' => ['0', '1', '2']] + $post);
         $companystatus	= $this->config->item('companystatus');
 
-        $checkpermission = $this->checkUserPermission('19', '2');
+        $checkpermission = $this->checkUserPermission('20', '2');
         
         $totalrecord = [];
         if (count($results) > 0) {
@@ -41,7 +41,7 @@ class Index extends CC_Controller
                 }else{
                     $action = '';
                 }
-                
+
 				$companystatus1 = isset($companystatus[$result['companystatus']]) ? $companystatus[$result['companystatus']] : '';
                 $totalrecord[] = [
 									'id' 			=> $result['id'],
