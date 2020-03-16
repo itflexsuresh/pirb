@@ -79,7 +79,9 @@ if(isset($result) && $result){
 			{ "data": "name" },
 			{ "data": "status" },
 			{ "data": "action" }
-			]
+			],
+			target	:	[2],
+			sort	:	'0'
 		};
 		
 		ajaxdatatables('.datatables', options);
