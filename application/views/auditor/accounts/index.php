@@ -1,5 +1,5 @@
 <?php 
-	// echo '<pre>'; print_r($auditordet);
+	 echo '<pre>'; print_r($auditordet);
 // echo $_SERVER['DOCUMENT_ROOT'];
 
 	$billingname = isset($auditordetail['company_name']) ? $auditordetail['company_name'] : '';
