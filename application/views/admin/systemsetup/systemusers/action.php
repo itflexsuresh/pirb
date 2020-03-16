@@ -191,12 +191,10 @@
 					remote		: 	{
 						url	: "<?php echo base_url().'admin/systemsetup/systemusers/systemusers/DTemailValidation'; ?>",
 						type: "post",
+						async:false,
 						data: {
 							email: function() {
 								return $( "#email" ).val();
-							},
-							type: function() {
-								return $( "#role_id" ).val();
 							},
 							id: function() {
 								return $( "#id" ).val();

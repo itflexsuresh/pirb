@@ -76,9 +76,9 @@ $config['statusicon'] 				= 	[
 
 $config['roletype'] 				= 	[
 											'1' => 'Administrator',
-											'7' => 'Local Authorities',
-											'8' => 'Insurance',
-											'9' => 'Guest'
+											'2' => 'Local Authorities',
+											'3' => 'Insurance',
+											'4' => 'Guest'
 										];
 
 $config['messagegroup'] 			= 	[
