@@ -4,7 +4,6 @@ class Systemusers_Model extends CC_Model
 {
 	public function getList($type, $requestdata=[])
 	{
-
 		$this->db->select('ist.name, ist.surname, ist.comments, ist.read_permission, ist.write_permission, it.id, it.type, it.email, it.status, it.roletype,  it.password_raw, it.type as userdetails')->order_by('it.id','desc');
         $this->db->from('users_detail as ist');
         $query = $this->db->join('users as it', 'it.id = ist.user_id', 'left');
@@ -22,13 +21,14 @@ class Systemusers_Model extends CC_Model
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
-			$this->db->like('ist.name', $searchvalue);
-			$this->db->like('it.status', $searchvalue);
-            $this->db->or_like('ist.surname', $searchvalue);
-            $this->db->or_like('it.password_raw', $searchvalue);
-            $this->db->or_like('it.type', $searchvalue);
-            $this->db->or_like('it.status', $searchvalue);
-            $this->db->or_like('it.id', $searchvalue);
+			$this->db->group_start();
+				$this->db->like('ist.name', $searchvalue);
+				$this->db->or_like('ist.surname', $searchvalue);
+				$this->db->or_like('it.password_raw', $searchvalue);
+				$this->db->or_like('it.type', $searchvalue);
+				$this->db->or_like('it.status', $searchvalue);
+				$this->db->or_like('it.id', $searchvalue);
+			$this->db->group_end();
 		}
 		
 		if($type=='count'){

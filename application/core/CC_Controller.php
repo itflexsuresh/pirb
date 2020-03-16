@@ -57,7 +57,7 @@ class CC_Controller extends CI_Controller
 		
 		if($type=='1'){
 			if($userDetails){				
-				if($userDetails['type']=='1'){
+				if($userDetails['type']=='1' || $userDetails['type']=='2'){
 					redirect('admin/administration/installationtype'); 
 				}elseif($userDetails['type']=='3'){
 					if($userDetails['formstatus']=='1') redirect('plumber/dashboard/index'); 
@@ -86,7 +86,7 @@ class CC_Controller extends CI_Controller
 					redirect('login/resellers'); 
 				}
 			}else{			
-				if($userDetails['type']=='1' && $segment1!='admin'){
+				if(($userDetails['type']=='1'  || $userDetails['type']=='2') && $segment1!='admin'){
 					redirect('admin/administration/installationtype'); 
 				}elseif($userDetails['type']=='3' && $segment1!='plumber'){
 					if($userDetails['formstatus']=='1') redirect('plumber/profile/index'); 

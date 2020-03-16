@@ -19,11 +19,11 @@ class Login extends CC_Controller
 			
 			$usertype 		= $this->config->item('usertype1')[$usertype];
 			$usertypename 	= $this->config->item('usertype2')[$usertype];
-			$requesttype	= $usertype;
+			$requesttype	= [$usertype];
 		}else{
 			$usertype 		= '';
 			$usertypename 	= '';
-			$requesttype	= '1';
+			$requesttype	= ['1', '2'];
 		}
 		
 		if($this->input->post())

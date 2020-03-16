@@ -18,14 +18,12 @@ $formstatus  	= $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'admin/administration/managearea/managearea'; ?>">Manage Area</a></li>
 						</ul>
 					</li>
-
 					<li class="step three"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu"></span>Communication Management</a>
 						<ul aria-expanded="false" class="collapse">
 							<li><a href="<?php echo base_url().'admin/communication/notification/index'; ?>">Notification and SMS Templates</a></li>
 						</ul>
 					</li>
-
 					<li class="step coc_manage"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu" style="white-space: nowrap;">Coc Management</span></a>
 						<ul aria-expanded="false" class="collapse">	
@@ -33,8 +31,7 @@ $formstatus  	= $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'admin/cocstatement/cocorders/index'; ?>">Coc Orders</a></li>
 							<li><a href="<?php echo base_url().'admin/cocstatement/papermanagement/index'; ?>">Paper Management</a></li>
 						</ul>						
-					</li>
-					
+					</li>					
 					<li class="step two"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">System Setup</span></a>
 						<ul aria-expanded="false" class="collapse">
@@ -43,18 +40,10 @@ $formstatus  	= $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'admin/systemsetup/systemsettings/systemsettings'; ?>">System Settings</a></li>
 							<li><a href="<?php echo base_url().'admin/systemsetup/qualificationroutes/qualificationroute'; ?>">Qualification Routes</a></li>
 							<li><a href="<?php echo base_url().'admin/systemsetup/message/message'; ?>">Messages</a></li>
-                             
-							
-	                                                <li><a href="<?php echo base_url().'admin/systemsetup/performancesettings/plumberperformance'; ?>">Plumber Performance Types</a></li>
+                            <li><a href="<?php echo base_url().'admin/systemsetup/performancesettings/plumberperformance'; ?>">Plumber Performance Types</a></li>
 							<li><a href="<?php echo base_url().'admin/systemsetup/performancesettings/globalperformance'; ?>">Global Performance Settings</a></li>
-
-
-								
 						</ul>						
 					</li>
-
-					
-
 					<li class="step three"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">CPD</span></a>
 						<ul aria-expanded="false" class="collapse">
@@ -69,8 +58,6 @@ $formstatus  	= $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'admin/plumber/index/rejected'; ?>">Rejected Applications</a></li>
 						</ul>
 					</li>
-					
-
 					<li class="step five"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Company</span></a>
 						<ul aria-expanded="false" class="collapse">
@@ -94,20 +81,14 @@ $formstatus  	= $userdata['formstatus'];
 							<li><a href="<?php echo base_url().'admin/audits/cocallocate/index'; ?>">Manage COC Allocation for Audit</a></li>
 							<li><a href="<?php echo base_url().'admin/audits/auditstatement/index'; ?>">Manage Allocted Audits</a></li>
 						</ul>
-					</li>
-					
+					</li>					
 					<li class="step five"> 
 						<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Resellers</span></a>
 						<ul aria-expanded="false" class="collapse">
 							<li><a href="<?php echo base_url().'admin/resellers/index'; ?>">Resellers</a></li>
 						</ul>
-					</li>
-				       
-				   
-					
-				<?php }elseif($type=='3'){ 
-
-					?>
+					</li>				      
+				<?php }elseif($type=='3'){ ?>
 					<li><a href="<?php echo base_url().'plumber/dashboard/index'; ?>">Dashboard</a></li>
 					
 					<?php if($formstatus=='1'){ ?>

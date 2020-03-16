@@ -8,7 +8,7 @@ class Users_Model extends CC_Model
 		$password 	= md5($data['password']);
 		$type 		= $data['type'];
 
-		$query = $this->db->get_where('users', ['email' => $email, 'password' => $password, 'type' => $type]);
+		$query = $this->db->where_in('type', $type)->get_where('users', ['email' => $email, 'password' => $password]);
 	
 		if($query->num_rows() > 0){
 			$result = $query->row_array();

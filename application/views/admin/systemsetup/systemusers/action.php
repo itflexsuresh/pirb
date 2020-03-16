@@ -173,7 +173,11 @@
 		$.validator.addMethod("lettersonly", function(value, element) {
           return this.optional(element) || /^[a-z \s]+$/i.test(value);
         }, "Only Letters");
-
+		
+		jQuery.validator.addMethod("noSpace", function(value, element) { 
+  			return value.indexOf(" ") < 0 && value != ""; 
+		}, "No space please and don't leave it empty");
+		
 		validation(
 			'.form',
 			{
@@ -205,6 +209,9 @@
 				},
 				password:{
 					required    : true,
+					minlength	: 8,
+					maxlength	: 24,
+					noSpace		: true
 				},
 				type   :{
 					required    :true,
@@ -233,63 +240,51 @@
 		
 	});
 	
-	// Delete
-	
-	$(document).on('click', '.delete', function(){
-		var action 	= 	'<?php echo base_url().'admin/systemsetup/systemusers'; ?>';
-		var data	= 	'\
-							<input type="hidden" value="'+$(this).attr('data-id')+'" name="id">\
-							<input type="hidden" value="2" name="status">\
-						';
-						
-		sweetalert(action, data);
-	});
-
 	$(document).ready(function(){
 
-    $(".checkbox3").click(function(){
-    var c = $(this).attr("data-id");
-    // alert(c);
+		$(".checkbox3").click(function(){
+		var c = $(this).attr("data-id");
+		// alert(c);
 
-// alert($(this).prop("checked"));
+	// alert($(this).prop("checked"));
 
-    if( $(this).prop("checked")==true){
-    
-   
-     $("."+c).prop("checked", true);
-    }else{
-    
-    	 $("."+c).prop("checked", false);
-   /*  $("."+c+"_read").prop("checked",true);
-     $("."+c).prop("checked",true);*/
-    }
-    });
+		if( $(this).prop("checked")==true){
+		
+	   
+		 $("."+c).prop("checked", true);
+		}else{
+		
+			 $("."+c).prop("checked", false);
+	   /*  $("."+c+"_read").prop("checked",true);
+		 $("."+c).prop("checked",true);*/
+		}
+		});
 
 
-    $(".checkbox4").click(function(){
-    var c = $(this).attr("data-id");
-     if( $("."+c+"_read").prop("checked")==false){
-     $("."+c+"_read").prop("checked", true);
-     $("."+c).prop("checked", true);
-    }else{
-     $("."+c+"_read").prop("checked", false);
-     $("."+c).prop("checked", false);
-    }
-    
-    
-    });
+		$(".checkbox4").click(function(){
+		var c = $(this).attr("data-id");
+		 if( $("."+c+"_read").prop("checked")==false){
+		 $("."+c+"_read").prop("checked", true);
+		 $("."+c).prop("checked", true);
+		}else{
+		 $("."+c+"_read").prop("checked", false);
+		 $("."+c).prop("checked", false);
+		}
+		
+		
+		});
 
-    $(".write_key").click(function(){
-    
-   if($(this).closest('tr').find("input[name='read[]']").prop('checked')==false) {
-   $(this).closest('tr').find("input[name='read[]']").prop('checked', true);
-   }else{
-    $(this).closest('tr').find("input[name='read[]']").prop('checked', false);
-   };
-    
-    });
+		$(".write_key").click(function(){
+		
+	   if($(this).closest('tr').find("input[name='read[]']").prop('checked')==false) {
+	   $(this).closest('tr').find("input[name='read[]']").prop('checked', true);
+	   }else{
+		$(this).closest('tr').find("input[name='read[]']").prop('checked', false);
+	   };
+		
+		});
 
-   
-});
+	   
+	});
 </script>
 
