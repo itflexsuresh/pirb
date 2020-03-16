@@ -45,7 +45,9 @@
 							{ "data": "company" },
 							{ "data": "reason" },
 							{ "data": "action" }
-						]
+						],
+						target : [3],
+						sort : '0'
 		};
 		
 		ajaxdatatables('.datatables', options);

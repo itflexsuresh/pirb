@@ -135,7 +135,10 @@ class Index extends CC_Controller
 
     public function rejected()
     {
+         $this->checkUserPermission('21', '1');
+
         $pagedata['notification']   = $this->getNotification();
+        $pagedata['checkpermission'] = $this->checkUserPermission('21', '2');
         
         $data['plugins']            = ['datatables', 'datatablesresponsive'];
         $data['content']            = $this->load->view('admin/company/rejected', (isset($pagedata) ? $pagedata : ''), true);
@@ -149,19 +152,28 @@ class Index extends CC_Controller
         $totalcount     = $this->Company_Model->getList('count', ['type' => '4', 'approvalstatus' => ['2'], 'status' => ['0', '1', '2']] + $post);
         $results        = $this->Company_Model->getList('all', ['type' => '4', 'approvalstatus' => ['2'], 'status' => ['0', '1', '2']] + $post);
         $companystatus  = $this->config->item('companystatus');
+
+        $checkpermission = $this->checkUserPermission('21', '2');
+
         $totalrecord = [];
         if (count($results) > 0) {
             foreach ($results as $result) {
+
+                if ($checkpermission) {
+                    $action = '<div class="table-action">
+                                                                <a href="' . base_url() . 'admin/company/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+                                                            </div>';
+                }else{
+                    $action = '';
+                }
+
+
                 $companystatus = $result['companystatus']!='' && isset($companystatus[$result['companystatus']]) ? $companystatus[$result['companystatus']] : '';
                 $totalrecord[] = [
                                     'date'          => date('d-m-Y', strtotime($result['created_at'])),
                                     'company'       => $result['company'],
                                     'reason'        => $this->config->item('companyrejectreason')[$result['reject_reason']],
-                                    'action'        => '
-                                                            <div class="table-action">
-                                                                <a href="' . base_url() . 'admin/company/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-                                                            </div>
-                                                        ',
+                                    'action'        => $action,
                 ];
             }
         }
