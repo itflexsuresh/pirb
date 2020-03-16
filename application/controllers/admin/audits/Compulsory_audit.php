@@ -8,11 +8,16 @@ class Compulsory_audit extends CC_Controller
 	{
 		parent::__construct();
 		$this->load->model('Auditor_Model');
+
+		$this->checkUserPermission('26', '1');
 	}
 	
 	public function index($id='')
 	{
 		if($id!=''){
+
+			$this->checkUserPermission('26', '2', '1');
+
 			$result = $this->Auditor_Model->getlisting('row', ['id' => $id]);
 			if($result){
 				$pagedata['result'] = $result;
@@ -22,6 +27,8 @@ class Compulsory_audit extends CC_Controller
 			}
 		}
 		if($this->input->post()){
+			$this->checkUserPermission('26', '2', '1');
+
 			$requestData 	= 	$this->input->post();
 
 			if($requestData['submit']=='submit'){
@@ -36,6 +43,7 @@ class Compulsory_audit extends CC_Controller
 		}
 
 		$pagedata['notification'] 	= $this->getNotification();		
+		$pagedata['checkpermission'] = $this->checkUserPermission('26', '2');
 		
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
@@ -50,20 +58,28 @@ class Compulsory_audit extends CC_Controller
 		$post 			= $this->input->post();	
 		$totalcount 	= $this->Auditor_Model->getlisting('count',$post);
 		$results 		= $this->Auditor_Model->getlisting('all',$post);
+
+		$checkpermission	=	$this->checkUserPermission('26', '2');
+
 		$totalrecord 	= [];
 		if(count($results) > 0){
-			foreach($results as $result){				
+			foreach($results as $result){	
+
+			if($checkpermission){
+					$action = 	'<div class="table-action">
+																	<a href="'.base_url().'admin/audits/Compulsory_audit/index/'.$result['uid'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+																</div>';
+				}else{
+					$action = '';
+				}
+							
 				$stockcount = 0;
 				$totalrecord[] = 	[										
 										'name' 			=> 	$result['name']." ".$result['surname'],
 										'reg' 			=> 	$result['registration_no'],										
 										'allocation' 	=> 	$result['allocation'],
 										'complete' 		=> 	$result['completed'],
-										'action'		=> 	'
-																<div class="table-action">
-																	<a href="'.base_url().'admin/audits/Compulsory_audit/index/'.$result['uid'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-																</div>
-															'
+										'action'		=> 	$action
 									];
 			}
 		}

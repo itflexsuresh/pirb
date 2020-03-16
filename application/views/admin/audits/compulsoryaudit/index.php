@@ -29,6 +29,7 @@ $heading				= isset($result['calid']) ? 'Update' : 'Add';
 		<div class="card">
 			<div class="card-body">
 				<h4 class="card-title">Compulsory Audit Listing</h4>
+				<?php if($checkpermission){  ?>
 				<form class="mt-4 form" action="" method="post">
 					<div class="form-group">
 						<div class="col-md-6">
@@ -53,6 +54,7 @@ $heading				= isset($result['calid']) ? 'Update' : 'Add';
 						</div>
 					</div>
 				</form>
+			<?php } ?>
 				<div class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
@@ -84,7 +86,9 @@ $(function(){
 			{ "data": "allocation" },
 			{ "data": "complete" },
 			{ "data": "action" }
-			]
+			],
+			target : [4],
+			sort : '0'
 		};
 		
 		ajaxdatatables('.datatables', options);
