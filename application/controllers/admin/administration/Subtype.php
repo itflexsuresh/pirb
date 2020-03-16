@@ -46,7 +46,7 @@ class Subtype  extends CC_Controller
 		
 		$pagedata['notification'] 			= $this->getNotification();
 		$pagedata['installationtypelist'] 	= $this->getInstallationTypeList();
-		$pagedata['checkpermission'] 		= $this->checkUserPermission('2', '2');
+		$pagedata['checkpermission'] 		= $this->checkUserPermission('3', '2');
 		$data['plugins']					= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
 		$data['content'] 					= $this->load->view('admin/administration/subtype/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
