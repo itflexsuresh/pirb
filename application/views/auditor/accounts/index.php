@@ -1,5 +1,5 @@
 <?php 
-	 echo '<pre>'; print_r($settings);
+	 //echo '<pre>'; print_r($settings);
 // echo $_SERVER['DOCUMENT_ROOT'];
 
 	$billingname = isset($auditordetail['company_name']) ? $auditordetail['company_name'] : '';
@@ -12,7 +12,7 @@
 	$email = isset($auditordetail['email']) ? $auditordetail['email'] : '';
 	$user_id = isset($auditordetail['user_id']) ? $auditordetail['user_id'] : '';
 	$dbVat = isset($settings['vat_percentage']) ? $settings['vat_percentage'] : '';
-
+echo $dbVat;die;
 
 	$bank_name = isset($auditordetail['bank_name']) ? $auditordetail['bank_name'] : '';
 	$branch_code = isset($auditordetail['branch_code']) ? $auditordetail['branch_code'] : '';
