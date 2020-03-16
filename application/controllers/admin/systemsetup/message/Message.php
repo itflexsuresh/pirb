@@ -8,14 +8,14 @@ class Message extends CC_Controller
 		parent::__construct();
 		$this->load->model('Message_Model');
 
-		$this->checkUserPermission('11', '1');
+		$this->checkUserPermission('13', '1');
 	}
 	
 	public function index($id='')
 	{
 		if($id!=''){
 
-			$this->checkUserPermission('11', '2', '1');
+			$this->checkUserPermission('13', '2', '1');
 
 			$result = $this->Message_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
 			// print_r($result);die;
@@ -29,7 +29,7 @@ class Message extends CC_Controller
 		
 		if($this->input->post()){
 
-			$this->checkUserPermission('11', '2', '1');
+			$this->checkUserPermission('13', '2', '1');
 
 			$requestData 	= 	$this->input->post();
 
@@ -48,7 +48,7 @@ class Message extends CC_Controller
 		}
 		
 		$pagedata['notification'] 			= $this->getNotification();
-		$pagedata['checkpermission'] 		= $this->checkUserPermission('11', '2');
+		$pagedata['checkpermission'] 		= $this->checkUserPermission('13', '2');
 		$pagedata['msggrp'] 				= $this->config->item('messagegroup');
 		$data['plugins']					= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
 		$data['content'] 					= $this->load->view('admin/systemsetup/message/index', (isset($pagedata) ? $pagedata : ''), true);
@@ -61,7 +61,7 @@ class Message extends CC_Controller
 		$totalcount 	= $this->Message_Model->getList('count', ['status' => ['0','1']]+$post);
 		$results 		= $this->Message_Model->getList('all', ['status' => ['0','1']]+$post);
 
-		$checkpermission	=	$this->checkUserPermission('11', '2');
+		$checkpermission	=	$this->checkUserPermission('13', '2');
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
