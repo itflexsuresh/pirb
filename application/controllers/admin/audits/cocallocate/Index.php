@@ -13,10 +13,13 @@ class Index extends CC_Controller
 	
 	public function index()
 	{
+		$this->checkUserPermission('27', '1');
+
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['company'] 		= $this->getCompanyList();
 		$pagedata['province'] 			= $this->getProvinceList();
 		$pagedata['plumberstatus'] 	= $this->config->item('plumberstatus');
+		$pagedata['checkpermission'] = $this->checkUserPermission('27', '2');
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'datepicker'];
 		$data['content'] 			= $this->load->view('admin/audits/cocallocate/index', (isset($pagedata) ? $pagedata : ''), true);
@@ -32,9 +35,18 @@ class Index extends CC_Controller
 		$totalcount 	= $this->Auditor_allocatecoc_Model->getList('count', ['type' => '3', 'approvalstatus' => ['0','1'], 'status' => ['1']]+$post);
 		$results 		= $this->Auditor_allocatecoc_Model->getList('all', ['type' => '3', 'approvalstatus' => ['0','1'], 'status' => ['1']]+$post);
 
+		$checkpermission	=	$this->checkUserPermission('27', '2');
+
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
+
+				if($checkpermission){
+					$action = 	'<a href='javascript:void(0);' class='cocmodal' data-user-id='$user_id'>logged COC</a>';
+				}else{
+					$action = '';
+				}
+				
 				$designation 	= isset($this->config->item('designation2')[$result["designation"]]) ? $this->config->item('designation2')[$result["designation"]] : '';
 				$status 		= isset($this->config->item('plumberstatus')[$result["plumberstatus"]]) ? $this->config->item('plumberstatus')[$result["plumberstatus"]] : '';
 				$user_id = $result['id'];
@@ -45,7 +57,7 @@ class Index extends CC_Controller
 										'company' 		=> 	$result['companyname'],
 										'city' 			=> 	$result['postal_city'],
 										'province' 		=> 	$result['postal_province'],
-										'coc_link' 		=> 	"<a href='javascript:void(0);' class='cocmodal' data-user-id='$user_id'>logged COC</a>",
+										'coc_link' 		=> 	$action,
 									];
 			}
 		}
