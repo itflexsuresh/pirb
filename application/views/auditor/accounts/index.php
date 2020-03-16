@@ -165,7 +165,7 @@
 										echo '<td>'.$currency.$total_cost.'</td>';
 									echo '</tr>';									
 									echo '<tr>';
-										echo '<td colspan="3">VAT Total '.$dbVat.'</td>';
+										echo '<td colspan="3">VAT Total '.$dbVat.'%</td>';
 										echo '<td>'.$currency.$vatvalue.'</td>';
 									echo '</tr>';									
 									echo '<tr>';
