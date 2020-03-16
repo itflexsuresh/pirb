@@ -39,6 +39,7 @@ if(isset($result) && $result){
 		<div class="card">
 			<div class="card-body">
 				<h4 class="card-title">Plumber Performance Types</h4>
+				<?php if ($checkpermission) { ?>
 				<form class="mt-4 form" action="" method="post">
 					<div class="row">
 						<div class="col-md-6">
@@ -83,6 +84,7 @@ if(isset($result) && $result){
 						</div>
 					</div>
 				</form>
+			<?php } ?>
 				<div class="row">
 					<div class="col-md-6">
 						<a href="<?php echo base_url().'admin/systemsetup/performancesettings/plumberperformance/index/1'; ?>" class="active_link_btn">ACTIVE</a>  <a href="<?php echo base_url().'admin/systemsetup/performancesettings/plumberperformance/index/2'; ?>" class="archive_link_btn">ARCHIVED</a>
@@ -117,7 +119,9 @@ if(isset($result) && $result){
 			{ "data": "status" },
 			{ "data": "action" }
 			],
-			data : {pagestatus : '<?php echo $pagestatus; ?>'}
+			data : {pagestatus : '<?php echo $pagestatus; ?>'},
+			target : [3],
+			sort : '0'
 		};
 		
 		ajaxdatatables('.datatables', options);
