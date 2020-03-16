@@ -185,7 +185,9 @@ else
 			{ "data": "refix_incomplete"},
 			{ "data": "status" },			
 			{ "data": "action" }
-			]
+			],
+			target	:	[8],
+			sort	:	'0'
 		};
 		
 		ajaxdatatables('.datatables', options);
