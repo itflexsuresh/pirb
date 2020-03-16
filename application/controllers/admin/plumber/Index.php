@@ -15,6 +15,8 @@ class Index extends CC_Controller
 		$this->load->model('Documentsletters_Model');
 		$this->load->model('Diary_Model');
 		$this->load->model('Performancestatus_Model');
+
+		$this->checkUserPermission('18', '1');
 	}
 	
 	public function index()
@@ -22,6 +24,7 @@ class Index extends CC_Controller
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['company'] 		= $this->getCompanyList();
 		$pagedata['plumberstatus'] 	= $this->config->item('plumberstatus');
+		$pagedata['checkpermission'] = $this->checkUserPermission('18', '2');
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'datepicker'];
 		$data['content'] 			= $this->load->view('admin/plumber/index', (isset($pagedata) ? $pagedata : ''), true);
@@ -37,9 +40,20 @@ class Index extends CC_Controller
 		$totalcount 	= $this->Plumber_Model->getList('count', ['type' => '3', 'approvalstatus' => ['0','1'], 'status' => ['1', '2']]+$post);
 		$results 		= $this->Plumber_Model->getList('all', ['type' => '3', 'approvalstatus' => ['0','1'], 'status' => ['1', '2']]+$post);
 
+		$checkpermission = $this->checkUserPermission('18', '2');
+
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
+
+				if ($checkpermission) {
+					$action = '<div class="table-action">
+									<a href="'.base_url().'admin/plumber/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+								</div>';
+				}else{
+					$action = '';
+				}
+
 				$designation 	= isset($this->config->item('designation2')[$result["designation"]]) ? $this->config->item('designation2')[$result["designation"]] : '';
 				$status 		= isset($this->config->item('plumberstatus')[$result["plumberstatus"]]) ? $this->config->item('plumberstatus')[$result["plumberstatus"]] : '';
 
@@ -50,11 +64,7 @@ class Index extends CC_Controller
 										'designation' 	=> 	$designation,
 										'email' 		=> 	$result['email'],
 										'status' 		=> 	$status,
-										'action'		=> 	'
-																<div class="table-action">
-																	<a href="'.base_url().'admin/plumber/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-																</div>
-															'
+										'action'		=> 	$action
 									];
 			}
 		}

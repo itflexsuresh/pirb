@@ -8,6 +8,8 @@ class Cpdtypesetup extends CC_Controller
 		parent::__construct();
 		
 		$this->load->model('Cpdtypesetup_Model');
+
+		$this->checkUserPermission('16', '1');
 		
 	}
 	
@@ -15,6 +17,10 @@ class Cpdtypesetup extends CC_Controller
 	{
 		
 		if($id!=''){
+
+			$this->checkUserPermission('16', '2', '1');
+
+
 			$result = $this->Cpdtypesetup_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
 			if($result){
 				$pagedata['result'] = $result;
@@ -25,6 +31,9 @@ class Cpdtypesetup extends CC_Controller
 		}
 		
 		if($this->input->post()){
+
+			$this->checkUserPermission('16', '2', '1');
+
 			$requestData 	= 	$this->input->post();
 
 			if($requestData['submit']=='submit'){
@@ -62,6 +71,7 @@ class Cpdtypesetup extends CC_Controller
 		
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['cpdstreamID'] 	= $this->config->item('cpdstream');
+		$pagedata['checkpermission'] = $this->checkUserPermission('16', '2');
 		$pagedata['pagestatus'] 	= $this->getPageStatus($pagestatus);
 		$pagedata['id'] 			= $this->getUserID();
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
@@ -89,10 +99,21 @@ class Cpdtypesetup extends CC_Controller
 
 		$totalcount 	= $this->Cpdtypesetup_Model->getList('count', ['status' => [$post['pagestatus']]]+$post);
 		$results 		= $this->Cpdtypesetup_Model->getList('all', ['status' => [$post['pagestatus']]]+$post);
+
+		$checkpermission	=	$this->checkUserPermission('16', '2');
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
+
+				if ($checkpermission) {
+					$action = '<div class="table-action">
+								<a href="'.base_url().'admin/cpd/cpdtypesetup/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+								</div>';
+				}else{
+					$action = '';
+				}
+
 				$totalrecord[] = 	[
 					'productcode' 		=> 	$result['productcode'],
 					'activity' 			=> 	$result['activity'],
@@ -101,11 +122,7 @@ class Cpdtypesetup extends CC_Controller
 					'cpdstream' 		=> 	$this->config->item('cpdstream')[$result['cpdstream']],
 					'points' 			=> 	$result['points'],
 										//'status' 	=> 	$this->config->item('statusicon')[$result['status']],
-					'action'			=> 	'
-					<div class="table-action">
-					<a href="'.base_url().'admin/cpd/cpdtypesetup/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-					</div>
-					'
+					'action'			=> 	$action
 				];
 			}
 		}
@@ -183,6 +200,9 @@ class Cpdtypesetup extends CC_Controller
 	public function index_queue($pagestatus='',$id=''){
 		
 		if($id!='' && !$this->input->post()){
+
+			$this->checkUserPermission('17', '2', '1');
+
 			$result = $this->Cpdtypesetup_Model->getQueueList('row', ['id' => $id, 'pagestatus' => [$pagestatus]]);
 			if($result){
 				$pagedata['result'] = $result;
@@ -199,6 +219,9 @@ class Cpdtypesetup extends CC_Controller
 		}
 		
 		if($this->input->post()){
+
+			$this->checkUserPermission('17', '2', '1');
+
 			$requestData 	= 	$this->input->post();
 			if($requestData['submit']=='submit'){
 				// echo "<pre>";
@@ -228,6 +251,7 @@ class Cpdtypesetup extends CC_Controller
 		}
 
 		$pagedata['id'] 			= $this->getUserID();
+		$pagedata['checkpermission'] = $this->checkUserPermission('17', '2');
 		$pagedata['approvalstatus'] = $this->config->item('approvalstatus');
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
 		$data['content'] 			= $this->load->view('admin/cpd/cpdqueue/index', (isset($pagedata) ? $pagedata : ''), true);
@@ -303,15 +327,28 @@ class Cpdtypesetup extends CC_Controller
 		$totalcount 	= $this->Cpdtypesetup_Model->getQueueList('count', ['status' => [$post['pagestatus']]]+$post);
 		$results 		= $this->Cpdtypesetup_Model->getQueueList('all', ['status' => [$post['pagestatus']]]+$post);
 		//print_r($results);die;
+		$checkpermission	=	$this->checkUserPermission('17', '2');
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
+
+				if ($checkpermission) {
+					$action = '<div class="table-action">
+									<a href="'.base_url().'admin/cpd/cpdtypesetup/index_queue/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+								</div>';
+				}else{
+					$action = '';
+				}
+
 				if ($result['status']==0) {
 					$statuz = '';
 				}else{
 					$statuz = $this->config->item('approvalstatus')[$result['status']];
 				}
+
+				
+
 				$totalrecord[] = 	[
 					'date' 					=> 	date('m-d-Y',strtotime($result['cpd_start_date'])),
 					'namesurname' 			=> 	$result['name_surname'],
@@ -319,11 +356,7 @@ class Cpdtypesetup extends CC_Controller
 					'acivity' 				=> 	$result['cpd_activity'],
 					'points' 				=> 	$result['points'],
 					'status' 				=> 	$statuz,
-					'action'			=> 	'
-					<div class="table-action">
-					<a href="'.base_url().'admin/cpd/cpdtypesetup/index_queue/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-					</div>
-					'
+					'action'				=> 	$action
 				];
 			}
 		}

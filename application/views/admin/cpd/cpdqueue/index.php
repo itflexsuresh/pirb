@@ -53,6 +53,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 		<div class="card">
 			<div class="card-body">
 				<h4 class="card-title">CPD Activity Form</h4>
+				<?php if ($checkpermission) { ?>
 				<form class="mt-4 form" action="index_queue" method="post" enctype="multipart/form-data">
 					<div class="row">
 						<div class="form-group col-md-6">
@@ -152,6 +153,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 					</div>
 					
 				</form>
+			<?php } ?>
 				<div class="row">
 					<div class="col-md-6">
 						<a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index_queue/1'; ?>" class="active_link_btn">PENDING</a>  <a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index_queue/2'; ?>" class="archive_link_btn">COMPLETED</a>
@@ -228,7 +230,9 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 			{ "data": "status" },
 			{ "data": "action" }
 			],
-			data : {pagestatus : '<?php echo $pagestatus; ?>'}
+			data : {pagestatus : '<?php echo $pagestatus; ?>'},
+			target : [6],
+			sort : '0'
 		};
 		
 		ajaxdatatables('.datatables', options);

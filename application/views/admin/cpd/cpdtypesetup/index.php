@@ -45,6 +45,7 @@ if(isset($result) && $result){
 		<div class="card">
 			<div class="card-body">
 				<h4 class="card-title">CPD Types</h4>
+				<?php if ($checkpermission) { ?>
 				<form class="mt-4 form" action="" method="post">
 					<div class="row">
 						<div class="form-group col-md-6">
@@ -103,6 +104,7 @@ if(isset($result) && $result){
 						</div>
 					</div>
 				</form>
+			<?php } ?>
 				<div class="row">
 					<div class="col-md-6">
 						<a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index/1'; ?>" class="active_link_btn">Active</a>  <a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index/2'; ?>" class="archive_link_btn">Archive</a>
@@ -143,7 +145,9 @@ if(isset($result) && $result){
 			{ "data": "points" },
 			{ "data": "action" }
 			],
-			data : {pagestatus : '<?php echo $pagestatus; ?>'}
+			data : {pagestatus : '<?php echo $pagestatus; ?>'},
+			target : [6],
+			sort : '0'
 		};
 		
 		ajaxdatatables('.datatables', options);
