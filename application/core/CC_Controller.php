@@ -117,9 +117,9 @@ class CC_Controller extends CI_Controller
 	public function getAuditorPageStatus($pagestatus='')
 	{
 		if($pagestatus=='' || $pagestatus=='1'){
-		return '1';
+			return '1';
 		}else{
-		return '2';
+			return '2';
 		}
 	}
 	
@@ -154,9 +154,43 @@ class CC_Controller extends CI_Controller
 			return '';
 		}
 	}
+	
 	public function getUserPermission()
 	{
 		return $this->Users_Model->getUserPermission($this->getUserID());
+	}
+	
+	public function checkUserPermission($pagetype, $permissiontype, $redirect='')
+	{
+		$userDetails = $this->getUserDetails();
+		if($userDetails['type']=='2'){
+			$permission = $this->Users_Model->getUserPermission($this->getUserID());
+						
+			$readpermission 	= explode(',', $permission['readpermission']);
+			$writepermission 	= explode(',', $permission['writepermission']);
+			
+			if($permissiontype=='1'){
+				if(!in_array($pagetype, $readpermission) && !in_array($pagetype, $writepermission)){ 
+					$this->session->set_flashdata('error', 'Invalid Url');
+					redirect('admin/administration/installationtype'); 
+				}
+			}
+			
+			if($permissiontype=='2'){
+				if(!in_array($pagetype, $writepermission)){ 
+					if($redirect=='1'){
+						$this->session->set_flashdata('error', 'Invalid Url');
+						redirect('admin/administration/installationtype'); 
+					}
+					
+					return false;
+				}else{
+					return true;
+				}
+			}
+		}else{
+			return true;
+		}
 	}
 	
 	public function getNotification()
