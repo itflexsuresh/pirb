@@ -35,6 +35,7 @@
 		<div class="card">
 			<div class="card-body">
 				<h4 class="card-title">Sub Types</h4>
+				<?php if($checkpermission){ ?>
 				<form class="mt-4 form" action="" method="post">
 					<div class="row">
 						<div class="col-md-6">
@@ -63,6 +64,7 @@
 						</div>
 					</div>
 				</form>
+			<?php } ?>
 				<div class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
@@ -91,7 +93,9 @@
 							{ "data": "name" },
 							{ "data": "status" },
 							{ "data": "action" }
-						]
+						],
+						target	:	[3],
+						sort	:	'0'
 		};
 		
 		ajaxdatatables('.datatables', options);
