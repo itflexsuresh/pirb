@@ -7,15 +7,21 @@ class Index extends CC_Controller
 	{
 		parent::__construct();
 		$this->load->model('Paper_Model');
+
+		$this->checkUserPermission('8', '1');
 	}
 	
 	public function index()
 	{
+		$this->checkUserPermission('8', '2', '1');
+
 		$userid 				= $this->getUserID();
 		$pagedata['count'] 		= $this->Paper_Model->getList('count', ['cocstatus' => '1']);		
 		$pagedata['result'] 	= $this->Paper_Model->getList('row');
 
 		if($this->input->post()){
+			$this->checkUserPermission('8', '2', '1');
+
 			$requestData 	= 	$this->input->post();				
 			$data 			=  	$this->Paper_Model->action($requestData);			
 
@@ -27,6 +33,7 @@ class Index extends CC_Controller
 		
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['userid']			= $userid;		
+		$pagedata['checkpermission'] = $this->checkUserPermission('8', '2');
 
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
 		$data['content'] 			= $this->load->view('admin/cocstatement/papermanagement/index', (isset($pagedata) ? $pagedata : ''), true);
@@ -38,9 +45,12 @@ class Index extends CC_Controller
 		$totalcount 	= $this->Paper_Model->getLogList('count',$post);
 		$results 		= $this->Paper_Model->getLogList('all',$post);
 
+		$checkpermission	=	$this->checkUserPermission('8', '2');
+
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
+
 				$totalrecord[] = 	[
 										'createdat' 	=> 	date('d-m-Y', strtotime($result['created_at'])),
 										'stock' 		=> 	$result['stock'],

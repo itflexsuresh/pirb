@@ -64,7 +64,7 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-			
+			<?php if($checkpermission){ ?>
 				<form class="form" method="post">
 					<h4 class="card-title">COC Orders</h4>
 					<div class="row">
@@ -306,7 +306,7 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 						</div>
 					</div>					
 				</form>
-
+			<?php } ?>
 				<div class="row add_top_value">
 					<div class="row mb_20">
 						<a href="<?php echo base_url(); ?>/admin/cocstatement/cocorders/index" class="active_link_btn">PENDING</a>
@@ -434,9 +434,13 @@ $(function(){
 						<?php if($closed_status!='closed'){ ?>
 						{ "data": "action" }
 						<?php } ?>
-					]
+					],
+					
 	};
-	
+<?php if($closed_status!='closed'){ ?>
+	options['target']=	[11];
+	options['sort'] =	'0';
+	<?php } ?>
 	ajaxdatatables('.datatables', options);
 
 	// $(".order_cancelled").hide();

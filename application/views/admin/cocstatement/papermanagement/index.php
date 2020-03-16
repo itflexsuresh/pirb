@@ -19,7 +19,8 @@ $id 			= (isset($result['id']) && $result['id']!='') ? $result['id']+1 : 1;
 <div class="row">
 	<div class="col-12">
 		<div class="card">
-			<div class="card-body">				
+			<div class="card-body">	
+			<?php if($checkpermission){ ?>			
 				<form class="form" method="post">
 					<h4 class="card-title">Paper Certificate Stock Management</h4>
 					<div class="row">
@@ -61,6 +62,7 @@ $id 			= (isset($result['id']) && $result['id']!='') ? $result['id']+1 : 1;
 						</div>	
 					</div>															
 				</form>
+			<?php } ?>
 				<div class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>

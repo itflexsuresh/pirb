@@ -14,10 +14,15 @@ class Index extends CC_Controller
 		$this->load->model('Coc_Model');
 		$this->load->model('Ordercomments_Model');
 		$this->load->model('Stock_Model');
+
+		$this->checkUserPermission('7', '1');
 	}
 	
 	public function index($id='')
 	{
+
+		$this->checkUserPermission('7', '2', '1');
+
 		$pagedata['closed_status'] = '';
 		if($id!='' && $id!='closed'){
 			$result = $this->Coc_Ordermodel->getCocorderList('row', ['id' => $id]);
@@ -45,6 +50,8 @@ class Index extends CC_Controller
 		}
 		
 		if($this->input->post()){
+			$this->checkUserPermission('7', '2', '1');
+
 			$requestData 	= 	$this->input->post();
 			
 			if($this->input->post('submit')){
@@ -115,6 +122,7 @@ class Index extends CC_Controller
 		$userdata					= 	$this->getUserDetails();	
 		$pagedata['notification'] 	= 	$this->getNotification();
 		$pagedata['province'] 		= 	$this->getProvinceList();
+		$pagedata['checkpermission'] = $this->checkUserPermission('7', '2');
 		
 		$pagedata['userid']			= 	$userid;
 		$pagedata['userdata']		= 	$userdata;
@@ -141,6 +149,8 @@ class Index extends CC_Controller
 		$totalcount 	= $this->Coc_Ordermodel->getCocorderList('count', ['status' => [$post['admin_status']]]+$post);
 		$results 		= $this->Coc_Ordermodel->getCocorderList('all', ['status' => [$post['admin_status']]]+$post);
 
+		$checkpermission	=	$this->checkUserPermission('7', '2');
+
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
@@ -153,6 +163,16 @@ class Index extends CC_Controller
 				} else {
 					$name = $result['name']." ".$result['surname'];					
 				}
+
+				if($checkpermission){
+					$action = 	'<div class="table-action">
+									<a href="'.base_url().'admin/cocstatement/cocorders/index/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit">
+									<i class="fa fa-pencil-alt"></i></a>																	
+								</div>';
+				}else{
+					$action = '';
+				}
+
 				$totalrecord[] 	= 	[
 										'id' 			=> 	$result['id'],
 										'user_id' 		=> 	$name,
@@ -165,12 +185,7 @@ class Index extends CC_Controller
 										'created_at'	=> 	date('d-m-Y', strtotime($result['created_at'])),
 										'address' 		=> 	$result['address'],
 										'tracking_no' 	=> 	$result['tracking_no'],																	
-										'action'		=> 	'
-																<div class="table-action">
-																	<a href="'.base_url().'admin/cocstatement/cocorders/index/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit">
-																	<i class="fa fa-pencil-alt"></i></a>																	
-																</div>
-															'														
+										'action'		=> 	$action														
 									];
 
 				
