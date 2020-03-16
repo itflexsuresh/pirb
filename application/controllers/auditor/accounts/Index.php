@@ -11,6 +11,7 @@ class Index extends CC_Controller
 		$this->load->model('Auditor_Model');
 		$this->load->model('Coc_Model');
 		$this->load->model('Renewal_Model');
+		$this->load->model('Systemsettings_Model');
 	}
 	
 	public function index($id='')
@@ -20,7 +21,8 @@ class Index extends CC_Controller
 			$post['id'] = $id;
 			$result = $this->Auditor_Model->getInvoiceList('row', $post);
 			if($result){				
-				$pagedata['result'] = $result;
+				$pagedata['result'] 	= $result;
+				$pagedata['settings']	= 	$this->Systemsettings_Model->getList('row');
 			}else{
 				$this->session->set_flashdata('error', 'No Record Found1.');
 				redirect('auditor/accounts/index'); 
@@ -51,9 +53,9 @@ class Index extends CC_Controller
 		$id = $this->getUserID();
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['province'] 		= $this->getProvinceList();		
-		$getdata['id']			= $id;		
+		$getdata['id']				= $id;		
 		$pagedata['auditordetail'] 	= $this->Auditor_Model->getAuditorList('row',$getdata);
-		$pagedata['vat'] = $this->Coc_Model->getPermissions('row');		
+		$pagedata['vat'] 			= $this->Coc_Model->getPermissions('row');
 		// $pagedata['bankdetail'] 	= $this->Coc_Model->getPermissions('row');
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
 		$data['content'] 			= $this->load->view('auditor/accounts/index', (isset($pagedata) ? $pagedata : ''), true);

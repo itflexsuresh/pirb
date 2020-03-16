@@ -11,6 +11,7 @@
 	$work_phone = isset($auditordetail['work_phone']) ? $auditordetail['work_phone'] : '';
 	$email = isset($auditordetail['email']) ? $auditordetail['email'] : '';
 	$user_id = isset($auditordetail['user_id']) ? $auditordetail['user_id'] : '';
+	$dbVat = isset($settings['vat_percentage']) ? $settings['vat_percentage'] : '';
 
 
 	$bank_name = isset($auditordetail['bank_name']) ? $auditordetail['bank_name'] : '';
@@ -138,7 +139,7 @@
 						<div class="col-md-12">	
 							<input type="hidden" name="editid" id="editid" value="<?php echo $editid;?>">
 							<input type="hidden" name="total_cost" id="total_cost" value="<?php echo $total_cost;?>">
-							<input type="hidden" name="vat" id="vat" value="<?php echo $vatvalue;?>">
+							<input type="hidden" name="vat" id="vat" value="<?php echo $vatvalue.' '.$dbVat.'%';?>">
 							<input type="hidden" name="total" id="total" value="<?php echo $total;?>">
 							<table id="table" class="table table-bordered table-striped datatables fullwidth">
 								<thead>
