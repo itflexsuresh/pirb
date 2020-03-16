@@ -74,10 +74,16 @@
 															<input type="checkbox" name="sms_notification" id="sms_notification" >
 														<?php } ?>
 													</td>
-													<td><div class="table-action">
+													<td>
+														<?php
+															if($checkpermission){ ?>
+																<div class="table-action">
 														<a href="<?php echo base_url();?>admin/communication/notification/index/edit/<?php echo $v['id'];?>" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="fa fa-pencil-alt"></i></a>
 
-													</div></td>
+													</div>
+
+														<?php } ?>
+														</td>
 												</tr>									
 
 											<?php } ?>

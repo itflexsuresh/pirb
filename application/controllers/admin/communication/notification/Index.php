@@ -7,6 +7,8 @@ class Index extends CC_Controller
 	{
 		parent::__construct();
 		$this->load->model('Communication_Model');
+
+		$this->checkUserPermission('5', '1');
 	}
 	
 	public function index()
@@ -54,6 +56,7 @@ class Index extends CC_Controller
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['provincelist'] 	= $this->getProvinceList();	
 		$pagedata['userid']			= $userid;
+		$pagedata['checkpermission'] = $this->checkUserPermission('5', '2');
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
 		$data['content'] 			= $this->load->view('admin/communication/notification/index', (isset($pagedata) ? $pagedata : ''), true);
@@ -64,6 +67,8 @@ class Index extends CC_Controller
 
 	public function edit($id ='')
 	{
+		$this->checkUserPermission('5', '2', '1');
+
 		$notify_id = $this->uri->segment(6, 0);
 		$query2 = $this->db->query("SELECT * FROM email_notification where id = $id");	    
 	    $edit = $query2->row_array();
