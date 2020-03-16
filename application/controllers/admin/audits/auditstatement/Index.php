@@ -12,7 +12,12 @@ class Index extends CC_Controller
 	
 	public function index()
 	{
+		$this->checkUserPermission('28', '1');
+
 		if($this->input->post()){
+
+			$this->checkUserPermission('28', '2', '1');
+
 			$requestData 	= 	$this->input->post();
 
 			$data 	=  $this->Coc_Model->cancelcoc($requestData);
@@ -24,6 +29,7 @@ class Index extends CC_Controller
 		}
 		
 		$pagedata['notification'] 	= $this->getNotification();
+		$pagedata['checkpermission'] = $this->checkUserPermission('28', '2');
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
 		$data['content'] 			= $this->load->view('admin/audits/auditstatement/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
@@ -36,10 +42,19 @@ class Index extends CC_Controller
 		$totalcount 	= $this->Coc_Model->getCOCList('count', ['coc_status' => ['2'], 'noaudit' => '']+$post);
 		$results 		= $this->Coc_Model->getCOCList('all', ['coc_status' => ['2'], 'noaudit' => '']+$post);	
 		$settings 		= $this->Systemsettings_Model->getList('row');
+
+		$checkpermission	=	$this->checkUserPermission('28', '2');
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
+
+				// if($checkpermission){
+				// 	$action = 	'<a href='javascript:void(0);' class='cocmodal' data-user-id='$user_id'>logged COC</a>';
+				// }else{
+				// 	$action = '';
+				// }
+				
 				$auditstatus 	= 	isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';
 				$action 		= 	'
 										<a href="'.base_url().'admin/audits/auditstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
