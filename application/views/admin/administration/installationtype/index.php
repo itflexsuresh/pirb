@@ -33,6 +33,7 @@ if(isset($result) && $result){
 		<div class="card">
 			<div class="card-body">
 				<h4 class="card-title">Installation Type</h4>
+				<?php if($checkpermission){ ?>
 				<form class="mt-4 form" action="" method="post">
 					<div class="form-group">
 						<label for="name">Installation Type *</label>
@@ -51,6 +52,7 @@ if(isset($result) && $result){
 						</div>
 					</div>
 				</form>
+				<?php } ?>
 				<div class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
