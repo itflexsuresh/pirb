@@ -98,6 +98,8 @@ class Coc_Ordermodel extends CC_Model
 		if(isset($data['internal_inv'])) 	$requestdata['internal_inv'] 	= $data['internal_inv'];
 		if(isset($data['total_due'])) 		$requestdata['total_cost'] 	 	= $data['total_due'];
 		if(isset($data['tracking_no'])) 	$requestdata['tracking_no']  	= $data['tracking_no'];
+		if(isset($data['email_track'])) 	$requestdata['email_track']  	= $data['email_track'];
+		if(isset($data['sms_track'])) 		$requestdata['sms_track']  		= $data['sms_track'];
 
 
 		if(isset($requestdata)){	
@@ -112,7 +114,9 @@ class Coc_Ordermodel extends CC_Model
 			if(isset($data['total_due'])) 		$requestdata1['total_due'] 		= $data['total_due'];
 			$requestdata1['admin_status'] 	= (isset($data['admin_status']) && $data['admin_status']='on') ? '2' : '0';
 			if(isset($data['order_id']))		$requestdata1['id'] 				= $data['order_id'];	
-
+			if(isset($data['email_track'])) 	unset($requestdata1['email_track']);
+			if(isset($data['sms_track'])) 		unset($requestdata1['sms_track']);
+			
 			if(isset($requestdata['inv_id']) && $requestdata['inv_id']!=''){
 				
 				$result1 = $this->db->update('invoice', $requestdata,['inv_id'=>$requestdata['inv_id']]);				

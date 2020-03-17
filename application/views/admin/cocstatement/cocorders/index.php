@@ -292,7 +292,7 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 								</select> -->
 								<div class="custom-control custom-checkbox">
 		                            <input type="checkbox" class="custom-control-input" id="end_notifi">
-		                            <label class="custom-control-label" for="end_notifi">Send an Email Tracking Notifiation</label>
+		                            <label class="custom-control-label" for="end_notifi">Send a Email COC Allocation Notification</label>
 		                        </div>
 							</div>
 						</div>
