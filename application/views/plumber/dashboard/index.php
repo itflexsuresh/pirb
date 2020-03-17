@@ -1,17 +1,17 @@
 <?php
 $count 				= $history['count'];
-$total 				= $history['total'];
+$atotal 			= $history['total'];
 $refixincomplete 	= $history['refixincomplete'];
 $refixcomplete 		= $history['refixcomplete'];
 $compliment 		= $history['compliment'];
 $cautionary 		= $history['cautionary'];
 $noaudit 			= $history['noaudit'];
 
-$refixincompletepercentage 	= ($refixincomplete!=0) ? round(($refixincomplete/$total)*100,2).'%' : '0%'; 
-$refixcompletepercentage 	= ($refixcomplete!=0) ? round(($refixcomplete/$total)*100,2).'%' : '0%'; 
-$complimentpercentage 		= ($compliment!=0) ? round(($compliment/$total)*100,2).'%' : '0%'; 
-$cautionarypercentage 		= ($cautionary!=0) ? round(($cautionary/$total)*100,2).'%' : '0%'; 
-$noauditpercentage 			= ($noaudit!=0) ? round(($noaudit/$total)*100,2).'%' : '0%'; 
+$refixincompletepercentage 	= ($refixincomplete!=0) ? round(($refixincomplete/$atotal)*100,2).'%' : '0%'; 
+$refixcompletepercentage 	= ($refixcomplete!=0) ? round(($refixcomplete/$atotal)*100,2).'%' : '0%'; 
+$complimentpercentage 		= ($compliment!=0) ? round(($compliment/$atotal)*100,2).'%' : '0%'; 
+$cautionarypercentage 		= ($cautionary!=0) ? round(($cautionary/$atotal)*100,2).'%' : '0%'; 
+$noauditpercentage 			= ($noaudit!=0) ? round(($noaudit/$atotal)*100,2).'%' : '0%'; 
 $auditpercentage 			= ($count!=0 && $logged!=0) ? round(($count/$logged)*100,2).'%' : '0%'; 
 
 $developmental1 = 0;
@@ -49,9 +49,9 @@ elseif($user_details['designation'] == '6'){
 	$individual1 	= isset($indarray[2]) ? $indarray[2] : '';
 }
 
-$developmental 	= isset($history['developmental']) ? $history['developmental'] : 0;
-$workbased 	   	= isset($history['workbased']) ? $history['workbased'] : 0;
-$individual    	= isset($history['individual']) ? $history['individual'] : 0;
+$developmental 	= isset($history2['developmental']) ? $history2['developmental'] : 0;
+$workbased 	   	= isset($history2['workbased']) ? $history2['workbased'] : 0;
+$individual    	= isset($history2['individual']) ? $history2['individual'] : 0;
 
 $total 			= $developmental + $workbased + $individual;
 $total1 		= $developmental1 + $workbased1 + $individual1;
@@ -92,6 +92,7 @@ $total1 		= $developmental1 + $workbased1 + $individual1;
 				<div id="cpd" style="width:100%; height:400px;"></div>
 				<div><div class="target"></div><label>Target</label></div>
 				<div><div class="achieved"></div><label>Achieved</label></div>
+				<p>This chart denotes your current years registration targets and current years registration totals</p>
 				
 				<h4 class="card-title">CoC Overview</h4>
 				<div id="coc" style="width:100%; height:400px;"></div>
@@ -115,7 +116,6 @@ $total1 		= $developmental1 + $workbased1 + $individual1;
 					</div>
 				</div>
 				<div id="audit" style="width:100%; height:400px;"></div>
-				
 			</div>
 		</div>
 	</div>
@@ -123,7 +123,7 @@ $total1 		= $developmental1 + $workbased1 + $individual1;
 
 <script>
 	var count 			= '<?php echo $count; ?>';
-	var total 			= '<?php echo $total; ?>';
+	var atotal 			= '<?php echo $atotal; ?>';
 	var refixincomplete = '<?php echo $refixincomplete; ?>';
 	var refixcomplete 	= '<?php echo $refixcomplete; ?>';
 	var compliment 		= '<?php echo $compliment; ?>';
@@ -196,7 +196,7 @@ $total1 		= $developmental1 + $workbased1 + $individual1;
 						nonlogged,
 						allocated,
 						logged,
-						total,
+						count,
 						refixcomplete,
 						refixincomplete
 					],
@@ -219,7 +219,7 @@ $total1 		= $developmental1 + $workbased1 + $individual1;
 				series : [{
 					name : 'Audit',
 					yaxis : [
-						total,
+						atotal,
 						compliment,
 						cautionary,
 						refixcomplete,
