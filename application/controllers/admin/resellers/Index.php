@@ -11,8 +11,12 @@ class Index extends CC_Controller
 	
 	public function index()
 	{
+		$this->checkUserPermission('29', '1');
+
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['company'] 		= $this->getCompanyList();
+		$pagedata['checkpermission'] = $this->checkUserPermission('29', '2');
+
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'datepicker', 'inputmask'];
 		$data['content'] 			= $this->load->view('admin/resellers/index', (isset($pagedata) ? $pagedata : ''), true);
@@ -27,11 +31,22 @@ class Index extends CC_Controller
 		$totalcount 	= $this->Resellers_Model->getList('count', ['type' => '6', 'approvalstatus' => ['0','1'], 'status' => ['1']]+$post);
 		$results 		= $this->Resellers_Model->getList('all', ['type' => '6', 'approvalstatus' => ['0','1'], 'status' => ['1']]+$post);
 
+		$checkpermission	=	$this->checkUserPermission('29', '2');
+
 		$status = 1;
 
 		$totalrecord 	= [];
 		if(count($results) > 0){
-			foreach($results as $result){				
+			foreach($results as $result){	
+
+			if($checkpermission){
+					$action = 	'<div class="table-action">
+									<a href="'.base_url().'admin/resellers/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+								</div>';
+				}else{
+					$action = '';
+				}
+
 				if($result['count'] > 0){
 					$stockcount = $result['count'];
 				}
@@ -44,9 +59,7 @@ class Index extends CC_Controller
 										'email' 		=> 	$result['email'],										
 										'contactnumber' => 	$result['mobile_phone'],
 										'stockcount' 	=> 	$stockcount,
-										'action'		=> 	'<div class="table-action">
-																	<a href="'.base_url().'admin/resellers/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-																</div>'
+										'action'		=> 	$action
 									];
 			}
 		}
@@ -63,6 +76,8 @@ class Index extends CC_Controller
 
 	public function action($id='')
 	{
+		$this->checkUserPermission('29', '2', '1');
+
 		$this->resellersprofile($id, ['roletype' => $this->config->item('roleadmin'), 'pagetype' => 'applications'], ['redirect' => 'admin/resellers/index','adminvalue' => '1']);
 	}
 }

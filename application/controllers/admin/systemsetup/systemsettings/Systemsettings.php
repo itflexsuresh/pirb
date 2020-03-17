@@ -11,7 +11,12 @@ class Systemsettings extends CC_Controller
 	
 	public function index()
 	{
+		$this->checkUserPermission('11', '1');
+
 		if($this->input->post()){
+
+			$this->checkUserPermission('11', '2', '1');
+
 			$requestData 	= 	$this->input->post();
 			$data 			=  $this->Systemsettings_Model->action($requestData);
 			if($data) $this->session->set_flashdata('success', 'System Settings '.(($id=='') ? 'updated' : 'updated').' successfully.');
@@ -22,6 +27,7 @@ class Systemsettings extends CC_Controller
 		
 		$pagedata['notification'] 			= $this->getNotification();
 		$pagedata['provinceList'] 			= $this->getProvinceList();
+		$pagedata['checkpermission'] 		= $this->checkUserPermission('11', '2');
 		$pagedata['cpdstream']	 			= $this->config->item('cpdstream');
 		$pagedata['result']	 				= $this->Systemsettings_Model->getList('row');
 		$data['plugins']					= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];

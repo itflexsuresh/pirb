@@ -115,8 +115,10 @@ if(isset($result) && $result){
 		        </div>			
                 <div class="col-md-11 text-right">
 				       <input type="hidden" name="id" value="<?php //echo $id; ?>">
+				       <?php if($checkpermission){ ?>
 					   <button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?>
 					   </button>
+					<?php } ?>
 				    </div>
 			      </form>		
 		    </div>

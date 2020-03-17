@@ -50,7 +50,9 @@ if(isset($result) && $result){
 				</div>
 				<div class="col-md-6 text-right">
 					<input type="hidden" name="id" value="<?php echo $id; ?>">
+					<?php if($checkpermission){ ?>
 					<button type="button" name="submit" value="submit" onclick="window.location.href='<?php echo base_url().'admin/systemsetup/systemusers/systemusers/action'; ?>';" class="btn btn-primary">Add Users</button>
+				<?php } ?>
 				</div>
 			</div>
 		</div>
@@ -70,7 +72,9 @@ if(isset($result) && $result){
 			{ "data": "u_password_raw" },	
 			{ "data": "status" },						
 			{ "data": "action" }
-			]
+			],
+			target : [6],
+			sort : '0'
 		};
 		
 		ajaxdatatables('.datatables', options);	

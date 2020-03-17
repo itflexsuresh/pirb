@@ -417,7 +417,9 @@ if(isset($result) && $result){
 							<input type="hidden" name="cpd_id2" value="<?php echo $cpd_id2; ?>">
 							<input type="hidden" name="cpd_id3" value="<?php echo $cpd_id3; ?>">
 							<input type="hidden" name="details_id" value="<?php echo $details_id; ?>">
+							<?php if($checkpermission){ ?>
 							<button type="submit" name="submit" value="submit" class="btn btn-primary">Save</button>
+						<?php } ?>
 						</div>
 					</div>
 				</form>

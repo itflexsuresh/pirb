@@ -62,7 +62,9 @@
 							{ "data": "contactnumber" },
 							{ "data": "stockcount" },
 							{ "data": "action" }
-						]
+						],
+						target : [4],
+						sort : '0'
 		};
 		
 		ajaxdatatables('.datatables', options);

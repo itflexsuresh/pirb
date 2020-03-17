@@ -59,7 +59,7 @@ class Index extends CC_Controller
 		
 		$pagedata['notification'] 			= $this->getNotification();
 		$pagedata['provincelist'] 			= $this->getProvinceList();
-		$pagedata['checkpermission'] = $this->checkUserPermission('22', '2');
+		$pagedata['checkpermission'] 		= $this->checkUserPermission('22', '2');
 		$pagedata['msggrp'] 				= $this->config->item('messagegroup');
 		$data['plugins']					= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
 		$data['content'] 					= $this->load->view('admin/accounts/renewal_plumber/index', (isset($pagedata) ? $pagedata : ''), true);
@@ -89,7 +89,13 @@ class Index extends CC_Controller
 				else{
 					$status = "Unpaid";
 					if($result['userstatus'] == '1'){
-						$internal_inv = '<div class="table-action"><a href="'.base_url().'admin/accounts/renewal_plumber/Index/Deletefunc/'.$result['inv_id'].'" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a></div>';
+						
+						if($checkpermission){
+
+							$internal_inv = '<div class="table-action"><a href="'.base_url().'admin/accounts/renewal_plumber/Index/Deletefunc/'.$result['inv_id'].'" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a></div>';
+						}else{
+							$internal_inv = '';
+						}						
 					}
 				}
 

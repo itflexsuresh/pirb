@@ -11,8 +11,11 @@ class Globalperformance extends CC_Controller
 	
 	public function index($id='')
 	{
+		$this->checkUserPermission('15', '1');
 		
 		if($this->input->post()){
+
+			$this->checkUserPermission('15', '2', '1');
 			
                 $requestData 	= 	$this->input->post();
 
@@ -25,6 +28,7 @@ class Globalperformance extends CC_Controller
 		$post 			= $this->input->post();
 		$pagedata['notification'] 			= $this->getNotification();
 		$pagedata['msggrp'] 				= $this->config->item('messagegroup');
+		$pagedata['checkpermission'] 		= $this->checkUserPermission('15', '2');
 		$pagedata['results'] 				= $this->Global_performance_Model->getPointList('all');
 		$pagedata['results1'] 				= $this->Global_performance_Model->getPointList('all');
 		$pagedata['result'] 		= $this->Global_performance_Model->getWarningList('all', ['status' => ['0','1']]+$post);

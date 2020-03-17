@@ -49,16 +49,16 @@ class Index extends CC_Controller
 		if(count($results) > 0){
 			foreach($results as $result){
 
-				// if($checkpermission){
-				// 	$action = 	'<a href='javascript:void(0);' class='cocmodal' data-user-id='$user_id'>logged COC</a>';
-				// }else{
-				// 	$action = '';
-				// }
+				if($checkpermission){
+					$delete  = 	'<a href="javascript:void(0);" data-id="'.$result['id'].'" id="cancelcoc" data-toggle="tooltip" data-placement="top" title="Cancel Coc"><i class="fa fa-times"></i></a>';
+				}else{
+					$delete = '';
+				}
 				
 				$auditstatus 	= 	isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';
 				$action 		= 	'
-										<a href="'.base_url().'admin/audits/auditstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
-										<a href="javascript:void(0);" data-id="'.$result['id'].'" id="cancelcoc" data-toggle="tooltip" data-placement="top" title="Cancel Coc"><i class="fa fa-times"></i></a>
+										<a href="'.base_url().'admin/audits/auditstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>'.$delete.'
+										
 									';
 				
 				$review 		= $this->Auditor_Model->getReviewList('row', ['coc_id' => $result['id'], 'reviewtype' => '1', 'status' => '0']);

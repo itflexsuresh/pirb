@@ -14,12 +14,18 @@ class Index extends CC_Controller
 		$this->load->model('Auditor_Model');
 		$this->load->model('Plumber_Model');
 	 	$this->load->model('Coc_Model');
+
+	 	$this->checkUserPermission('23', '1');
+
 	}
 
 	public function index($pagestatus='',$id='')
 	{	
 		
 		if($this->input->post()){
+
+			$this->checkUserPermission('23', '2', '1');
+
 			$requestData 	= 	$this->input->post();	
 			$requestData['status']	= '1';	
 			$id	= $requestData['editid'];			
@@ -52,6 +58,9 @@ class Index extends CC_Controller
 		
 		$totalcount 	= $this->Auditor_Model->getInvoiceList('count',$post);
 		$results 		= $this->Auditor_Model->getInvoiceList('all', $post);
+
+		$checkpermission	=	$this->checkUserPermission('23', '2');
+
 		// echo json_encode($totalcount); die;
 		$totalrecord 	= [];
 		if(count($results) > 0)
@@ -61,8 +70,15 @@ class Index extends CC_Controller
 				$internal_inv = "";	
 				$originalDate = isset($result['created_at']) && $result['created_at']!='1970-01-01' && $result['created_at']!='0000-00-00' ? date('d-m-Y', strtotime($result['created_at'])) : '';
 				if($result['status'] == '0'){
-					$status = "Unpaid";
+
+					if($checkpermission){
 					$internal_inv = '<form class="form" method="post"><div class="table-action"><input type="text" name="internal_inv"><input type="hidden" name="editid" value="'.$result['inv_id'].'"><a href="'.base_url().'admin/accounts/auditorsinvoices/index/index" data-toggle="tooltip" data-placement="top" title="Update"><input type="submit" value="Update"></i></a></div></form>';
+				}else{
+					$internal_inv = '';
+				}
+
+					$status = "Unpaid";
+					
 				}
 				elseif($result['status'] == '1'){
 					$status = "Paid";

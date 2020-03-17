@@ -10,8 +10,11 @@ class Systemusers extends CC_Controller
 	}
 	
 	public function index()
-	{				
+	{		
+		$this->checkUserPermission('9', '1');
+
 		$pagedata['notification'] 	= $this->getNotification();
+		$pagedata['checkpermission'] = $this->checkUserPermission('9', '2');
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
 		$data['content'] 			= $this->load->view('admin/systemsetup/systemusers/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
@@ -22,10 +25,23 @@ class Systemusers extends CC_Controller
 		$post 			= $this->input->post();
 		$totalcount 	= $this->Systemusers_Model->getList('count', ['u_type' => ['2'], 'status' => ['1']]+$post);
         $results 		= $this->Systemusers_Model->getList('all', ['u_type' => ['2'], 'status' => ['1']]+$post);
+
+        $checkpermission	=	$this->checkUserPermission('9', '2');
+
 		$totalrecord 	= [];
 		
 		if(count($results) > 0){
 			foreach($results as $result){
+
+				if($checkpermission){
+					$action = 	'<div class="table-action">
+									<a href="'.base_url().'admin/systemsetup/systemusers/systemusers/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>	
+								</div>';
+				}else{
+					$action = '';
+				}
+
+
 				$totalrecord[] = 	[
 										'u_name' 			=> 	$result['name'],
                                         'u_surname' 		=> 	$result['surname'],
@@ -33,11 +49,7 @@ class Systemusers extends CC_Controller
                                         'u_password_raw' 	=> 	$result['password_raw'],
                                         'u_type' 			=> 	$this->config->item('roletype')[$result['roletype']],
                                         'status' 			=> 	$this->config->item('statusicon')[$result['status']],
-										'action'			=> 	'
-																	<div class="table-action">
-																		<a href="'.base_url().'admin/systemsetup/systemusers/systemusers/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>	
-																	</div>
-																'
+										'action'			=> 	$action
 									];
 			}
 		}
@@ -55,6 +67,8 @@ class Systemusers extends CC_Controller
 	public function action($id='')
 	{
 		if($id!=''){
+			$this->checkUserPermission('9', '2', '1');
+
 			$result = $this->Systemusers_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
 			if($result){
 				$pagedata['result'] = $result;
@@ -65,6 +79,8 @@ class Systemusers extends CC_Controller
 		}
 		
 		if($this->input->post()){
+			$this->checkUserPermission('9', '2', '1');
+
 			$requestData 	= 	$this->input->post();
 			if($requestData['submit']=='submit'){
 				$data 	=  $this->Systemusers_Model->action($requestData);
@@ -91,6 +107,7 @@ class Systemusers extends CC_Controller
 
         $pagedata['permission_list'] 	= $fotmatted_list;		
 		$pagedata['notification'] 		= $this->getNotification();
+		$pagedata['checkpermission'] 	= $this->checkUserPermission('9', '2');
 		$pagedata['roletype'] 			= $this->config->item('roletype');
 		$data['plugins']				= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
 		$data['content'] 				= $this->load->view('admin/systemsetup/systemusers/action', (isset($pagedata) ? $pagedata : ''), true);
