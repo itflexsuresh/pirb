@@ -81,7 +81,7 @@ class Index extends CC_Controller
 							$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '8', 'emailstatus' => '1']);
 					
 							if($notificationdata){
-								$body 	= str_replace(['{Plumbers Name and Surname}', '{order type}', '{method of delivery}', '{tracking number}'], [$userdata1['name'].' '.$userdata1['surname'], $coctype[$requestData['coc_type']],  $deliverycard[$requestData['delivery_type']], $requestData['tracking_no']], $notificationdata['email_body']);
+								$body 	= str_replace(['{Plumbers Name and Surname}', '{order type}', '{method of delivery}', '{tracking number}'], [$userdata1['name'].' '.$userdata1['surname'], $coctype[$invoicedata['coc_type']],  $deliverycard[$invoicedata['delivery_type']], $invoicedata['tracking_no']], $notificationdata['email_body']);
 								$this->CC_Model->sentMail($userdata1['email'], $notificationdata['subject'], $body);
 							}
 						}	
@@ -91,7 +91,7 @@ class Index extends CC_Controller
 								$smsdata 	= $this->Communication_Model->getList('row', ['id' => '8', 'smsstatus' => '1']);
 					
 								if($smsdata){
-									$sms = str_replace(['{order type}', '{method of delivery}', '{tracking number}'], [$coctype[$requestData['coc_type']], $deliverycard[$requestData['delivery_type']], $requestData['tracking_no']], $smsdata['sms_body']);
+									$sms = str_replace(['{order type}', '{method of delivery}', '{tracking number}'], [$coctype[$invoicedata['coc_type']], $deliverycard[$invoicedata['delivery_type']], $invoicedata['tracking_no']], $smsdata['sms_body']);
 									$this->sms(['no' => $userdata1['mobile_phone'], 'msg' => $sms]);
 								}
 							}
