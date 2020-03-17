@@ -255,8 +255,17 @@ class Index extends CC_Controller
         if(count($results) > 0){
             foreach($results as $result){
                 
-                $timestamp = strtotime($result['created_at']);
-                $newDate = date('d-F-Y H:i:s', $timestamp); 
+                $created_at = strtotime($result['created_at']);
+                $upload_date = date('d-F-Y H:i:s', $created_at);
+                if (strtotime($result['updated_at'])!='0' || strtotime($result['updated_at'])!=0) {
+                    $updated_at = strtotime($result['updated_at']);
+                    $update_date = date('d-F-Y H:i:s', $updated_at);
+
+                    $full_date = $upload_date.' / '.$update_date;
+                 }else{
+                     $full_date = $upload_date;
+                 }
+
                 $filename = isset($result['file']) ? $result['file'] : '';
                 
                 $filepath   = base_url().'assets/uploads/company/';
@@ -274,7 +283,7 @@ class Index extends CC_Controller
 
                 $totalrecord[] =    [   
                                         'description'=>     $result['description'], 
-                                        'datetime'   =>     $newDate,
+                                        'datetime'   =>     $full_date,
                                         'file'       =>     $file,
                                         'action'     =>     $action,
                                         
