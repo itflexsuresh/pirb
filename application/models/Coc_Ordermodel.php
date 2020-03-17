@@ -5,7 +5,7 @@ class Coc_Ordermodel extends CC_Model
 	public function getCocorderList($type, $requestdata){
 
 		// $this->db->select('t1.*');
-		$this->db->select('t1.*,t2.name,t2.surname,t3.type, concat(t3.address, ",", t5.name) as address, t2.company, t4.type, cc.count');
+		$this->db->select('t1.*,inv.email_track,inv.sms_track,t2.name,t2.surname,t3.type, concat(t3.address, ",", t5.name) as address, t2.company, t4.type, cc.count');
 		$this->db->from('coc_orders t1');
 		$this->db->join('invoice inv', 'inv.inv_id=t1.inv_id', 'left');
 		$this->db->join('users_detail t2', 't1.user_id=t2.user_id', 'left');
