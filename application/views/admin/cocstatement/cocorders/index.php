@@ -18,6 +18,8 @@ $delivery_type 			= isset($result['delivery_type']) ? $result['delivery_type'] :
 $quantity 				= isset($result['quantity']) ? $result['quantity'] : '1';
 $internalinv 			= isset($result['internal_inv']) ? $result['internal_inv'] : '';
 $trackingno 			= isset($result['tracking_no']) ? $result['tracking_no'] : '';
+$emailtrack 			= isset($result['email_track']) ? $result['email_track'] : '';
+$smstrack 				= isset($result['sms_track']) ? $result['sms_track'] : '';
 $status 				= isset($result['status']) ? $result['status'] : '';
 
 $type 					= isset($result['type']) ? $result['type'] : '';
@@ -232,12 +234,12 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 							</div>
 							<div class="form-group">
 								<div class="custom-control custom-checkbox">
-									<input type="checkbox" class="custom-control-input" id="sms_notifi" name="sms_track" value="1">
+									<input type="checkbox" class="custom-control-input" id="sms_notifi" name="sms_track" value="1" <?php if($smstrack=='1'){ echo 'checked="checked"'; } ?>>
 									<label class="custom-control-label" for="sms_notifi">Send a SMS Tracking Notification</label>
 								</div>
 
 								<div class="custom-control custom-checkbox">
-									<input type="checkbox" class="custom-control-input" id="email_trak_notifi" name="email_track" value="1">
+									<input type="checkbox" class="custom-control-input" id="email_trak_notifi" name="email_track" value="1" <?php if($emailtrack=='1'){ echo 'checked="checked"'; } ?>>
 									<label class="custom-control-label" for="email_trak_notifi">Send an Email Tracking Notifiation</label>
 								</div>
 							</div>
