@@ -75,7 +75,9 @@ class Index extends CC_Controller
             foreach ($results as $result) {
                 $desigcount     = $this->Company_Model->getdesignationCount(['designation' => $result['designation']]);
                 //print_r($desigcount);
-                $per_points = $this->Company_Model->getauditPoints($result['user_id']);
+                $performance = $this->Plumber_Model->performancestatus('all', ['plumberid' => $result['user_id'], 'archive' => '0']);     
+
+                $per_points = array_sum(array_column($performance, 'point'));
                 $points     = $this->Company_Model->cpdPoints($result['user_id']);
 
                 if ($points[0]['cpd']!=''){
@@ -83,8 +85,8 @@ class Index extends CC_Controller
                 }else{
                     $points         = '0';
                 } 
-                if( $per_points[0]['performance']!=''){
-                    $performance    = $per_points[0]['performance'];
+                if( $per_points!=''){
+                    $performance    = $per_points;
                 }else{
                     
                     $performance    = '0';
