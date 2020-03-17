@@ -502,5 +502,12 @@ $config['diary'] 				= 		[
 											'10' => 'Auditor Review Completed with refix',
 										];	
 
+$config['invtype'] 				= 		[
+											'1' => 'CoC Purchase',
+											'2' => 'Panorama',
+											'3' => 'Renewal Alert 2',
+											'4' => 'Late Fee Alert'
+										];	
+
 $config['currency'] 			= 		'R';
 

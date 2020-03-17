@@ -41,20 +41,54 @@ class Index extends CC_Controller
 
 			$this->checkUserPermission('22', '2', '1');
 
-			$requestData 	= 	$this->input->post();
+			$requestData 	= 	$this->input->post();	
+			$requestData['status']	= '1';	
+			$id	= $requestData['editid'];			
+			$data 	=  $this->Auditor_Model->action2($requestData);
+			if($data) $message = 'Records '.(($id=='') ? 'created' : 'updated').' successfully.';	
 
-			if($requestData['submit']=='submit'){
-				$data 	=  $this->Renewal_Model->action($requestData);
-				if($data) $message = 'Managearea Type '.(($id=='') ? 'created' : 'updated').' successfully.';
+			if(isset($data)){
+				$this->session->set_flashdata('success', $message);
+				
+				$invtype 		= $this->config->item('invtype');
+				$invoicedata 	= $this->db->select('*')->from('invoice')->where(['inv_id' => $id])->get()->row_array();
+				$userdata		= $this->Plumber_Model->getList('row', ['id' => $invoicedata['user_id']]);
+				
+				$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '15', 'emailstatus' => '1']);
+				
+				if($notificationdata){
+					$body 	= str_replace(['{Plumbers Name and Surname}', '{payment recieved for}'], [$userdata['name'].' '.$userdata['surname'], $invoicedata['description']], $notificationdata['email_body']);
+					$this->CC_Model->sentMail($userdata['email'], $notificationdata['subject'], $body);
+				}
+				
+				if($this->config->item('otpstatus')!='1'){
+					$smsdata 	= $this->Communication_Model->getList('row', ['id' => '15', 'smsstatus' => '1']);
+		
+					if($smsdata){
+						$sms = str_replace(['{payment recieved for}', $invoicedata['description'], $smsdata['sms_body']]);
+						$this->sms(['no' => $userdata['mobile_phone'], 'msg' => $sms]);
+					}
+				}
+				
+				$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '16', 'emailstatus' => '1']);
+				
+				if($notificationdata){
+					$body 	= str_replace(['{Plumbers Name and Surname}', '{invocie type}'], [$userdata['name'].' '.$userdata['surname'], $invtype[$invoicedata['inv_type']]], $notificationdata['email_body']);
+					$this->CC_Model->sentMail($userdata['email'], $notificationdata['subject'], $body);
+				}
+				
+				if($this->config->item('otpstatus')!='1'){
+					$smsdata 	= $this->Communication_Model->getList('row', ['id' => '16', 'smsstatus' => '1']);
+		
+					if($smsdata){
+						$sms = str_replace(['{invocie type}', $invtype[$invoicedata['inv_type']], $smsdata['sms_body']]);
+						$this->sms(['no' => $userdata['mobile_phone'], 'msg' => $sms]);
+					}
+				}
 			}else{
-				$data 			= 	$this->Renewal_Model->changestatus($requestData);
-				$message		= 	'Managearea Type deleted successfully.';
+				$this->session->set_flashdata('error', 'Try Later.');
 			}
-
-			if(isset($data)) $this->session->set_flashdata('success', $message);
-			else $this->session->set_flashdata('error', 'Try Later.');
-			
-			redirect('admin/accounts/Index/'); 
+			redirect('admin/accounts/renewal_plumber/index'); 
 		}
 		
 		$pagedata['notification'] 			= $this->getNotification();
@@ -88,7 +122,12 @@ class Index extends CC_Controller
 				}
 				else{
 					$status = "Unpaid";
-					if($result['userstatus'] == '1'){
+					if($checkpermission){
+						$internal_inv = '<form class="form" method="post"><div class="table-action"><input type="text" name="internal_inv"><input type="hidden" name="editid" value="'.$result['inv_id'].'"><input type="submit" value="Update"></i></div></form>';
+					}else{
+						$internal_inv = '';
+					}
+					/*if($result['userstatus'] == '1'){
 						
 						if($checkpermission){
 
@@ -97,6 +136,7 @@ class Index extends CC_Controller
 							$internal_inv = '';
 						}						
 					}
+					*/
 				}
 
 				if ($result['total_cost']!='') {
