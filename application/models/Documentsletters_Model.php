@@ -137,10 +137,12 @@ class Documentsletters_Model extends CC_Model
 				$request['created_at'] = $datetime;				
 				$documents_result = $this->db->insert('company_documentsletters', $request);
 				$documentsid = $this->db->insert_id();
+				return 1;
 			}
 			else{
 				$request['updated_at'] = $datetime;
 				$documents_result = $this->db->update('company_documentsletters', $request, ['id' => $documentsid]);
+				return 2;
 			}					
 		}
 				

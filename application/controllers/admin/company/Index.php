@@ -223,7 +223,7 @@ class Index extends CC_Controller
             $requestData    =   $this->input->post();           
             $result     =  $this->Documentsletters_Model->action2($requestData);             
             if($result){
-             $this->session->set_flashdata('success', 'Documents Letters '.(($result=='') ? 'created' : 'updated').' successfully.');
+             $this->session->set_flashdata('success', 'Documents Letters '.(($result==1) ? 'created' : 'updated').' successfully.');
 
              redirect('admin/company/index/documents/'.$compId);
             }
