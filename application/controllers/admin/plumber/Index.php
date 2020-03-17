@@ -273,7 +273,7 @@ class Index extends CC_Controller
 		$pagedata['warning']		= $this->Global_performance_Model->getWarningList('all', ['status' => ['1']]);
 		$pagedata['results']		= $this->Plumber_Model->performancestatus('all', ['plumberid' => $userid, 'archive' => $pagestatus]+$extraparam);
 		
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker', 'select2', 'morrischart'];
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker', 'select2', 'echarts'];
 		$data['content'] 			= $this->load->view('admin/plumber/performance', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$this->layout2($data);

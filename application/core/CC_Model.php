@@ -73,8 +73,28 @@ class CC_Model extends CI_Model
 		}
 		else
 		{
-			return $this->upload->data();
+			$data = $this->upload->data();
+			//$this->fileResize($data['file_name'], $path);
+			return $data;
 		}
+	}
+	
+	public function fileResize($file, $path)
+	{
+		$config['image_library'] 	= 'gd2';
+		$config['source_image'] 	= $path.$file;
+		$config['create_thumb'] 	= FALSE;
+		$config['maintain_ratio'] 	= FALSE;
+		$config['quality'] 			= '10%';
+
+		$this->load->library('image_lib', $config);
+		
+		if(!$this->image_lib->resize()){
+			//echo $this->image_lib->display_errors();
+			return '';
+		}
+
+		$this->image_lib->clear();
 	}
 	
 	public function createDirectory($path)

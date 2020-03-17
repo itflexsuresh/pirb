@@ -29,9 +29,6 @@
 			if(in_array('datepicker', $plugins)){ 
 				echo '<link href="'.base_url().'assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">';
 			}
-			if(in_array('morrischart', $plugins)){ 
-				echo '<link href="'.base_url().'assets/plugins/morrisjs/morris.css" rel="stylesheet">';
-			}
 			if(in_array('csschart', $plugins)){ 
 				echo '<link href="'.base_url().'assets/plugins/css-chart/css-chart.css" rel="stylesheet">';
 			}
@@ -123,10 +120,6 @@
 			}
 			if(in_array('tinymce', $plugins)){ 
 				echo '<script src="'.base_url().'assets/plugins/tinymce/js/tinymce.min.js"></script>';
-			}
-			if(in_array('morrischart', $plugins)){ 
-				echo '<script src="'.base_url().'assets/plugins/morrisjs/morris.min.js"></script>';
-				echo '<script src="'.base_url().'assets/plugins/raphael/raphael-min.js"></script>';
 			}
 			if(in_array('echarts', $plugins)){ 
 				echo '<script src="'.base_url().'assets/plugins/echarts/echarts-all.js"></script>';

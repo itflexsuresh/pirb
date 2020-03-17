@@ -107,7 +107,7 @@ echo isset($menu) ? $menu : '';
 								
 				<?php if(count($results) > 0 && $pagestatus!='1'){ ?>
 					<h5>Current Performance Status = <?php echo array_sum(array_column($results, 'point')); ?></h5>
-					<div id="performancechart"></div>
+					<div id="performancechart" style="width:100%; height:400px;"></div>
 				<?php } ?>
 				
 				<div class="row m-t-30">
@@ -205,41 +205,17 @@ echo isset($menu) ? $menu : '';
 		
 		ajaxdatatables('.datatables', options);
 		
+		enddate();
+		
 		var chartdata = [];
 		$(results).each(function(i, v){
 			chartdata.push({y: v.date, item1: v.point});
 		})
 		
-		var chart = {
-			element: 'performancechart',
-			resize: true,
-			data: chartdata,
-			xkey: 'y',
-			ykeys: ['item1'],
-			labels: ['Point'],
-			gridLineColor: '#000',
-			lineColors: ['#000'],
-			lineWidth: 1,
-			hideHover: 'auto',
-			xLabelFormat: function (x) { return formatdate(x, 1).toString(); },
-			continuousLine:true
-		}
-		
-		if(warning.length){
-			var goalarray 	= [];
-			var max 		= '';
-			$(warning).each(function(i,v){
-				goalarray.push(v.point);
-				max = v.point;
-			})
-			chart['goals'] 				= goalarray;
-			chart['goalLineColors'] 	= ['#FFF8E3', '#FFEEB9', '#FBB596', '#FF0000'];
-			chart['ymin'] 				= max;
-		}
-		
-		var line = new Morris.Line(chart);
-				
-		enddate();
+		gaugechart(
+			'performancechart',
+			{}
+		);
 	});
 	
 	$(document).on('click', '.archive', function(){

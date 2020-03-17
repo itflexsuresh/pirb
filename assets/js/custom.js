@@ -783,3 +783,37 @@ function barchart(selector, options){
 		$(window).on("resize", resize), $(".icon-menu").on("click", resize)
 	});
 }
+
+function gaugechart(selector, options){
+	var gaugeChart = echarts.init(document.getElementById(selector));
+
+	option = {
+		tooltip : {
+			formatter: "{a} <br/>{b} : {c}%"
+		},
+		series : [
+			{
+				name:'Speed',
+				type:'gauge',
+				detail : {formatter:'{value}%'},
+				data:[{value: 50, name: 'Speed'}],
+				axisLine: {            
+					lineStyle: {       
+						color: [[0.2, '#55ce63'],[0.8, '#009efb'],[1, '#f62d51']], 
+						
+					}
+				},
+				
+			}
+		]
+	};
+		   
+	gaugeChart.setOption(option, true), $(function() {
+		function resize() {
+			setTimeout(function(){
+				gaugeChart.resize()
+			}, 100)
+		}
+		$(window).on("resize", resize), $(".icon-menu").on("click", resize)
+	});
+}

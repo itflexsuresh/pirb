@@ -77,34 +77,10 @@
 			chartdata.push({y: v.date, item1: v.point});
 		})
 		
-		var chart = {
-			element: 'performancechart',
-			resize: true,
-			data: chartdata,
-			xkey: 'y',
-			ykeys: ['item1'],
-			labels: ['Point'],
-			gridLineColor: '#000',
-			lineColors: ['#000'],
-			lineWidth: 1,
-			hideHover: 'auto',
-			xLabelFormat: function (x) { return formatdate(x, 1).toString(); },
-			continuousLine:true
-		}
-		
-		if(warning.length){
-			var goalarray 	= [];
-			var max 		= '';
-			$(warning).each(function(i,v){
-				goalarray.push(v.point);
-				max = v.point;
-			})
-			chart['goals'] 				= goalarray;
-			chart['goalLineColors'] 	= ['#FFF8E3', '#FFEEB9', '#FBB596', '#FF0000'];
-			chart['ymin'] 				= max;
-		}
-		
-		var line = new Morris.Line(chart);
+		gaugechart(
+			'performancechart',
+			{}
+		);
 	});
 	
 	$(document).on('click', '.archive', function(){

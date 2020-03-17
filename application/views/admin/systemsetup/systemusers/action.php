@@ -234,52 +234,41 @@
 	$(document).ready(function(){
 
 		$(".checkbox3").click(function(){
-		var c = $(this).attr("data-id");
-		// alert(c);
-
-	// alert($(this).prop("checked"));
-
-		if( $(this).prop("checked")==true){
-		
-	   
-		 $("."+c).prop("checked", true);
-		}else{
-		
-			 $("."+c).prop("checked", false);
-	   /*  $("."+c+"_read").prop("checked",true);
-		 $("."+c).prop("checked",true);*/
-		}
+			var c = $(this).attr("data-id");
+			
+			if($(this).prop("checked")==true){
+				$("."+c).prop("checked", true);
+			}else{
+				$("."+c).prop("checked", false);
+			}
 		});
 
 
 		$(".checkbox4").click(function(){
-		var c = $(this).attr("data-id");
-		 if( $("."+c+"_read").prop("checked")==false){
-		 $("."+c+"_read").prop("checked", true);
-		 $("."+c).prop("checked", true);
-		}else{
-		 $("."+c+"_read").prop("checked", false);
-		 $("."+c).prop("checked", false);
-		}
-		
-		
+			var c = $(this).attr("data-id");
+			
+			if( $("."+c+"_read").prop("checked")==false){
+				$("."+c+"_read").prop("checked", true);
+				$("."+c).prop("checked", true);
+			}else{
+				$("."+c+"_read").prop("checked", false);
+				$("."+c).prop("checked", false);
+			}
 		});
 
 		$(".write_key").click(function(){		
-			if($(this).closest('tr').find("input[name='read[]']").prop('checked')==false) {
-				$(this).closest('tr').find("input[name='read[]']").prop('checked', true);
-			}else{
-				$(this).closest('tr').find("input[name='read[]']").prop('checked', false);
-			};		
+			if($(this).is(':checked')){
+				if(!$(this).parent().parent().find('.read_key').is(':checked')) $(this).parent().parent().find('.read_key').prop("checked", true)
+			}
 			
-			keycheck($(this).attr('data-id'), 2);
-			
+			keycheck($(this).attr('data-id'), 2);			
 		});
 
 		$('.read_key').click(function(){
 			keycheck($(this).attr('data-id'), 1);
 		})
 	});
+	
 	
 	function keycheck(dataid, type){		
 		var parentcheck1 = 0;
