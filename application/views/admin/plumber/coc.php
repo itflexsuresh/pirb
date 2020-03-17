@@ -115,6 +115,7 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 
 		var auditorid 		= '<?php echo $auditorid; ?>';
 		var plumberid 		= '<?php echo $plumberid; ?>';
+		var count 			= '<?php echo $count; ?>';
 		var total 			= '<?php echo $total; ?>';
 		var refixincomplete = '<?php echo $refixincomplete; ?>';
 		var refixcomplete 	= '<?php echo $refixcomplete; ?>';
@@ -139,7 +140,7 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 						nonlogged,
 						allocated,
 						logged,
-						total,
+						count,
 						refixcomplete,
 						refixincomplete
 					],
