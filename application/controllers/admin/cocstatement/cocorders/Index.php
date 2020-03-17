@@ -76,7 +76,7 @@ class Index extends CC_Controller
 					
 					if ($inv_id) {
 						
-						$invoicedata = $this->db->select('*')->from('invoice')->where(['id' => $inv_id['inv_id']])->get()->row_array();
+						$invoicedata = $this->db->select('*')->from('invoice')->where(['inv_id' => $inv_id['inv_id']])->get()->row_array();
 						if($invoicedata['email_track']!='0'){
 							$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '8', 'emailstatus' => '1']);
 					
