@@ -805,14 +805,20 @@ class Auditor_Model extends CC_Model
 	// compusory auditor
 
 	public function getlisting($type, $requestdata=[]){
-		$this->db->select('u1.id as uid, cal.id as calid, up.registration_no, ud.name, ud.surname, cal.allocation, count(ast.auditcomplete) as completed');
+		$this->db->select('u1.id as uid, cal.id as calid, up.registration_no, ud.name, ud.surname, cal.allocation, 
+			(
+				SELECT
+				count(ast.auditcomplete)
+				FROM auditor_statement ast
+				WHERE u1.id = ast.plumber_id
+			) as completed');
 		$this->db->from('users u1');
 		$this->db->join('users_plumber up', 'u1.id = up.user_id', 'LEFT');
 		$this->db->join('users_detail ud', 'u1.id = ud.user_id', 'LEFT');
 		$this->db->join('compulsory_audit_listing cal', 'u1.id = cal.user_id', 'LEFT');
-		$this->db->join('auditor_statement ast', 'u1.id = ast.plumber_id', 'LEFT');
+		//$this->db->join('auditor_statement ast', 'u1.id = ast.plumber_id', 'LEFT');
 		$this->db->where('u1.id = cal.user_id');
-		$this->db->group_by('cal.user_id');
+		//$this->db->group_by('cal.user_id');
 
 
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
