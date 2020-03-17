@@ -72,7 +72,9 @@
 			{ "data": "status" },
 			{ "data": "internal_inv" }
 			
-			],
+			],	
+			target : [8],
+			sort : '0'
 			
 		};
 		
