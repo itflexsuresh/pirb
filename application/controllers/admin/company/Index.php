@@ -254,10 +254,10 @@ class Index extends CC_Controller
         $totalrecord    = [];
         if(count($results) > 0){
             foreach($results as $result){
-                
+                //echo date('Y-m-d', strtotime($result['updated_at']))!='0001-30-0001 00:00:00';die;
                 $created_at = strtotime($result['created_at']);
                 $upload_date = date('d-F-Y H:i:s', $created_at);
-                if (date('Y-m-d', strtotime($result['updated_at']))!='1970-01-01' && date('Y-m-d', strtotime($result['updated_at']))!='0001-30-0001 00:00:00') {
+                if ($result['updated_at']!='') {
                     $updated_at = strtotime($result['updated_at']);
                     $update_date = date('d-F-Y H:i:s', $updated_at);
 
