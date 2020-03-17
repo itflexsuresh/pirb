@@ -257,7 +257,7 @@ class Index extends CC_Controller
                 
                 $created_at = strtotime($result['created_at']);
                 $upload_date = date('d-F-Y H:i:s', $created_at);
-                if (strtotime($result['updated_at'])!='0' || strtotime($result['updated_at'])!=0) {
+                if (strtotime($result['updated_at'])!='0' || strtotime($result['updated_at'])!=0 || strtotime($result['updated_at'])!='') {
                     $updated_at = strtotime($result['updated_at']);
                     $update_date = date('d-F-Y H:i:s', $updated_at);
 
