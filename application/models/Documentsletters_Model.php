@@ -126,18 +126,20 @@ class Documentsletters_Model extends CC_Model
 	{
 		$idarray				= 	[];
 		$datetime				= 	date('Y-m-d H:i:s');
-		$request['created_at'] = $datetime;
+		
 		if(isset($data['description'])) $request['description'] = $data['description'];
 		if(isset($data['file1'])) $request['file'] 			= $data['file1'];
 		if(isset($data['companyid'])) $request['user_id'] = $data['companyid'];
 		
 		if(isset($request)){	
 			$documentsid	= 	$data['documentsid'];			
-			if($documentsid==''){					
+			if($documentsid==''){	
+				$request['created_at'] = $datetime;				
 				$documents_result = $this->db->insert('company_documentsletters', $request);
 				$documentsid = $this->db->insert_id();
 			}
 			else{
+				$request['updated_at'] = $datetime;
 				$documents_result = $this->db->update('company_documentsletters', $request, ['id' => $documentsid]);
 			}					
 		}
