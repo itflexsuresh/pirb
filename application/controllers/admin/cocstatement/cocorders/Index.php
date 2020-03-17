@@ -86,7 +86,7 @@ class Index extends CC_Controller
 							}
 						}	
 						
-						if($requestData['sms_track']!='0'){
+						if($invoicedata['sms_track']!='0'){
 							if($this->config->item('otpstatus')!='1'){
 								$smsdata 	= $this->Communication_Model->getList('row', ['id' => '8', 'smsstatus' => '1']);
 					
@@ -98,38 +98,41 @@ class Index extends CC_Controller
 						}
 						
 						$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
-
 						$orders = $this->db->select('*')->from('coc_orders')->where(['user_id' => $requestData['user_id']])->order_by('id','desc')->get()->row_array();
 
-
-						$pagedata['rowData'] = $this->Coc_Model->getListPDF('row', ['id' => $inv_id['inv_id'], 'status' => ['0','1']]);
-						$pagedata['settings']		= 	$this->Systemsettings_Model->getList('row');
-						$pagedata['currency']    = $this->config->item('currency');
-						$pagedata['rowData1'] = $this->Coc_Model->getPermissions('row', ['id' => $inv_id['inv_id'], 'status' => ['0','1']]);
-						$pagedata['rowData2'] = $this->Coc_Model->getPermissions1('row', ['id' => $inv_id['inv_id'], 'status' => ['0','1']]);
-						$html = $this->load->view('pdf/coc', (isset($pagedata) ? $pagedata : ''), true);
-					  
-						$pdfFilePath = ''.$inv_id['inv_id'].'.pdf';
-						$filePath = FCPATH.'assets/inv_pdf/';
-						$this->pdf->loadHtml($html);
-						$this->pdf->setPaper('A4', 'portrait');
-						$this->pdf->render();
-						$output = $this->pdf->output();
-						file_put_contents($filePath.$pdfFilePath, $output);
-						
-						$cocTypes = $orders['coc_type'];
-						$mail_date = date("d-m-Y", strtotime($orders['created_at']));
-						 
-						
-						$array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}'];
-						$array2 = [$userdata1['name']." ".$userdata1['surname'], $mail_date, $orders['quantity'], $this->config->item('coctype')[$cocTypes]];
-
-						$body = str_replace($array1, $array2, $template['email_body']);
-
-						if ($template['email_active'] == '1') {
-
-							$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body,$filePath.$pdfFilePath);
+						if(isset($requestData['email_coc_track'])){
 							
+							$pagedata['rowData'] = $this->Coc_Model->getListPDF('row', ['id' => $inv_id['inv_id'], 'status' => ['0','1']]);
+							$pagedata['settings']		= 	$this->Systemsettings_Model->getList('row');
+							$pagedata['currency']    = $this->config->item('currency');
+							$pagedata['rowData1'] = $this->Coc_Model->getPermissions('row', ['id' => $inv_id['inv_id'], 'status' => ['0','1']]);
+							$pagedata['rowData2'] = $this->Coc_Model->getPermissions1('row', ['id' => $inv_id['inv_id'], 'status' => ['0','1']]);
+							$html = $this->load->view('pdf/coc', (isset($pagedata) ? $pagedata : ''), true);
+						  
+							$pdfFilePath = ''.$inv_id['inv_id'].'.pdf';
+							$filePath = FCPATH.'assets/inv_pdf/';
+							$this->pdf->loadHtml($html);
+							$this->pdf->setPaper('A4', 'portrait');
+							$this->pdf->render();
+							$output = $this->pdf->output();
+							file_put_contents($filePath.$pdfFilePath, $output);
+							
+							$cocTypes = $orders['coc_type'];
+							$mail_date = date("d-m-Y", strtotime($orders['created_at']));
+							 
+							
+							$array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}'];
+							$array2 = [$userdata1['name']." ".$userdata1['surname'], $mail_date, $orders['quantity'], $this->config->item('coctype')[$cocTypes]];
+
+							$body = str_replace($array1, $array2, $template['email_body']);
+
+							if ($template['email_active'] == '1') {
+
+								$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body,$filePath.$pdfFilePath);
+							}
+						}
+						
+						if(isset($requestData['sms_coc_track'])){
 							if($this->config->item('otpstatus')!='1'){
 								$smsdata 	= $this->Communication_Model->getList('row', ['id' => '17', 'smsstatus' => '1']);
 								
@@ -139,6 +142,8 @@ class Index extends CC_Controller
 								}
 							}
 						}
+						
+
 					}
 					$this->session->set_flashdata('success', 'Order allocated successfully.');
 				} 

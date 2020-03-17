@@ -277,7 +277,7 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 									<option value="1">Select from COC data range</option>
 								</select> -->
 								<div class="custom-control custom-checkbox">
-		                            <input type="checkbox" class="custom-control-input" id="start_notifi">
+		                            <input type="checkbox" class="custom-control-input" id="start_notifi" name="sms_coc_track" value="1" checked>
 		                            <label class="custom-control-label" for="start_notifi">Send a SMS COC Allocation Notification</label>
 		                        </div>
 							</div>
@@ -293,7 +293,7 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 									<option value="1">Select from COC data range</option>
 								</select> -->
 								<div class="custom-control custom-checkbox">
-		                            <input type="checkbox" class="custom-control-input" id="end_notifi">
+		                            <input type="checkbox" class="custom-control-input" id="end_notifi" name="email_coc_track" value="1" checked>
 		                            <label class="custom-control-label" for="end_notifi">Send a Email COC Allocation Notification</label>
 		                        </div>
 							</div>
