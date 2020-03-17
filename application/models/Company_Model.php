@@ -147,7 +147,7 @@ class Company_Model extends CC_Model
 	public function cpdPoints($id){
 		$this->db->select('id, user_id, status, sum(points) as cpd');
 		$this->db->from('cpd_activity_form');
-		$this->db->where('cpd_activity_form', '1');
+		$this->db->where('status', '1');
 		$result = $this->db->where('user_id',$id)->get()->result_array();
 		return $result;
 	}
