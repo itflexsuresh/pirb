@@ -19,8 +19,10 @@
 				<h4 class="card-title">Performance Status</h4>
 				
 				<?php if(count($results) > 0 && $pagestatus!='1'){ ?>
-					<h5>Current Performance Status = <?php echo array_sum(array_column($results, 'point')); ?></h5>
-					<div id="performancechart"></div>
+					<?php $overallpoint = array_sum(array_column($results, 'point')); ?>
+					<h5>Current Performance Status = <?php echo $overallpoint; ?></h5>
+					<div id="performancelinechart" style="width:100%; height:400px;"></div>
+					<div id="performancechart" style="width:100%; height:400px;"></div>
 				<?php } ?>
 				
 				<div class="row m-t-30">
@@ -52,6 +54,7 @@
 	var results = $.parseJSON('<?php echo json_encode($results); ?>');
 	var warning = $.parseJSON('<?php echo json_encode($warning); ?>');
 	var pagestatus = '<?php echo $pagestatus; ?>';
+	var overallpoint = '<?php echo isset($overallpoint) ? $overallpoint : "0"; ?>';
 	
 	$(function(){
 		var column	= 	[
@@ -72,14 +75,44 @@
 		
 		ajaxdatatables('.datatables', options);
 		
-		var chartdata = [];
+		var chartxaxis 		= [];
+		var chartyaxis 		= [];
+		var chartseries 	= [];
+		var warningcolor 	= ['#FFF8E3', '#FFEEB9', '#FBB596', '#FF0000'];
+		
 		$(results).each(function(i, v){
-			chartdata.push({y: v.date, item1: v.point});
+			chartxaxis.push(v.date);
+			chartyaxis.push(v.point);
 		})
+		
+		chartseries.push({name : 'Performance Chart', yaxis : chartyaxis, symbol : 2 });
+		
+		$(warning).each(function(i, v){
+			var warningarray = [];
+			$(results).each(function(){
+				warningarray.push(v.point);
+			})
+			
+			chartseries.push({name : v.name, yaxis : warningarray, symbol : 0, color : warningcolor[i]});
+		})
+		
+		linechart(
+			'performancelinechart',
+			{
+				xaxis 	: 	chartxaxis,
+				series 	: 	chartseries,
+				colors 	: 	['#4472C4', '#FFF8E3', '#FFEEB9', '#FBB596', '#FF0000']
+			}
+		);
 		
 		gaugechart(
 			'performancechart',
-			{}
+			{
+				name : 'Performance Chart',
+				data : [{value: overallpoint, name: 'Performance Chart'}],
+				colors : [[0.2, '#55ce63'],[0.5, '#FBB596'],[0.8, '#009efb'],[1, '#f62d51']]
+				
+			}
 		);
 	});
 	
