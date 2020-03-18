@@ -156,8 +156,19 @@ class Stock_Model extends CC_Model
 			if(isset($data['coc_type'])){
 				if($data['coc_type']==1){
 					for($i=1;$i<=$data['coc_count'];$i++){
-						$result1 = $this->db->insert('stock_management', $requestdata);
-						$this->diaryactivity(['adminid' => $this->getUserID(), 'plumberid' => $data['user_id'], 'cocid' => $this->db->insert_id(), 'action' => '6', 'type' => '1']);
+						$stockmanagement = $this->db->get_where('stock_management', ['user_id' => '0', 'coc_status' => '1', 'coc_orders_status' => '6', 'type' => '1'])->row_array();
+						//$stockmanagementcount = $this->db->count_all_results('stock_management');
+						
+						if($stockmanagement){
+							$result1 = $this->db->update('stock_management', $requestdata, ['id' => $stockmanagement['id']]);
+							$insertid = $stockmanagement['id'];
+						}else{
+							//$requestdata['id'] = $stockmanagementcount + 1;
+							$result1 = $this->db->insert('stock_management', $requestdata);
+							$insertid = $this->db->insert_id();
+						}
+						
+						$this->diaryactivity(['adminid' => $this->getUserID(), 'plumberid' => $data['user_id'], 'cocid' => $insertid, 'action' => '6', 'type' => '1']);		
 					}		
 				} else if($data['coc_type']==2) {
 					for($i=$data['allocate_start'];$i<=$data['allocate_end'];$i++){
@@ -166,7 +177,7 @@ class Stock_Model extends CC_Model
 					}
 				}
 			}			
-			
+		
 			$this->db->update('coc_orders', $requestdata1, ['id' => $data['order_id']]);
 		}
 		return $inv_id;
