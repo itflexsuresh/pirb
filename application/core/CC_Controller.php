@@ -551,7 +551,7 @@ class CC_Controller extends CI_Controller
 			$pagedata['plumberstatus'] 	= $this->config->item('plumberstatus');
 			$userdata1					= $this->Plumber_Model->getList('row', ['id' => $result[0]['user_id']]);
 
-			$pagedata['user_details'] 	= $userdata1;
+			$pagedata['user_details1'] 	= $userdata1;
 
 			
 			
