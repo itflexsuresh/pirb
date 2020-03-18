@@ -37,18 +37,26 @@ class Compulsory_audit extends CC_Controller
 
 				$recordcheck = $this->Auditor_Model->recordcheck($user_id);
 				//print_r($recordcheck);die;
-				if ($recordcheck) {
-					$extraparam = $recordcheck['allocation'];
+				if ($recordcheck!=0 && $id=='') {
+					$message = 'Record already exist please update';
 				}else{
-					$extraparam = 0;
+					
+					$data 	=  $this->Auditor_Model->audit_compulsory($requestData, $extraparam);
+					if($data) $message = 'Compulsory Audit Listing '.(($id=='') ? 'created' : 'updated').' successfully.';
 				}
 				
-				$data 	=  $this->Auditor_Model->audit_compulsory($requestData, $extraparam);
-				if($data) $message = 'Compulsory Audit Listing '.(($id=='') ? 'created' : 'updated').' successfully.';
+				
+				
 			}
 
-			if(isset($data)) $this->session->set_flashdata('success', $message);
-			else $this->session->set_flashdata('error', 'Try Later.');
+			if(isset($data)){
+				$this->session->set_flashdata('success', $message);
+			}elseif($recordcheck!=0){
+				$this->session->set_flashdata('success', $message);
+			}
+			else{
+				$this->session->set_flashdata('error', 'Try Later.');
+			}
 			
 			redirect('admin/audits/Compulsory_audit/index'); 
 		}

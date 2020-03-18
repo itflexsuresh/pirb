@@ -796,17 +796,18 @@ class Auditor_Model extends CC_Model
 			$request['created_by'] = $this->getUserID();
 			$this->db->insert('compulsory_audit_listing',$request);
 			return true;
-		}elseif($data['id']=='' && $pageData!=0){
-
-			if(isset($data['allocation'])) 		$dataall 					= $data['allocation'];
-			if(isset($pageData)) 				$updaterec['allocation'] 	= $pageData+$dataall;
-			$user_id = $request['user_id'];
-			$request['created_at'] = date("Y-m-d H:i:s");
-			$request['created_by'] = $this->getUserID();
-			$this->db->update('compulsory_audit_listing',$updaterec, ['user_id' => $user_id]);
-			
-			return true;
 		}
+		// elseif($data['id']=='' && $pageData!=0){
+
+		// 	if(isset($data['allocation'])) 		$dataall 					= $data['allocation'];
+		// 	if(isset($pageData)) 				$updaterec['allocation'] 	= $pageData+$dataall;
+		// 	$user_id = $request['user_id'];
+		// 	$request['created_at'] = date("Y-m-d H:i:s");
+		// 	$request['created_by'] = $this->getUserID();
+		// 	$this->db->update('compulsory_audit_listing',$updaterec, ['user_id' => $user_id]);
+			
+		// 	return true;
+		// }
 		else{
 			$request['updated_at'] = date("Y-m-d H:i:s");
 			$request['updated_by'] = $this->getUserID();
