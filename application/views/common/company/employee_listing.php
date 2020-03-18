@@ -345,8 +345,7 @@ $total1 		= $developmental1 + $workbased1 + $individual1;
 							<div id="cpd" style="width:100%; height:400px;"></div>
 							<div><div class="target"></div><label>Target</label></div>
 							<div><div class="achieved"></div><label>Achieved</label></div>
-							<p>This chart denotes your current years registration targets and current years registration totals</p>
-														
+
 							<h4 class="card-title">Audit Overview</h4>
 							<div class="row">
 								<div class="col-md-2">
@@ -366,6 +365,8 @@ $total1 		= $developmental1 + $workbased1 + $individual1;
 								</div>
 							</div>
 							<div id="audit" style="width:100%; height:400px;"></div>
+							<div><div class="target"></div><label>Target</label></div>
+							<div><div class="achieved"></div><label>Achieved</label></div>
 				<?php } ?>
 				
 				
