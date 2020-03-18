@@ -269,7 +269,7 @@ $VAT          = $settings["vat_percentage"];
               </tr>
 
               <tr style="text-align: center;">
-                <td style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">VAT Total<?php echo ' '.$VAT; ?></td>
+                <td style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">VAT <?php echo ' '.$VAT; ?>%</td>
                 <td style="margin: 0; padding: 5px 50px; border: 1px solid #000; "><?php echo $currency.$rowData['vat']; ?></td>
               </tr>
 

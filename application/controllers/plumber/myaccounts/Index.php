@@ -7,6 +7,7 @@ class Index extends CC_Controller
 	{
 		parent::__construct();
 		$this->load->model('Accounts_Model');
+		$this->load->model('Systemsettings_Model');
 	}
 	
 	public function index()
@@ -111,7 +112,8 @@ class Index extends CC_Controller
 		
  
 		if($id!=''){
-		
+			$settings = $this->Systemsettings_Model->getList('row');
+			
 			$rowData = $this->Accounts_Model->getList('row', ['id' => $id, 'status' => ['0','1','7','8','9']]);
 			$rowData1 = $this->Accounts_Model->getPermissions('row', ['id' => $id, 'status' => ['0','1','7','8','9']]);
 			$rowData2 = $this->Accounts_Model->getPermissions1('row', ['id' => $id, 'status' => ['0','1','7','8','9']]);
@@ -255,7 +257,7 @@ td {
 						<p style="width: 50%; display: inline-block; margin: 0; padding: 6px 0 6px 0;"></p>
 					</div>
 					<div style="border-bottom: 1px solid #000;">
-						<p style="width: 47%; display: inline-block; margin: 0; padding: 6px 0 6px 0;    border-right: 1px solid #000;">VAT Total</p>
+						<p style="width: 47%; display: inline-block; margin: 0; padding: 6px 0 6px 0;    border-right: 1px solid #000;">VAT '.$settings["vat_percentage"].'%</p>
 						<p style="width: 50%; display: inline-block; margin: 0; padding: 6px 0 6px 0;"></p>
 					</div>
 					<div>

@@ -14,6 +14,7 @@ class Index extends CC_Controller
 		$this->load->model('Auditor_Model');
 		$this->load->model('Plumber_Model');
 	 	$this->load->model('Coc_Model');
+	 	$this->load->model('Systemsettings_Model');
 
 	 	$this->checkUserPermission('23', '1');
 
@@ -127,7 +128,7 @@ class Index extends CC_Controller
 
 	public function generatepdf($inv_id)
 	{
-
+		$settings = $this->Systemsettings_Model->getList('row');
 		$rowData = $this->Coc_Model->getListPDF('row', ['id' => $inv_id, 'status' => ['0','1']]);
 		$rowData1 = $this->Coc_Model->getPermissions('row', ['id' => $inv_id, 'status' => ['0','1']]);
 		$rowData2 = $this->Coc_Model->getPermissions1('row', ['id' => $inv_id, 'status' => ['0','1']]);
@@ -386,7 +387,7 @@ class Index extends CC_Controller
 					</tr>
 
 					<tr style="text-align: center;">
-					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">VAT Total</td>
+					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">VAT '.$settings["vat_percentage"].'%</td>
 					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$currency.$rowData['vat'].'</td>
 					</tr>
 
