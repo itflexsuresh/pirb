@@ -87,6 +87,8 @@ class Coc_Ordermodel extends CC_Model
 
 	public function action($data){
 		
+		$settings = $this->db->get('settings_details')->row_array();
+		
 		// echo "<pre>"; print_r($data);die;
 		if(isset($data['quantity'])) 		$requestdata['description'] 	= 'Purchase of '.$data['quantity'].' PIRB Certificate of Compliance';	
 		if(isset($data['created_at'])) 	    $requestdata['created_at'] 		= date('Y-m-d H:i:s', strtotime($data['created_at']));
@@ -444,7 +446,7 @@ class Coc_Ordermodel extends CC_Model
 					</tr>
 
 					<tr style="text-align: center;">
-					<td style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">VAT Total</td>
+					<td style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">VAT '.$settings["vat_percentage"].'%</td>
 					<td style="margin: 0; padding: 5px 50px; border: 1px solid #000; ">'.$rowData['vat'].'</td>
 					</tr>
 
