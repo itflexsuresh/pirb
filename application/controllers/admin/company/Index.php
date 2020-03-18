@@ -70,14 +70,19 @@ class Index extends CC_Controller
         $totalcount     = $this->Company_Model->getEmpList('count', ['type' => '4', 'approvalstatus' => ['0', '1'], 'formstatus' => ['1'], 'status' => ['0', '1', '2']] + $post);
         $results        = $this->Company_Model->getEmpList('all', ['type' => '4', 'approvalstatus' => ['0', '1'], 'formstatus' => ['1'], 'status' => ['0', '1', '2']] + $post);
         $companystatus  = $this->config->item('companystatus');
+
+        $rollingavg                 = $this->getRollingAverage();
+        $date                       = date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
+
         $totalrecord = [];
         if (count($results) > 0) {
             foreach ($results as $result) {
                 $desigcount     = $this->Company_Model->getdesignationCount(['designation' => $result['designation']]);
                 //print_r($desigcount);
-                $performance = $this->Plumber_Model->performancestatus('all', ['plumberid' => $result['user_id'], 'archive' => '0']);     
+                $performance = $this->Plumber_Model->performancestatus('all', ['plumberid' => $result['user_id'], 'archive' => '0', 'date' => $date]);     
 
                 $per_points = array_sum(array_column($performance, 'point'));
+                // print_r($performance);die;
                 $points     = $this->Company_Model->cpdPoints($result['user_id']);
 
                 if ($points[0]['cpd']!=''){
