@@ -855,30 +855,50 @@ class Auditor_Model extends CC_Model
 	public function autosearchPlumberReg($postData){ 
 		
 		$designations = array('4', '6' );
-		$this->db->select('up.registration_no, up.designation, u2.id, u1.name, u1.surname');
+		//$this->db->select('up.registration_no, up.designation, u2.id, u1.name, u1.surname');
+		$this->db->select('up.registration_no, up.designation, u.id, ud.name, ud.surname');
 
-		$this->db->from('users u2');
-		$this->db->join('users_detail u1', 'u1.user_id=u2.id and u2.type="3" and u2.status="1"','left');		
-		$this->db->join('users_plumber up', 'up.user_id=u1.user_id','left');
-		$this->db->where_in('up.designation', $designations);
-		$this->db->group_by("u1.id");		
+		// $this->db->from('users u2');
+		// $this->db->join('users_detail u1', 'u1.user_id=u2.id and u2.type="3" and u2.status="1"','left');		
+		// $this->db->join('users_plumber up', 'up.user_id=u1.user_id','left');
+		// $this->db->where_in('up.designation', $designations);
+		// $this->db->group_by("u1.id");		
+		// $query = $this->db->get();
+		// $result1 = $query->result_array(); 
+
+		// if (empty($result1)) {
+		// 	$this->db->select('u1.name,u1.surname,u2.id');
+		// 	$this->db->from('users_detail u1');
+		// 	$this->db->join('users u2', 'u1.user_id=u2.id and u2.type="3" and u2.status="1"','inner');
+		// 	$this->db->join('users_plumber up', 'up.user_id=u1.user_id','inner');
+		// 	$this->db->where_in('up.designation', $designations);
+		// 	$this->db->like('u1.surname',$postData['search_keyword']);
+		// 	$this->db->group_by("u1.id");		
+		// 	$query = $this->db->get();
+		// 	$result = $query->result_array();
+		// }
+		// else{
+		// 	$result = $result1;
+		// }
+		// return $result;
+
+		$this->db->from('users_detail ud');
+		$this->db->join('users u', 'u.id=ud.user_id','inner');
+		$this->db->join('users_plumber up', 'up.user_id=ud.user_id','inner');
+		$this->db->join('coc_count cc', 'cc.user_id=ud.user_id','inner');
+		$this->db->where(['ud.status' => '1', 'u.type' => '3']);
+		$this->db->where_in('up.designation', ['4', '6']);
+
+		$this->db->group_start();
+			$this->db->like('ud.name',$postData['search_keyword']);
+			$this->db->or_like('ud.surname',$postData['search_keyword']);		
+			$this->db->or_like('up.registration_no',$postData['search_keyword']);
+		$this->db->group_end();
+
+		$this->db->group_by("ud.id");		
 		$query = $this->db->get();
-		$result1 = $query->result_array(); 
-
-		if (empty($result1)) {
-			$this->db->select('u1.name,u1.surname,u2.id');
-			$this->db->from('users_detail u1');
-			$this->db->join('users u2', 'u1.user_id=u2.id and u2.type="3" and u2.status="1"','inner');
-			$this->db->join('users_plumber up', 'up.user_id=u1.user_id','inner');
-			$this->db->where_in('up.designation', $designations);
-			$this->db->like('u1.surname',$postData['search_keyword']);
-			$this->db->group_by("u1.id");		
-			$query = $this->db->get();
-			$result = $query->result_array();
-		}
-		else{
-			$result = $result1;
-		}
+		$result = $query->result_array();
+		
 		return $result;
 
 	}
