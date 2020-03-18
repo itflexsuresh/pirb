@@ -31,8 +31,19 @@ class Compulsory_audit extends CC_Controller
 
 			$requestData 	= 	$this->input->post();
 
+			if(isset($requestData['user_id_hide'])) 	$user_id 	= $requestData['user_id_hide'];
+			
 			if($requestData['submit']=='submit'){
-				$data 	=  $this->Auditor_Model->audit_compulsory($requestData);
+
+				$recordcheck = $this->Auditor_Model->recordcheck($user_id);
+				//print_r($recordcheck);die;
+				if ($recordcheck) {
+					$extraparam = $recordcheck['allocation'];
+				}else{
+					$extraparam = 0;
+				}
+				
+				$data 	=  $this->Auditor_Model->audit_compulsory($requestData, $extraparam);
 				if($data) $message = 'Compulsory Audit Listing '.(($id=='') ? 'created' : 'updated').' successfully.';
 			}
 
