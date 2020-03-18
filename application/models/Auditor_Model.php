@@ -840,7 +840,7 @@ class Auditor_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['ud.name', 'up.registration_no', 'cal.allocation', 'ast.auditcomplete', 'ud.surname'];
+			$column = ['ud.name', 'up.registration_no', 'cal.allocation', 'cal.allocation', 'ud.surname'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
@@ -849,7 +849,7 @@ class Auditor_Model extends CC_Model
 			$this->db->like('ud.name', $searchvalue);
 			$this->db->or_like('up.registration_no', $searchvalue);
 			$this->db->or_like('cal.allocation', $searchvalue);
-			$this->db->or_like('ast.auditcomplete', $searchvalue);
+			$this->db->or_like('cal.allocation', $searchvalue);
 			$this->db->group_end();
 
 		}
