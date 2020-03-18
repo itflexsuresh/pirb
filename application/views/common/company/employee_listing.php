@@ -158,63 +158,84 @@
 	// 	$noauditpercentage 			= round(($noaudit/$total)*100,2).'%';
 	// else
 	// 	$noauditpercentage = 0;
-
+if (isset($logged)) {
 	$count 				= $history['count'];
-$atotal 			= $history['total'];
-$refixincomplete 	= $history['refixincomplete'];
-$refixcomplete 		= $history['refixcomplete'];
-$compliment 		= $history['compliment'];
-$cautionary 		= $history['cautionary'];
-$noaudit 			= $history['noaudit'];
+	$atotal 			= $history['total'];
+	$refixincomplete 	= $history['refixincomplete'];
+	$refixcomplete 		= $history['refixcomplete'];
+	$compliment 		= $history['compliment'];
+	$cautionary 		= $history['cautionary'];
+	$noaudit 			= $history['noaudit'];
 
-$refixincompletepercentage 	= ($refixincomplete!=0) ? round(($refixincomplete/$atotal)*100,2).'%' : '0%'; 
-$refixcompletepercentage 	= ($refixcomplete!=0) ? round(($refixcomplete/$atotal)*100,2).'%' : '0%'; 
-$complimentpercentage 		= ($compliment!=0) ? round(($compliment/$atotal)*100,2).'%' : '0%'; 
-$cautionarypercentage 		= ($cautionary!=0) ? round(($cautionary/$atotal)*100,2).'%' : '0%'; 
-$noauditpercentage 			= ($noaudit!=0) ? round(($noaudit/$atotal)*100,2).'%' : '0%'; 
-$auditpercentage 			= ($count!=0 && $logged!=0) ? round(($count/$logged)*100,2).'%' : '0%'; 
+	$refixincompletepercentage 	= ($refixincomplete!=0) ? round(($refixincomplete/$atotal)*100,2).'%' : '0%'; 
+	$refixcompletepercentage 	= ($refixcomplete!=0) ? round(($refixcomplete/$atotal)*100,2).'%' : '0%'; 
+	$complimentpercentage 		= ($compliment!=0) ? round(($compliment/$atotal)*100,2).'%' : '0%'; 
+	$cautionarypercentage 		= ($cautionary!=0) ? round(($cautionary/$atotal)*100,2).'%' : '0%'; 
+	$noauditpercentage 			= ($noaudit!=0) ? round(($noaudit/$atotal)*100,2).'%' : '0%'; 
+	$auditpercentage 			= ($count!=0 && $logged!=0) ? round(($count/$logged)*100,2).'%' : '0%'; 
 
-$developmental1 = 0;
-$workbased1 	= 0;
-$individual1 	= 0;
+	$developmental1 = 0;
+	$workbased1 	= 0;
+	$individual1 	= 0;
 
-$cpdarray 	= explode("@@@", $settings_cpd[0]['cpd']);
-$devarray 	= explode("@-@", $cpdarray[0]);
-$workarray 	= explode("@-@", $cpdarray[1]);
-$indarray 	= explode("@-@", $cpdarray[2]);
+	$cpdarray 	= explode("@@@", $settings_cpd[0]['cpd']);
+	$devarray 	= explode("@-@", $cpdarray[0]);
+	$workarray 	= explode("@-@", $cpdarray[1]);
+	$indarray 	= explode("@-@", $cpdarray[2]);
 
-if($user_details['designation'] == '1'){
-	$developmental1 = isset($devarray[6]) ? $devarray[6] : '';
-	$workbased1 	= isset($workarray[6]) ? $workarray[6] : '';
-	$individual1 	= isset($indarray[6]) ? $indarray[6] : '';
+	if($user_details['designation'] == '1'){
+		$developmental1 = isset($devarray[6]) ? $devarray[6] : '';
+		$workbased1 	= isset($workarray[6]) ? $workarray[6] : '';
+		$individual1 	= isset($indarray[6]) ? $indarray[6] : '';
+	}
+	elseif($user_details['designation'] == '2'){
+		$developmental1 = isset($devarray[5]) ? $devarray[5] : '';
+		$workbased1 	= isset($workarray[5]) ? $workarray[5] : '';
+		$individual1 	= isset($indarray[5]) ? $indarray[5] : '';
+	}
+	elseif($user_details['designation'] == '3'){
+		$developmental1 = isset($devarray[4]) ? $devarray[4] : '';
+		$workbased1 	= isset($workarray[4]) ? $workarray[4] : '';
+		$individual1 	= isset($indarray[4]) ? $indarray[4] : '';
+	}
+	elseif($user_details['designation'] == '4'){
+		$developmental1 = isset($devarray[3]) ? $devarray[3] : '';
+		$workbased1 	= isset($workarray[3]) ? $workarray[3] : '';
+		$individual1 	= isset($indarray[3]) ? $indarray[3] : '';
+	}
+	elseif($user_details['designation'] == '6'){
+		$developmental1 = isset($devarray[2]) ? $devarray[2] : '';
+		$workbased1	 	= isset($workarray[2]) ? $workarray[2] : '';
+		$individual1 	= isset($indarray[2]) ? $indarray[2] : '';
+	}
+
+	$developmental 	= isset($history2['developmental']) ? $history2['developmental'] : 0;
+	$workbased 	   	= isset($history2['workbased']) ? $history2['workbased'] : 0;
+	$individual    	= isset($history2['individual']) ? $history2['individual'] : 0;
+
+	$total 			= $developmental + $workbased + $individual;
+	$total1 		= $developmental1 + $workbased1 + $individual1;
+}else{
+	$count 				= '';
+	$atotal 			= '';
+	$refixincomplete 	= '';
+	$refixcomplete 		= '';
+	$compliment 		= '';
+	$cautionary 		= '';
+	$noaudit 			= '';
+	$logged 			= '';
+	$nonlogged 			= '';		
+	$allocated 			= '';
+	$developmental 		= '';
+	$workbased 			= '';
+	$individual 		= '';
+	$total 				= '';
+	$developmental1 	= '';
+	$workbased1 		= '';
+	$individual1 		= '';
+	$total1 			= '';
 }
-elseif($user_details['designation'] == '2'){
-	$developmental1 = isset($devarray[5]) ? $devarray[5] : '';
-	$workbased1 	= isset($workarray[5]) ? $workarray[5] : '';
-	$individual1 	= isset($indarray[5]) ? $indarray[5] : '';
-}
-elseif($user_details['designation'] == '3'){
-	$developmental1 = isset($devarray[4]) ? $devarray[4] : '';
-	$workbased1 	= isset($workarray[4]) ? $workarray[4] : '';
-	$individual1 	= isset($indarray[4]) ? $indarray[4] : '';
-}
-elseif($user_details['designation'] == '4'){
-	$developmental1 = isset($devarray[3]) ? $devarray[3] : '';
-	$workbased1 	= isset($workarray[3]) ? $workarray[3] : '';
-	$individual1 	= isset($indarray[3]) ? $indarray[3] : '';
-}
-elseif($user_details['designation'] == '6'){
-	$developmental1 = isset($devarray[2]) ? $devarray[2] : '';
-	$workbased1	 	= isset($workarray[2]) ? $workarray[2] : '';
-	$individual1 	= isset($indarray[2]) ? $indarray[2] : '';
-}
 
-$developmental 	= isset($history2['developmental']) ? $history2['developmental'] : 0;
-$workbased 	   	= isset($history2['workbased']) ? $history2['workbased'] : 0;
-$individual    	= isset($history2['individual']) ? $history2['individual'] : 0;
-
-$total 			= $developmental + $workbased + $individual;
-$total1 		= $developmental1 + $workbased1 + $individual1;
 
  ?>
 <div class="row page-titles">
