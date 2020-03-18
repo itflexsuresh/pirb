@@ -786,16 +786,28 @@ class Auditor_Model extends CC_Model
 		}
 	}
 	/// Complsory Audit
-	public function audit_compulsory($data){
+	public function audit_compulsory($data, $pageData){
+		//print_r($extraparam);die;
 		if(isset($data['user_id_hide'])) 	$request['user_id'] 	= $data['user_id_hide'];
 		if(isset($data['allocation'])) 		$request['allocation'] 	= $data['allocation'];
 
-		if ($data['id']=='') {
+		if ($data['id']=='' && $pageData==0) {
 			$request['created_at'] = date("Y-m-d H:i:s");
 			$request['created_by'] = $this->getUserID();
 			$this->db->insert('compulsory_audit_listing',$request);
 			return true;
-		}else{
+		}elseif($data['id']=='' && $pageData!=0){
+
+			if(isset($data['allocation'])) 		$dataall 					= $data['allocation'];
+			if(isset($pageData)) 				$updaterec['allocation'] 	= $pageData+$dataall;
+			$user_id = $request['user_id'];
+			$request['created_at'] = date("Y-m-d H:i:s");
+			$request['created_by'] = $this->getUserID();
+			$this->db->update('compulsory_audit_listing',$updaterec, ['user_id' => $user_id]);
+			
+			return true;
+		}
+		else{
 			$request['updated_at'] = date("Y-m-d H:i:s");
 			$request['updated_by'] = $this->getUserID();
 			$this->db->update('compulsory_audit_listing',$request, ['id' => $data['id']]);
@@ -849,6 +861,23 @@ class Auditor_Model extends CC_Model
 		}
 		
 		return $result;
+	}
+
+
+	public function recordcheck($id){
+
+		if(isset($id)) 						$request['user_id'] 	= $id;
+
+		$this->db->select('*');
+		$this->db->from('compulsory_audit_listing');
+		$this->db->where('user_id',$request['user_id']);
+		$result = $this->db->get()->row_array();
+		
+		if ($result!='') {
+			return $result;
+		}else{
+			return 0;
+		}
 	}
 
 //Plumber Reg Search for compusory auditor
