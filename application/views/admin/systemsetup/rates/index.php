@@ -20,9 +20,9 @@ if(isset($result) && $result){
 
 // $validfrom 		= isset($result['validfrom']) ? $result['validfrom'] : '';
 if($validfrom!='')
-	$vdate=date('d/m/Y',strtotime($validfrom));
+	$vdate=date('d-m-Y',strtotime($validfrom));
 else
-	$vdate=date('d/m/Y');
+	$vdate=date('d-m-Y');
 
 
 ?>
@@ -68,7 +68,7 @@ else
                         <div class="form-group col-md-6">
 							<label for="name">Future Date</label></br>
 
-							<?php $fdate=date('m/d/Y',strtotime($futuredate)); echo $fdate; ?>
+							<?php $fdate=date('d-m-Y',strtotime($futuredate)); echo $fdate; ?>
 						</div>
 					<?php }?>
 					<?php if($futureamount!=0){?>
