@@ -12,6 +12,7 @@ class Cron extends CC_Controller {
 		$this->load->model('Renewal_Model');
 		$this->load->model('Coc_Model');
 		$this->load->model('Auditor_Model');
+		$this->load->model('Systemsettings_Model');
 		
 		$this->load->model('Communication_Model');
 		$this->load->model('CC_Model');
@@ -218,6 +219,7 @@ class Cron extends CC_Controller {
 		$starttime 	= date('Y-m-d H:i:s');
 
 		$result = $this->Renewal_Model->getUserids();		
+		$settings = $this->Systemsettings_Model->getList('row');
 		
 		foreach($result as $data)
 		{
@@ -508,7 +510,7 @@ class Cron extends CC_Controller {
 					</tr>
 
 					<tr style="text-align: center;">
-					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">VAT Total</td>
+					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">VAT '.$settings["vat_percentage"].'%</td>
 					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$currency.$rowData['vat'].'</td>
 					</tr>
 
@@ -586,6 +588,7 @@ class Cron extends CC_Controller {
 		$starttime 	= date('Y-m-d H:i:s');
 
 		$result = $this->Renewal_Model->getUserids_alert2();	
+		$settings = $this->Systemsettings_Model->getList('row');
 		
 		foreach($result as $data)
 		{
@@ -859,7 +862,7 @@ class Cron extends CC_Controller {
 					</tr>
 
 					<tr style="text-align: center;">
-					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">VAT Total</td>
+					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">VAT '.$settings["vat_percentage"].'%</td>
 					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$currency.$rowData['vat'].'</td>
 					</tr>
 
@@ -932,7 +935,7 @@ class Cron extends CC_Controller {
 		$starttime 	= date('Y-m-d H:i:s');
 
 		$result = $this->Renewal_Model->getUserids_alert3();	
-		
+		$settings = $this->Systemsettings_Model->getList('row');
 		foreach($result as $data)
 		{						
 			$userid = $data['id'];
@@ -1221,7 +1224,7 @@ class Cron extends CC_Controller {
 					</tr>
 
 					<tr style="text-align: center;">
-					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">VAT Total</td>
+					<td style="margin: 0; padding: 10px 5px; border: 1px solid #000; font-weight: bold;">VAT '.$settings["vat_percentage"].'%</td>
 					<td style="margin: 0; padding: 10px 15px; border: 1px solid #000; padding: 0 30px 0 30px;">'.$currency.$total_vatamount.'</td>
 					</tr>
 

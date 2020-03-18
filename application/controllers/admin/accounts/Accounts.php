@@ -7,6 +7,7 @@ class Accounts extends CC_Controller
 	{
 		parent::__construct();
 		$this->load->model('Accounts_Model');
+		$this->load->model('Systemsettings_Model');
 	}
 	
 	public function index($pagestatus='',$id='')
@@ -97,7 +98,7 @@ class Accounts extends CC_Controller
 		echo json_encode($json);
 	}
 	public function getPDF1($id){
-		
+		$settings = $this->Systemsettings_Model->getList('row');
  
 		if($id!=''){
 		
@@ -245,7 +246,7 @@ td {
 						<p style="width: 50%; display: inline-block; margin: 0; padding: 6px 0 6px 0;"></p>
 					</div>
 					<div style="border-bottom: 1px solid #000;">
-						<p style="width: 47%; display: inline-block; margin: 0; padding: 6px 0 6px 0;    border-right: 1px solid #000;">VAT Total</p>
+						<p style="width: 47%; display: inline-block; margin: 0; padding: 6px 0 6px 0;    border-right: 1px solid #000;">VAT '.$settings["vat_percentage"].'%</p>
 						<p style="width: 50%; display: inline-block; margin: 0; padding: 6px 0 6px 0;"></p>
 					</div>
 					<div>

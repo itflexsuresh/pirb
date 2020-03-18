@@ -492,7 +492,7 @@ class Index extends CC_Controller
 					</tr>
 
 					<tr style="text-align: center;">
-					<td style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">VAT Total'.$settings["vat_percentage"].'%</td>
+					<td style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">VAT '.$settings["vat_percentage"].'%</td>
 					<td style="margin: 0; padding: 5px 50px; border: 1px solid #000; ">'.$currency.$rowData['vat'].'</td>
 					</tr>
 

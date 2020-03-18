@@ -12,6 +12,7 @@ class Index extends CC_Controller
 		$this->load->model('Coc_Model');
 		$this->load->model('Stock_Model');
 		$this->load->model('Communication_Model');
+		$this->load->model('Systemsettings_Model');
 	}
 	
 	public function index()
@@ -76,7 +77,7 @@ class Index extends CC_Controller
 
 	public function insertOrders(){
 		if ($this->input->post()) {
-
+			$settings = $this->Systemsettings_Model->getList('row');
 			$requestData = $this->input->post();
 			$user_id	= 	$this->getUserID();
 
@@ -310,7 +311,7 @@ class Index extends CC_Controller
 							<p style="width: 50%; display: inline-block; margin: 0; padding: 6px 0 6px 0;">'.$total_subtotal.'</p>
 						</p>
 						<p style="border-bottom: 1px solid #000;">
-							<p style="width: auto; display: inline-block; margin: 0; padding: 6px 0 6px 0;    border-right: 1px solid #000;">VAT Total</p>
+							<p style="width: auto; display: inline-block; margin: 0; padding: 6px 0 6px 0;    border-right: 1px solid #000;">VAT '.$settings["vat_percentage"].'%</p>
 							<p style="width: 50%; display: inline-block; margin: 0; padding: 6px 0 6px 0;">'.$rowData['vat'].'</p>
 						</p>
 						<p>
