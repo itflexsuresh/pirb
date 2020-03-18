@@ -110,7 +110,12 @@ class index extends CC_Controller
 			
 				else{
 					$statuz 	= $this->config->item('approvalstatus')[$result['status']];
-					$awardPts 	= $result['points'];
+					if ($statuz!='Reject') {
+						$awardPts 	= $result['points'];
+					}else{
+						$awardPts 	= 0;
+					}
+					
 					$action 	= '
 					<div class="table-action">
 					<a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
