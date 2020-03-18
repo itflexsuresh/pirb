@@ -182,12 +182,14 @@ class Index extends CC_Controller
 	}
 	
 
+	
 	public function DTCpdQueue()
 	{
 		$post 			= $this->input->post();
 
-		$totalcount 	= $this->Mycpd_Model->getQueueList('count', ['status' => $post['pagestatus'], 'user_id' => $post['user_id']]+$post);
-		$results 		= $this->Mycpd_Model->getQueueList('all', ['status' => $post['pagestatus'], 'user_id' => $post['user_id']]+$post);
+		$totalcount 	= $this->Mycpd_Model->getQueueList('count', ['status' => [$post['pagestatus']], 'user_id' => [$post['user_id']]]+$post);
+		$results 		= $this->Mycpd_Model->getQueueList('all', ['status' => [$post['pagestatus']], 'user_id' => [$post['user_id']]]+$post);
+		//print_r($results);die;
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
@@ -195,17 +197,34 @@ class Index extends CC_Controller
 				if ($result['status']==0) {
 					$statuz 	= 'Pending';
 					$awardPts 	= '';
-					$action 	= '';//'<div class="table-action"><a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a></div>';
+					$action 	= '
+					<div class="table-action">
+					<a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+					</div>
+					';
 				}elseif($result['status']==3){
 					$statuz 	= 'Not Submited';
 					$awardPts 	= '';
-					$action 	= '';//'<div class="table-action"><a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a></div>';
+					$action 	= '
+					<div class="table-action">
+					<a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+					</div>
+					';
 				}
 			
 				else{
 					$statuz 	= $this->config->item('approvalstatus')[$result['status']];
-					$awardPts 	= $result['points'];
-					$action 	= '<div class="table-action"><a href="'.base_url().'admin/plumber/index/viewcpd/'.$post['pagestatus'].'/'.$result['id'].'/'.$post['user_id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a></div>';
+					if ($statuz!='Reject') {
+						$awardPts 	= $result['points'];
+					}else{
+						$awardPts 	= 0;
+					}
+					
+					$action 	= '
+					<div class="table-action">
+					<a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
+					</div>
+					';
 				}
 
 				// Attachments
