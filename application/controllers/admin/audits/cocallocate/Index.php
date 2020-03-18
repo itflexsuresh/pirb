@@ -40,17 +40,17 @@ class Index extends CC_Controller
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
+				$user_id = $result['id'];
 
 				if($checkpermission){
-					$action = 	'<a href='javascript:void(0);' class='cocmodal' data-user-id='$user_id'>logged COC</a>';
+					$action = 	"<a href='javascript:void(0);' class='cocmodal' data-user-id='".$user_id."'>logged COC</a>";
 				}else{
 					$action = '';
 				}
 				
 				$designation 	= isset($this->config->item('designation2')[$result["designation"]]) ? $this->config->item('designation2')[$result["designation"]] : '';
 				$status 		= isset($this->config->item('plumberstatus')[$result["plumberstatus"]]) ? $this->config->item('plumberstatus')[$result["plumberstatus"]] : '';
-				$user_id = $result['id'];
-
+				
 				$totalrecord[] = 	[
 										'reg_no' 		=> 	$result['registration_no'],
 										'name' 			=> 	$result['name']." ".$result['surname'],
