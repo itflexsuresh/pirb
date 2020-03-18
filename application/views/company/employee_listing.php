@@ -27,138 +27,9 @@
 	    $specialisations 	    = isset($employee[0]['specialisations']) ? explode(',',$employee[0]['specialisations']) : '';
  	}
 
- // 	// Plumber CPD
+ 	// Plumber CPD
 
- // 	if($roletype=='1'){
-	// 	$heading = 'Manage Allocted Audits';
-	// }else if($roletype=='3' || $roletype=='5'){
-	// 	$heading = 'Audit Report';
-	// }
-
-	// $plumberid			= '';
-	// $auditorid			= '';
-	// $developmental1 = '';
-	// $workbased1 = '';
-	// $individual1 = '';
-
-	// if (isset($settings_cpd)) {
-	// 	$cpdarray 	= explode("@@@", $settings_cpd[0]['cpd']);
-	// }
-	// if (isset($cpdarray)) {
-	// 	$devarray 	= explode("@-@", $cpdarray[0]);
-	// }
-	// if (isset($cpdarray)) {
-	// 	$workarray 	= explode("@-@", $cpdarray[1]);
-	// }
-	// if (isset($cpdarray)) {
-	// 	$indarray 	= explode("@-@", $cpdarray[2]);
-	// }
-	// if (isset($user_details)) {
-	// 	if($user_details['designation'] == '1'){
-	// 	$developmental1 = isset($devarray[6]) ? $devarray[6] : '';
-	// 	$workbased1 = isset($workarray[6]) ? $workarray[6] : '';
-	// 	$individual1 = isset($indarray[6]) ? $indarray[6] : '';
-	// 	}
-	// 	elseif($user_details['designation'] == '2'){
-	// 		$developmental1 = isset($devarray[5]) ? $devarray[5] : '';
-	// 		$workbased1 = isset($workarray[5]) ? $workarray[5] : '';
-	// 		$individual1 = isset($indarray[5]) ? $indarray[5] : '';
-	// 	}
-	// 	elseif($user_details['designation'] == '3'){
-	// 		$developmental1 = isset($devarray[4]) ? $devarray[4] : '';
-	// 		$workbased1 = isset($workarray[4]) ? $workarray[4] : '';
-	// 		$individual1 = isset($indarray[4]) ? $indarray[4] : '';
-	// 	}
-	// 	elseif($user_details['designation'] == '4'){
-	// 		$developmental1 = isset($devarray[3]) ? $devarray[3] : '';
-	// 		$workbased1 = isset($workarray[3]) ? $workarray[3] : '';
-	// 		$individual1 = isset($indarray[3]) ? $indarray[3] : '';
-	// 	}
-	// 	elseif($user_details['designation'] == '6'){
-	// 		$developmental1 = isset($devarray[2]) ? $devarray[2] : '';
-	// 		$workbased1 = isset($workarray[2]) ? $workarray[2] : '';
-	// 		$individual1 = isset($indarray[2]) ? $indarray[2] : '';
-	// 	}
-	// }
-
-	
-
-	// $developmental = isset($history['developmental']) ? $history['developmental'] : '';
-	// $workbased 	   = isset($history['workbased']) ? $history['workbased'] : '';
-	// $individual    = isset($history['individual']) ? $history['individual'] : '';
-
-	// if($developmental == '')
-	// 	$developmental = 0;
-
-	// if($workbased == '')
-	// 	$workbased = 0;
-
-	// if($individual == '')
-	// 	$individual = 0;
-
-
-	// if($developmental1 == '')
-	// 	$developmental1 = 0;
-
-	// if($workbased1 == '')
-	// 	$workbased1 = 0;
-
-	// if($individual1 == '')
-	// 	$individual1 = 0;
-
-	// $total = $developmental + $workbased + $individual;
-	// $total1 = $developmental1 + $workbased1 + $individual1;
-
-	// //Adudit
-
-
-	// //Adudit
-
-
-	// $loggedcoc 		 = isset($loggedcoc) ? $loggedcoc : '';
-	// $count 			 = isset($history2['count']) ? $history2['count'] : '';
-	// $totals 			= isset($history2['total']) ? $history2['total'] : '';
-	// $refixincomplete = isset($history2['refixincomplete']) ? $history2['refixincomplete'] : '0';
-	// $refixcomplete 	 = isset($history2['refixcomplete']) ? $history2['refixcomplete'] : '0';
-	// $compliment 	 = isset($history2['compliment']) ? $history2['compliment'] : '0';
-	// $cautionary 	 = isset($history2['cautionary']) ? $history2['cautionary'] : '0';
-	// $noaudit 		 = isset($history2['noaudit']) ? $history2['noaudit'] : '0';
-
-	// if($loggedcoc > 0 && $count > 0)
-	// 	$percentage 	= round(($count/$loggedcoc)*100,2).'%'; 
-	// else
-	// 	$percentage = 0;
-
-
-	// if($refixincomplete > 0 && $total>0 && $total!='')
-	// 	$refixincompletepercentage 	= round(($refixincomplete/$total)*100,2).'%'; 
-	// else
-	// 	$refixincompletepercentage = 0;
-
-
-	// if($refixcomplete > 0 && $total>0 && $total!='')
-	// 	$refixcompletepercentage 	= round(($refixcomplete/$total)*100,2).'%'; 
-	// else
-	// 	$refixcompletepercentage = 0;
-
-
-	// if($compliment > 0 && $total>0 && $total!='')
-	// 	$complimentpercentage 		= round(($compliment/$total)*100,2).'%';
-	// else
-	// 	$complimentpercentage = 0;
-
-
-	// if($cautionary > 0 && $total>0 && $total!='')
-	// 	$cautionarypercentage 		= round(($cautionary/$total)*100,2).'%';
-	// else
-	// 	$cautionarypercentage = 0;
-
-
-	// if($noaudit > 0 && $total>0 && $total!='')
-	// 	$noauditpercentage 			= round(($noaudit/$total)*100,2).'%';
-	// else
-	// 	$noauditpercentage = 0;
-if (isset($logged)) {
+ 	if (isset($logged)) {
 	$count 				= $history['count'];
 	$atotal 			= $history['total'];
 	$refixincomplete 	= $history['refixincomplete'];
@@ -236,7 +107,6 @@ if (isset($logged)) {
 	$total1 			= '';
 }
 
-
  ?>
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
@@ -252,7 +122,7 @@ if (isset($logged)) {
 	</div>
 </div>
 <?php echo $notification; ?>
-<?php if($roletype=='1'){ echo isset($menu) ? $menu : ''; } ?>
+
 <div class="row">
 	<div class="col-12">
 		<div class="card">
@@ -400,7 +270,8 @@ if (isset($logged)) {
 <script>
 	$(function(){
 
-	var count 			= '<?php echo $count; ?>';
+
+		var count 			= '<?php echo $count; ?>';
 	var atotal 			= '<?php echo $atotal; ?>';
 	var refixincomplete = '<?php echo $refixincomplete; ?>';
 	var refixcomplete 	= '<?php echo $refixcomplete; ?>';
@@ -420,7 +291,6 @@ if (isset($logged)) {
 	var workbased1 		= '<?php echo $workbased1; ?>';
 	var individual1 	= '<?php echo $individual1; ?>';
 	var total1			= '<?php echo $total1; ?>';
-
 
 		$('#plumber_profile').click(function() {
 		   	var loc = $(this).attr("src");
@@ -465,7 +335,7 @@ if (isset($logged)) {
 		
 		
 		var options = {
-			url 	: 	'<?php echo base_url()."admin/company/index/DTemplist"; ?>',
+			url 	: 	'<?php echo base_url()."company/employee_listing/DTemplist"; ?>',
 			data 	: {"comp_id": "<?php echo $compid; ?>"},
 			columns : 	[
 							{ "data": "reg" },
@@ -477,8 +347,6 @@ if (isset($logged)) {
 							{ "data": "rating" },
 							{ "data": "action" }
 						],
-
-						
 						
 		};
 		
@@ -543,9 +411,6 @@ if (isset($logged)) {
 				}]
 			}
 		)
-		
-		
-		
     
 	});
 
