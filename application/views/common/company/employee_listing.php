@@ -27,137 +27,194 @@
 	    $specialisations 	    = isset($employee[0]['specialisations']) ? explode(',',$employee[0]['specialisations']) : '';
  	}
 
- 	// Plumber CPD
+ // 	// Plumber CPD
 
- 	if($roletype=='1'){
-		$heading = 'Manage Allocted Audits';
-	}else if($roletype=='3' || $roletype=='5'){
-		$heading = 'Audit Report';
-	}
+ // 	if($roletype=='1'){
+	// 	$heading = 'Manage Allocted Audits';
+	// }else if($roletype=='3' || $roletype=='5'){
+	// 	$heading = 'Audit Report';
+	// }
 
-	$plumberid			= '';
-	$auditorid			= '';
-	$developmental1 = '';
-	$workbased1 = '';
-	$individual1 = '';
+	// $plumberid			= '';
+	// $auditorid			= '';
+	// $developmental1 = '';
+	// $workbased1 = '';
+	// $individual1 = '';
 
-	if (isset($settings_cpd)) {
-		$cpdarray 	= explode("@@@", $settings_cpd[0]['cpd']);
-	}
-	if (isset($cpdarray)) {
-		$devarray 	= explode("@-@", $cpdarray[0]);
-	}
-	if (isset($cpdarray)) {
-		$workarray 	= explode("@-@", $cpdarray[1]);
-	}
-	if (isset($cpdarray)) {
-		$indarray 	= explode("@-@", $cpdarray[2]);
-	}
-	if (isset($user_details)) {
-		if($user_details['designation'] == '1'){
-		$developmental1 = isset($devarray[6]) ? $devarray[6] : '';
-		$workbased1 = isset($workarray[6]) ? $workarray[6] : '';
-		$individual1 = isset($indarray[6]) ? $indarray[6] : '';
-		}
-		elseif($user_details['designation'] == '2'){
-			$developmental1 = isset($devarray[5]) ? $devarray[5] : '';
-			$workbased1 = isset($workarray[5]) ? $workarray[5] : '';
-			$individual1 = isset($indarray[5]) ? $indarray[5] : '';
-		}
-		elseif($user_details['designation'] == '3'){
-			$developmental1 = isset($devarray[4]) ? $devarray[4] : '';
-			$workbased1 = isset($workarray[4]) ? $workarray[4] : '';
-			$individual1 = isset($indarray[4]) ? $indarray[4] : '';
-		}
-		elseif($user_details['designation'] == '4'){
-			$developmental1 = isset($devarray[3]) ? $devarray[3] : '';
-			$workbased1 = isset($workarray[3]) ? $workarray[3] : '';
-			$individual1 = isset($indarray[3]) ? $indarray[3] : '';
-		}
-		elseif($user_details['designation'] == '6'){
-			$developmental1 = isset($devarray[2]) ? $devarray[2] : '';
-			$workbased1 = isset($workarray[2]) ? $workarray[2] : '';
-			$individual1 = isset($indarray[2]) ? $indarray[2] : '';
-		}
-	}
+	// if (isset($settings_cpd)) {
+	// 	$cpdarray 	= explode("@@@", $settings_cpd[0]['cpd']);
+	// }
+	// if (isset($cpdarray)) {
+	// 	$devarray 	= explode("@-@", $cpdarray[0]);
+	// }
+	// if (isset($cpdarray)) {
+	// 	$workarray 	= explode("@-@", $cpdarray[1]);
+	// }
+	// if (isset($cpdarray)) {
+	// 	$indarray 	= explode("@-@", $cpdarray[2]);
+	// }
+	// if (isset($user_details)) {
+	// 	if($user_details['designation'] == '1'){
+	// 	$developmental1 = isset($devarray[6]) ? $devarray[6] : '';
+	// 	$workbased1 = isset($workarray[6]) ? $workarray[6] : '';
+	// 	$individual1 = isset($indarray[6]) ? $indarray[6] : '';
+	// 	}
+	// 	elseif($user_details['designation'] == '2'){
+	// 		$developmental1 = isset($devarray[5]) ? $devarray[5] : '';
+	// 		$workbased1 = isset($workarray[5]) ? $workarray[5] : '';
+	// 		$individual1 = isset($indarray[5]) ? $indarray[5] : '';
+	// 	}
+	// 	elseif($user_details['designation'] == '3'){
+	// 		$developmental1 = isset($devarray[4]) ? $devarray[4] : '';
+	// 		$workbased1 = isset($workarray[4]) ? $workarray[4] : '';
+	// 		$individual1 = isset($indarray[4]) ? $indarray[4] : '';
+	// 	}
+	// 	elseif($user_details['designation'] == '4'){
+	// 		$developmental1 = isset($devarray[3]) ? $devarray[3] : '';
+	// 		$workbased1 = isset($workarray[3]) ? $workarray[3] : '';
+	// 		$individual1 = isset($indarray[3]) ? $indarray[3] : '';
+	// 	}
+	// 	elseif($user_details['designation'] == '6'){
+	// 		$developmental1 = isset($devarray[2]) ? $devarray[2] : '';
+	// 		$workbased1 = isset($workarray[2]) ? $workarray[2] : '';
+	// 		$individual1 = isset($indarray[2]) ? $indarray[2] : '';
+	// 	}
+	// }
 
 	
 
-	$developmental = isset($history['developmental']) ? $history['developmental'] : '';
-	$workbased 	   = isset($history['workbased']) ? $history['workbased'] : '';
-	$individual    = isset($history['individual']) ? $history['individual'] : '';
+	// $developmental = isset($history['developmental']) ? $history['developmental'] : '';
+	// $workbased 	   = isset($history['workbased']) ? $history['workbased'] : '';
+	// $individual    = isset($history['individual']) ? $history['individual'] : '';
 
-	if($developmental == '')
-		$developmental = 0;
+	// if($developmental == '')
+	// 	$developmental = 0;
 
-	if($workbased == '')
-		$workbased = 0;
+	// if($workbased == '')
+	// 	$workbased = 0;
 
-	if($individual == '')
-		$individual = 0;
-
-
-	if($developmental1 == '')
-		$developmental1 = 0;
-
-	if($workbased1 == '')
-		$workbased1 = 0;
-
-	if($individual1 == '')
-		$individual1 = 0;
-
-	$total = $developmental + $workbased + $individual;
-	$total1 = $developmental1 + $workbased1 + $individual1;
-
-	//Adudit
+	// if($individual == '')
+	// 	$individual = 0;
 
 
-	//Adudit
+	// if($developmental1 == '')
+	// 	$developmental1 = 0;
+
+	// if($workbased1 == '')
+	// 	$workbased1 = 0;
+
+	// if($individual1 == '')
+	// 	$individual1 = 0;
+
+	// $total = $developmental + $workbased + $individual;
+	// $total1 = $developmental1 + $workbased1 + $individual1;
+
+	// //Adudit
 
 
-	$loggedcoc 		 = isset($loggedcoc) ? $loggedcoc : '';
-	$count 			 = isset($history['count']) ? $history['count'] : '';
-	$totals 			= isset($history['total']) ? $history['total'] : '';
-	$refixincomplete = isset($history['refixincomplete']) ? $history['refixincomplete'] : '0';
-	$refixcomplete 	 = isset($history['refixcomplete']) ? $history['refixcomplete'] : '0';
-	$compliment 	 = isset($history['compliment']) ? $history['compliment'] : '0';
-	$cautionary 	 = isset($history['cautionary']) ? $history['cautionary'] : '0';
-	$noaudit 		 = isset($history['noaudit']) ? $history['noaudit'] : '0';
-
-	if($loggedcoc > 0 && $count > 0)
-		$percentage 	= round(($count/$loggedcoc)*100,2).'%'; 
-	else
-		$percentage = 0;
+	// //Adudit
 
 
-	if($refixincomplete > 0 && $total>0 && $total!='')
-		$refixincompletepercentage 	= round(($refixincomplete/$total)*100,2).'%'; 
-	else
-		$refixincompletepercentage = 0;
+	// $loggedcoc 		 = isset($loggedcoc) ? $loggedcoc : '';
+	// $count 			 = isset($history2['count']) ? $history2['count'] : '';
+	// $totals 			= isset($history2['total']) ? $history2['total'] : '';
+	// $refixincomplete = isset($history2['refixincomplete']) ? $history2['refixincomplete'] : '0';
+	// $refixcomplete 	 = isset($history2['refixcomplete']) ? $history2['refixcomplete'] : '0';
+	// $compliment 	 = isset($history2['compliment']) ? $history2['compliment'] : '0';
+	// $cautionary 	 = isset($history2['cautionary']) ? $history2['cautionary'] : '0';
+	// $noaudit 		 = isset($history2['noaudit']) ? $history2['noaudit'] : '0';
+
+	// if($loggedcoc > 0 && $count > 0)
+	// 	$percentage 	= round(($count/$loggedcoc)*100,2).'%'; 
+	// else
+	// 	$percentage = 0;
 
 
-	if($refixcomplete > 0 && $total>0 && $total!='')
-		$refixcompletepercentage 	= round(($refixcomplete/$total)*100,2).'%'; 
-	else
-		$refixcompletepercentage = 0;
+	// if($refixincomplete > 0 && $total>0 && $total!='')
+	// 	$refixincompletepercentage 	= round(($refixincomplete/$total)*100,2).'%'; 
+	// else
+	// 	$refixincompletepercentage = 0;
 
 
-	if($compliment > 0 && $total>0 && $total!='')
-		$complimentpercentage 		= round(($compliment/$total)*100,2).'%';
-	else
-		$complimentpercentage = 0;
+	// if($refixcomplete > 0 && $total>0 && $total!='')
+	// 	$refixcompletepercentage 	= round(($refixcomplete/$total)*100,2).'%'; 
+	// else
+	// 	$refixcompletepercentage = 0;
 
 
-	if($cautionary > 0 && $total>0 && $total!='')
-		$cautionarypercentage 		= round(($cautionary/$total)*100,2).'%';
-	else
-		$cautionarypercentage = 0;
+	// if($compliment > 0 && $total>0 && $total!='')
+	// 	$complimentpercentage 		= round(($compliment/$total)*100,2).'%';
+	// else
+	// 	$complimentpercentage = 0;
 
 
-	if($noaudit > 0 && $total>0 && $total!='')
-		$noauditpercentage 			= round(($noaudit/$total)*100,2).'%';
-	else
-		$noauditpercentage = 0;
+	// if($cautionary > 0 && $total>0 && $total!='')
+	// 	$cautionarypercentage 		= round(($cautionary/$total)*100,2).'%';
+	// else
+	// 	$cautionarypercentage = 0;
+
+
+	// if($noaudit > 0 && $total>0 && $total!='')
+	// 	$noauditpercentage 			= round(($noaudit/$total)*100,2).'%';
+	// else
+	// 	$noauditpercentage = 0;
+
+	$count 				= $history['count'];
+$atotal 			= $history['total'];
+$refixincomplete 	= $history['refixincomplete'];
+$refixcomplete 		= $history['refixcomplete'];
+$compliment 		= $history['compliment'];
+$cautionary 		= $history['cautionary'];
+$noaudit 			= $history['noaudit'];
+
+$refixincompletepercentage 	= ($refixincomplete!=0) ? round(($refixincomplete/$atotal)*100,2).'%' : '0%'; 
+$refixcompletepercentage 	= ($refixcomplete!=0) ? round(($refixcomplete/$atotal)*100,2).'%' : '0%'; 
+$complimentpercentage 		= ($compliment!=0) ? round(($compliment/$atotal)*100,2).'%' : '0%'; 
+$cautionarypercentage 		= ($cautionary!=0) ? round(($cautionary/$atotal)*100,2).'%' : '0%'; 
+$noauditpercentage 			= ($noaudit!=0) ? round(($noaudit/$atotal)*100,2).'%' : '0%'; 
+$auditpercentage 			= ($count!=0 && $logged!=0) ? round(($count/$logged)*100,2).'%' : '0%'; 
+
+$developmental1 = 0;
+$workbased1 	= 0;
+$individual1 	= 0;
+
+$cpdarray 	= explode("@@@", $settings_cpd[0]['cpd']);
+$devarray 	= explode("@-@", $cpdarray[0]);
+$workarray 	= explode("@-@", $cpdarray[1]);
+$indarray 	= explode("@-@", $cpdarray[2]);
+
+if($user_details['designation'] == '1'){
+	$developmental1 = isset($devarray[6]) ? $devarray[6] : '';
+	$workbased1 	= isset($workarray[6]) ? $workarray[6] : '';
+	$individual1 	= isset($indarray[6]) ? $indarray[6] : '';
+}
+elseif($user_details['designation'] == '2'){
+	$developmental1 = isset($devarray[5]) ? $devarray[5] : '';
+	$workbased1 	= isset($workarray[5]) ? $workarray[5] : '';
+	$individual1 	= isset($indarray[5]) ? $indarray[5] : '';
+}
+elseif($user_details['designation'] == '3'){
+	$developmental1 = isset($devarray[4]) ? $devarray[4] : '';
+	$workbased1 	= isset($workarray[4]) ? $workarray[4] : '';
+	$individual1 	= isset($indarray[4]) ? $indarray[4] : '';
+}
+elseif($user_details['designation'] == '4'){
+	$developmental1 = isset($devarray[3]) ? $devarray[3] : '';
+	$workbased1 	= isset($workarray[3]) ? $workarray[3] : '';
+	$individual1 	= isset($indarray[3]) ? $indarray[3] : '';
+}
+elseif($user_details['designation'] == '6'){
+	$developmental1 = isset($devarray[2]) ? $devarray[2] : '';
+	$workbased1	 	= isset($workarray[2]) ? $workarray[2] : '';
+	$individual1 	= isset($indarray[2]) ? $indarray[2] : '';
+}
+
+$developmental 	= isset($history2['developmental']) ? $history2['developmental'] : 0;
+$workbased 	   	= isset($history2['workbased']) ? $history2['workbased'] : 0;
+$individual    	= isset($history2['individual']) ? $history2['individual'] : 0;
+
+$total 			= $developmental + $workbased + $individual;
+$total1 		= $developmental1 + $workbased1 + $individual1;
 
  ?>
 <div class="row page-titles">
@@ -284,32 +341,31 @@
 							</div>
 						</div>
 					</div>
-					<h4 class="card-title">CPD Overview</h4>
-					
-				<div id="reviewchart" style="width:100%; height:400px;"></div>
-				
-				<div class="target" style="width: 8px;height: 9px;background-color: #4472c4;"></div><label>Target</label>				
-				<div class="achieved" style="width: 8px;height: 9px;background-color: #ed7d31;"></div><label>Achieved</label>
-				<div id="reviewchart1" style="width:100%; height:400px;"></div>
-				<div class="row">
-					<div class="col-md-2">
-						<label >Number of Logged COC's</label>
-					</div>
-					<div class="col-md-3">
-						<input type="text" class="form-control" name="loggedcoc" value="<?php echo $loggedcoc; ?>">
-					</div>
-					<div class="col-md-2">
-						<label>Number Audits Done to Date</label>
-					</div>
-					<div class="col-md-3">
-						<input type="text" class="form-control" name="auditdone" value="<?php echo $count; ?>">
-					</div>
-					<div class="col-md-2">
-						<input type="text" class="form-control" name="percentage" value="<?php echo $percentage; ?>">
-					</div>
-				</div>
-				<div class="target" style="width: 8px;height: 9px;background-color: #4472c4;"></div><label>Target</label>				
-				<div class="achieved" style="width: 8px;height: 9px;background-color: #ed7d31;"></div><label>Achieved</label>
+						<h4 class="card-title">CPD Overview</h4>				
+							<div id="cpd" style="width:100%; height:400px;"></div>
+							<div><div class="target"></div><label>Target</label></div>
+							<div><div class="achieved"></div><label>Achieved</label></div>
+							<p>This chart denotes your current years registration targets and current years registration totals</p>
+														
+							<h4 class="card-title">Audit Overview</h4>
+							<div class="row">
+								<div class="col-md-2">
+									<label >Number of Logged COC's</label>
+								</div>
+								<div class="col-md-3">
+									<input type="text" class="form-control" value="<?php echo $logged; ?>">
+								</div>
+								<div class="col-md-2">
+									<label>Number of Audits Done to Date</label>
+								</div>
+								<div class="col-md-3">
+									<input type="text" class="form-control" value="<?php echo $count; ?>">
+								</div>
+								<div class="col-md-2">
+									<input type="text" class="form-control" value="<?php echo $auditpercentage; ?>">
+								</div>
+							</div>
+							<div id="audit" style="width:100%; height:400px;"></div>
 				<?php } ?>
 				
 				
@@ -321,6 +377,28 @@
 		
 <script>
 	$(function(){
+
+	var count 			= '<?php echo $count; ?>';
+	var atotal 			= '<?php echo $atotal; ?>';
+	var refixincomplete = '<?php echo $refixincomplete; ?>';
+	var refixcomplete 	= '<?php echo $refixcomplete; ?>';
+	var compliment 		= '<?php echo $compliment; ?>';
+	var cautionary 		= '<?php echo $cautionary; ?>';
+	var noaudit 		= '<?php echo $noaudit; ?>';
+	
+	var logged 			= '<?php echo $logged; ?>';
+	var nonlogged 		= '<?php echo $nonlogged; ?>';		
+	var allocated 		= '<?php echo $allocated; ?>';
+	
+	var developmental 	= '<?php echo $developmental; ?>';
+	var workbased 		= '<?php echo $workbased; ?>';
+	var individual 		= '<?php echo $individual; ?>';
+	var total 			= '<?php echo $total; ?>';
+	var developmental1 	= '<?php echo $developmental1; ?>';
+	var workbased1 		= '<?php echo $workbased1; ?>';
+	var individual1 	= '<?php echo $individual1; ?>';
+	var total1			= '<?php echo $total1; ?>';
+
 
 		$('#plumber_profile').click(function() {
 		   	var loc = $(this).attr("src");
@@ -384,20 +462,8 @@
 		
 		ajaxdatatables('.datatables', options);
 
-		var auditorid 	= '<?php echo $auditorid; ?>';
-		var plumberid 	= '<?php echo $plumberid; ?>';
-		var developmental = '<?php echo $developmental; ?>';
-		var workbased 	= '<?php echo $workbased; ?>';
-		var individual 	= '<?php echo $individual; ?>';
-		var total 		= '<?php echo $total; ?>';
-		var developmental1 = '<?php echo $developmental1; ?>';
-		var workbased1 	= '<?php echo $workbased1; ?>';
-		var individual1 	= '<?php echo $individual1; ?>';
-		var total1		= '<?php echo $total1; ?>';
-		
-		
 		barchart(
-			'reviewchart',
+			'cpd',
 			{
 				xaxis : [
 					'Development',
@@ -429,17 +495,9 @@
 				]
 			}
 		);
-
-		var auditorid 		= '<?php echo $auditorid; ?>';
-		var totals 			= '<?php echo $total; ?>';
-		var refixincomplete = '<?php echo $refixincomplete; ?>';
-		var refixcomplete 	= '<?php echo $refixcomplete; ?>';
-		var compliment 		= '<?php echo $compliment; ?>';
-		var cautionary 		= '<?php echo $cautionary; ?>';
-		var noaudit 		= '<?php echo $noaudit; ?>';
 		
 		barchart(
-			'reviewchart1',
+			'audit',
 			{
 				xaxis : [
 					'Total No of Audit Findings',
@@ -452,7 +510,7 @@
 				series : [{
 					name : 'Audit',
 					yaxis : [
-						total,
+						atotal,
 						compliment,
 						cautionary,
 						refixcomplete,
@@ -462,7 +520,10 @@
 					colors : ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4']
 				}]
 			}
-		);
+		)
+		
+		
+		
     
 	});
 

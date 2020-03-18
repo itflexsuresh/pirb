@@ -539,8 +539,11 @@ class CC_Controller extends CI_Controller
 	{
 
 		 if (isset($pagedata['pagetype']) && $pagedata['pagetype']=='adminempdetails') {
-			$result = $this->Company_Model->getEmpList('employee', ['comp_id' => $id['id'], 'type' => '3', 'status' => ['0','1', '2']]);
 
+		 	// comp_id = plumber ID
+
+			$result = $this->Company_Model->getEmpList('employee', ['comp_id' => $id['id'], 'type' => '3', 'status' => ['0','1', '2']]);
+			//print_r($result[0]['user_id']);die;
 			$pagedata['employee'] = $result;
 			$pagedata['specialization']	= $this->config->item('specialisations');
 
@@ -552,11 +555,21 @@ class CC_Controller extends CI_Controller
 
 			
 			
-			$pagedata['history']		= $this->Auditor_Model->getReviewHistory2Count(['auditorid' => '', 'plumberid' => $result[0]['user_id']]);
+			//$pagedata['history']		= $this->Auditor_Model->getReviewHistory2Count(['plumberid' => $result[0]['user_id']]);
+			$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['plumberid' => $result[0]['user_id']]);
+
+			$pagedata['history2']		= $this->Auditor_Model->getReviewHistory2Count(['plumberid' => $result[0]['user_id']]);
+
+			$pagedata['logged']			= $this->Coc_Model->getCOCList('count', ['user_id' => $result[0]['user_id'], 'coc_status' => ['2']]);
+
+			$pagedata['allocated']		= $this->Coc_Model->getCOCList('count', ['user_id' => $result[0]['user_id'], 'coc_status' => ['4']]);
+
+			$pagedata['nonlogged']		= $this->Coc_Model->getCOCList('count', ['user_id' => $result[0]['user_id'], 'coc_status' => ['5']]);
+			
 			$pagedata['settings_cpd']	= $this->Systemsettings_Model->getList('all',['user_id' => $result[0]['user_id']]);
 			
 
-			$pagedata['loggedcoc']		= $this->Coc_Model->getCOCList('count', ['user_id' => $result[0]['user_id'], 'coc_status' => ['2']]);
+			//$pagedata['loggedcoc']		= $this->Coc_Model->getCOCList('count', ['user_id' => $result[0]['user_id'], 'coc_status' => ['2']]);
 		 }
 		
 		if(isset($result) && !$result){
