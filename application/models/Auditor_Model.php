@@ -818,6 +818,7 @@ class Auditor_Model extends CC_Model
 	// compusory auditor
 
 	public function getlisting($type, $requestdata=[]){
+		//print_r($requestdata);die;
 		$this->db->select('u1.id as uid, cal.id as calid, up.registration_no, ud.name, ud.surname, cal.allocation, 
 			(
 				SELECT
@@ -832,6 +833,7 @@ class Auditor_Model extends CC_Model
 		//$this->db->join('auditor_statement ast', 'u1.id = ast.plumber_id', 'LEFT');
 		$this->db->where('u1.id = cal.user_id');
 		//$this->db->group_by('cal.user_id');
+		if(isset($requestdata['id'])) $this->db->where('cal.id', $requestdata['id']);
 
 
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){

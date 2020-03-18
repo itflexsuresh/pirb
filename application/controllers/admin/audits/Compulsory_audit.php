@@ -86,7 +86,7 @@ class Compulsory_audit extends CC_Controller
 
 			if($checkpermission){
 					$action = 	'<div class="table-action">
-																	<a href="'.base_url().'admin/audits/Compulsory_audit/index/'.$result['uid'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+																	<a href="'.base_url().'admin/audits/Compulsory_audit/index/'.$result['calid'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
 																</div>';
 				}else{
 					$action = '';
