@@ -74,9 +74,22 @@ class CC_Model extends CI_Model
 		else
 		{
 			$data = $this->upload->data();
-			//$this->fileResize($data['file_name'], $path);
+			if(in_array($data['image_type'], array('png','jpeg','jpg'))){
+				//$this->fileResize($data['file_name'], $path);
+				$this->fileResizeCore($path.$data['file_name'], $path.$data['file_name'], 80);
+			}
 			return $data;
 		}
+	}
+	
+	public function fileResizeCore($source, $destination, $quality)
+	{
+		$info = getimagesize($source);
+		if ($info['mime'] == 'image/jpeg') 		$image = imagecreatefromjpeg($source);
+		elseif ($info['mime'] == 'image/gif') 	$image = imagecreatefromgif($source);
+		elseif ($info['mime'] == 'image/png') 	$image = imagecreatefrompng($source);
+
+		imagejpeg($image, $destination, $quality);
 	}
 	
 	public function fileResize($file, $path)
@@ -85,7 +98,7 @@ class CC_Model extends CI_Model
 		$config['source_image'] 	= $path.$file;
 		$config['create_thumb'] 	= FALSE;
 		$config['maintain_ratio'] 	= FALSE;
-		$config['quality'] 			= '10%';
+		$config['quality'] 			= 10;
 
 		$this->load->library('image_lib', $config);
 		
