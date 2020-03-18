@@ -719,9 +719,9 @@ class Auditor_Model extends CC_Model
 	{
 		$plumberid = $requestdata['plumberid'];
 		
-		$developmental = $this->db->select('sum(points) as count')->where(['user_id' => $plumberid, 'cpd_stream' => '1'])->get('cpd_activity_form')->row_array();
-		$workbased = $this->db->select('sum(points) as count')->where(['user_id' => $plumberid, 'cpd_stream' => '2'])->get('cpd_activity_form')->row_array();
-		$individual = $this->db->select('sum(points) as count')->where(['user_id' => $plumberid, 'cpd_stream' => '3'])->get('cpd_activity_form')->row_array();
+		$developmental = $this->db->select('sum(points) as count')->where(['user_id' => $plumberid, 'cpd_stream' => '1', 'status' => '1'])->get('cpd_activity_form')->row_array();
+		$workbased = $this->db->select('sum(points) as count')->where(['user_id' => $plumberid, 'cpd_stream' => '2', 'status' => '1'])->get('cpd_activity_form')->row_array();
+		$individual = $this->db->select('sum(points) as count')->where(['user_id' => $plumberid, 'cpd_stream' => '3', 'status' => '1'])->get('cpd_activity_form')->row_array();
 		
 		$result = [
 			'developmental' => $developmental['count'],
