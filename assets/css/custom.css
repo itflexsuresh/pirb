@@ -928,6 +928,8 @@ table th {
 
 #id_Card img.id_admin {
     width: 160px;
+    height: 176px;
+    object-fit: contain;
     margin: 25px 0px 10px;
     border: 2px solid #e4010c;
 }
@@ -1437,7 +1439,7 @@ p.back_license {transform: none !important;margin: 0 !important;}
 
 #id_Card p {margin: 0 0 10px 0;}
 
-#id_Card img.id_admin {width: 70%;margin-left: 0;}
+#id_Card img.id_admin {width: 70%;margin-left: 0; height: 176px; object-fit: contain;}
 
 #id_Card_back p {margin-left: 0 !important;text-align: center;}
 
@@ -1721,4 +1723,9 @@ table#id_Card_back img {
 }
 .auditmenuactive a{
 	color: black;
+}
+
+
+td.curr_emptxt {
+    height: 180px !important;
 }

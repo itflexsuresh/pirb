@@ -154,32 +154,32 @@ class Cpdtypesetup extends CC_Controller
 				<table style="width: 80%; display: table; margin: 0 auto; ">
 				<tbody>
 				<tr style="text-align: center;">
-				<td colspan="2"><img style="width: 200px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/pitrb-logo.png"></td>
+				<td colspan="2" style="font-family:Helvetica;"><img style="width: 200px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/pitrb-logo.png"></td>
 				</tr>
 				<tr style="text-align: center;">
-				<td style="width: 50%; text-align: right;padding: 10px 20px 10px 0; font-weight: 700;">ACTIVITY NAME:</td>
-				<td style="text-align: left; padding: 10px 0 10px 0;">'.$rowData['activity'].'</td>
+				<td style="width: 50%; text-align: right;padding: 60px 20px 10px 0; font-weight: 700; font-family:Helvetica;">ACTIVITY NAME:</td>
+				<td style="font-family:Helvetica; text-align: left; padding: 60px 0 10px 0;">'.$rowData['activity'].'</td>
+				</tr>
+				<tr style=" font-family:Helvetica; text-align: center;">
+				<td style=" font-family:Helvetica;width: 60%; text-align: right; padding: 10px 20px 10px 0; font-weight: 700;">CPD POINTS FOR THIS ACTVITY:</td>
+				<td style="font-family:Helvetica; text-align: left; padding: 10px 0 10px 0;">'.$rowData['points'].'</td>
+				</tr>
+				<tr style="font-family:Helvetica; text-align: center;">
+				<td style="font-family:Helvetica; width: 50%; text-align: right; padding: 10px 20px 10px 0; font-weight: 700;">CPD STREAM:</td>
+				<td style="font-family:Helvetica; text-align: left; padding: 10px 0 10px 0;">'.$this->config->item('cpdstream')[$rowData['cpdstream']].'</td>
 				</tr>
 				<tr style="text-align: center;">
-				<td style="width: 50%; text-align: right; padding: 10px 20px 10px 0; font-weight: 700;">CPD POINTS FOR THIS ACTVITY:</td>
-				<td style="text-align: left; padding: 10px 0 10px 0;">'.$rowData['points'].'</td>
+				<td style="font-family:Helvetica; width: 50%; text-align: right; padding: 10px 20px 10px 0; font-weight: 700;">CPD ACTIVITY END DATE:</td>
+				<td style="font-family:Helvetica; text-align: left; padding: 10px 0 10px 0;">'.date('m-d-Y',strtotime($rowData['enddate'])).'</td>
 				</tr>
 				<tr style="text-align: center;">
-				<td style="width: 50%; text-align: right; padding: 10px 20px 10px 0; font-weight: 700;">CPD STREAM:</td>
-				<td style="text-align: left; padding: 10px 0 10px 0;">'.$this->config->item('cpdstream')[$rowData['cpdstream']].'</td>
+				<td style="font-family:Helvetica; width: 50%; text-align: right; padding: 10px 20px 10px 0; font-weight: 700;">CPD PRODUCT CODE:</td>
+				<td style="font-family:Helvetica; text-align: left; padding: 10px 0 10px 0;">'.$rowData['productcode'].'</td>
 				</tr>
 				<tr style="text-align: center;">
-				<td style="width: 50%; text-align: right; padding: 10px 20px 10px 0; font-weight: 700;">CPD ACTIVITY END DATE:</td>
-				<td style="text-align: left; padding: 10px 0 10px 0;">'.date('m-d-Y',strtotime($rowData['enddate'])).'</td>
-				</tr>
-				<tr style="text-align: center;">
-				<td style="width: 50%; text-align: right; padding: 10px 20px 10px 0; font-weight: 700;">CPD PRODUCT CODE:</td>
-				<td style="text-align: left; padding: 10px 0 10px 0;">'.$rowData['productcode'].'</td>
-				</tr>
-				<tr style="text-align: center;">
-				<td colspan="2">
+				<td colspan="2" style="font-family:Helvetica;">
 				<img style="width: 210px; padding-top: 70px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/qrcode/'.$rowData['qrcode'].'">
-				<p style="font-size: 12px">Use App Plumber to Scan this QR Code</p>
+				<p style="font-family:Helvetica; font-size: 12px">Use App Plumber to Scan this QR Code</p>
 				</td>
 				</tr>
 				</tbody>

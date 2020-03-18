@@ -784,6 +784,67 @@ function barchart(selector, options){
 	});
 }
 
+function linechart(selector, options){
+	var linechart = echarts.init(document.getElementById(selector));
+	
+	var series = [];
+	$(options['series']).each(function(i, v){
+		var seriesoption = {
+			name		:	v.name,
+			type		:	'line',
+			smooth		:	true,
+			data		:	v.yaxis,
+			symbolSize	:	v.symbol
+		};
+		
+		if(i!=0) seriesoption['itemStyle'] = {normal: {areaStyle: {color: v.color, type: 'default'}}};
+		
+		series.push(seriesoption)
+	})
+	
+	option = {	   
+		tooltip : {
+			trigger: 'item'
+		},
+		color: options['colors'],
+		calculable : true,
+		grid: {
+			borderWidth: 0
+		},	
+		xAxis : [
+			{
+				type : 'category',
+				boundaryGap : false,
+				splitLine: { show: false },
+				axisLine: {show: false},	
+				axisTick : {show: false},		
+				axisLabel:{interval:0},
+				data : options['xaxis']
+			}
+		],
+		yAxis : [
+			{
+				type : 'value',
+				axisLine: {show: false}
+			}
+		],
+		series : series 
+	};
+
+	if (option && typeof option === "object") {
+		linechart.setOption(option, true), $(function() {
+			function resize() {
+				setTimeout(function() {
+					linechart.resize()
+				}, 100)
+			}
+			
+			$(window).on("resize", resize), $(".icon-menu").on("click", resize)
+		});
+	}
+
+}
+
 function gaugechart(selector, options){
 	var gaugeChart = echarts.init(document.getElementById(selector));
 
@@ -793,16 +854,16 @@ function gaugechart(selector, options){
 		},
 		series : [
 			{
-				name:'Speed',
-				type:'gauge',
-				detail : {formatter:'{value}%'},
-				data:[{value: 50, name: 'Speed'}],
-				axisLine: {            
-					lineStyle: {       
-						color: [[0.2, '#55ce63'],[0.8, '#009efb'],[1, '#f62d51']], 
-						
-					}
-				},
+				name		: options.name,
+				type		:'gauge',
+				detail 		: {formatter:'{value}'},
+				data		: options.data,
+				axisLine	: {            
+								lineStyle: {       
+									color: options.colors 
+									
+								}
+							  }
 				
 			}
 		]
