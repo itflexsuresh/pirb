@@ -283,7 +283,7 @@ echo'<!DOCTYPE html>
   
   <div id="wrapper">
   <div class="certificate-block">
-    <div class="container" style=" font-family:Helvetica; width:1327px; margin: 300px 0px; padding:10px 15px 15px 15px; border: 4px solid #00aeef; background: #fff; border-radius: 20px; ">
+    <div class="container" style=" font-family:Helvetica; width:1327px; margin: 100px auto 100px auto; padding:10px 15px 15px 15px; border: 4px solid #00aeef; background: #fff; border-radius: 20px; ">
         <div class="title" style=" font-family:Helvetica; background: #d1e28d; text-align: center; color: #000; padding:10px 0; margin-bottom:4px;">
             <h3 style=" font-family:Helvetica; margin:0; margin:0; font-size:21px; line-height: 14px; font-weight: 600;">TERMS & CONDITIONS</h3>
         </div>
@@ -308,14 +308,14 @@ echo'<!DOCTYPE html>
               <p style=" font-family:Helvetica; font-size: 14px; line-height: 14px; padding: 0; margin: 1px 0; color: #000; font-weight: 400;">COC must be provided to the consumer for all plumbing jobs which fall into one or more of the following categories:</p>
               <ul style=" font-family:Helvetica; font-size: 14px; line-height: 30px;  color: #000; font-weight: 400;">
                     <li style=" font-family:Helvetica; line-height: 20px; padding-bottom:0px;">Where the total value of the work, including materials, labour and VAT, is more than the prescribe value as defined by the PIRB (material costs must be included, regardless of whether the materials were supplied by another person) a certificate must be issued for the following:</li><br>
-                 <li style=" font-family:Helvetica; line-height:30px; line-height: 15px;float: right; width:90%; list-style: none;">When an Installation, Replacement and/or Repair of Hot Water Systems and/ or Components is carried out</li><br>
-                  <li style=" font-family:Helvetica; line-height:30px;float: right; width:90%; list-style: none;">When an Installation, Replacement and/or Repair of Cold Water Systems and/ or Components is carried out</li><br>
-                    <li style=" font-family:Helvetica; line-height:30px; line-height: 15px;float: right; width:90%; list-style: none;">Installation, Replacement and/or Repair of Sanitary-ware and Sanitary-fittings is carried out</li><br>
-                     <li style=" font-family:Helvetica; line-height:30px; line-height: 15px;float: right; width:90%; list-style: none;">Installation, Replacement and/or Repair of a Solar Water Heating System</li><br>
-                      <li style=" font-family:Helvetica; line-height:30px; line-height: 15px;float: right; width:90%; list-style: none;">Installation, Replacement and/or Repair of a Below-ground Drainage System</li><br>
-                       <li style=" font-family:Helvetica; line-height:30px; line-height: 15px;float: right; width:90%; list-style: none;">stallation, Replacement and/or Repair of an Above-ground Drainage System</li><br>
-                        <li style=" font-family:Helvetica; line-height:30px; line-height: 15px;float: right; width:90%; list-style: none;">Installation, Replacement and/or Repair of an Above-ground Drainage System</li><br>
-                         <li style=" font-family:Helvetica; line-height:30px; line-height: 15px;float: right; width:90%; list-style: none;">Installation, Replacement and/or Repair of a Heat Pump Water Heating System</li><br>
+                 <li style=" font-family:Helvetica;  line-height: 15px;float: right; width:90%; list-style: none;">When an Installation, Replacement and/or Repair of Hot Water Systems and/ or Components is carried out</li><br>
+                  <li style=" font-family:Helvetica; float: right; width:90%; list-style: none;">When an Installation, Replacement and/or Repair of Cold Water Systems and/ or Components is carried out</li><br>
+                    <li style=" font-family:Helvetica;  line-height: 15px;float: right; width:90%; list-style: none;">Installation, Replacement and/or Repair of Sanitary-ware and Sanitary-fittings is carried out</li><br>
+                     <li style=" font-family:Helvetica;  line-height: 15px;float: right; width:90%; list-style: none;">Installation, Replacement and/or Repair of a Solar Water Heating System</li><br>
+                      <li style=" font-family:Helvetica;  line-height: 15px;float: right; width:90%; list-style: none;">Installation, Replacement and/or Repair of a Below-ground Drainage System</li><br>
+                       <li style=" font-family:Helvetica;  line-height: 15px;float: right; width:90%; list-style: none;">Installation, Replacement and/or Repair of an Above-ground Drainage System</li><br>
+                        <li style=" font-family:Helvetica;  line-height: 15px;float: right; width:90%; list-style: none;">Installation, Replacement and/or Repair of an Above-ground Drainage System</li><br>
+                         <li style=" font-family:Helvetica;  line-height: 15px;float: right; width:90%; list-style: none;">Installation, Replacement and/or Repair of a Heat Pump Water Heating System</li><br>
                           <div style=" font-family:Helvetica; clear:both;"></div>
                         <li style=" font-family:Helvetica; margin:0px 0px; line-height: 20px;">Any  work  that  requires  the  installation,  replacement  and/or  repair  of  any  of  an electrical/solar hot water cylinder valves or components must have a COC issued to the consumer regardless of the cost.</li><br>
                     </ul>
