@@ -295,7 +295,7 @@ if($agreementid=='1'){
   
   <div id="wrapper">
   <div class="certificate-block">
-    <div class="container" style=" font-family:Helvetica; width:1327px; margin: 250px auto 100px auto; padding:10px 15px 15px 15px; border: 4px solid #00aeef; background: #fff; border-radius: 20px; ">
+    <div class="container" style=" font-family:Helvetica; width:1327px; margin: 230px auto 100px auto; padding:10px 15px 15px 15px; border: 4px solid #00aeef; background: #fff; border-radius: 20px; ">
         <div class="title" style=" font-family:Helvetica; background: #d1e28d; text-align: center; color: #000; padding:10px 0; margin-bottom:4px;">
             <h3 style=" font-family:Helvetica; margin:0; margin:0; font-size:21px; line-height: 14px; font-weight: 600;">TERMS & CONDITIONS</h3>
         </div>
