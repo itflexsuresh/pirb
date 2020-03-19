@@ -130,7 +130,7 @@ class Cpdtypesetup_Model extends CC_Model
 	{
 		//print_r($requestdata['pagestatus']);die;
 		if ($requestdata['pagestatus'] == '1') {
-			$requestdata['pagestatus'] = array('0','1');
+			$requestdata['pagestatus'] = array('1','2');
 		}
 
 		$this->db->select('*');
@@ -138,7 +138,6 @@ class Cpdtypesetup_Model extends CC_Model
 		
 		if(isset($requestdata['id'])) 		$this->db->where('id', $requestdata['id']);
 		if(isset($requestdata['status']))	$this->db->where_in('status', $requestdata['pagestatus']);
-		if(isset($requestdata['user_id'][0]))	$this->db->where_in('user_id', $requestdata['user_id'][0]);
 		
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);

@@ -15,7 +15,6 @@ class Index extends CC_Controller
 		$this->load->model('Documentsletters_Model');
 		$this->load->model('Diary_Model');
 		$this->load->model('Performancestatus_Model');
-		$this->load->model('Cpdtypesetup_Model');
 
 		
 	}
@@ -242,13 +241,13 @@ class Index extends CC_Controller
 	// 	echo json_encode($json);
 	// }
 
-
 	public function DTCpdQueue()
 	{
 		$post 			= $this->input->post();
 
-		$totalcount 	= $this->Cpdtypesetup_Model->getQueueList('count', ['status' => [$post['pagestatus']], 'user_id' => [$post['user_id']]]+$post);
-		$results 		= $this->Cpdtypesetup_Model->getQueueList('all', ['status' => [$post['pagestatus']], 'user_id' => [$post['user_id']]]+$post);
+		$totalcount 	= $this->Mycpd_Model->getQueueList('count', ['status' => [$post['pagestatus']], 'user_id' => [$post['user_id']]]+$post);
+		$results 		= $this->Mycpd_Model->getQueueList('all', ['status' => [$post['pagestatus']], 'user_id' => [$post['user_id']]]+$post);
+		//print_r($results);die;
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
@@ -256,19 +255,34 @@ class Index extends CC_Controller
 				if ($result['status']==0) {
 					$statuz 	= 'Pending';
 					$awardPts 	= '';
-					$post['pagestatus'] = '0';
-					$action 	= '<div class="table-action"><a href="'.base_url().'admin/cpd/cpdtypesetup/index_queue/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a></div>';
-				}			
+					$action 	= '
+					<div class="table-action">
+					<a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+					</div>
+					';
+				}elseif($result['status']==3){
+					$statuz 	= 'Not Submited';
+					$awardPts 	= '';
+					$action 	= '
+					<div class="table-action">
+					<a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+					</div>
+					';
+				}
+			
 				else{
 					$statuz 	= $this->config->item('approvalstatus')[$result['status']];
-					if ($statuz=='Reject') {
-						$awardPts 	= 0;
-					}else{
+					if ($statuz!='Reject') {
 						$awardPts 	= $result['points'];
+					}else{
+						$awardPts 	= 0;
 					}
-					$post['pagestatus'] = '0';
 					
-					$action 	= '<div class="table-action"><a href="'.base_url().'admin/cpd/cpdtypesetup/index_queue/'.$post['pagestatus'].'/'.$result['id'].'/'.$post['user_id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-pencil-alt"></i></a></div>';
+					$action 	= '
+					<div class="table-action">
+					<a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
+					</div>
+					';
 				}
 
 				// Attachments
@@ -303,83 +317,6 @@ class Index extends CC_Controller
 
 		echo json_encode($json);
 	}
-
-	// public function DTCpdQueue()
-	// {
-	// 	$post 			= $this->input->post();
-
-	// 	$totalcount 	= $this->Mycpd_Model->getQueueList('count', ['status' => [$post['pagestatus']], 'user_id' => [$post['user_id']]]+$post);
-	// 	$results 		= $this->Mycpd_Model->getQueueList('all', ['status' => [$post['pagestatus']], 'user_id' => [$post['user_id']]]+$post);
-	// 	//print_r($results);die;
-		
-	// 	$totalrecord 	= [];
-	// 	if(count($results) > 0){
-	// 		foreach($results as $result){
-	// 			if ($result['status']==0) {
-	// 				$statuz 	= 'Pending';
-	// 				$awardPts 	= '';
-	// 				$action 	= '
-	// 				<div class="table-action">
-	// 				<a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-	// 				</div>
-	// 				';
-	// 			}elseif($result['status']==3){
-	// 				$statuz 	= 'Not Submited';
-	// 				$awardPts 	= '';
-	// 				$action 	= '
-	// 				<div class="table-action">
-	// 				<a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-	// 				</div>
-	// 				';
-	// 			}
-			
-	// 			else{
-	// 				$statuz 	= $this->config->item('approvalstatus')[$result['status']];
-	// 				if ($statuz!='Reject') {
-	// 					$awardPts 	= $result['points'];
-	// 				}else{
-	// 					$awardPts 	= 0;
-	// 				}
-					
-	// 				$action 	= '
-	// 				<div class="table-action">
-	// 				<a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
-	// 				</div>
-	// 				';
-	// 			}
-
-	// 			// Attachments
-	// 			if ($result['file1']!='') {
-	// 				$attach = '<div class="table-action">
-	// 				<a href="'.base_url().'assets/uploads/cpdqueue/'.$result['file1'].'" target="_blank" data-toggle="tooltip" data-placement="top" title="View Attachments"><i class="fa fa-download"></i></a>
-	// 				</div>';
-	// 			}else{
-	// 				$attach = '';
-	// 			}
-
-
-	// 			$totalrecord[] = 	[
-	// 				'date' 					=> 	date("m-d-Y", strtotime($result['cpd_start_date'])),
-	// 				'acivity' 				=> 	$result['cpd_activity'],
-	// 				'streams' 				=> 	$this->config->item('cpdstream')[$result['cpd_stream']],
-	// 				'comments' 				=> 	$result['comments'],
-	// 				'points' 				=> 	$awardPts,
-	// 				'attachment' 			=> 	$attach,
-	// 				'status' 				=> 	$statuz,
-	// 				'action'				=> 	$action
-	// 			];
-	// 		}
-	// 	}
-		
-	// 	$json = array(
-	// 		"draw"            => intval($post['draw']),   
-	// 		"recordsTotal"    => intval($totalcount),  
-	// 		"recordsFiltered" => intval($totalcount),
-	// 		"data"            => $totalrecord
-	// 	);
-
-	// 	echo json_encode($json);
-	// }
 
 	public function viewcpd($pagestatus='',$id='',$userid='')
 	{
