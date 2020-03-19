@@ -14,7 +14,49 @@ class index extends CC_Controller
 	public function index($pagestatus='',$id='')
 	{
 		$userid = $this->getUserID();
-		$this->mycptindex($pagestatus,$id,$userid);
+		if($id!=''){
+			$result = $this->Mycpd_Model->getQueueList('row', ['id' => $id, 'pagestatus' => $pagestatus]);
+			if($result){
+				$pagedata['result'] = $result;
+			}else{
+				$this->session->set_flashdata('error', 'No Record Found.');
+				redirect('admin/plumber/mycpd/index'); 
+			}
+		}
+		
+		if($this->input->post()){
+			$requestData 	= 	$this->input->post();
+
+			if($requestData['submit']=='submit'){
+
+				$data 	=  $this->Mycpd_Model->actionInsert($requestData);
+				if($data) $message = 'CPD Type '.(($id=='') ? 'created' : 'updated').' successfully.';
+			}elseif($requestData['submit']=='save'){
+				//print_r($requestData);die;
+
+				$data 	=  $this->Mycpd_Model->actionSave($requestData);
+				if($data) $message = 'My CPD '.(($id=='') ? 'save' : 'updated').' successfully.';
+			}
+			else{
+				$data 			= 	$this->Mycpd_Model->changestatus($requestData);
+				$message		= 	'CPD Type deleted successfully.';
+			}
+
+			if(isset($data)) $this->session->set_flashdata('success', $message);
+			else $this->session->set_flashdata('error', 'Try Later.');
+			
+			redirect('admin/plumber/mycpd/index'); 
+		}		
+		
+		$userdata1					= $this->Plumber_Model->getList('row', ['id' => $userid]);
+		$pagedata['notification'] 	= $this->getNotification();
+		$pagedata['cpdstreamID'] 	= $this->config->item('cpdstream');
+		$pagedata['pagestatus'] 	= $this->getPageStatus($pagestatus);
+		$pagedata['id'] 			= $userid;
+		$pagedata['user_details'] 	= $userdata1;
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
+		$data['content'] 			= $this->load->view('admin/plumber/mycpd/index', (isset($pagedata) ? $pagedata : ''), true);
+		$this->layout2($data);
 		
 	}
 

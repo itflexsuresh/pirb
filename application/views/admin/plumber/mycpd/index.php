@@ -182,9 +182,9 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 				<?php } ?>
 					
 				</form>
-				<div class="row add_top_value">
+				<!-- <div class="row add_top_value">
 					<div class="col-md-6">
-						<a href="<?php echo base_url().'plumber/mycpd/index/index/1'; ?>" class="active_link_btn">CURRENT YEAR</a>  <a href="<?php echo base_url().'plumber/mycpd/index/index/2'; ?>" class="archive_link_btn">PREVIOUS YEARS</a>
+						<a href="<?php // echo base_url().'plumber/mycpd/index/index/1'; ?>" class="active_link_btn">CURRENT YEAR</a>  <a href="<?php // echo base_url().'plumber/mycpd/index/index/2'; ?>" class="archive_link_btn">PREVIOUS YEARS</a>
 					</div>					
 				</div>
 				<div id="active" class="table-responsive m-t-40">
@@ -202,7 +202,7 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 							</tr>
 						</thead>
 					</table>
-				</div>
+				</div> -->
 
 			</div>
 		</div>
@@ -234,22 +234,22 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 
 		fileupload([".document_file", "./assets/uploads/cpdqueue", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.document_picture', '.document_image', filepath, pdfimg]);
 		
-		var options = {
-			url 	: 	'<?php echo base_url()."plumber/mycpd/index/DTCpdQueue"; ?>',
-			columns : 	[
-			{ "data": "date" },
-			{ "data": "acivity" },
-			{ "data": "streams" },
-			{ "data": "comments" },
-			{ "data": "points" },
-			{ "data": "attachment" },
-			{ "data": "status" },
-			{ "data": "action" }
-			],
-			data : {pagestatus : '<?php echo $pagestatus; ?>',user_id : '<?php echo $id; ?>'}
-		};
+		// var options = {
+		// 	url 	: 	'<?php // echo base_url()."plumber/mycpd/index/DTCpdQueue"; ?>',
+		// 	columns : 	[
+		// 	{ "data": "date" },
+		// 	{ "data": "acivity" },
+		// 	{ "data": "streams" },
+		// 	{ "data": "comments" },
+		// 	{ "data": "points" },
+		// 	{ "data": "attachment" },
+		// 	{ "data": "status" },
+		// 	{ "data": "action" }
+		// 	],
+		// 	data : {pagestatus : '<?php // echo $pagestatus; ?>',user_id : '<?php // echo $id; ?>'}
+		// };
 		
-		ajaxdatatables('.datatables', options);
+		// ajaxdatatables('.datatables', options);
 		
 		validation(
 			'.form',
