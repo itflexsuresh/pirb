@@ -14,7 +14,7 @@ class Auditor_allocatecoc_Model extends CC_Model
 		$usersplumber 	= 	[ 
 								'up.id as usersplumberid','up.racial','up.nationality','up.othernationality','up.idcard','up.otheridcard','up.homelanguage','up.disability','up.citizen','up.registration_card','up.delivery_card','up.employment_details','up.company_details',
 								'up.registration_no','up.registration_date','up.designation','up.qualification_year','up.coc_electronic','up.message',
-								'up.application_received','up.application_status','up.approval_status','up.reject_reason','up.reject_reason_other','up.otp'
+								'up.application_received','up.application_status','up.approval_status','up.reject_reason','up.reject_reason_other'
 							];
 
 		$companyname	= 	[ 
