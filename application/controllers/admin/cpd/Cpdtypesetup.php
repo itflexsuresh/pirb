@@ -170,7 +170,7 @@ class Cpdtypesetup extends CC_Controller
 				</tr>
 				<tr style="text-align: center;">
 				<td style="font-family:Helvetica; width: 50%; text-align: right; padding: 10px 20px 10px 0; font-weight: 700;">CPD ACTIVITY END DATE:</td>
-				<td style="font-family:Helvetica; text-align: left; padding: 10px 0 10px 0;">'.date('m-d-Y',strtotime($rowData['enddate'])).'</td>
+				<td style="font-family:Helvetica; text-align: left; padding: 10px 0 10px 0;">'.date('d-m-Y',strtotime($rowData['enddate'])).'</td>
 				</tr>
 				<tr style="text-align: center;">
 				<td style="font-family:Helvetica; width: 50%; text-align: right; padding: 10px 20px 10px 0; font-weight: 700;">CPD PRODUCT CODE:</td>
