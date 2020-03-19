@@ -246,7 +246,7 @@ if($agreementid=='1'){
                       <div class="test" style="width: 100%;">
                       <img src="" style="border-top:1px dashed #adafb1;font-family:Helvetica; height: 100px;">
                       <p style="text-indent: 5px; font-family:Helvetica; float: left; width: 13%; display: inline-block; padding:10px 0;font-size:12px; margin:1px 10px 0 0;">Signed (Licensed Plumber):</p>
-                      <p class="brdr-dshed" style="line-height: 10px; border-bottom:1px dashed #adafb1;width: 20%; float: left; display: inline-block;padding-top: 10px;height: 0.5px">Digitally Signed by '.$userdata['name'].' '.$userdata['surname'].', on '.$logdate.' at '.$logtime.'</p>
+                      <p class="brdr-dshed" style="line-height: 10px; border-bottom:1px dashed #adafb1;width: 60%; float: left; display: inline-block;padding-top: 10px;height: 0.5px">Digitally Signed by '.$userdata['name'].' '.$userdata['surname'].', on '.$logdate.' at '.$logtime.'</p>
                       </div>
 
 
@@ -295,7 +295,7 @@ if($agreementid=='1'){
   
   <div id="wrapper">
   <div class="certificate-block">
-    <div class="container" style=" font-family:Helvetica; width:1327px; margin: 300px auto 100px auto; padding:10px 15px 15px 15px; border: 4px solid #00aeef; background: #fff; border-radius: 20px; ">
+    <div class="container" style=" font-family:Helvetica; width:1327px; margin: 200px auto 100px auto; padding:10px 15px 15px 15px; border: 4px solid #00aeef; background: #fff; border-radius: 20px; ">
         <div class="title" style=" font-family:Helvetica; background: #d1e28d; text-align: center; color: #000; padding:10px 0; margin-bottom:4px;">
             <h3 style=" font-family:Helvetica; margin:0; margin:0; font-size:21px; line-height: 14px; font-weight: 600;">TERMS & CONDITIONS</h3>
         </div>
