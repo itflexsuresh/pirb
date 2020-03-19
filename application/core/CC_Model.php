@@ -76,6 +76,7 @@ class CC_Model extends CI_Model
 			$data = $this->upload->data();
 			if(in_array($data['image_type'], array('png','jpeg','jpg'))){
 				//$this->fileResize($data['file_name'], $path);
+				$path = rtrim($path, '/').'/';
 				$this->fileResizeCore($path.$data['file_name'], $path.$data['file_name'], 80);
 			}
 			return $data;
