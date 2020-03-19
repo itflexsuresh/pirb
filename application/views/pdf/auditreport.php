@@ -135,7 +135,7 @@ function base64conversion($path){
 				<table class="head-all">
 					<tbody>
 						<tr>
-							<td><h2>PIRB AUDIT REVIEW REPORT</h2></td>
+							<td style="font-family:Helvetica;"><h2>PIRB AUDIT REVIEW REPORT</h2></td>
 							<td style="text-align: right; width:250px;"><img width="200px" src="<?php echo base64conversion(base_url().'assets/images/pitrb-logo.png'); ?>"></td>                   
 						</tr>
 					</tbody>
@@ -148,37 +148,37 @@ function base64conversion($path){
 				<table class="coc_details_overall">
 					<tbody>
 						<tr> 
-							<td style="padding: 0;"> <h3>COC DETAILS</h3> </td>
+							<td style="padding: 0;"> <h3 style="font-family:Helvetica;">COC DETAILS</h3> </td>
 						</tr>
 						<tr>
-							<td style="padding: 0;"><label>Certificate No</label></td>
-							<td><label>Plumbing Work Completion Date</label></td>
-							<td><label>Owners Name</label></td>
+							<td style="padding: 0;"><label style="font-family:Helvetica;">Certificate No</label></td>
+							<td><label style="font-family:Helvetica;">Plumbing Work Completion Date</label></td>
+							<td><label style="font-family:Helvetica;">Owners Name</label></td>
 						</tr>
 						<tr>
-							<td style="padding: 0;"><input type="text" value="<?php echo $cocid; ?>"></td>
-							<td><input type="text" value="<?php echo $completiondate; ?>"></td>
-							<td><input type="text" value="<?php echo $name; ?>"></td>
+							<td style="padding: 0;"><input type="text"  style="font-family:Helvetica;"value="<?php echo $cocid; ?>"></td>
+							<td><input type="text"  style="font-family:Helvetica;" value="<?php echo $completiondate; ?>"></td>
+							<td><input type="text"  style="font-family:Helvetica;" value="<?php echo $name; ?>"></td>
 						</tr> 
 						<tr>
-							<td style="padding: 0;"><label>Name of Complex/Flat (if applicable)</label></td>
-							<td><label>Street</label></td>
-							<td><label>Number</label></td>
+							<td style="padding: 0;"><label style="font-family:Helvetica;">Name of Complex/Flat (if applicable)</label></td>
+							<td><label style="font-family:Helvetica;">Street</label></td>
+							<td><label style="font-family:Helvetica;">Number</label></td>
 						</tr>
 						<tr>
-							<td style="padding: 0;"><input type="text" value="<?php echo $address; ?>"></td>
-							<td><input type="text" value="<?php echo $street; ?>"></td>
-							<td><input type="text" value="<?php echo $number; ?>"></td>
+							<td style="padding: 0;"><input type="text"  style="font-family:Helvetica;"value="<?php echo $address; ?>"></td>
+							<td><input type="text"  style="font-family:Helvetica;" value="<?php echo $street; ?>"></td>
+							<td><input type="text"  style="font-family:Helvetica;" value="<?php echo $number; ?>"></td>
 						</tr>
 						<tr>
-							<td style="padding: 0;"><label>Province</label></td>
-							<td><label>City</label></td>
-							<td><label>Suburb</label></td>
+							<td style="padding: 0;"><label style="font-family:Helvetica;">Province</label></td>
+							<td><label style="font-family:Helvetica;">City</label></td>
+							<td><label style="font-family:Helvetica;">Suburb</label></td>
 						</tr>
 						<tr>
-							<td style="padding: 0;"><input type="text" value="<?php echo $province; ?>"></td>
-							<td><input type="text" value="<?php echo $city; ?>"></td>
-							<td><input type="text" value="<?php echo $suburb; ?>"></td>
+							<td style="padding: 0;"><input type="text"  style="font-family:Helvetica;"value="<?php echo $province; ?>"></td>
+							<td><input type="text"  style="font-family:Helvetica;" value="<?php echo $city; ?>"></td>
+							<td><input type="text"  style="font-family:Helvetica;" value="<?php echo $suburb; ?>"></td>
 						</tr>						
 					</tbody>
 				</table>
@@ -190,17 +190,17 @@ function base64conversion($path){
 				<table class="auditor_details_overall">
 					<tbody>
 						<tr>
-							<td style="padding: 0;"><h3>AUDITOR DETAILS</h3></td>
+							<td style="padding: 0;"><h3 style="font-family:Helvetica;">AUDITOR DETAILS</h3></td>
 						</tr>						
 						<tr>
-							<td style="padding: 0;"><label>Auditors Name and Surname</label></td>
-							<td><label>Phone (Mobile)</label></td>
-							<td><label>Email</label></td>
+							<td style="padding: 0;"><label style="font-family:Helvetica;">Auditors Name and Surname</label></td>
+							<td><label style="font-family:Helvetica;">Phone (Mobile)</label></td>
+							<td><label style="font-family:Helvetica;">Email</label></td>
 						</tr>
 						<tr>
-							<td style="padding: 0;"><input type="text" value="<?php echo $auditorname; ?>"></td>
-							<td><input type="text" value="<?php echo $auditormobile; ?>"></td>
-							<td><input type="text" value="<?php echo $auditoremail; ?>"></td>                   
+							<td style="padding: 0;"><input type="text"  style="font-family:Helvetica;" value="<?php echo $auditorname; ?>"></td>
+							<td><input type="text" style="font-family:Helvetica;" value="<?php echo $auditormobile; ?>"></td>
+							<td><input type="text" style="font-family:Helvetica;font-size: 14px;" value="<?php echo $auditoremail; ?>"></td>                   
 						</tr>
 					</tbody>
 				</table>
@@ -217,11 +217,11 @@ function base64conversion($path){
 					</thead>
 					<tbody>
 						<tr>
-							<td>It is your responsible to complete your refix's with in the allocted time. Failure to do so within the alloated time will result in the refix being marked as Audit Complete (with Refix(s)) and relevant remedial action will follow.</td>             
+							<td style="font-family:Helvetica;">It is your responsible to complete your refix's with in the allocted time. Failure to do so within the alloated time will result in the refix being marked as Audit Complete (with Refix(s)) and relevant remedial action will follow.</td>             
 						</tr>
 
 						<tr>
-							<td>Please login into your PIRB Profile for further details pertaining to this audit review.</td>               
+							<td style="font-family:Helvetica;">Please login into your PIRB Profile for further details pertaining to this audit review.</td>               
 						</tr>
 
 					</tbody>
@@ -233,24 +233,24 @@ function base64conversion($path){
 			<td>
 				<table class="table table-bordered reviewtable">    
 					<thead>
-					<tr style="width:200px;"><th style="border:none; padding-left:0px; width:100%; text-align: left;"><h3>AUDIT REVIEW</h3></th></tr>
+					<tr style="width:200px;"><th style="border:none; font-family:Helvetica; padding-left:0px; width:100%; text-align: left;"><h3>AUDIT REVIEW</h3></th></tr>
 						<tr>
-							<th>Review Type</th>
-							<th>Statement</th>
-							<th>SANS/Regulation/Bylaw Reference</th>
-							<th>Comments</th>
-							<th>Images</th>
+							<th style="font-family:Helvetica;">Review Type</th>
+							<th style="font-family:Helvetica;">Statement</th>
+							<th style="font-family:Helvetica;">SANS/Regulation/Bylaw Reference</th>
+							<th style="font-family:Helvetica;">Comments</th>
+							<th style="font-family:Helvetica;">Images</th>
 						</tr>
 					</thead>
 
 					<tbody>
 						<?php foreach($reviewlist as $list){ ?>
 							<tr>
-								<td class="<?php echo isset($reviewtableclass[$list['reviewtype']]) ? $reviewtableclass[$list['reviewtype']] : ''; ?>"><?php echo isset($this->config->item('reviewtype')[$list['reviewtype']]) ? $this->config->item('reviewtype')[$list['reviewtype']] : ''; ?></td>
-								<td><?php echo $list['statementname']; ?></td>
-								<td><?php echo $list['reference']; ?></td>
-								<td><?php echo $list['comments']; ?></td>
-								<td>
+								<td style="font-family:Helvetica;" class="<?php echo isset($reviewtableclass[$list['reviewtype']]) ? $reviewtableclass[$list['reviewtype']] : ''; ?>"><?php echo isset($this->config->item('reviewtype')[$list['reviewtype']]) ? $this->config->item('reviewtype')[$list['reviewtype']] : ''; ?></td>
+								<td style="font-family:Helvetica;"><?php echo $list['statementname']; ?></td>
+								<td style="font-family:Helvetica;"><?php echo $list['reference']; ?></td>
+								<td style="font-family:Helvetica;"><?php echo $list['comments']; ?></td>
+								<td style="font-family:Helvetica;">
 									<?php 
 										$filelist = array_filter(explode(',', $list['file'])); 
 										foreach($filelist as $file){
