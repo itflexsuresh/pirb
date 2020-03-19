@@ -17,7 +17,7 @@
 	$plumbername 			= isset($result['u_name']) && $usertype=='3'  ? $result['u_name'] : '';
 	$plumberstatus 			= isset($this->config->item('plumberstatus')[$result['u_status']])  && $usertype=='3' ? $this->config->item('plumberstatus')[$result['u_status']] : '';
 	
-	$logdate 				= isset($result['cl_log_date']) && $result['cl_log_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_log_date'])) : '';
+	$logdate 				= isset($result['cl_log_date']) &&  date('Y-m-d', strtotime($result['cl_log_date']))!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_log_date'])) : '';
 	$completiondate 		= isset($result['cl_completion_date']) && $result['cl_completion_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_completion_date'])) : '';
 	$orderno 				= isset($result['cl_order_no']) ? $result['cl_order_no'] : '';
 	$name 					= isset($result['cl_name']) ? $result['cl_name'] : '';

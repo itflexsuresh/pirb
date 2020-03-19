@@ -17,6 +17,10 @@ $cl_contact_no      = isset($result['cl_contact_no']) ? $result['cl_contact_no']
 $installationtypeid   = isset($result['cl_installationtype']) ? explode(',', $result['cl_installationtype']) : [];
 $specialisationsid    = isset($result['cl_specialisations']) ? explode(',', $result['cl_specialisations']) : [];
 
+$agreementid 			= isset($result['cl_agreement']) ? $result['cl_agreement'] : '';
+$logdate 				= isset($result['cl_log_date']) &&  date('Y-m-d', strtotime($result['cl_log_date']))!='1970-01-01' ? date('d/m/Y', strtotime($result['cl_log_date'])) : '';
+$logtime 				= isset($result['cl_log_date']) &&  date('Y-m-d', strtotime($result['cl_log_date']))!='1970-01-01' ? date('H', strtotime($result['cl_log_date'])).'H'.date('s', strtotime($result['cl_log_date'])) : '';
+		
 function base64conversion($path){
   $type = pathinfo($path, PATHINFO_EXTENSION);
   $data = file_get_contents($path);
@@ -167,7 +171,29 @@ echo'<!DOCTYPE html>
                          <div style="clear:both;"></div>
                       </div>
 
-            <?php     }  
+            <?php     } 
+			
+if($agreementid=='1'){
+	$agreement = ' 
+	  <div class="block" style=" font-family:Helvetica; padding:0; width:100%;border-top:1px solid #adafb1;border-bottom:1px solid #adafb1;">
+		  <div class="lt-left" style=" padding-top: 5px; font-family:Helvetica;background-color:#fff;border-top:1px solid #adafb1;border-bottom:1px solid #adafb1;">
+		   <p style=" font-family:Helvetica; width: 6%;border-right:1px solid #adafb1; font-weight: 700; display: inline-block; padding: 0;margin: 0; text-align: center; border-right:1px solid #adafb1;">A</p>
+		   <p style=" font-family:Helvetica; width: 90%; padding-top: 5px; display: inline-block; margin: 0;">The above plumbing work was carried out by me or under my supervision, and that it complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</p>
+		  </div>
+		  <div class="clear"></div>
+	  </div>
+	';
+}elseif($agreementid=='2'){
+	$agreement = ' 
+	  <div class="block" style=" font-family:Helvetica; padding:0; width:100%;border-bottom:1px solid #adafb1;">
+	   <div class="lt-left" style=" padding-top: 5px; font-family:Helvetica;background-color:#fff;border-bottom:1px solid #adafb1;">
+		   <p style=" font-family:Helvetica; width: 6%;border-right:1px solid #adafb1; font-weight: 700; display: inline-block; padding: 0;margin: 0; text-align: center; border-right:1px solid #adafb1;">B</p>
+		   <p style=" font-family:Helvetica; width: 90%; padding-top: 5px; display: inline-block; margin: 0;">I have fully inspected and tested the work started but not completed by another Licensed plumber and the necessary completion work was carried out by me or under my supervision-  complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</p>
+	   </div>
+	   <div class="clear"></div>
+	  </div>
+	';
+}
 
           echo' </div>
                   <div class="block" style=" font-family:Helvetica; text-align: center;">
@@ -212,29 +238,15 @@ echo'<!DOCTYPE html>
                   </div>
                   <div class="white_box" style=" font-family:Helvetica; border:1px solid #adafb1; margin:5px 0 0; font-size:16px;">
                       <div class="block" style=" font-family:Helvetica; padding:10px 5px; border-bottom:1px solid #adafb1;">
-                          <p style=" font-family:Helvetica; line-height:25px; color: #000; padding: 0; margin: 0; ">I '.$userdata['name'].' '.$userdata['surname'].', Licensed registration number '.$userdata['registration_no'].', certify that, the above compliance certificate details are true and correct and will be logged in accordance with the prescribed requirements as defined by the PIRB.  I further certify that;<br>I further certify that (as highlighted);</p>Delete either <span style=" font-family:Helvetica; font-weight: 700;">A</span> or <span style=" font-family:Helvetica; font-weight: 700;">B</span> as appropriate
+                          <p style=" font-family:Helvetica; line-height:25px; color: #000; padding: 0; margin: 0; ">I '.$userdata['name'].' '.$userdata['surname'].', Licensed registration number '.$userdata['registration_no'].', certify that, the above compliance certificate details are true and correct and will be logged in accordance with the prescribed requirements as defined by the PIRB.  I further certify that;<br>I further certify that (as highlighted);</p>
                       </div>                      
                         
-                      <div class="block" style=" font-family:Helvetica; padding:0; width:100%;border-top:1px solid #adafb1;border-bottom:1px solid #adafb1;">
-                          <div class="lt-left" style=" padding-top: 5px; font-family:Helvetica;background-color:#fff;border-top:1px solid #adafb1;border-bottom:1px solid #adafb1;">
-                           <p style=" font-family:Helvetica; width: 6%;border-right:1px solid #adafb1; font-weight: 700; display: inline-block; padding: 0;margin: 0; text-align: center; border-right:1px solid #adafb1;">A</p>
-                           <p style=" font-family:Helvetica; width: 90%; padding-top: 5px; display: inline-block; margin: 0;">The above plumbing work was carried out by me or under my supervision, and that it complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</p>
-                          </div>
-                          <div class="clear"></div>
-                      </div>
- 
-                      <div class="block" style=" font-family:Helvetica; padding:0; width:100%;border-bottom:1px solid #adafb1;">
-                       <div class="lt-left" style=" padding-top: 5px; font-family:Helvetica;background-color:#fff;border-bottom:1px solid #adafb1;">
-                           <p style=" font-family:Helvetica; width: 6%;border-right:1px solid #adafb1; font-weight: 700; display: inline-block; padding: 0;margin: 0; text-align: center; border-right:1px solid #adafb1;">B</p>
-                           <p style=" font-family:Helvetica; width: 90%; padding-top: 5px; display: inline-block; margin: 0;">I have fully inspected and tested the work started but not completed by another Licensed plumber and the necessary completion work was carried out by me or under my supervision-  complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</p>
-                       </div>
-                       <div class="clear"></div>
-                      </div>
+						'.$agreement.'
 
                       <div class="test" style="width: 100%;">
                       <img src="" style="border-top:1px dashed #adafb1;font-family:Helvetica; height: 100px;">
-                      <p style="text-indent: 5px; font-family:Helvetica; float: left; width: 13%; display: inline-block; padding:10px 0;font-size:12px; margin:1px 10px 0 0;">Signeded (Licensed Plumber):</p>
-                      <p class="brdr-dshed" style="line-height: 10px; border-bottom:1px dashed #adafb1;width: 20%; float: left; display: inline-block;padding-top: 10px;height: 0.5px"></p>
+                      <p style="text-indent: 5px; font-family:Helvetica; float: left; width: 13%; display: inline-block; padding:10px 0;font-size:12px; margin:1px 10px 0 0;">Signed (Licensed Plumber):</p>
+                      <p class="brdr-dshed" style="line-height: 10px; border-bottom:1px dashed #adafb1;width: 20%; float: left; display: inline-block;padding-top: 10px;height: 0.5px">Digitally Signed by '.$userdata['name'].' '.$userdata['surname'].', on '.$logdate.' at '.$logtime.'</p>
                       </div>
 
 
