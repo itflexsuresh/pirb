@@ -215,28 +215,28 @@ echo'<!DOCTYPE html>
                           <p style=" font-family:Helvetica; line-height:25px; color: #000; padding: 0; margin: 0; ">I '.$userdata['name'].' '.$userdata['surname'].', Licensed registration number '.$userdata['registration_no'].', certify that, the above compliance certificate details are true and correct and will be logged in accordance with the prescribed requirements as defined by the PIRB.  I further certify that;<br>I further certify that (as highlighted);</p>Delete either <span style=" font-family:Helvetica; font-weight: 700;">A</span> or <span style=" font-family:Helvetica; font-weight: 700;">B</span> as appropriate
                       </div>                      
                         
-                      <div class="block" style=" font-family:Helvetica; padding:0;  float:left; width:66%; background-color:#ccc; border-right:1px solid #adafb1;border-bottom:1px solid #adafb1;">
-                       <div class="lt-left" style=" font-family:Helvetica; float: left; width: 6%; text-align: center; border-right:1px solid #adafb1;">
-                           <p style=" font-family:Helvetica; font-weight: 700;padding: 0;margin: 0;line-height:28px;">A</p>
-                       </div>
-                       <div class="rt-side"  style=" font-family:Helvetica; float: left; width: 93%;" >
-                           <p style=" font-family:Helvetica; padding: 5px 0; margin: 0;">The above plumbing work was carried out by me or under my supervision, and that it complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</p>
-                       </div>
-                       <div class="clear"></div>
+                      <div class="block" style=" font-family:Helvetica; padding:0; width:100%;border-top:1px solid #adafb1;border-bottom:1px solid #adafb1;">
+                          <div class="lt-left" style=" padding-top: 5px; font-family:Helvetica;background-color:#fff;border-top:1px solid #adafb1;border-bottom:1px solid #adafb1;">
+                           <p style=" font-family:Helvetica; width: 6%;border-right:1px solid #adafb1; font-weight: 700; display: inline-block; padding: 0;margin: 0; text-align: center; border-right:1px solid #adafb1;">A</p>
+                           <p style=" font-family:Helvetica; width: 90%; padding-top: 5px; display: inline-block; margin: 0;">The above plumbing work was carried out by me or under my supervision, and that it complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</p>
+                          </div>
+                          <div class="clear"></div>
                       </div>
  
-                      <div class="block" style=" font-family:Helvetica; padding:0; float:left; background-color:#ccc width:66%; border-right:1px solid #adafb1;">
-                       <div class="lt-left" style=" font-family:Helvetica; float: left; width: 6%; text-align: center; border-right:1px solid #adafb1;">
-                           <p style=" font-family:Helvetica; font-weight: 700; margin: 0;line-height:39px;">B</p>
-                       </div>
-                       <div class="rt-side"  style=" font-family:Helvetica; float: left; width: 93%;" >
-                           <p style=" font-family:Helvetica; padding:3px; margin: 0;">I have fully inspected and tested the work started but not completed by another Licensed plumber and the necessary completion work was carried out by me or under my supervision-  complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</p>
+                      <div class="block" style=" font-family:Helvetica; padding:0; width:100%;border-bottom:1px solid #adafb1;">
+                       <div class="lt-left" style=" padding-top: 5px; font-family:Helvetica;background-color:#fff;border-bottom:1px solid #adafb1;">
+                           <p style=" font-family:Helvetica; width: 6%;border-right:1px solid #adafb1; font-weight: 700; display: inline-block; padding: 0;margin: 0; text-align: center; border-right:1px solid #adafb1;">B</p>
+                           <p style=" font-family:Helvetica; width: 90%; padding-top: 5px; display: inline-block; margin: 0;">I have fully inspected and tested the work started but not completed by another Licensed plumber and the necessary completion work was carried out by me or under my supervision-  complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</p>
                        </div>
                        <div class="clear"></div>
                       </div>
 
-                      <img src="" style=" font-family:Helvetica; height: 90px;" />
-                      <br/><p style=" font-family:Helvetica; padding:4px 0;font-size:12px;  border-top:1px dashed #adafb1; text-align:center;margin:1px 10px 0 0;">Signeded (Licensed Plumber):</p>
+                      <div class="test" style="width: 100%;">
+                      <img src="" style="border-top:1px dashed #adafb1;font-family:Helvetica; height: 100px;">
+                      <p style="text-indent: 5px; font-family:Helvetica; float: left; width: 13%; display: inline-block; padding:10px 0;font-size:12px; margin:1px 10px 0 0;">Signeded (Licensed Plumber):</p>
+                      <p class="brdr-dshed" style="line-height: 10px; border-bottom:1px dashed #adafb1;width: 20%; float: left; display: inline-block;padding-top: 10px;height: 0.5px"></p>
+                      </div>
+
 
                       
                       <div style=" font-family:Helvetica; clear:both;"></div>
