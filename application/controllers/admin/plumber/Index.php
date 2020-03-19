@@ -257,17 +257,16 @@ class Index extends CC_Controller
 					$awardPts 	= '';
 					$action 	= '
 					<div class="table-action">
-					<a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+					<a href="'.base_url().'admin/plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
 					</div>
 					';
 				}elseif($result['status']==3){
 					$statuz 	= 'Not Submited';
 					$awardPts 	= '';
-					$action 	= '
-					<div class="table-action">
-					<a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-					</div>
-					';
+					$action 	= '';
+					// <div class="table-action">
+					// <a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+					// </div>
 				}
 			
 				else{
@@ -280,7 +279,7 @@ class Index extends CC_Controller
 					
 					$action 	= '
 					<div class="table-action">
-					<a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
+					<a href="'.base_url().'admin/plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
 					</div>
 					';
 				}
