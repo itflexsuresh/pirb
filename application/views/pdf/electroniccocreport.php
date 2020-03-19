@@ -246,7 +246,7 @@ if($agreementid=='1'){
                       <div class="test" style="width: 100%;">
                       <img src="" style="border-top:1px dashed #adafb1;font-family:Helvetica; height: 100px;">
                       <p style="text-indent: 5px; font-family:Helvetica; float: left; width: 13%; display: inline-block; padding:10px 0;font-size:12px; margin:1px 10px 0 0;">Signed (Licensed Plumber):</p>
-                      <p class="brdr-dshed" style="line-height: 5px; border-bottom:1px dashed #adafb1;width: 60%; float: left; display: inline-block;padding-top: 10px;height: 0.5px">Digitally Signed by '.$userdata['name'].' '.$userdata['surname'].', on '.$logdate.' at '.$logtime.'</p>
+                      <p class="brdr-dshed" style="line-height: 0px; border-bottom:1px dashed #adafb1;width: 60%; float: left; display: inline-block;padding-top: 10px;height: 0.5px">Digitally Signed by '.$userdata['name'].' '.$userdata['surname'].', on '.$logdate.' at '.$logtime.'</p>
                       </div>
 
 
