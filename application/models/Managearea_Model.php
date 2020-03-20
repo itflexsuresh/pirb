@@ -39,7 +39,6 @@ class Managearea_Model extends CC_Model
 	
 	public function action($data)
 	{
-
 		$this->db->trans_begin();
 
 		$userid			= 	$this->getUserID();
@@ -69,7 +68,7 @@ class Managearea_Model extends CC_Model
 			if(isset($data['province'])) 	$request2['province_id'] 		= $data['province'];
 			if(isset($data['city'])) 		$request2['city_id'] 			= $data['city'];
 			if(isset($data['suburb'])) 		$request2['name'] 				= $data['suburb'];
-			$request2['status'] 												= (isset($data['status'])) ? $data['status'] : '0';
+			$request2['status'] 											= (isset($data['status'])) ? $data['status'] : '0';
 	        
 			if($id==''){
 				$request2['created_at'] = $datetime;
@@ -94,6 +93,30 @@ class Managearea_Model extends CC_Model
 			return $insertid;
 		}
 	}
+	
+	public function insertprovince($data)
+	{
+		$this->db->trans_begin();
+
+		$request		=	[
+								'name'				=> $data['name'],
+								'status'			=> '1'
+							];
+
+		$result = $this->db->insert('province', $request);
+
+		if($this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+			return false;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
+	
 	function checkUsername($username) {
 
         $this->db->select()->from('city')->where('name', $username);
