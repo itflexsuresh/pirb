@@ -130,29 +130,13 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 									<div>
 										<img src="<?php echo $photoidimg; ?>" class="document_image" width="100">
 									</div>
-									<?php if ($status!='1' && $status!='2') { ?>
-
-									<input type="file" id="file" class="document_file">
-									<label for="file" class="choose_file">Choose File</label>
-									<input type="hidden" name="image1" class="document_picture" value="<?php echo $image; ?>">
-									<p>(Image/File Size Smaller than 5mb)</p>
-
-							<?php } ?>
+									
 									
 								</div>
 						</div>
 						
 					</div>
-				<?php if ($status!='1' && $status!='2') { ?>
-					<div class="row">
-						<div class="form-group col-md-6">
-							<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
-								<input type="checkbox" class="custom-control-input" <?php if ($status=='0') { echo "checked='checked'"; } ?> name="declaration" id="declaration"  value="1">
-								<label class="custom-control-label" for="declaration">I declare that the information contained in this CPD Activity form is complete, accurate and true.  I further decalre that I understadn that I must keep verifiable evidence of all the CPD activities for at least 2 years and the PRIB may conduct a random audit of my activity(s) which would require me to submit the evidence to the PIRB.</label>
-							</div>
-						</div>
-					</div>
-				<?php } ?>
+				
 
 					<div class="row">
 						<div class="form-group col-md-6">
@@ -172,14 +156,6 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 							<input type="hidden" id="hidden_regnumber" name="hidden_regnumber" value="<?php echo $reg_number; ?>">
 							
 						</div>
-					<?php if ($status!='1' && $status!='2') { ?>
-						<div class="row">
-						<button type="submit" id="addupdate" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?></button>
-						<?php if ($status!='0') { ?>
-						<button type="submit" id="addupdate1" name="submit" value="save" class="btn btn-primary">Save</button>
-					<?php } ?>
-					</div>
-				<?php } ?>
 					
 				</form>
 				<!-- <div class="row add_top_value">
