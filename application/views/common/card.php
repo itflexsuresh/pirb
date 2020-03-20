@@ -11,9 +11,9 @@
     $registration_date      = isset($result['registration_date']) && $result['registration_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['registration_date'])) : '';
     $renewal_date           = $registration_date!='' ? date('d-m-Y', strtotime($result['registration_date']. ' +365 days')) : '';
     $specialisationsid      = isset($result['specialisations']) ? array_filter(explode(',', $result['specialisations'])) : '';
-    $companyname        = isset($result['companyname']) ? $result['companyname'] : '';
+    $companyname        	= isset($result['companyname']) ? $result['companyname'] : '';
 
-    $work_phone         = isset($settings['work_phone']) ? $settings['work_phone'] : '';
+    $work_phone         	= isset($settings['work_phone']) ? $settings['work_phone'] : '';
 
     $filepath               = base_url().'assets/uploads/plumber/'.$userid.'/';
     $pdfimg                 = base_url().'assets/images/pdf.png';
