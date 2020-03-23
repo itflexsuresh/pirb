@@ -132,6 +132,9 @@ class Users_Model extends CC_Model
 			$users['password'] 		= md5($password);
 		}
 		
+		if(isset($data['mailstatus'])) 	$users['mailstatus'] 		= $data['mailstatus'];
+		if(isset($data['formstatus'])) 	$users['formstatus'] 		= $data['formstatus'];
+		
 		if($id==''){
 			$users['created_at'] 		= $datetime;
 			$users['updated_at'] 		= $datetime;

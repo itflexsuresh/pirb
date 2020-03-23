@@ -1450,9 +1450,11 @@ p.back_license {transform: none !important;margin: 0 !important;}
 .accordion .card-header button.btn.btn-link:after {right: 8px;}
 
 }
+/*
 .datepicker.datepicker-dropdown.dropdown-menu.datepicker-orient-left.datepicker-orient-top {
    top: 328px !important;
 }
+*/
 #message {
     padding: 10px 20px 10px 20px;
     background-color: #fff;
@@ -1517,7 +1519,7 @@ p.register-num, p.rene-date {
     margin: -51px !important;
 }
 .licensed_plumber #id_Card_back p.back_license{
-    margin: -55px !important;
+    margin: -48px !important;
 }
 .qualified_plumber #id_Card_back p.back_license{
     margin: -56px !important;
@@ -1572,11 +1574,11 @@ p.register-num, p.rene-date {
     display: none;
 }
 td.add_width.img-txt {
-    display: inline-block;
     margin: 10px 0;
+	text-align: left;
 }
 #id_Card_back td.add_width.img-txt span {
-    margin-left: 35px;
+    margin-left: 0;
 }
 #id_Card_back td.add_width.img-txt span p{
     margin: 0;
@@ -1623,7 +1625,6 @@ td.add_width.img-txt {
 .alter_img img {
     position: absolute;
     right: 43%;
-    transform: translateX(-50%);
     margin-top: 30px;
 }
 table#id_Card_back img {
@@ -1637,7 +1638,7 @@ table#id_Card_back img {
     width: 100%;
     margin: 0;
     border-bottom: 1px solid #000;
-    padding-bottom: 33px;
+    padding-bottom: 20px;
 }
 
 .learner_plumber #id_Card_back span.curr_txts,
@@ -1726,10 +1727,16 @@ table#id_Card_back img {
 }
 
 
-td.curr_emptxt {
-    height: 180px !important;
-}
-
 body > * {
     font-family: "Helvetica";
+}
+
+p.vrfy {
+    text-align: left;
+    margin: 0 !important;
+}
+
+
+.rght-rotate-txt {
+    background: #e80000;
 }

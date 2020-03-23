@@ -175,6 +175,13 @@ class Company_Model extends CC_Model
 		if(isset($data['approval_status']) && $data['approval_status']=='1'){
 			$request1['status'] 	= '1';
 		}
+		
+		if(isset($data['insurancepolicyno'])) 		$request1['insurancepolicyno'] 			= $data['insurancepolicyno'];
+		if(isset($data['insurancecompany'])) 		$request1['insurancecompany'] 			= $data['insurancecompany'];
+		if(isset($data['insurancepolicyholder'])) 	$request1['insurancepolicyholder'] 		= $data['insurancepolicyholder'];
+		if(isset($data['insurancestartdate'])) 		$request1['insurancestartdate'] 		= date('Y-m-d H:i:s', strtotime($data['insurancestartdate']));
+		if(isset($data['insuranceenddate'])) 		$request1['insuranceenddate'] 			= date('Y-m-d H:i:s', strtotime($data['insuranceenddate']));
+		
 		if(isset($request1)){
 			$usersdetailid	= 	$data['usersdetailid'];
 			if(isset($data['user_id'])) $request1['user_id'] = $data['user_id'];

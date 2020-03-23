@@ -763,8 +763,8 @@ class CC_Controller extends CI_Controller
 		$pagedata['province'] 			= $this->getProvinceList();
 		$pagedata['designation2'] 		= $this->config->item('designation2');
 		$pagedata['installationtype']	= $this->getInstallationTypeList();
-		$pagedata['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => []]);
-		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations]);
+		$pagedata['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => [], 'status' => ['1']]);
+		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations, 'status' => ['1']]);
 		$pagedata['result']				= $result;
 		
 		$noncompliance					= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $userid]);		
