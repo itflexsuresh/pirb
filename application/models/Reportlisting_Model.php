@@ -123,7 +123,6 @@ class Reportlisting_Model extends CC_Model
 	public function changestatus($data)
 	{
 		$userid		= 	$this->getUserID();
-		print_r($userid); exit;
 		$id			= 	$data['id'];
 		$status		= 	$data['status'];
 		$datetime	= 	date('Y-m-d H:i:s');
