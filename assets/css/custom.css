@@ -433,7 +433,7 @@ a {
 
 .accordion .card-header .collapsed:after {content: "\f105";position: absolute;right: 35px;top: 16px;font-family: 'Fontawesome';font-size: 14px;background-color: #89755d;width: 20px;height: 20px;text-align: center;border-radius: 10px;color: #ffff;transform: rotate(-95deg);}
 
-.accordion .card-header button.btn.btn-link:after {content: "\f107";position: absolute;right: 35px;top: 16px;font-family: 'Fontawesome';font-size: 14px;background-color: #89755d;width: 20px;height: 20px;text-align: center;border-radius: 10px;color: #ffff;transition: all 0.5s;}
+.accordion .card-header button.btn.btn-link:after {content: "\f107";position: absolute;right: 35px;top: 16px;font-family: 'Fontawesome';font-size: 14px;background-color: #89755d;width: 20px;height: 20px;text-align: center;border-radius: 10px;color: #ffff;transition: all 0.5s;transform: rotate(-90deg);}
 
 
 /* Plumber Registration Process */
@@ -1519,7 +1519,7 @@ p.register-num, p.rene-date {
     margin: -51px !important;
 }
 .licensed_plumber #id_Card_back p.back_license{
-    margin: -48px !important;
+    margin: -55px !important;
 }
 .qualified_plumber #id_Card_back p.back_license{
     margin: -56px !important;
@@ -1549,8 +1549,8 @@ p.register-num, p.rene-date {
     text-align: left;
     font-size: 12px;
     color: #4d4d4d;
-    padding: 35px 0 0px 10px;
-    margin: 0;  
+    padding: 20px 0 0px 10px;
+    margin: 0;
 }
 .technical_operator #id_Card_back p.alter_lost_veri
 {
@@ -1574,11 +1574,14 @@ p.register-num, p.rene-date {
     display: none;
 }
 td.add_width.img-txt {
+    /* display: inline-block; */
     margin: 10px 0;
-	text-align: left;
+    width: 100%;
+    text-align: left;
+    line-height: 2.5;
 }
 #id_Card_back td.add_width.img-txt span {
-    margin-left: 0;
+    margin-left: 18px;
 }
 #id_Card_back td.add_width.img-txt span p{
     margin: 0;
@@ -1625,6 +1628,7 @@ td.add_width.img-txt {
 .alter_img img {
     position: absolute;
     right: 43%;
+    /* transform: translateX(-50%); */
     margin-top: 30px;
 }
 table#id_Card_back img {
@@ -1727,16 +1731,30 @@ table#id_Card_back img {
 }
 
 
+td.curr_emptxt {
+    height: 173px !important;
+}
+
 body > * {
     font-family: "Helvetica";
 }
 
+
 p.vrfy {
+    margin-left: 10px !important;
+    font-size: 12px !important;
     text-align: left;
-    margin: 0 !important;
 }
 
+td.curr_emptxt + td > div {
+    width: 100% !important;
+}
 
-.rght-rotate-txt {
-    background: #e80000;
+td.curr_emptxt + td p {
+    font-weight: 600 !important;
+}
+
+td.curr_emptxt + td {
+    text-align: left;
+    padding-left: 40px !important;
 }
