@@ -146,6 +146,12 @@ class Plumber_Model extends CC_Model
 		if(isset($data['specialisations'])) 	$request1['specialisations'] 	= implode(',', $data['specialisations']);	
 		if(isset($data['plumberstatus'])) 		$request1['status'] 			= $data['plumberstatus'];
 		
+		if(isset($data['insurancepolicyno'])) 		$request1['insurancepolicyno'] 			= $data['insurancepolicyno'];
+		if(isset($data['insurancecompany'])) 		$request1['insurancecompany'] 			= $data['insurancecompany'];
+		if(isset($data['insurancepolicyholder'])) 	$request1['insurancepolicyholder'] 		= $data['insurancepolicyholder'];
+		if(isset($data['insurancestartdate'])) 		$request1['insurancestartdate'] 		= date('Y-m-d H:i:s', strtotime($data['insurancestartdate']));
+		if(isset($data['insuranceenddate'])) 		$request1['insuranceenddate'] 			= date('Y-m-d H:i:s', strtotime($data['insuranceenddate']));
+		
 		if(isset($data['approval_status']) && $data['approval_status']=='1'){
 			$request1['status'] 	= '1';
 		}
@@ -252,6 +258,7 @@ class Plumber_Model extends CC_Model
 		if(isset($data['email'])) 			$request5['email'] 			= $data['email'];
 		if(isset($data['status'])) 			$request5['status'] 		= $data['status'];
 		if(isset($data['approval_status']) && $data['approval_status']=='1' && isset($request2['registration_date'])) $request5['expirydate'] = date('Y-m-d H:i:s', strtotime($request2['registration_date']. ' +365 days'));
+		if(isset($data['expirydate'])) $request5['expirydate'] = date('Y-m-d H:i:s', strtotime($data['expirydate']));
 		if(isset($data['plumberstatus']) && ($data['plumberstatus']=='3' || $data['plumberstatus']=='4' || $data['plumberstatus']=='5')) 	$request5['status'] = '2';
 		if(isset($data['plumberstatus']) && ($data['plumberstatus']=='1' || $data['plumberstatus']=='2')) 	$request5['status'] = '1';
 		
