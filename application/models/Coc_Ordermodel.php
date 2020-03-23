@@ -556,7 +556,11 @@ class Coc_Ordermodel extends CC_Model
 		$this->db->join('auditor_availability t3', 't3.user_id=ud.user_id','left');
 		$this->db->join('stock_management t4', 't4.auditorid=ud.user_id','left');
 		$this->db->where(['u.status' => '1','u.type' => '5','t3.status' => '1']);
-		$this->db->or_like(array('ud.name' => $postData['search_keyword'], 'ud.surname' => $postData['search_keyword']));
+
+		$this->db->group_start();
+			$this->db->or_like(array('ud.name' => $postData['search_keyword'], 'ud.surname' => $postData['search_keyword']));
+		$this->db->group_end();
+
 		$this->db->group_by("ud.id");
 		
 		$query = $this->db->get();
