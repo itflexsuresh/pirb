@@ -33,7 +33,7 @@ class Index extends CC_Controller
 			
 			$requestData 	= 	$this->input->post();
 			$id				=	$requestData['id'];			
-			if($requestData['submit']=='submit'){
+			if(isset($requestData['submit']) && $requestData['submit']=='submit'){
 				
 				$data 	=  $this->Reportlisting_Model->action($requestData);
 				
