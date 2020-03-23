@@ -85,7 +85,7 @@
                     <?php 
                         if(!empty($specialisationsid)){
                             $specialisationskey = 0; ?>
-                            <td colspan="1" class="add_width img-txt">
+                            <td colspan="2" class="add_width img-txt">
                             	<?php
                             foreach($specialisationsid as $specialisationsdata){
                                 if($specialisationskey==0){
