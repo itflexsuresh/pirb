@@ -84,11 +84,13 @@
                 <tr>
                     <?php 
                         if(!empty($specialisationsid)){
-                            $specialisationskey = 0;
+                            $specialisationskey = 0; ?>
+                            <td colspan="1" class="add_width img-txt">
+                            	<?php
                             foreach($specialisationsid as $specialisationsdata){
                                 if($specialisationskey==0){
                     ?>
-                                    <td colspan="1" class="add_width img-txt">
+                                    
                                 
                     <?php
                                 }
@@ -113,13 +115,15 @@
                                         
                                         
 
-                                    </td>
+                                    
                     <?php
                                 }
                                 
                                 $specialisationskey++;
                                 if($specialisationskey==3) $specialisationskey=0;
-                            }
+                            } ?>
+                            </td>
+                            <?php
                         }else{
                     ?>
                             <td class="add_width" style="vertical-align: top;">-</td>
