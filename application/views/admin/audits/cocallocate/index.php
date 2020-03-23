@@ -196,6 +196,7 @@
 		$("#DataTables_Table_1_length").after("<div class='message' style='color:green'>Auditor Allocated successfully</div>");
 		$('.allocate:checked').parent('.allocate_section').find('.user_search').attr('disabled',true);
 		$('.allocate:checked').hide();
+		location.reload();
 	}
 
 	$(document).on('keyup', '.user_search', function(){
