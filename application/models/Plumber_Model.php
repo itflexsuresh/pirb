@@ -193,6 +193,7 @@ class Plumber_Model extends CC_Model
 		if(isset($data['approval_status'])) 	$request2['approval_status'] 		= $data['approval_status'];
 		if(isset($data['reject_reason'])) 		$request2['reject_reason'] 			= implode(',', $data['reject_reason']);
 		if(isset($data['reject_reason_other'])) $request2['reject_reason_other']	= $data['reject_reason_other'];
+		if(isset($data['customregno'])) 		$request2['registration_no']		= $data['customregno'];
 						
 		if(isset($data['registration_no']) && !isset($data['approval_status']) && isset($data['user_id']) && isset($data['designation2'])){
 			$request2['registration_no'] 		= $this->plumberregistrationno($data['user_id'], $data['designation2'], ((isset($data['qualification_year'])) ? $data['qualification_year'] : ''));
