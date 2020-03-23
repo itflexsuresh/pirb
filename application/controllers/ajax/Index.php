@@ -31,7 +31,7 @@ class Index extends CC_Controller
 	public function ajaxsubtype()
 	{
 		$post = $this->input->post();
-		$result = $this->Subtype_Model->getList('all', $post);
+		$result = $this->Subtype_Model->getList('all', ['status' => ['1']]+$post);
 
 		if(count($result)){
 			$json = ['status' => '1', 'result' => $result];
@@ -45,7 +45,7 @@ class Index extends CC_Controller
 	public function ajaxreportlisting()
 	{
 		$post = $this->input->post();
-		$result = $this->Reportlisting_Model->getList('all', $post);
+		$result = $this->Reportlisting_Model->getList('all', ['status' => ['1']]+$post);
 
 		if(count($result)){
 			$json = ['status' => '1', 'result' => $result];
