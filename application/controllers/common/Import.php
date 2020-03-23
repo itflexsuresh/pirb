@@ -140,6 +140,7 @@ class Import extends CC_Controller {
 								'status'					=> $value['Active'],
 								'approval_status'			=> '1',
 								'usersdetailid' 			=> '',
+								'userscompanyid' 			=> '',
 								'created_at' 				=> $datetime,
 								'created_by' 				=> $userid,
 								'updated_at' 				=> $datetime,
