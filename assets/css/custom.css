@@ -1146,7 +1146,7 @@ padding-left: 10px !important;
 }
 
 .technical_operator p.alter_lost_veri{
-text-align: left;
+text-align: left!important;
 margin-left: 10px;
 }
 /* nantha anna over */

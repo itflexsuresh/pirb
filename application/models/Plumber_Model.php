@@ -17,7 +17,7 @@ class Plumber_Model extends CC_Model
 							];
 
 		$companyname	= 	[ 
-								'c.company_name as companyname' 
+								'c.company as companyname' 
 							];
 		
 		$this->db->select('
