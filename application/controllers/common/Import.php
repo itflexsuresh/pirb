@@ -9,6 +9,7 @@ class Import extends CC_Controller {
 		$this->load->model('Users_Model');
 		$this->load->model('Company_Model');
 		$this->load->model('Plumber_Model');
+		$this->load->model('Resellers_Model');
 	}
 
     public function province()
@@ -262,6 +263,61 @@ class Import extends CC_Controller {
 							];
 							
 			$this->Plumber_Model->action($result);		
+		}
+    }
+	
+    public function resellers()
+	{
+		$datetime 	= date('Y-m-d H:i:s');
+		
+		$data 		= $this->db->get('importreseller')->result_array();
+		
+		foreach ($data as $value) {
+			$physicalprovince 	= $this->db->get_where('province', ['name' => $value['ProvinceID']])->row_array();
+			$physicalcity 		= $this->db->get_where('city', ['name' => $value['BusinessCity']])->row_array();
+			
+			$postalcity 		= $this->db->get_where('suburb', ['name' => $value['PostalCity']])->row_array();
+			
+			$address[0] 	=	[
+									'id' 				=> '',
+									'address' 			=> $value['BusinessAddressLine1'],
+									'province' 			=> ($physicalprovince) ? $physicalprovince['id'] : $value['ProvinceID'],
+									'city' 				=> ($physicalcity) ? $physicalcity['id'] : $value['BusinessCity'],
+									'suburb' 			=> '',
+									'postal_code' 		=> $value['BusinessCode'],
+									'type' 				=> '1'
+								];
+							
+			$address[1] 	=	[
+									'id' 				=> '',
+									'address' 			=> $value['PostalAddress'],
+									'province' 			=> ($physicalprovince) ? $physicalprovince['id'] : $value['ProvinceID'], // Extras
+									'city' 				=> ($postalcity) ? $postalcity['id'] : $value['PostalCity'],
+									'suburb' 			=> '', // Extras
+									'postal_code' 		=> $value['PostalCode'],
+									'type' 				=> '2'
+								];
+				
+			$result  	= 	[
+								'company' 					=> $value['CompanyName'],
+								'name' 						=> $value['ContactName'],
+								'surname' 					=> $value['ContactSurname'],
+								'work_phone' 				=> $value['BusinessPhone'],
+								'mobile_phone' 				=> $value['ContactMobilePhone'],
+								'email' 					=> $value['Email'],
+								'password' 					=> $value['Password'],
+								'company_name' 				=> $value['Username'],
+								'reg_no' 					=> $value['CompanyRegNo'],
+								'vat_no' 					=> $value['VatRegNo'],
+								'status' 					=> $value['Active'],
+								'address' 					=> $address,
+								'created_at' 				=> $datetime,
+								'created_by' 				=> $userid,
+								'updated_at' 				=> $datetime,
+								'updated_by' 				=> $userid
+							];
+							
+			$this->Resellers_Model->action($result);		
 		}
     }
 }

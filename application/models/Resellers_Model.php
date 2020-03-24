@@ -123,15 +123,16 @@ class Resellers_Model extends CC_Model
 	
 	public function action($data)
 	{
-		$datetime				= 	date('Y-m-d H:i:s');
-		$idarray				= 	[];
-		if(isset($data['email'])) 			$request['email'] 			= $data['email'];
+		$datetime					= 	date('Y-m-d H:i:s');
+		$idarray					= 	[];
+		
+		if(isset($data['email'])) 				$request['email'] 				= $data['email'];
 		if(isset($data['password'])) 			$request['password'] 			= md5($data['password']);
-		if(isset($data['password'])) 			$request['password_raw'] 			= $data['password'];
-		$request['status'] = (isset($data['status'])) ? $data['status'] : '0';
-		$request['type'] = '6';
-		$request['mailstatus'] = '1';
-		$request['formstatus'] = '1';
+		if(isset($data['password'])) 			$request['password_raw'] 		= $data['password'];
+		$request['type'] 		= '6';
+		$request['mailstatus'] 	= '1';
+		$request['formstatus'] 	= '1';
+		$request['status'] 		= (isset($data['status'])) ? $data['status'] : '0';
 		
 		//users insert & update
 		if(isset($request)){	
@@ -180,7 +181,7 @@ class Resellers_Model extends CC_Model
 		if(isset($data['company_name'])) 		$request1['company_name'] 		= $data['company_name'];
 		if(isset($data['reg_no'])) 				$request1['reg_no'] 			= $data['reg_no']; 
 		if(isset($data['vat_no'])) 				$request1['vat_no'] 			= $data['vat_no'];
-		if(isset($data['vat_vendor'])) 				$request1['vat_vendor'] 			= $data['vat_vendor'];
+		if(isset($data['vat_vendor'])) 			$request1['vat_vendor'] 		= $data['vat_vendor'];
 		if(isset($data['home_phone'])) 			$request1['home_phone'] 		= $data['home_phone'];
 		if(isset($data['mobile_phone'])) 		$request1['mobile_phone'] 		= $data['mobile_phone'];
 		if(isset($data['work_phone'])) 			$request1['work_phone'] 		= $data['work_phone'];
@@ -188,8 +189,8 @@ class Resellers_Model extends CC_Model
 		if(isset($data['image2'])) 				$request1['file2'] 				= $data['image2'];
 		if(isset($data['mobile_phone2'])) 		$request1['mobile_phone2'] 		= $data['mobile_phone2'];
 		if(isset($data['email2'])) 				$request1['email2'] 			= $data['email2'];
-		if(isset($data['company'])) 				$request1['company'] 			= $data['company'];
-		if(isset($data['coc_purchase_limit'])) 				$request1['coc_purchase_limit'] 			= $data['coc_purchase_limit'];
+		if(isset($data['company'])) 			$request1['company'] 			= $data['company'];
+		if(isset($data['coc_purchase_limit'])) 	$request1['coc_purchase_limit'] = $data['coc_purchase_limit'];
 
 		$request1['vat_vendor'] = (isset($data['vat_vendor'])) ? $data['vat_vendor'] : '0';
 		

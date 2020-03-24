@@ -1581,7 +1581,10 @@ td.add_width.img-txt {
     line-height: 2.5;
 }
 #id_Card_back td.add_width.img-txt span {
-    margin-left: 18px;
+    margin-left: 7px;
+}
+.master_plumber p.back_license {
+   margin: -40px !important;
 }
 #id_Card_back td.add_width.img-txt span p{
     margin: 0;
