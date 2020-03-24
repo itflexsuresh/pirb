@@ -142,7 +142,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 						<div class="form-group col-md-6">
 							<label for="productcode">Admin Comments:</label>
 							<textarea class="form-control" id="admin_comments" placeholder="Enter Comments" name="admin_comments" ><?php echo $admin_comments; ?></textarea>
-							<button type="submit" id="addupdate" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> CPD Queue</button>
+							<button type="submit" id="addupdate" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> Plumber CPD</button>
 						</div>
 						<div class="col-md-6 text-right">
 							<input type="hidden" name="id" id="id" value="<?php echo $id; ?>">
