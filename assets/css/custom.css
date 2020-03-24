@@ -1097,10 +1097,9 @@ span.select2-selection {
 .technical_assistant .id_admin {
     border: 2px solid #00f !important;
 }
-
 .technical_assistant p.back_license {
     white-space: nowrap;
-    margin: -94px !important;
+    margin: -79px !important;
     font-size: 15px !important;
 }
 .technical_operator .add_idcard_color {
@@ -1112,7 +1111,7 @@ span.select2-selection {
 
 .technical_operator p.back_license {
     white-space: nowrap;
-    margin: -118px !important;
+    margin: -100px !important;
 }
 
 
@@ -1124,6 +1123,31 @@ span.select2-selection {
 }
 .licensed_plumber p.back_license {
     white-space: nowrap;
+}
+
+
+
+.learner_plumber td.curr_emptxt,
+.technical_assistant td.curr_emptxt,
+.technical_operator td.curr_emptxt{
+   text-align: left;
+}
+
+.learner_plumber p.alter_lost_veri,
+.technical_assistant p.alter_lost_veri,
+.technical_operator p.alter_lost_veri{
+   margin-left: 10px !important;
+}
+
+.learner_plumber p.emp_title,
+.technical_assistant p.emp_title,
+.technical_operator p.emp_title{
+padding-left: 10px !important;
+}
+
+.technical_operator p.alter_lost_veri{
+text-align: left;
+margin-left: 10px;
 }
 /* nantha anna over */
 
@@ -1515,14 +1539,14 @@ p.register-num, p.rene-date {
     padding-left: 0;
     padding-right: 0;
 }
-.learner_plumber #id_Card_back p.back_license {
-    margin: -51px !important;
+.learner_plumber #id_Card_back p.back_license{
+	margin: -44px !important;
 }
 .licensed_plumber #id_Card_back p.back_license{
-    margin: -55px !important;
+	margin: -49px !important;
 }
 .qualified_plumber #id_Card_back p.back_license{
-    margin: -56px !important;
+	margin: -48px !important;
 }
 .master_plumber #id_Card_back td.curr_emptxt p.emp_title, 
 .licensed_plumber #id_Card_back td.curr_emptxt p.emp_title, 
