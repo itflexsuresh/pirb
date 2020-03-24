@@ -252,23 +252,17 @@ class Index extends CC_Controller
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
-				if ($result['status']==0) {
+				if ($result['status']!=3) {
+
+					if ($result['status']==0) {
 					$statuz 	= 'Pending';
 					$awardPts 	= '';
 					$action 	= '
 					<div class="table-action">
-					<a href="'.base_url().'admin/plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-eye"></i></a>
+					<a href="'.base_url().'admin/plumber/mycpd/index/index/'.$post['user_id'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
 					</div>
 					';
-				}elseif($result['status']==3){
-					$statuz 	= 'Not Submited';
-					$awardPts 	= '';
-					$action 	= '';
-					// <div class="table-action">
-					// <a href="'.base_url().'plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-					// </div>
-				}
-			
+				}			
 				else{
 					$statuz 	= $this->config->item('approvalstatus')[$result['status']];
 					if ($statuz!='Reject') {
@@ -304,7 +298,10 @@ class Index extends CC_Controller
 					'status' 				=> 	$statuz,
 					'action'				=> 	$action
 				];
+				}
+				
 			}
+				
 		}
 		
 		$json = array(
