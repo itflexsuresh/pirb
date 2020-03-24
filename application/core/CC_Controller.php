@@ -811,22 +811,22 @@ class CC_Controller extends CI_Controller
 				}
 				
 				if(isset($requestData['auditcomplete']) && $requestData['auditcomplete']=='1' && $requestData['submit']=='submitreport'){
-					if($requestData['auditstatus']=='1'){	
-						//Invoice and Order
-						$inspectionrate = $this->getRates($this->config->item('inspection'));
-						$invoicedata = [
-							'description' 	=> 'Audit undertaken for '.$pagedata['result']['u_name'].' on COC '.$pagedata['result']['id'].'. Date of Review Submission '.date('d-m-Y', strtotime($datetime)),
-							'user_id'		=> (isset($extras['auditorid'])) ? $extras['auditorid'] : '',
-							'total_cost'	=> $inspectionrate,
-							'status'		=> '2',
-							'created_at'	=> $datetime
-						];
-						$this->db->insert('invoice', $invoicedata);
-						$insertid = $this->db->insert_id();
-						unset($invoicedata['total_cost']);
-						$invoicedata = $invoicedata+['cost_value' => $inspectionrate, 'total_due' => $inspectionrate, 'inv_id' => $insertid];
-						$this->db->insert('coc_orders', $invoicedata);
-						
+					//Invoice and Order
+					$inspectionrate = $this->getRates($this->config->item('inspection'));
+					$invoicedata = [
+						'description' 	=> 'Audit undertaken for '.$pagedata['result']['u_name'].' on COC '.$pagedata['result']['id'].'. Date of Review Submission '.date('d-m-Y', strtotime($datetime)),
+						'user_id'		=> (isset($extras['auditorid'])) ? $extras['auditorid'] : '',
+						'total_cost'	=> $inspectionrate,
+						'status'		=> '2',
+						'created_at'	=> $datetime
+					];
+					$this->db->insert('invoice', $invoicedata);
+					$insertid = $this->db->insert_id();
+					unset($invoicedata['total_cost']);
+					$invoicedata = $invoicedata+['cost_value' => $inspectionrate, 'total_due' => $inspectionrate, 'inv_id' => $insertid];
+					$this->db->insert('coc_orders', $invoicedata);
+					
+					if($requestData['auditstatus']=='1'){						
 						// Email
 						$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '21', 'emailstatus' => '1']);
 						if($notificationdata){

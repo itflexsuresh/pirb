@@ -87,7 +87,7 @@
                             $specialisationskey = 0; ?>
                             <td colspan="2" class="add_width img-txt">
                             	<?php
-                            foreach($specialisationsid as $specialisationsdata){
+                            foreach($specialisationsid as $specialkey => $specialisationsdata){
                                 if($specialisationskey==0){
                     ?>
                                     
@@ -108,7 +108,7 @@
                                     }
                                     ?>
                                 <div class="txt-img-card"><?php echo isset($specialisations[$specialisationsdata]) ? $specialisations[$specialisationsdata] : '-'; ?></div>
-                                            
+                                <?php if($specialkey=='4'){ echo '<br>'; } ?>            
                     <?php
                                 if($specialisationskey==2 || (count($specialisationsid)-1)==$specialisationskey){
                     ?>
