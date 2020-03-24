@@ -12,7 +12,7 @@ $cpd_stream 			= isset($result['cpd_stream']) ? $result['cpd_stream'] : '';
 $status 				= isset($result['status']) ? $result['status'] : '';
 $admin_comments 		= isset($result['admin_comments']) ? $result['admin_comments'] : '';
 $user_id 				= isset($result['user_id']) ? $result['user_id'] : '';
-$streamname 			= isset($strem_id) ? $strem_id : '';
+$streamname 			= isset($result['cpd_stream']) ? $cpdstreamID[$result['cpd_stream']] : '';
 
 
 $profileimg 			= base_url().'assets/images/profile.jpg';
@@ -53,8 +53,8 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 		<div class="card">
 			<div class="card-body">
 				<h4 class="card-title">CPD Activity Form</h4>
-				<?php if ($checkpermission) { ?>
-				<form class="mt-4 form" action="index_queue" method="post" enctype="multipart/form-data">
+				
+				<form class="mt-4 form" method="post" enctype="multipart/form-data">
 					<div class="row">
 						<div class="form-group col-md-6">
 							<label for="activity">Reg Number:</label>
@@ -142,7 +142,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 						<div class="form-group col-md-6">
 							<label for="productcode">Admin Comments:</label>
 							<textarea class="form-control" id="admin_comments" placeholder="Enter Comments" name="admin_comments" ><?php echo $admin_comments; ?></textarea>
-							<button type="submit" id="addupdate" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> Plumber CPD</button>
+							<button type="submit" id="addupdate" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> CPD Queue</button>
 						</div>
 						<div class="col-md-6 text-right">
 							<input type="hidden" name="id" id="id" value="<?php echo $id; ?>">
@@ -153,14 +153,14 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 					</div>
 					
 				</form>
-			<?php } ?>
-				<div class="row">
+			
+				<!-- <div class="row">
 					<div class="col-md-6">
-						<a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index_queue/1'; ?>" class="active_link_btn">PENDING</a>  <a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index_queue/2'; ?>" class="archive_link_btn">COMPLETED</a>
+						<a href="<?php // echo base_url().'admin/cpd/cpdtypesetup/index_queue/1'; ?>" class="active_link_btn">PENDING</a>  <a href="<?php // echo base_url().'admin/cpd/cpdtypesetup/index_queue/2'; ?>" class="archive_link_btn">COMPLETED</a>
 					</div>					
-				</div>
+				</div> -->
 
-				<div id="active" class="table-responsive m-t-40">
+				<!-- <div id="active" class="table-responsive m-t-40">
 					<h4 class="card-title">CPD Activity Queue</h4>
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
@@ -175,7 +175,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 							</tr>
 						</thead>
 					</table>
-				</div>
+				</div> -->
 
 			</div>
 		</div>
@@ -219,23 +219,23 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 
 		fileupload([".document_file", "./assets/uploads/cpdqueue", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.document_picture', '.document_image', filepath, pdfimg]);
 		
-		var options = {
-			url 	: 	'<?php echo base_url()."admin/cpd/cpdtypesetup/DTCpdQueue"; ?>',
-			columns : 	[
-			{ "data": "date" },
-			{ "data": "namesurname" },
-			{ "data": "reg_number" },
-			{ "data": "acivity" },
-			{ "data": "points" },
-			{ "data": "status" },
-			{ "data": "action" }
-			],
-			data : {pagestatus : '<?php echo $pagestatus; ?>'},
-			target : [6],
-			sort : '0'
-		};
+		// var options = {
+		// 	url 	: 	'<?php echo base_url()."admin/cpd/cpdtypesetup/DTCpdQueue"; ?>',
+		// 	columns : 	[
+		// 	{ "data": "date" },
+		// 	{ "data": "namesurname" },
+		// 	{ "data": "reg_number" },
+		// 	{ "data": "acivity" },
+		// 	{ "data": "points" },
+		// 	{ "data": "status" },
+		// 	{ "data": "action" }
+		// 	],
+		// 	data : {pagestatus : '<?php echo $pagestatus; ?>'},
+		// 	target : [6],
+		// 	sort : '0'
+		// };
 		
-		ajaxdatatables('.datatables', options);
+		// ajaxdatatables('.datatables', options);
 		
 		validation(
 			'.form',

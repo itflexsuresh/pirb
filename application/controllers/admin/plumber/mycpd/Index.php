@@ -8,14 +8,16 @@ class index extends CC_Controller
 		parent::__construct();
 		
 		$this->load->model('Mycpd_Model');
+		$this->load->model('Cpdtypesetup_Model');
 		
 	}
 	
-	public function index($pagestatus='',$id='')
+	public function index($plumber_id='',$id='')
 	{
+		
 		$userid = $this->getUserID();
 		if($id!=''){
-			$result = $this->Mycpd_Model->getQueueList('row', ['id' => $id, 'pagestatus' => $pagestatus]);
+			$result = $this->Mycpd_Model->getQueueList('row', ['id' => $id, 'pagestatus' => '1']);
 			if($result){
 				$pagedata['result'] = $result;
 			}else{
@@ -28,34 +30,42 @@ class index extends CC_Controller
 			$requestData 	= 	$this->input->post();
 
 			if($requestData['submit']=='submit'){
-
-				$data 	=  $this->Mycpd_Model->actionInsert($requestData);
-				if($data) $message = 'CPD Type '.(($id=='') ? 'created' : 'updated').' successfully.';
-			}elseif($requestData['submit']=='save'){
-				//print_r($requestData);die;
-
-				$data 	=  $this->Mycpd_Model->actionSave($requestData);
-				if($data) $message = 'My CPD '.(($id=='') ? 'save' : 'updated').' successfully.';
+				$data 	=  $this->Cpdtypesetup_Model->queue_action($requestData);
+				
+				if($data) $message = 'Plumber CPD'.(($id=='') ? 'created' : 'updated').' successfully.';
 			}
-			else{
-				$data 			= 	$this->Mycpd_Model->changestatus($requestData);
-				$message		= 	'CPD Type deleted successfully.';
-			}
+			// elseif($requestData['submit']=='save'){
+			// 	//print_r($requestData);die;
+
+			// 	$data 	=  $this->Mycpd_Model->actionSave($requestData);
+			// 	print_r($data);die;
+			// 	if($data) $message = 'My CPD '.(($id=='') ? 'save' : 'updated').' successfully.';
+			// }
+			// else{
+			// 	$data 			= 	$this->Mycpd_Model->changestatus($requestData);
+			// 	$message		= 	'CPD Type deleted successfully.';
+			// }
 
 			if(isset($data)) $this->session->set_flashdata('success', $message);
 			else $this->session->set_flashdata('error', 'Try Later.');
 			
-			redirect('admin/plumber/mycpd/index'); 
+			if($id!=''){
+				redirect('admin/plumber/index/cpd/'.$plumber_id.''); 
+			}
+			else{
+				redirect('admin/plumber/index'); 
+			}
+			
 		}		
 		
 		$userdata1					= $this->Plumber_Model->getList('row', ['id' => $userid]);
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['cpdstreamID'] 	= $this->config->item('cpdstream');
-		$pagedata['pagestatus'] 	= $this->getPageStatus($pagestatus);
+		// $pagedata['pagestatus'] 	= $this->getPageStatus($pagestatus);
 		$pagedata['id'] 			= $userid;
 		$pagedata['user_details'] 	= $userdata1;
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
-		$data['content'] 			= $this->load->view('admin/plumber/mycpd/index', (isset($pagedata) ? $pagedata : ''), true);
+		$data['content'] 			= $this->load->view('admin/plumber/cpdqueue/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 		
 	}
