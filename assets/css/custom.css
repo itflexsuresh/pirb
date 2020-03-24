@@ -1152,7 +1152,9 @@ margin-left: 10px;
 .licensed_plumber .curr_emptxt {
    text-align: left;
 }
-
+#id_Card_back br {
+   display: none;
+}
 /* nantha anna over */
 
 
@@ -1763,7 +1765,7 @@ table#id_Card_back img {
 
 
 td.curr_emptxt {
-    height: 173px !important;
+    /*height: 173px !important;*/
 }
 
 body > * {
