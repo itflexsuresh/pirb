@@ -254,7 +254,7 @@ class Cron extends CC_Controller {
 				$inid 				= $cocorder_id;
 				$inv_id 			= $invoice_id;
 
-				$userdata1	= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
+				$userdata1	= 	$this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail']);
 
 				$orders = $this->db->select('*')->from('coc_orders')->where(['inv_id' => $invoice_id])->get()->row_array();
 
@@ -606,7 +606,7 @@ class Cron extends CC_Controller {
 			if ($invoice_id) {
 				$inv_id 			= $invoice_id;
 
-				$userdata1	= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
+				$userdata1	= 	$this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail']);
 
 				$orders = $this->db->select('*')->from('coc_orders')->where(['inv_id' => $invoice_id])->get()->row_array();
 
@@ -953,7 +953,7 @@ class Cron extends CC_Controller {
 			if ($invoice_id) {
 				$inv_id 			= $invoice_id;
 
-				$userdata1	= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
+				$userdata1	= 	$this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail']);
 
 				$orders = $this->db->select('*')->from('coc_orders')->where(['inv_id' => $invoice_id])->get()->row_array();
 
@@ -1336,7 +1336,7 @@ class Cron extends CC_Controller {
 	
 	public function monthlyperformance()
 	{	
-		$plumbers	= 	$this->Plumber_Model->getList('all', ['plumberstatus' => ['1']]);
+		$plumbers	= 	$this->Plumber_Model->getList('all', ['plumberstatus' => ['1']], ['users', 'usersdetail']);
 		$date		= 	date('d-m-Y');
 		
 		foreach($plumbers as $plumber){
@@ -1368,7 +1368,7 @@ class Cron extends CC_Controller {
 
 	public function monthlycoc()
 	{	
-		$plumbers	= 	$this->Plumber_Model->getList('all', ['plumberstatus' => ['1']]);
+		$plumbers	= 	$this->Plumber_Model->getList('all', ['plumberstatus' => ['1']], ['users', 'usersdetail']);
 		$date		= 	date('d-m-Y');
 		
 		foreach($plumbers as $plumber){

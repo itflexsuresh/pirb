@@ -15,7 +15,7 @@ class Index extends CC_Controller
 	public function index()
 	{
 		$userid		= 	$this->getUserID();
-		$result		= 	$this->Plumber_Model->getList('row', ['id' => $userid, 'status' => ['0','1']]);
+		$result		= 	$this->Plumber_Model->getList('row', ['id' => $userid, 'status' => ['0','1']], ['users', 'usersdetail', 'usersplumber', 'usersskills', 'company', 'physicaladdress', 'postaladdress', 'billingaddress']);
 		
 		if(!$result){
 			redirect('admin/plumber/index');
@@ -33,7 +33,7 @@ class Index extends CC_Controller
 			$data 						=  	$this->Plumber_Model->action($requestData);
 			
 			if(isset($data)){
-				$plumberdata 		= $this->Plumber_Model->getList('row', ['id' => $userid]);
+				$plumberdata 		= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber', 'company']);
 				$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '4', 'emailstatus' => '1']);
 				
 				if($notificationdata){

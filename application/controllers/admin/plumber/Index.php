@@ -39,8 +39,8 @@ class Index extends CC_Controller
 	{
 		$post 			= $this->input->post();
 
-		$totalcount 	= $this->Plumber_Model->getList('count', ['type' => '3', 'approvalstatus' => ['0','1'], 'status' => ['1', '2']]+$post);
-		$results 		= $this->Plumber_Model->getList('all', ['type' => '3', 'approvalstatus' => ['0','1'], 'status' => ['1', '2']]+$post);
+		$totalcount 	= $this->Plumber_Model->getList('count', ['type' => '3', 'approvalstatus' => ['0','1'], 'status' => ['1', '2']]+$post, ['users', 'usersdetail', 'usersplumber']);
+		$results 		= $this->Plumber_Model->getList('all', ['type' => '3', 'approvalstatus' => ['0','1'], 'status' => ['1', '2']]+$post, ['users', 'usersdetail', 'usersplumber']);
 
 		$checkpermission = $this->checkUserPermission('18', '2');
 
@@ -104,8 +104,8 @@ class Index extends CC_Controller
 	{
 		$post 			= $this->input->post();
 
-		$totalcount 	= $this->Plumber_Model->getList('count', ['type' => '3', 'approvalstatus' => ['2'], 'status' => ['1']]+$post);
-		$results 		= $this->Plumber_Model->getList('all', ['type' => '3', 'approvalstatus' => ['2'], 'status' => ['1']]+$post);
+		$totalcount 	= $this->Plumber_Model->getList('count', ['type' => '3', 'approvalstatus' => ['2'], 'status' => ['1']]+$post, ['users', 'usersdetail', 'usersplumber']);
+		$results 		= $this->Plumber_Model->getList('all', ['type' => '3', 'approvalstatus' => ['2'], 'status' => ['1']]+$post, ['users', 'usersdetail', 'usersplumber']);
 
 		$checkpermission = $this->checkUserPermission('19', '2');
 
@@ -164,7 +164,7 @@ class Index extends CC_Controller
 		$pagedata['company'] 		= $this->getCompanyList();
 		$pagedata['plumberstatus'] 	= $this->config->item('plumberstatus');
 		$pagedata['pagestatus'] 	= $this->getPageStatus($pagestatus);		
-		$userdata1					= $this->Plumber_Model->getList('row', ['id' => $id]);
+		$userdata1					= $this->Plumber_Model->getList('row', ['id' => $id], ['usersdetail', 'usersplumber']);
 		$pagedata['roletype']		= $this->config->item('roleadmin');
 		$pagedata['id'] 			= $id;
 		$pagedata['user_details'] 	= $userdata1;
@@ -338,7 +338,7 @@ class Index extends CC_Controller
 		$extraparam					= $pagestatus=='0' ? ['date' => $date] : [];
 		
 		$pagedata['plumberid'] 		= $id;
-		$pagedata['userdata']		= $this->Plumber_Model->getList('row', ['id' => $id]);
+		$pagedata['userdata']		= $this->Plumber_Model->getList('row', ['id' => $id], ['usersdetail']);
 		$pagedata['menu']			= $this->load->view('common/plumber/menu', ['id'=>$id],true);
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['performancelist']= $this->getPlumberPerformanceList();
@@ -420,7 +420,7 @@ class Index extends CC_Controller
 	
 	public function coc($id,$pagestatus='')
 	{
-		$userdata1					= $this->Plumber_Model->getList('row', ['id' => $id]);
+		$userdata1					= $this->Plumber_Model->getList('row', ['id' => $id], ['usersdetail']);
 		$pagedata['roletype']		= $this->config->item('roleadmin');
 		$pagedata['id'] 			= $id;
 		$pagedata['user_details'] 	= $userdata1;
@@ -535,7 +535,7 @@ class Index extends CC_Controller
 
 	public function audit($id)
 	{		
-		$userdata1					= $this->Plumber_Model->getList('row', ['id' => $id]);
+		$userdata1					= $this->Plumber_Model->getList('row', ['id' => $id], ['usersdetail']);
 		$pagedata['roletype']		= $this->config->item('roleadmin');
 		$pagedata['id'] 			= $id;
 		$pagedata['user_details'] 	= $userdata1;
@@ -617,7 +617,7 @@ class Index extends CC_Controller
 
 	public function accounts($id)
 	{
-		$userdata1					= $this->Plumber_Model->getList('row', ['id' => $id]);
+		$userdata1					= $this->Plumber_Model->getList('row', ['id' => $id], ['usersdetail']);
 		$pagedata['roletype']		= $this->config->item('roleadmin');
 		$pagedata['id'] 			= $id;
 		$pagedata['user_details'] 	= $userdata1;
@@ -632,7 +632,7 @@ class Index extends CC_Controller
 	{
 		$post 			= $this->input->post();
 		$userid 		= $post['user_id'];
-		$userdata1		= $this->Plumber_Model->getList('row', ['id' => $userid]);		
+		$userdata1		= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail']);		
 		$totalcount 	= $this->Accounts_Model->getList('count', ['user_id' => $userid]+$post);
 		$results 		= $this->Accounts_Model->getList('all', ['user_id' => $userid]+$post);
 		
@@ -721,7 +721,7 @@ class Index extends CC_Controller
 
 		}
 		
-		$userdata1	= $this->Plumber_Model->getList('row', ['id' => $plumberid]);
+		$userdata1	= $this->Plumber_Model->getList('row', ['id' => $plumberid], ['usersdetail']);
 		$pagedata['user_details'] 	= $userdata1;
 		$pagedata['roletype']		= $this->config->item('roleadmin');
 		$pagedata['notification'] 	= $this->getNotification();
@@ -799,7 +799,7 @@ class Index extends CC_Controller
 	{
 		////////////////////// $plumberid,$documentsid=''
 		if($id!=''){
-			$result = $this->Plumber_Model->getList('row', ['id' => $id, 'type' => '3', 'status' => ['1', '2']]);
+			$result = $this->Plumber_Model->getList('row', ['id' => $id, 'type' => '3', 'status' => ['1', '2']], ['usersdetail']);
 			$pagedata['result'] 		= $result;
 
 			$DBcomments = $this->Comment_Model->getList('all', ['user_id' => $id, 'type' => '3', 'status' => ['1', '2']]);

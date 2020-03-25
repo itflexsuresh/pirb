@@ -52,7 +52,7 @@ class Index extends CC_Controller
 				
 				$invtype 		= $this->config->item('invtype');
 				$invoicedata 	= $this->db->select('*')->from('invoice')->where(['inv_id' => $id])->get()->row_array();
-				$userdata		= $this->Plumber_Model->getList('row', ['id' => $invoicedata['user_id']]);
+				$userdata		= $this->Plumber_Model->getList('row', ['id' => $invoicedata['user_id']], ['users', 'usersdetail']);
 				
 				$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '15', 'emailstatus' => '1']);
 				

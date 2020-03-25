@@ -327,13 +327,13 @@ class CC_Controller extends CI_Controller
 		$data['specialisations'] 	= $this->config->item('specialisations');
 		$data['settings'] 			= $this->Systemsettings_Model->getList('row');
 		
-		$data['result'] = $this->Plumber_Model->getList('row', ['id' => $userid]);
+		$data['result'] = $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber', 'company']);
 		return $this->load->view('common/card', $data, true) ;
 	}
 	
 	public function plumberprofile($id, $pagedata=[], $extras=[])
 	{
-		$result = $this->Plumber_Model->getList('row', ['id' => $id, 'type' => '3', 'status' => ['1', '2']]);
+		$result = $this->Plumber_Model->getList('row', ['id' => $id, 'type' => '3', 'status' => ['1', '2']], ['users', 'usersdetail', 'usersplumber', 'usersskills', 'company', 'physicaladdress', 'postaladdress', 'billingaddress']);
 		if(!$result){
 			redirect($extras['redirect']); 
 		}
@@ -549,7 +549,7 @@ class CC_Controller extends CI_Controller
 
 			$pagedata['company'] 		= $this->getCompanyList();
 			$pagedata['plumberstatus'] 	= $this->config->item('plumberstatus');
-			$userdata1					= $this->Plumber_Model->getList('row', ['id' => $result[0]['user_id']]);
+			$userdata1					= $this->Plumber_Model->getList('row', ['id' => $result[0]['user_id']], ['users', 'usersdetail', 'usersplumber']);
 
 			$pagedata['user_details1'] 	= $userdata1;
 
@@ -566,7 +566,7 @@ class CC_Controller extends CI_Controller
 
 			$pagedata['nonlogged']		= $this->Coc_Model->getCOCList('count', ['user_id' => $result[0]['user_id'], 'coc_status' => ['5']]);
 
-			$pagedata['user_details'] 	= $this->Plumber_Model->getList('row', ['id' => $result[0]['user_id']]);
+			$pagedata['user_details'] 	= $this->Plumber_Model->getList('row', ['id' => $result[0]['user_id']], ['users', 'usersdetail', 'usersplumber']);
 
 			$pagedata['settings_cpd']	= $this->Systemsettings_Model->getList('all',['user_id' => $result[0]['user_id']]);
 			
@@ -716,7 +716,7 @@ class CC_Controller extends CI_Controller
 			redirect($extras['redirect']); 
 		}
 		
-		$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid]);
+		$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber']);
 		$specialisations 				= explode(',', $userdata['specialisations']);
 		
 		if($this->input->post()){
@@ -966,7 +966,7 @@ class CC_Controller extends CI_Controller
 
 	public function pdfelectroniccocreport($id, $userid)
 	{		
-		$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid]);
+		$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber']);
 		$pagedata['userdata']	 		= $userdata;
 		$pagedata['specialisations']	= explode(',', $pagedata['userdata']['specialisations']);
 		$pagedata['result']		    	= $this->Coc_Model->getCOCList('row', ['id' => $id]);
@@ -1033,7 +1033,7 @@ class CC_Controller extends CI_Controller
 			redirect('plumber/mycpd/index'); 
 		}		
 		
-		$userdata1					= $this->Plumber_Model->getList('row', ['id' => $userid]);
+		$userdata1					= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber']);
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['cpdstreamID'] 	= $this->config->item('cpdstream');
 		$pagedata['pagestatus'] 	= $this->getPageStatus($pagestatus);
@@ -1106,7 +1106,7 @@ class CC_Controller extends CI_Controller
 					$notificationdata 	= $this->Communication_Model->getList('row', ['id' => $notificationid[$warninglevel-1], 'emailstatus' => '1']);
 
 					if($notificationdata){
-						$plumber 	= $this->Plumber_Model->getList('row', ['id' => $plumberid]);
+						$plumber 	= $this->Plumber_Model->getList('row', ['id' => $plumberid], ['users', 'usersdetail']);
 						$body 		= str_replace(['{Plumbers Name and Surname}', '{Performance warning status}'], [$plumber['name'].' '.$plumber['surname'], $warningtext], $notificationdata['email_body']);
 						$this->CC_Model->sentMail($plumber['email'], $notificationdata['subject'], $body);
 					}

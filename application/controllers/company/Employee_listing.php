@@ -21,12 +21,7 @@ class Employee_listing extends CC_Controller
             $pagedata['employee'] = $result;
             $pagedata['company']        = $this->getCompanyList();
             $pagedata['plumberstatus']  = $this->config->item('plumberstatus');
-            $userdata1                  = $this->Plumber_Model->getList('row', ['id' => $result[0]['user_id']]);
-           // print_r($userdata1);die;
-            $pagedata['user_details1']  = $userdata1;
-
-            
-            
+           
             ////$pagedata['history']        = $this->Auditor_Model->getReviewHistory2Count(['plumberid' => $result[0]['user_id']]);
             $pagedata['history']        = $this->Auditor_Model->getReviewHistoryCount(['plumberid' => $result[0]['user_id']]);
 
@@ -38,7 +33,7 @@ class Employee_listing extends CC_Controller
 
             $pagedata['nonlogged']      = $this->Coc_Model->getCOCList('count', ['user_id' => $result[0]['user_id'], 'coc_status' => ['5']]);
 
-            $pagedata['user_details']   = $this->Plumber_Model->getList('row', ['id' => $result[0]['user_id']]);
+            $pagedata['user_details']   = $this->Plumber_Model->getList('row', ['id' => $result[0]['user_id']], ['usersplumber']);
 
             $pagedata['settings_cpd']   = $this->Systemsettings_Model->getList('all',['user_id' => $result[0]['user_id']]);
         }
@@ -129,7 +124,7 @@ class Employee_listing extends CC_Controller
 
 			$pagedata['company'] 		= $this->getCompanyList();
 			$pagedata['plumberstatus'] 	= $this->config->item('plumberstatus');
-			$userdata1					= $this->Plumber_Model->getList('row', ['id' => $result[0]['user_id']]);
+			$userdata1					= $this->Plumber_Model->getList('row', ['id' => $result[0]['user_id']], ['usersplumber']);
 
 			$pagedata['user_details'] 	= $userdata1;
 
