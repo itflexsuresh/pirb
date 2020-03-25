@@ -232,7 +232,7 @@ class CC_Controller extends CI_Controller
 	
 	public function getCompanyList()
 	{
-		$data = $this->Company_Model->getList('all', ['type' => '4', 'status' => ['1'], 'companystatus' => ['1']]);
+		$data = $this->Company_Model->getList('all', ['type' => '4', 'status' => ['1'], 'companystatus' => ['1']], ['users', 'usersdetail']);
 		
 		if(count($data) > 0) return ['' => 'Select Company']+array_column($data, 'company', 'id');
 		else return [];
@@ -488,7 +488,7 @@ class CC_Controller extends CI_Controller
 	
 	public function companyprofile($id, $pagedata=[], $extras=[])
 	{
-		$result = $this->Company_Model->getList('row', ['id' => $id, 'type' => '4', 'status' => ['0','1', '2']]);
+		$result = $this->Company_Model->getList('row', ['id' => $id, 'type' => '4', 'status' => ['0','1', '2']], ['users', 'usersdetail', 'userscompany', 'physicaladdress', 'postaladdress']);
 		if(!$result){
 			redirect($extras['redirect']); 
 		}
@@ -597,7 +597,7 @@ class CC_Controller extends CI_Controller
 	public function companydiary($id='')
 	{
 		if($id!=''){
-			$result = $this->Company_Model->getList('row', ['id' => $id, 'type' => '4', 'status' => ['1', '2']]);
+			$result = $this->Company_Model->getList('row', ['id' => $id, 'type' => '4', 'status' => ['1', '2']], ['users', 'usersdetail', 'userscompany', 'physicaladdress', 'postaladdress']);
 			$pagedata['result'] 		= $result;
 			$DBcomments = $this->Comment_Model->getList('all', ['user_id' => $id, 'type' => '4', 'status' => ['1', '2']]);
 			if($DBcomments){
