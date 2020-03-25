@@ -85,7 +85,7 @@
 	$plumberstatusid 		= isset($result['plumberstatus']) ? $result['plumberstatus'] : '';
 	$designation2id 		= isset($result['designation']) ? $result['designation'] : '';
 	$qualificationyear 		= isset($result['qualification_year']) ? $result['qualification_year'] : '';
-	$specialisationsid 		= isset($result['specialisations']) ? array_filter(explode(',', $result['specialisations'])) : '';
+	$specialisationsid 		= isset($result['specialisations']) ? array_filter(explode(',', $result['specialisations'])) : [];
 	$cocpurchaselimit 		= isset($result['coc_purchase_limit']) && $result['coc_purchase_limit']!='0' ? $result['coc_purchase_limit'] : $defaultsettings['plumber_certificate'];
 	$cocelectronic 			= isset($result['coc_electronic']) ? $result['coc_electronic'] : '';
 	$message 				= isset($result['message']) ? $result['message'] : '';
