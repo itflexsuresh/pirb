@@ -1004,7 +1004,9 @@ p.back_license {
 .emp_title {
     text-align: left;
 }
-
+.qualificationyear_wrapper {
+             margin-left: 0;
+}
 
 /* add by nantha anna */
 
