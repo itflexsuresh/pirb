@@ -28,8 +28,8 @@ class Index extends CC_Controller
 	{
 		
 		$post 			= $this->input->post();		
-		$totalcount 	= $this->Resellers_Model->getList('count', ['type' => '6', 'approvalstatus' => ['0','1'], 'status' => ['1']]+$post);
-		$results 		= $this->Resellers_Model->getList('all', ['type' => '6', 'approvalstatus' => ['0','1'], 'status' => ['1']]+$post);
+		$totalcount 	= $this->Resellers_Model->getList('count', ['type' => '6', 'approvalstatus' => ['0','1'], 'status' => ['1']]+$post, ['users', 'usersdetail', 'coccount']);
+		$results 		= $this->Resellers_Model->getList('all', ['type' => '6', 'approvalstatus' => ['0','1'], 'status' => ['1']]+$post, ['users', 'usersdetail', 'coccount']);
 
 		$checkpermission	=	$this->checkUserPermission('29', '2');
 

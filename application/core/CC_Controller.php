@@ -634,7 +634,7 @@ class CC_Controller extends CI_Controller
 	public function resellersprofile($id, $pagedata=[], $extras=[])
 	{
 		if($id!=''){
-			$result = $this->Resellers_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
+			$result = $this->Resellers_Model->getList('row', ['id' => $id, 'status' => ['0','1']], ['users', 'usersdetail', 'coccount', 'physicaladdress', 'postaladdress', 'billingaddress']);
 			if($result){
 				$pagedata['result'] = $result;
 
