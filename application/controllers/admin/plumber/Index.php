@@ -56,16 +56,13 @@ class Index extends CC_Controller
 					$action = '';
 				}
 
-				$designation 	= isset($this->config->item('designation2')[$result["designation"]]) ? $this->config->item('designation2')[$result["designation"]] : '';
-				$status 		= isset($this->config->item('plumberstatus')[$result["plumberstatus"]]) ? $this->config->item('plumberstatus')[$result["plumberstatus"]] : '';
-
 				$totalrecord[] = 	[
 										'reg_no' 		=> 	$result['registration_no'],
 										'name' 			=> 	$result['name'],
 										'surname' 		=> 	$result['surname'],
-										'designation' 	=> 	$designation,
+										'designation' 	=> 	$result["designation"],
 										'email' 		=> 	$result['email'],
-										'status' 		=> 	$status,
+										'status' 		=> 	$result["plumberstatus"],
 										'action'		=> 	$action
 									];
 			}
