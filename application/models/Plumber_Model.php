@@ -59,7 +59,7 @@ class Plumber_Model extends CC_Model
 		if(in_array('alllist', $querydata)){
 			$select 		= 	[];
 			$alllist		= 	[
-									'u.id','u.email','ud.name','ud.surname','c2.name as plumberstatus','c1.name as designation','up.registration_no'
+									'u.id','u.email','ud.name','ud.surname','ud.status as plumberstatus','up.designation','up.registration_no'
 								];
 			$select[] 		= 	implode(',', $alllist);
 		}
@@ -77,8 +77,8 @@ class Plumber_Model extends CC_Model
 		
 		if((isset($requestdata['search']['value']) && $requestdata['search']['value']!='') || (isset($requestdata['order']['0']['column']) && $requestdata['order']['0']['column']!='' && isset($requestdata['order']['0']['dir']) && $requestdata['order']['0']['dir']!='')){
 			if(isset($requestdata['page']) && $requestdata['page']=='adminplumberlist'){
-				$this->db->join('custom c1', 'c1.c_id=up.designation and c1.type="5"', 'left');
-				$this->db->join('custom c2', 'c2.c_id=ud.status and c2.type="6"', 'left');
+				//$this->db->join('custom c1', 'c1.c_id=up.designation and c1.type="5"', 'left');
+				//$this->db->join('custom c2', 'c2.c_id=ud.status and c2.type="6"', 'left');
 			}
 		}
 		
