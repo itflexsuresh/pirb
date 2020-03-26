@@ -84,8 +84,10 @@ class Installationtype_Model extends CC_Model
 	public function installationtypeValidator($data)
 	{
 		$id 				= $data['id'];
-		$installationtype 	= $data['name'];		
+		$installationtype 	= $data['name'];
+		$status 			= $data['status'];
 		$this->db->where('name', $installationtype);
+		$this->db->where('status', $status);
 		if($id!='') $this->db->where('id !=', $id);
 		//$this->db->where('status !=', '2');
 		$query = $this->db->get('installationtype');

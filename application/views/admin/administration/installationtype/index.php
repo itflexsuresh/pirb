@@ -48,7 +48,7 @@ if(isset($result) && $result){
 						</div>
 						<div class="col-md-6 text-right">
 							<input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
-							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> Installtion Type</button>
+							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> Installation Type</button>
 						</div>
 					</div>
 				</form>
@@ -101,6 +101,9 @@ if(isset($result) && $result){
 								},
 								id: function() {
 									return $( "#id" ).val();
+								},
+								status: function() {
+									return '1';
 								}
 							}
 

@@ -92,7 +92,7 @@ class Installationtype extends CC_Controller
 
 		public function InstallationTypeValidation()
 	{
-		$requestData 		= $this->input->post();		
+		$requestData 		= $this->input->post();	
 		$data 				= $this->Installationtype_Model->installationtypeValidator($requestData);
 		
 		echo $data;
