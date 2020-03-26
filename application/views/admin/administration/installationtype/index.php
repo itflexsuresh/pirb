@@ -101,6 +101,9 @@ if(isset($result) && $result){
 								},
 								id: function() {
 									return $( "#id" ).val();
+								},
+								status: function() {
+									return '1';
 								}
 							}
 

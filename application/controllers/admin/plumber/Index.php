@@ -273,7 +273,7 @@ class Index extends CC_Controller
 					
 					$action 	= '
 					<div class="table-action">
-					<a href="'.base_url().'admin/plumber/mycpd/index/index/'.$post['pagestatus'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
+					<a href="'.base_url().'admin/plumber/mycpd/index/index/'.$post['user_id'].'/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>
 					</div>
 					';
 				}
