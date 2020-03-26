@@ -87,7 +87,7 @@ class Installationtype_Model extends CC_Model
 		$installationtype 	= $data['name'];		
 		$this->db->where('name', $installationtype);
 		if($id!='') $this->db->where('id !=', $id);
-		//$this->db->where('status !=', '2');
+		$this->db->where('status !=', '2');
 		$query = $this->db->get('installationtype');
 		
 		if($query->num_rows() > 0){
@@ -110,6 +110,12 @@ class Installationtype_Model extends CC_Model
 			'installationtype', 
 			['status' => $status, 'updated_at' => $datetime, 'updated_by' => $userid], 
 			['id' => $id]
+		);
+		
+		$subtypedelete 	= 	$this->db->update(
+			'installationsubtype', 
+			['status' => $status, 'updated_at' => $datetime, 'updated_by' => $userid], 
+			['installationtype_id' => $id]
 		);
 		
 		if(!$delete || $this->db->trans_status() === FALSE)
