@@ -25,7 +25,7 @@ $id 			= (isset($result['id']) && $result['id']!='') ? $result['id']+1 : 1;
 					<h4 class="card-title">Paper Certificate Stock Management</h4>
 					<div class="row">
 						<div class="col-md-12">
-							<div class="row add_top_value">
+							<div class="row add_top_value paper_cer_cntn">
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Number of COC Available for Allocation</label>
