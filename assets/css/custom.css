@@ -817,7 +817,7 @@ h5.card_sub_title {
 }
 
 .mt_40 {
-    margin-top: 40px;
+    margin-top: 30px;
 }
 
 .mt_20 {
@@ -1792,4 +1792,15 @@ td.curr_emptxt + td p {
 td.curr_emptxt + td {
     text-align: left;
     padding-left: 40px !important;
+}
+
+/*
+Arun pandi
+*/
+
+.add_top_value .card-title.add_left_value {
+   margin-bottom: 0;
+}
+.paper_cer_cntn{
+margin-top: 0px;
 }
