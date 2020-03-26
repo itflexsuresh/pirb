@@ -6,7 +6,7 @@ $company_name 			= isset($result['company_name']) ? $result['company_name'] : ''
 $company 				= isset($result['company']) ? $result['company'] : '';
 $name 					= isset($result['name']) ? $result['name'] : '';	
 $surname 				= isset($result['surname']) ? $result['surname'] : '';	
-$home_phone 			= isset($result['home_phone']) ? $result['home_phone'] : '';	
+$work_phone 			= isset($result['work_phone']) ? $result['work_phone'] : '';	
 $mobile_phone 			= isset($result['mobile_phone']) ? $result['mobile_phone'] : '';	
 $email 					= isset($result['email']) ? $result['email'] : '';	
 $password 				= isset($result['password_raw']) ? $result['password_raw'] : '';	
@@ -90,7 +90,7 @@ $stock_count = isset($stock_count) ? $stock_count : '';
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Phone (Work) *</label>
-							<input type="text" class="form-control"  name="home_phone" id="home_phone"  value="<?php echo $home_phone; ?>">
+							<input type="text" class="form-control"  name="work_phone" id="work_phone"  value="<?php echo $work_phone; ?>">
 							</div>
 					</div>
 					<div class="col-md-6">

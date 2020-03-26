@@ -14,7 +14,7 @@ class Index extends CC_Controller
 	public function index()
 	{
 		$userid		= 	$this->getUserID();
-		$result		= 	$this->Company_Model->getList('row', ['id' => $userid, 'type' => '4', 'status' => ['0','1']]);
+		$result		= 	$this->Company_Model->getList('row', ['id' => $userid, 'type' => '4', 'status' => ['0','1']], ['users', 'usersdetail', 'userscompany', 'physicaladdress', 'postaladdress']);
 		//die;
 		
 		if(!$result){
@@ -41,16 +41,6 @@ class Index extends CC_Controller
 			$data 						=  	$this->Company_Model->action($requestData);
 			
 			if(isset($data)){
-				/*
-				$companydata 		= $this->Company_Model->getList('row', ['id' => $userid]);				
-				$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '4', 'emailstatus' => '1']);
-				
-				if($notificationdata){
-					$body 	= str_replace(['{Plumbers Name and Surname}', '{Company}'], [$companydata['name'].' '.$companydata['surname'], $companydata['companyname']], $notificationdata['email_body']);
-					$this->CC_Model->sentMail($companydata['email'], $notificationdata['subject'], $body);
-				}
-				*/
-				
 				$this->CC_Model->diaryactivity(['companyid' => $userid, 'action' => '1', 'type' => '3']);
 				$this->session->set_flashdata('success', $mark);
 			}else{

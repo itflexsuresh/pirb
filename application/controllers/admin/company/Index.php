@@ -24,8 +24,8 @@ class Index extends CC_Controller
     public function DTcompanylist()
     {
         $post = $this->input->post();
-        $totalcount 	= $this->Company_Model->getList('count', ['type' => '4', 'approvalstatus' => ['0', '1'], 'formstatus' => ['1'], 'status' => ['0', '1', '2']] + $post);
-        $results 		= $this->Company_Model->getList('all', ['type' => '4', 'approvalstatus' => ['0', '1'], 'formstatus' => ['1'], 'status' => ['0', '1', '2']] + $post);
+        $totalcount 	= $this->Company_Model->getList('count', ['type' => '4', 'approvalstatus' => ['0', '1'], 'formstatus' => ['1'], 'status' => ['0', '1', '2']] + $post, ['users', 'usersdetail', 'userscompany']);
+        $results 		= $this->Company_Model->getList('all', ['type' => '4', 'approvalstatus' => ['0', '1'], 'formstatus' => ['1'], 'status' => ['0', '1', '2']] + $post, ['users', 'usersdetail', 'userscompany', 'lttqcount', 'lmcount']);
         $companystatus	= $this->config->item('companystatus');
 
         $checkpermission = $this->checkUserPermission('20', '2');
@@ -156,8 +156,8 @@ class Index extends CC_Controller
     public function DTRejectedCompany()
     {
         $post = $this->input->post();
-        $totalcount     = $this->Company_Model->getList('count', ['type' => '4', 'approvalstatus' => ['2'], 'status' => ['0', '1', '2']] + $post);
-        $results        = $this->Company_Model->getList('all', ['type' => '4', 'approvalstatus' => ['2'], 'status' => ['0', '1', '2']] + $post);
+        $totalcount     = $this->Company_Model->getList('count', ['type' => '4', 'approvalstatus' => ['2'], 'status' => ['0', '1', '2']] + $post, ['users', 'usersdetail', 'userscompany']);
+        $results        = $this->Company_Model->getList('all', ['type' => '4', 'approvalstatus' => ['2'], 'status' => ['0', '1', '2']] + $post, ['users', 'usersdetail', 'userscompany']);
         $companystatus  = $this->config->item('companystatus');
 
         $checkpermission = $this->checkUserPermission('21', '2');
@@ -167,9 +167,9 @@ class Index extends CC_Controller
             foreach ($results as $result) {
 
                 if ($checkpermission) {
-                    $action = '<div class="table-action">
-                                                                <a href="' . base_url() . 'admin/company/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
-                                                            </div>';
+                    $action = 	'<div class="table-action">
+									<a href="' . base_url() . 'admin/company/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+								</div>';
                 }else{
                     $action = '';
                 }
@@ -241,7 +241,7 @@ class Index extends CC_Controller
         }
 
 
-        $userdata1  = $this->Company_Model->getList('row', ['id' => $compId]);
+        $userdata1  = $this->Company_Model->getList('row', ['id' => $compId], ['users', 'usersdetail']);
         $pagedata['user_details']   = $userdata1;
         $pagedata['roletype']       = $this->config->item('roleadmin');
         $pagedata['notification']   = $this->getNotification();

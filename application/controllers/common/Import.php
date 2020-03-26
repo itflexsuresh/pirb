@@ -311,10 +311,10 @@ class Import extends CC_Controller {
 								'vat_no' 					=> $value['VatRegNo'],
 								'status' 					=> $value['Active'],
 								'address' 					=> $address,
-								'created_at' 				=> $datetime,
-								'created_by' 				=> $userid,
-								'updated_at' 				=> $datetime,
-								'updated_by' 				=> $userid
+								'coc_purchase_limit' 		=> '10',
+								'coccountid' 				=> '',
+								'usersid' 					=> '',
+								'usersdetailid' 			=> ''
 							];
 							
 			$this->Resellers_Model->action($result);		

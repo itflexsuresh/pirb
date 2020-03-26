@@ -41,7 +41,7 @@ class Index extends CC_Controller
 		
 		$userid 		= $this->getUserID();
 
-		$userdata1		= $this->Plumber_Model->getList('row', ['id' => $userid]);
+		$userdata1		= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail']);
 		
 		$totalcount 	= $this->Accounts_Model->getList('count', ['user_id' => $userid]+$post);
 		$results 		= $this->Accounts_Model->getList('all', ['user_id' => $userid]+$post);

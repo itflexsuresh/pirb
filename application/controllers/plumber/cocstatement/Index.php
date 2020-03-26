@@ -17,7 +17,7 @@ class Index extends CC_Controller
 		$userid 					= $this->getUserID();
 		
 		$pagedata['notification'] 	= $this->getNotification();		
-		$pagedata['result'] 		= $this->Plumber_Model->getList('row', ['id' => $userid, 'type' => '3', 'status' => ['1', '2']]);
+		$pagedata['result'] 		= $this->Plumber_Model->getList('row', ['id' => $userid, 'type' => '3', 'status' => ['1', '2']], ['usersdetail']);
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
 		$data['content'] 			= $this->load->view('plumber/cocstatement/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);

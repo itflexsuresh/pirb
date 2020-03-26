@@ -20,7 +20,7 @@ class Index extends CC_Controller
 		$pagedata['allocated']		= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['4']]);
 		$pagedata['nonlogged']		= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['5']]);
 		$pagedata['settings_cpd']	= $this->Systemsettings_Model->getList('all');
-		$pagedata['user_details'] 	= $this->Plumber_Model->getList('row', ['id' => $id]);
+		$pagedata['user_details'] 	= $this->Plumber_Model->getList('row', ['id' => $id], ['usersplumber']);
 		
 		$data['plugins']			= ['echarts'];
 		$data['content'] 			= $this->load->view('plumber/dashboard/index', (isset($pagedata) ? $pagedata : ''), true);

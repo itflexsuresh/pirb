@@ -19,7 +19,7 @@ class Index extends CC_Controller
 
 		$userid 					=	$this->getUserID();
 		$userdata					= 	$this->getUserDetails();
-		$userdata1					= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
+		$userdata1					= 	$this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber']);
 		$userdatacoc_count			= 	$this->Coc_Model->COCcount(['user_id' => $userid]);
 
 		$pagedata['notification'] 	= 	$this->getNotification();
@@ -87,7 +87,7 @@ class Index extends CC_Controller
 		if ($this->input->post()) {
 			$requestData1 = $this->input->post();
 			$requestData2['user_id'] 				=	$this->getUserID();
-			$requestData['users'] 					= 	$this->Plumber_Model->getList('row', ['id' => $requestData2['user_id']]);
+			$requestData['users'] 					= 	$this->Plumber_Model->getList('row', ['id' => $requestData2['user_id']], ['users', 'usersdetail']);
 			$name 									= 	$requestData['users']['name'];
 			$surname 								= 	$requestData['users']['surname'];
 			$email 									= 	$requestData['users']['email'];
@@ -184,7 +184,7 @@ class Index extends CC_Controller
 
 
 		$insert_id 				= 	$this->db->select('id,inv_id')->from('coc_orders')->order_by('id','desc')->get()->row_array();
-		$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
+		$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail']);
 		$request['status'] 		= 	'1';
 		 if ($insert_id) {
 			$inid 				= $insert_id['id'];

@@ -2,48 +2,83 @@
 
 class Plumber_Model extends CC_Model
 {
-	public function getList($type, $requestdata=[])
+	public function getList($type, $requestdata=[], $querydata=[])
 	{ 
-		$users 			= 	[ 
-								'u.id','u.email','u.formstatus','u.expirydate','u.type','u.status' 
-							];
-		$usersdetail 	= 	[ 
-								'ud.id as usersdetailid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit','ud.specialisations','ud.status as plumberstatus'
-							];
-		$usersplumber 	= 	[ 
-								'up.id as usersplumberid','up.racial','up.nationality','up.othernationality','up.idcard','up.otheridcard','up.homelanguage','up.disability','up.citizen','up.registration_card','up.delivery_card','up.employment_details','up.company_details',
-								'up.registration_no','up.registration_date','up.designation','up.qualification_year','up.coc_electronic','up.message',
-								'up.application_received','up.application_status','up.approval_status','up.reject_reason','up.reject_reason_other'
-							];
-
-		$companyname	= 	[ 
-								'c.company as companyname' 
-							];
+		$select = [];
 		
-		$this->db->select('
-			'.implode(',', $users).',
-			'.implode(',', $usersdetail).',
-			'.implode(',', $usersplumber).',
-			'.implode(',', $companyname).',
-			concat_ws("@-@", ua1.id, ua1.user_id, ua1.address, ua1.suburb, ua1.city, ua1.province, ua1.postal_code, ua1.type)  as physicaladdress,
-			concat_ws("@-@", ua2.id, ua2.user_id, ua2.address, ua2.suburb, ua2.city, ua2.province, ua2.postal_code, ua2.type)  as postaladdress,
-			concat_ws("@-@", ua3.id, ua3.user_id, ua3.address, ua3.suburb, ua3.city, ua3.province, ua3.postal_code, ua3.type)  as billingaddress,
-			group_concat(concat_ws("@@@", ups.id, ups.user_id, ups.date, ups.certificate, ups.skills, ups.training, ups.attachment, qr.name) separator "@-@") as skills
-		');
+		if(in_array('users', $querydata)){
+			$users 			= 	[ 
+									'u.id','u.email','u.formstatus','u.expirydate','u.type','u.status' 
+								];
+								
+			$select[] 		= 	implode(',', $users);
+		}
+		
+		if(in_array('usersdetail', $querydata)){
+			$usersdetail 	= 	[ 
+									'ud.id as usersdetailid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit','ud.specialisations','ud.status as plumberstatus'
+								];
+								
+			$select[] 		= 	implode(',', $usersdetail);
+		}
+		
+		if(in_array('usersplumber', $querydata)){
+			$usersplumber 	= 	[ 
+									'up.id as usersplumberid','up.racial','up.nationality','up.othernationality','up.idcard','up.otheridcard','up.homelanguage','up.disability','up.citizen','up.registration_card','up.delivery_card','up.employment_details','up.company_details',
+									'up.registration_no','up.registration_date','up.designation','up.qualification_year','up.coc_electronic','up.message',
+									'up.application_received','up.application_status','up.approval_status','up.reject_reason','up.reject_reason_other'
+								];
+								
+			$select[] 		= 	implode(',', $usersplumber);
+		}
+		
+		if(in_array('usersskills', $querydata)){
+			$select[]		= 	'group_concat(concat_ws("@@@", ups.id, ups.user_id, ups.date, ups.certificate, ups.skills, ups.training, ups.attachment, qr.name) separator "@-@") as skills';
+		}
+		
+		if(in_array('company', $querydata)){
+			$userscompany	= 	[ 
+									'c.company as companyname' 
+								];
+			
+			$select[] 		= 	implode(',', $userscompany);
+		}
+		
+		if(in_array('physicaladdress', $querydata)){
+			$select[] 		= 	'concat_ws("@-@", ua1.id, ua1.user_id, ua1.address, ua1.suburb, ua1.city, ua1.province, ua1.postal_code, ua1.type)  as physicaladdress';
+		}
+		
+		if(in_array('postaladdress', $querydata)){
+			$select[]		= 	'concat_ws("@-@", ua2.id, ua2.user_id, ua2.address, ua2.suburb, ua2.city, ua2.province, ua2.postal_code, ua2.type)  as postaladdress';
+		}
+		
+		if(in_array('billingaddress', $querydata)){
+			$select[]		= 	'concat_ws("@-@", ua3.id, ua3.user_id, ua3.address, ua3.suburb, ua3.city, ua3.province, ua3.postal_code, ua3.type)  as billingaddress';
+		}
+		
+		if(in_array('alllist', $querydata)){
+			$select 		= 	[];
+			$alllist		= 	[
+									'u.id','u.email','ud.name','ud.surname','ud.status as plumberstatus','up.designation','up.registration_no'
+								];
+			$select[] 		= 	implode(',', $alllist);
+		}
+		
+		$this->db->select(implode(',', $select));
 		$this->db->from('users u');
-		$this->db->join('users_detail ud', 'ud.user_id=u.id', 'left');
-		$this->db->join('users_address ua1', 'ua1.user_id=u.id and ua1.type="1"', 'left');
-		$this->db->join('users_address ua2', 'ua2.user_id=u.id and ua2.type="2"', 'left');
-		$this->db->join('users_address ua3', 'ua3.user_id=u.id and ua3.type="3"', 'left');
-		$this->db->join('users_plumber up', 'up.user_id=u.id', 'left');
-		$this->db->join('users_plumber_skill ups', 'ups.user_id=u.id', 'left');
-		$this->db->join('qualificationroute qr', 'qr.id=ups.skills', 'left'); 
-		$this->db->join('users_detail c', 'c.id=up.company_details', 'left');
+		if(in_array('usersdetail', $querydata)) 		$this->db->join('users_detail ud', 'ud.user_id=u.id', 'left');
+		if(in_array('physicaladdress', $querydata)) 	$this->db->join('users_address ua1', 'ua1.user_id=u.id and ua1.type="1"', 'left');
+		if(in_array('postaladdress', $querydata)) 		$this->db->join('users_address ua2', 'ua2.user_id=u.id and ua2.type="2"', 'left');
+		if(in_array('billingaddress', $querydata)) 		$this->db->join('users_address ua3', 'ua3.user_id=u.id and ua3.type="3"', 'left');
+		if(in_array('usersplumber', $querydata)) 		$this->db->join('users_plumber up', 'up.user_id=u.id', 'left');
+		if(in_array('usersskills', $querydata)) 		$this->db->join('users_plumber_skill ups', 'ups.user_id=u.id', 'left');
+		if(in_array('usersskills', $querydata)) 		$this->db->join('qualificationroute qr', 'qr.id=ups.skills', 'left'); 
+		if(in_array('company', $querydata)) 			$this->db->join('users_detail c', 'c.id=up.company_details', 'left');
 		
 		if((isset($requestdata['search']['value']) && $requestdata['search']['value']!='') || (isset($requestdata['order']['0']['column']) && $requestdata['order']['0']['column']!='' && isset($requestdata['order']['0']['dir']) && $requestdata['order']['0']['dir']!='')){
 			if(isset($requestdata['page']) && $requestdata['page']=='adminplumberlist'){
 				$this->db->join('custom c1', 'c1.c_id=up.designation and c1.type="5"', 'left');
-				$this->db->join('custom c2', 'c2.c_id=ud.status and c1.type="6"', 'left');
+				$this->db->join('custom c2', 'c2.c_id=ud.status and c2.type="6"', 'left');
 			}
 		}
 		

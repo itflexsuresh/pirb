@@ -23,12 +23,12 @@ class Index extends CC_Controller
 			if(isset($requestData['submit'])=='submit'){								
 				if($requestData['user_id_hide'] > 0){
 					$requestData1['id'] = $requestData['user_id_hide'];
-					$pagedata['result'] 	=  $this->Plumber_Model->getList('row',$requestData1);
+					$pagedata['result'] 	=  $this->Plumber_Model->getList('row',$requestData1, ['users', 'usersdetail', 'usersplumber', 'company']);
 					$pagedata['user_id_hide'] = '1';
 				}
 				else{
 					$pagedata['user_id_hide'] = '0';
-					$pagedata['result'] 	=  $this->Plumber_Model->getList('row',$requestData);
+					$pagedata['result'] 	=  $this->Plumber_Model->getList('row',$requestData, ['users', 'usersdetail', 'usersplumber', 'company']);
 					if(empty($pagedata['result']))
 						$pagedata['emptyvalue'] = 0;
 					else
@@ -132,7 +132,7 @@ class Index extends CC_Controller
 			//pdf generation
 			$userid 				=	$plumberid;
 			$insert_id 				= 	$cocorderid;
-			$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $plumberid]);			
+			$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $plumberid], ['users', 'usersdetail']);			
 			if ($insert_id) 
 			{
 				$inid 				= $cocorderid;

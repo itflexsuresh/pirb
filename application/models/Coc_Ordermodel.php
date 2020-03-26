@@ -155,7 +155,7 @@ class Coc_Ordermodel extends CC_Model
 				$this->db->where('user_id', $data['user_id']); 
 				$decrease_count = $this->db->update('coc_count'); 
 
-				$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $requestdata['user_id']]);
+				$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $requestdata['user_id']], ['users', 'usersdetail']);
 
 				$request['status'] 		= 	'1';
 				 if ($inv_id) {

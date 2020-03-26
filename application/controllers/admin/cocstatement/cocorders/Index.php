@@ -72,7 +72,7 @@ class Index extends CC_Controller
 
 				if($data){
 					$inv_id = $this->db->select('*')->from('coc_orders')->where(['id' => $requestData['order_id']])->get()->row_array();
-					$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $requestData['user_id']]);
+					$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $requestData['user_id']], ['users', 'usersdetail']);
 					
 					if ($inv_id) {
 						

@@ -2,42 +2,70 @@
 
 class Company_Model extends CC_Model
 {
-	public function getList($type, $requestdata=[])
+	public function getList($type, $requestdata=[], $querydata=[])
 	{
-		$users 			= 	[ 
-								'u.id','u.email','u.formstatus','u.expirydate','u.type','u.status','u.created_at' 
-							];
-		$usersdetail 	= 	[ 
-								'ud.id as usersdetailid','ud.company','ud.reg_no','ud.vat_no','ud.contact_person','ud.work_phone','ud.mobile_phone','ud.specialisations','ud.email2','ud.mobile_phone2','ud.home_phone','ud.status as companystatus'
-							];
-		$userscompany 	= 	[ 
-								'uc.id as userscompanyid','uc.work_type','uc.message','uc.approval_status','uc.reject_reason','uc.reject_reason_other'
-							];
-				
-		$this->db->select('
-			'.implode(',', $users).',
-			'.implode(',', $usersdetail).',
-			'.implode(',', $userscompany).',
-			concat_ws("@-@", ua1.id, ua1.user_id, ua1.address, ua1.suburb, ua1.city, ua1.province, ua1.postal_code, ua1.type)  as physicaladdress,
-			concat_ws("@-@", ua2.id, ua2.user_id, ua2.address, ua2.suburb, ua2.city, ua2.province, ua2.postal_code, ua2.type)  as postaladdress,
-			(
-				SELECT
-				count(lttq.id)
-				FROM users_plumber lttq
-				WHERE lttq.company_details = u.id and (lttq.designation="1" or lttq.designation="2" or lttq.designation="3" or lttq.designation="5")
-			) as lttqcount,
-			(
-				SELECT
-				count(lm.id)
-				FROM users_plumber lm
-				WHERE lm.company_details = u.id and (lm.designation="4" or lm.designation="6")
-			) as lmcount
-		');
-		$this->db->from('users u');
-		$this->db->join('users_detail ud', 'ud.user_id=u.id', 'left');
-		$this->db->join('users_company uc', 'uc.user_id=u.id', 'left');
-		$this->db->join('users_address ua1', 'ua1.user_id=u.id and ua1.type="1"', 'left');		
-		$this->db->join('users_address ua2', 'ua2.user_id=u.id and ua2.type="2"', 'left');
+		$select = [];
+		
+		if(in_array('users', $querydata)){
+			$users 			= 	[ 
+									'u.id','u.email','u.formstatus','u.expirydate','u.type','u.status','u.created_at' 
+								];
+								
+			$select[] 		= 	implode(',', $users);
+		}
+		
+		if(in_array('usersdetail', $querydata)){
+			$usersdetail 	= 	[ 
+									'ud.id as usersdetailid','ud.company','ud.reg_no','ud.vat_no','ud.contact_person','ud.work_phone','ud.mobile_phone','ud.specialisations','ud.email2','ud.mobile_phone2','ud.home_phone','ud.status as companystatus'
+								];
+			
+			$select[] 		= 	implode(',', $usersdetail);
+		}
+		
+		if(in_array('userscompany', $querydata)){
+			$userscompany 	= 	[ 
+									'uc.id as userscompanyid','uc.work_type','uc.message','uc.approval_status','uc.reject_reason','uc.reject_reason_other'
+								];
+			
+			$select[] 		= 	implode(',', $userscompany);
+		}	
+		
+		if(in_array('physicaladdress', $querydata)){
+			$select[] 		= 	'concat_ws("@-@", ua1.id, ua1.user_id, ua1.address, ua1.suburb, ua1.city, ua1.province, ua1.postal_code, ua1.type)  as physicaladdress';
+		}
+		
+		if(in_array('postaladdress', $querydata)){
+			$select[]		= 	'concat_ws("@-@", ua2.id, ua2.user_id, ua2.address, ua2.suburb, ua2.city, ua2.province, ua2.postal_code, ua2.type)  as postaladdress';
+		}
+		
+		if(in_array('lttqcount', $querydata)){
+			$select[]		= 	'
+									(
+										SELECT
+										count(lttq.id)
+										FROM users_plumber lttq
+										WHERE lttq.company_details = u.id and (lttq.designation="1" or lttq.designation="2" or lttq.designation="3" or lttq.designation="5")
+									) as lttqcount
+								';
+		}
+		
+		if(in_array('lmcount', $querydata)){
+			$select[]		= 	'
+									(
+										SELECT
+										count(lm.id)
+										FROM users_plumber lm
+										WHERE lm.company_details = u.id and (lm.designation="4" or lm.designation="6")
+									) as lmcount
+								';
+		}
+		
+		$this->db->select(implode(',', $select));
+		$this->db->from('users u');		
+		if(in_array('usersdetail', $querydata)) 		$this->db->join('users_detail ud', 'ud.user_id=u.id', 'left');
+		if(in_array('userscompany', $querydata))		$this->db->join('users_company uc', 'uc.user_id=u.id', 'left');
+		if(in_array('physicaladdress', $querydata))		$this->db->join('users_address ua1', 'ua1.user_id=u.id and ua1.type="1"', 'left');		
+		if(in_array('postaladdress', $querydata))		$this->db->join('users_address ua2', 'ua2.user_id=u.id and ua2.type="2"', 'left');
 			
 		if(isset($requestdata['id'])) 					$this->db->where('u.id', $requestdata['id']);
 		if(isset($requestdata['type'])) 				$this->db->where('u.type', $requestdata['type']);

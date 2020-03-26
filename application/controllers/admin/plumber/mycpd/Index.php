@@ -58,12 +58,9 @@ class index extends CC_Controller
 			
 		}		
 		
-		$userdata1					= $this->Plumber_Model->getList('row', ['id' => $userid]);
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['cpdstreamID'] 	= $this->config->item('cpdstream');
-		// $pagedata['pagestatus'] 	= $this->getPageStatus($pagestatus);
 		$pagedata['id'] 			= $userid;
-		$pagedata['user_details'] 	= $userdata1;
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
 		$data['content'] 			= $this->load->view('admin/plumber/cpdqueue/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
