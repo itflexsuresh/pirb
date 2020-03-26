@@ -56,6 +56,14 @@ class Plumber_Model extends CC_Model
 			$select[]		= 	'concat_ws("@-@", ua3.id, ua3.user_id, ua3.address, ua3.suburb, ua3.city, ua3.province, ua3.postal_code, ua3.type)  as billingaddress';
 		}
 		
+		if(in_array('alllist', $querydata)){
+			$select 		= 	[];
+			$alllist		= 	[
+									'u.id','u.email','ud.name','ud.surname','ud.status as plumberstatus','up.designation','up.registration_no'
+								];
+			$select[] 		= 	implode(',', $alllist);
+		}
+		
 		$this->db->select(implode(',', $select));
 		$this->db->from('users u');
 		if(in_array('usersdetail', $querydata)) 		$this->db->join('users_detail ud', 'ud.user_id=u.id', 'left');

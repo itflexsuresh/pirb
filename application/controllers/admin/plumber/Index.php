@@ -39,8 +39,8 @@ class Index extends CC_Controller
 	{
 		$post 			= $this->input->post();
 
-		$totalcount 	= $this->Plumber_Model->getList('count', ['type' => '3', 'approvalstatus' => ['0','1'], 'status' => ['1', '2']]+$post, ['users', 'usersdetail', 'usersplumber']);
-		$results 		= $this->Plumber_Model->getList('all', ['type' => '3', 'approvalstatus' => ['0','1'], 'status' => ['1', '2']]+$post, ['users', 'usersdetail', 'usersplumber']);
+		$totalcount 	= $this->Plumber_Model->getList('count', ['type' => '3', 'approvalstatus' => ['0','1'], 'status' => ['1', '2']]+$post, ['users', 'usersdetail', 'usersplumber', 'alllist']);
+		$results 		= $this->Plumber_Model->getList('all', ['type' => '3', 'approvalstatus' => ['0','1'], 'status' => ['1', '2']]+$post, ['users', 'usersdetail', 'usersplumber', 'alllist']);
 
 		$checkpermission = $this->checkUserPermission('18', '2');
 
