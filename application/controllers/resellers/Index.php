@@ -61,7 +61,7 @@ class Index extends CC_Controller
 	{
 			
 		if($id!=''){
-			$result = $this->Resellers_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
+			$result = $this->Resellers_Model->getList('row', ['id' => $id, 'status' => ['0','1']], ['users', 'usersdetail', 'coccount', 'physicaladdress', 'postaladdress', 'billingaddress']);
 			if($result){
 				$pagedata['result'] = $result;
 
