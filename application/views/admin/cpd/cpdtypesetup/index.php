@@ -60,7 +60,7 @@ if(isset($result) && $result){
 					<div class="row">
 						<div class="form-group col-md-6">
 							<label for="points">CPD Points</label>
-							<input type="number" class="form-control" min="1" step=".01" id="points" name="points" placeholder="Enter CPD Points *" value="<?php echo $points; ?>">						
+							<input type="number" class="form-control" min="0" step=".01" id="points" name="points" placeholder="Enter CPD Points *" value="<?php echo $points; ?>">						
 						</div>					
 						<div class="form-group col-md-6">
 							<label for="enddate">CPD End Date</label>
