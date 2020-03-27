@@ -252,24 +252,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 
 		fileupload([".document_file_ad", "./assets/uploads/cpdqueue", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.document_picture_ad', '.document_image_ad', filepath, pdfimg]);
 		
-		// var options = {
-		// 	url 	: 	'<?php // echo base_url()."admin/cpd/cpdtypesetup/DTCpdQueue"; ?>',
-		// 	columns : 	[
-		// 	{ "data": "date" },
-		// 	{ "data": "namesurname" },
-		// 	{ "data": "reg_number" },
-		// 	{ "data": "acivity" },
-		// 	{ "data": "points" },
-		// 	{ "data": "status" },
-		// 	{ "data": "action" }
-		// 	],
-		// 	data : {pagestatus : '<?php echo $pagestatus; ?>'},
-		// 	target : [6],
-		// 	sort : '0'
-		// };
-		
-		// ajaxdatatables('.datatables', options);
-		
+				
 		validation(
 			'.form',
 			{
