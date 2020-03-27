@@ -167,7 +167,12 @@ class Import extends CC_Controller {
 								'Technical Operator Practitioner' 	=> '3',
 								'Licensed Plumber' => '4',
 								'Qualified Plumber' => '5',
-								'Master Plumber' => '6'
+								'Master Plumber' => '6',
+								'Director Plumber' => '7',
+								'Plumbing Inspector' => '8',
+								'Probationary Plumber' => '9',
+								'Technical Assisting Practitioner' => '10',
+								'Technical Operator Plumber' => '11'
 							];
 							
 		$datetime 	= date('Y-m-d H:i:s');
