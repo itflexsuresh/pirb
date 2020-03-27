@@ -259,6 +259,7 @@ class Import extends CC_Controller {
 								'registration_date'			=> $value['RegistrationStart'],
 								'expirydate'				=> $value['ExpiryNotificationDate'],
 								'application_received'		=> $value['DateCreated'],
+								'designation'				=> isset($designation[$value['Designation']]) ? $designation[$value['Designation']] : '',
 								'approval_status'			=> '1',
 								'usersdetailid'				=> '',
 								'usersplumberid'			=> '',
