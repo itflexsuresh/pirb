@@ -34,7 +34,7 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">Managearea </h4>
+				<h4 class="card-title">Manage Area </h4>
 				<?php if($checkpermission){ ?>
 					<form class="mt-4 form" action="" method="post">
 						 <div class="form-group col-6">

@@ -160,10 +160,19 @@ class Import extends CC_Controller {
 								'Miss' 	=> '3',
 								'Other' => '4'
 							];
-									
+		
+		$designation	= 	[
+								'Learner Plumber' 	=> '1',
+								'Technical Assistant Practitioner' 	=> '2',
+								'Technical Operator Practitioner' 	=> '3',
+								'Licensed Plumber' => '4'
+								'Qualified Plumber' => '5'
+								'Master Plumber' => '6'
+							];
+							
 		$datetime 	= date('Y-m-d H:i:s');
 		
-		$data 		= $this->db->get('importplumber')->result_array();
+		$data 		= $this->db->select('ip.*, pd.Designation')->join('importplumberdesignations pd', 'pd.PlumberID=ip.ID')->get('importplumber ip')->result_array();
 		
 		foreach ($data as $value) {
 			$user = [
