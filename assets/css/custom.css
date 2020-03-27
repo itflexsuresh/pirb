@@ -1804,3 +1804,10 @@ Arun pandi
 .paper_cer_cntn{
 margin-top: 0px;
 }
+.coc-perm-req .col-md-6{
+float: left;
+}
+
+.coc-perm-req .col-md-12{
+padding: 0
+}
