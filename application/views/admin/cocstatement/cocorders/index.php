@@ -132,7 +132,7 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 
 					<div class="row coc-perm-req">						
 						<div class="col-md-12">
-							<div class="form-group">
+							<div class="form-group col-md-6">
 								<label>Number of COC's Permitted to be allocated</label>
 								<input type="text" class="form-control" id="user_limit" name="user_limit" readonly value="<?php echo $count; ?>">
 							</div>
