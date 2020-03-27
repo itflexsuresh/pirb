@@ -475,7 +475,7 @@ function allocate_coc_range_set(data){
 		$('#endrange').val(data.allocate_end);	
 	}
 	else{
-		$('#checklimit').text("The value you entered is greater than the Reseller Permitted Coc");
+		$('#checklimit').text("The value you entered is greater than the Reseller Permitted COC");
 		$('#startrange').val('');
 		$('#endrange').val('');
 	}

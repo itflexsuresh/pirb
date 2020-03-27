@@ -47,9 +47,9 @@ if(count($permission) > 0){
 							<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu" style="white-space: nowrap;">COC Management</span></a>
 							<ul aria-expanded="false" class="collapse">	
 								<?php if($menu=='1' || ($menu=='2' && (in_array('6', $readpermission) || in_array('6', $writepermission)))){ ?>
-									<li><a href="<?php echo base_url().'admin/cocstatement/cocdetails/index'; ?>">Coc Details</a></li>
+									<li><a href="<?php echo base_url().'admin/cocstatement/cocdetails/index'; ?>">COC Details</a></li>
 								<?php } if($menu=='1' || ($menu=='2' && (in_array('7', $readpermission) || in_array('7', $writepermission)))){ ?>
-									<li><a href="<?php echo base_url().'admin/cocstatement/cocorders/index'; ?>">Coc Orders</a></li>
+									<li><a href="<?php echo base_url().'admin/cocstatement/cocorders/index'; ?>">COC Orders</a></li>
 								<?php } if($menu=='1' || ($menu=='2' && (in_array('8', $readpermission) || in_array('8', $writepermission)))){ ?>
 									<li><a href="<?php echo base_url().'admin/cocstatement/papermanagement/index'; ?>">Paper Management</a></li>
 								<?php } ?>
