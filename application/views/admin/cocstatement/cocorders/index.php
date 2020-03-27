@@ -130,7 +130,7 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 						</div>
 					</div>
 
-					<div class="row">						
+					<div class="row coc-perm-req">						
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Number of COC's Permitted to be allocated</label>
