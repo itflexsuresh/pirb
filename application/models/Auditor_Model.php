@@ -148,7 +148,7 @@ class Auditor_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['inv.inv_id', 'inv.description', 'inv.invoice_no', 'inv.invoice_date', 'inv.total_cost', 'action', 'inv.internal_inv', 'ud.name'];
+			$column = ['inv.inv_id', 'inv.description', 'inv.invoice_no', 'inv.invoice_date', 'inv.total_cost', 'inv.total_cost', 'inv.internal_inv', 'ud.name'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
