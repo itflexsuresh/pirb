@@ -133,7 +133,7 @@ if(count($permission) > 0){
 								<?php } if($menu=='1' || ($menu=='2' && (in_array('27', $readpermission) || in_array('27', $writepermission)))){ ?>
 									<li><a href="<?php echo base_url().'admin/audits/cocallocate/index'; ?>">Manage COC Allocation for Audit</a></li>
 								<?php } if($menu=='1' || ($menu=='2' && (in_array('28', $readpermission) || in_array('28', $writepermission)))){ ?>
-									<li><a href="<?php echo base_url().'admin/audits/auditstatement/index'; ?>">Manage Allocted Audits</a></li>
+									<li><a href="<?php echo base_url().'admin/audits/auditstatement/index'; ?>">Manage Allocated Audits</a></li>
 								<?php } ?>
 							</ul>
 						</li>		
