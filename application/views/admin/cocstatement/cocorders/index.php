@@ -136,7 +136,7 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 								<label>Number of COC's Permitted to be allocated</label>
 								<input type="text" class="form-control" id="user_limit" name="user_limit" readonly value="<?php echo $count; ?>">
 							</div>
-							<div class="form-group">
+							<div class="form-group col-md-6">
 								<label>Number Of COC's Requested</label>
 								<input type="number" id="quantity" class="form-control" min="<?php echo $quantity; ?>" value="<?php echo $quantity; ?>" name="quantity" for="quantity" <?php if($id > 0){ ?>readonly="true"<?php } ?>>							  
 							</div>
