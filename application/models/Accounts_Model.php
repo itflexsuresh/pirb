@@ -23,7 +23,7 @@ class Accounts_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['inv_id', 'created_at', 'name', 'registration_no', 'description', 'total_cost', 'action', 'internal_inv'];
+			$column = ['inv_id', 'created_at', 'name', 'registration_no', 'description', 'total_cost', 'total_cost', 'internal_inv'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 
