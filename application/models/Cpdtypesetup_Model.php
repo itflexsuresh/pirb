@@ -105,6 +105,7 @@ class Cpdtypesetup_Model extends CC_Model
 		if(isset($requestdata['hidden_stream_id'])) $requestData1['cpd_stream'] 		= $requestdata['hidden_stream_id'];
 		if(isset($requestdata['status'])) 		 	$requestData1['status'] 			= $requestdata['status'];
 		if(isset($requestdata['admin_comments'])) 	$requestData1['admin_comments'] 	= $requestdata['admin_comments'];
+		if(isset($requestdata['image_ad'])) 		$requestData1['file2'] 				= $requestdata['image_ad'];
 		// echo "<pre>";
 		// print_r($requestData1);die;
 		

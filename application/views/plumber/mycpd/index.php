@@ -22,10 +22,14 @@ $streamname 			= isset($strem_id) ? $strem_id : '';
 
 
 $profileimg 			= base_url().'assets/images/profile.jpg';
+$profileimg_ad 			= base_url().'assets/images/profile.jpg';
 $pdfimg 				= base_url().'assets/images/pdf.png';
 $image 					= isset($result['file1']) ? $result['file1'] : '';
+$image_ad 				= isset($result['file2']) ? $result['file2'] : '';
 $filepath 				= base_url().'assets/uploads/cpdqueue/';
 $filepath1				= (isset($result['file1']) && $result['file1']!='') ? $filepath.$result['file1'] : base_url().'assets/uploads/cpdqueue/profile.jpg';
+
+$filepath_ad				= (isset($result['file2']) && $result['file2']!='') ? $filepath.$result['file2'] : base_url().'assets/uploads/cpdqueue/profile.jpg';
 
 $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 
@@ -35,6 +39,14 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 		$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath1;
 	}else{
 		$photoidimg 	= $profileimg;
+	}
+
+	if($image_ad!=''){
+		$explodefile_ad 	= explode('.', $image_ad);
+		$extfile_ad 		= array_pop($explodefile_ad);
+		$photoidimg2 		= (in_array($extfile_ad, ['pdf', 'tiff'])) ? $pdfimg : $filepath_ad;
+	}else{
+		$photoidimg2 	= $profileimg_ad;
 	}
 	
 ?>
@@ -128,7 +140,10 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 							<h4 class="card-title">Supporting Document:</h4>
 								<div class="form-group">
 									<div>
-										<img src="<?php echo $photoidimg; ?>" class="document_image" width="100">
+										<a href="<?php echo $filepath1; ?>" target="_blank">
+										   <img src="<?php echo $photoidimg; ?>" class="document_image" width="100">
+										</a>
+										
 									</div>
 									<?php if ($status!='1' && $status!='2') { ?>
 
@@ -138,6 +153,17 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 									<p>(Image/File Size Smaller than 5mb)</p>
 
 							<?php } ?>
+							<?php
+							if ($image_ad!='') { ?>
+								<h4 class="card-title">Admin Supporting Document:</h4>
+								<div class="form-group">
+								<a href="<?php echo $filepath_ad; ?>" target="_blank">
+									    <img src="<?php echo $photoidimg2; ?>" class="document_image_ad" width="100">
+									</a>
+								</div>
+							<?php }
+							?>
+									
 									
 								</div>
 						</div>
