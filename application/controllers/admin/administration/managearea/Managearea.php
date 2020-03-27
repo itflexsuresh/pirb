@@ -11,12 +11,17 @@ class Managearea extends CC_Controller
 		$this->checkUserPermission('4', '1');
 	}
 	
-	public function index($id='')
+	public function index($id='', $citydata='')
 	{
 		if($id!=''){
 			$this->checkUserPermission('4', '2', '1');
-
-			$result = $this->Managearea_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
+			
+			if($citydata!=''){
+				$result = $this->Managearea_Model->getListCity('row', ['id' => $id, 'status' => ['0','1']]);
+			}else{
+				$result = $this->Managearea_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
+			}
+			
 			if($result){
 				$pagedata['result'] = $result;
 			}else{
@@ -24,35 +29,33 @@ class Managearea extends CC_Controller
 				redirect('admin/administration/managearea/managearea'); 
 			}
 		}
-		
+				
 		if($this->input->post()){
 			$this->checkUserPermission('4', '2', '1');
 
 			$requestData 	= 	$this->input->post();
 
 			if($requestData['submit']=='submit'){
-		  $username	= 	$requestData['city1'];
-                  $data=$this->Managearea_Model->checkUsername($username);
-                  if($data)
-                  { 
-                	$this->session->set_flashdata('error', 'city name already exists.');
-                	redirect('admin/administration/managearea/managearea'); 
-               
-                   }  
-		$requestData1= 	$this->input->post();
-                $data=$this->Managearea_Model->checkUsername1($requestData1);	
-                if($data)
-                { 
-                	$this->session->set_flashdata('error', 'data is already exists.');
-                	redirect('admin/administration/managearea/managearea'); 
-               
-                } 
+				if($requestData['city1']!=''){
+					$data=$this->Managearea_Model->checkUsername($requestData);
+					if($data)
+					{ 
+						$this->session->set_flashdata('error', 'City is already exists.');
+						redirect('admin/administration/managearea/managearea'); 
+					}  
+				}else{
+					$data=$this->Managearea_Model->checkUsername1($requestData);	
+					if($data)
+					{ 
+						$this->session->set_flashdata('error', 'Suburb is already exists.');
+						redirect('admin/administration/managearea/managearea'); 
+					} 
+				}
 				
-				$data 	=  $this->Managearea_Model->action($requestData);
-				if($data) $message = 'Managearea Type '.(($id=='') ? 'created' : 'updated').' successfully.';
+				$data 		=  $this->Managearea_Model->action($requestData);
+				$message 	= 'Managearea Type '.(($id=='') ? 'created' : 'updated').' successfully.';
 			}else{
 				$data 			= 	$this->Managearea_Model->changestatus($requestData);
-
 				$message		= 	'Managearea Type deleted successfully.';
 			}
 
@@ -62,6 +65,8 @@ class Managearea extends CC_Controller
 			redirect('admin/administration/managearea/managearea'); 
 		}
 		
+		$pagedata['iddata'] 				= $id;
+		$pagedata['citydata'] 				= $citydata;
 		$pagedata['notification'] 			= $this->getNotification();
 		$pagedata['provincelist'] 			= $this->getProvinceList();
 		$pagedata['checkpermission'] 		= $this->checkUserPermission('4', '2');
@@ -98,6 +103,46 @@ class Managearea extends CC_Controller
 										'province_id'  =>  $result['province_name'],
 										'status' 	=> 	$this->config->item('statusicon')[$result['status']],
 										'action'	=> 	$action
+									];
+			}
+		}
+		
+		$json = array(
+			"draw"            => intval($post['draw']),   
+			"recordsTotal"    => intval($totalcount),  
+			"recordsFiltered" => intval($totalcount),
+			"data"            => $totalrecord
+		);
+
+		echo json_encode($json);
+	}
+	
+	public function DTCity()
+	{
+		$post 			= $this->input->post();
+		$totalcount 	= $this->Managearea_Model->getListCity('count', ['status' => ['0','1']]+$post);
+		$results 		= $this->Managearea_Model->getListCity('all', ['status' => ['0','1']]+$post);
+
+		$checkpermission	=	$this->checkUserPermission('4', '2');
+		
+		$totalrecord 	= [];
+		if(count($results) > 0){
+			foreach($results as $result){
+
+				if($checkpermission){
+					$action = 	'<div class="table-action">
+									<a href="'.base_url().'admin/administration/managearea/managearea/index/'.$result['id'].'/city" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+									<a href="javascript:void(0);" data-id="'.$result['id'].'" data-city="1" class="delete" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+								</div>';
+				}else{
+					$action = '';
+				}
+				
+				$totalrecord[] = 	[
+										'name' 			=> 	$result['name'],
+										'provincename'  =>  $result['provincename'],
+										'status' 		=> 	$this->config->item('statusicon')[$result['status']],
+										'action'		=> 	$action
 									];
 			}
 		}

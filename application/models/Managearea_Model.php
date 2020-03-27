@@ -47,17 +47,22 @@ class Managearea_Model extends CC_Model
 		
 		if(isset($data['province']) && isset($data['city1']) && $data['city1']!=''){
 			$request1		=	[
-									'created_at' 		=> $datetime,
-									'created_by' 		=> $userid,
 									'updated_at' 		=> $datetime,
 									'updated_by' 		=> $userid,
 									'name'				=> $data['city1'],
 									'province_id'		=> $data['province'],
 									'status'			=> '1'
 								];
+			if($id==''){
+				$request1['created_at'] = $datetime;
+				$request1['created_by'] = $userid;
 
-			$result = $this->db->insert('city', $request1);
-			$insertid = $this->db->insert_id();
+				$result = $this->db->insert('city', $request1);
+				$insertid = $this->db->insert_id();
+			}else{
+				$result = $this->db->update('city', $request1, ['id' => $id]);
+				$insertid = $id;
+			}
 		}else{
 
 			$request2		=	[
@@ -117,21 +122,23 @@ class Managearea_Model extends CC_Model
 		}
 	}
 	
-	function checkUsername($username) {
+	function checkUsername($data) {
 
-        $this->db->select()->from('city')->where('name', $username);
+        $this->db->select()->from('city')->where('name', $data['city1']);
+		if(isset($data['id']) && $data['id']!='') $this->db->where('id !=', $data['id']);
         $query = $this->db->get();
 
         return $query->first_row('array'); // returns first row if has record in db
     }
-	  function checkUsername1($requestData1) {
+	
+	function checkUsername1($requestData1) {
     	$requestData1['province'];
     	$requestData1['city'];
         $this->db->select('*');
-        $this->db->from('suburb');
-        $this->db->where('name', $requestData1['suburb']);
-         $this->db->where('province_id',$requestData1['province']);
-          $this->db->where('city_id',$requestData1['city']);
+		$this->db->from('suburb');
+		$this->db->where('name', $requestData1['suburb']);
+		$this->db->where('province_id',$requestData1['province']);
+		$this->db->where('city_id',$requestData1['city']);
         $query = $this->db->get();
 
 
@@ -146,13 +153,13 @@ class Managearea_Model extends CC_Model
 		
 		$this->db->trans_begin();
 		
-	
-
-
-		$this->db->select('*');
-		$this->db->where('id', $id);
-       $delete=$this->db->delete('suburb');   
-    
+		if($data['citydata']==0){
+			$delete=$this->db->delete('suburb', ['id' => $id]);   
+		}else{
+			$delete=$this->db->delete('city', ['id' => $id]);  
+			$this->db->delete('suburb', ['city_id' => $id]);   			
+		}
+		
 		if(!$delete || $this->db->trans_status() === FALSE)
 		{
 			$this->db->trans_rollback();
@@ -188,13 +195,27 @@ class Managearea_Model extends CC_Model
 
 	public function getListCity($type, $requestdata=[])
 	{
-		$this->db->select('*');
-		$this->db->from('city');
-
-		if(isset($requestdata['id'])) 				$this->db->where('id', $requestdata['id']);
-		if(isset($requestdata['name'])) 			$this->db->where('name', $requestdata['name']);
-		if(isset($requestdata['provinceid'])) 		$this->db->where('province_id', $requestdata['provinceid']);
-		if(isset($requestdata['status']))			$this->db->where_in('status', $requestdata['status']);
+		$this->db->select('c.*, p.name as provincename');
+		$this->db->from('city c');
+		$this->db->join('province p','p.id=c.province_id','left');
+		
+		if(isset($requestdata['id'])) 				$this->db->where('c.id', $requestdata['id']);
+		if(isset($requestdata['name'])) 			$this->db->where('c.name', $requestdata['name']);
+		if(isset($requestdata['provinceid'])) 		$this->db->where('c.province_id', $requestdata['provinceid']);
+		if(isset($requestdata['status']))			$this->db->where_in('c.status', $requestdata['status']);
+		
+		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
+			$this->db->limit($requestdata['length'], $requestdata['start']);
+		}
+		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
+			$column = ['c.id', 'p.name', 'c.name', 'c.status'];
+			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+		}
+		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
+			$searchvalue = $requestdata['search']['value'];
+			$this->db->like('c.name', $searchvalue);
+			$this->db->or_like('p.name', $searchvalue);
+		}
 		
 		if($type=='count'){
 			$result = $this->db->count_all_results();
