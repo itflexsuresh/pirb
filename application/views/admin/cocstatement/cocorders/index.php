@@ -70,7 +70,7 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 				<form class="form" method="post">
 					<h4 class="card-title">COC Orders</h4>
 					<div class="row">
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div class="form-group">
 								<label>Date of Order</label>
 								<div class="input-group">
