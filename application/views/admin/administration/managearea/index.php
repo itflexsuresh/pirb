@@ -81,7 +81,8 @@
 						</div>
 					</form>
 				<?php } ?>
-				<div class="table-responsive m-t-40">
+				<h4 class="card-title">Suburb</h4>
+				<div class="table-responsive">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
 							<tr>
