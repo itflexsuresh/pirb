@@ -165,8 +165,8 @@ class Import extends CC_Controller {
 								'Learner Plumber' 	=> '1',
 								'Technical Assistant Practitioner' 	=> '2',
 								'Technical Operator Practitioner' 	=> '3',
-								'Licensed Plumber' => '4'
-								'Qualified Plumber' => '5'
+								'Licensed Plumber' => '4',
+								'Qualified Plumber' => '5',
 								'Master Plumber' => '6'
 							];
 							
