@@ -344,17 +344,17 @@ class Plumber_Model extends CC_Model
 	
 	public function plumberregistrationno($id, $value, $year, $counts='')
 	{
-		$row = $this->getList('row', ['id' => $id, 'type' => '3']);
+		$row = $this->getList('row', ['id' => $id, 'type' => '3'], ['users', 'usersdetail', 'usersplumber']);
 		
 		if(isset($row['registration_no']) && $row['registration_no']!=''){
 			$exploderegno = explode('/', $row['registration_no']);
 			if(isset($exploderegno[0])) $count = $exploderegno[0];
 		}else{
-			$count 		= $this->getList('count', ['type' => '3', 'approvalstatus' => ['1']]);
+			$count 		= $this->getList('count', ['type' => '3', 'approvalstatus' => ['1']], ['users', 'usersdetail', 'usersplumber']);
 			$count 		= ($counts=='') ? $count+1 : $counts;
 			$checkcount = str_pad($count, 5, '0', STR_PAD_LEFT);
 			
-			$checkregno = $this->getList('count', ['type' => '3', 'approvalstatus' => ['1'], 'searchregno' => $checkcount]);			
+			$checkregno = $this->getList('count', ['type' => '3', 'approvalstatus' => ['1'], 'searchregno' => $checkcount], ['users', 'usersdetail', 'usersplumber']);			
 			if($checkregno > 0){				
 				return $this->plumberregistrationno($id, $value, $year, ($count+1));
 			}
