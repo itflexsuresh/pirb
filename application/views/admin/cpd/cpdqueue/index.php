@@ -137,7 +137,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 									</div>
 										<input type="file" id="file" class="document_file_ad">
 										<label for="file" class="choose_file">Choose File</label>
-										<input type="hidden" name="image_ad" class="document_picture_ad" value="<?php echo $image; ?>">
+										<input type="hidden" name="image_ad" class="document_picture_ad" value="<?php echo $image_ad; ?>">
 										<p>(Image/File Size Smaller than 5mb)</p>
 								</div>
 						</div>						
