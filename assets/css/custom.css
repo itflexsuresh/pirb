@@ -1811,3 +1811,22 @@ float: left;
 .coc-perm-req .col-md-12{
 padding: 0
 }
+
+
+.plum-reg-pre-nxt a {
+   position: unset !important;
+   padding: 10px 20px 10px 20px;
+   background-color: #88745c;
+   color: #fff !important;
+   border-color: #88745c;
+   box-shadow: 4px 4px 11px rgba(0, 0, 0, 0.51);
+   border-radius: 3px;
+}
+
+.plum-reg-pre-nxt a:hover {
+   background-color: #88745cc7;
+}
+
+.plm-reg .progressbar_wrapper .progressbar {
+   margin-bottom: 40px;
+}
