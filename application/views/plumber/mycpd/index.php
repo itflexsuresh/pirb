@@ -272,7 +272,9 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 			{ "data": "status" },
 			{ "data": "action" }
 			],
-			data : {pagestatus : '<?php echo $pagestatus; ?>',user_id : '<?php echo $id; ?>'}
+			data : {pagestatus : '<?php echo $pagestatus; ?>',user_id : '<?php echo $id; ?>'},
+			target	:	[7],
+			sort	:	'0'
 		};
 		
 		ajaxdatatables('.datatables', options);

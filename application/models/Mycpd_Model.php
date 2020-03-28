@@ -51,7 +51,7 @@ class Mycpd_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['id', 'reg_number', 'name_surname', 'cpd_activity', 'cpd_start_date', 'points'];
+			$column = ['t2.id', 't2.reg_number', 't2.name_surname', 't1.cpd_activity', 't1.cpd_start_date', 't1.comments', 't1.points'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
