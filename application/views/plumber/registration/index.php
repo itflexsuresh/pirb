@@ -106,12 +106,14 @@
 					<a href="javascript:void(0);" class="stepbar" data-id="6">Declaration</a>
 				</div>
 				
-				<div class="col-md-12 pagination">
-					<a href="javascript:void(0);" id="previous">Previous</a>
-					<div class="col-lg-3 m-b-30 progressbar_wrapper">
+				<div class="col-md-12 pagination plm-reg">
+					<div class="progressbar_wrapper">
 						<div data-label="10%" class="css-bar css-bar-20 progressbar"></div>
 					</div>
-					<a href="javascript:void(0);" id="next">Next</a>
+					<div class="plum-reg-pre-nxt">
+						<a href="javascript:void(0);" id="previous">Previous</a>
+						<a href="javascript:void(0);" id="next">Next</a>
+					</div>
 				</div>
 				
 				<div class="steps active" data-id="1">
