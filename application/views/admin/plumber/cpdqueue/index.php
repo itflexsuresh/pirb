@@ -120,7 +120,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 
 					<div class="row">
 						<div class="form-group col-md-6">
-							<h4 class="card-title">Admin Supporting Document:</h4>
+							<h4 class="card-title">Supporting Document:</h4>
 								<div class="form-group">
 									<div>
 										<a href="<?php echo $filepath_ad; ?>" target="_blank">
