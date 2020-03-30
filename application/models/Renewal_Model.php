@@ -10,9 +10,11 @@ class Renewal_Model extends CC_Model
         $this->db->join('users_detail ud', 'ud.user_id = inv.user_id', 'left');
         $this->db->join('users_plumber up', 'up.user_id = inv.user_id', 'left');
         $this->db->join('users us', 'us.id = inv.user_id', 'left');
-        $this->db->where('inv.inv_type', '2');
-        $this->db->or_where('inv.inv_type', '3');
-        $this->db->or_where('inv.inv_type', '4');
+        $this->db->group_start();		
+			$this->db->where('inv.inv_type', '2');
+			$this->db->or_where('inv.inv_type', '3');
+			$this->db->or_where('inv.inv_type', '4');
+		$this->db->group_end();
         // $this->db->order_by("inv.inv_id", "desc"); 
                
      
@@ -35,13 +37,15 @@ class Renewal_Model extends CC_Model
 				$this->db->where('inv.status', '0');	
 			}
 			else{
-				$this->db->like('inv.inv_id', $searchvalue);
-				$this->db->or_like('ud.name', $searchvalue);
-				$this->db->or_like('ud.surname', $searchvalue);		
-				$this->db->or_like('up.registration_no', $searchvalue);
-				$this->db->or_like('inv.description', $searchvalue);
-				$this->db->or_like('inv.total_cost', $searchvalue);
-				$this->db->or_like('inv.internal_inv', $searchvalue);
+				$this->db->group_start();			
+					$this->db->like('inv.inv_id', $searchvalue);
+					$this->db->or_like('ud.name', $searchvalue);
+					$this->db->or_like('ud.surname', $searchvalue);		
+					$this->db->or_like('up.registration_no', $searchvalue);
+					$this->db->or_like('inv.description', $searchvalue);
+					$this->db->or_like('inv.total_cost', $searchvalue);
+					$this->db->or_like('inv.internal_inv', $searchvalue);
+				$this->db->group_end();
 			}
 		}
 		
