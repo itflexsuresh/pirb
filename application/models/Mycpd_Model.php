@@ -55,16 +55,30 @@ class Mycpd_Model extends CC_Model
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
-			$searchvalue = $requestdata['search']['value'];
-			$this->db->group_start();
-				$this->db->like('reg_number', $searchvalue);
-				$this->db->or_like('name_surname', $searchvalue);
-				$this->db->or_like('cpd_activity', $searchvalue);
-				$this->db->or_like('cpd_start_date', $searchvalue);
-				$this->db->or_like('points', $searchvalue);
-				// $this->db->or_like('status', $searchvalue);
-			$this->db->group_end();
-
+			//$searchvalue = $requestdata['search']['value'];
+			$searchvalue = trim($requestdata['search']['value']);
+			if(strtolower($searchvalue) == 'approve'){
+				$this->db->where('t1.status', '1');
+			}
+			elseif(strtolower($searchvalue) == 'reject'){
+				$this->db->where('t1.status', '2');
+			}
+			elseif(strtolower($searchvalue) == 'not submited'){
+				$this->db->where('t1.status', '3');
+			}
+			elseif(strtolower($searchvalue) == 'pending'){
+				$this->db->where('t1.status', '0');
+			}
+			else{
+				$this->db->group_start();
+					$this->db->like('reg_number', $searchvalue);
+					$this->db->or_like('name_surname', $searchvalue);
+					$this->db->or_like('cpd_activity', $searchvalue);
+					$this->db->or_like('cpd_start_date', $searchvalue);
+					$this->db->or_like('points', $searchvalue);
+					// $this->db->or_like('status', $searchvalue);
+				$this->db->group_end();
+			}
 		}
 		
 		if($type=='count'){
