@@ -51,7 +51,7 @@ class Mycpd_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['t2.id', 't2.reg_number', 't2.name_surname', 't1.cpd_activity', 't1.cpd_start_date', 't1.comments', 't1.points'];
+			$column = ['t2.id', 't1.reg_number', 't1.name_surname', 't1.cpd_activity', 't1.cpd_start_date', 't1.comments', 't1.points'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
@@ -68,6 +68,16 @@ class Mycpd_Model extends CC_Model
 			}
 			elseif(strtolower($searchvalue) == 'pending'){
 				$this->db->where('t1.status', '0');
+			}
+
+			elseif(strtolower($searchvalue) == 'individual'){
+				$this->db->where('t1.cpd_stream', '3');
+			}
+			elseif(strtolower($searchvalue) == 'developmental'){
+				$this->db->where('t1.cpd_stream', '1');
+			}
+			elseif(strtolower($searchvalue) == 'work based'){
+				$this->db->where('t1.cpd_stream', '2');
 			}
 			else{
 				$this->db->group_start();
