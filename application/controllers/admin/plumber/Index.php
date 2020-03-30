@@ -800,6 +800,7 @@ class Index extends CC_Controller
 		////////////////////// $plumberid,$documentsid=''
 		if($id!=''){
 			$result = $this->Plumber_Model->getList('row', ['id' => $id, 'type' => '3', 'status' => ['1', '2']], ['usersdetail']);
+			
 			$pagedata['result'] 		= $result;
 
 			$DBcomments = $this->Comment_Model->getList('all', ['user_id' => $id, 'type' => '3', 'status' => ['1', '2']]);
@@ -826,11 +827,11 @@ class Index extends CC_Controller
 
 		$pagedata['diarylist'] = $this->diaryactivity(['plumberid'=>$id]);		
 
-		$pagedata['user_id']		= $result['id'];
+		$pagedata['user_id']		= $id;
 		$pagedata['user_role']		= $this->config->item('roletype');
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['roletype']		= $this->config->item('roleadmin');
-		$pagedata['menu']				= $this->load->view('common/plumber/menu', ['id'=>$result['id']],true);
+		$pagedata['menu']				= $this->load->view('common/plumber/menu', ['id'=>$id],true);
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'datepicker'];
 		$data['content'] 			= $this->load->view('admin/plumber/diary', (isset($pagedata) ? $pagedata : ''), true);
 		
