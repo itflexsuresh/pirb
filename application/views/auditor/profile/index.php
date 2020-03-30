@@ -310,8 +310,8 @@
 						</div>
 					
 					<h4 class="card-title add_top_value"></h4>
-					<div class="row">
-						<div class="col-md-12">							
+					<div class="row ara-audit-tble">
+						<div class="col-md-12">
 							<table id="area_table" class="table table-bordered table-striped datatables fullwidth">
 								<thead>
 									<tr>
@@ -322,12 +322,12 @@
 									</tr>
 								</thead>
 								<tbody class="area_body">
-									<!--<tr colspan="4" class="area_norecord">No Record Found</tr>-->
+								<!--<tr colspan="4" class="area_norecord">No Record Found</tr>-->
 								</tbody>
 							</table>
 						</div>
 					</div>
-						
+					
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">

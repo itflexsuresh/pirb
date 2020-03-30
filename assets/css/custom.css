@@ -1830,3 +1830,32 @@ padding: 0
 .plm-reg .progressbar_wrapper .progressbar {
    margin-bottom: 40px;
 }
+
+.ara-audit-tble {
+   display: inline-block;
+   width: 100%;
+   margin-bottom: 20px;
+}
+
+
+.add_prvnce-ara-table{
+   display: inline-block;
+   width: 100%;
+}
+
+.add_prvnce-ara-table .text-right {
+   text-align: left !important;
+   margin-top: 32px;
+}
+
+.add_prvnce-ara-table .text-right button#addarea {
+   margin: 0;
+}
+
+.audt-ara-updte{
+   text-align: left;
+}
+
+footer.footer {
+  margin-left: 0;
+}
