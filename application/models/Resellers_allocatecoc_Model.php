@@ -77,7 +77,7 @@ class Resellers_allocatecoc_Model extends CC_Model
 			}
 		}
 		
-		if(isset($data['roletype']) && $data['roletype']=='6'){
+		if(isset($requestdata['roletype']) && $requestdata['roletype']=='6'){
 			$this->db->where('sm.user_id',$requestdata['user_id']);
 			$this->db->or_where('sm.allocatedby',$requestdata['user_id']);
 		}
