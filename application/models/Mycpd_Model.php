@@ -81,11 +81,12 @@ class Mycpd_Model extends CC_Model
 			}
 			else{
 				$this->db->group_start();
-					$this->db->like('reg_number', $searchvalue);
-					$this->db->or_like('name_surname', $searchvalue);
-					$this->db->or_like('cpd_activity', $searchvalue);
-					$this->db->or_like('cpd_start_date', $searchvalue);
-					$this->db->or_like('points', $searchvalue);
+					$this->db->like('t1.reg_number', $searchvalue);
+					$this->db->or_like('t1.name_surname', $searchvalue);
+					$this->db->or_like('t1.cpd_activity', $searchvalue);
+					$this->db->or_like('t1.cpd_start_date', $searchvalue);
+					$this->db->or_like('t1.points', $searchvalue);
+					$this->db->or_like('t1.comments', $searchvalue);
 					// $this->db->or_like('status', $searchvalue);
 				$this->db->group_end();
 			}
