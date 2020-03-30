@@ -646,12 +646,11 @@ class CC_Controller extends CI_Controller
 		}
 		
 		if($this->input->post()){
-			$requestData 	= 	$this->input->post();
+			$requestData 				= 	$this->input->post();
+			$requestData['roletype'] 	= 	$pagedata['roletype'];
 
 			$data 	=  $this->Resellers_Model->action($requestData);
 		
-			// if(isset($requestData['coc_purchase_limit'])) $this->Coc_Model->actionCocCount(['count' => $requestData['coc_purchase_limit'], 'user_id' => $id]);
-			
 			if($data) $this->session->set_flashdata('success', 'Resellers '.(($id=='') ? 'created' : 'updated').' successfully.');
 			else $this->session->set_flashdata('error', 'Try Later.');
 			

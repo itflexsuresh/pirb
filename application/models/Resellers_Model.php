@@ -67,14 +67,16 @@ class Resellers_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['ud.id','ud.id','ud.id','ud.id' ];
+			$column = ['ud.name','u.email','ud.mobile_phone','cc.count' ];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
-			$this->db->like('ud.name', $searchvalue);
-			$this->db->or_like('u.email', $searchvalue);
-			$this->db->or_like('ud.mobile_phone', $searchvalue);
+			$this->db->group_start();
+				$this->db->like('ud.name', $searchvalue);
+				$this->db->or_like('u.email', $searchvalue);
+				$this->db->or_like('ud.mobile_phone', $searchvalue);
+			$this->db->group_end();
 		}
 
 		// if(isset($requestdata['customsearch'])){
@@ -219,7 +221,11 @@ class Resellers_Model extends CC_Model
 			$usersdetailid	= 	$data['usersdetailid'];
 			
 			$request1['user_id'] = $usersid;
-			$request1['status'] = (isset($data['status'])) ? $data['status'] : '0';			
+			if($data['roletype']=='1'){
+				$request1['status'] = (isset($data['status'])) ? $data['status'] : '0';			
+			}else{
+				isset($data['status']) ? $request1['status'] = $data['status'] : '0';	
+			}
 			if($usersdetailid==''){
 				$usersdetail = $this->db->insert('users_detail', $request1);
 				$usersdetailinsertid = $this->db->insert_id();
