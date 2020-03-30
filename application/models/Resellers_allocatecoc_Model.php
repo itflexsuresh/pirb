@@ -66,20 +66,22 @@ class Resellers_allocatecoc_Model extends CC_Model
 				$this->db->where('sm.user_id',$requestdata['user_id']);
 			}
 			else{
-				$this->db->like('sm.id', $searchvalue);
-				$this->db->or_like('pa.invoiceno', $searchvalue);
-				$this->db->or_like('ud.name', $searchvalue);
-				$this->db->or_like('ud.surname', $searchvalue);
-				$this->db->or_like('up.registration_no', $searchvalue);
-				$this->db->or_like('pd.company_name', $searchvalue);
+				$this->db->group_start();			
+					$this->db->like('sm.id', $searchvalue);
+					$this->db->or_like('pa.invoiceno', $searchvalue);
+					$this->db->or_like('ud.name', $searchvalue);
+					$this->db->or_like('ud.surname', $searchvalue);
+					$this->db->or_like('up.registration_no', $searchvalue);
+					$this->db->or_like('pd.company_name', $searchvalue);
+				$this->db->group_end();
 			}
 		}
-		else{
+		
+		if(isset($requestdata['roletype']) && $requestdata['roletype']=='6'){
 			$this->db->where('sm.user_id',$requestdata['user_id']);
 			$this->db->or_where('sm.allocatedby',$requestdata['user_id']);
 		}
-
-
+		
 		if($type=='count'){
 			$result = $this->db->count_all_results();
 		}else{
