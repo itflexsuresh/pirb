@@ -76,12 +76,12 @@ class Resellers_allocatecoc_Model extends CC_Model
 				$this->db->group_end();
 			}
 		}
-		else{
+		
+		if(isset($data['roletype']) && $data['roletype']=='6'){
 			$this->db->where('sm.user_id',$requestdata['user_id']);
 			$this->db->or_where('sm.allocatedby',$requestdata['user_id']);
 		}
-
-
+		
 		if($type=='count'){
 			$result = $this->db->count_all_results();
 		}else{
