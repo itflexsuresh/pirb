@@ -114,16 +114,17 @@ $stock_count = isset($stock_count) ? $stock_count : '';
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Password *</label>
-							<input type="text" class="form-control"  name="password" id="password"  value="<?php echo $password; ?>">
+							<input type="password" class="form-control"  name="password" id="password"  value="<?php echo $password; ?>">
 							</div>
 					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">							
-							<input type="checkbox" class="custom-control-input" id="status" name="status" value="1" <?php echo ($status=='1') ? 'checked="checked"' : ''; ?>>
-							<label class="custom-control-label" for="status">Active</label>
+					<?php if($adminvalue==0){}else{ ?>
+						<div class="col-md-6">
+							<div class="custom-control custom-checkbox">
+								<input type="checkbox" class="custom-control-input" id="status" name="status" value="1" <?php echo ($status=='1') ? 'checked="checked"' : ''; ?>>
+								<label class="custom-control-label" for="status">Active</label>
+							</div>
 						</div>
-					</div>
+					<?php } ?>
 				</div>
 
 				<div class="row">
@@ -241,8 +242,7 @@ $stock_count = isset($stock_count) ? $stock_count : '';
 							</div>
 					</div>
 				</div>
-<?php if($adminvalue==0){}
-else{ ?>
+
 				<div class="row">
 					<div class="col-md-3">
 						
@@ -251,18 +251,18 @@ else{ ?>
 						
 					</div>
 					<div class="col-md-3">
-						<div class="form-group">
+						<div class="custom-control custom-checkbox">
 							<input type="checkbox" class="custom-control-input" id="vat_vendor" name="vat_vendor" value="1" <?php echo ($vat_vendor=='1') ? 'checked="checked"' : ''; ?>>
 							<label class="custom-control-label" for="vat_vendor">Company Vat Registered</label>
 						</div>
 					</div>
 				</div>
-
+<?php if($adminvalue==0){}else{ ?>
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Number of CoC's Able to purchase number *</label>	
-							<input type="text" class="form-control" id="coc_purchase_limit" name="coc_purchase_limit"  value="<?php echo $coc_purchase_limit; ?>" onkeypress="myFunction()">
+							<input type="text" class="form-control" id="coc_purchase_limit" name="coc_purchase_limit"  value="<?php echo $coc_purchase_limit; ?>">
 							<input type="hidden" id="totalstockcount" name="totalstockcount" value="<?php echo $stock_count;?>">							
 							<span id="stockcountlimet" style="color:red"></span>
 							</div>						
@@ -277,8 +277,7 @@ else{ ?>
 					<input type="submit" name="submit" id="submit" value="submit" class="btn btn-primary">
 				</div>				
 			</form>
-<?php if($adminvalue==0){}
-else { 
+<?php if($adminvalue==0){}else{ 
 	if($usersid > 0){	?>
 			<div class="table-responsive m-t-40">
 				<table class="table table-bordered table-striped datatables fullwidth">
@@ -322,9 +321,13 @@ $(function(){
 
 	var userid		= '<?php echo $usersid; ?>';
 	// select2('#plumberstatus, #designation2, #title, #gender, #racial, #nationality, #othernationality, #homelanguage, #disability, #citizen, #registration_card, #delivery_card, #province1, #city1, #suburb1, #province2, #city2, #suburb2, #province3, #city3, #suburb3, #employment_details, #company_details, #skill_route');
-	inputmask('#home_phone, #mobile_phone', 1);
+	inputmask('#work_phone, #mobile_phone', 1);
 	citysuburb(['#province1','#city1', '#suburb1'], ['<?php echo $city1; ?>', '<?php echo $suburb1; ?>']);
 	citysuburb(['#province2','#city2', '#suburb2'], ['<?php echo $city2; ?>', '<?php echo $suburb2; ?>']);
+	
+	jQuery.validator.addMethod("noSpace", function(value, element) { 
+		return value.indexOf(" ") < 0 && value != ""; 
+	}, "No space please and don't leave it empty");
 	
 	validation(
 		'.resellers',
@@ -363,6 +366,9 @@ $(function(){
 			},
 			password : {
 				required	: true,
+				minlength	: 8,
+				maxlength	: 24,
+				noSpace		: true
 			},
 			company_name : {
 				required	: true,
@@ -401,6 +407,8 @@ $(function(){
 			},
 			password 	: {
 				required	: "Password field is required.",
+				minlength	: "Password must be minium 8 character..",
+				maxlength	: "Password must be maximum 24 character..",
 			},			
 			coc_purchase_limit 	: {
 				required	: "Purchase number field is required.",
