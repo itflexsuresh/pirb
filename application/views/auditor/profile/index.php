@@ -360,7 +360,6 @@
 							</div>
 						</div>
 					</div>
-
 					<div class="row text-right"> 
 						<input type="hidden" name="id" value="<?php echo $id; ?>">
 						<input type="hidden" name="userdetailid" value="<?php echo $userdetailid; ?>">
@@ -368,10 +367,10 @@
 						<input type="hidden" name="auditoravaid" value="<?php echo $auditoravaid; ?>">
 						<input type="hidden" name="usertype" value="<?php echo $usertype; ?>">
 						<input type="hidden" name="userbankid" value="<?php echo $userbankid; ?>">
-
-						<div class="col-md-2">
-									<button type="submit" name="submit" value="submit" class="btn btn-block btn-primary btn-rounded"><?php echo $heading; ?> </button>
-								</div>
+						
+						<div class="audt-ara-updte">
+							<button type="submit" name="submit" value="submit" class="btn btn-block btn-primary btn-rounded"><?php echo $heading; ?> </button>
+						</div>
 					</div>					
 				</form>
 
