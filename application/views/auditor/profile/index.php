@@ -310,6 +310,7 @@
 						</div>
 					
 					<h4 class="card-title add_top_value"></h4>
+					
 					<div class="row ara-audit-tble">
 						<div class="col-md-12">
 							<table id="area_table" class="table table-bordered table-striped datatables fullwidth">
@@ -328,35 +329,34 @@
 						</div>
 					</div>
 					
-					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Province</label>
-								<?php echo form_dropdown('area_province', $provincelist, '', ['id' => 'area_province', 'class' => 'form-control']); ?>
+					<div class="row add_prvnce-ara-table">
+						<div class="row" style="margin: 0;">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Province</label>
+									<?php echo form_dropdown('area_province', $provincelist, '', ['id' => 'area_province', 'class' => 'form-control']); ?>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>City</label>
+									<?php echo form_dropdown('area_city', [], '', ['id' => 'area_city', 'class' => 'form-control']); ?>
+								</div>
 							</div>
 						</div>
-
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>City</label>
-								<?php echo form_dropdown('area_city', [], '', ['id' => 'area_city', 'class' => 'form-control']); ?>
+						<div class="row" style="margin: 0;">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Suburb</label>
+									<?php
+									echo form_dropdown('area_suburb', [], '', ['id' => 'area_suburb', 'class'=>'form-control']);
+									?>
+								</div>
 							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Suburb</label>
-								<?php
-								echo form_dropdown('area_suburb', [], '', ['id' => 'area_suburb', 'class'=>'form-control']);
-								?> 
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="row text-right">
-								<div class="col-md-3">
+							<div class="col-md-6">
+								<div class="text-right">
 									<button type="button" name="addarea" id="addarea" value="addarea" class="btn btn-block btn-primary btn-rounded">Add Area</button>
 								</div>
-
-								
 							</div>
 						</div>
 					</div>
