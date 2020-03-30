@@ -100,6 +100,7 @@ if(isset($result) && $result){
 		
 		var options = {
 			url 	: 	'<?php echo base_url()."plumber/myaccounts/index/DTAccounts"; ?>',
+			data	: 	{page : 'plumberaccount'},
 			columns : 	[
 							{ "data": "description" },
 							{ "data": "invoiceno" },
@@ -108,7 +109,9 @@ if(isset($result) && $result){
 							{ "data": "invoicestatus" },
 							{ "data": "orderstatus" },
 							{ "data": "action" }
-						]			
+						],
+			target : [4, 5, 6],
+			sort : '0'
 		};
 		
 		ajaxdatatables('.datatables', options);

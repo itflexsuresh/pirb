@@ -79,7 +79,7 @@ class Index extends CC_Controller
 				if ($result['total_cost']!='') {
       $amt = $this->config->item('currency').' '.$result['total_due'];
       }else{
-      	$amt = $result['total_due'];
+      	$amt = $this->config->item('currency').' '.$result['total_due'];
       }
 				$totalrecord[] = 	[      
 										'description' 	=> 	$result['description'],
