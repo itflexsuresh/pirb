@@ -221,7 +221,7 @@ class Resellers_Model extends CC_Model
 			$usersdetailid	= 	$data['usersdetailid'];
 			
 			$request1['user_id'] = $usersid;
-			if($data['roletype']=='1'){
+			if(isset($data['roletype']) && $data['roletype']=='1'){
 				$request1['status'] = (isset($data['status'])) ? $data['status'] : '0';			
 			}else{
 				isset($data['status']) ? $request1['status'] = $data['status'] : '0';	
