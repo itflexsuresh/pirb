@@ -179,7 +179,7 @@ class Import extends CC_Controller {
 		
 		$data 		= 	$this->db->select('ip.*, pd.Designation, doc.DocumentData')
 						->join('importplumberdesignations pd', 'pd.PlumberID=ip.ID', 'left')
-						->join('importdocument doc', 'doc.PlumberID=ip.ID && doc.DocumentTypeID="7"', 'left')
+						->join('importdocument doc', 'doc.PlumberID=ip.ID and doc.DocumentTypeID="7"', 'left')
 						->get('importplumber ip')
 						->result_array();
 		
