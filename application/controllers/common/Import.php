@@ -177,7 +177,11 @@ class Import extends CC_Controller {
 							
 		$datetime 	= date('Y-m-d H:i:s');
 		
-		$data 		= $this->db->select('ip.*, pd.Designation')->join('importplumberdesignations pd', 'pd.PlumberID=ip.ID')->get('importplumber ip')->result_array();
+		$data 		= 	$this->db->select('ip.*, pd.Designation, doc.DocumentData')
+						->join('importplumberdesignations pd', 'pd.PlumberID=ip.ID')
+						->join('importdocument doc', 'doc.PlumberID=ip.ID && doc.DocumentTypeID=="7"')
+						->get('importplumber ip')
+						->result_array();
 		
 		foreach ($data as $value) {
 			$user = [
@@ -234,6 +238,15 @@ class Import extends CC_Controller {
 								];
 			// End Extras
 			
+			$imgpath 	=	base_url().'assets/uploads/plumber/'.$userid.'/';
+			$filename 	= 	md5(uniqid(rand(), true)).'.'.'png';
+			$img		=	base64_decode($value['DocumentData']);
+			if(file_put_contents($imgpath.$filename, $img)){
+				$image2 = $filename;
+			}else{
+				$image2 = '';
+			}
+			
 			$result  	= 	[
 								'user_id' 					=> $userid,
 								'title' 					=> isset($titlesign[$value['Title']]) ? $titlesign[$value['Title']] : '',
@@ -254,6 +267,7 @@ class Import extends CC_Controller {
 								'citizen' 					=> $value['CitizenResidentStatusID'],
 								'employment_details' 		=> $value['SocioeconomicStatusID'],
 								'company_details' 			=> $company ? $company['id'] : '',
+								'image2' 					=> $image2,
 								'insurancepolicyno' 		=> $value['InsurancePolicyNo'],
 								'insurancecompany' 			=> $value['InsuranceCompany'],
 								'insurancepolicyholder' 	=> $value['InsurancePolicyHolder'],
