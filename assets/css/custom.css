@@ -499,7 +499,14 @@ a#previous, a#next {
     font-weight: 400;
 }
 
-.file_up_points li:before {content: "\f192";position: absolute;left: 26px;font-family: 'Fontawesome';color: #01395c;}
+.file_up_points li:before {
+   content: "\f192";
+   position: absolute;
+   left: -20px;
+   font-family: 'Fontawesome';
+   color: #01395c;
+   top: 5px;
+}
 
 .add_top_value {
     margin-top: 50px;

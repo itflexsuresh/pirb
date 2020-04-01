@@ -476,7 +476,7 @@
 										</div>
 									</div>
 									<div class="row add_top_value">
-										<div class="col-md-3">
+										<div class="col-md-6">
 											<h4 class="card-title">Photo ID *</h4>
 											<div class="form-group">
 												<div>
@@ -488,7 +488,7 @@
 											</div>
 										</div>
 										<?php if($roletype=='3'){ ?>
-											<div class="col-md-3">
+											<div class="col-md-6">
 												<ul class="file_up_points">
 													<li>Photos must be no more than 6 months old</li>
 													<li>Photos must be high quality</li>
