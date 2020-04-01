@@ -346,7 +346,7 @@ class Coc_Ordermodel extends CC_Model
 					<table align="right" class="custom_reg_uniq" style="margin-top: 10px;">
 					<thead>
 					<tr>
-					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer Compnay Reg</th>
+					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer Company Reg</th>
 					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer VAT Reg</th>
 					<th style="padding: 10px;   font-size: 14px; text-align: center;">Invoice Date</th>
 					</tr>
