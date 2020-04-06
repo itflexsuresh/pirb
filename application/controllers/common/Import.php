@@ -315,7 +315,7 @@ class Import extends CC_Controller {
 			$migrateid 	= $plumber['migrateid'];
 			$userid		= $plumber['id'];
 			
-			$this->db->update('users_detail', ['file2' => $this->plumberimage($migrateid, $userid)], ['user_id' => $id]);
+			$this->db->update('users_detail', ['file2' => $this->plumberimage($migrateid, $userid)], ['user_id' => $userid]);
 		}
 	}
 	
