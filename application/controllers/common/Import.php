@@ -309,9 +309,6 @@ class Import extends CC_Controller {
 	
 	public function plumberimageupdate()
 	{
-		$this->plumberimagefolderremove();
-		$this->plumberimagerename();
-		
 		$plumbers 	= $this->db->get_where('users', ['type' => '3', 'migrateid !=' => ''])->result_array();
 		
 		foreach($plumbers as $plumber){
@@ -319,11 +316,10 @@ class Import extends CC_Controller {
 			$userid		= $plumber['id'];
 			
 			$data = [
-						'image2' 	=> $this->plumberimage($migrateid, $userid),
-						'user_id' 	=> $userid
+						'file2' => $this->plumberimage($migrateid, $userid)
 					];
 			
-			$this->Plumber_Model->action($data);	
+			$this->db->update('users_detail', $data, ['user_id' => $userid]);
 		}
 	}
 	
@@ -345,7 +341,7 @@ class Import extends CC_Controller {
 		}
 	}
 	
-	public function plumberimagefolderremove()
+	public function plumberimagefolder()
 	{
 		$this->load->helper('directory');
 		
