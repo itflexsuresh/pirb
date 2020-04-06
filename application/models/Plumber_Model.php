@@ -290,6 +290,7 @@ class Plumber_Model extends CC_Model
 			$idarray['skillid'] = $skillid;
 		}
 		
+		if(isset($data['migrateid'])) 		$request5['migrateid'] 		= $data['migrateid'];
 		if(isset($data['formstatus'])) 		$request5['formstatus'] 	= $data['formstatus'];
 		if(isset($data['email'])) 			$request5['email'] 			= $data['email'];
 		if(isset($data['status'])) 			$request5['status'] 		= $data['status'];

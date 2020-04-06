@@ -10,6 +10,8 @@ class Import extends CC_Controller {
 		$this->load->model('Company_Model');
 		$this->load->model('Plumber_Model');
 		$this->load->model('Resellers_Model');
+		$this->load->model('Documentsletters_Model');
+		$this->load->model('CC_Model');
 	}
 
     public function province()
@@ -177,9 +179,8 @@ class Import extends CC_Controller {
 							
 		$datetime 	= date('Y-m-d H:i:s');
 		
-		$data 		= 	$this->db->select('ip.*, pd.Designation, doc.DocumentData')
+		$data 		= 	$this->db->select('ip.*, pd.Designation')
 						->join('importplumberdesignations pd', 'pd.PlumberID=ip.ID', 'left')
-						->join('importdocument doc', 'doc.PlumberID=ip.ID and doc.DocumentTypeID="7"', 'left')
 						->get('importplumber ip')
 						->result_array();
 		
@@ -238,15 +239,6 @@ class Import extends CC_Controller {
 								];
 			// End Extras
 			
-			$imgpath 	=	base_url().'assets/uploads/plumber/'.$userid.'/';
-			$filename 	= 	md5(uniqid(rand(), true)).'.'.'png';
-			$img		=	base64_decode($value['DocumentData']);
-			if(file_put_contents($imgpath.$filename, $img)){
-				$image2 = $filename;
-			}else{
-				$image2 = '';
-			}
-			
 			$result  	= 	[
 								'user_id' 					=> $userid,
 								'title' 					=> isset($titlesign[$value['Title']]) ? $titlesign[$value['Title']] : '',
@@ -267,7 +259,6 @@ class Import extends CC_Controller {
 								'citizen' 					=> $value['CitizenResidentStatusID'],
 								'employment_details' 		=> $value['SocioeconomicStatusID'],
 								'company_details' 			=> $company ? $company['id'] : '',
-								'image2' 					=> $image2,
 								'insurancepolicyno' 		=> $value['InsurancePolicyNo'],
 								'insurancecompany' 			=> $value['InsuranceCompany'],
 								'insurancepolicyholder' 	=> $value['InsurancePolicyHolder'],
@@ -285,6 +276,7 @@ class Import extends CC_Controller {
 								'registration_card'			=> '2',
 								'company_name'				=> $value['FirstName'].' '.$value['Surname'],
 								'address' 					=> $address,
+								'migrateid' 				=> $value['ID'],
 								'created_at' 				=> $datetime,
 								'created_by' 				=> $userid,
 								'updated_at' 				=> $datetime,
@@ -294,6 +286,106 @@ class Import extends CC_Controller {
 			$this->Plumber_Model->action($result);		
 		}
     }
+	
+    public function plumberimage($id, $userid)
+	{
+		$sourceimg 			= './assets/plumbermigration/'.$id.'_7.*';
+		$checkimg			= glob($sourceimg);  
+		
+		if(count($checkimg) && isset($checkimg[0])){
+			$destinationimg 	= './assets/uploads/plumber/'.$userid.'/';
+			$this->CC_Model->createDirectory($destinationimg);
+			
+			$explodeimg1 = explode('/', $checkimg[0]);
+			$explodeimg2 = explode('.', $explodeimg1[count($explodeimg1)-1]);
+			$image2 = md5($explodeimg2[0]).'.'.$explodeimg2[1];
+			rename($checkimg[0], $destinationimg.$image2);
+		}else{
+			$image2 = '';
+		}
+		
+		return $image2;
+	}
+	
+	public function plumberimageupdate()
+	{
+		$plumbers 	= $this->db->get_where('users', ['type' => '3', 'migrateid !=' => ''])->result_array();
+		
+		foreach($plumbers as $plumber){
+			$migrateid 	= $plumber['migrateid'];
+			$userid		= $plumber['id'];
+			
+			$this->db->update('users_detail', ['file2' => $this->plumberimage($migrateid, $userid)], ['user_id' => $id]);
+		}
+	}
+	
+	public function plumberimagerename()
+	{
+		$path = './assets/plumbermigration/';
+		
+		$this->load->helper('directory');
+		$files = directory_map($path);
+		
+		foreach($files as $file){
+			$explodefile = explode('_', $file);
+			if(isset($explodefile[0])){
+				unset($explodefile[0]);
+				$name = implode('_', $explodefile);
+				rename($path.$file, $path.$name);
+			}
+			
+		}
+	}
+	
+	public function plumberimagefolder()
+	{
+		$this->load->helper('directory');
+		
+		for($i=64; $i<1000000; $i++){
+			$dir = 'assets/uploads/plumber/'.$i;
+			$del = './assets/uploads/plumber/'.$i.'/';
+			
+			if(is_dir($dir)){
+				$files = directory_map($del);
+				foreach($files as $file){
+					unlink($dir.'/'.$file);
+				}
+				rmdir($del);
+			}
+		}
+	}
+	
+    public function plumberdocument()
+	{
+		$plumbers 	= $this->db->get_where('users', ['type' => '3', 'migrateid !=' => ''])->result_array();
+		
+		foreach($plumbers as $plumber){
+			$migrateid 	= $plumber['migrateid'];
+			$userid		= $plumber['id'];
+			for($i=1; $i<3; $i++){
+				$sourcefile 		= './assets/plumbermigration/'.$migrateid.'_'.$i.'.*';
+				$checkfile			= glob($sourcefile);  
+				
+				if(count($checkfile) && isset($checkfile[0])){
+					$destinationimg 	= './assets/uploads/plumber/'.$userid.'/';
+					$this->CC_Model->createDirectory($destinationimg);
+					
+					$explode1 	= explode('/', $checkfile[0]);
+					$explode2 	= explode('.', $explode1[count($explode1)-1]);
+					$file 		= md5($explode2[0]).'.'.$explode2[1];
+					rename($checkfile[0], $destinationimg.$file);
+					
+					$data = [
+						'file1' 		=> $file,
+						'plumberid' 	=> $userid,
+						'documentsid' 	=> ''
+					];
+					
+					$this->Documentsletters_Model->action($data);
+				}
+			}
+		}
+	}
 	
     public function resellers()
 	{

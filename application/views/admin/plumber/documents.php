@@ -6,7 +6,7 @@ $documentsid 	= isset($result['id']) ? $result['id'] : '';
 $pdfimg 		= base_url().'assets/uploads/plumber/pdf.png';
 $profileimg 	= base_url().'assets/images/profile.jpg';
 $image 			= isset($result['file']) ? $result['file'] : set_value ('file');	
-$filepath 		= base_url().'assets/uploads/plumber/';
+$filepath 		= base_url().'assets/uploads/plumber/'.$plumberid.'/';
 $filepath1		= (isset($result['file']) && $result['file']!='') ? $filepath.$result['file'] : base_url().'assets/uploads/plumber/profile.jpg';
 if($image!=''){
 	$explodefile2 	= explode('.', $image);
@@ -99,10 +99,11 @@ $pagestatus = isset($pagestatus) ? $pagestatus : '';
 $(function(){
 	var filepath 	= '<?php echo $filepath; ?>';
 	var pdfimg		= '<?php echo $pdfimg; ?>';
+	var plumberid	= '<?php echo $plumberid; ?>';
 
 	datatable();
 
-	fileupload([".plumber_image", "./assets/uploads/plumber/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.plumber_picture', '.plumber_photo', filepath, pdfimg]);
+	fileupload([".plumber_image", "./assets/uploads/plumber/"+plumberid+"/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.plumber_picture', '.plumber_photo', filepath, pdfimg]);
 	
 	validation(
 		'.documents',
