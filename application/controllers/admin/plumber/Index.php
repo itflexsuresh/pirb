@@ -746,7 +746,7 @@ class Index extends CC_Controller
 				$newDate = date('d-F-Y H:i:s', $timestamp);	
 				$filename = isset($result['file']) ? $result['file'] : '';
 				
-				$filepath	= base_url().'assets/uploads/plumber/';
+				$filepath	= base_url().'assets/uploads/plumber/'.$post['plumberid'].'/';
 				$pdfimg 	= base_url().'assets/images/pdf.png';
 				$file 		= '';
 				
