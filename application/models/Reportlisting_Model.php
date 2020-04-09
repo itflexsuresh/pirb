@@ -7,8 +7,8 @@ class Reportlisting_Model extends CC_Model
 		$this->db->select('t1.*, t2.name, t3.name insname');
 		$this->db->from('report_listing t1');		
 
-		$this->db->join('installationsubtype t2','t2.installationtype_id=t1.installation_id AND t2.id=t1.subtype_id	','left');
-	 	$this->db->join('installationtype t3','t3.id=t1.installation_id','left');
+		$this->db->join('installationsubtype t2','t2.installationtype_id=t1.installation_id AND t2.id=t1.subtype_id	and t2.status!="2"','left');
+	 	$this->db->join('installationtype t3','t3.id=t1.installation_id	and t3.status!="2"','left');
 
 
 		if(isset($requestdata['id'])) $this->db->where('t1.id', $requestdata['id']);
