@@ -107,10 +107,10 @@ class Index extends CC_Controller
 										'company' 				=> 	$result['company'],
 										'city' 					=> 	$result['cityname'],
 										'province' 				=> 	$result['provincename'],
-										'audit' 				=> 	$result['audit'],
-										'cautionary' 			=> 	$result['cautionary'],
-										'refix_incomplete' 		=> 	$result['refix_incomplete'],
-										'refix_complete' 		=> 	$result['refix_complete'],
+										'audit' 				=> 	($result['audit']!='') ? $result['audit'].'%' : '',
+										'cautionary' 			=> 	($result['cautionary']!='') ? $result['cautionary'].'%' : '',
+										'refix_incomplete' 		=> 	($result['refix_incomplete']!='') ? $result['refix_incomplete'].'%' : '',
+										'refix_complete' 		=> 	($result['refix_complete']!='') ? $result['refix_complete'].'%' : '',
 										'rating' 				=> 	$overallpoint,
 										'coc_link' 				=> 	$action
 									];
@@ -133,5 +133,5 @@ class Index extends CC_Controller
 		$result 		= $this->Auditor_allocatecoc_Model->getCOCList('all', $post);
 		echo json_encode(array("result" => $result));
 	}
-}
+} 
 

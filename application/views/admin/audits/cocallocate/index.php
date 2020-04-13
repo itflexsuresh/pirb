@@ -185,17 +185,17 @@
 					</table>
 				</div>
 				
-				<div class="audit_summary displaynone">
+				<div class="audit_summary displaynone m-t-40">
 					<h4 class="card-title">Audit Summary</h4>
 					<div class="row">
 						<div class="col-md-4">
 							<p>Number COC recommended for audit:</p>
 						</div>
 						<div class="col-md-4">
-							<input type="text" class="form-control" placeholder="Count of all COC marked for allocation">
+							<input type="text" class="form-control markedcount" placeholder="Count of all COC marked for allocation" disabled>
 						</div>
 						<div class="col-md-4">
-							<input type="text" class="form-control" placeholder="Count of all COC marked for allocation as a % of the cocs brought back per date range">
+							<input type="text" class="form-control markedcountpercentage" placeholder="Count of all COC marked for allocation as a % of the cocs brought back per date range" disabled>
 						</div>
 					</div>
 					<form action="" method="post">
@@ -321,6 +321,17 @@
 					var table = [];
 					
 					$(data.result).each(function(i, v){
+						var summarydata = $(document).find('.postcocid[value="'+v.coc_id+'"]');
+						if(summarydata.length > 0){
+							var checkallocate 	= 'checked="checked"';
+							var postauditorid 	= summarydata.parent().find('.postauditorid').val();
+							var postauditorname = summarydata.parent().parent().parent().find('td:nth-child(1)').text();
+						}else{
+							var checkallocate 	= '';
+							var postauditorid 	= '';
+							var postauditorname = '';
+						}
+						
 						var data 	= '\
 							<tr class="removecoc">\
 								<td>'+v.coc_id+'</td>\
@@ -329,14 +340,14 @@
 								<td>'+v.cityname+'</td>\
 								<td>'+v.provincename+'</td>\
 								<td>\
-									<input type="search" autocomplete="off" class="form-control auditor_search" id="auditor_search_'+v.coc_id+'" data-cocid="'+v.coc_id+'">\
-									<input type="hidden" class="auditor_id" id="auditor_id_'+v.coc_id+'">\
+									<input type="text" autocomplete="off" class="form-control auditor_search" id="auditor_search_'+v.coc_id+'" data-cocid="'+v.coc_id+'" value="'+postauditorname+'" style="width:100px">\
+									<input type="hidden" class="auditor_id" id="auditor_id_'+v.coc_id+'" value="'+postauditorid+'">\
 									<input type="hidden" class="plumber_id" id="plumber_id_'+v.coc_id+'" value="'+userid+'">\
 									<div class="auditor_suggestion" id="auditor_suggestion_'+v.coc_id+'"></div>\
 								</td>\
 								<td></td>\
 								<td></td>\
-								<td><input type="checkbox" name="allocate" class="allocate" data-cocid="'+v.coc_id+'"></td>\
+								<td><input type="checkbox" name="allocate" class="allocate" data-cocid="'+v.coc_id+'" '+checkallocate+'></td>\
 							</tr>\
 						'; 
 						
@@ -353,6 +364,7 @@
 	$(document).on('keyup', '.auditor_search', function(){
 		var cocid = $(this).attr('data-cocid');
 		$("#auditor_id_"+cocid).val('');
+		$(this).parent().parent().find('.allocate').prop('checked', false);
 		userautocomplete(['#auditor_search_'+cocid, '#auditor_id_'+cocid, '#auditor_suggestion_'+cocid], [$(this).val(), 5]);
 	})
 	
@@ -375,6 +387,19 @@
 		
 		if($(this).is(':checked')){
 			auditsummary(cocid, plumberid, auditorid, auditorname);
+			$('.markedcount').val($(document).find('.auditorcocid').length);
+			$('.markedcountpercentage').val()
+		}else{
+			$(document).find('.auditorcocid[data-auditorcocid="'+cocid+'"]').remove();
+			
+			if($(document).find('.auditorallocate[data-auditorid="'+auditorid+'"]').find('.auditorcocid').length==0){
+				$(document).find('.auditorallocate[data-auditorid="'+auditorid+'"]').remove();
+			}else{
+				var auditval = $(document).find('.auditorallocate[data-auditorid="'+auditorid+'"] td:nth-child(4) span').text();
+				$(document).find('.auditorallocate[data-auditorid="'+auditorid+'"] td:nth-child(4) span').text(parseInt(auditval)-1);			
+			}
+			
+			if($(document).find('.auditorallocate').length==0) $('.audit_summary').addClass('displaynone');
 		}
 	});
 	
@@ -383,9 +408,9 @@
 	function auditsummary(cocid, plumberid, auditorid, auditorname){
 		var checkauditor 	= 	$(document).find('.auditorallocate[data-auditorid="'+auditorid+'"]').length;
 		var appendfield		= 	'<div class="auditorcocid" data-auditorcocid="'+cocid+'">\
-									<input type="hidden" name="allocate['+(auditorcount)+'][auditorid]" value="'+auditorid+'">\
-									<input type="hidden" name="allocate['+(auditorcount)+'][plumberid]" value="'+plumberid+'">\
-									<input type="hidden" name="allocate['+(auditorcount++)+'][cocid]" value="'+cocid+'">\
+									<input type="hidden" name="allocate['+(auditorcount)+'][auditorid]" class="postauditorid" value="'+auditorid+'">\
+									<input type="hidden" name="allocate['+(auditorcount)+'][plumberid]" class="postplumberid" value="'+plumberid+'">\
+									<input type="hidden" name="allocate['+(auditorcount++)+'][cocid]" class="postcocid" value="'+cocid+'">\
 								</div>';
 						
 		if(checkauditor > 0){
