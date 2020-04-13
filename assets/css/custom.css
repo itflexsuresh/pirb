@@ -1866,3 +1866,7 @@ padding: 0
 footer.footer {
   margin-left: 0;
 }
+
+.custom_number_box{
+	width: 75px;
+}

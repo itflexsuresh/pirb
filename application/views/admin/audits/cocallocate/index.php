@@ -18,6 +18,7 @@
 			<div class="card-body">
 				<h4 class="card-title">COC Allocation for Audit</h4>
 				<form class="mt-4 form" action="" method="post" id="filter">
+					
 					<h5 class="card-title">Search Range:</h5>
 					<div class="row">
 						<div class="col-md-6">						
@@ -42,8 +43,6 @@
 								</div>								
 							</div>
 						</div>
-					</div>
-					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Start CoC Range</label>
@@ -57,43 +56,102 @@
 							</div>
 						</div>
 					</div>
-					<h5 class="card-title">Filters:</h5>					
+					
+					<h5 class="card-title">Filters:</h5>						
 					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Plumber Name and Surname Registration Number</label>
-								<input type="search" autocomplete="off" class="form-control" name="user_search" id="user_search">
-								<div id="user_suggestion"></div>
-								<div class="search_icon">
-									<i class="fa fa-search" aria-hidden="true"></i>
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-8">
+									<div class="form-group">
+										<label>Plumber Name and Surname Registration Number</label>
+										<input type="search" autocomplete="off" class="form-control" name="user_search" id="user_search">
+										<div id="user_suggestion"></div>
+										<div class="search_icon search_icon_user">
+											<i class="fa fa-search" aria-hidden="true"></i>
+										</div>
+										<input type="hidden" id="user_id" name="user_id">
+									</div>
 								</div>
-								<input type="hidden" id="user_id" name="user_id">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Province</label>
+										<?php echo form_dropdown('province', $province, '',['id' => 'province1', 'class' => 'form-control']); ?>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>City</label>
+										<?php echo form_dropdown('city', [], '', ['id' => 'city1', 'class' => 'form-control']);  ?>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
+					
+					<h5 class="card-title">COC Ranking Criteria:</h5>	
 					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Province</label>
-								<?php
-								echo form_dropdown('province', $province, '',['id' => 'province1', 'class' => 'form-control']);
-								?>
+						<div class="col-md-12">
+							<div class="row form-group">
+								<div class="col-md-6">
+									<label>Compulsory Audit</label>
+								</div>
+								<div class="col-md-6">
+									<input type="checkbox" name="compulsory_audit" id="compulsory_audit" value="1">
+								</div>
 							</div>
 						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>City</label>
-								<?php 
-									echo form_dropdown('city', [], '', ['id' => 'city1', 'class' => 'form-control']); 
-								?>
+						<div class="col-md-12">
+							<div class="row form-group">
+								<div class="col-md-6">
+									<label>Audit Ratio</label>
+								</div>
+								<div class="col-md-3">
+									<label>Greater than</label>
+									<input type="number" class="custom_number_box" name="audit_ratio_start" id="audit_ratio_start">
+								</div>
+								<div class="col-md-3">
+									<label>but less than</label>
+									<input type="number" class="custom_number_box" name="audit_ratio_end" id="audit_ratio_end">
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Maximum of number of Audits allocated per plumber</label>
-								<input type="text" class="form-control" name="max_allocate_plumber" id="max_allocate_plumber" value="">
+						<div class="col-md-12">
+							<div class="row form-group">
+								<div class="col-md-6">
+									<label>Overall Performance Rating</label>
+								</div>
+								<div class="col-md-3">
+									<label>Greater than</label>
+									<input type="number" class="custom_number_box" name="rating_start" id="rating_start">
+								</div>
+								<div class="col-md-3">
+									<label>but less than</label>
+									<input type="number" class="custom_number_box" name="rating_end" id="rating_end">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="row form-group">
+								<div class="col-md-6">
+									<label>Number COC for Allocation</label>
+									<input type="text" class="form-control" name="no_coc_allocation" id="no_coc_allocation">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="row form-group">
+								<div class="col-md-6">
+									<label>Maximum of number of Audits allocated per plumber</label>
+									<input type="number" class="form-control" name="max_allocate_plumber" id="max_allocate_plumber">
+								</div>
 							</div>
 						</div>
 					</div>
@@ -107,20 +165,54 @@
 				</form>
 				
 				<div class="table-responsive m-t-40">
+					<h4 class="card-title">Recommend Allocation Results</h4>
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
 							<tr>
-								<th>Name</th>
-								<th>Reg No</th>
-								<th>Company</th>
-								<th>City</th>
-								<th>Province</th>
+								<th>Plumber</th>
+								<th>Reg Number</th>
+								<th>Employee Company</th>
+								<th>Employee City</th>
+								<th>Employee Province</th>
+								<th>Audit Ratio</th>
+								<th>Cautionary Ratio</th>
+								<th>Refix (Complete) Ratio</th>
+								<th>Refix (In-Complete) Ratio</th>
+								<th>Overall Performance Rating</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 					</table>
 				</div>
-
+				
+				<div class="audit_summary displaynone">
+					<h4 class="card-title">Audit Summary</h4>
+					<div class="row">
+						<div class="col-md-4">
+							<p>Number COC recommended for audit:</p>
+						</div>
+						<div class="col-md-4">
+							<input type="text" class="form-control" placeholder="Count of all COC marked for allocation">
+						</div>
+						<div class="col-md-4">
+							<input type="text" class="form-control" placeholder="Count of all COC marked for allocation as a % of the cocs brought back per date range">
+						</div>
+					</div>
+					<table class="table table-bordered table-striped fullwidth m-t-15">
+						<thead>
+							<tr>
+								<th>Auditor Name</th>
+								<th>Audit Allocation MTD</th>
+								<th>Open Audits</th>
+								<th>Allocation for above selection</th>
+							</tr>
+						</thead>
+					</table>
+					<div class="text-right">
+						<button type="button" name="submit" value="submit" class="btn btn-primary">Allocate Audits</button>
+					</div>
+				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -151,26 +243,65 @@
 	$(function(){
 		datepicker('#start_date_range');
 		datepicker('#end_date_range');
-		datatable();
 		citysuburb(['#province1','#city1'], ['']);
+		datatable();
 	});
 
+	$('.search').on('click',function(){		
+		datatable(1);
+	});
+
+	$('.reset').on('click',function(){		
+		$('#start_date_range,#end_date_range,#start_coc_range,#end_coc_range,#user_search,#user_id,#province1,#city1,#audit_ratio_start,#audit_ratio_end,#rating_start,#rating_end,#rating_end,#no_coc_allocation,#max_allocate_plumber').val('');
+		$('#compulsory_audit').prop('checked', false);
+		datatable(1);
+	});
+	
+	function datatable(destroy=0){
+
+		var options = {
+			url 	: 	'<?php echo base_url()."admin/audits/cocallocate/index/DTAllocateAudit"; ?>',
+			data    :   { 
+							start_date_range		: $('#start_date_range').val(), 
+							end_date_range			: $('#end_date_range').val(), 
+							start_coc_range			: $('#start_coc_range').val(), 
+							end_coc_range			: $('#end_coc_range').val(), 
+							user_id					: $('#user_id').val(), 
+							province				: $('#province1').val(), 
+							city					: $('#city1').val(), 
+							compulsory_audit		: ($('#compulsory_audit').is(':checked')) ? $('#compulsory_audit').val() : '', 
+							audit_ratio_start		: $('#audit_ratio_start').val(), 
+							audit_ratio_end			: $('#audit_ratio_end').val(), 
+							rating_start			: $('#rating_start').val(), 
+							rating_end				: $('#rating_end').val(), 
+							no_coc_allocation		: $('#no_coc_allocation').val(), 
+							max_allocate_plumber	: $('#max_allocate_plumber').val() 
+						},  		
+			destroy :   destroy,  			
+			columns : 	[
+							{ "data": "plumbername" },
+							{ "data": "regno" },
+							{ "data": "company" },
+							{ "data": "city" },
+							{ "data": "province" },
+							{ "data": "audit" },
+							{ "data": "cautionary" },
+							{ "data": "refix_incomplete" },
+							{ "data": "refix_complete" },
+							{ "data": "rating" },
+							{ "data": "coc_link" },
+						]
+		};
+		
+		ajaxdatatables('.datatables', options);
+	}
+	
 	$(document).on('click', '.cocmodal', function(){
 		user_id = $(this).attr('data-user-id');
 		$('#cocmodal').attr('user_id',user_id);
 		cocdisplay(1,user_id);
 	})	
 	
-	$('.search').on('click',function(){		
-		datatable(1);
-	});
-
-	$('.reset').on('click',function(){		
-		$('#start_date_range,#end_date_range,#start_coc_range,#end_coc_range,#user_search,#user_id,#max_allocate_plumber,#province1,#city1').val('');
-		// $('form#filter').trigger("reset");
-		datatable(1);
-	});
-
 	$(document).on('click', '.allocate', function(){
 		if($(this).is(':checked')){
 			auditor_id = $(this).parents('div.allocate_section').find('.auditor_id').val();
@@ -258,24 +389,6 @@
 		
 	}
 
-	function datatable(destroy=0){
-
-		var options = {
-			url 	: 	'<?php echo base_url()."admin/audits/cocallocate/index/DTAllocateAudit"; ?>',
-			data    :   { user_id:$('#user_id').val(), start_date_range:$('#start_date_range').val(), end_date_range:$('#end_date_range').val(), start_coc_range:$('#start_coc_range').val(), end_coc_range:$('#end_coc_range').val(), province:$('#province1').val(), city:$('#city1').val() },  		
-			destroy :   destroy,  			
-			columns : 	[
-							{ "data": "name" },
-							{ "data": "reg_no" },
-							{ "data": "company" },
-							{ "data": "city" },
-							{ "data": "province" },
-							{ "data": "coc_link" },
-						]
-		};
-		
-		ajaxdatatables('.datatables', options);
-	}
 
 	function cocdisplay(destroy=0,user_id=''){		
 		$('div.message').remove();

@@ -868,6 +868,8 @@ class CC_Controller extends CI_Controller
 						
 						$this->CC_Model->diaryactivity(['plumberid' => $pagedata['result']['user_id'], 'auditorid' => $pagedata['result']['auditorid'], 'cocid' => $pagedata['result']['id'], 'action' => '10', 'type' => '4']);
 					}
+					
+					$this->Auditor_Model->actionRatio($requestData['plumberid']);
 				} 
 				
 				$this->session->set_flashdata('success', 'Successfully updated.');

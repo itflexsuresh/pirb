@@ -40,24 +40,37 @@ class Index extends CC_Controller
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
-				$user_id = $result['id'];
-
+				$user_id 		= $result['id'];
+				$performance 	= $this->Plumber_Model->performancestatus('all', ['plumberid' => $user_id]);
+				$overallpoint 	= array_sum(array_column($performance, 'point'));
+				
+				if(isset($requestdata['rating_start']) && $requestdata['rating_start']!='' && $overallpoint < $requestdata['rating_start']){
+					continue;
+					--$totalcount;
+				}
+				if(isset($requestdata['rating_end']) && $requestdata['rating_end']!=''  && $overallpoint > $requestdata['rating_start']){
+					continue;
+					--$totalcount;
+				} 
+		
 				if($checkpermission){
 					$action = 	"<a href='javascript:void(0);' class='cocmodal' data-user-id='".$user_id."'>logged COC</a>";
 				}else{
 					$action = '';
 				}
 				
-				$designation 	= isset($this->config->item('designation2')[$result["designation"]]) ? $this->config->item('designation2')[$result["designation"]] : '';
-				$status 		= isset($this->config->item('plumberstatus')[$result["plumberstatus"]]) ? $this->config->item('plumberstatus')[$result["plumberstatus"]] : '';
-				
 				$totalrecord[] = 	[
-										'reg_no' 		=> 	$result['registration_no'],
-										'name' 			=> 	$result['name']." ".$result['surname'],
-										'company' 		=> 	$result['companyname'],
-										'city' 			=> 	$result['postal_city'],
-										'province' 		=> 	$result['postal_province'],
-										'coc_link' 		=> 	$action,
+										'plumbername' 			=> 	$result['plumbername'],
+										'regno' 				=> 	$result['regno'],
+										'company' 				=> 	$result['company'],
+										'city' 					=> 	$result['cityname'],
+										'province' 				=> 	$result['provincename'],
+										'audit' 				=> 	$result['audit'],
+										'cautionary' 			=> 	$result['cautionary'],
+										'refix_incomplete' 		=> 	$result['refix_incomplete'],
+										'refix_complete' 		=> 	$result['refix_complete'],
+										'rating' 				=> 	$overallpoint,
+										'coc_link' 				=> 	$action
 									];
 			}
 		}

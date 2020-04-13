@@ -785,6 +785,56 @@ class Auditor_Model extends CC_Model
 			return true;
 		}
 	}
+	
+	
+	public function actionRatio($id)
+	{
+		$this->db->trans_begin();
+		
+		$noofaudit 	= $this->db->select('count(id) as noofaudit')->get_where('stock_management', ['user_id' => $id, 'coc_status' => '2', 'auditorid !=' => '0'])->row_array();
+		$nooflogged = $this->db->select('count(id) as nooflogged')->get_where('stock_management', ['user_id' => $id, 'coc_status' => '2'])->row_array();
+		
+		$review = 	$this->db
+					->select('count(ar.incomplete_point) as incomplete, count(ar.complete_point) as complete, count(ar.cautionary_point) as cautionary')
+					->from('auditor_statement as')
+					->join('auditor_review ar', 'ar.coc_id=as.coc_id', 'left')
+					->where('as.auditcomplete', '1')
+					->where('as.plumber_id', $id)
+					->get()
+					->row_array();
+		
+		$noofaudit 	= round(($nooflogged['nooflogged']/$noofaudit['noofaudit'])*100,2);
+		$incomplete = round(($noofaudit['noofaudit']/$review['incomplete'])*100,2);
+		$complete 	= round(($noofaudit['noofaudit']/$review['complete'])*100,2);
+		$cautionary = round(($noofaudit['noofaudit']/$review['cautionary'])*100,2);
+		
+		$request		=	[
+			'plumber_id' 		=> $id,
+			'audit' 			=> $noofaudit,
+			'refix_incomplete' 	=> $incomplete,
+			'refix_complete' 	=> $complete,
+			'cautionary' 		=> $cautionary
+		];
+		
+		$ratio = $this->db->where('plumber_id', $id)->get('auditor_ratio')->row_array();
+		
+		if($ratio){
+			$this->db->update('auditor_ratio', $request, ['id' => $ratio['id']]);
+		}else{
+			$this->db->insert('auditor_ratio', $request);
+		}
+
+		if($this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+			return false;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return true;
+		}
+	}
 	/// Complsory Audit
 	public function audit_compulsory($data, $pageData){
 		//print_r($extraparam);die;
