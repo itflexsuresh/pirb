@@ -794,19 +794,17 @@ class Auditor_Model extends CC_Model
 		$noofaudit 	= $this->db->select('count(id) as noofaudit')->get_where('stock_management', ['user_id' => $id, 'coc_status' => '2', 'auditorid !=' => '0'])->row_array();
 		$nooflogged = $this->db->select('count(id) as nooflogged')->get_where('stock_management', ['user_id' => $id, 'coc_status' => '2'])->row_array();
 		
-		$review = 	$this->db
-					->select('count(ar.incomplete_point) as incomplete, count(ar.complete_point) as complete, count(ar.cautionary_point) as cautionary')
-					->from('auditor_statement as')
-					->join('auditor_review ar', 'ar.coc_id=as.coc_id', 'left')
-					->where('as.auditcomplete', '1')
-					->where('as.plumber_id', $id)
-					->get()
-					->row_array();
+		$reviewhistory = $this->getReviewHistoryCount(['plumberid' => $id]);
 		
-		$noofaudit 	= round(($nooflogged['nooflogged']/$noofaudit['noofaudit'])*100,2);
-		$incomplete = round(($noofaudit['noofaudit']/$review['incomplete'])*100,2);
-		$complete 	= round(($noofaudit['noofaudit']/$review['complete'])*100,2);
-		$cautionary = round(($noofaudit['noofaudit']/$review['cautionary'])*100,2);
+		$total 				= $reviewhistory['total'];
+		$refixincomplete 	= $reviewhistory['refixincomplete'];
+		$refixcomplete 		= $reviewhistory['refixcomplete'];
+		$cautionary 		= $reviewhistory['cautionary'];
+
+		$noofaudit 	= round(($noofaudit['noofaudit']/$nooflogged['nooflogged'])*100,2);
+		$incomplete = ($refixincomplete!=0) ? round(($refixincomplete/$total)*100,2) : '0'; 
+		$complete 	= ($refixcomplete!=0) ? round(($refixcomplete/$total)*100,2) : '0';
+		$cautionary = ($cautionary!=0) ? round(($cautionary/$total)*100,2) : '0';
 		
 		$request		=	[
 			'plumber_id' 		=> $id,

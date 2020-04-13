@@ -198,19 +198,21 @@
 							<input type="text" class="form-control" placeholder="Count of all COC marked for allocation as a % of the cocs brought back per date range">
 						</div>
 					</div>
-					<table class="table table-bordered table-striped fullwidth m-t-15">
-						<thead>
-							<tr>
-								<th>Auditor Name</th>
-								<th>Audit Allocation MTD</th>
-								<th>Open Audits</th>
-								<th>Allocation for above selection</th>
-							</tr>
-						</thead>
-					</table>
-					<div class="text-right">
-						<button type="button" name="submit" value="submit" class="btn btn-primary">Allocate Audits</button>
-					</div>
+					<form action="" method="post">
+						<table class="table table-bordered table-striped auditor_table fullwidth m-t-15">
+							<thead>
+								<tr>
+									<th>Auditor Name</th>
+									<th>Audit Allocation MTD</th>
+									<th>Open Audits</th>
+									<th>Allocation for above selection</th>
+								</tr>
+							</thead>
+						</table>
+						<div class="text-right">
+							<button type="submit" name="submit" value="submit" class="btn btn-primary">Allocate Audits</button>
+						</div>
+					</form>
 				</div>
 				
 			</div>
@@ -222,7 +224,7 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="table-responsive m-t-40">
-				<table class="table table-bordered table-striped coc_datatable fullwidth">
+				<table class="table table-bordered table-striped coc_table fullwidth">
 					<thead>
 						<tr>
 							<th>COC Number</th>
@@ -230,11 +232,17 @@
 							<th>Suburb</th>
 							<th>City</th>
 							<th>Province</th>
-							<th>Allocate</th>
+							<th>Auditor Name</th>
+							<th>Audit Allocation MTD</th>
+							<th>Open Audits</th>
+							<th>Allocation</th>
 						</tr>
 					</thead>
 				</table>
 			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 		</div>
 	</div>
 </div>
@@ -297,133 +305,106 @@
 	}
 	
 	$(document).on('click', '.cocmodal', function(){
-		user_id = $(this).attr('data-user-id');
-		$('#cocmodal').attr('user_id',user_id);
-		cocdisplay(1,user_id);
+		$(document).find('.removecoc').remove();
+		
+		var userid = $(this).attr('data-user-id');
+		
+		var data = {
+			user_id					: userid, 
+			no_coc_allocation		: $('#no_coc_allocation').val(), 
+			max_allocate_plumber	: $('#max_allocate_plumber').val() 
+		}
+		
+		ajax('<?php echo base_url()."admin/audits/cocallocate/index/coc"; ?>', data, '', {
+			success: function(data){
+				if(data.result.length > 0){
+					var table = [];
+					
+					$(data.result).each(function(i, v){
+						var data 	= '\
+							<tr class="removecoc">\
+								<td>'+v.coc_id+'</td>\
+								<td>'+v.installationcode+'</td>\
+								<td>'+v.suburbname+'</td>\
+								<td>'+v.cityname+'</td>\
+								<td>'+v.provincename+'</td>\
+								<td>\
+									<input type="search" autocomplete="off" class="form-control auditor_search" id="auditor_search_'+v.coc_id+'" data-cocid="'+v.coc_id+'">\
+									<input type="hidden" class="auditor_id" id="auditor_id_'+v.coc_id+'">\
+									<input type="hidden" class="plumber_id" id="plumber_id_'+v.coc_id+'" value="'+userid+'">\
+									<div class="auditor_suggestion" id="auditor_suggestion_'+v.coc_id+'"></div>\
+								</td>\
+								<td></td>\
+								<td></td>\
+								<td><input type="checkbox" name="allocate" class="allocate" data-cocid="'+v.coc_id+'"></td>\
+							</tr>\
+						'; 
+						
+						table.push(data);
+					})
+					
+					$('.coc_table').append(table);
+					$('#cocmodal').modal('show');
+				}
+			}
+		});
 	})	
 	
+	$(document).on('keyup', '.auditor_search', function(){
+		var cocid = $(this).attr('data-cocid');
+		$("#auditor_id_"+cocid).val('');
+		userautocomplete(['#auditor_search_'+cocid, '#auditor_id_'+cocid, '#auditor_suggestion_'+cocid], [$(this).val(), 5]);
+	})
+	
+	$(document).on('keyup', '#user_search', function(){
+		$("#user_id").val('');
+		userautocomplete(['#user_search', '#user_id', '#user_suggestion'], [$(this).val(), 3]);
+	})
+	
 	$(document).on('click', '.allocate', function(){
+		var cocid 			= $(this).attr('data-cocid');
+		var auditorid 		= $(this).parent().parent().find('#auditor_id_'+cocid).val();
+		var auditorname 	= $(this).parent().parent().find('#auditor_search_'+cocid).val();
+		var plumberid 		= $(this).parent().parent().find('#plumber_id_'+cocid).val();
+		
+		if(auditorid==''){
+			$(this).prop('checked', false);
+			$(this).parent().parent().find('#auditor_id_'+cocid).focus();
+			return false;
+		}
+		
 		if($(this).is(':checked')){
-			auditor_id = $(this).parents('div.allocate_section').find('.auditor_id').val();
-			if(auditor_id!=''){
-				coc_id = $(this).parents('tr').find('.coc_id').text();
-				user_id = $('#cocmodal').attr('user_id');
-				ajax('<?php echo base_url()."admin/audits/cocallocate/index/auditor_allocate"; ?>', {'coc_id' : coc_id,'auditor_id' : auditor_id,'user_id' : user_id}, auditor_allocate);
-			} else {
-				$(this).prop('checked', false);
-				// alert('Please select Auditor');
-				// $('div.message').text('Please select Auditor').css('color','red').show();				
-				$('div.message').remove();				
-				$("#DataTables_Table_1_length").after("<div class='message' style='color:red'>Please select Auditor</div>");
-			}
-			// $('.allocate:checked').parent('.allocate_section').find('.user_search').attr('disabled',true);
-			// $('.allocate:checked').hide();
+			auditsummary(cocid, plumberid, auditorid, auditorname);
 		}
 	});
 	
-	function auditor_allocate(){
-		// alert('Auditor Allocated successfully');
-		$('div.message').remove();				
-		$("#DataTables_Table_1_length").after("<div class='message' style='color:green'>Auditor Allocated successfully</div>");
-		$('.allocate:checked').parent('.allocate_section').find('.user_search').attr('disabled',true);
-		$('.allocate:checked').hide();
-		location.reload();
-	}
-
-	$(document).on('keyup', '.user_search', function(){
-		$('div.message').remove();
-		user_search = '#'+$(this).attr('id');
-		auditor_id = $(this).parent('div').find(".auditor_id");
-		auditor_id.attr('value','');
-		user_suggestion = $(this).parent('div').find(".user_suggestion");
-		userautocomplete1([user_search, auditor_id, user_suggestion], [$(this).val(),5], custom_auditor_select);
-	})
-
-	function userautocomplete1(data1=[], data2=[], customfunction=''){
-	var userurl 		= baseurl()+"ajax/index/ajaxuserautocomplete";
-	var appendclass 	= data1[0].substring(1);
+	var auditorcount = 1;
 	
-	ajax(userurl, {'search_keyword' : data2[0], type : data2[1]}, user_search_result);
-	
-	function user_search_result(data)
-	{
-		var result = [];
-		
-		$(data).each(function(i, v){
-			result.push('<li data-name="'+v.name+'" data-id="'+v.id+'" class="autocompletelist'+appendclass+'">'+v.name+'</li>');
-		})
-		
-		var append = '<ul class="autocomplete_list">'+result.join('')+'</ul>';
-		$(data1[2]).html('').removeClass('displaynone').html(append);
+	function auditsummary(cocid, plumberid, auditorid, auditorname){
+		var checkauditor 	= 	$(document).find('.auditorallocate[data-auditorid="'+auditorid+'"]').length;
+		var appendfield		= 	'<div class="auditorcocid" data-auditorcocid="'+cocid+'">\
+									<input type="hidden" name="allocate['+(auditorcount)+'][auditorid]" value="'+auditorid+'">\
+									<input type="hidden" name="allocate['+(auditorcount)+'][plumberid]" value="'+plumberid+'">\
+									<input type="hidden" name="allocate['+(auditorcount++)+'][cocid]" value="'+cocid+'">\
+								</div>';
+						
+		if(checkauditor > 0){
+			var auditval = $(document).find('.auditorallocate[data-auditorid="'+auditorid+'"] td:nth-child(4) span').text();
+			$(document).find('.auditorallocate[data-auditorid="'+auditorid+'"] td:nth-child(4) span').text(parseInt(auditval)+1);
+			$(document).find('.auditorallocate[data-auditorid="'+auditorid+'"] td:nth-child(4)').append(appendfield);
+		}else{
+			var auditortable = 	'<tr data-auditorid="'+auditorid+'" class="auditorallocate">\
+									<td>'+auditorname+'</td>\
+									<td></td>\
+									<td></td>\
+									<td>\
+										<span>1</span>\
+										'+appendfield+'\
+									</td>\
+								</tr>';
+								
+			$('.auditor_table').append(auditortable);		
+			$('.audit_summary').removeClass('displaynone');
+		}
 	}
-	
-	$(document).on('click', '.autocompletelist'+appendclass, function(){
-		$('div.message').remove();
-		var id = $(this).attr('data-id');
-		var name = $(this).attr('data-name');
-
-		var count = $(this).attr('data-count');
-		var electronic = $(this).attr('data-electronic');
-		
-		$(data1[0]).val(name);
-		$(data1[1]).val(id);
-		$(data1[2]).html('');
-		
-		if(customfunction!='') customfunction(name, id, count, electronic);
-	})
-}
-
-	function custom_auditor_select() {
-		
-	}
-
-	$(document).on('keyup', '#user_search', function(){
-		$("#user_id").attr('value','');
-		// user_search = $(this);
-		// plumber_id = $(this).parent('div').find("#user_id");
-		// user_suggestion = $(this).parent('div').find("#user_suggestion");
-		userautocomplete(['#user_search', '#user_id', "#user_suggestion"], [$(this).val(),3], custom_plumber_select);
-	})
-
-	function custom_plumber_select() {
-		
-	}
-
-
-	function cocdisplay(destroy=0,user_id=''){		
-		$('div.message').remove();
-		var options = {
-			url 	: 	'<?php echo base_url()."admin/audits/cocallocate/index/DTcoc"; ?>',		
-			data    :   { user_id : user_id, start_date_range:$('#start_date_range').val(), end_date_range:$('#end_date_range').val(), start_coc_range:$('#start_coc_range').val(), end_coc_range:$('#end_coc_range').val(), max_allocate_plumber:$('#max_allocate_plumber').val(),province:$('#province1').val(), city:$('#city1').val() }, 
-			destroy :   destroy,  		
-			lengthmenu: [50],	
-			search: 0,
-			target : [0,1,2,3,4,5],
-			sort : '0',
-			columns : 	[
-							{ "data": "coc_id" },
-							{ "data": "installationtype" },
-							{ "data": "suburb" },
-							{ "data": "city" },
-							{ "data": "province" },
-							{ "data": "allocate" },
-						]
-		};
-		
-		ajaxdatatables('.coc_datatable', options);
-		$('#cocmodal').modal('show');
-	}
-	
 </script>
-<style type="text/css">
-.dataTables_filter,
-#DataTables_Table_1_info
- {
-	display: none;
-}
-div.message {
-	text-align: right;
-	padding-right: 10px;
-	padding-top: 20px;
-}
-</style>
