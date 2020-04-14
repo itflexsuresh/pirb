@@ -409,8 +409,8 @@
 		var province 	= $(this).attr('data-province');
 		
 		$("#auditor_id_"+cocid).val('');
-		$(this).parent().parent().find('.allocate').prop('checked', false);
 		removeauditsummary(cocid)
+		$(this).parent().parent().find('.allocate').prop('checked', false);
 		userautocomplete(['#auditor_search_'+cocid, '#auditor_id_'+cocid, '#auditor_suggestion_'+cocid], [$(this).val(), 5, {suburb : suburb,city : city,province : province}]);
 	})
 	
@@ -456,7 +456,8 @@
 			}
 		}else{
 			var cocidremove = $(document).find('.auditorcocid[data-auditorcocid="'+cocid+'"]');
-			if(cocidremove.parent().find('.auditorcocid').length > 1){
+			
+			if(cocidremove.parent().find('.auditorcocid').length < 2){
 				cocidremove.parent().parent().remove();
 			}else{
 				var auditval = cocidremove.parent().parent().find('td:nth-child(4) span').text();
