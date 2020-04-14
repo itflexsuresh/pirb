@@ -912,7 +912,7 @@ class CC_Controller extends CI_Controller
 		
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['result']			= $result;
-		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['auditorid' => $pagedata['result']['auditorid'], 'plumberid' => $pagedata['result']['user_id']]);	
+		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['plumberid' => $pagedata['result']['user_id']]);	
 		$pagedata['menu']			= $this->load->view('common/auditstatement/menu', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'datepicker', 'echarts'];
