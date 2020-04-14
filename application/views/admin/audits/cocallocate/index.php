@@ -456,7 +456,7 @@
 			}
 		}else{
 			var cocidremove = $(document).find('.auditorcocid[data-auditorcocid="'+cocid+'"]');
-			if(cocidremove.parent().find('.auditorcocid').length < 1){
+			if(cocidremove.parent().find('.auditorcocid').length > 1){
 				cocidremove.parent().parent().remove();
 			}else{
 				var auditval = cocidremove.parent().parent().find('td:nth-child(4) span').text();
