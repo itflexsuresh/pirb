@@ -446,7 +446,7 @@
 	});
 	
 	function removeauditsummary(cocid, auditorid=''){
-		if(auditorid==''){
+		if(auditorid!=''){
 			$(document).find('.auditorcocid[data-auditorcocid="'+cocid+'"]').remove();
 			if($(document).find('.auditorallocate[data-auditorid="'+auditorid+'"]').find('.auditorcocid').length==0){
 				$(document).find('.auditorallocate[data-auditorid="'+auditorid+'"]').remove();
