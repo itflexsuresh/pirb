@@ -224,26 +224,28 @@
 <div id="cocmodal" class="modal fade" role="dialog">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
-			<div class="table-responsive m-t-40">
-				<table class="table table-bordered table-striped coc_table fullwidth">
-					<thead>
-						<tr>
-							<th>COC Number</th>
-							<th>Installation Code(s) of COC</th>
-							<th>Suburb</th>
-							<th>City</th>
-							<th>Province</th>
-							<th>Auditor Name</th>
-							<th>Audit Allocation MTD</th>
-							<th>Open Audits</th>
-							<th>Allocation</th>
-						</tr>
-					</thead>
-				</table>
+			<div class="modal-body">
+				<div class="table-responsive m-t-40">
+					<table class="table table-bordered table-striped coc_table fullwidth">
+						<thead>
+							<tr>
+								<th>COC Number</th>
+								<th>Installation Code(s) of COC</th>
+								<th>Suburb</th>
+								<th>City</th>
+								<th>Province</th>
+								<th>Auditor Name</th>
+								<th>Audit Allocation MTD</th>
+								<th>Open Audits</th>
+								<th>Allocation</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
 			</div>
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
 		</div>
 	</div>
 </div>
@@ -346,16 +348,29 @@
 				if(data.result.length > 0){
 					var table = [];
 					
-					$(data.result).each(function(i, v){
+					$(data.result).each(function(i, v){			
+						var autoresult 		= userautocomplete([], ['', 5, {suburb : v.suburbname,city : v.cityname,province : v.provincename}], '', 1);
+						var checkallocate 	= '';
+						var postauditorid 	= '';
+						var postauditorname = '';
+						var openaudit		= '0';
+						var mtd				= '0';
+						
+						$(autoresult).each(function(i, v){
+							$(v).each(function(index, values){
+								postauditorname = values.name;
+								postauditorid 	= values.id;
+								openaudit 		= values.openaudit;
+								mtd 			= values.mtd;
+								return false;
+							})
+						})
+						
 						var summarydata = $(document).find('.postcocid[value="'+v.coc_id+'"]');
 						if(summarydata.length > 0){
 							var checkallocate 	= 'checked="checked"';
 							var postauditorid 	= summarydata.parent().find('.postauditorid').val();
 							var postauditorname = summarydata.parent().parent().parent().find('td:nth-child(1)').text();
-						}else{
-							var checkallocate 	= '';
-							var postauditorid 	= '';
-							var postauditorname = '';
 						}
 						
 						var data 	= '\
@@ -371,8 +386,8 @@
 									<input type="hidden" class="plumber_id" id="plumber_id_'+v.coc_id+'" value="'+userid+'">\
 									<div class="auditor_suggestion" id="auditor_suggestion_'+v.coc_id+'"></div>\
 								</td>\
-								<td></td>\
-								<td></td>\
+								<td class="">'+mtd+'</td>\
+								<td class="openaudit">'+openaudit+'</td>\
 								<td><input type="checkbox" name="allocate" class="allocate" data-cocid="'+v.coc_id+'" '+checkallocate+'></td>\
 							</tr>\
 						'; 
@@ -408,6 +423,8 @@
 		var auditorid 		= $(this).parent().parent().find('#auditor_id_'+cocid).val();
 		var auditorname 	= $(this).parent().parent().find('#auditor_search_'+cocid).val();
 		var plumberid 		= $(this).parent().parent().find('#plumber_id_'+cocid).val();
+		var mtd 			= $(this).parent().parent().find('td:nth-child(7)').text();
+		var openaudit 		= $(this).parent().parent().find('td:nth-child(8)').text();
 		
 		if(auditorid==''){
 			$(this).prop('checked', false);
@@ -416,7 +433,7 @@
 		}
 		
 		if($(this).is(':checked')){
-			auditsummary(cocid, plumberid, auditorid, auditorname);
+			auditsummary(cocid, plumberid, auditorid, auditorname, mtd, openaudit);
 			var coclength 		= $(document).find('.auditorcocid').length;
 			var cocpercentage 	= ((coclength/totalcoccount)*100).toFixed(2)+'%';
 			$('.confirmcoc').text(coclength);
@@ -438,7 +455,7 @@
 	
 	var auditorcount = 1;
 	
-	function auditsummary(cocid, plumberid, auditorid, auditorname){
+	function auditsummary(cocid, plumberid, auditorid, auditorname, mtd, openaudit){
 		var checkauditor 	= 	$(document).find('.auditorallocate[data-auditorid="'+auditorid+'"]').length;
 		var appendfield		= 	'<div class="auditorcocid" data-auditorcocid="'+cocid+'">\
 									<input type="hidden" name="allocate['+(auditorcount)+'][auditorid]" class="postauditorid" value="'+auditorid+'">\
@@ -453,8 +470,8 @@
 		}else{
 			var auditortable = 	'<tr data-auditorid="'+auditorid+'" class="auditorallocate">\
 									<td>'+auditorname+'</td>\
-									<td></td>\
-									<td></td>\
+									<td>'+mtd+'</td>\
+									<td>'+openaudit+'</td>\
 									<td>\
 										<span>1</span>\
 										'+appendfield+'\

@@ -549,16 +549,51 @@ class Coc_Ordermodel extends CC_Model
 	}
 
 	public function autosearchAuditor($postData){
+		$openaudit = 	',(
+							select count(sm.id) 
+							from stock_management sm
+							left join auditor_statement as ars on ars.coc_id=sm.id
+							where sm.auditorid=ud.user_id and (ars.auditcomplete=0 or ars.auditcomplete IS NULL)
+						) as openaudit';
+						
+		$mtd 		= 	',(
+							select count(sm.id) 
+							from stock_management sm
+							where sm.auditorid=ud.user_id and month(audit_allocation_date) = '.date('m').' and year(audit_allocation_date) = '.date('Y').'
+						) as mtd';
 		
-		$this->db->select('concat(ud.name, " ", ud.surname) as name,u.id, t3.status as availability_status, t3.allocation_allowed, u.status, u.type, COUNT(t4.id) AS logged_count');
+		$this->db->select('u.id, concat(ud.name, " ", ud.surname) as name'.$openaudit.$mtd);
 		$this->db->from('users_detail ud');
 		$this->db->join('users u', 'u.id=ud.user_id','inner');		
-		$this->db->join('auditor_availability t3', 't3.user_id=ud.user_id','left');
-		$this->db->join('stock_management t4', 't4.auditorid=ud.user_id','left');
-		$this->db->where(['u.status' => '1','u.type' => '5','t3.status' => '1']);
+		$this->db->join('auditor_availability aa', 'aa.user_id=ud.user_id','left');
+		$this->db->join('users_address ua', 'ua.user_id=ud.user_id and ua.type="3"','left');
+		$this->db->join('province p1', 'ua.province=p1.id','left');		
+		$this->db->join('city c1', 'ua.city=c1.id','left');				
+		$this->db->join('suburb s1', 'ua.suburb=s1.id','left');		
+		$this->db->join('users_auditor_area uaa', 'uaa.user_id=ud.user_id','left');
+		$this->db->join('province p2', 'uaa.province=p2.id','left');		
+		$this->db->join('city c2', 'uaa.city=c2.id','left');				
+		$this->db->join('suburb s2', 'uaa.suburb=s2.id','left');			
+		
+		$this->db->where(['u.status' => '1','u.type' => '5','aa.status' => '1']);
+		
+		$this->db->group_start();
+			$this->db->where(['ud.name !=' => '']);
+			$this->db->or_where(['ud.surname !=' => '']);
+		$this->db->group_end();
+		
+		$this->db->group_start();
+			$this->db->like('ud.name', $postData['search_keyword'], 'both');
+			$this->db->or_like('ud.surname', $postData['search_keyword'], 'both');
+		$this->db->group_end();
 
 		$this->db->group_start();
-			$this->db->or_like(array('ud.name' => $postData['search_keyword'], 'ud.surname' => $postData['search_keyword']));
+			if(isset($postData['province']) && $postData['province']!='') 	$this->db->like('p1.name', $postData['province'], 'both');
+			if(isset($postData['city']) && $postData['city']!='') 			$this->db->or_like('c1.name', $postData['city'], 'both');
+			if(isset($postData['suburb']) && $postData['suburb']!='') 		$this->db->or_like('s1.name', $postData['suburb'], 'both');
+			if(isset($postData['province']) && $postData['province']!='') 	$this->db->or_like('p2.name', $postData['province'], 'both');
+			if(isset($postData['city']) && $postData['city']!='') 			$this->db->or_like('c2.name', $postData['city'], 'both');
+			if(isset($postData['suburb']) && $postData['suburb']!='') 		$this->db->or_like('s2.name', $postData['suburb'], 'both');
 		$this->db->group_end();
 
 		$this->db->group_by("ud.id");
@@ -566,14 +601,7 @@ class Coc_Ordermodel extends CC_Model
 		$query = $this->db->get();
 		$result = $query->result_array();
 		
-
-		$result_new = [];
-		foreach ($result as $key => $value) {
-			if($value['name']!='' && $value['status']==1 && $value['availability_status']==1 && $value['type']==5 && $value['allocation_allowed']>$value['logged_count']){
-				$result_new[] = $value;
-			}
-		}
-		return $result_new;
+		return $result;
 	}
 
 	
