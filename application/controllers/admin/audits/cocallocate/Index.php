@@ -55,14 +55,15 @@ class Index extends CC_Controller
 			redirect('admin/audits/cocallocate/index');
 		}
 		
-		$pagedata['notification'] 	= $this->getNotification();
-		$pagedata['company'] 		= $this->getCompanyList();
+		$pagedata['notification'] 		= $this->getNotification();
+		$pagedata['company'] 			= $this->getCompanyList();
 		$pagedata['province'] 			= $this->getProvinceList();
-		$pagedata['plumberstatus'] 	= $this->config->item('plumberstatus');
-		$pagedata['checkpermission'] = $this->checkUserPermission('27', '2');
+		$pagedata['plumberstatus'] 		= $this->config->item('plumberstatus');
+		$pagedata['checkpermission'] 	= $this->checkUserPermission('27', '2');
+		$pagedata['totalcoccount'] 		= $this->Auditor_allocatecoc_Model->getCOCList('count', []);
 		
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'datepicker'];
-		$data['content'] 			= $this->load->view('admin/audits/cocallocate/index', (isset($pagedata) ? $pagedata : ''), true);
+		$data['plugins']				= ['datatables', 'datatablesresponsive', 'sweetalert', 'datepicker'];
+		$data['content'] 				= $this->load->view('admin/audits/cocallocate/index', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$this->layout2($data);		
 	}

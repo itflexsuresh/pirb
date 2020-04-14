@@ -13,6 +13,7 @@ class Auditor_allocatecoc_Model extends CC_Model
 			cd.company,
 			c.name as cityname,
 			p.name as provincename,
+			s.name as suburbname,
 			ar.audit,
 			ar.refix_incomplete,
 			ar.refix_complete,
@@ -24,6 +25,7 @@ class Auditor_allocatecoc_Model extends CC_Model
 		$this->db->join('users_plumber up', 'sm.user_id=up.user_id', 'left');
 		$this->db->join('users_detail cd', 'cd.id=up.company_details', 'left');
 		$this->db->join('users_address ua2', 'sm.user_id=ua2.user_id and ua2.type="2"', 'left');
+		$this->db->join('suburb s', 'ua2.suburb=s.id','left');				
 		$this->db->join('city c', 'ua2.city=c.id','left');				
 		$this->db->join('province p', 'ua2.province=p.id','left');				
 		$this->db->join('auditor_ratio ar', 'sm.user_id=ar.plumber_id','left');		

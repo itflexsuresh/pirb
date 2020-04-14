@@ -497,7 +497,13 @@ function userautocomplete(data1=[], data2=[], customfunction=''){
 	var userurl 		= baseurl()+"ajax/index/ajaxuserautocomplete";
 	var appendclass 	= data1[0].substring(1);
 	
-	ajax(userurl, {'search_keyword' : data2[0], type : data2[1]}, user_search_result);
+	var postdata = {};
+	if(data2[2]) postdata 		= data2[2];
+	postdata['search_keyword'] 	= data2[0];
+	postdata['type'] 			= data2[1];
+	console.log(postdata);
+	console.log(data2[2]);
+	ajax(userurl, postdata, user_search_result);
 	
 	function user_search_result(data)
 	{

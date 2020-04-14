@@ -366,7 +366,7 @@
 								<td>'+v.cityname+'</td>\
 								<td>'+v.provincename+'</td>\
 								<td>\
-									<input type="text" autocomplete="off" class="form-control auditor_search" id="auditor_search_'+v.coc_id+'" data-cocid="'+v.coc_id+'" value="'+postauditorname+'" style="width:100px">\
+									<input type="text" autocomplete="off" class="form-control auditor_search" id="auditor_search_'+v.coc_id+'" data-cocid="'+v.coc_id+'" data-suburb="'+v.suburbname+'"  data-city="'+v.cityname+'"  data-province="'+v.provincename+'" value="'+postauditorname+'" style="width:100px">\
 									<input type="hidden" class="auditor_id" id="auditor_id_'+v.coc_id+'" value="'+postauditorid+'">\
 									<input type="hidden" class="plumber_id" id="plumber_id_'+v.coc_id+'" value="'+userid+'">\
 									<div class="auditor_suggestion" id="auditor_suggestion_'+v.coc_id+'"></div>\
@@ -388,10 +388,14 @@
 	})	
 	
 	$(document).on('keyup', '.auditor_search', function(){
-		var cocid = $(this).attr('data-cocid');
+		var cocid 		= $(this).attr('data-cocid');
+		var suburb 		= $(this).attr('data-suburb');
+		var city 		= $(this).attr('data-city');
+		var province 	= $(this).attr('data-province');
+		
 		$("#auditor_id_"+cocid).val('');
 		$(this).parent().parent().find('.allocate').prop('checked', false);
-		userautocomplete(['#auditor_search_'+cocid, '#auditor_id_'+cocid, '#auditor_suggestion_'+cocid], [$(this).val(), 5]);
+		userautocomplete(['#auditor_search_'+cocid, '#auditor_id_'+cocid, '#auditor_suggestion_'+cocid], [$(this).val(), 5, {suburb : suburb,city : city,province : province}]);
 	})
 	
 	$(document).on('keyup', '#user_search', function(){
