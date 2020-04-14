@@ -85,8 +85,10 @@ class Auditor_allocatecoc_Model extends CC_Model
 		$this->db->join('suburb s', 'cl.suburb=s.id','left');	
 		$this->db->join('stock_management sm', 'sm.id=cl.coc_id','left');	
 		
-		$this->db->where(['sm.auditorid' => '0', 'sm.coc_status' => '2', 'sm.user_id' => $requestdata['user_id']]);
-				
+		$this->db->where(['sm.auditorid' => '0', 'sm.coc_status' => '2']);
+		
+		if(isset($requestdata['user_id']) && $requestdata['user_id']!='') 	$this->db->where('sm.user_id', $requestdata['user_id']);
+		
 		$this->db->group_by('cl.id');
 		
 		if($type=='count'){

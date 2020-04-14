@@ -272,6 +272,8 @@
 
 	
 <script>
+	var totalcoccount = '<?php echo $totalcoccount; ?>';
+	
 	$(function(){
 		datepicker('#start_date_range');
 		datepicker('#end_date_range');
@@ -411,9 +413,11 @@
 		
 		if($(this).is(':checked')){
 			auditsummary(cocid, plumberid, auditorid, auditorname);
-			$('.confirmcoc').text($(document).find('.auditorcocid').length);
-			$('.markedcount').val($(document).find('.auditorcocid').length);
-			$('.markedcountpercentage').val()
+			var coclength 		= $(document).find('.auditorcocid').length;
+			var cocpercentage 	= ((coclength/totalcoccount)*100).toFixed(2)+'%';
+			$('.confirmcoc').text(coclength);
+			$('.markedcount').val(coclength);
+			$('.markedcountpercentage').val(cocpercentage);
 		}else{
 			$(document).find('.auditorcocid[data-auditorcocid="'+cocid+'"]').remove();
 			
