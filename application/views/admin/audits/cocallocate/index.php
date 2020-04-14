@@ -210,7 +210,8 @@
 							</thead>
 						</table>
 						<div class="text-right">
-							<button type="submit" name="submit" value="submit" class="btn btn-primary">Allocate Audits</button>
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmmodal">Allocate Audits</button>
+							<button type="submit" class="summarysubmit displaynone"></button>
 						</div>
 					</form>
 				</div>
@@ -246,7 +247,30 @@
 		</div>
 	</div>
 </div>
-		
+
+<div id="confirmmodal" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12">
+						<h3>Confirm that you wish to Allocate <span class="confirmcoc"></span> Audits.</h3>
+						<div class="form-group">
+							<input type="text" class="form-control confirmtext" name="confirmtext" placeholder="Type in Yes to Confirm">
+							<span class="tagline confirmtagline displaynone">Please fill with confirm text.</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-success confirmsubmit">Confirm</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+	
 <script>
 	$(function(){
 		datepicker('#start_date_range');
@@ -387,6 +411,7 @@
 		
 		if($(this).is(':checked')){
 			auditsummary(cocid, plumberid, auditorid, auditorname);
+			$('.confirmcoc').text($(document).find('.auditorcocid').length);
 			$('.markedcount').val($(document).find('.auditorcocid').length);
 			$('.markedcountpercentage').val()
 		}else{
@@ -432,4 +457,14 @@
 			$('.audit_summary').removeClass('displaynone');
 		}
 	}
+	
+	$('.confirmsubmit').click(function(){
+		$('.confirmtagline').addClass('displaynone');
+		
+		if($('.confirmtext').val().toLowerCase()=='yes'){
+			$('.summarysubmit').click();
+		}else{
+			$('.confirmtagline').removeClass('displaynone');
+		}
+	})
 </script>
