@@ -410,6 +410,7 @@
 		
 		$("#auditor_id_"+cocid).val('');
 		$(this).parent().parent().find('.allocate').prop('checked', false);
+		removeauditsummary(cocid, auditorid)
 		userautocomplete(['#auditor_search_'+cocid, '#auditor_id_'+cocid, '#auditor_suggestion_'+cocid], [$(this).val(), 5, {suburb : suburb,city : city,province : province}]);
 	})
 	
@@ -440,18 +441,22 @@
 			$('.markedcount').val(coclength);
 			$('.markedcountpercentage').val(cocpercentage);
 		}else{
-			$(document).find('.auditorcocid[data-auditorcocid="'+cocid+'"]').remove();
-			
-			if($(document).find('.auditorallocate[data-auditorid="'+auditorid+'"]').find('.auditorcocid').length==0){
-				$(document).find('.auditorallocate[data-auditorid="'+auditorid+'"]').remove();
-			}else{
-				var auditval = $(document).find('.auditorallocate[data-auditorid="'+auditorid+'"] td:nth-child(4) span').text();
-				$(document).find('.auditorallocate[data-auditorid="'+auditorid+'"] td:nth-child(4) span').text(parseInt(auditval)-1);			
-			}
-			
-			if($(document).find('.auditorallocate').length==0) $('.audit_summary').addClass('displaynone');
+			removeauditsummary(cocid, auditorid);
 		}
 	});
+	
+	function removeauditsummary(cocid, auditorid){
+		$(document).find('.auditorcocid[data-auditorcocid="'+cocid+'"]').remove();
+			
+		if($(document).find('.auditorallocate[data-auditorid="'+auditorid+'"]').find('.auditorcocid').length==0){
+			$(document).find('.auditorallocate[data-auditorid="'+auditorid+'"]').remove();
+		}else{
+			var auditval = $(document).find('.auditorallocate[data-auditorid="'+auditorid+'"] td:nth-child(4) span').text();
+			$(document).find('.auditorallocate[data-auditorid="'+auditorid+'"] td:nth-child(4) span').text(parseInt(auditval)-1);			
+		}
+		
+		if($(document).find('.auditorallocate').length==0) $('.audit_summary').addClass('displaynone');
+	}
 	
 	var auditorcount = 1;
 	
