@@ -935,14 +935,16 @@ function mutiplereviewfile(file, type, id=''){
 			var ext 		= v.split('.').pop().toLowerCase();
 			if(ext=='jpg' || ext=='jpeg' || ext=='png'){
 				var filesrc = reviewpath+v;	
+				var fileurl = reviewpath+v;	
 			}else if(ext=='pdf'){
 				var filesrc = '<?php echo base_url()."assets/images/pdf.png"?>';	
+				var fileurl = reviewpath+v;	
 			}
 			
 			if(type==1){
 				$('.rfileappend').append('<div class="multipleupload"><input type="hidden" value="'+v+'" name="file[]"><img src="'+filesrc+'" width="100"><i class="fa fa-times"></i></div>');
 			}else{
-				if(id!='') $(document).find('.reviewappend[data-id="'+id+'"] .reviewimageview').append('<img src="'+filesrc+'" width="100">');
+				if(id!='') $(document).find('.reviewappend[data-id="'+id+'"] .reviewimageview').append('<a href="'+fileurl+'" target="_blank"><img src="'+filesrc+'" width="100"></a>');
 			}
 		})
 		
