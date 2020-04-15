@@ -70,7 +70,7 @@
 	if($plumberverification=='' && $roletype=='1') $yesno = [];
 	
 	$chatfilepath	= base_url().'assets/uploads/chat/'.$cocid.'/';
-	$downloadurl	= base_url();
+	$downloadurl	= base_url().(isset($downloadattachment) ? $downloadattachment : '');
 ?>
 
 <div class="row page-titles">
@@ -942,7 +942,7 @@ function mutiplereviewfile(file, type, id=''){
 			}
 			
 			if(type==1){
-				$('.rfileappend').append('<div class="multipleupload"><input type="hidden" value="'+v+'" name="file[]"><img src="'+filesrc+'" width="100"><i class="fa fa-times"></i></div>');
+				$('.rfileappend').append('<div class="multipleupload"><input type="hidden" value="'+v+'" name="file[]"><a href="'+fileurl+'" target="_blank"><img src="'+filesrc+'" width="100"></a><i class="fa fa-times"></i></div>');
 			}else{
 				if(id!='') $(document).find('.reviewappend[data-id="'+id+'"] .reviewimageview').append('<a href="'+fileurl+'" target="_blank"><img src="'+filesrc+'" width="100"></a>');
 			}
