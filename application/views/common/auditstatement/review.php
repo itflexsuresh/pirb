@@ -70,7 +70,7 @@
 	if($plumberverification=='' && $roletype=='1') $yesno = [];
 	
 	$chatfilepath	= base_url().'assets/uploads/chat/'.$cocid.'/';
-	$downloadurl	= base_url().$downloadattachment;
+	$downloadurl	= base_url();
 ?>
 
 <div class="row page-titles">

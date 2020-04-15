@@ -149,7 +149,7 @@
 						<div class="col-md-12">
 							<div class="row form-group">
 								<div class="col-md-6">
-									<label>Maximum of number of Audits allocated per plumber</label>
+									<label>Maximum number of Audits allocated per plumber</label>
 									<input type="number" class="form-control" name="max_allocate_plumber" id="max_allocate_plumber">
 								</div>
 							</div>
