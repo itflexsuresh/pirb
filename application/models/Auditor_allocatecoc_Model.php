@@ -5,6 +5,25 @@ class Auditor_allocatecoc_Model extends CC_Model
 
 	public function getList($type, $requestdata=[])
 	{ 
+		$auditcomplete	= 	'';
+		$noofcoc		= 	'';
+		
+		if(isset($requestdata['compulsory_audit']) && $requestdata['compulsory_audit']!=''){
+			$auditcomplete	= 	',
+									if(cal.allocation is null or cal.allocation = "", 0, cal.allocation) as auditassign,
+									(
+										SELECT
+										count(ast.auditcomplete)
+										FROM auditor_statement ast
+										WHERE sm.user_id = ast.plumber_id and ast.auditcomplete = "1"
+									) as auditcomplete
+								';
+		}
+		
+		if(isset($requestdata['no_coc_allocation']) && $requestdata['no_coc_allocation']!=''){
+			$noofcoc = ', count(distinct(cl.id)) as coccount';
+		}
+		
 		$this->db->select('
 			sm.id,
 			sm.user_id,
@@ -18,7 +37,7 @@ class Auditor_allocatecoc_Model extends CC_Model
 			ar.refix_incomplete,
 			ar.refix_complete,
 			ar.cautionary
-		');
+		'.$auditcomplete.$noofcoc);
 		$this->db->from('stock_management sm');
 		$this->db->join('users u', 'sm.user_id=u.id', 'left');
 		$this->db->join('users_detail ud', 'sm.user_id=ud.user_id', 'left');
@@ -29,8 +48,8 @@ class Auditor_allocatecoc_Model extends CC_Model
 		$this->db->join('city c', 'ua2.city=c.id','left');				
 		$this->db->join('suburb s', 'ua2.suburb=s.id','left');						
 		$this->db->join('auditor_ratio ar', 'sm.user_id=ar.plumber_id','left');		
-		if(isset($requestdata['compulsory_audit']) && $requestdata['compulsory_audit']!='') $this->db->join('compulsory_audit_listing cal', 'sm.user_id=cal.user_id','inner');			
-		if((isset($requestdata['start_date_range']) && $requestdata['start_date_range']!='') || (isset($requestdata['end_date_range']) && $requestdata['end_date_range']!='')) $this->db->join('coc_log cl', 'sm.user_id=cl.created_by','left');
+		if(isset($requestdata['compulsory_audit']) && $requestdata['compulsory_audit']!='') $this->db->join('compulsory_audit_listing cal', 'sm.user_id=cal.user_id','left');			
+		if((isset($requestdata['start_date_range']) && $requestdata['start_date_range']!='') || (isset($requestdata['end_date_range']) && $requestdata['end_date_range']!='') || (isset($requestdata['no_coc_allocation']) && $requestdata['no_coc_allocation']!='')) $this->db->join('coc_log cl', 'sm.user_id=cl.created_by','left');
 		
 		if(isset($requestdata['start_date_range']) && $requestdata['start_date_range']!='') 			$this->db->where('DATE(cl.log_date) >=', date('Y-m-d', strtotime($requestdata['start_date_range'])));
 		if(isset($requestdata['end_date_range']) && $requestdata['end_date_range']!='') 				$this->db->where('DATE(cl.log_date) <=', date('Y-m-d', strtotime($requestdata['end_date_range'])));
@@ -39,13 +58,11 @@ class Auditor_allocatecoc_Model extends CC_Model
 		if(isset($requestdata['user_id']) && $requestdata['user_id']!='')								$this->db->where('sm.user_id', $requestdata['user_id']);
 		if(isset($requestdata['province']) && $requestdata['province']!='') 							$this->db->where('ua2.province', $requestdata['province']);
 		if(isset($requestdata['city']) && $requestdata['city']!='') 									$this->db->where('ua2.city', $requestdata['city']);
-		if(isset($requestdata['audit_ratio_start']) && $requestdata['audit_ratio_start']!='') 			$this->db->where('ar.audit >=', $requestdata['audit_ratio_start']);
-		if(isset($requestdata['audit_ratio_end']) && $requestdata['audit_ratio_end']!='') 				$this->db->where('ar.audit <=', $requestdata['audit_ratio_end']);
 		//if(isset($requestdata['max_allocate_plumber']) && $requestdata['max_allocate_plumber']!='') 	$this->db->where('ar.audit <=', $requestdata['max_allocate_plumber']);
-		
+		//if(isset($requestdata['no_coc_allocation']) && $requestdata['no_coc_allocation']!='') 			$this->db->limit($requestdata['no_coc_allocation'], $requestdata['start']);
+			
 		if(($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])) || (isset($requestdata['start']) && isset($requestdata['no_coc_allocation']))){
-			if(isset($requestdata['no_coc_allocation']) && $requestdata['no_coc_allocation']!='') $this->db->limit($requestdata['no_coc_allocation'], $requestdata['start']);
-			else $this->db->limit($requestdata['length'], $requestdata['start']);
+			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
 			$column = ['ud.name', 'up.registration_no', 'cd.company', 'c.name', 'p.name', 'ar.audit', 'ar.refix_incomplete', 'ar.refix_complete', 'ar.ar.cautionary'];
@@ -74,7 +91,7 @@ class Auditor_allocatecoc_Model extends CC_Model
 			if($type=='all') 		$result = $query->result_array();
 			elseif($type=='row') 	$result = $query->row_array();
 		}
-		
+		//echo $this->db->last_query();
 		return $result;
 	}
 
@@ -89,7 +106,11 @@ class Auditor_allocatecoc_Model extends CC_Model
 		
 		$this->db->where(['sm.auditorid' => '0', 'sm.coc_status' => '2']);
 		
-		if(isset($requestdata['user_id']) && $requestdata['user_id']!='') 	$this->db->where('sm.user_id', $requestdata['user_id']);
+		if(isset($requestdata['start_date_range']) && $requestdata['start_date_range']!='') 	$this->db->where('DATE(cl.log_date) >=', date('Y-m-d', strtotime($requestdata['start_date_range'])));
+		if(isset($requestdata['end_date_range']) && $requestdata['end_date_range']!='') 		$this->db->where('DATE(cl.log_date) <=', date('Y-m-d', strtotime($requestdata['end_date_range'])));
+		if(isset($requestdata['start_coc_range']) && $requestdata['start_coc_range']!='')		$this->db->where('sm.id>=', $requestdata['start_coc_range']);
+		if(isset($requestdata['end_coc_range']) && $requestdata['end_coc_range']!='') 			$this->db->where('sm.id<=', $requestdata['end_coc_range']);
+		if(isset($requestdata['user_id']) && $requestdata['user_id']!='') 						$this->db->where('sm.user_id', $requestdata['user_id']);
 		
 		$this->db->group_by('cl.id');
 		

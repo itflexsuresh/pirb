@@ -339,6 +339,10 @@
 		
 		var data = {
 			user_id					: userid, 
+			start_date_range		: $('#start_date_range').val(), 
+			end_date_range			: $('#end_date_range').val(), 
+			start_coc_range			: $('#start_coc_range').val(), 
+			end_coc_range			: $('#end_coc_range').val(), 
 			no_coc_allocation		: $('#no_coc_allocation').val(), 
 			max_allocate_plumber	: $('#max_allocate_plumber').val() 
 		}

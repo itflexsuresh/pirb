@@ -872,7 +872,7 @@ class Auditor_Model extends CC_Model
 				SELECT
 				count(ast.auditcomplete)
 				FROM auditor_statement ast
-				WHERE u1.id = ast.plumber_id
+				WHERE u1.id = ast.plumber_id  and ast.auditcomplete = "1"
 			) as completed');
 		$this->db->from('users u1');
 		$this->db->join('users_plumber up', 'u1.id = up.user_id', 'LEFT');

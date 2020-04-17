@@ -79,23 +79,45 @@ class Index extends CC_Controller
 		$checkpermission	=	$this->checkUserPermission('27', '2');
 
 		$totalrecord 	= [];
+		$noofcoc		= 0;
+		
 		if(count($results) > 0){
-			foreach($results as $result){
+			foreach($results as $index => $result){
+				$audit 			= $result['audit'];
 				$rollingavg 	= $this->getRollingAverage();
 				$date			= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
 				$user_id 		= $result['user_id']; 
 				$performance 	= $this->Plumber_Model->performancestatus('all', ['plumberid' => $user_id, 'archive' => '0', 'date' => $date]);
 				$overallpoint 	= array_sum(array_column($performance, 'point'));
 				
-				if(isset($post['rating_start']) && $post['rating_start']!='' && $overallpoint <= $post['rating_start']){
+				$checkcocranking 	= [];
+				
+				if($post['compulsory_audit']=='1') 	$checkcocranking[] = ($result['auditassign'] <= $result['auditcomplete']) ? '0' : '1';
+				if($post['audit_ratio_start']!='') 	$checkcocranking[] = ($audit <= $post['audit_ratio_start']) ? '0' : '1';
+				if($post['audit_ratio_end']!='') 	$checkcocranking[] = ($audit >= $post['audit_ratio_end']) ? '0' : '1';
+				if($post['rating_start']!='') 		$checkcocranking[] = ($overallpoint <= $post['rating_start']) ? '0' : '1';
+				if($post['rating_end']!='') 		$checkcocranking[] = ($overallpoint >= $post['rating_end']) ? '0' : '1';
+				
+				if(count($checkcocranking) && array_sum($checkcocranking)=='0'){
 					--$totalcount;
 					continue;
 				}
-				if(isset($post['rating_end']) && $post['rating_end']!=''  && $overallpoint >= $post['rating_end']){
-					--$totalcount;
-					continue;
-				} 
-		
+				
+				/*
+				if($post['no_coc_allocation']!=''){
+					if($index=='0') $totalcount = '0';
+					
+					$postcocallocation 	= $post['no_coc_allocation'];
+					$noofcoc 			+= $result['coccount'];
+					$cocprevtotal 		= isset($results[$index-1]['coccount']) ? $results[$index-1]['coccount'] : '0';
+					//echo $cocprevtotal.'-'.$noofcoc.'-'.$postcocallocation;
+					if($cocprevtotal <= $postcocallocation && $noofcoc > $postcocallocation){
+						break;
+					}
+					
+					++$totalcount;
+				}
+				*/
 				if($checkpermission){
 					$action = 	"<a href='javascript:void(0);' class='cocmodal' data-user-id='".$user_id."'>Logged COC</a>";
 				}else{
