@@ -22,6 +22,8 @@ class Managearea_Model extends CC_Model
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
 			$this->db->like('t1.name', $searchvalue);
+			$this->db->or_like('t2.name', $searchvalue);
+			$this->db->or_like('t3.name', $searchvalue);
 		}
 		
 		
