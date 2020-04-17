@@ -31,8 +31,10 @@
 		$explodefile1 	= explode('.', $file1);
 		$extfile1 		= array_pop($explodefile1);
 		$file1img 		= (in_array($extfile1, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$file1;
+		$file1imgurl	= $filepath.$file1;
 	}else{
 		$file1img 		= $profileimg;
+		$file1imgurl	= 'javascript:void(0);';
 	}
 	
 	$coctypeid 				= isset($result['type']) ? $result['type'] : '';
@@ -269,7 +271,9 @@
 								<h4 class="card-title add_top_value">Image of COC (Paper)</h4>
 								<div class="form-group">
 									<div>
-										<img src="<?php echo $file1img; ?>" class="file1_img" width="100">
+										<a href="<?php echo $file1imgurl; ?>" target="_blank">
+											<img src="<?php echo $file1img; ?>" class="file1_img" width="100">
+										</a>
 									</div>
 									<input type="file" id="file1_file" class="file1_file">
 									<input type="hidden" name="file1" class="file1" value="<?php echo $file1; ?>">
@@ -283,7 +287,7 @@
 								<div class="form-group">
 									<div>
 										<a href="<?php echo base_url().$electroniccocreport;?>" target="_blank">
-										<img src="<?php echo $pdfimg; ?>" width="50">
+											<img src="<?php echo $pdfimg; ?>" width="50">
 										</a>
 									</div>
 								</div>
@@ -308,8 +312,12 @@
 									?>
 												<div class="multipleupload">
 													<input type="hidden" value="<?php echo $value; ?>" name="file2[]">
-													<img src="<?php echo $file1img; ?>" width="100">
-													<i class="fa fa-times"></i>
+													<a href="<?php echo $filepath.$value; ?>" target="_blank">
+														<img src="<?php echo $file1img; ?>" width="100">
+													</a>
+													<?php if($logdate==''){ ?>
+														<i class="fa fa-times"></i>
+													<?php } ?>
 												</div>
 									<?php
 											}
