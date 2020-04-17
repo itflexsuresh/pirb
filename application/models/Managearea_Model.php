@@ -17,7 +17,7 @@ class Managearea_Model extends CC_Model
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
 			//$column = ['t1.id', 't1.name', 't1.status','t3.name','t2.name'];
-			$column = ['t3.name', 't2.name','t1.name,t1.status'];
+			$column = ['t3.name', 't2.name','t1.name'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){

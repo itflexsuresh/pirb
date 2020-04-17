@@ -133,7 +133,7 @@
 							{ "data": "action" }
 						],
 
-						target	:	[4],
+						target	:	[3,4],
 						sort	:	'0'
 		};
 		
