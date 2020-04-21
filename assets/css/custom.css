@@ -1872,65 +1872,17 @@ footer.footer {
 	width: 75px;
 }
 
+.parenttable
+{
+	border-collapse: collapse;
+}
+
 .parenttable, 
-.childtable
-{
-	width: 100%;
-}
-
 .parenttable th, 
-.childtable th
+.parenttable td 
 {
-	text-align: left; 
-	border-bottom: 1px solid #ccc;
-}
-
-.parenttable th, 
-.childtable th, 
-.parenttable td, 
-.childtable td
-{
+	border: 1px solid lightgrey;
 	padding: .4em; 
-}
-
-.parenttable > tbody > tr.parenttablecontent td,
-.parenttable > tbody > tr.parenttablecontent th
-{
-	cursor: pointer;
-}
-
-.parenttable > tbody > tr.parenttablecontent td:first-child,
-.parenttable > tbody > tr.parenttablecontent th:first-child
-{
-	position: relative;
-    padding-left: 20px;
-}
-
-.parenttable > tbody > tr.parenttablecontent td:first-child:before,
-.parenttable > tbody > tr.parenttablecontent th:first-child:before
-{
-	position: absolute;
-	top: 50%;
-	left: 5px;
-	width: 9px;
-	height: 16px;
-	margin-top: -8px;
-	font: 16px fontawesome;
-	color: #999;
-	content: "\f0d7";
-	transition: all 0.3s ease;
-}
-
-.parenttable > tbody > tr.parenttablecontent.open
-{
-	//color: white;
-}
-
-.parenttable > tbody > tr.parenttablecontent.open td:first-child:before,
-.parenttable > tbody > tr.parenttablecontent.open th:first-child:before 
-{
-	transform: rotate(-180deg);
-	color: #333;
 }
 
 .parenttable > tbody > tr.childrow
@@ -1945,9 +1897,5 @@ footer.footer {
 
 .childwrapper{
 	padding: 0.5em;
-}
-
-.childwrapper > table{
-	border: 2px solid #ccc;
 }
 

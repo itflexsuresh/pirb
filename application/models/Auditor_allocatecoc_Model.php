@@ -2,7 +2,6 @@
 
 class Auditor_allocatecoc_Model extends CC_Model
 {
-
 	public function getList($type, $requestdata=[])
 	{ 
 		$auditcomplete	= 	'';
@@ -58,26 +57,6 @@ class Auditor_allocatecoc_Model extends CC_Model
 		if(isset($requestdata['user_id']) && $requestdata['user_id']!='')								$this->db->where('sm.user_id', $requestdata['user_id']);
 		if(isset($requestdata['province']) && $requestdata['province']!='') 							$this->db->where('ua2.province', $requestdata['province']);
 		if(isset($requestdata['city']) && $requestdata['city']!='') 									$this->db->where('ua2.city', $requestdata['city']);
-		//if(isset($requestdata['max_allocate_plumber']) && $requestdata['max_allocate_plumber']!='') 	$this->db->where('ar.audit <=', $requestdata['max_allocate_plumber']);
-		//if(isset($requestdata['no_coc_allocation']) && $requestdata['no_coc_allocation']!='') 			$this->db->limit($requestdata['no_coc_allocation'], $requestdata['start']);
-			
-		if(($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])) || (isset($requestdata['start']) && isset($requestdata['no_coc_allocation']))){
-			$this->db->limit($requestdata['length'], $requestdata['start']);
-		}
-		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['ud.name', 'up.registration_no', 'cd.company', 'c.name', 'p.name', 'ar.audit', 'ar.refix_incomplete', 'ar.refix_complete', 'ar.ar.cautionary'];
-			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
-		}
-		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
-			$searchvalue = $requestdata['search']['value'];
-			$this->db->group_start();
-				$this->db->like('ud.name', $searchvalue);
-				$this->db->or_like('up.registration_no', $searchvalue);
-				$this->db->or_like('cd.company', $searchvalue);
-				$this->db->or_like('c.name', $searchvalue);
-				$this->db->or_like('p.name', $searchvalue);
-			$this->db->group_end();
-		}
 		
 		$this->db->where(['sm.auditorid' => '0', 'sm.coc_status' => '2']);
 		

@@ -73,7 +73,6 @@ class Index extends CC_Controller
 	{
 		$post 			= $this->input->post();
 
-		$totalcount 	= $this->Auditor_allocatecoc_Model->getList('count', $post);
 		$results 		= $this->Auditor_allocatecoc_Model->getList('all', $post);
 
 		$checkpermission	=	$this->checkUserPermission('27', '2');
@@ -91,15 +90,16 @@ class Index extends CC_Controller
 				$overallpoint 	= array_sum(array_column($performance, 'point'));
 				
 				$checkcocranking 	= [];
-				
-				if($post['compulsory_audit']=='1') 	$checkcocranking[] = ($result['auditassign'] <= $result['auditcomplete']) ? '0' : '1';
-				if($post['audit_ratio_start']!='') 	$checkcocranking[] = ($audit <= $post['audit_ratio_start']) ? '0' : '1';
-				if($post['audit_ratio_end']!='') 	$checkcocranking[] = ($audit >= $post['audit_ratio_end']) ? '0' : '1';
-				if($post['rating_start']!='') 		$checkcocranking[] = ($overallpoint <= $post['rating_start']) ? '0' : '1';
-				if($post['rating_end']!='') 		$checkcocranking[] = ($overallpoint >= $post['rating_end']) ? '0' : '1';
+				if($post['compulsory_audit']=='1') 									$checkcocranking[] = ($result['auditassign'] <= $result['auditcomplete']) ? '0' : '1';
+				if($post['audit_ratio_start']!='' && $post['audit_ratio_end']=='') 	$checkcocranking[] = ($audit < $post['audit_ratio_start']) ? '0' : '1';
+				if($post['audit_ratio_start']=='' && $post['audit_ratio_end']!='') 	$checkcocranking[] = ($audit > $post['audit_ratio_end']) ? '0' : '1';
+				if($post['audit_ratio_start']!='' && $post['audit_ratio_end']!='') 	$checkcocranking[] = ($audit >=  $post['audit_ratio_start'] && $audit <= $post['audit_ratio_end']) ? '1' : '0';
+				if($post['rating_start']!='' && $post['rating_end']=='') 			$checkcocranking[] = ($overallpoint < $post['rating_start']) ? '0' : '1';
+				if($post['rating_start']=='' && $post['rating_end']!='') 			$checkcocranking[] = ($overallpoint > $post['rating_end']) ? '0' : '1';
+				if($post['rating_start']!='' && $post['rating_end']!='') 			$checkcocranking[] = ($overallpoint >= $post['rating_start'] && $overallpoint <= $post['rating_end']) ? '1' : '0';
 				
 				if(count($checkcocranking) && array_sum($checkcocranking)=='0'){
-					--$totalcount;
+					//--$totalcount;
 					continue;
 				}
 				
@@ -119,7 +119,7 @@ class Index extends CC_Controller
 				}
 				*/
 				if($checkpermission){
-					$action = 	"<a href='javascript:void(0);' class='cocmodal' data-user-id='".$user_id."'>Logged COC</a>";
+					$action = 	"<a href='javascript:void(0);' class='cocaccordion' data-user-id='".$user_id."'><i class='fa fa-caret-up caretup'></i><i class='fa fa-caret-down caretdown displaynone'></i></a>";
 				}else{
 					$action = '';
 				}
@@ -141,10 +141,7 @@ class Index extends CC_Controller
 		}
 		
 		$json = array(
-			"draw"            => intval($post['draw']),   
-			"recordsTotal"    => intval($totalcount),  
-			"recordsFiltered" => intval($totalcount),
-			"data"            => $totalrecord
+			"data"   => $totalrecord
 		);
 
 		echo json_encode($json);

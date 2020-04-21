@@ -164,9 +164,9 @@
 					</div>
 				</form>
 				
-				<div class="table-responsive m-t-40">
+				<div class="tableaccordion table-responsive m-t-40 displaynone">
 					<h4 class="card-title">Recommend Allocation Results</h4>
-					<table class="table table-bordered table-striped datatables fullwidth">
+					<table class="parenttable">
 						<thead>
 							<tr>
 								<th>Plumber</th>
@@ -182,6 +182,9 @@
 								<th>Action</th>
 							</tr>
 						</thead>
+						<tbody>
+							<tr class="norecordfound displaynone"><td colspan="11">No Record Found</td></tr>
+						</tbody>
 					</table>
 				</div>
 				
@@ -221,35 +224,6 @@
 	</div>
 </div>
 
-<div id="cocmodal" class="modal fade" role="dialog">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-body">
-				<div class="table-responsive m-t-40">
-					<table class="table table-bordered table-striped coc_table fullwidth">
-						<thead>
-							<tr>
-								<th>COC Number</th>
-								<th>Installation Code(s) of COC</th>
-								<th>Suburb</th>
-								<th>City</th>
-								<th>Province</th>
-								<th>Auditor Name</th>
-								<th>Audit Allocation MTD</th>
-								<th>Open Audits</th>
-								<th>Allocation</th>
-							</tr>
-						</thead>
-					</table>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
-</div>
-
 <div id="confirmmodal" class="modal fade" role="dialog">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
@@ -280,24 +254,26 @@
 		datepicker('#start_date_range');
 		datepicker('#end_date_range');
 		citysuburb(['#province1','#city1'], ['']);
-		datatable();
 	});
 
 	$('.search').on('click',function(){		
-		datatable(1);
+		datatable();
+		$('.tableaccordion').removeClass('displaynone');
 	});
 
 	$('.reset').on('click',function(){		
 		$('#start_date_range,#end_date_range,#start_coc_range,#end_coc_range,#user_search,#user_id,#province1,#city1,#audit_ratio_start,#audit_ratio_end,#rating_start,#rating_end,#rating_end,#no_coc_allocation,#max_allocate_plumber').val('');
 		$('#compulsory_audit').prop('checked', false);
-		datatable(1);
+		$('.tableaccordion').addClass('displaynone');
 	});
 	
-	function datatable(destroy=0){
-
-		var options = {
-			url 	: 	'<?php echo base_url()."admin/audits/cocallocate/index/DTAllocateAudit"; ?>',
-			data    :   { 
+	function datatable(){
+		$('.norecordfound').addClass('displaynone');
+		$(document).find('.parenttablecontent').remove();
+		$(document).find('.childrow').remove();
+		
+		var url 	= 	'<?php echo base_url()."admin/audits/cocallocate/index/DTAllocateAudit"; ?>';
+		var data	= 	{ 
 							start_date_range		: $('#start_date_range').val(), 
 							end_date_range			: $('#end_date_range').val(), 
 							start_coc_range			: $('#start_coc_range').val(), 
@@ -312,30 +288,82 @@
 							rating_end				: $('#rating_end').val(), 
 							no_coc_allocation		: $('#no_coc_allocation').val(), 
 							max_allocate_plumber	: $('#max_allocate_plumber').val() 
-						},  		
-			destroy :   destroy,  			
-			columns : 	[
-							{ "data": "plumbername" },
-							{ "data": "regno" },
-							{ "data": "company" },
-							{ "data": "city" },
-							{ "data": "province" },
-							{ "data": "audit" },
-							{ "data": "cautionary" },
-							{ "data": "refix_incomplete" },
-							{ "data": "refix_complete" },
-							{ "data": "rating" },
-							{ "data": "coc_link" },
-						]
-		};
-		
-		ajaxdatatables('.datatables', options);
+						};
+						
+		ajax(url, data, '', {
+			success : function(result){
+				
+				var table = [];
+				
+				$(result.data).each(function(i,v){
+					var row = '\
+						<tr class="parenttablecontent" data-index="'+i+'">\
+							<td>'+v.plumbername+'</td>\
+							<td>'+v.regno+'</td>\
+							<td>'+v.company+'</td>\
+							<td>'+v.city+'</td>\
+							<td>'+v.province+'</td>\
+							<td>'+v.audit+'</td>\
+							<td>'+v.cautionary+'</td>\
+							<td>'+v.refix_incomplete+'</td>\
+							<td>'+v.refix_complete+'</td>\
+							<td>'+v.rating+'</td>\
+							<td>'+v.coc_link+'</td>\
+						</tr>\
+						<tr class="childrow" id="childrow'+i+'">\
+							<td colspan="11">\
+								<div class="childwrapper">\
+									<table class="childtable">\
+										<thead>\
+											<tr>\
+												<th>COC Number</th>\
+												<th>Installation Code(s) of COC</th>\
+												<th>Suburb</th>\
+												<th>City</th>\
+												<th>Province</th>\
+												<th>Auditor Name</th>\
+												<th>Audit Allocation MTD</th>\
+												<th>Open Audits</th>\
+												<th>Allocation</th>\
+											</tr>\
+										</thead>\
+										<tbody></tbody>\
+									</table>\
+								</div>\
+							</td>\
+						</tr>\
+					';
+					
+					table.push(row);
+				})
+				
+				if(table.length > 0){
+					$('.parenttable tbody').append(table.join(""));
+				}else{
+					$('.norecordfound').removeClass('displaynone');
+				}
+			}
+		})
 	}
 	
-	$(document).on('click', '.cocmodal', function(){
-		$(document).find('.removecoc').remove();
+	$(document).on('click', '.cocaccordion', function(){
+		var _this		= $(this);
+		var rowindex	= $(this).parent().parent().attr('data-index');
+		var userid 		= $(this).attr('data-user-id');
 		
-		var userid = $(this).attr('data-user-id');
+		_this.parent().parent().toggleClass("open").next(".childrow").toggleClass("open");
+		
+		if(_this.parent().parent().hasClass("open")){
+			_this.parent().find('.fa-caret-down').removeClass('displaynone');
+			_this.parent().find('.fa-caret-up').addClass('displaynone');
+		}else{
+			_this.parent().find('.fa-caret-down').addClass('displaynone');
+			_this.parent().find('.fa-caret-up').removeClass('displaynone');
+		}
+		
+		if($(document).find('#childrow'+rowindex+' .removecoc').length){
+			return false;
+		}
 		
 		var data = {
 			user_id					: userid, 
@@ -349,6 +377,7 @@
 		
 		ajax('<?php echo base_url()."admin/audits/cocallocate/index/coc"; ?>', data, '', {
 			success: function(data){
+				
 				if(data.result.length > 0){
 					var table = [];
 					
@@ -399,8 +428,7 @@
 						table.push(data);
 					})
 					
-					$('.coc_table').append(table);
-					$('#cocmodal').modal('show');
+					$('#childrow'+rowindex+' tbody').append(table.join(''));					
 				}
 			}
 		});
