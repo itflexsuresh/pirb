@@ -545,12 +545,12 @@ $(function(){
 			},
 			'installationtype[]':{
 				required:  	function() {
-								return (!$(".specialisations").is(':checked'));
+								return $(".specialisations:checked").length == 0;
 							}
 			},
 			'specialisations[]':{
 				required:  	function() {
-								return (!$(".installationtype").is(':checked'));
+								return $(".installationtype:checked").length == 0;
 							}
 			},
 			agreement:{
