@@ -189,7 +189,7 @@
 										<td style="text-align: center;"><?php echo $value['code']; ?></td>
 										<td style="text-align: center;">
 											<div class="custom-control custom-checkbox">
-												<input type="checkbox" name="installationtype[]" class="custom-control-input" id="<?php echo 'installationtype-'.$key.'-'.$value['code']; ?>" value="<?php echo $value['id']; ?>" <?php echo (in_array($value['id'], $installationtypeid)) ? 'checked="checked"' : ''; ?>>
+												<input type="checkbox" name="installationtype[]" class="custom-control-input installationtypebox" id="<?php echo 'installationtype-'.$key.'-'.$value['code']; ?>" value="<?php echo $value['id']; ?>" <?php echo (in_array($value['id'], $installationtypeid)) ? 'checked="checked"' : ''; ?>>
 												<label class="custom-control-label" for="<?php echo 'installationtype-'.$key.'-'.$value['code']; ?>"></label>
 											</div>
 										</td>
@@ -217,7 +217,7 @@
 											<td style="text-align: center;"><?php echo $value['code']; ?></td>
 											<td style="text-align: center;">
 												<div class="custom-control custom-checkbox">
-													<input type="checkbox" name="specialisations[]" class="custom-control-input" id="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>" value="<?php echo $value['id']; ?>" <?php echo (in_array($value['id'], $specialisationsid)) ? 'checked="checked"' : ''; ?>>
+													<input type="checkbox" name="specialisations[]" class="custom-control-input specialisationsbox" id="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>" value="<?php echo $value['id']; ?>" <?php echo (in_array($value['id'], $specialisationsid)) ? 'checked="checked"' : ''; ?>>
 													<label class="custom-control-label" for="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>"></label>
 												</div>
 											</td>
@@ -544,7 +544,14 @@ $(function(){
 							}			
 			},
 			'installationtype[]':{
-				required    : true
+				required:  	function() {
+								return (!$(".specialisations").is(':checked'));
+							}
+			},
+			'specialisations[]':{
+				required:  	function() {
+								return (!$(".installationtype").is(':checked'));
+							}
 			},
 			agreement:{
 				required    : true
