@@ -67,8 +67,10 @@
 		$explodefile2 	= explode('.', $file2);
 		$extfile2 		= array_pop($explodefile2);
 		$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$file2;
+		$photoidurl		= $filepath.$file2;
 	}else{
 		$photoidimg 	= $profileimg;
+		$photoidurl		= 'javascript:void(0);';
 	}
 	
 	$email2 				= isset($result['email2']) ? $result['email2'] : '';
@@ -480,7 +482,7 @@
 											<h4 class="card-title">Photo ID *</h4>
 											<div class="form-group">
 												<div>
-													<img src="<?php echo $photoidimg; ?>" class="photo_image" width="100">
+													<a href="<?php echo $photoidurl; ?>"><img src="<?php echo $photoidimg; ?>" class="photo_image" width="100"></a>
 												</div>
 												<input type="file" class="photo_file" <?php echo $disabled2; ?>>
 												<input type="hidden" name="image2" class="photo" value="<?php echo $file2; ?>" <?php echo $disabled1.$disabled2; ?>>
@@ -782,7 +784,7 @@
 											</div>
 											<?php if($roletype=='3'){ ?>
 												<p>If the Company does not appear on this listing please ask the company to Register with the PIRB. Once they have been approved and registered return to the listing and select the company</p>
-												<a href="javascript:void(0)">Register Company with the PIRB</a>
+												<!--<a href="javascript:void(0)">Register Company with the PIRB</a>-->
 											<?php } ?>
 										</div>
 									</div>
@@ -1365,9 +1367,9 @@ function skills(data){
 		if(result.attachment!=''){
 			var ext 		= result.attachment.split('.').pop().toLowerCase();
 			if(ext=='jpg' || ext=='jpeg' || ext=='png'){
-				var attachment = '<img src="'+filepath+(result.attachment)+'" width="50">';
+				var attachment = '<a href="'+filepath+(result.attachment)+'" target="_blank"><img src="'+filepath+(result.attachment)+'" width="50"></a>';
 			}else if(ext=='pdf'){
-				var attachment = '<?php echo base_url()."assets/images/pdf.png"?>';
+				var attachment = '<a href="'+filepath+(result.attachment)+'" target="_blank"><?php echo base_url()."assets/images/pdf.png"?></a>';
 			}
 		}else{
 			var attachment = '';
