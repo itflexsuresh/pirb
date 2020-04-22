@@ -67,7 +67,7 @@
 							{ "data": "contactnumber" },
 							{ "data": "action" }
 						],
-						data : {pagestatus : '<?php echo $pagestatus; ?>'},
+						//data : {pagestatus : '<?php echo $pagestatus; ?>'},
 						target : [3],
 						sort : '0'
 		};

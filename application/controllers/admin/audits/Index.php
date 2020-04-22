@@ -34,8 +34,8 @@ class Index extends CC_Controller
 		// if ($post['pagestatus']=='2') {
 		// 	$post['pagestatus'] = '0';
 		// }
-		$totalcount 	= $this->Auditor_Model->getAuditorList('count', ['type' => '5', 'status' => [$post['pagestatus']]]+$post);
-		$results 		= $this->Auditor_Model->getAuditorList('all', ['type' => '5', 'status' => [$post['pagestatus']]]+$post);
+		$totalcount 	= $this->Auditor_Model->getAuditorList('count', ['type' => '5', 'status' => ['1','2']]+$post);
+		$results 		= $this->Auditor_Model->getAuditorList('all', ['type' => '5', 'status' => ['1','2']]+$post);
 		//print_r($results);die;
 
 		$checkpermission	=	$this->checkUserPermission('25', '2');
