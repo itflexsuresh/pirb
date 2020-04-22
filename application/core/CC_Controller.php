@@ -810,6 +810,8 @@ class CC_Controller extends CI_Controller
 				}
 				
 				if(isset($requestData['auditcomplete']) && $requestData['auditcomplete']=='1' && $requestData['submit']=='submitreport'){
+
+					
 					//Invoice and Order
 					$inspectionrate = $this->getRates($this->config->item('inspection'));
 					$invoicedata = [
@@ -870,6 +872,18 @@ class CC_Controller extends CI_Controller
 					}
 					
 					$this->Auditor_Model->actionRatio($requestData['plumberid']);
+					/// check audit statements
+
+					$auditcomplete_count = $this->db->select('count(auditcomplete) as countaudit')->get_where('auditor_statement', ['plumber_id' => $requestData['plumberid'], 'auditcomplete' => '1'])->row_array();
+					$audit_list = $this->db->select('id, allocation')->get_where('compulsory_audit_listing', ['user_id' => $requestData['plumberid']])->row_array();
+					
+					if ($audit_list['allocation']==$auditcomplete_count['countaudit']) {
+						//$this->db->delete('compulsory_audit_listing', array('id' => $audit_list['id']));
+						//$this->db->delete('compulsory_audit_listing')->where('id', $audit_list['id']);
+						$this->db->where('id', $audit_list['id']);
+   						$this->db->delete('compulsory_audit_listing'); 
+					}
+
 				} 
 				
 				$this->session->set_flashdata('success', 'Successfully updated.');
