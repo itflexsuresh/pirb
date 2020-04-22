@@ -66,16 +66,20 @@
 		$explodefile1 	= explode('.', $file1);
 		$extfile1 		= array_pop($explodefile1);
 		$identityimg 	= (in_array($extfile1, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$file1;
+		$identityurl 	= $filepath.$file1;
 	}else{
 		$identityimg 	= $profileimg;
+		$identityurl	= 'javascript:void(0);';
 	}
 	
 	if($file2!=''){
 		$explodefile2 	= explode('.', $file2);
 		$extfile2 		= array_pop($explodefile2);
 		$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$file2;
+		$photoidurl		= $filepath.$file2;
 	}else{
 		$photoidimg 	= $profileimg;
+		$photoidurl 	= 'javascript:void(0);';
 	}
 ?>
 
@@ -245,7 +249,7 @@
 								<h4 class="card-title">Identity Document *</h4>
 								<div class="form-group">
 									<div>
-										<img src="<?php echo $identityimg; ?>" class="document_image" width="100">
+										<a href="<?php echo $identityurl; ?>" target="_blank"><img src="<?php echo $identityimg; ?>" class="document_image" width="100"></a>
 									</div>
 									<input type="file" id="file" class="document_file">
 									<label for="file" class="choose_file">Choose File</label>
@@ -257,7 +261,7 @@
 								<h4 class="card-title">Photo ID *</h4>
 								<div class="form-group">
 									<div>
-										<img src="<?php echo $photoidimg; ?>" class="photo_image" width="100">
+										<a href="<?php echo $photoidurl; ?>" target="_blank"><img src="<?php echo $photoidimg; ?>" class="photo_image" width="100"></a>
 									</div>
 									<input type="file" id="file_2" class="photo_file">
 									<label for="file_2" class="choose_file">Choose File</label>
@@ -1407,9 +1411,9 @@ function skills(data){
 		if(result.attachment!=''){
 			var ext 		= result.attachment.split('.').pop().toLowerCase();
 			if(ext=='jpg' || ext=='jpeg' || ext=='png'){
-				var attachment = '<img src="'+filepath+(result.attachment)+'" width="50">';
+				var attachment = '<a href="'+filepath+(result.attachment)+'" target="_blank"><img src="'+filepath+(result.attachment)+'" width="50"></a>';
 			}else if(ext=='pdf'){
-				var attachment = '<?php echo base_url()."assets/images/pdf.png"?>';
+				var attachment = '<a href="'+filepath+(result.attachment)+'" target="_blank"><?php echo base_url()."assets/images/pdf.png"?></a>';
 			}
 		}else{
 			var attachment = '';
