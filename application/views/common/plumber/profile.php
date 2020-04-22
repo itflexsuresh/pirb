@@ -482,7 +482,7 @@
 											<h4 class="card-title">Photo ID *</h4>
 											<div class="form-group">
 												<div>
-													<a href="<?php echo $photoidurl; ?>"><img src="<?php echo $photoidimg; ?>" class="photo_image" width="100"></a>
+													<a href="<?php echo $photoidurl; ?>" target="_blank"><img src="<?php echo $photoidimg; ?>" class="photo_image" width="100"></a>
 												</div>
 												<input type="file" class="photo_file" <?php echo $disabled2; ?>>
 												<input type="hidden" name="image2" class="photo" value="<?php echo $file2; ?>" <?php echo $disabled1.$disabled2; ?>>
