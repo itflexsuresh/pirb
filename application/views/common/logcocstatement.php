@@ -497,7 +497,7 @@ $(function(){
 	subtypereportinglist(['#nc_installationtype','#nc_subtype','#nc_statement'], ['', '']);
 	inputmask('#contact_no, #alternate_no', 1);
 	
-	var noncompliancelists = $.parseJSON('<?php echo json_encode($noncompliance); ?>');
+	var noncompliancelists = $.parseJSON('<?php echo str_replace("'", "\'", json_encode($noncompliance)); ?>');
 	if(noncompliancelists.length > 0){
 		$(noncompliancelists).each(function(i, v){
 			var noncompliancedata 	= {status : 1, result : { id: v.id, details: v.details }}

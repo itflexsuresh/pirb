@@ -541,7 +541,7 @@
 			}
 		);
 
-		var areas = $.parseJSON('<?php echo json_encode($areas); ?>');
+		var areas = $.parseJSON('<?php echo str_replace("'", "\'", json_encode($areas)); ?>');
 		if(areas.length){
 			$(areas).each(function(i, v){
 				var areadatas = v.split('@@@');

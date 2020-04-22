@@ -51,8 +51,8 @@
 </div>
 
 <script>
-	var results = $.parseJSON('<?php echo json_encode($results); ?>');
-	var warning = $.parseJSON('<?php echo json_encode($warning); ?>');
+	var results = $.parseJSON('<?php echo str_replace("'", "\'", json_encode($results)); ?>');
+	var warning = $.parseJSON('<?php echo str_replace("'", "\'", json_encode($warning)); ?>');
 	var pagestatus = '<?php echo $pagestatus; ?>';
 	var overallpoint = '<?php echo isset($overallpoint) ? $overallpoint : "0"; ?>';
 	

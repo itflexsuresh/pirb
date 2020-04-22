@@ -794,7 +794,7 @@ $(function(){
 	if(designationid!='') $('input[name="designation"][value="'+designationid+'"]').prop('checked', true);
 	designationattachment(designationid);
 	
-	var skill = $.parseJSON('<?php echo json_encode($skills); ?>');
+	var skill = $.parseJSON('<?php echo str_replace("'", "\'", json_encode($skills)); ?>');
 	if(skill.length > 0){
 		$(skill).each(function(i, v){
 			var skillsplit 	= v.split('@@@');
