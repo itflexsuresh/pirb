@@ -494,7 +494,7 @@ $(function(){
 	fileupload([".file1_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.file1', '.file1_img', filepath, pdfimg]);
 	fileupload([".file2_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file2[]', '.file2append', filepath, pdfimg], 'multiple');
 	fileupload(["#nc_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.ncfileappend', filepath, pdfimg], 'multiple');
-	subtypereportinglist(['#nc_installationtype','#nc_subtype','#nc_statement'], ['', '']);
+	subtypereportinglist(['#nc_installationtype','#nc_subtype','#nc_statement'], ['', ''], noncompliancedata);
 	inputmask('#contact_no, #alternate_no', 1);
 	
 	var noncompliancelists = $.parseJSON('<?php echo str_replace("'", "\'", json_encode($noncompliance)); ?>');
@@ -763,7 +763,7 @@ function noncomplianceedit(data){
 		$('#nc_reference').val(result.reference);
 		$('#nc_id').val(result.id);
 		
-		subtypereportinglist(['#nc_installationtype','#nc_subtype','#nc_statement'], [result.subtype, result.statement]);
+		subtypereportinglist(['#nc_installationtype','#nc_subtype','#nc_statement'], [result.subtype, result.statement], noncompliancedata);
 		
 		if(result.file!=''){
 			var filesplit = result.file.split(',');
@@ -807,5 +807,25 @@ function noncomplianceextras(){
 	}else{
 		$('.noncompliancenotfound').show();
 	}
+}
+
+function noncompliancedata(){
+	setTimeout(function(){
+		var installationtype 	= $('#nc_installationtype').val();
+		var subtype 			= $('#nc_subtype').val();
+		var statement 			= $('#nc_statement').val();
+		
+		if(installationtype!=null && subtype!=null && statement!=null){
+			ajax('<?php echo base_url()."ajax/index/ajaxnoncompliancelisting"; ?>', {'installationtype' : installationtype,'subtype' : subtype,'statement' : statement}, '', { success : function(data){
+				if(data.status==1){
+					var result = data.result;
+					
+					if($('#nc_details').val()=='') $('#nc_details').val(result.details)
+					if($('#nc_action').val()=='') $('#nc_action').val(result.action)
+					if($('#nc_reference').val()=='') $('#nc_reference').val(result.reference)
+				}	
+			}});
+		}
+	}, 1000);
 }
 </script>

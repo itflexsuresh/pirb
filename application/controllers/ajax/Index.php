@@ -10,6 +10,7 @@ class Index extends CC_Controller
 		$this->load->model('Plumber_Model');
 		$this->load->model('Managearea_Model');
 		$this->load->model('Subtype_Model');
+		$this->load->model('Noncompliancelisting_Model');
 		$this->load->model('Noncompliance_Model');
 		$this->load->model('Coc_Ordermodel');
 		$this->load->model('Reportlisting_Model');
@@ -141,6 +142,20 @@ class Index extends CC_Controller
 			
 			$result = $this->Plumber_Model->getSkillList('row', ['id' => $result['skillid']]);
 		}
+		
+		if($result){
+			$json = ['status' => '1', 'result' => $result];
+		}else{
+			$json = ['status' => '0'];
+		}
+		
+		echo json_encode($json);
+	}
+	
+	public function ajaxnoncompliancelisting()
+	{
+		$post 	= $this->input->post();
+		$result = $this->Noncompliancelisting_Model->getList('row', ['status' => ['1']]);
 		
 		if($result){
 			$json = ['status' => '1', 'result' => $result];
