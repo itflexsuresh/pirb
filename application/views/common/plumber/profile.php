@@ -818,7 +818,7 @@
 										</tr>
 										<tr class="skillnotfound"><td colspan="6">No Record Found</td></tr>
 									</table>
-									<?php if(!isset($psidconfig)){ ?>
+									<?php if(!isset($psidconfig) && $roletype!='3'){ ?>
 									<div>
 										<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#skillmodal">Add Cert/Skill</button>
 									</div>
