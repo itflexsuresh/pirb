@@ -48,7 +48,7 @@ class Auditor_allocatecoc_Model extends CC_Model
 		$this->db->join('suburb s', 'ua2.suburb=s.id','left');						
 		$this->db->join('auditor_ratio ar', 'sm.user_id=ar.plumber_id','left');		
 		if(isset($requestdata['compulsory_audit']) && $requestdata['compulsory_audit']!='') $this->db->join('compulsory_audit_listing cal', 'sm.user_id=cal.user_id','left');			
-		if((isset($requestdata['start_date_range']) && $requestdata['start_date_range']!='') || (isset($requestdata['end_date_range']) && $requestdata['end_date_range']!='') || (isset($requestdata['no_coc_allocation']) && $requestdata['no_coc_allocation']!='')) $this->db->join('coc_log cl', 'sm.user_id=cl.created_by','left');
+		if((isset($requestdata['start_date_range']) && $requestdata['start_date_range']!='') || (isset($requestdata['end_date_range']) && $requestdata['end_date_range']!='') || (isset($requestdata['no_coc_allocation']) && $requestdata['no_coc_allocation']!='')) $this->db->join('coc_log cl', 'sm.user_id=cl.created_by and sm.auditorid="0"','left');
 		
 		if(isset($requestdata['start_date_range']) && $requestdata['start_date_range']!='') 			$this->db->where('DATE(cl.log_date) >=', date('Y-m-d', strtotime($requestdata['start_date_range'])));
 		if(isset($requestdata['end_date_range']) && $requestdata['end_date_range']!='') 				$this->db->where('DATE(cl.log_date) <=', date('Y-m-d', strtotime($requestdata['end_date_range'])));

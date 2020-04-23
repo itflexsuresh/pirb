@@ -17,12 +17,13 @@ class Subtype_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['ist.name', 'ist.status'];
+			$column = ['it.name', 'ist.name', 'ist.status'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
 			$this->db->like('ist.name', $searchvalue);
+			$this->db->or_like('it.name', $searchvalue);
 		}
 		
 		if($type=='count'){

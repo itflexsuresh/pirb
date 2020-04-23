@@ -71,17 +71,40 @@ class Index extends CC_Controller
 	
 	public function DTAllocateAudit()
 	{
-		$post 			= $this->input->post();
-
-		$results 		= $this->Auditor_allocatecoc_Model->getList('all', $post);
-
+		$post 				= $this->input->post();
+		$results 			= $this->Auditor_allocatecoc_Model->getList('all', $post);
 		$checkpermission	=	$this->checkUserPermission('27', '2');
 
 		$totalrecord 	= [];
 		$noofcoc		= 0;
+		$noofcocbr		= 0;
 		
 		if(count($results) > 0){
+			$coccountattr = '';
+			if($post['no_coc_allocation']!=''){
+				$totalcoccount = array_sum(array_column($results, 'coccount'));
+			}
+			
 			foreach($results as $index => $result){
+				
+				if($post['no_coc_allocation']!=''){
+					$postcocallocation 	= $post['no_coc_allocation'];
+					$noofcoc 			+= $result['coccount'];
+					
+					if($noofcocbr==1){
+						break;
+					}
+					
+					if($noofcoc > $postcocallocation){
+						$noofcocbr = 1;
+					}		
+					
+					if($noofcoc <= $totalcoccount){
+						//$coccountattr = $result['coccount'];
+						//echo $result['coccount'];
+					}					
+				}
+				
 				$audit 			= $result['audit'];
 				$rollingavg 	= $this->getRollingAverage();
 				$date			= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
@@ -99,27 +122,11 @@ class Index extends CC_Controller
 				if($post['rating_start']!='' && $post['rating_end']!='') 			$checkcocranking[] = ($overallpoint >= $post['rating_start'] && $overallpoint <= $post['rating_end']) ? '1' : '0';
 				
 				if(count($checkcocranking) && array_sum($checkcocranking)=='0'){
-					//--$totalcount;
 					continue;
 				}
 				
-				/*
-				if($post['no_coc_allocation']!=''){
-					if($index=='0') $totalcount = '0';
-					
-					$postcocallocation 	= $post['no_coc_allocation'];
-					$noofcoc 			+= $result['coccount'];
-					$cocprevtotal 		= isset($results[$index-1]['coccount']) ? $results[$index-1]['coccount'] : '0';
-					//echo $cocprevtotal.'-'.$noofcoc.'-'.$postcocallocation;
-					if($cocprevtotal <= $postcocallocation && $noofcoc > $postcocallocation){
-						break;
-					}
-					
-					++$totalcount;
-				}
-				*/
 				if($checkpermission){
-					$action = 	"<a href='javascript:void(0);' class='cocaccordion' data-user-id='".$user_id."'><i class='fa fa-caret-up caretup'></i><i class='fa fa-caret-down caretdown displaynone'></i></a>";
+					$action = 	"<a href='javascript:void(0);' class='cocaccordion' data-coc-count='".$coccountattr."' data-user-id='".$user_id."'><i class='fa fa-caret-up caretup'></i><i class='fa fa-caret-down caretdown displaynone'></i></a>";
 				}else{
 					$action = '';
 				}

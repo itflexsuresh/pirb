@@ -473,7 +473,7 @@ class Import extends CC_Controller {
 			$installation 	= $this->Installationtype_Model->getList('row', ['name' => $data[0], 'status' => ['0', '1']]);
 			$installationid = $installation['id'];
 			
-			$subtypeaction 	= $this->Subtype_Model->getList('row', ['name' => $data[1], 'installationtype_id' => $installationid, 'status' => ['0', '1']]);
+			$subtypeaction 	= $this->Subtype_Model->getList('row', ['name' => $data[1], 'installationtypeid' => $installationid, 'status' => ['0', '1']]);
 			if($subtypeaction){
 				$subtypeid = $subtypeaction['id'];
 			}else{
@@ -522,7 +522,7 @@ class Import extends CC_Controller {
 			$installation 	= $this->Installationtype_Model->getList('row', ['name' => $data[0], 'status' => ['0', '1']]);
 			$installationid = $installation['id'];
 			
-			$subtypeaction 	= $this->Subtype_Model->getList('row', ['name' => $data[1], 'installationtype_id' => $installationid, 'status' => ['0', '1']]);
+			$subtypeaction 	= $this->Subtype_Model->getList('row', ['name' => $data[1], 'installationtypeid' => $installationid, 'status' => ['0', '1']]);
 			if($subtypeaction){
 				$subtypeid = $subtypeaction['id'];
 			}else{
