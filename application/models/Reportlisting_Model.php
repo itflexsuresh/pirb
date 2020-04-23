@@ -14,6 +14,7 @@ class Reportlisting_Model extends CC_Model
 		if(isset($requestdata['id'])) $this->db->where('t1.id', $requestdata['id']);
 		if(isset($requestdata['installationtypeid'])) $this->db->where('t1.installation_id', $requestdata['installationtypeid']);
 		if(isset($requestdata['subtypeid'])) $this->db->where('t1.subtype_id', $requestdata['subtypeid']);
+		if(isset($requestdata['reference'])) $this->db->where('t1.regulation', $requestdata['reference']);
 		if(isset($requestdata['status'])) $this->db->where_in('t1.status', $requestdata['status']);
 		
 

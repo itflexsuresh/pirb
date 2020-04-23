@@ -11,6 +11,10 @@ class Import extends CC_Controller {
 		$this->load->model('Plumber_Model');
 		$this->load->model('Resellers_Model');
 		$this->load->model('Documentsletters_Model');
+		$this->load->model('Installationtype_Model');
+		$this->load->model('Subtype_Model');
+		$this->load->model('Reportlisting_Model');
+		$this->load->model('Noncompliancelisting_Model');
 		$this->load->model('CC_Model');
 	}
 
@@ -445,6 +449,108 @@ class Import extends CC_Controller {
 			$this->Resellers_Model->action($result);		
 		}
     }
+	
+	public function reportlisting()
+	{
+		$file 	= './assets/import/listing.xlsx';
+		$type 	= \PhpOffice\PhpSpreadsheet\IOFactory::identify($file);
+		$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($type);
+		$reader->setLoadSheetsOnly(['Reportlisting']);
+		$spreadsheet = $reader->load($file);
+		
+		$datas 	= $spreadsheet->getActiveSheet()->toArray();
+		unset($datas[0]);
+		
+		$installtiontypes 	= array_unique(array_column($datas, 0));
+		foreach($installtiontypes as $key => $data){
+			$installationaction = $this->Installationtype_Model->getList('row', ['name' => $data, 'status' => ['0', '1']]);
+			if(!$installationaction){
+				$this->Installationtype_Model->action(['id' => '', 'name' => $data, 'status' => '1']);
+			}
+		}
+		
+		foreach($datas as $key => $data){
+			$installation 	= $this->Installationtype_Model->getList('row', ['name' => $data[0], 'status' => ['0', '1']]);
+			$installationid = $installation['id'];
+			
+			$subtypeaction 	= $this->Subtype_Model->getList('row', ['name' => $data[1], 'installationtype_id' => $installationid, 'status' => ['0', '1']]);
+			if($subtypeaction){
+				$subtypeid = $subtypeaction['id'];
+			}else{
+				$subtypeid = $this->Subtype_Model->action(['id' => '', 'name' => $data[1], 'installationtype_id' => $installationid, 'status' => '1']);
+			}
+			
+			$reportdatas = [
+				'id' 				=> '',
+				'installation' 		=> $installationid,
+				'subtype' 			=> $subtypeid,
+				'statement' 		=> $data[2],
+				'regulation' 		=> $data[3],
+				'knowledge' 		=> $data[4],
+				'comment' 			=> $data[5],
+				'compliment' 		=> $data[6],
+				'caution'	 		=> $data[7],
+				'refix_complete'	=> $data[8],
+				'refix_in'			=> $data[9],
+				'status'			=> '1'
+			];
+			
+			$this->Reportlisting_Model->action($reportdatas);
+		}
+	}
+	
+	public function noncompliancelisting()
+	{
+		$file 	= './assets/import/listing.xlsx';
+		$type 	= \PhpOffice\PhpSpreadsheet\IOFactory::identify($file);
+		$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($type);
+		$reader->setLoadSheetsOnly(['Non Compliance Statement Listin']);
+		$spreadsheet = $reader->load($file);
+		
+		$datas 	= $spreadsheet->getActiveSheet()->toArray();
+		unset($datas[0]);
+		
+		$installtiontypes 	= array_unique(array_column($datas, 0));
+		foreach($installtiontypes as $key => $data){
+			$installationaction = $this->Installationtype_Model->getList('row', ['name' => $data, 'status' => ['0', '1']]);
+			if(!$installationaction){
+				$this->Installationtype_Model->action(['id' => '', 'name' => $data, 'status' => '1']);
+			}
+		}
+		
+		foreach($datas as $key => $data){
+			$installation 	= $this->Installationtype_Model->getList('row', ['name' => $data[0], 'status' => ['0', '1']]);
+			$installationid = $installation['id'];
+			
+			$subtypeaction 	= $this->Subtype_Model->getList('row', ['name' => $data[1], 'installationtype_id' => $installationid, 'status' => ['0', '1']]);
+			if($subtypeaction){
+				$subtypeid = $subtypeaction['id'];
+			}else{
+				$subtypeid = $this->Subtype_Model->action(['id' => '', 'name' => $data[1], 'installationtype_id' => $installationid, 'status' => '1']);
+			}
+			
+			$statementlist 	= $this->Reportlisting_Model->getList('row', ['name' => $data[2], 'reference' => $data[4], 'installationtypeid' => $installationid, 'subtypeid' => $subtypeid, 'status' => ['0', '1']]);
+			if($statementlist){
+				$statementid 	= $statementlist['id'];
+			}else{
+				$statementlist 	= $this->Reportlisting_Model->getList('row', ['name' => $data[2], 'installationtypeid' => $installationid, 'subtypeid' => $subtypeid, 'status' => ['0', '1']]);
+				$statementid 	= ($statementlist) ? $statementlist['id'] : '';
+			}
+			
+			$reportdatas = [
+				'id' 				=> '',
+				'installationtype' 	=> $installationid,
+				'subtype' 			=> $subtypeid,
+				'statement' 		=> $statementid,
+				'details' 			=> $data[3],
+				'reference' 		=> $data[4],
+				'action' 			=> $data[5],
+				'status'			=> '1'
+			];
+			
+			$this->Noncompliancelisting_Model->action($reportdatas);
+		}
+	}
 }
 
 	

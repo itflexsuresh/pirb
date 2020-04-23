@@ -10,6 +10,7 @@ class Subtype_Model extends CC_Model
 		
 		if(isset($requestdata['id'])) 						$this->db->where('ist.id', $requestdata['id']);
 		if(isset($requestdata['installationtypeid'])) 		$this->db->where('ist.installationtype_id', $requestdata['installationtypeid']);
+		if(isset($requestdata['name'])) 					$this->db->where('ist.name', $requestdata['name']);
 		if(isset($requestdata['status']))					$this->db->where_in('ist.status', $requestdata['status']);
 		
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
@@ -57,8 +58,10 @@ class Subtype_Model extends CC_Model
 			$request['created_at'] = $datetime;
 			$request['created_by'] = $userid;
 			$this->db->insert('installationsubtype', $request);
+			$insertid = $this->db->insert_id();
 		}else{
 			$this->db->update('installationsubtype', $request, ['id' => $id]);
+			$insertid = $id;
 		}
 
 		if($this->db->trans_status() === FALSE)
@@ -69,7 +72,7 @@ class Subtype_Model extends CC_Model
 		else
 		{
 			$this->db->trans_commit();
-			return true;
+			return $insertid;
 		}
 	}
 	

@@ -8,6 +8,7 @@ class Installationtype_Model extends CC_Model
 		$this->db->from('installationtype');
 		
 		if(isset($requestdata['id'])) 				$this->db->where('id', $requestdata['id']);
+		if(isset($requestdata['name'])) 			$this->db->where('name', $requestdata['name']);
 		if(isset($requestdata['designation'])) 		$this->db->where("FIND_IN_SET('".$requestdata['designation']."', designation)");
 		if(isset($requestdata['specialisations']) && count($requestdata['specialisations']) == 0) 	$this->db->where('specialisations', '');
 		if(isset($requestdata['status']))			$this->db->where_in('status', $requestdata['status']);
