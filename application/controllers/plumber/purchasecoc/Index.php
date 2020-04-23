@@ -187,11 +187,36 @@ class Index extends CC_Controller
 		$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail']);
 		$request['status'] 		= 	'1';
 		 if ($insert_id) {
+			if($requestData['coc_type']=='1'){
+				for($m=1;$m<=$requestData['quantity'];$m++){
+					$stockmanagement = $this->db->get_where('stock_management', ['user_id' => '0', 'coc_status' => '1', 'coc_orders_status' => '6', 'type' => '1'])->row_array();
+					
+					$cocrequestdata = [
+						'coc_status' 				=> '4',
+						'type' 						=> $requestData['coc_type'],
+						'coc_orders_status' 		=> null,
+						'user_id' 					=> $userid,
+					];
+					
+					if($stockmanagement){
+						$this->db->update('stock_management', $cocrequestdata, ['id' => $stockmanagement['id']]);
+						$cocinsertid = $stockmanagement['id'];
+					}else{
+						$this->db->insert('stock_management', $cocrequestdata);
+						$cocinsertid = $this->db->insert_id();
+					}
+					
+					$this->diaryactivity(['adminid' => '1', 'plumberid' => $userid, 'cocid' => $cocinsertid, 'action' => '6', 'type' => '1']);		
+				}	
+
+				$request['admin_status']	= '1';
+			}
+			
 			$inid 				= $insert_id['id'];
 			$inv_id 			= $insert_id['inv_id'];
 			$result 			= $this->db->update('invoice', $request, ['inv_id' => $inv_id,'user_id' => $userid]);
 		 	$result 			= $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
-
+			
 		 	$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
 
 		 	$orders = $this->db->select('*')->from('coc_orders')->where(['user_id' => $userid])->order_by('id','desc')->get()->row_array();
