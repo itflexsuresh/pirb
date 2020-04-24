@@ -129,7 +129,7 @@ class Index extends CC_Controller
 	public function generatepdf($inv_id)
 	{
 		$settings = $this->Systemsettings_Model->getList('row');
-		$rowData = $this->Coc_Model->getListPDF('row', ['id' => $inv_id, 'status' => ['0','1']]);
+		$rowData = $this->Coc_Model->getListPDF('row', ['id' => $inv_id, 'status' => ['0','1']]); 
 		$rowData1 = $this->Coc_Model->getPermissions('row', ['id' => $inv_id, 'status' => ['0','1']]);
 		$rowData2 = $this->Coc_Model->getPermissions1('row', ['id' => $inv_id, 'status' => ['0','1']]);
 		$amount =	$rowData['total_due']*$rowData['quantity'];
@@ -236,7 +236,7 @@ class Index extends CC_Controller
 							<thead>
 								<tr>
 					<th style="border: 1px solid #000; padding: 8px 30px 8px 30px;">Invoice Number</th>
-					<th style="padding: 8px 30px 8px 30px; border: 1px solid #000;">'.$rowData['inv_id'].'</th>	
+					<th style="padding: 8px 30px 8px 30px; border: 1px solid #000;">'.((isset($rowData['invoice_no']) && $rowData['invoice_no']!='') ? $rowData['invoice_no'] : $rowData['inv_id']).'</th>	
 								</tr>							
 							</thead>
 						</table>
