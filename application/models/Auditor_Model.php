@@ -199,8 +199,7 @@ class Auditor_Model extends CC_Model
 	{
 		$id	= $data['editid'];
 		$request1['status'] = $data['status'];
-		$invoicedate = isset($data['invoicedate']) && $data['invoicedate']!='1970-01-01' ? date('Y-m-d', strtotime($data['invoicedate'])) : '';		
-		if(isset($invoicedate)) $request1['invoice_date'] = $invoicedate;
+		if(isset($data['invoicedate']) && $data['invoicedate']!='1970-01-01') $request1['invoice_date'] = date('Y-m-d', strtotime($data['invoicedate']));
 		if(isset($data['invoice_no'])) $request1['invoice_no'] = $data['invoice_no'];
 		if(isset($data['total_cost'])) $request1['total_cost'] = $data['total_cost'];
 		if(isset($data['vat'])) $request1['vat'] = $data['vat'];
