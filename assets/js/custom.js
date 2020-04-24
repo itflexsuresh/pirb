@@ -545,6 +545,8 @@ function userautocomplete(data1=[], data2=[], customfunction='', customappend=''
 }
 
 function chat(data1=[], data2=[], data3=[], relationship=''){
+	chatcontent({'cocid' : data2[0], 'checkfrom' : data2[1] }, 'initial');
+	
 	var seperatechat = null;
 	
 	$('#seperatechat').click(function(){
@@ -604,35 +606,40 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 						var sound		= '0';
 						
 						$(result).each(function(i,v){
-							sound = '1';
-							var chatappend = '<div class="chatbar_section"><div class="chatbar_wrapper '+((v.from_id!=data2[1]) ? 'chatbar_wrapper_right' : '')+'"><p class="chatbar_user">'+v.name+'  '+formatdate(v.created_at, 3)+'</p>';							
-							if(v.type=='2'){
-								var ext = v.attachment.split('.').pop().toLowerCase();
-								if(ext=='jpg' || ext=='jpeg' || ext=='png' || ext=='tif' || ext=='tiff'){
-									var filesrc = data3[0]+'/'+v.attachment;
-								}else if(ext=='pdf'){
-									var filesrc = data3[1];
-								}
-								
-								chatappend += '<a href="'+data3[0]+'/'+v.attachment+'" target="_blank"><img src="'+filesrc+'" width="100"></a><a href="'+downloadurl+'/'+data2[0]+'/'+v.attachment+'"><i class="fa fa-download"></i></a>';
+							if(state=='initial'){
+								chataction({'id' : v.id, 'state1' : '1'});
 							}else{
-								chatappend += '<div class="chatbar"><p class="chatbar_message">'+v.message+'</p></div>';
-							}	
-							
-							if(v.from_id!=data2[1]) chatappend += '<div class="clear"></div>';
+								sound = '1';
+								var chatappend = '<div class="chatbar_section"><div class="chatbar_wrapper '+((v.from_id!=data2[1]) ? 'chatbar_wrapper_right' : '')+'"><p class="chatbar_user">'+v.name+'  '+formatdate(v.created_at, 3)+'</p>';							
+								if(v.type=='2'){
+									var ext = v.attachment.split('.').pop().toLowerCase();
+									if(ext=='jpg' || ext=='jpeg' || ext=='png' || ext=='tif' || ext=='tiff'){
+										var filesrc = data3[0]+'/'+v.attachment;
+									}else if(ext=='pdf'){
+										var filesrc = data3[1];
+									}
+									
+									chatappend += '<a href="'+data3[0]+'/'+v.attachment+'" target="_blank"><img src="'+filesrc+'" width="100"></a><a href="'+downloadurl+'/'+data2[0]+'/'+v.attachment+'"><i class="fa fa-download"></i></a>';
+								}else{
+									chatappend += '<div class="chatbar"><p class="chatbar_message">'+v.message+'</p></div>';
+								}	
 								
-							chatappend += '</div></div>';
-							
-							chatdata.push(chatappend)
-							
-							if(state=='checkfrom') chataction({'id' : v.id, 'state1' : '1'});
-							else if(state=='checkto') chataction({'id' : v.id, 'state2' : '1'});
+								if(v.from_id!=data2[1]) chatappend += '<div class="clear"></div>';
+									
+								chatappend += '</div></div>';
+								
+								chatdata.push(chatappend)
+								
+								if(state=='checkfrom') chataction({'id' : v.id, 'state1' : '1'});
+								else if(state=='checkto') chataction({'id' : v.id, 'state2' : '1'});
+							}
 						})
 						
-						$(data1[1]).append(chatdata.join(''));
-						
-						if(sound=='1' && state=='checkto') audioselector.play();
-						scrolltobottom(data1[1].substring(1))
+						if(state!='initial'){
+							$(data1[1]).append(chatdata.join(''));						
+							if(sound=='1' && state=='checkto') audioselector.play();
+							scrolltobottom(data1[1].substring(1));
+						}
 					}
 				},
 				asynchronous : 1
