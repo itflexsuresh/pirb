@@ -283,6 +283,8 @@ class Coc_Model extends CC_Model
 			return $inv_id;
 		}elseif($flag == 2){
 			$result 		= $this->db->insert('coc_orders',$requestdata);
+			$oderid 		= $this->db->insert_id();
+			return $oderid;
 		}
 		else{
 			$result 		= $this->db->update('coc_count', $requestdata, ['user_id' => $requestdata['user_id']]);

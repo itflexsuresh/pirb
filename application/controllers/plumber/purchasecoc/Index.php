@@ -52,6 +52,7 @@ class Index extends CC_Controller
 			if ($this->input->post()) {
 				$this->session->set_userdata('pay_purchaseorder', $this->input->post());	
 				echo '1';		
+				//$this->return();
 			}
 		}
 
@@ -149,7 +150,8 @@ class Index extends CC_Controller
 				$requestData1['inv_type']		= 	1;
 				$requestData1['coc_type']		= 	$requestData['coc_type'];
 				
-				$result1 = $this->Coc_Model->action($requestData1, 1);
+				//$result1 = $this->Coc_Model->action($requestData1, 1);
+				$invoice_table = $this->Coc_Model->action($requestData1, 1);
 				$this->CC_Model->diaryactivity(['plumberid' => $this->getUserID(), 'action' => '5', 'type' => '2']);
 				
 					$requestData2['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
@@ -158,7 +160,8 @@ class Index extends CC_Controller
 					$requestData2['created_at']		= 	date('Y-m-d H:i:s');
 					$requestData2['updated_at']		=	$requestData2['created_at'];
 					$requestData2['status']			= 	'0';
-					$requestData2['inv_id']			= 	$result1;
+					//$requestData2['inv_id']			= 	$result1;
+					$requestData2['inv_id']			= 	$invoice_table;
 					$requestData2['coc_type']		= 	$requestData['coc_type'];
 					$requestData2['delivery_type'] 	= 	$requestData['delivery_type'];
 					$requestData2['cost_value']		= 	$requestData['cost_value'];
@@ -168,7 +171,8 @@ class Index extends CC_Controller
 					$requestData2['vat']			= 	$requestData['vat'];
 					$requestData2['total_due']		= 	$requestData['total_due'];
 
-					$result = $this->Coc_Model->action($requestData2, 2);
+					//$result = $this->Coc_Model->action($requestData2, 2);
+					$oder_table = $this->Coc_Model->action($requestData2, 2);
 
 					$requestData0['count'] 			= 	$requestData['permittedcoc'] - $requestData['quantity'];
 					$requestData0['user_id']		= 	$this->getUserID();
@@ -212,8 +216,8 @@ class Index extends CC_Controller
 				$request['admin_status']	= '1';
 			}
 			
-			$inid 				= $insert_id['id'];
-			$inv_id 			= $insert_id['inv_id'];
+			$inid 				= $oder_table;
+			$inv_id 			= $invoice_table;
 		 	$result 			= $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
 			if(isset($request['admin_status'])) unset($request['admin_status']);
 			
@@ -597,7 +601,7 @@ class Index extends CC_Controller
 					}
 				}
 		 	}
-			 
+			$this->session->unset_userdata('pay_purchaseorder');
 			redirect('plumber/purchasecoc/index/notify');
 		 }
 		
