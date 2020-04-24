@@ -284,7 +284,7 @@ class Index extends CC_Controller
 							<thead>
 								<tr>
 					<th style="border: 1px solid #000; padding: 8px 30px 8px 30px;">Invoice Number</th>
-					<th style="padding: 8px 30px 8px 30px; border: 1px solid #000;">'.$rowData['inv_id'].'</th>	
+					<th style="padding: 8px 30px 8px 30px; border: 1px solid #000;">'.((isset($rowData['invoice_no']) && $rowData['invoice_no']!='') ? $rowData['invoice_no'] : $rowData['inv_id']).'</th>	
 								</tr>							
 							</thead>
 						</table>
