@@ -155,7 +155,7 @@ class Index extends CC_Controller
 	public function ajaxnoncompliancelisting()
 	{
 		$post 	= $this->input->post();
-		$result = $this->Noncompliancelisting_Model->getList('row', ['status' => ['1']]);
+		$result = $this->Noncompliancelisting_Model->getList('row', $post+['status' => ['1']]);
 		
 		if($result){
 			$json = ['status' => '1', 'result' => $result];
