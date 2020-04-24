@@ -168,7 +168,7 @@ class Index extends CC_Controller
 					$requestData2['vat']			= 	$requestData['vat'];
 					$requestData2['total_due']		= 	$requestData['total_due'];
 
-					$result = $this->Coc_Model->action($requestData2, 2);
+					$result_coc = $this->Coc_Model->action($requestData2, 2);
 
 					$requestData0['count'] 			= 	$requestData['permittedcoc'] - $requestData['quantity'];
 					$requestData0['user_id']		= 	$this->getUserID();
@@ -212,8 +212,10 @@ class Index extends CC_Controller
 				$request['admin_status']	= '1';
 			}
 			
-			$inid 				= $insert_id['id'];
-			$inv_id 			= $insert_id['inv_id'];
+			// $inid 				= $insert_id['id'];
+			// $inv_id 			= $insert_id['inv_id'];
+			$inid 				= $result_coc;
+			$inv_id 			= $result1;
 		 	$result 			= $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
 			if(isset($request['admin_status'])) unset($request['admin_status']);
 			
@@ -597,7 +599,7 @@ class Index extends CC_Controller
 					}
 				}
 		 	}
-			 
+			$this->session->unset_userdata('pay_purchaseorder');
 			redirect('plumber/purchasecoc/index/notify');
 		 }
 		
