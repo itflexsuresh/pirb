@@ -136,6 +136,11 @@ class Index extends CC_Controller
 
 
 		$requestData = $this->session->userdata('pay_purchaseorder');
+		if ($requestData['delivery_type']=='') {
+			$delivery_type = '0';
+		}else{
+			$delivery_type = $requestData['delivery_type'];
+		}
 				// $requestData0['count'] = $requestData['permittedcoc'] - $requestData['quantity'];
 				
 				 //print_r($requestData);die;
@@ -143,7 +148,7 @@ class Index extends CC_Controller
 				$requestData1['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
 				$requestData1['user_id']		= 	$userid;
 				$requestData1['vat']			= 	$requestData['vat'];
-				$requestData1['delivery_type'] 	= 	$requestData['delivery_type'];
+				$requestData1['delivery_type'] 	= 	$delivery_type;
 				$requestData1['total_cost'] 	= 	$requestData['total_due'];
 				$requestData1['created_at']		= 	date('Y-m-d H:i:s');
 				$requestData1['inv_type']		= 	1;
@@ -160,7 +165,7 @@ class Index extends CC_Controller
 					$requestData2['status']			= 	'0';
 					$requestData2['inv_id']			= 	$result1;
 					$requestData2['coc_type']		= 	$requestData['coc_type'];
-					$requestData2['delivery_type'] 	= 	$requestData['delivery_type'];
+					$requestData2['delivery_type'] 	= 	$delivery_type;
 					$requestData2['cost_value']		= 	$requestData['cost_value'];
 					$requestData2['quantity']		= 	$requestData['quantity'];
 					$requestData2['delivery_cost']	= 	$requestData['delivery_cost'];
