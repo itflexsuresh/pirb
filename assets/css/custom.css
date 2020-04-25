@@ -1,3 +1,8 @@
+h1, h2, h3, h4, h5, h6, p, span, ul, li, div, a {
+    font-family: 'Helvetica' !important;
+} 
+
+
 .displaynone{
     display : none!important;
 }
@@ -1899,3 +1904,39 @@ footer.footer {
 	padding: 0.5em;
 }
 
+::placeholder {
+    color: #cbcbcb !important;
+}
+
+.logo {
+    width: 195px;
+    margin-top: -14px;
+}
+
+.navbar_logo {
+    display: none;
+}
+
+.mini-sidebar img.logo {
+    display: none;
+}
+
+.mini-sidebar img.navbar_logo {
+    display: block;
+    position: relative;
+    top: 10px;
+}
+
+@media only screen and (min-width: 1367px) and (max-width: 3000px) {
+    .card-body {
+        width: 78%;
+    }
+
+    .left-sidebar {
+        width: 280px;
+    }
+
+    .page-wrapper {
+        margin-left: 280px;
+    }
+}

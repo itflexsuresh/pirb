@@ -55,10 +55,8 @@
 				<nav class="navbar top-navbar navbar-expand-md navbar-dark">
 					<div class="navbar-header">
 						<a class="navbar-brand" href="<?php echo base_url(); ?>">
-							<b>
-								<img src="<?php echo base_url().'assets/images/logo.png'; ?>" alt="Auditit"/>
-							</b>
-							<span class="hidden-xs"><span class="font-bold">Auditit</span></span>
+							<img class="logo" src="<?php echo base_url().'assets/images/logo_resize.png'; ?>" alt="Auditit"/>
+							<img class="navbar_logo" src="<?php echo base_url().'assets/images/logo.png'; ?>" alt="Auditit"/>
 						</a>
 					</div>
 					<div class="navbar-collapse">
