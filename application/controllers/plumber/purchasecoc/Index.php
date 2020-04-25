@@ -707,10 +707,16 @@ class Index extends CC_Controller
 
 				$request['admin_status']	= '1';
 			}
+
+
 			$inid 				= $coc_order_id;
 			//$inv_id 			= $insert_id['inv_id'];
-			$result 			= $this->db->update('invoice', $request, ['inv_id' => $inv_id,'user_id' => $userid]);
-		 	$result 			= $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
+			
+		 	$result_order 			= $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
+
+		 	if(isset($request['admin_status'])) unset($request['admin_status']);
+
+		 	$result_invoice 			= $this->db->update('invoice', $request, ['inv_id' => $inv_id,'user_id' => $userid]);
 
 		 	$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
 
@@ -1042,7 +1048,7 @@ class Index extends CC_Controller
 
                 if (file_exists($file_pointer))  
 				{ 
-					!unlink($file_pointer);
+					unlink($file_pointer);
 				    $this->pdf->loadHtml($html);
 					$this->pdf->setPaper('A4', 'portrait');
 					$this->pdf->render();
