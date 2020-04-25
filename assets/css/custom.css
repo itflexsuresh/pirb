@@ -135,7 +135,7 @@ textarea {
 .card-title {
     font-size: 20px;
     font-weight: 600 !important;
-    margin-bottom: 35px;
+    margin-bottom: 25px;
     width: 70%;
     display: inline-block;
 }
@@ -514,7 +514,7 @@ a#previous, a#next {
 }
 
 .add_top_value {
-    margin-top: 50px;
+    margin-top: 10px;
 }
 
 .form-group a {
@@ -1927,6 +1927,8 @@ footer.footer {
     top: 10px;
 }
 
+/* 25.04.2020 */
+
 @media only screen and (min-width: 1367px) and (max-width: 3000px) {
     .card-body {
         width: 78%;
@@ -1939,4 +1941,25 @@ footer.footer {
     .page-wrapper {
         margin-left: 280px;
     }
+}
+
+
+.table_title {
+    text-align: left;
+    background-color: #cff6cf;
+    font-size: 20px;
+    font-weight: 600 !important;
+    padding-bottom: 5px !important;
+    padding-top: 5px !important;
+}
+
+.table_title span {
+    width: 100%;
+    display: inline-block;
+    font-size: 14px;
+}
+
+td {
+    padding-top: 14px !important;
+    padding-bottom: 0px !important;
 }
