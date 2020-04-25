@@ -41,21 +41,23 @@ class Managearea_Model extends CC_Model
 	}
 	
 	public function action($data)
-	{
+	{	        
 		$this->db->trans_begin();
 
 		$userid			= 	$this->getUserID();
 		$id 			= 	$data['id'];
 		$datetime		= 	date('Y-m-d H:i:s');
 		
-		if(isset($data['province']) && isset($data['city1']) && $data['city1']!=''){
+		if(isset($data['province']) && $data['citydata']!=''){
 			$request1		=	[
 									'updated_at' 		=> $datetime,
 									'updated_by' 		=> $userid,
 									'name'				=> $data['city1'],
-									'province_id'		=> $data['province'],
-									'status'			=> '1'
+									'province_id'		=> $data['province']
 								];
+								
+			$request1['status'] = (isset($data['status'])) ? $data['status'] : '0';
+			
 			if($id==''){
 				$request1['created_at'] = $datetime;
 				$request1['created_by'] = $userid;
@@ -67,7 +69,6 @@ class Managearea_Model extends CC_Model
 				$insertid = $id;
 			}
 		}else{
-
 			$request2		=	[
 				'updated_at' 		=> $datetime,
 				'updated_by' 		=> $userid
@@ -76,7 +77,7 @@ class Managearea_Model extends CC_Model
 			if(isset($data['province'])) 	$request2['province_id'] 		= $data['province'];
 			if(isset($data['city'])) 		$request2['city_id'] 			= $data['city'];
 			if(isset($data['suburb'])) 		$request2['name'] 				= $data['suburb'];
-			$request2['status'] 											= (isset($data['status'])) ? $data['status'] : '0';
+			$request2['status'] = (isset($data['status'])) ? $data['status'] : '0';
 	        
 			if($id==''){
 				$request2['created_at'] = $datetime;

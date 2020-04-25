@@ -9,6 +9,7 @@ class CC_Model extends CI_Model
 	
 	public function sentMail($to, $subject, $message, $file='')
 	{
+		$settings 	= 	$this->db->get('settings_details')->row_array();
 		$sitename	=	$this->config->item('sitename');
 		
 		$this->load->library('email');
@@ -24,7 +25,7 @@ class CC_Model extends CI_Model
 		$config['wordwrap'] 	= TRUE;
 
 		$this->email->initialize($config);
-		$this->email->from('pirb@gmail.com', $sitename);
+		$this->email->from($settings['system_email'], $sitename);
 		$this->email->to($to);
 		$this->email->subject($subject);
 		$this->email->message($message);

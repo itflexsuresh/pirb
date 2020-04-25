@@ -33,7 +33,8 @@ class Managearea extends CC_Controller
 		if($this->input->post()){
 			$this->checkUserPermission('4', '2', '1');
 
-			$requestData 	= 	$this->input->post();
+			$requestData 				= 	$this->input->post();
+			$requestData['citydata']	=	$citydata;
 
 			if($requestData['submit']=='submit'){
 				if($requestData['city1']!=''){
@@ -53,10 +54,10 @@ class Managearea extends CC_Controller
 				}
 				
 				$data 		=  $this->Managearea_Model->action($requestData);
-				$message 	= 'Managearea Type '.(($id=='') ? 'created' : 'updated').' successfully.';
+				$message 	= ($requestData['city1']!='' ? 'City' : 'Suburb').' '.(($id=='') ? 'created' : 'updated').' successfully.';
 			}else{
 				$data 			= 	$this->Managearea_Model->changestatus($requestData);
-				$message		= 	'Managearea Type deleted successfully.';
+				$message		= 	'Record deleted successfully.';
 			}
 
 			if(isset($data)) $this->session->set_flashdata('success', $message);
