@@ -3,7 +3,7 @@
 	$id 					= isset($result['cl_id']) ? $result['cl_id'] : '';
 	$cocid					= $result['id'];
 	
-	$logdate 				= isset($result['cl_log_date']) && date('Y-m-d', strtotime($result['cl_log_date']))!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_log_date'])) : '';
+	$logdate 				= isset($result['cl_log_date']) && $result['cl_log_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_log_date'])) : '';
 	$completiondate 		= isset($result['cl_completion_date']) && $result['cl_completion_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_completion_date'])) : '';
 	$orderno 				= isset($result['cl_order_no']) ? $result['cl_order_no'] : '';
 	$name 					= isset($result['cl_name']) ? $result['cl_name'] : '';
@@ -31,10 +31,8 @@
 		$explodefile1 	= explode('.', $file1);
 		$extfile1 		= array_pop($explodefile1);
 		$file1img 		= (in_array($extfile1, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$file1;
-		$file1imgurl	= $filepath.$file1;
 	}else{
 		$file1img 		= $profileimg;
-		$file1imgurl	= 'javascript:void(0);';
 	}
 	
 	$coctypeid 				= isset($result['type']) ? $result['type'] : '';
@@ -174,22 +172,19 @@
 					<div class="row add_top_value">
 						<table class="table table-bordered table-striped datatables fullwidth">
 							<tr>
-								<th colspan="2">Type of Installation Carried Out by <?php echo $designation2[$userdata['designation']]; ?></th>
+								<th colspan="2" class="table_title">Type of Installation Carried Out by <?php echo $designation2[$userdata['designation']]; ?><span>(Clearly tick the appropriate Installation Category Code and complete the installation details below)</span></th>
 								<th style="text-align: center;">Code</th>
 								<th style="text-align: center;">Tick</th>
-							</tr>
-							<tr>
-								<td colspan="4">(Clearly tick the appropriate Installation Category Code and complete the installation details below)</td>
 							</tr>
 							<?php
 								foreach ($installation as $key => $value) {
 							?>
 									<tr>
-										<td colspan="2"><?php echo $value['name']; ?></td>
+										<td colspan="2" style="text-align: left;"><?php echo $value['name']; ?></td>
 										<td style="text-align: center;"><?php echo $value['code']; ?></td>
 										<td style="text-align: center;">
 											<div class="custom-control custom-checkbox">
-												<input type="checkbox" name="installationtype[]" class="custom-control-input installationtypebox" id="<?php echo 'installationtype-'.$key.'-'.$value['code']; ?>" value="<?php echo $value['id']; ?>" <?php echo (in_array($value['id'], $installationtypeid)) ? 'checked="checked"' : ''; ?>>
+												<input type="checkbox" name="installationtype[]" class="custom-control-input" id="<?php echo 'installationtype-'.$key.'-'.$value['code']; ?>" value="<?php echo $value['id']; ?>" <?php echo (in_array($value['id'], $installationtypeid)) ? 'checked="checked"' : ''; ?>>
 												<label class="custom-control-label" for="<?php echo 'installationtype-'.$key.'-'.$value['code']; ?>"></label>
 											</div>
 										</td>
@@ -202,22 +197,19 @@
 						<?php if(count($specialisations) > 0){ ?>
 							<table class="table table-bordered table-striped datatables fullwidth add_top_value_v2">
 								<tr>
-									<th colspan="2">Specialisations: To be Carried Out by <?php echo $designation2[$userdata['designation']]; ?> Only Registered to do the Specialised work</th>
+									<th colspan="2" class="table_title">Specialisations: To be Carried Out by <?php echo $designation2[$userdata['designation']]; ?> Only Registered to do the Specialised work<span>(Clearly tick the appropriate Installation Category Code and complete the installation details below)</span></th>
 									<th style="text-align: center;">Code</th>
 									<th style="text-align: center;">Tick</th>
-								</tr>
-								<tr>
-									<td colspan="4">(Clearly tick the appropriate Installation Category Code and complete the installation details below)</td>
 								</tr>
 								<?php
 									foreach ($specialisations as $key => $value) {
 								?>
 										<tr>
-											<td colspan="2"><?php echo $value['name']; ?></td>
+											<td colspan="2" style="text-align: left;"><?php echo $value['name']; ?></td>
 											<td style="text-align: center;"><?php echo $value['code']; ?></td>
 											<td style="text-align: center;">
 												<div class="custom-control custom-checkbox">
-													<input type="checkbox" name="specialisations[]" class="custom-control-input specialisationsbox" id="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>" value="<?php echo $value['id']; ?>" <?php echo (in_array($value['id'], $specialisationsid)) ? 'checked="checked"' : ''; ?>>
+													<input type="checkbox" name="specialisations[]" class="custom-control-input" id="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>" value="<?php echo $value['id']; ?>" <?php echo (in_array($value['id'], $specialisationsid)) ? 'checked="checked"' : ''; ?>>
 													<label class="custom-control-label" for="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>"></label>
 												</div>
 											</td>
@@ -230,13 +222,11 @@
 						
 						<table class="table table-bordered table-striped datatables fullwidth add_top_value_v2">
 							<tr>
-								<th colspan="2">Installation Details</th>
+								<th colspan="2" class="table_title">Installation Details<span>(Details of the work undertaken or scope of work for which the COC is being issued for)</span></th>
 							</tr>
+
 							<tr>
-								<td colspan="2">(Details of the work undertaken or scope of work for which the COC is being issued for)</td>
-							</tr>
-							<tr>
-								<td colspan="2">
+								<td colspan="2" style="text-align: left;">
 									<textarea name="installation_detail" rows="10" cols="100"><?php echo $installationdetail; ?></textarea>
 								</td>
 							</tr>
@@ -244,7 +234,7 @@
 
 						<table class="table table-bordered table-striped datatables fullwidth add_top_value_v2 noncompliancetable">
 							<tr>
-								<th colspan="3">Pre- Existing Non Compliance Conditions</th>			
+								<th colspan="3" class="table_title">Pre- Existing Non Compliance Conditions<span>(Details of any non-compliance of the pre-existing plumbing installation on which work was done that needs to be brought to the attention of owner/user)</span></th>			
 							</tr>
 							<tr class="noncompliancenotfound">
 								<td colspan="3">No Record Found</td>			
@@ -271,9 +261,7 @@
 								<h4 class="card-title add_top_value">Image of COC (Paper)</h4>
 								<div class="form-group">
 									<div>
-										<a href="<?php echo $file1imgurl; ?>" target="_blank">
-											<img src="<?php echo $file1img; ?>" class="file1_img" width="100">
-										</a>
+										<img src="<?php echo $file1img; ?>" class="file1_img" width="100">
 									</div>
 									<input type="file" id="file1_file" class="file1_file">
 									<input type="hidden" name="file1" class="file1" value="<?php echo $file1; ?>">
@@ -287,7 +275,7 @@
 								<div class="form-group">
 									<div>
 										<a href="<?php echo base_url().$electroniccocreport;?>" target="_blank">
-											<img src="<?php echo $pdfimg; ?>" width="50">
+										<img src="<?php echo $pdfimg; ?>" width="50">
 										</a>
 									</div>
 								</div>
@@ -312,12 +300,8 @@
 									?>
 												<div class="multipleupload">
 													<input type="hidden" value="<?php echo $value; ?>" name="file2[]">
-													<a href="<?php echo $filepath.$value; ?>" target="_blank">
-														<img src="<?php echo $file1img; ?>" width="100">
-													</a>
-													<?php if($logdate==''){ ?>
-														<i class="fa fa-times"></i>
-													<?php } ?>
+													<img src="<?php echo $file1img; ?>" width="100">
+													<i class="fa fa-times"></i>
 												</div>
 									<?php
 											}
@@ -330,7 +314,7 @@
 
 					<table class="table table-bordered table-striped datatables fullwidth add_top_value_v2">
 						<tr>
-							<th colspan="3">I <?php echo $userdata['name'].' '.$userdata['surname']; ?>, Licensed registration number <?php echo $userdata['registration_no']; ?>, certify that, the above compliance certifcate details are true and correct and will be logged in accordance with the prescribed requirements as defned by the PIRB. Select either A or B as appropriate</th>			
+							<th colspan="3" style="text-align: left;">I <?php echo $userdata['name'].' '.$userdata['surname']; ?>, Licensed registration number <?php echo $userdata['registration_no']; ?>, certify that, the above compliance certifcate details are true and correct and will be logged in accordance with the prescribed requirements as defned by the PIRB. Select either A or B as appropriate</th>			
 						</tr>
 						<tr>
 							<td style="text-align: center; background-color: #ffeae5; vertical-align: middle;">
@@ -341,7 +325,7 @@
 									</div>
 								</div>	
 							</td>
-							<td colspan="2">A: The above plumbing work was carried out by me or under my supervision, and that it complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</td>
+							<td colspan="2" style="text-align: left;">A: The above plumbing work was carried out by me or under my supervision, and that it complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</td>
 						</tr>
 						<tr>
 							<td style="text-align: center; background-color: #ffeae5; vertical-align: middle;">
@@ -352,7 +336,7 @@
 									</div>
 								</div>	
 							</td>
-							<td colspan="2">B: I have fully inspected and tested the work started but not completed by another Licensed plumber. I further certify that the inspected and tested work and the necessary completion work was carried out by me or under my supervision- complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</td>
+							<td colspan="2" style="text-align: left;">B: I have fully inspected and tested the work started but not completed by another Licensed plumber. I further certify that the inspected and tested work and the necessary completion work was carried out by me or under my supervision- complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</td>
 						</tr>
 					</table>
 
@@ -494,10 +478,10 @@ $(function(){
 	fileupload([".file1_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.file1', '.file1_img', filepath, pdfimg]);
 	fileupload([".file2_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file2[]', '.file2append', filepath, pdfimg], 'multiple');
 	fileupload(["#nc_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.ncfileappend', filepath, pdfimg], 'multiple');
-	subtypereportinglist(['#nc_installationtype','#nc_subtype','#nc_statement'], ['', ''], noncompliancedata);
+	subtypereportinglist(['#nc_installationtype','#nc_subtype','#nc_statement'], ['', '']);
 	inputmask('#contact_no, #alternate_no', 1);
 	
-	var noncompliancelists = $.parseJSON('<?php echo str_replace("'", "\'", json_encode($noncompliance)); ?>');
+	var noncompliancelists = $.parseJSON('<?php echo json_encode($noncompliance); ?>');
 	if(noncompliancelists.length > 0){
 		$(noncompliancelists).each(function(i, v){
 			var noncompliancedata 	= {status : 1, result : { id: v.id, details: v.details }}
@@ -544,14 +528,7 @@ $(function(){
 							}			
 			},
 			'installationtype[]':{
-				required:  	function() {
-								return $(".specialisationsbox:checked").length == 0;
-							}
-			},
-			'specialisations[]':{
-				required:  	function() {
-								return $(".installationtypebox:checked").length == 0;
-							}
+				required    : true
 			},
 			agreement:{
 				required    : true
@@ -736,7 +713,7 @@ function noncompliance(data){
 		
 		var appenddata 	= 	'\
 								<tr class="noncomplianceappend" data-id="'+result.id+'">\
-									<td colspan="'+detailcol+'">'+result.details+'</td>'+complianceaction+'\
+									<td style="text-align:left" colspan="'+detailcol+'">'+result.details+'</td>'+complianceaction+'\
 								</tr>\
 							';
 					
@@ -763,7 +740,7 @@ function noncomplianceedit(data){
 		$('#nc_reference').val(result.reference);
 		$('#nc_id').val(result.id);
 		
-		subtypereportinglist(['#nc_installationtype','#nc_subtype','#nc_statement'], [result.subtype, result.statement], noncompliancedata);
+		subtypereportinglist(['#nc_installationtype','#nc_subtype','#nc_statement'], [result.subtype, result.statement]);
 		
 		if(result.file!=''){
 			var filesplit = result.file.split(',');
@@ -807,25 +784,5 @@ function noncomplianceextras(){
 	}else{
 		$('.noncompliancenotfound').show();
 	}
-}
-
-function noncompliancedata(){
-	setTimeout(function(){
-		var installationtype 	= $('#nc_installationtype').val();
-		var subtype 			= $('#nc_subtype').val();
-		var statement 			= $('#nc_statement').val();
-		
-		if(installationtype!=null && subtype!=null && statement!=null){
-			ajax('<?php echo base_url()."ajax/index/ajaxnoncompliancelisting"; ?>', {'installationtype' : installationtype,'subtype' : subtype,'statement' : statement}, '', { success : function(data){
-				if(data.status==1){
-					var result = data.result;
-					
-					if($('#nc_details').val()=='') $('#nc_details').val(result.details)
-					if($('#nc_action').val()=='') $('#nc_action').val(result.action)
-					if($('#nc_reference').val()=='') $('#nc_reference').val(result.reference)
-				}	
-			}});
-		}
-	}, 1000);
 }
 </script>
