@@ -287,6 +287,8 @@ class Coc_Model extends CC_Model
 			return $oderid;
 		}
 		else{
+			echo "<pre>";
+			print_r($requestdata);die;
 			$result 		= $this->db->update('coc_count', $requestdata, ['user_id' => $requestdata['user_id']]);
 			
 			if ($result) {
