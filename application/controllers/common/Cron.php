@@ -355,7 +355,7 @@ class Cron extends CC_Controller {
 					
 					<tr>
 						<td>
-							<img class="logo" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/pitrb-logo.png">					
+							<img class="logo" style="width: 250px;" src="'.$this->base64conversion(base_url()."assets/images/pitrb-logo.png").'">					
 						</td>						
 						<td style="vertical-align: top;">
 							<table align="right" class="invoice_uniq" style="margin-top:10px;">
@@ -707,7 +707,7 @@ class Cron extends CC_Controller {
 					
 					<tr>
 						<td>
-							<img class="logo" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/pitrb-logo.png">					
+							<img class="logo" style="width: 250px;" src="'.$this->base64conversion(base_url()."assets/images/pitrb-logo.png").'">					
 						</td>						
 						<td style="vertical-align: top;">
 							<table align="right" class="invoice_uniq" style="margin-top:10px;">
@@ -1063,7 +1063,7 @@ class Cron extends CC_Controller {
 					
 					<tr>
 						<td>
-							<img class="logo" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/pitrb-logo.png">					
+							<img class="logo" style="width: 250px;" src="'.$this->base64conversion(base_url()."assets/images/pitrb-logo.png").'">					
 						</td>						
 						<td style="vertical-align: top;">
 							<table align="right" class="invoice_uniq" style="margin-top:10px;">

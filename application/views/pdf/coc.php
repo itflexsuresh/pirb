@@ -1,3 +1,13 @@
+<?php
+
+function base64conversion($path){
+	$type = pathinfo($path, PATHINFO_EXTENSION);
+	$data = file_get_contents($path);
+	return 'data:image/' . $type . ';base64,' . base64_encode($data);
+}
+
+?>
+
 <html>
 <head>
   <title>PDF Invoice Plumber COC</title>
@@ -65,14 +75,14 @@ $VAT          = $settings["vat_percentage"];
 
     if($rowData["status"]=='1'){
 
-         $paid = '<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/paid.png">';
+         $paid = '<img class="paid" style="width: 250px;" src="'.base64conversion(base_url()."assets/images/paid.png").'">';
 
          $paid_status = "PAID";
         
       }
       else{
 
-        $paid ='<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/unpaid.png">';
+        $paid ='<img class="paid" style="width: 250px;" src="'.base64conversion(base_url()."assets/images/unpaid.png").'">';
 
         $paid_status = 'UNPAID';
         

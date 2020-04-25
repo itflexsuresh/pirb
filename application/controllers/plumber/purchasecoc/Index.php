@@ -283,14 +283,14 @@ class Index extends CC_Controller
 
       if($rowData["status"]=='1'){
 
-        	 $paid = '<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/paid.png">';
+        	 $paid = '<img class="paid" style="width: 250px;" src="'.$this->base64conversion(base_url()."assets/images/paid.png").'">';
 
         	 $paid_status = "PAID";
         	
         }
         else{
 
-        	$paid ='<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/unpaid.png">';
+        	$paid ='<img class="paid" style="width: 250px;" src="'.$this->base64conversion(base_url()."assets/images/unpaid.png").'">';
 
         	$paid_status = 'UNPAID';
         	
@@ -349,7 +349,7 @@ class Index extends CC_Controller
 
 					<tr>
 					<td>
-					<img class="logo" style="width: 250px; margin-top:10px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/pitrb-logo.png">
+					<img class="logo" style="width: 250px; margin-top:10px;" src="'.$this->base64conversion(base_url()."assets/images/pitrb-logo.png").'">
 					</td>
 
 					<td style="vertical-align: top;">

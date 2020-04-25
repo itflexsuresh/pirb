@@ -176,4 +176,10 @@ class CC_Model extends CI_Model
 			return true;
 		}
 	}
+	
+	function base64conversion($path){
+		$type = pathinfo($path, PATHINFO_EXTENSION);
+		$data = file_get_contents($path);
+		return 'data:image/' . $type . ';base64,' . base64_encode($data);
+	}
 }

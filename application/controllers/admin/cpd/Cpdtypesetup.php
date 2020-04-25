@@ -42,10 +42,9 @@ class Cpdtypesetup extends CC_Controller
 					if ($check_code!='') {
 						$full_code = $check_code;
 						// QR CODE
-						$SERVERFILEPATH 					= $_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/qrcode/';
 						$text 								= $full_code;
 						$file_name 							= $text ."-Qrcode.png";
-						$Qrcode_path 						= $SERVERFILEPATH.$file_name;
+						$Qrcode_path 						= $this->base64conversion(base_url()."assets/qrcode/".$file_name);
 						define('IMAGE_WIDTH',1000);
 						define('IMAGE_HEIGHT',1000);
 						QRcode::png($text,$Qrcode_path,'L', '10', '10');
@@ -154,7 +153,7 @@ class Cpdtypesetup extends CC_Controller
 				<table style="width: 80%; display: table; margin: 0 auto; ">
 				<tbody>
 				<tr style="text-align: center;">
-				<td colspan="2" style="font-family:Helvetica;"><img style="width: 200px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/pitrb-logo.png"></td>
+				<td colspan="2" style="font-family:Helvetica;"><img style="width: 200px;" src="'.$this->base64conversion(base_url()."assets/images/pitrb-logo.png").'"></td>
 				</tr>
 				<tr style="text-align: center;">
 				<td style="width: 50%; text-align: right;padding: 60px 20px 10px 0; font-weight: 700; font-family:Helvetica;">ACTIVITY NAME:</td>
@@ -178,7 +177,7 @@ class Cpdtypesetup extends CC_Controller
 				</tr>
 				<tr style="text-align: center;">
 				<td colspan="2" style="font-family:Helvetica;">
-				<img style="width: 210px; padding-top: 70px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/qrcode/'.$rowData['qrcode'].'">
+				<img style="width: 210px; padding-top: 70px;" src="'.$this->base64conversion(base_url()."assets/qrcode/".$rowData['qrcode']).'">
 				<p style="font-family:Helvetica; font-size: 12px">Use App Plumber to Scan this QR Code</p>
 				</td>
 				</tr>

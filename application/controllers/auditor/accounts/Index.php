@@ -276,7 +276,7 @@ class Index extends CC_Controller
 
 					<tr>
 					<td>
-						<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/uploads/auditor/'.$rowData['file2'].'">
+						<img class="paid" style="width: 250px;" src="'.$this->base64conversion(base_url()."assets/uploads/auditor/".$rowData["file2"]).'">
 					</td>
 
 					<td style="vertical-align: top;">
@@ -314,7 +314,7 @@ class Index extends CC_Controller
 					</td>
 
 					<td>
-						<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/unpaid.png">
+						<img class="paid" style="width: 250px;" src="'.$this->base64conversion(base_url()."assets/images/unpaid.png").'">
 					</td>
 					</tr>
 

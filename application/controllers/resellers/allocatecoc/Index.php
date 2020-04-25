@@ -208,7 +208,7 @@ class Index extends CC_Controller
 		<tbody>
 			<tr>
 				<td style="text-align: left;">
-					<img class="logo" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/pitrb-logo.png">
+					<img class="logo" style="width: 250px;" src="'.$this->base64conversion(base_url()."assets/images/pitrb-logo.png").'">
 				</td>
 				<td style="text-align: right;">
 						<p style="width: auto; display: inline-block; border: 1px solid #000; padding: 8px 30px 8px 30px;">Invoice Number</p>
