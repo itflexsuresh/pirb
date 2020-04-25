@@ -682,10 +682,39 @@ class Index extends CC_Controller
 		$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
 		$request['status'] 		= 	'1';
 		 if ($insert_id) {
+
+		 	if($requestData['coc_type']=='1'){
+				for($m=1;$m<=$requestData['quantity'];$m++){
+					$stockmanagement = $this->db->get_where('stock_management', ['user_id' => '0', 'coc_status' => '1', 'coc_orders_status' => '6', 'type' => '1'])->row_array();
+					
+					$cocrequestdata = [
+						'coc_status' 				=> '4',
+						'type' 						=> $requestData['coc_type'],
+						'coc_orders_status' 		=> null,
+						'user_id' 					=> $userid,
+					];
+					
+					if($stockmanagement){
+						$this->db->update('stock_management', $cocrequestdata, ['id' => $stockmanagement['id']]);
+						$cocinsertid = $stockmanagement['id'];
+					}else{
+						$this->db->insert('stock_management', $cocrequestdata);
+						$cocinsertid = $this->db->insert_id();
+					}
+					
+					$this->diaryactivity(['adminid' => '1', 'plumberid' => $userid, 'cocid' => $cocinsertid, 'action' => '6', 'type' => '1']);		
+				}	
+
+				$request['admin_status']	= '1';
+			}
+
+
 			$inid 				= $coc_order_id;
 			//$inv_id 			= $insert_id['inv_id'];
-			$result 			= $this->db->update('invoice', $request, ['inv_id' => $inv_id,'user_id' => $userid]);
-		 	$result 			= $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
+			$result_invoice 			= $this->db->update('invoice', $request, ['inv_id' => $inv_id,'user_id' => $userid]);
+		 	$result_order 			= $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
+
+		 	if(isset($request['admin_status'])) unset($request['admin_status']);
 
 		 	$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
 
@@ -749,14 +778,14 @@ class Index extends CC_Controller
 
       if($rowData["status"]=='1'){
 
-        	 $paid = '<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/paid.png">';
+        	 $paid = '<img class="paid" style="width: 250px;" src="'.$this->base64conversion(base_url()."assets/images/paid.png").'">';
 
         	 $paid_status = "PAID";
         	
         }
         else{
 
-        	$paid ='<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/unpaid.png">';
+        	$paid ='<img class="paid" style="width: 250px;" src="'.$this->base64conversion(base_url()."assets/images/unpaid.png").'">';
 
         	$paid_status = 'UNPAID';
         	
@@ -815,7 +844,7 @@ class Index extends CC_Controller
 
 					<tr>
 					<td>
-					<img class="logo" style="width: 250px; margin-top:10px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/pitrb-logo.png">
+					<img class="logo" style="width: 250px; margin-top:10px;" src="'.$this->base64conversion(base_url()."assets/images/pitrb-logo.png").'">
 					</td>
 
 					<td style="vertical-align: top;">
@@ -1017,7 +1046,7 @@ class Index extends CC_Controller
 
                 if (file_exists($file_pointer))  
 				{ 
-					!unlink($file_pointer);
+					unlink($file_pointer);
 				    $this->pdf->loadHtml($html);
 					$this->pdf->setPaper('A4', 'portrait');
 					$this->pdf->render();
