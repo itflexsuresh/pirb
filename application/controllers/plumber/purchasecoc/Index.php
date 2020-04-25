@@ -217,10 +217,10 @@ class Index extends CC_Controller
 				$request['admin_status']	= '1';
 			}
 			
-			// $inid 				= $insert_id['id'];
-			// $inv_id 			= $insert_id['inv_id'];
-			$inid 				= $result_coc;
-			$inv_id 			= $result1;
+			$inid 				= $insert_id['id'];
+			$inv_id 			= $insert_id['inv_id'];
+			// $inid 				= $result_coc;
+			// $inv_id 			= $result1;
 		 	$result 			= $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
 			if(isset($request['admin_status'])) unset($request['admin_status']);
 			
