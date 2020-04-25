@@ -274,7 +274,7 @@ class Coc_Model extends CC_Model
 		return $result;
 	}
 
-	public function action($requestdata, $flag){
+		public function action($requestdata, $flag){
 		//$datetime		= 	date('Y-m-d H:i:s');
 
 		if ($flag == 1) {
@@ -283,14 +283,9 @@ class Coc_Model extends CC_Model
 			return $inv_id;
 		}elseif($flag == 2){
 			$result 		= $this->db->insert('coc_orders',$requestdata);
-			// $oderid 		= $this->db->insert_id();
-			// return $oderid;
 		}
 		else{
-
 			$result 		= $this->db->update('coc_count', $requestdata, ['user_id' => $requestdata['user_id']]);
-			// echo "<pre>";
-			// print_r($this->db->last_query());die;
 			
 			if ($result) {
 				return '1';
