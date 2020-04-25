@@ -156,7 +156,7 @@ class Index extends CC_Controller
 				
 				$result1 = $this->Coc_Model->action($requestData1, 1);
 				// $this->CC_Model->diaryactivity(['plumberid' => $this->getUserID(), 'action' => '5', 'type' => '2']);
-				
+				if ($result1) {
 					$requestData2['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
 					$requestData2['user_id']			= 	$this->getUserID();
 					$requestData2['created_by']		= 	$this->getUserID();
@@ -173,7 +173,7 @@ class Index extends CC_Controller
 					$requestData2['vat']			= 	$requestData['vat'];
 					$requestData2['total_due']		= 	$requestData['total_due'];
 
-					 $result_coc = $this->Coc_Model->action($requestData2, 2);
+					$result_coc = $this->Coc_Model->action($requestData2, 2);
 
 					$requestData0['count'] 			= 	$requestData['permittedcoc'] - $requestData['quantity'];
 					$requestData0['user_id']		= 	$this->getUserID();
@@ -182,6 +182,12 @@ class Index extends CC_Controller
 
 			
 					$result0 = $this->Coc_Model->action($requestData0, 3);
+				}
+
+				
+					
+
+					
 					
 				
 
