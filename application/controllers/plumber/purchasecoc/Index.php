@@ -19,7 +19,7 @@ class Index extends CC_Controller
 
 		$userid 					=	$this->getUserID();
 		$userdata					= 	$this->getUserDetails();
-		$userdata1					= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
+		$userdata1					= 	$this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber']);
 		$userdatacoc_count			= 	$this->Coc_Model->COCcount(['user_id' => $userid]);
 
 		$pagedata['notification'] 	= 	$this->getNotification();
@@ -87,7 +87,7 @@ class Index extends CC_Controller
 		if ($this->input->post()) {
 			$requestData1 = $this->input->post();
 			$requestData2['user_id'] 				=	$this->getUserID();
-			$requestData['users'] 					= 	$this->Plumber_Model->getList('row', ['id' => $requestData2['user_id']]);
+			$requestData['users'] 					= 	$this->Plumber_Model->getList('row', ['id' => $requestData2['user_id']], ['users', 'usersdetail']);
 			$name 									= 	$requestData['users']['name'];
 			$surname 								= 	$requestData['users']['surname'];
 			$email 									= 	$requestData['users']['email'];
@@ -136,6 +136,11 @@ class Index extends CC_Controller
 
 
 		$requestData = $this->session->userdata('pay_purchaseorder');
+		if ($requestData['delivery_type']=='') {
+			$delivery_type = '0';
+		}else{
+			$delivery_type = $requestData['delivery_type'];
+		}
 				// $requestData0['count'] = $requestData['permittedcoc'] - $requestData['quantity'];
 				
 				 //print_r($requestData);die;
@@ -143,15 +148,15 @@ class Index extends CC_Controller
 				$requestData1['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
 				$requestData1['user_id']		= 	$userid;
 				$requestData1['vat']			= 	$requestData['vat'];
-				$requestData1['delivery_type'] 	= 	$requestData['delivery_type'];
+				$requestData1['delivery_type'] 	= 	$delivery_type;
 				$requestData1['total_cost'] 	= 	$requestData['total_due'];
 				$requestData1['created_at']		= 	date('Y-m-d H:i:s');
 				$requestData1['inv_type']		= 	1;
 				$requestData1['coc_type']		= 	$requestData['coc_type'];
 				
 				$result1 = $this->Coc_Model->action($requestData1, 1);
-				$this->CC_Model->diaryactivity(['plumberid' => $this->getUserID(), 'action' => '5', 'type' => '2']);
-				
+				// $this->CC_Model->diaryactivity(['plumberid' => $this->getUserID(), 'action' => '5', 'type' => '2']);
+				if ($result1) {
 					$requestData2['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
 					$requestData2['user_id']			= 	$this->getUserID();
 					$requestData2['created_by']		= 	$this->getUserID();
@@ -160,7 +165,7 @@ class Index extends CC_Controller
 					$requestData2['status']			= 	'0';
 					$requestData2['inv_id']			= 	$result1;
 					$requestData2['coc_type']		= 	$requestData['coc_type'];
-					$requestData2['delivery_type'] 	= 	$requestData['delivery_type'];
+					$requestData2['delivery_type'] 	= 	$delivery_type;
 					$requestData2['cost_value']		= 	$requestData['cost_value'];
 					$requestData2['quantity']		= 	$requestData['quantity'];
 					$requestData2['delivery_cost']	= 	$requestData['delivery_cost'];
@@ -168,7 +173,7 @@ class Index extends CC_Controller
 					$requestData2['vat']			= 	$requestData['vat'];
 					$requestData2['total_due']		= 	$requestData['total_due'];
 
-					$result = $this->Coc_Model->action($requestData2, 2);
+					$result_coc = $this->Coc_Model->action($requestData2, 2);
 
 					$requestData0['count'] 			= 	$requestData['permittedcoc'] - $requestData['quantity'];
 					$requestData0['user_id']		= 	$this->getUserID();
@@ -177,6 +182,12 @@ class Index extends CC_Controller
 
 			
 					$result0 = $this->Coc_Model->action($requestData0, 3);
+				}
+
+				
+					
+
+					
 					
 				
 
@@ -184,14 +195,43 @@ class Index extends CC_Controller
 
 
 		$insert_id 				= 	$this->db->select('id,inv_id')->from('coc_orders')->order_by('id','desc')->get()->row_array();
-		$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
+		$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail']);
 		$request['status'] 		= 	'1';
 		 if ($insert_id) {
+			if($requestData['coc_type']=='1'){
+				for($m=1;$m<=$requestData['quantity'];$m++){
+					$stockmanagement = $this->db->get_where('stock_management', ['user_id' => '0', 'coc_status' => '1', 'coc_orders_status' => '6', 'type' => '1'])->row_array();
+					
+					$cocrequestdata = [
+						'coc_status' 				=> '4',
+						'type' 						=> $requestData['coc_type'],
+						'coc_orders_status' 		=> null,
+						'user_id' 					=> $userid,
+					];
+					
+					if($stockmanagement){
+						$this->db->update('stock_management', $cocrequestdata, ['id' => $stockmanagement['id']]);
+						$cocinsertid = $stockmanagement['id'];
+					}else{
+						$this->db->insert('stock_management', $cocrequestdata);
+						$cocinsertid = $this->db->insert_id();
+					}
+					
+					$this->diaryactivity(['adminid' => '1', 'plumberid' => $userid, 'cocid' => $cocinsertid, 'action' => '6', 'type' => '1']);		
+				}	
+
+				$request['admin_status']	= '1';
+			}
+			
 			$inid 				= $insert_id['id'];
 			$inv_id 			= $insert_id['inv_id'];
-			$result 			= $this->db->update('invoice', $request, ['inv_id' => $inv_id,'user_id' => $userid]);
+			// $inid 				= $result_coc;
+			// $inv_id 			= $result1;
 		 	$result 			= $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
-
+			if(isset($request['admin_status'])) unset($request['admin_status']);
+			
+			$result 			= $this->db->update('invoice', $request, ['inv_id' => $inv_id,'user_id' => $userid]);
+			
 		 	$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
 
 		 	$orders = $this->db->select('*')->from('coc_orders')->where(['user_id' => $userid])->order_by('id','desc')->get()->row_array();
@@ -254,14 +294,14 @@ class Index extends CC_Controller
 
       if($rowData["status"]=='1'){
 
-        	 $paid = '<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/paid.png">';
+        	 $paid = '<img class="paid" style="width: 250px;" src="'.$this->base64conversion(base_url()."assets/images/paid.png").'">';
 
         	 $paid_status = "PAID";
         	
         }
         else{
 
-        	$paid ='<img class="paid" style="width: 250px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/unpaid.png">';
+        	$paid ='<img class="paid" style="width: 250px;" src="'.$this->base64conversion(base_url()."assets/images/unpaid.png").'">';
 
         	$paid_status = 'UNPAID';
         	
@@ -320,7 +360,7 @@ class Index extends CC_Controller
 
 					<tr>
 					<td>
-					<img class="logo" style="width: 250px; margin-top:10px;" src="'.$_SERVER['DOCUMENT_ROOT'].'/auditit_new/pirb/assets/images/pitrb-logo.png">
+					<img class="logo" style="width: 250px; margin-top:10px;" src="'.$this->base64conversion(base_url()."assets/images/pitrb-logo.png").'">
 					</td>
 
 					<td style="vertical-align: top;">
@@ -397,7 +437,7 @@ class Index extends CC_Controller
 					<table align="right" class="custom_reg_uniq" style="margin-top: 10px;">
 					<thead>
 					<tr>
-					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer Compnay Reg</th>
+					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer Company Reg</th>
 					<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer VAT Reg</th>
 					<th style="padding: 10px;   font-size: 14px; text-align: center;">Invoice Date</th>
 					</tr>
@@ -520,24 +560,24 @@ class Index extends CC_Controller
 
                 $file_pointer = $filePath.$pdfFilePath;
 
-                if (file_exists($file_pointer))  
-				{ 
-					!unlink($file_pointer);
-				    $this->pdf->loadHtml($html);
-					$this->pdf->setPaper('A4', 'portrait');
-					$this->pdf->render();
-					$output = $this->pdf->output();
-					file_put_contents($filePath.$pdfFilePath, $output);
-				} 
-				else 
-				{ 
+    //             if (file_exists($file_pointer))  
+				// { 
+				// 	unlink($file_pointer);
+				//     $this->pdf->loadHtml($html);
+				// 	$this->pdf->setPaper('A4', 'portrait');
+				// 	$this->pdf->render();
+				// 	$output = $this->pdf->output();
+				// 	file_put_contents($filePath.$pdfFilePath, $output);
+				// } 
+				// else 
+				// { 
 				    $this->pdf->loadHtml($html);
 					$this->pdf->setPaper('A4', 'portrait');
 					$this->pdf->render();
 					$output = $this->pdf->output();
 					file_put_contents($filePath.$pdfFilePath, $output);
 					//$this->pdf->stream($pdfFilePath);
-				} 
+				//} 
 
 				// $this->pdf->loadHtml($html);
 				// $this->pdf->setPaper('A4', 'portrait');
@@ -570,7 +610,7 @@ class Index extends CC_Controller
 					}
 				}
 		 	}
-			 
+			$this->session->unset_userdata('pay_purchaseorder');
 			redirect('plumber/purchasecoc/index/notify');
 		 }
 		
