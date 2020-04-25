@@ -556,7 +556,7 @@ class Index extends CC_Controller
 
                 if (file_exists($file_pointer))  
 				{ 
-					!unlink($file_pointer);
+					unlink($file_pointer);
 				    $this->pdf->loadHtml($html);
 					$this->pdf->setPaper('A4', 'portrait');
 					$this->pdf->render();
