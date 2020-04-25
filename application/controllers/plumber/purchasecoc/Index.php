@@ -637,7 +637,11 @@ class Index extends CC_Controller
 				$requestData1['inv_type']		= 	1;
 				$requestData1['coc_type']		= 	$requestData['coc_type'];
 				
-				$result1 = $this->Coc_Model->action($requestData1, 1);
+				//$result1 = $this->Coc_Model->action($requestData1, 1);
+
+				$result1 		= $this->db->insert('invoice',$requestData1);
+				$inv_id 		= $this->db->insert_id();
+
 				$this->CC_Model->diaryactivity(['plumberid' => $this->getUserID(), 'action' => '5', 'type' => '2']);
 				
 					$requestData2['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
@@ -646,7 +650,7 @@ class Index extends CC_Controller
 					$requestData2['created_at']		= 	date('Y-m-d H:i:s');
 					$requestData2['updated_at']		=	$requestData2['created_at'];
 					$requestData2['status']			= 	'0';
-					$requestData2['inv_id']			= 	$result1;
+					$requestData2['inv_id']			= 	$inv_id;
 					$requestData2['coc_type']		= 	$requestData['coc_type'];
 					$requestData2['delivery_type'] 	= 	$requestData['delivery_type'];
 					$requestData2['cost_value']		= 	$requestData['cost_value'];
@@ -656,7 +660,9 @@ class Index extends CC_Controller
 					$requestData2['vat']			= 	$requestData['vat'];
 					$requestData2['total_due']		= 	$requestData['total_due'];
 
-					$result = $this->Coc_Model->action($requestData2, 2);
+					//$result = $this->Coc_Model->action($requestData2, 2);
+					$result 		= $this->db->insert('coc_orders',$requestData2);
+					$coc_order_id 		= $this->db->insert_id();
 
 					$requestData0['count'] 			= 	$requestData['permittedcoc'] - $requestData['quantity'];
 					$requestData0['user_id']		= 	$this->getUserID();
@@ -664,7 +670,8 @@ class Index extends CC_Controller
 					$requestData0['created_at']		= 	date('Y-m-d H:i:s');
 
 			
-					$result0 = $this->Coc_Model->action($requestData0, 3);
+					//$result0 = $this->Coc_Model->action($requestData0, 3);
+					$result 		= $this->db->update('coc_count', $requestData0, ['user_id' => $userid]);
 					
 				
 
@@ -675,8 +682,8 @@ class Index extends CC_Controller
 		$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
 		$request['status'] 		= 	'1';
 		 if ($insert_id) {
-			$inid 				= $insert_id['id'];
-			$inv_id 			= $insert_id['inv_id'];
+			$inid 				= $coc_order_id;
+			//$inv_id 			= $insert_id['inv_id'];
 			$result 			= $this->db->update('invoice', $request, ['inv_id' => $inv_id,'user_id' => $userid]);
 		 	$result 			= $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
 
