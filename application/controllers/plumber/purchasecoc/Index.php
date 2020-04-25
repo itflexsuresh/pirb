@@ -155,8 +155,8 @@ class Index extends CC_Controller
 	// 			$requestData1['coc_type']		= 	$requestData['coc_type'];
 				
 	// 			$result1 = $this->Coc_Model->action($requestData1, 1);
-	// 			// $this->CC_Model->diaryactivity(['plumberid' => $this->getUserID(), 'action' => '5', 'type' => '2']);
-	// 			if ($result1) {
+	// 			$this->CC_Model->diaryactivity(['plumberid' => $this->getUserID(), 'action' => '5', 'type' => '2']);
+				
 	// 				$requestData2['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
 	// 				$requestData2['user_id']			= 	$this->getUserID();
 	// 				$requestData2['created_by']		= 	$this->getUserID();
@@ -182,12 +182,6 @@ class Index extends CC_Controller
 
 			
 	// 				$result0 = $this->Coc_Model->action($requestData0, 3);
-	// 			}
-
-				
-					
-
-					
 					
 				
 
@@ -223,10 +217,10 @@ class Index extends CC_Controller
 	// 			$request['admin_status']	= '1';
 	// 		}
 			
-	// 		$inid 				= $insert_id['id'];
-	// 		$inv_id 			= $insert_id['inv_id'];
-	// 		// $inid 				= $result_coc;
-	// 		// $inv_id 			= $result1;
+	// 		// $inid 				= $insert_id['id'];
+	// 		// $inv_id 			= $insert_id['inv_id'];
+	// 		$inid 				= $result_coc;
+	// 		$inv_id 			= $result1;
 	// 	 	$result 			= $this->db->update('coc_orders', $request, ['id' => $inid,'user_id' => $userid ]);
 	// 		if(isset($request['admin_status'])) unset($request['admin_status']);
 			
@@ -560,24 +554,24 @@ class Index extends CC_Controller
 
  //                $file_pointer = $filePath.$pdfFilePath;
 
- //    //             if (file_exists($file_pointer))  
-	// 			// { 
-	// 			// 	unlink($file_pointer);
-	// 			//     $this->pdf->loadHtml($html);
-	// 			// 	$this->pdf->setPaper('A4', 'portrait');
-	// 			// 	$this->pdf->render();
-	// 			// 	$output = $this->pdf->output();
-	// 			// 	file_put_contents($filePath.$pdfFilePath, $output);
-	// 			// } 
-	// 			// else 
-	// 			// { 
+ //                if (file_exists($file_pointer))  
+	// 			{ 
+	// 				!unlink($file_pointer);
+	// 			    $this->pdf->loadHtml($html);
+	// 				$this->pdf->setPaper('A4', 'portrait');
+	// 				$this->pdf->render();
+	// 				$output = $this->pdf->output();
+	// 				file_put_contents($filePath.$pdfFilePath, $output);
+	// 			} 
+	// 			else 
+	// 			{ 
 	// 			    $this->pdf->loadHtml($html);
 	// 				$this->pdf->setPaper('A4', 'portrait');
 	// 				$this->pdf->render();
 	// 				$output = $this->pdf->output();
 	// 				file_put_contents($filePath.$pdfFilePath, $output);
 	// 				//$this->pdf->stream($pdfFilePath);
-	// 			//} 
+	// 			} 
 
 	// 			// $this->pdf->loadHtml($html);
 	// 			// $this->pdf->setPaper('A4', 'portrait');
@@ -615,7 +609,6 @@ class Index extends CC_Controller
 	// 	 }
 		
 	// }
-
 
 
 	public function return(){
@@ -1096,7 +1089,7 @@ class Index extends CC_Controller
 					}
 				}
 		 	}
-			 
+			$this->session->unset_userdata('pay_purchaseorder');
 			redirect('plumber/purchasecoc/index/notify');
 		 }
 		
