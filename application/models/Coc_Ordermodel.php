@@ -33,38 +33,40 @@ class Coc_Ordermodel extends CC_Model
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);	
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
-			$searchvalue = strtolower(trim($requestdata['search']['value']));
-			if($searchvalue=='paid'){
-				$this->db->where('t1.status', '1');
-			}
-			else if($searchvalue=='not paid'){
-				$this->db->where('t1.status', '0');
-			}
-			else if($searchvalue=='electronic'){
-				$this->db->where('t1.coc_type', '1');
-			}
-			else if($searchvalue=='paper based'){
-				$this->db->where('t1.coc_type', '2');
-			}
-			else if($searchvalue=='collected at pirb'){
-				$this->db->where('t1.delivery_type', '1');
-			}
-			else if($searchvalue=='by courier'){
-				$this->db->where('t1.delivery_type', '2');
-			}
-			else if($searchvalue=='by register post'){
-				$this->db->where('t1.delivery_type', '3');
-			}			
-			else {
-				$this->db->like('concat(t2.name, " ", t2.surname)', $searchvalue);
-				$this->db->or_like('concat(t3.address, ",", t5.name)', $searchvalue);
-				$this->db->or_like('cc.count', $searchvalue);
-				$this->db->or_like('t1.id', $searchvalue);
-				$this->db->or_like('t1.inv_id', $searchvalue);
-				$this->db->or_like('t1.internal_inv', $searchvalue);
-				$this->db->or_like('t1.tracking_no', $searchvalue);
-				$this->db->or_like('t1.created_at', date('Y-m-d',strtotime($searchvalue)));
-			}
+			$this->db->group_start();
+				$searchvalue = strtolower(trim($requestdata['search']['value']));
+				if($searchvalue=='paid'){
+					$this->db->where('t1.status', '1');
+				}
+				else if($searchvalue=='not paid'){
+					$this->db->where('t1.status', '0');
+				}
+				else if($searchvalue=='electronic'){
+					$this->db->where('t1.coc_type', '1');
+				}
+				else if($searchvalue=='paper based'){
+					$this->db->where('t1.coc_type', '2');
+				}
+				else if($searchvalue=='collected at pirb'){
+					$this->db->where('t1.delivery_type', '1');
+				}
+				else if($searchvalue=='by courier'){
+					$this->db->where('t1.delivery_type', '2');
+				}
+				else if($searchvalue=='by register post'){
+					$this->db->where('t1.delivery_type', '3');
+				}			
+				else {
+					$this->db->like('concat(t2.name, " ", t2.surname)', $searchvalue);
+					$this->db->or_like('concat(t3.address, ",", t5.name)', $searchvalue);
+					$this->db->or_like('cc.count', $searchvalue);
+					$this->db->or_like('t1.id', $searchvalue);
+					$this->db->or_like('t1.inv_id', $searchvalue);
+					$this->db->or_like('t1.internal_inv', $searchvalue);
+					$this->db->or_like('t1.tracking_no', $searchvalue);
+					$this->db->or_like('t1.created_at', date('Y-m-d',strtotime($searchvalue)));
+				}
+			$this->db->group_end();
 		}
 					
 		if ($type=='count') {
