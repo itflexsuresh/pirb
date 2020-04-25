@@ -289,14 +289,14 @@ class Coc_Model extends CC_Model
 		else{
 
 			$result 		= $this->db->update('coc_count', $requestdata, ['user_id' => $requestdata['user_id']]);
-			echo "<pre>";
-			print_r($this->db->last_query());die;
+			// echo "<pre>";
+			// print_r($this->db->last_query());die;
 			
-			if ($result) {
-				return '1';
-			}else{
-				return '0';
-			}
+			// if ($result) {
+			// 	return '1';
+			// }else{
+			// 	return '0';
+			// }
 
 		}
 		
