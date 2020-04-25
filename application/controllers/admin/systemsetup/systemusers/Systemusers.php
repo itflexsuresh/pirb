@@ -23,8 +23,8 @@ class Systemusers extends CC_Controller
 	public function DTSystemusersList()
 	{
 		$post 			= $this->input->post();
-		$totalcount 	= $this->Systemusers_Model->getList('count', ['u_type' => ['2'], 'status' => ['1']]+$post);
-        $results 		= $this->Systemusers_Model->getList('all', ['u_type' => ['2'], 'status' => ['1']]+$post);
+		$totalcount 	= $this->Systemusers_Model->getList('count', ['u_type' => ['2'], 'status' => ['1', '2']]+$post);
+        $results 		= $this->Systemusers_Model->getList('all', ['u_type' => ['2'], 'status' => ['1', '2']]+$post);
 
         $checkpermission	=	$this->checkUserPermission('9', '2');
 
@@ -41,6 +41,11 @@ class Systemusers extends CC_Controller
 					$action = '';
 				}
 
+				if ($result['status']=='2' || $result['status']== 2) {
+					$user_status = '0';
+				}else{
+					$user_status = '1';
+				}
 
 				$totalrecord[] = 	[
 										'u_name' 			=> 	$result['name'],
@@ -48,7 +53,7 @@ class Systemusers extends CC_Controller
                                         'u_email' 			=> 	$result['email'],
                                         'u_password_raw' 	=> 	$result['password_raw'],
                                         'u_type' 			=> 	$this->config->item('roletype')[$result['roletype']],
-                                        'status' 			=> 	$this->config->item('statusicon')[$result['status']],
+                                        'status' 			=> 	$this->config->item('statusicon')[$user_status],
 										'action'			=> 	$action
 									];
 			}
