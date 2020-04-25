@@ -1,5 +1,5 @@
 <?php
-
+///////
 class Auditor_Model extends CC_Model
 {
 	public function getList($type, $requestdata=[])
