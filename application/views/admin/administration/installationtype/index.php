@@ -48,12 +48,12 @@ if(isset($result) && $result){
 						</div>
 						<div class="col-md-6 text-right">
 							<input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
-							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> Installation Type</button>
+							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> Installtion Type</button>
 						</div>
 					</div>
 				</form>
 				<?php } ?>
-				<div class="table-responsive m-t-40">
+				<div class="table-responsive mt_20">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
 							<tr>
@@ -76,9 +76,9 @@ if(isset($result) && $result){
 		var options = {
 			url 	: 	'<?php echo base_url()."admin/administration/installationtype/DTInstallationType"; ?>',
 			columns : 	[
-				{ "data": "name" },
-				{ "data": "status" },
-				{ "data": "action" }
+			{ "data": "name" },
+			{ "data": "status" },
+			{ "data": "action" }
 			],
 			target	:	[2],
 			sort	:	'0'
