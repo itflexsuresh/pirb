@@ -1988,3 +1988,7 @@ th {
 .m-t-40, .mt-4 {
     margin-top: 0px !important;
 }
+
+.no_sccroll {
+    overflow-x: hidden;
+}
