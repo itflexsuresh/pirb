@@ -28,7 +28,7 @@ if(isset($result) && $result){
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<div class="table-responsive m-t-40">
+				<div class="table-responsive no_sccroll m-t-40">
 					<h4 class="card-title">Global Performance Settings - Point Allocations</h4>
 					<form class="mt-4 form" action="" method="post">
 					    <table class="table  fullwidth" border="1">
@@ -105,21 +105,25 @@ if(isset($result) && $result){
 							<?php }?>
 						</tbody>
 					    </table></br>
-                <div class="form-group">
-					<label style="font-weight:bold;">Performance Rolling Averages</label>&nbsp&nbsp&nbsp &nbsp &nbsp  
+					    <div class="row">
+					    <div class="col-md-6">
+			                <div class="form-group">
+								<label style="font-weight:bold;">Performance Rolling Averages</label>&nbsp&nbsp&nbsp &nbsp &nbsp  
 
-					<?php foreach($results1 as $key2=>$val2){}?>
+								<?php foreach($results1 as $key2=>$val2){}?>
 
-					<input type="text" class="form-group" id="avg" name="points[<?php echo $val2['id']; ?>]"  value="<?php echo $val2['point']; ?>" placeholder="months" >	
-									
-		        </div>			
-                <div class="col-md-11 text-right">
-				       <input type="hidden" name="id" value="<?php //echo $id; ?>">
-				       <?php if($checkpermission){ ?>
-					   <button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?>
-					   </button>
-					<?php } ?>
-				    </div>
+								<input type="text" class="form-group" id="avg" name="points[<?php echo $val2['id']; ?>]"  value="<?php echo $val2['point']; ?>" placeholder="months" >	
+												
+					        </div>			
+		    			</div>
+                		<div class="col-md-6 text-right">
+					       <input type="hidden" name="id" value="<?php //echo $id; ?>">
+					       <?php if($checkpermission){ ?>
+						   <button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?>
+						   </button>
+							<?php } ?>
+				    	</div>
+			    	</div>
 			      </form>		
 		    </div>
 	    </div>

@@ -1984,3 +1984,27 @@ th {
     background-color: #019cde !important;
     opacity: 0.5;
 }
+
+.m-t-40, .mt-4 {
+    margin-top: 20px !important;
+}
+
+.no_sccroll {
+    overflow-x: hidden;
+}
+
+@media only screen and (max-width: 992px) { 
+    
+    .nav-item a.nav-link.nav-toggler {
+        color: #000 !important;
+    }
+
+    .card {
+        padding: 0;
+    }
+    
+    .skin-default .card.card-body {
+        padding: 35px 14px 35px 14px;
+    }
+
+}
