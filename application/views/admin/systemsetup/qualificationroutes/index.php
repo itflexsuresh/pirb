@@ -35,7 +35,7 @@
 			<div class="card-body">
 				<h4 class="card-title">Qualification Route</h4>
 				<?php if ($checkpermission) { ?>
-				<form class="mt-4 form" action="" method="post">
+				<form class="form" action="" method="post">
 					<div class="form-group">
 						<label for="name">Qualification Route*</label>
 						<input type="text" class="form-control" id="name" name="name" placeholder="Enter Qualification Route *" value="<?php echo $name; ?>">						
@@ -54,7 +54,7 @@
 					</div>
 				</form>
 			<?php } ?>
-				<div class="table-responsive m-t-40">
+				<div class="table-responsive">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
 							<tr>
