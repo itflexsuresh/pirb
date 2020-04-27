@@ -44,7 +44,7 @@ class Cpdtypesetup extends CC_Controller
 						// QR CODE
 						$text 								= $full_code;
 						$file_name 							= $text ."-Qrcode.png";
-						$Qrcode_path 						= $this->base64conversion(base_url()."assets/qrcode/".$file_name);
+						$Qrcode_path 						= FCPATH."assets/qrcode/".$file_name;
 						define('IMAGE_WIDTH',1000);
 						define('IMAGE_HEIGHT',1000);
 						QRcode::png($text,$Qrcode_path,'L', '10', '10');
