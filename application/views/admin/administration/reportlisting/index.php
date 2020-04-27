@@ -99,7 +99,7 @@ else
 							</div>
 						</div>
 
-						<h5>Performance Point Allocation</h5>
+						<h4 class="card-title">Performance Point Allocation</h4>
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
@@ -144,7 +144,7 @@ else
 						</div>
 					</form>
 				<?php } ?>
-				<div class="table-responsive m-t-40">
+				<div class="table-responsive mt_20">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
 							<tr>
@@ -170,7 +170,7 @@ else
 <script>
 	$(function(){
 		
-		subtypereportinglist(['#repo_installation','#repo_subtype'], ['<?php echo $subtype; ?>', '']);
+		subtypereportinglist(['#repo_installation','#repo_subtype'], ['', '']);
 
 		var options = {
 			url 	: 	'<?php echo base_url()."admin/administration/reportlisting/index/DTReportListing"; ?>',

@@ -1964,3 +1964,8 @@ footer.footer {
     padding-bottom: 0px !important;
     vertical-align: middle !important;
 }
+
+th {
+    width: auto !important;
+    vertical-align: middle !important;
+}
