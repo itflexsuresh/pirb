@@ -43,7 +43,7 @@
 
 										<tbody>
 											<tr>
-												<td colspan="4" style="text-align: center;font-weight: bold;"><?php echo $val['cat_name']; ?></td>
+												<td colspan="4" style="text-align: center !important;padding: 10px 20px 10px 20px !important;font-weight: bold;"><?php echo $val['cat_name']; ?></td>
 											</tr>
 
 											<?php																		foreach($val['data'] as $k=>$v)
