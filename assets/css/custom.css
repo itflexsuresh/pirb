@@ -687,6 +687,8 @@ table.table {
 ul.nav.nav-tabs {
     background-color: #e6ebf1;
     margin: 0 auto;
+    width: 95.6% !important;
+    text-align: center;
 }
 
 a.sub_menu:after {content: "\f105";font-family: 'Fontawesome';position: absolute;right: 21px;font-size: 19px;top: 11px;transition: all 0.3s;}
