@@ -72,7 +72,7 @@ if(isset($result) && $result){
 					
 			   
 				<h4 class="card-title">Global Performance Settings - Warning Notifications to Plumbers</h4>
-					    <table class="table  fullwidth" border="1">
+					    <table class="table  fullwidth no_padd" border="1">
 					    	<thead>
 							<tr>
 								<th>Performance Warning Status</th>
