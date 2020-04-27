@@ -33,7 +33,7 @@ if(isset($result) && $result){
 		<div class="card">
 			<div class="card-body">
 				<h4 class="card-title">Admin System Users</h4>
-				<div class="table-responsive m-t-40">
+				<div class="table-responsive">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
 							<tr>
@@ -48,7 +48,7 @@ if(isset($result) && $result){
 						</thead>
 					</table>
 				</div>
-				<div class="col-md-6 text-right">
+				<div class="col-md-12 text-right">
 					<input type="hidden" name="id" value="<?php echo $id; ?>">
 					<?php if($checkpermission){ ?>
 					<button type="button" name="submit" value="submit" onclick="window.location.href='<?php echo base_url().'admin/systemsetup/systemusers/systemusers/action'; ?>';" class="btn btn-primary">Add Users</button>

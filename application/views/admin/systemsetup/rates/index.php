@@ -84,7 +84,7 @@ else
 						</div>						
 					</form>
 				<?php } ?>
-				<div class="table-responsive m-t-40">
+				<div class="table-responsive">
 						<table id="table" class="table table-bordered fullwidth text_issue">
 							<thead>
 								<tr>
@@ -100,14 +100,14 @@ else
 										foreach($results as $result){
 								?>
 											<?php if($result['type']=='1'){ ?>
-												<tr><td colspan="4" style="text-align: center;font-weight: bold;"><?php echo $result['supplyitem']; ?></td></tr>
+												<tr><td colspan="4" style="text-align: center !important;padding: 10px 20px 10px 20px !important;font-weight: bold;"><?php echo $result['supplyitem']; ?></td></tr>
 											<?php }else{ ?>
 												<tr>
-													<td><?php echo $result['supplyitem']; ?></td>
-													<td><?php echo $result['amount']; ?></td>
-													<td><?php echo date('m/d/Y',strtotime($result['validfrom'])); ?></td>
+													<td style="text-align: center !important;"><?php echo $result['supplyitem']; ?></td>
+													<td style="text-align: center !important;"><?php echo $result['amount']; ?></td>
+													<td style="text-align: center !important;"><?php echo date('m/d/Y',strtotime($result['validfrom'])); ?></td>
 
-													<td>
+													<td style="text-align: center !important;">
 													<?php
 													if($checkpermission){
 													?>
