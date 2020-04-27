@@ -75,7 +75,7 @@ class Systemusers extends CC_Controller
 		if($id!=''){
 			$this->checkUserPermission('9', '2', '1');
 
-			$result = $this->Systemusers_Model->getList('row', ['id' => $id, 'status' => ['0','1']]);
+			$result = $this->Systemusers_Model->getList('row', ['id' => $id, 'status' => ['0','1', '2']]);
 			if($result){
 				$pagedata['result'] = $result;
 			}else{
