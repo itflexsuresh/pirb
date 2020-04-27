@@ -564,7 +564,16 @@ class Coc_Ordermodel extends CC_Model
 							where sm.auditorid=ud.user_id and month(audit_allocation_date) = '.date('m').' and year(audit_allocation_date) = '.date('Y').'
 						) as mtd';
 		
-		$this->db->select('u.id, concat(ud.name, " ", ud.surname) as name'.$openaudit.$mtd);
+		$this->db->select('
+			u.id, 
+			concat(ud.name, " ", ud.surname) as name,
+			p1.name as province,
+			c1.name as city,
+			s1.name as suburb,
+			group_concat(p2.name separator "@-@") as provincelist,
+			group_concat(c2.name separator "@-@") as citylist,
+			group_concat(s2.name separator "@-@") as suburblist
+		'.$openaudit.$mtd);
 		$this->db->from('users_detail ud');
 		$this->db->join('users u', 'u.id=ud.user_id','inner');		
 		$this->db->join('auditor_availability aa', 'aa.user_id=ud.user_id','left');
@@ -588,23 +597,45 @@ class Coc_Ordermodel extends CC_Model
 			$this->db->like('ud.name', $postData['search_keyword'], 'both');
 			$this->db->or_like('ud.surname', $postData['search_keyword'], 'both');
 		$this->db->group_end();
-
-		$this->db->group_start();
-			if(isset($postData['province']) && $postData['province']!='') 	$this->db->like('p1.name', $postData['province'], 'both');
-			if(isset($postData['city']) && $postData['city']!='') 			$this->db->or_like('c1.name', $postData['city'], 'both');
-			if(isset($postData['suburb']) && $postData['suburb']!='') 		$this->db->or_like('s1.name', $postData['suburb'], 'both');
-			if(isset($postData['province']) && $postData['province']!='') 	$this->db->or_like('p2.name', $postData['province'], 'both');
-			if(isset($postData['city']) && $postData['city']!='') 			$this->db->or_like('c2.name', $postData['city'], 'both');
-			if(isset($postData['suburb']) && $postData['suburb']!='') 		$this->db->or_like('s2.name', $postData['suburb'], 'both');
-		$this->db->group_end();
-
+		
 		$this->db->group_by("ud.id");
 		
-		$query = $this->db->get();
-		$result = $query->result_array();
+		$query 		= $this->db->get();
+		$results 	= $query->result_array();
 		
-		return $result;
+		if(isset($postData['province'])){
+			$result		= [];
+			
+			foreach($results as $k => $res){
+				$result[$k] = 0;
+				
+				if($res['province']==$postData['province'] && $res['city']==$postData['city'] && $res['suburb']==$postData['suburb']){
+					$result[$k] = '1';
+					continue;
+				}
+				
+				$provincelist 	= array_filter(explode('@-@', $res['provincelist']));
+				$citylist 		= array_filter(explode('@-@', $res['citylist']));
+				$suburblist 	= array_filter(explode('@-@', $res['suburblist']));
+				
+				$checklist = '';
+				
+				for($i=0; $i<count($provincelist); $i++){
+					if(isset($provincelist[$i]) && isset($citylist[$i]) && isset($suburblist[$i]) && $provincelist[$i]==$postData['province'] && $citylist[$i]==$postData['city'] && $suburblist[$i]==$postData['suburb']){
+						$checklist = '1';
+						break;
+					}
+				}
+				
+				if($checklist=='1'){
+					$result[$k] = '1';
+					continue;
+				}
+			}
+			
+			array_multisort($result, SORT_DESC, $results);
+		}
+		
+		return $results;
 	}
-
-	
 }

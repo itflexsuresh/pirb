@@ -73,7 +73,7 @@ class Index extends CC_Controller
 	{
 		$post 				= $this->input->post();
 		$results 			= $this->Auditor_allocatecoc_Model->getList('all', $post);
-		$checkpermission	=	$this->checkUserPermission('27', '2');
+		$checkpermission	= $this->checkUserPermission('27', '2');
 
 		$totalrecord 	= [];
 		$noofcoc		= 0;
@@ -81,9 +81,6 @@ class Index extends CC_Controller
 		
 		if(count($results) > 0){
 			$coccountattr = '';
-			if($post['no_coc_allocation']!=''){
-				$totalcoccount = array_sum(array_column($results, 'coccount'));
-			}
 			
 			foreach($results as $index => $result){
 				
@@ -95,13 +92,14 @@ class Index extends CC_Controller
 						break;
 					}
 					
-					if($noofcoc > $postcocallocation){
+					if($noofcoc >= $postcocallocation){
 						$noofcocbr = 1;
 					}		
 					
-					if($noofcoc <= $totalcoccount){
-						//$coccountattr = $result['coccount'];
-						//echo $result['coccount'];
+					if($noofcoc > $postcocallocation){
+						$coccountattr = $postcocallocation;
+					}else{
+						$coccountattr = $result['coccount'];
 					}					
 				}
 				

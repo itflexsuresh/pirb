@@ -18,6 +18,22 @@ class Import extends CC_Controller {
 		$this->load->model('CC_Model');
 	}
 
+    public function checkmail()
+	{
+		$subject 	= 	'Email Verification';
+		$message 	= 	'<div>Hi,</div>
+
+						<div>Please Click the below link to verify your account.</div>
+						<div><a href="'.base_url().'login/verification/1">Click Here</a></div>
+						<br>
+						<div>Best Regards</div>
+						<br>
+						<div>Lea Smith</div>
+						Chairman of the PIRB';
+	
+		$this->CC_Model->sentMail('nanthakumar@itflexsolutions.com', $subject, $message);
+	}
+	
     public function province()
 	{
 		$data = $this->db->get('importprovince')->result_array();

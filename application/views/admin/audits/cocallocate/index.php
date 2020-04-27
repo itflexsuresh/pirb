@@ -350,6 +350,7 @@
 		var _this		= $(this);
 		var rowindex	= $(this).parent().parent().attr('data-index');
 		var userid 		= $(this).attr('data-user-id');
+		var coc_count 	= $(this).attr('data-coc-count');
 		
 		_this.parent().parent().toggleClass("open").next(".childrow").toggleClass("open");
 		
@@ -367,6 +368,7 @@
 		
 		var data = {
 			user_id					: userid, 
+			coc_count				: coc_count, 
 			start_date_range		: $('#start_date_range').val(), 
 			end_date_range			: $('#end_date_range').val(), 
 			start_coc_range			: $('#start_coc_range').val(), 
