@@ -245,19 +245,12 @@
 								<button type="button" data-toggle="modal" data-target="#noncompliancemodal" class="btn btn-primary">Add a Non Compliance</button>
 							</div>
 						<?php } ?>
-						<?php if(count($noncompliance) > 0 && $logdate!=''){ ?>
-							<div class="row text-right">
-								<a href="<?php echo base_url().$noncompliancereport;?>">
-									<span>Non Compliance Notice</span>
-									<img src="<?php echo $pdfimg; ?>" width="50">
-								</a>
-							</div>
-						<?php } ?>
+						
 					</div>
 
 					<div class="row">
 						<?php if($coctypeid=='2'){ ?>
-							<div class="col-md-6">
+							<div class="col-md-4 add_top_value">
 								<h4 class="card-title add_top_value">Image of COC (Paper)</h4>
 								<div class="form-group">
 									<div>
@@ -281,7 +274,7 @@
 								</div>
 							</div>
 						<?php } ?>
-						<div class="col-md-12">
+						<div class="col-md-4 add_top_value">
 							<h4 class="card-title add_top_value">Installation Images</h4>
 							<div class="form-group">
 								<div>
@@ -310,6 +303,16 @@
 								</div>
 							</div>
 						</div>
+
+						<?php if(count($noncompliance) > 0 && $logdate!=''){ ?>
+							<div class="col-md-3 mt_20">
+								<a href="<?php echo base_url().$noncompliancereport;?>">
+									<span>Non Compliance Notice</span>
+									<img src="<?php echo $pdfimg; ?>" width="50">
+								</a>
+							</div>
+						<?php } ?>
+
 					</div>
 
 					<table class="table table-bordered table-striped datatables fullwidth add_top_value_v2">
