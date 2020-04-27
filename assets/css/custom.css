@@ -1993,6 +1993,13 @@ th {
     overflow-x: hidden;
 }
 
+.no_padd th {padding-top: 5px !important;padding-bottom: 5px !important;}
+
+.no_padd td {
+    padding: 0 !important;
+    vertical-align: middle;
+}
+
 @media only screen and (max-width: 992px) { 
     
     .nav-item a.nav-link.nav-toggler {
@@ -2002,7 +2009,7 @@ th {
     .card {
         padding: 0;
     }
-    
+
     .skin-default .card.card-body {
         padding: 35px 14px 35px 14px;
     }
