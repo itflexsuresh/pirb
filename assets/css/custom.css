@@ -1965,6 +1965,10 @@ footer.footer {
     vertical-align: middle !important;
 }
 
+table td {
+    padding: 6px 20px 6px 20px !important;
+}
+
 th {
     width: auto !important;
     vertical-align: middle !important;
@@ -1972,4 +1976,9 @@ th {
 
 .form-group {
     margin-bottom: 15px !important;
+}
+
+.custom-checkbox .custom-control-input:disabled:checked~.custom-control-label::before {
+    background-color: #019cde !important;
+    opacity: 0.5;
 }
