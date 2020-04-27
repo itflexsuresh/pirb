@@ -1959,7 +1959,8 @@ footer.footer {
     font-size: 14px;
 }
 
-td {
-    padding-top: 14px !important;
+.datatables td {
+    padding-top: 0px !important;
     padding-bottom: 0px !important;
+    vertical-align: middle !important;
 }
