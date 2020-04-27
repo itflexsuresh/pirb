@@ -70,7 +70,7 @@ class Systemusers_Model extends CC_Model
         if(isset($data['comments']))   	$request1['comments'] = $data['comments'];
         // if(isset($data['read']))   		$request1['read_permission'] = implode(',',$data['read']) ? $request1['read_permission'] : '';
         // if(isset($data['write']))   	$request1['write_permission'] = implode(',',$data['write']) ? $request1['write_permission'] : '';
-
+////
         $request1['read_permission'] 					= isset($data['read']) ? implode(',',$data['read']) : '';
         $request1['write_permission'] 					= isset($data['write']) ? implode(',',$data['write']) : '';
          // echo "<pre>";
