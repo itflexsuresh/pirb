@@ -48,7 +48,8 @@ class Managearea_Model extends CC_Model
 		$id 			= 	$data['id'];
 		$datetime		= 	date('Y-m-d H:i:s');
 		
-		if(isset($data['province']) && $data['citydata']!=''){
+		//if(isset($data['province']) && $data['citydata']!=''){
+		if($data['choice1']=='choice'){
 			$request1		=	[
 									'updated_at' 		=> $datetime,
 									'updated_by' 		=> $userid,
