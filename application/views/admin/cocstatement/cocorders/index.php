@@ -70,7 +70,7 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 				<form class="form" method="post">
 					<h4 class="card-title">COC Orders</h4>
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group">
 								<label>Date of Order</label>
 								<div class="input-group">
@@ -130,17 +130,20 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 						</div>
 					</div>
 
-					<div class="row coc-perm-req">						
-						<div class="col-md-12">
-							<div class="form-group col-md-6">
+					<div class="row">						
+						<div class="col-md-6">
+							<div class="form-group">
 								<label>Number of COC's Permitted to be allocated</label>
 								<input type="text" class="form-control" id="user_limit" name="user_limit" readonly value="<?php echo $count; ?>">
 							</div>
-							<div class="form-group col-md-6">
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
 								<label>Number Of COC's Requested</label>
 								<input type="number" id="quantity" class="form-control" min="<?php echo $quantity; ?>" value="<?php echo $quantity; ?>" name="quantity" for="quantity" <?php if($id > 0){ ?>readonly="true"<?php } ?>>							  
 							</div>
 						</div>
+					</div>
 						
 						<div class="col-md-6 comments <?php if($id!=''){}else {echo 'displaynone'; }?>">							
 							<div class="form-group coment_section">
@@ -152,7 +155,7 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 						</div>					
 					</div>
 
-					<div class="row add_top_value">
+					<div class="row add_top_value add_left_value">
 						<h4 class="card-title add_left_value">Type of COC</h4>
 						<div class="col-md-12">
 							<div class="form-group">
@@ -252,7 +255,7 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 										<label class="custom-control-label" for="email_notifi">Order Cancelled</label>
 			                        </div>
 		                    	</div>
-		                    	<div class="col-md-12 row">
+		                    	<div class="col-md-12 row text-right">
 		                    		<button type="submit" name="submit" value="submit" class="btn btn-primary">Update/Add</button>
 		                    	</div>
 	                    	</div>
@@ -309,36 +312,37 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 					</div>					
 				</form>
 			<?php } ?>
-				<div class="row add_top_value">
+				<div class="row add_top_value add_left_value">
 					<div class="row mb_20">
 						<a href="<?php echo base_url(); ?>/admin/cocstatement/cocorders/index" class="active_link_btn">PENDING</a>
 						<a href="<?php echo base_url(); ?>/admin/cocstatement/cocorders/index/index/closed" class="archive_link_btn">CLOSED</a>
 					</div>
-				</div>				
-			</div>
+				</div>
+				<div class="table-responsive">
+						<table class="table table-bordered table-striped datatables fullwidth">
+							<thead>
+								<tr>
+									<th>OrderID</th>
+									<th>Inv Number</th>
+									<th>Date of order</th>
+									<th>Payment Status</th>
+									<th>Internal Inv Number</th>
+									<th>Plumber Name and Surname/Reseller</th>
+									<th>COC Type</th>
+									<th>Total COC</th>
+									<th>Delivery Method</th>
+									<th>Delivery Address</th>
+									<th>Tracking Number</th>
+									<?php if($closed_status!='closed'){ ?>
+									<th>Action</th>
+									<?php } ?>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
 			
-			<div class="table-responsive m-t-40">
-				<table class="table table-bordered table-striped datatables fullwidth">
-					<thead>
-						<tr>
-							<th>OrderID</th>
-							<th>Inv Number</th>
-							<th>Date of order</th>
-							<th>Payment Status</th>
-							<th>Internal Inv Number</th>
-							<th>Plumber Name and Surname/Reseller</th>
-							<th>COC Type</th>
-							<th>Total COC</th>
-							<th>Delivery Method</th>
-							<th>Delivery Address</th>
-							<th>Tracking Number</th>
-							<?php if($closed_status!='closed'){ ?>
-							<th>Action</th>
-							<?php } ?>
-						</tr>
-					</thead>
-				</table>
-			</div>
+			
 
 			
 		</div>

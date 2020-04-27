@@ -43,7 +43,7 @@
 
 										<tbody>
 											<tr>
-												<td colspan="4" style="text-align: center;font-weight: bold;"><?php echo $val['cat_name']; ?></td>
+												<td colspan="4" style="text-align: center !important;padding: 10px 20px 10px 20px !important;font-weight: bold;"><?php echo $val['cat_name']; ?></td>
 											</tr>
 
 											<?php																		foreach($val['data'] as $k=>$v)
@@ -52,7 +52,7 @@
 												<tr>
 
 													<td><?php echo $v['name']; ?></td>
-													<td>
+													<td style="text-align: center !important;">
 														<?php if($v['email'] == '1')
 														{ 
 															?>
@@ -63,7 +63,7 @@
 														<?php } ?>
 
 													</td>
-													<td>
+													<td style="text-align: center !important;">
 														<?php if($v['sms'] == '1')
 														{ 
 															?>
@@ -236,7 +236,7 @@
 				}
 				);
 
-			var areas = $.parseJSON('<?php echo str_replace("'", "\'", json_encode($areas)); ?>');
+			var areas = $.parseJSON('<?php echo json_encode($areas); ?>');
 			if(areas.length){
 				$(areas).each(function(i, v){
 					var areadatas = v.split('@@@');
