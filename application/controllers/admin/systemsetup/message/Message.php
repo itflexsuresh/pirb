@@ -75,13 +75,18 @@ class Message extends CC_Controller
 				}else{
 					$action = '';
 				}
+				if ($result['status']=='2' || $result['status']==2) {
+					$msg_status = '0';
+				}else{
+					$msg_status = '1';
+				}
 
 				$totalrecord[] = 	[
 										'groups' 		=> 	$this->config->item('messagegroup')[$result['groups']],
 										'start_date' 	=>  date('d-m-Y',strtotime($result['startdate'])),
 										'end_date' 		=>  date('d-m-Y',strtotime($result['enddate'])),
 										'message' 		=>  $result['message'],
-										'status' 		=> 	$this->config->item('status')[$result['status']],
+										'status' 		=> 	$this->config->item('status')[$msg_status],
 										'action'		=> 	$action
 									];
 			}
