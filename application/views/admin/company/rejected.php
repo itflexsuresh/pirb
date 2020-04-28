@@ -17,7 +17,7 @@
 		<div class="card">
 			<div class="card-body">
 				<h4 class="card-title">Company Registered List</h4>
-				<div class="table-responsive m-t-40">
+				<div class="table-responsive">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
 							<tr>
