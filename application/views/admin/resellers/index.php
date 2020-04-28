@@ -17,10 +17,7 @@
 		<div class="card">
 			<div class="card-body">
 				<h4 class="card-title">Resellers List</h4>				
-				<div class="col-md-6 text-right">
-					<!-- <input type="hidden" name="id" value="<?php //echo $id; ?>"> -->
-					<button type="button" name="submit" value="submit" onclick="window.location.href='<?php echo base_url().'admin/resellers/index/action'; ?>';" class="btn btn-primary">Add New</button>
-				</div>
+				
 				<div class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
@@ -33,6 +30,10 @@
 							</tr>
 						</thead>
 					</table>
+				</div>
+
+				<div class="col-md-12 text-right">
+					<button type="button" name="submit" value="submit" onclick="window.location.href='<?php echo base_url().'admin/resellers/index/action'; ?>';" class="btn btn-primary">Add New</button>
 				</div>
 
 			</div>
@@ -63,8 +64,8 @@
 							{ "data": "stockcount" },
 							{ "data": "action" }
 						],
-			target : [4],
-			sort : '0'
+						target : [4],
+						sort : '0'
 		};
 		
 		ajaxdatatables('.datatables', options);
