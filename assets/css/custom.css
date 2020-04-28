@@ -788,7 +788,7 @@ li.setp.one a:hover:before {
 h5.card_sub_title {
     font-size: 20px;
     font-weight: 500 !important;
-    margin-top: 20px;
+    margin-top: 0px;
     margin-bottom: 15px;
     width: 100%;
     display: inline-block;
@@ -2034,10 +2034,6 @@ ul.nav.nav-tabs li.nav-item {
 
 .text_left  td.sorting_1 {
     text-align: left;
-}
-
-.table th, .table td {
-    text-align: left !important;
 }
 
 @media only screen and (max-width: 992px) { 
