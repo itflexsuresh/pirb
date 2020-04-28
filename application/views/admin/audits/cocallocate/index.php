@@ -74,18 +74,20 @@
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Province</label>
-									<?php echo form_dropdown('province', $province, '',['id' => 'province1', 'class' => 'form-control']); ?>
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Province</label>
+										<?php echo form_dropdown('province', $province, '',['id' => 'province1', 'class' => 'form-control']); ?>
+									</div>
 								</div>
-							</div>
-						
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>City</label>
-									<?php echo form_dropdown('city', [], '', ['id' => 'city1', 'class' => 'form-control']);  ?>
+							
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>City</label>
+										<?php echo form_dropdown('city', [], '', ['id' => 'city1', 'class' => 'form-control']);  ?>
+									</div>
 								</div>
 							</div>
 						</div>
