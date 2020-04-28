@@ -1931,7 +1931,7 @@ footer.footer {
 
 /* 25.04.2020 */
 
-@media only screen and (min-width: 1367px) and (max-width: 2000px) {
+@media only screen and (min-width: 1367px) and (max-width: 1700px) {
     .card-body {
         width: 100%;
     }
@@ -1945,7 +1945,7 @@ footer.footer {
     }
 }
 
-@media only screen and (min-width: 2001px) and (max-width: 4000px) {
+@media only screen and (min-width: 1701px) and (max-width: 4000px) {
     .card-body {
         width: 78%;
     }
