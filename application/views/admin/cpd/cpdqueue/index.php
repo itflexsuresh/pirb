@@ -16,14 +16,10 @@ $streamname 			= isset($strem_id) ? $strem_id : '';
 
 
 $profileimg 			= base_url().'assets/images/profile.jpg';
-$profileimg_ad 			= base_url().'assets/images/profile.jpg';
 $pdfimg 				= base_url().'assets/images/pdf.png';
 $image 					= isset($result['file1']) ? $result['file1'] : '';
-$image_ad 				= isset($result['file2']) ? $result['file2'] : '';
 $filepath 				= base_url().'assets/uploads/cpdqueue/';
 $filepath1				= (isset($result['file1']) && $result['file1']!='') ? $filepath.$result['file1'] : base_url().'assets/uploads/cpdqueue/profile.jpg';
-
-$filepath_ad				= (isset($result['file2']) && $result['file2']!='') ? $filepath.$result['file2'] : base_url().'assets/uploads/cpdqueue/profile.jpg';
 
 $heading 				= isset($result['id']) ? 'Update' : 'Add';
 
@@ -34,15 +30,8 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 	}else{
 		$photoidimg 	= $profileimg;
 	}
-	if($image_ad!=''){
-		$explodefile_ad 	= explode('.', $image_ad);
-		$extfile_ad 		= array_pop($explodefile_ad);
-		$photoidimg2 		= (in_array($extfile_ad, ['pdf', 'tiff'])) ? $pdfimg : $filepath_ad;
-	}else{
-		$photoidimg2 	= $profileimg_ad;
-	}
 	//echo $photoidimg;
-	//print_r($photoidimg2);die;
+	//print_r($streamID);die;
 ?>
 
 <div class="row page-titles">
@@ -91,7 +80,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-12">
 							<label for="productcode">Comments</label>
 							<textarea class="form-control" id="comments" placeholder="Enter Comments" name="comments" ><?php echo $comments; ?></textarea>
 						</div>
@@ -101,20 +90,12 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 							<h4 class="card-title">Supporting Document:</h4>
 								<div class="form-group">
 									<div>
-										<a href="<?php echo $filepath1; ?>" target="_blank">
-										    <img src="<?php echo $photoidimg; ?>" class="document_image" width="100">
-										</a>
-										
+										<img src="<?php echo $photoidimg; ?>" class="document_image" width="100">
 									</div>
-									<?php
-									if ($id=='') { ?>
-										<input type="file" id="file" class="document_file">
-										<label for="file" class="choose_file">Choose File</label>
-										<input type="hidden" name="image1" class="document_picture" value="<?php echo $image; ?>">
-										<p>(Image/File Size Smaller than 5mb)</p>
-									<?php }
-									?>
-									
+									<input type="file" id="file" class="document_file">
+									<label for="file" class="choose_file">Choose File</label>
+									<input type="hidden" name="image1" class="document_picture" value="<?php echo $image; ?>">
+									<p>(Image/File Size Smaller than 5mb)</p>
 								</div>
 						</div>
 						<div class="form-group col-md-6">
@@ -124,25 +105,6 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 							</div>
 						</div>
 					</div>
-
-					<div class="row">
-						<div class="form-group col-md-6">
-							<h4 class="card-title">Supporting Document:</h4>
-								<div class="form-group">
-									<div>
-										<a href="<?php echo $filepath_ad; ?>" target="_blank">
-										    <img src="<?php echo $photoidimg2; ?>" class="document_image_ad" width="100">
-										</a>
-										
-									</div>
-										<input type="file" id="file" class="document_file_ad">
-										<label for="file" class="choose_file">Choose File</label>
-										<input type="hidden" name="image_ad" class="document_picture_ad" value="<?php echo $image_ad; ?>">
-										<p>(Image/File Size Smaller than 5mb)</p>
-								</div>
-						</div>						
-					</div>
-
 					<div class="row">
 						<div class="form-group col-md-6">
 							<label for="points">Activity Points</label>
@@ -180,7 +142,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 						<div class="form-group col-md-6">
 							<label for="productcode">Admin Comments:</label>
 							<textarea class="form-control" id="admin_comments" placeholder="Enter Comments" name="admin_comments" ><?php echo $admin_comments; ?></textarea>
-							<button type="submit" id="addupdate" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> Plumber CPD</button>
+							<button type="submit" id="addupdate" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> CPD Queue</button>
 						</div>
 						<div class="col-md-6 text-right">
 							<input type="hidden" name="id" id="id" value="<?php echo $id; ?>">
@@ -256,8 +218,6 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 		var pdfimg		= '<?php echo $pdfimg; ?>';
 
 		fileupload([".document_file", "./assets/uploads/cpdqueue", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.document_picture', '.document_image', filepath, pdfimg]);
-
-		fileupload([".document_file_ad", "./assets/uploads/cpdqueue", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.document_picture_ad', '.document_image_ad', filepath, pdfimg]);
 		
 		var options = {
 			url 	: 	'<?php echo base_url()."admin/cpd/cpdtypesetup/DTCpdQueue"; ?>',
