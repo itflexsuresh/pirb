@@ -118,7 +118,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 					</div>
 
 					<div class="row">
-							<label for="productcode">CPD Activity Approval Status:</label>
+							<label for="productcode" class="add_left_value">CPD Activity Approval Status:</label>
 								<div class="form-group col-md-6">
 									<div class="row">
 										<div class="col-md-3">
@@ -139,10 +139,12 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 										</div>
 									</div>
 								</div>
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-12">
 							<label for="productcode">Admin Comments:</label>
 							<textarea class="form-control" id="admin_comments" placeholder="Enter Comments" name="admin_comments" ><?php echo $admin_comments; ?></textarea>
-							<button type="submit" id="addupdate" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> CPD Queue</button>
+							<div class="text-right">
+								<button type="submit" id="addupdate" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> CPD Queue</button>
+							</div>
 						</div>
 						<div class="col-md-6 text-right">
 							<input type="hidden" name="id" id="id" value="<?php echo $id; ?>">
