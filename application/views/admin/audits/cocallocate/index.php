@@ -136,18 +136,19 @@
 							</div>
 						</div>
 
-
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Number COC for Allocation</label>
-									<input type="text" class="form-control" name="no_coc_allocation" id="no_coc_allocation">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Number COC for Allocation</label>
+										<input type="text" class="form-control" name="no_coc_allocation" id="no_coc_allocation">
+									</div>
 								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Maximum number of Audits allocated per plumber</label>
-									<input type="number" class="form-control" name="max_allocate_plumber" id="max_allocate_plumber">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Maximum number of Audits allocated per plumber</label>
+										<input type="number" class="form-control" name="max_allocate_plumber" id="max_allocate_plumber">
+									</div>
 								</div>
 							</div>
 						</div>
