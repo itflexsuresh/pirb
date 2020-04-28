@@ -1931,7 +1931,21 @@ footer.footer {
 
 /* 25.04.2020 */
 
-@media only screen and (min-width: 1367px) and (max-width: 3000px) {
+@media only screen and (min-width: 1367px) and (max-width: 2000px) {
+    .card-body {
+        width: 100%;
+    }
+
+    .left-sidebar {
+        width: 280px;
+    }
+
+    .page-wrapper {
+        margin-left: 280px;
+    }
+}
+
+@media only screen and (min-width: 2001px) and (max-width: 4000px) {
     .card-body {
         width: 78%;
     }
@@ -1998,6 +2012,12 @@ th {
 .no_padd td {
     padding: 0 !important;
     vertical-align: middle;
+}
+
+ul.nav.nav-tabs li.nav-item {
+    width: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 @media only screen and (max-width: 992px) { 
