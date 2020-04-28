@@ -95,7 +95,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="row form-group">
-								<div class="col-md-6">
+								<div class="col-md-4">
 									<label>Compulsory Audit</label>
 								</div>
 								<div class="col-md-6">
@@ -105,7 +105,7 @@
 						</div>
 						<div class="col-md-12">
 							<div class="row form-group">
-								<div class="col-md-6">
+								<div class="col-md-4">
 									<label>Audit Ratio</label>
 								</div>
 								<div class="col-md-3">
@@ -120,7 +120,7 @@
 						</div>
 						<div class="col-md-12">
 							<div class="row form-group">
-								<div class="col-md-6">
+								<div class="col-md-4">
 									<label>Overall Performance Rating</label>
 								</div>
 								<div class="col-md-3">
@@ -133,15 +133,15 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-12">
+
+
+						<div class="row">
 							<div class="row form-group">
 								<div class="col-md-6">
 									<label>Number COC for Allocation</label>
 									<input type="text" class="form-control" name="no_coc_allocation" id="no_coc_allocation">
 								</div>
 							</div>
-						</div>
-						<div class="col-md-12">
 							<div class="row form-group">
 								<div class="col-md-6">
 									<label>Maximum number of Audits allocated per plumber</label>
