@@ -156,7 +156,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 					
 				</form>
 			<?php } ?>
-				<div class="row">
+				<div class="row mb_30">
 					<div class="col-md-6">
 						<a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index_queue/1'; ?>" class="active_link_btn">PENDING</a>  <a href="<?php echo base_url().'admin/cpd/cpdtypesetup/index_queue/2'; ?>" class="archive_link_btn">COMPLETED</a>
 					</div>					
