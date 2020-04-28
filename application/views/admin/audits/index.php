@@ -20,7 +20,7 @@
 				<?php if($checkpermission){ ?>			
 				
 			<?php } ?>
-				<div class="row">
+				<div class="row mb_30">
 					<div class="col-md-6">
 						<a href="<?php echo base_url().'admin/audits/index/index/1'; ?>" class="active_link_btn">Active</a>  <a href="<?php echo base_url().'admin/audits/index/index/2'; ?>" class="archive_link_btn">Archive</a>
 					</div>					
