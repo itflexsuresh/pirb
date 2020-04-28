@@ -31,19 +31,22 @@ $heading				= isset($result['calid']) ? 'Update' : 'Add';
 				<h4 class="card-title">Compulsory Audit Listing</h4>
 				<?php if($checkpermission){  ?>
 				<form class="mt-4 form" action="" method="post">
-					<div class="form-group">
+					<div class="row">
 						<div class="col-md-6">
-						<label for="activity">Plumber</label>
-							<input type="search" autocomplete="off" class="form-control" <?php if($id!='') echo 'readonly'; ?> id="search_name" name="search_name" placeholder="Search Plumber" value="<?php echo $name; ?>">
-							<div id="user_suggestion"></div>		
-						</div>			
-					</div>
-					<div class="form-group">
+							<div class="form-group">
+							<label for="activity">Plumber</label>
+								<input type="search" autocomplete="off" class="form-control" <?php if($id!='') echo 'readonly'; ?> id="search_name" name="search_name" placeholder="Search Plumber" onkeyup="search_func(this.value);" value="<?php echo $name; ?>">
+								<div id="plumber_suggesstion" style="display: none;"></div>		
+							</div>			
+						</div>
 						<div class="col-md-6">
-						<label for="activity">Number of Compulsory Audit Allocations:</label>
-							<input type="number" autocomplete="off" class="form-control" id="allocation" name="allocation" value="<?php echo $allocation; ?>" min='1'>
-						</div>			
+							<div class="form-group">
+							<label for="activity">Number of Compulsory Audit Allocations:</label>
+								<input type="number" autocomplete="off" class="form-control" id="allocation" name="allocation" value="<?php echo $allocation; ?>" min='1'>
+							</div>			
+						</div>
 					</div>
+
 					<div class="row">
 						
 						<div class="col-md-12 text-right">
@@ -113,7 +116,46 @@ $(function(){
 			}
 			);
 });
-	$('#search_name').keyup(function(){
-		userautocomplete(["#search_name", "#user_id_hide", "#user_suggestion"], [$(this).val(), '3']);
-	})
+	var req = null;
+	function search_func(value)
+	{
+		if ($.isNumeric(value)) {
+			return false;
+		}else{
+			
+			if (req != null) req.abort();
+		    
+		    var type1 = 3;
+		    var strlength = $.trim($('#search_name').val()).length;
+		    if(strlength > 0)  { 
+			    req = $.ajax({
+			        type: "POST",
+			        url: '<?php echo base_url()."admin/audits/compulsory_audit/userRegDetails"; ?>',
+			        data: {'search_keyword' : value,type:type1},        
+			        beforeSend: function(){
+						// $("#search_reg_no").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
+					},
+			        success: function(data){          	
+			        	$("#plumber_suggesstion").html('');
+			        	$("#name_surname").val('');
+			        	$("#plumber_suggesstion").show();      	
+						$("#plumber_suggesstion").html(data);			
+						$("#search_name").css("background","#FFF");
+			        }
+			    });
+			}
+			else{
+				console.log(strlength);
+				$("#plumber_suggesstion").hide();
+			}
+		}
+	    
+	}
+
+	function selectuser(val,id,nameSurname) {
+		$("#search_name").val(nameSurname);
+		$("#user_reg").val(val);
+		$("#user_id_hide").val(id);
+		$("#plumber_suggesstion").hide();
+	}
 </script>
