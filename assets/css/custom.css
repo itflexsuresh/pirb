@@ -1947,7 +1947,7 @@ footer.footer {
 
 @media only screen and (min-width: 1701px) and (max-width: 4000px) {
     .card-body {
-        width: 78%;
+        width: 83%;
     }
 
     .left-sidebar {
@@ -2018,6 +2018,14 @@ ul.nav.nav-tabs li.nav-item {
     width: auto;
     display: block;
     margin: 0 auto;
+}
+
+.text_left th.sorting_asc {
+    text-align: left;
+}
+
+.text_left  td.sorting_1 {
+    text-align: left;
 }
 
 @media only screen and (max-width: 992px) { 

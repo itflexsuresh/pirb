@@ -54,7 +54,7 @@ if(isset($result) && $result){
 				</form>
 				<?php } ?>
 				<div class="table-responsive mt_20">
-					<table class="table table-bordered table-striped datatables fullwidth">
+					<table class="table table-bordered table-striped datatables fullwidth text_left">
 						<thead>
 							<tr>
 								<th>Installation Type</th>
