@@ -18,11 +18,7 @@
 			<div class="card-body">
 				<h4 class="card-title">Manage Auditors</h4>	
 				<?php if($checkpermission){ ?>			
-				<div class="col-md-6 text-right">
-					<!-- <input type="hidden" name="id" value="<?php //echo $id; ?>"> -->.
-
-					<button type="button" name="submit" value="submit" onclick="window.location.href='<?php echo base_url().'admin/audits/index/action'; ?>';" class="btn btn-primary">Add New</button>
-				</div>
+				
 			<?php } ?>
 				<div class="row">
 					<div class="col-md-6">
@@ -40,6 +36,9 @@
 							</tr>
 						</thead>
 					</table>
+				</div>
+				<div class="col-md-12 text-right">
+					<button type="button" name="submit" value="submit" onclick="window.location.href='http://localhost/audit_it/admin/audits/index/action';" class="btn btn-primary">Add New</button>
 				</div>
 
 			</div>
