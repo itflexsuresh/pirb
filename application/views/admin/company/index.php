@@ -17,7 +17,7 @@
 		<div class="card">
 			<div class="card-body">
 				<h4 class="card-title">Company Registrar</h4>
-				<div class="table-responsive m-t-40">
+				<div class="table-responsive">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
 							<tr>
@@ -50,8 +50,8 @@
 							{ "data": "lttqcount" },
 							{ "data": "action" }
 						],
-			target : [3, 4, 5],
-			sort : '0'
+						target : [5],
+						sort : '0'
 		};
 		
 		ajaxdatatables('.datatables', options);
