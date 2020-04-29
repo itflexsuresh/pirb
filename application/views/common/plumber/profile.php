@@ -350,7 +350,11 @@
 						</div>
 					<?php } ?>
 					
-					<?php echo $card; ?>
+					<?php 
+						if($roletype=='1' || ($roletype=='3' && $approval_status=='1')){ 
+							echo $card; 
+						}
+					 ?>
 
 					<div class="accordion add_top_value" id="plumberaccordion">
 						<div class="card">

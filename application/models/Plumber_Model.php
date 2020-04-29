@@ -73,7 +73,7 @@ class Plumber_Model extends CC_Model
 		if(in_array('usersplumber', $querydata)) 		$this->db->join('users_plumber up', 'up.user_id=u.id', 'left');
 		if(in_array('usersskills', $querydata)) 		$this->db->join('users_plumber_skill ups', 'ups.user_id=u.id', 'left');
 		if(in_array('usersskills', $querydata)) 		$this->db->join('qualificationroute qr', 'qr.id=ups.skills', 'left'); 
-		if(in_array('company', $querydata)) 			$this->db->join('users_detail c', 'c.id=up.company_details', 'left');
+		if(in_array('company', $querydata)) 			$this->db->join('users_detail c', 'c.user_id=up.company_details', 'left');
 		
 		if((isset($requestdata['search']['value']) && $requestdata['search']['value']!='') || (isset($requestdata['order']['0']['column']) && $requestdata['order']['0']['column']!='' && isset($requestdata['order']['0']['dir']) && $requestdata['order']['0']['dir']!='')){
 			if(isset($requestdata['page']) && $requestdata['page']=='adminplumberlist'){
