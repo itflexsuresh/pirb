@@ -22,7 +22,7 @@ if(count($permission) > 0){
 						<li class="setp one"> 
 							<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Administration</span></a>
 							<ul aria-expanded="false" class="collapse">
-								<?php if($menu=='1' || ($menu=='2' && (in_array('1', $readpermission) || in_array('1', $writepermission)))){ ?>
+								<?php if($menu=='1' || ($menu=='2' && (in_array('5', $readpermission) || in_array('5', $writepermission)))){ ?>
 									<li><a href="<?php echo base_url().'admin/administration/noncompliancelisting/index'; ?>">Non Compliance Listings</a></li>
 								<?php }if($menu=='1' || ($menu=='2' && (in_array('1', $readpermission) || in_array('1', $writepermission)))){ ?>
 									<li><a href="<?php echo base_url().'admin/administration/reportlisting/index'; ?>">Report Listings</a></li>
