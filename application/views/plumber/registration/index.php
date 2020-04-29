@@ -8,7 +8,7 @@
 	$dob 					= isset($result['dob']) && $result['dob']!='1970-01-01' ? date('d-m-Y', strtotime($result['dob'])) : '';
 	$name 					= isset($result['name']) ? $result['name'] : '';
 	$surname 				= isset($result['surname']) ? $result['surname'] : '';
-	$genderid 				= isset($result['gender']) ? $result['gender'] : '';
+	$genderid 				= isset($result['gender']) ? $result['gender'] : '1';
 	$racialid 				= isset($result['racial']) ? $result['racial'] : '';
 	$nationality 			= isset($result['nationality']) ? $result['nationality'] : '';
 	$idcard 				= isset($result['idcard']) ? $result['idcard'] : '';
@@ -179,7 +179,7 @@
 								<div class="form-group">
 									<label>Racial Status *</label>
 									<?php
-										echo form_dropdown('racial', $racial, $racialid,['id' => 'racial', 'class'=>'form-control percentageslide']);
+										echo form_dropdown('racial', $racial, $racialid,['id' => 'racial', 'class'=>'form-control percentageslide', 'data-select' => 'select2']);
 									?>
 								</div>
 							</div>
@@ -221,7 +221,7 @@
 								<div class="form-group">
 									<label>Home Language *</label>
 									<?php
-										echo form_dropdown('homelanguage', $homelanguage, $homelanguageid, ['id'=>'homelanguage', 'class'=>'form-control percentageslide']);
+										echo form_dropdown('homelanguage', $homelanguage, $homelanguageid, ['id'=>'homelanguage', 'class'=>'form-control percentageslide', 'data-select' => 'select2']);
 									?>
 								</div>
 							</div>
@@ -845,7 +845,7 @@ $(function(){
 				required	: true,
 			},
 			disability : {
-				required	: true,
+				required	: false,
 			},
 			citizen : {
 				required	: true,

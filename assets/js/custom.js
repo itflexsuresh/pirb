@@ -66,6 +66,8 @@ function validation(selector, rules, messages, extras=[])
 												$(element).parent().append(error);
 											}else if(element.attr('data-radio') == 'radio1'){
 												$(element).parent().append(error);
+											}else if(element.attr('data-select') == 'select2'){
+												$(element).parent().append(error);
 											}else{
 												error.insertAfter(element);
 											}

@@ -416,7 +416,7 @@
 											<div class="form-group">
 												<label>Racial Status *</label>
 												<?php
-													echo form_dropdown('racial', $racial, $racialid,['id'=>'racial', 'class'=>'form-control']+$disabled2array);
+													echo form_dropdown('racial', $racial, $racialid,['id'=>'racial', 'class'=>'form-control', 'data-select' => 'select2']+$disabled2array);
 												?>
 											</div>
 										</div>
@@ -458,7 +458,7 @@
 											<div class="form-group">
 												<label>Home Language *</label>
 												<?php
-													echo form_dropdown('homelanguage', $homelanguage, $homelanguageid, ['id' => 'homelanguage', 'class'=>'form-control']+$disabled2array);
+													echo form_dropdown('homelanguage', $homelanguage, $homelanguageid, ['id' => 'homelanguage', 'class'=>'form-control', 'data-select' => 'select2']+$disabled2array);
 												?>
 											</div>
 										</div>
@@ -1024,7 +1024,7 @@ $(function(){
 				required	: true,
 			},
 			disability : {
-				required	: true,
+				required	: false,
 			},
 			citizen : {
 				required	: true,

@@ -110,6 +110,7 @@ $config['gender'] 					= 	[
 										];	
 										
 $config['racial'] 					= 	[
+											'' 	=> 'Select Racial Status',
 											'1' => 'African',
 											'2' => 'Indian',
 											'3' => 'Coloured',
@@ -122,6 +123,7 @@ $config['yesno'] 					= 	[
 										];
 										
 $config['homelanguage'] 			= 	[
+											'' 	=> 'Select Home Language',
 											'1' => 'Afrikaans',
 											'2' => 'English',
 											'3' => 'isiNdebele',
@@ -166,6 +168,7 @@ $config['othernationality'] 		= 	[
 										];
 										
 $config['disability'] 				= 	[
+											'' 	=> 'None',
 											'1' => 'Communication(talk/listen)',
 											'2' => 'Disabled but unspecified',
 											'3' => 'Emotional (behav/psych)',
