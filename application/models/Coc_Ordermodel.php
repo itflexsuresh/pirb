@@ -567,6 +567,7 @@ class Coc_Ordermodel extends CC_Model
 		$this->db->select('
 			u.id, 
 			concat(ud.name, " ", ud.surname) as name,
+			aa.allocation_allowed as allowedaudit,
 			p1.name as province,
 			c1.name as city,
 			s1.name as suburb,

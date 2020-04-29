@@ -511,7 +511,16 @@ function userautocomplete(data1=[], data2=[], customfunction='', customappend=''
 			var result = [];
 			
 			$(data).each(function(i, v){
-				result.push('<li data-name="'+v.name+'" data-id="'+v.id+'" data-count="'+v.count+'" data-electronic="'+v.coc_electronic+'" class="autocompletelist'+appendclass+'">'+v.name+'</li>');
+				var id 				= (v.id) ? 'data-id="'+v.id+'"' : '';
+				var name 			= (v.name) ? 'data-name="'+v.name+'"' : '';
+				var count 			= (v.count) ? 'data-count="'+v.count+'"' : '';
+				var electronic 		= (v.coc_electronic) ? 'data-electronic="'+v.coc_electronic+'"' : '';
+				
+				var openaudit 		= (v.openaudit) ? 'data-openaudit="'+v.openaudit+'"' : '';
+				var mtd 			= (v.mtd) ? 'data-mtd="'+v.mtd+'"' : '';
+				var allowedaudit 	= (v.allowedaudit) ? 'data-allowedaudit="'+v.allowedaudit+'"' : '';
+				
+				result.push('<li '+openaudit+' '+mtd+' '+allowedaudit+' '+id+' '+name+' '+count+' '+electronic+' class="autocompletelist'+appendclass+'">'+v.name+'</li>');
 			})
 			
 			var append = '<ul class="autocomplete_list">'+result.join('')+'</ul>';
@@ -519,16 +528,21 @@ function userautocomplete(data1=[], data2=[], customfunction='', customappend=''
 		}
 		
 		$(document).on('click', '.autocompletelist'+appendclass, function(){
-			var id = $(this).attr('data-id');
-			var name = $(this).attr('data-name');
-			var count = $(this).attr('data-count');
-			var electronic = $(this).attr('data-electronic');
+			var id 				= $(this).attr('data-id');
+			var name 			= $(this).attr('data-name');
+			var count 			= $(this).attr('data-count');
+			var electronic 		= $(this).attr('data-electronic');
+			
+			var openaudit 		= $(this).attr('data-openaudit');
+			var mtd 			= $(this).attr('data-mtd');
+			var allowedaudit 	= $(this).attr('data-allowedaudit');
 			
 			$(data1[0]).val(name);
 			$(data1[1]).val(id);
 			$(data1[2]).html('');
 			
-			if(customfunction!='') customfunction(name, id, count, electronic);
+			if(customfunction!='' && !$(this).attr('data-allowedaudit')) customfunction(name, id, count, electronic);
+			else if(customfunction!='' && $(this).attr('data-allowedaudit')) customfunction($(data1[0]), openaudit, mtd, allowedaudit);
 		})
 	}else{
 		var result = [];

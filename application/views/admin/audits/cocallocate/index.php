@@ -263,12 +263,20 @@
 		$('#start_date_range,#end_date_range,#start_coc_range,#end_coc_range,#user_search,#user_id,#province1,#city1,#audit_ratio_start,#audit_ratio_end,#rating_start,#rating_end,#rating_end,#no_coc_allocation,#max_allocate_plumber').val('');
 		$('#compulsory_audit').prop('checked', false);
 		$('.tableaccordion').addClass('displaynone');
+		$(document).find('.parenttablecontent').remove();
+		$(document).find('.childrow').remove();
+		$(document).find('.auditorallocate').remove();
+		$('.audit_summary').addClass('displaynone');
 	});
 	
 	function datatable(){
+		var max_allocate_plumber = $('#max_allocate_plumber').val() ;
+		
 		$('.norecordfound').addClass('displaynone');
 		$(document).find('.parenttablecontent').remove();
 		$(document).find('.childrow').remove();
+		$(document).find('.auditorallocate').remove();
+		$('.audit_summary').addClass('displaynone');
 		
 		var url 	= 	'<?php echo base_url()."admin/audits/cocallocate/index/DTAllocateAudit"; ?>';
 		var data	= 	{ 
@@ -284,8 +292,7 @@
 							audit_ratio_end			: $('#audit_ratio_end').val(), 
 							rating_start			: $('#rating_start').val(), 
 							rating_end				: $('#rating_end').val(), 
-							no_coc_allocation		: $('#no_coc_allocation').val(), 
-							max_allocate_plumber	: $('#max_allocate_plumber').val() 
+							no_coc_allocation		: $('#no_coc_allocation').val()
 						};
 						
 		ajax(url, data, '', {
@@ -337,6 +344,12 @@
 				
 				if(table.length > 0){
 					$('.parenttable tbody').append(table.join(""));
+					
+					if(max_allocate_plumber!=''){
+						$(document).find('.parenttablecontent').each(function(){
+							$(this).find('.cocaccordion').click();
+						})
+					}
 				}else{
 					$('.norecordfound').removeClass('displaynone');
 				}
@@ -345,10 +358,11 @@
 	}
 	
 	$(document).on('click', '.cocaccordion', function(){
-		var _this		= $(this);
-		var rowindex	= $(this).parent().parent().attr('data-index');
-		var userid 		= $(this).attr('data-user-id');
-		var coc_count 	= $(this).attr('data-coc-count');
+		var _this					= $(this);
+		var rowindex				= $(this).parent().parent().attr('data-index');
+		var userid 					= $(this).attr('data-user-id');
+		var coc_count 				= $(this).attr('data-coc-count');
+		var max_allocate_plumber 	= $('#max_allocate_plumber').val();
 		
 		_this.parent().parent().toggleClass("open").next(".childrow").toggleClass("open");
 		
@@ -382,22 +396,31 @@
 					var table = [];
 					
 					$(data.result).each(function(i, v){			
-						var autoresult 		= userautocomplete([], ['', 5, {suburb : v.suburbname,city : v.cityname,province : v.provincename}], '', 1);
 						var checkallocate 	= '';
 						var postauditorid 	= '';
 						var postauditorname = '';
 						var openaudit		= '0';
+						var allowedaudit 	= '0';
 						var mtd				= '0';
+						var automation		= '0';
 						
-						$(autoresult).each(function(i, v){
-							$(v).each(function(index, values){
-								postauditorname = values.name;
-								postauditorid 	= values.id;
-								openaudit 		= values.openaudit;
-								mtd 			= values.mtd;
-								return false;
+						if((max_allocate_plumber!='' && i < max_allocate_plumber)){
+							automation = '1';
+						}
+						
+						if(max_allocate_plumber==''){						
+							var autoresult 		= userautocomplete([], ['', 5, {suburb : v.suburbname,city : v.cityname,province : v.provincename}], '', 1);
+							$(autoresult).each(function(ii, vv){
+								$(vv).each(function(index, values){
+									postauditorname = values.name;
+									postauditorid 	= values.id;
+									openaudit 		= values.openaudit;
+									allowedaudit 	= values.allowedaudit;
+									mtd 			= values.mtd;
+									return false;
+								})
 							})
-						})
+						}
 						
 						var summarydata = $(document).find('.postcocid[value="'+v.coc_id+'"]');
 						if(summarydata.length > 0){
@@ -414,21 +437,30 @@
 								<td>'+v.cityname+'</td>\
 								<td>'+v.provincename+'</td>\
 								<td>\
-									<input type="text" autocomplete="off" class="form-control auditor_search" id="auditor_search_'+v.coc_id+'" data-cocid="'+v.coc_id+'" data-suburb="'+v.suburbname+'"  data-city="'+v.cityname+'"  data-province="'+v.provincename+'" value="'+postauditorname+'" style="width:100px">\
+									<input type="text" autocomplete="off" class="form-control auditor_search" id="auditor_search_'+v.coc_id+'" data-cocid="'+v.coc_id+'" data-suburb="'+v.suburbname+'"  data-city="'+v.cityname+'"  data-province="'+v.provincename+'" data-allowedaudit="'+allowedaudit+'" value="'+postauditorname+'" style="width:100px">\
 									<input type="hidden" class="auditor_id" id="auditor_id_'+v.coc_id+'" value="'+postauditorid+'">\
 									<input type="hidden" class="plumber_id" id="plumber_id_'+v.coc_id+'" value="'+userid+'">\
 									<div class="auditor_suggestion" id="auditor_suggestion_'+v.coc_id+'"></div>\
 								</td>\
 								<td class="">'+mtd+'</td>\
 								<td class="openaudit">'+openaudit+'</td>\
-								<td><input type="checkbox" name="allocate" class="allocate" data-cocid="'+v.coc_id+'" '+checkallocate+'></td>\
+								<td><input type="checkbox" name="allocate" class="allocate" data-automation="'+automation+'" data-cocid="'+v.coc_id+'" '+checkallocate+'></td>\
 							</tr>\
 						'; 
 						
 						table.push(data);
 					})
 					
-					$('#childrow'+rowindex+' tbody').append(table.join(''));					
+					$('#childrow'+rowindex+' tbody').append(table.join(''));	
+
+					if(max_allocate_plumber!=''){
+						$(document).find('#childrow'+rowindex+' tbody tr').each(function(){
+							if($(this).find('.allocate').attr('data-automation')=='1'){
+								$(this).find('.allocate').click();
+							}
+						})
+					}
+					
 				}
 			}
 		});
@@ -443,29 +475,78 @@
 		$("#auditor_id_"+cocid).val('');
 		removeauditsummary(cocid)
 		$(this).parent().parent().find('.allocate').prop('checked', false);
-		userautocomplete(['#auditor_search_'+cocid, '#auditor_id_'+cocid, '#auditor_suggestion_'+cocid], [$(this).val(), 5, {suburb : suburb,city : city,province : province}]);
+		userautocomplete(['#auditor_search_'+cocid, '#auditor_id_'+cocid, '#auditor_suggestion_'+cocid], [$(this).val(), 5, {suburb : suburb,city : city,province : province}], auditextras);
 	})
+	
+	function auditextras(_this, openaudit, mtd, allowedaudit){
+		_this.attr('data-allowedaudit', allowedaudit);
+		_this.parent().parent().find('td:nth-child(7)').text(mtd);
+		_this.parent().parent().find('td:nth-child(8)').text(openaudit);
+	}
 	
 	$(document).on('keyup', '#user_search', function(){
 		$("#user_id").val('');
 		userautocomplete(['#user_search', '#user_id', '#user_suggestion'], [$(this).val(), 3]);
 	})
 	
-	$(document).on('click', '.allocate', function(){
+	$(document).on('click', '.allocate', function(){		
+		var _thistr			= $(this).parent().parent();
+			
+		if($(this).attr('data-automation')=='1'){
+			var suburbname 		= _thistr.find('td:nth-child(3)').text();
+			var cityname 		= _thistr.find('td:nth-child(4)').text();
+			var provincename 	= _thistr.find('td:nth-child(5)').text();
+			
+			var autoresult 		= userautocomplete([], ['', 5, {suburb : suburbname,city : cityname,province : provincename}], '', 1);
+			$(autoresult).each(function(ii, vv){
+				$(vv).each(function(index, values){
+					var postauditorname1 		= values.name;
+					var postauditorid1 			= values.id;
+					var openaudit1 				= values.openaudit;
+					var allowedaudit1 			= values.allowedaudit;
+					var mtd1 					= values.mtd;
+					var dynamicallowedaudit1 	= (parseInt($(document).find('.postauditorid[value="'+postauditorid1+'"]').length) + parseInt(openaudit1));
+					
+					if(allowedaudit1 <= dynamicallowedaudit1){
+						return;
+					}
+					
+					_thistr.find('.auditor_search').attr('data-allowedaudit', allowedaudit1).val(postauditorname1);
+					_thistr.find('.auditor_id').val(postauditorid1);
+					_thistr.find('td:nth-child(7)').text(mtd1);
+					_thistr.find('td:nth-child(8)').text(openaudit1);
+					
+					return false;
+				})
+			})
+		}
+
+		$(this).removeAttr('data-automation');
+		
 		var cocid 			= $(this).attr('data-cocid');
-		var auditorid 		= $(this).parent().parent().find('#auditor_id_'+cocid).val();
-		var auditorname 	= $(this).parent().parent().find('#auditor_search_'+cocid).val();
-		var plumberid 		= $(this).parent().parent().find('#plumber_id_'+cocid).val();
-		var mtd 			= $(this).parent().parent().find('td:nth-child(7)').text();
-		var openaudit 		= $(this).parent().parent().find('td:nth-child(8)').text();
+		var auditorsearch	= _thistr.find('#auditor_search_'+cocid);
+		var auditorid 		= _thistr.find('#auditor_id_'+cocid).val();
+		var auditorname 	= _thistr.find('#auditor_search_'+cocid).val();
+		var plumberid 		= _thistr.find('#plumber_id_'+cocid).val();
+		var mtd 			= _thistr.find('td:nth-child(7)').text();
+		var openaudit 		= _thistr.find('td:nth-child(8)').text();
 		
 		if(auditorid==''){
 			$(this).prop('checked', false);
-			$(this).parent().parent().find('#auditor_id_'+cocid).focus();
+			_thistr.find('#auditor_id_'+cocid).focus();
 			return false;
 		}
 		
 		if($(this).is(':checked')){
+			var allowedaudit 		= auditorsearch.attr('data-allowedaudit');
+			var dynamicallowedaudit = (parseInt($(document).find('.postauditorid[value="'+auditorid+'"]').length) + parseInt(openaudit));
+			
+			if(allowedaudit <= dynamicallowedaudit){
+				sweetalertautoclose('Auditor has reached maximum no of allocation.');
+				$(this).prop('checked', false);
+				return false;
+			}
+			
 			auditsummary(cocid, plumberid, auditorid, auditorname, mtd, openaudit);
 			var coclength 		= $(document).find('.auditorcocid').length;
 			var cocpercentage 	= ((coclength/totalcoccount)*100).toFixed(2)+'%';
