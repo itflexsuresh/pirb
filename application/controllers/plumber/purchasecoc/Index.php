@@ -972,7 +972,7 @@ class Index extends CC_Controller
 					<tr>
 					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Purchase of '.$rowData['quantity'].' PIRB Certificate of Compliance</td>				
 					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;">'.$rowData['quantity'].'</td>
-					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$PDF_rate['amount'].'</td>
+					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$this->currencyconvertor($PDF_rate['amount']).'</td>
 					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$rowData['cost_value'].'</td>
 					</tr>
 
@@ -1008,7 +1008,7 @@ class Index extends CC_Controller
 
 					<tr style="text-align: center;">
 					<td style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">Sub Total</td>
-					<td style="margin: 0; padding: 5px 50px; border: 1px solid #000; ">'.$currency.$total_subtotal.'</td>
+					<td style="margin: 0; padding: 5px 50px; border: 1px solid #000; ">'.$currency.$this->currencyconvertor($total_subtotal).'</td>
 					</tr>
 
 					<tr style="text-align: center;">
