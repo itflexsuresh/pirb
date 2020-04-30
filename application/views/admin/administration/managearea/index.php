@@ -78,7 +78,7 @@
 							</div>
 						</div>
 						<div class="col-md-6 text-right">
-							<input type="hidden" name="id" value="<?php echo $id; ?>">
+							<input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
 							<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?> Area </button>
 							
 						</div>
@@ -136,6 +136,26 @@
 				},
 				suburb:{
 					required    : true,
+										remote		: 	{
+							url	: "<?php echo base_url().'admin/administration/managearea/Managearea/ManageareaValidation'; ?>",
+							type: "post",
+							async: false,
+							data: {
+								suburb: function() {
+									return $( "#suburb" ).val();
+								},
+								province: function() {
+									return $( "#province" ).val();
+								},								
+								city: function() {
+									return $( "#city" ).val();
+								},
+								id: function() {
+									return $( "#id" ).val();
+								}
+							}
+
+						}
 				},
 				city1:{
 					required    : true,
@@ -151,6 +171,7 @@
 				},
 				suburb : {
 					required    : "Please enter the suburb",
+					remote		: "Suburb Already Exists."
 				},
 				city1:{
 					required    :"Please enter the city",
