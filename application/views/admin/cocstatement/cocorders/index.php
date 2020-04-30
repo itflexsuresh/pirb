@@ -1,11 +1,12 @@
 <?php
+echo $customview;
 
 $vat 					= $settings["vat_percentage"];
-$cocpaperwork 			= $cocpaperwork["amount"];
-$cocelectronic 			= $cocelectronic["amount"];
-$postage 				= $postage["amount"];
-$couriour 				= $couriour["amount"];
-$collectedbypirb 		= $collectedbypirb["amount"];
+$cocpaperwork 			= currencyconvertor($cocpaperwork["amount"]);
+$cocelectronic 			= currencyconvertor($cocelectronic["amount"]);
+$postage 				= currencyconvertor($postage["amount"]);
+$couriour 				= currencyconvertor($couriour["amount"]);
+$collectedbypirb 		= currencyconvertor($collectedbypirb["amount"]);
 
 $created_at 			= (isset($result['created_at']) && date('d-m-Y', strtotime($result['created_at']))!='01-01-1970') ? date('d-m-Y', strtotime($result['created_at'])) : '';
 
@@ -610,10 +611,10 @@ function coccalculation(){
 	
 	var totalval = parseFloat(coctypeval + deliverytypeval + vatval);
 	
-	$('#cost_value').val(coctypeval.toFixed(2));
-	$('#delivery_cost').val(deliverytypeval.toFixed(2));
-	$('#vat').val(vatval.toFixed(2));
-	$('#total_due').val(totalval.toFixed(2));
+	$('#cost_value').val(currencyconvertor(coctypeval));
+	$('#delivery_cost').val(currencyconvertor(deliverytypeval));
+	$('#vat').val(currencyconvertor(vatval));
+	$('#total_due').val(currencyconvertor(totalval));
 }
 
 
