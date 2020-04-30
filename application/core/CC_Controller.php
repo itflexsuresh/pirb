@@ -813,7 +813,7 @@ class CC_Controller extends CI_Controller
 
 					
 					//Invoice and Order
-					$inspectionrate = $this->getRates($this->config->item('inspection'));
+					$inspectionrate = $this->currencyconvertor($this->getRates($this->config->item('inspection')));
 					$invoicedata = [
 						'description' 	=> 'Audit undertaken for '.$pagedata['result']['u_name'].' on COC '.$pagedata['result']['id'].'. Date of Review Submission '.date('d-m-Y', strtotime($datetime)),
 						'user_id'		=> (isset($extras['auditorid'])) ? $extras['auditorid'] : '',
