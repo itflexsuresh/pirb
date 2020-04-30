@@ -1,5 +1,6 @@
 <?php
 if(isset($result) && $result){
+
 	$id 			= $result['id'];
 	$name 			= (set_value('name')) ? set_value('name') : $result['name'];
 	$status 		= (set_value('status')) ? set_value('status') : $result['status'];
@@ -42,7 +43,7 @@ if(isset($result) && $result){
 					<div class="row">
 						<div class="col-md-6">
 							<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
-								<input type="checkbox" class="custom-control-input" name="status" id="status" <?php if($status=='1') echo 'checked'; ?> value="1" checked>
+								<input type="checkbox" class="custom-control-input" name="status" id="status" <?php if($status=='1') echo 'checked'; if($status=='') echo 'checked'; ?> value="1">
 								<label class="custom-control-label" for="status">Active</label>
 							</div>
 						</div>
