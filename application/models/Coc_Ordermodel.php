@@ -89,7 +89,8 @@ class Coc_Ordermodel extends CC_Model
 
 	public function action($data){
 		
-		$settings = $this->db->get('settings_details')->row_array();
+		$settings 		= $this->db->get('settings_details')->row_array();
+		$currency    	= $this->config->item('currency');
 		
 		// echo "<pre>"; print_r($data);die;
 		if(isset($data['quantity'])) 		$requestdata['description'] 	= 'Purchase of '.$data['quantity'].' PIRB Certificate of Compliance';	
@@ -181,7 +182,7 @@ class Coc_Ordermodel extends CC_Model
 		           				$coc_type_id = 13;
 		           				$delivery_rate['amount'] = 0;
 		           				$PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
-
+								$courierdetails = "";
 		           			}elseif($rowData['coc_type'] == '2'){
 		           				$coc_type_id = 14;
 		           				if ($rowData['delivery_type'] == '1') {
@@ -191,10 +192,21 @@ class Coc_Ordermodel extends CC_Model
 		           				}elseif ($rowData['delivery_type'] == '3') {
 		           					$delivery_method = 2;
 		           				}
-
+								
+								if ($delivery_rate['amount']=='0' || $delivery_rate['amount']== 0) {
+									$currency2 = $currency;
+								}else{
+									$currency2 = "";
+								}
+						
 		           				$PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
 		           				$delivery_rate =  $this->db->select('amount')->from('rates')->where('id',$delivery_method)->get()->row_array();
-
+								$courierdetails = '<tr>
+								<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Courier/Regsitered Post Fee</td>				
+								<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;"></td>
+								<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency2.$this->currencyconvertor($delivery_rate['amount']).'</td>
+								<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$this->currencyconvertor($delivery_rate['amount']).'</td>
+								</tr>';
 
 		           			}
 		           			$total_subtotal = $delivery_rate['amount']+$rowData['cost_value'];
@@ -403,16 +415,11 @@ class Coc_Ordermodel extends CC_Model
 					<tr>
 					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Purchase of '.$rowData['quantity'].' PIRB Certificate of Compliance</td>				
 					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;">'.$rowData['quantity'].'</td>
-					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$PDF_rate['amount'].'</td>
-					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</td>
+					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$this->currencyconvertor($PDF_rate['amount']).'</td>
+					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$rowData['cost_value'].'</td>
 					</tr>
 
-					<tr>
-					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Courier/Regsitered Post Fee</td>				
-					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;">'.$delivery_rate['amount'].'</td>
-					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$delivery_rate['amount'].'</td>
-					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$rowData['cost_value'].'</td>
-					</tr>
+					'.$courierdetails.'
 
 					</tbody>
 					</table>	
@@ -444,17 +451,17 @@ class Coc_Ordermodel extends CC_Model
 
 					<tr style="text-align: center;">
 					<td style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">Sub Total</td>
-					<td style="margin: 0; padding: 5px 50px; border: 1px solid #000; ">'.$rowData['cost_value'].'</td>
+					<td style="margin: 0; padding: 5px 50px; border: 1px solid #000; ">'.$currency.$rowData['cost_value'].'</td>
 					</tr>
 
 					<tr style="text-align: center;">
 					<td style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">VAT '.$settings["vat_percentage"].'%</td>
-					<td style="margin: 0; padding: 5px 50px; border: 1px solid #000; ">'.$rowData['vat'].'</td>
+					<td style="margin: 0; padding: 5px 50px; border: 1px solid #000; ">'.$currency.$rowData['vat'].'</td>
 					</tr>
 
 					<tr style="text-align: center;">
 					<td bgcolor="#ccc" style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">Total</td>
-					<td bgcolor="#ccc" style="margin: 0; padding: 5px 50px; border: 1px solid #000;">'.$rowData['total_due'].'</td>
+					<td bgcolor="#ccc" style="margin: 0; padding: 5px 50px; border: 1px solid #000;">'.$currency.$rowData['total_due'].'</td>
 					</tr>
 
 					</tbody>

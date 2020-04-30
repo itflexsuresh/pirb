@@ -74,7 +74,8 @@ class Index extends CC_Controller
 		
 		$this->layout2($data);
 	}
-
+	
+	/*
 	public function insertOrders(){
 		if ($this->input->post()) {
 			$settings = $this->Systemsettings_Model->getList('row');
@@ -360,7 +361,8 @@ class Index extends CC_Controller
 			}
 		}
 	}
-
+	*/
+	
 	public function userDetails()
 	{
 

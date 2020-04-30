@@ -755,11 +755,11 @@ class Index extends CC_Controller
            				$delivery_rate =  $this->db->select('amount')->from('rates')->where('id',$delivery_method)->get()->row_array();
 						
            				$courierdetails = '<tr>
-					<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Courier/Regsitered Post Fee</td>				
-					<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;"></td>
-					<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency2.$this->currencyconvertor($delivery_rate['amount']).'</td>
-					<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$this->currencyconvertor($delivery_rate['amount']).'</td>
-					</tr>';
+						<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Courier/Regsitered Post Fee</td>				
+						<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;"></td>
+						<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency2.$this->currencyconvertor($delivery_rate['amount']).'</td>
+						<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$this->currencyconvertor($delivery_rate['amount']).'</td>
+						</tr>';
 
            			}
            			$total_subtotal = $delivery_rate['amount']+$rowData['cost_value'];

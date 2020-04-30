@@ -183,4 +183,18 @@ class CC_Model extends CI_Model
 		$data = file_get_contents($path);
 		return 'data:image/' . $type . ';base64,' . base64_encode($data);
 	}
+	
+	
+	function currencyconvertor($currency){
+		$amount 	= number_format(floor($currency*100)/100, 2,".","");
+		$lastchr	= $amount[strlen($amount)-1];
+		
+		if($lastchr < 5){
+			$amount[strlen($amount)-1] = '0';
+		}else{
+			$amount[strlen($amount)-1] = '5';
+		}
+		
+		return $amount;
+	}
 }
