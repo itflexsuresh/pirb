@@ -137,6 +137,7 @@ class Managearea_Model extends CC_Model
     }
 	
 	function checkUsername1($requestData1) {
+		$id = $requestData1['id'];
     	$requestData1['province'];
     	$requestData1['city'];
         $this->db->select('*');
@@ -144,6 +145,7 @@ class Managearea_Model extends CC_Model
 		$this->db->where('name', $requestData1['suburb']);
 		$this->db->where('province_id',$requestData1['province']);
 		$this->db->where('city_id',$requestData1['city']);
+		if($id!='') $this->db->where('id !=', $id);
         $query = $this->db->get();
 
 
@@ -279,6 +281,26 @@ class Managearea_Model extends CC_Model
 			return '1';
 		}else{
 			return '0';
+		}
+	}
+
+	public function manageareaValidator($requestData){
+		//print_r($requestData);die;
+		$id = $requestData['id'];
+    	$requestData['province'];
+    	$requestData['city'];
+        $this->db->select('*');
+		$this->db->from('suburb');
+		$this->db->where('name', $requestData['suburb']);
+		$this->db->where('province_id',$requestData['province']);
+		$this->db->where('city_id',$requestData['city']);
+		if($id!='') $this->db->where('id !=', $id);
+        $query = $this->db->get();
+
+        if($query->num_rows() > 0){
+			return 'false';
+		}else{
+			return 'true';
 		}
 	}
 }
