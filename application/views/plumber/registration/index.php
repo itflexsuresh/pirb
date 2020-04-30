@@ -942,7 +942,7 @@ $(function(){
 				required	: "Alternate ID Card  field is required.",
 			},
 			homelanguage : {
-				required	: "Homelanguage field is required.",
+				required	: "Home Language field is required.",
 			},
 			disability : {
 				required	: "Disability field is required.",
