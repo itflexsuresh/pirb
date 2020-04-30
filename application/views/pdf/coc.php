@@ -6,6 +6,18 @@ function base64conversion($path){
 	return 'data:image/' . $type . ';base64,' . base64_encode($data);
 }
 
+function currencyconvertor($currency){
+	$amount 	= number_format(floor($currency*100)/100, 2,".","");
+	$lastchr	= $amount[strlen($amount)-1];
+	
+	if($lastchr < 5){
+		$amount[strlen($amount)-1] = '0';
+	}else{
+		$amount[strlen($amount)-1] = '5';
+	}
+	
+	return $amount;
+}
 ?>
 
 <html>
@@ -50,25 +62,38 @@ function base64conversion($path){
 <?php
 $invoiceDate  = date("d-m-Y", strtotime($rowData['created_at']));
 $VAT          = $settings["vat_percentage"];
+$currency    	= $this->config->item('currency');
 
   if ($rowData['coc_type'] == '1') {
     $coc_type_id = 13;
     $delivery_rate['amount'] = 0;
     $PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
-
+	$courierdetails = "";
   }elseif($rowData['coc_type'] == '2'){
-    $coc_type_id = 14;
-    if ($rowData['delivery_type'] == '1') {
-      $delivery_method = 24;
-    }elseif ($rowData['delivery_type'] == '2') {
-      $delivery_method = 17;
-    }elseif ($rowData['delivery_type'] == '3') {
-      $delivery_method = 2;
-    }
+		$coc_type_id = 14;
+		if ($rowData['delivery_type'] == '1') {
+		  $delivery_method = 24;
+		}elseif ($rowData['delivery_type'] == '2') {
+		  $delivery_method = 17;
+		}elseif ($rowData['delivery_type'] == '3') {
+		  $delivery_method = 2;
+		}
 
-      $PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
-      $delivery_rate =  $this->db->select('amount')->from('rates')->where('id',$delivery_method)->get()->row_array();
-
+		if ($delivery_rate['amount']=='0' || $delivery_rate['amount']== 0) {
+			$currency2 = $currency;
+		}else{
+			$currency2 = "";
+		}
+		
+		$PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
+		$delivery_rate =  $this->db->select('amount')->from('rates')->where('id',$delivery_method)->get()->row_array();
+		
+		$courierdetails = '<tr>
+		<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Courier/Regsitered Post Fee</td>				
+		<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;"></td>
+		<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency2.currencyconvertor($delivery_rate['amount']).'</td>
+		<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.currencyconvertor($delivery_rate['amount']).'</td>
+		</tr>';
     }
   $total_subtotal = $delivery_rate['amount']+$rowData['cost_value'];
   $base_url= base_url();
@@ -234,16 +259,11 @@ $VAT          = $settings["vat_percentage"];
               <tr>
                 <td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Purchase of <?php echo $rowData['quantity']; ?> PIRB Certificate of Compliance</td>       
                 <td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;"><?php echo $rowData['quantity']; ?></td>
-                <td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;"><?php echo $currency.$PDF_rate['amount']; ?></td>
+                <td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;"><?php echo $currency.currencyconvertor($PDF_rate['amount']); ?></td>
                 <td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;"><?php echo $currency.$rowData['cost_value']; ?></td>
               </tr>
-
-              <tr>
-                <td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Courier/Regsitered Post Fee</td>        
-                <td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;"><?php echo $delivery_rate['amount']; ?></td>
-                <td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;"><?php echo $delivery_rate['amount']; ?></td>
-                <td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;"><?php echo $currency.$rowData['cost_value']; ?></td>
-              </tr>
+			
+			  <?php echo $courierdetails; ?>
 
             </tbody>
           </table>  
@@ -275,7 +295,7 @@ $VAT          = $settings["vat_percentage"];
 
               <tr style="text-align: center;">
                 <td style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">Sub Total</td>
-                <td style="margin: 0; padding: 5px 50px; border: 1px solid #000; "><?php echo $currency.$rowData['cost_value']; ?></td>
+                <td style="margin: 0; padding: 5px 50px; border: 1px solid #000; "><?php echo $currency.currencyconvertor($total_subtotal); ?></td>
               </tr>
 
               <tr style="text-align: center;">

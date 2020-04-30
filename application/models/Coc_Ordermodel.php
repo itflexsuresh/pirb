@@ -451,7 +451,7 @@ class Coc_Ordermodel extends CC_Model
 
 					<tr style="text-align: center;">
 					<td style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">Sub Total</td>
-					<td style="margin: 0; padding: 5px 50px; border: 1px solid #000; ">'.$currency.$rowData['cost_value'].'</td>
+					<td style="margin: 0; padding: 5px 50px; border: 1px solid #000; ">'.$currency.$this->currencyconvertor($total_subtotal).'</td>
 					</tr>
 
 					<tr style="text-align: center;">
