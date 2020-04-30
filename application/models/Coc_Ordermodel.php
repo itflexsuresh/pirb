@@ -179,12 +179,12 @@ class Coc_Ordermodel extends CC_Model
 		           			$invoiceDate 	= date("d-m-Y", strtotime($rowData['created_at']));
 
 		           			if ($rowData['coc_type'] == '1') {
-		           				$coc_type_id = 13;
+		           				$coc_type_id = 14;
 		           				$delivery_rate['amount'] = 0;
 		           				$PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
 								$courierdetails = "";
 		           			}elseif($rowData['coc_type'] == '2'){
-		           				$coc_type_id = 14;
+		           				$coc_type_id = 13;
 		           				if ($rowData['delivery_type'] == '1') {
 		           					$delivery_method = 24;
 		           				}elseif ($rowData['delivery_type'] == '2') {
