@@ -43,6 +43,7 @@ class Index extends CC_Controller
 
 		$data['plugins']			= 	['validation', 'datepicker'];
 		//$pagedata['result'] 		= $this->Coc_Model->getList('row', ['id' => $userid, 'status' => ['0','1']]);
+		$pagedata['customview'] 	= 	$this->load->view('common/custom',  '', true);
 		$data['content'] 			= 	$this->load->view('plumber/purchasecoc/index', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$this->layout2($data);

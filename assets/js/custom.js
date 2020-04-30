@@ -920,3 +920,16 @@ function gaugechart(selector, options){
 		$(window).on("resize", resize), $(".icon-menu").on("click", resize)
 	});
 }
+
+function currencyconvertor(currency){
+	amount 	= (Math.floor(currency*100)/100).toFixed(2);
+	lastchr	= amount[amount.length-1];
+	
+	if(lastchr < 5){
+		amount[amount.length-1] = '0';
+	}else{
+		amount[amount.length-1] = '5';
+	}
+	
+	return amount;
+}

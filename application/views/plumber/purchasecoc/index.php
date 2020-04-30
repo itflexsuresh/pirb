@@ -1,5 +1,5 @@
 <?php
-// 
+echo $customview;
 
 $plumberstatus 			= $userdata1['plumberstatus'];
 $mobile_phone 			= $username['mobile_phone'];
@@ -8,16 +8,17 @@ $log_coc 				= $logcoc;
 $VAT 					= $settings["vat_percentage"];
 $coc_purchase_limit   	= $username["coc_purchase_limit"];
 $electronic_coc_log   	= $username["coc_electronic"];
-$cocpaperwork 			= $cocpaperwork["amount"];
-$cocelectronic 			= $cocelectronic["amount"];
 
 $coc_counts 			= $coc_count['count'];
 // echo "<pre>";
 // print_r($coc_counts);die;
 
-$postage 				= $postage["amount"];
-$couriour 				= $couriour["amount"];
-$collectedbypirb 		= $collectedbypirb["amount"];
+$cocpaperwork 			= currencyconvertor($cocpaperwork["amount"]);
+$cocelectronic 			= currencyconvertor($cocelectronic["amount"]); 
+
+$postage 				= currencyconvertor($postage["amount"]);
+$couriour 				= currencyconvertor($couriour["amount"]);
+$collectedbypirb 		= currencyconvertor($collectedbypirb["amount"]);
 
 $admin_allot 			= isset($userorderstock) ? $userorderstock : '';
 ?>
@@ -531,9 +532,8 @@ if (in_array($plumberstatus, $plumber_status)) {
 	function calc(){
 		
 
-		var coc_cost 	= parseFloat($('#coc_cost').val());
+		var coc_cost 		= parseFloat($('#coc_cost').val());
 		var costdelivery 	= parseFloat($('#cost_f_delivery').val());
-
 		var vat 			= parseFloat($('#dbvat').val());
 
 
@@ -541,9 +541,9 @@ if (in_array($plumberstatus, $plumber_status)) {
 
 		var total = vat1 + coc_cost + costdelivery;
 
-		$('#vat').val(vat1.toFixed(2));
-		$('#totaldue').val(total.toFixed(2));
-		$('#totaldue1').val(total.toFixed(2));
+		$('#vat').val(currencyconvertor(vat1));
+		$('#totaldue').val(currencyconvertor(total));
+		$('#totaldue1').val(currencyconvertor(total));
 
 	}
 
@@ -558,12 +558,12 @@ if (in_array($plumberstatus, $plumber_status)) {
 		else
 		var cost = parseFloat($("#dbcocpaperwork").val());
 		var total = cost * quan;
-		$("#coc_cost").val(total.toFixed(2));
+		$("#coc_cost").val(currencyconvertor(total));
 
 		calc();
 	}
 
-		function delivery(value){
+	function delivery(value){
 
 		$('.deliveryclass').val($('#deliveryclass'+value).val());
 		modifycost();
