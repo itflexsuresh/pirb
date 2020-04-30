@@ -56,6 +56,7 @@ class Index extends CC_Controller
 		$getdata['id']				= $id;		
 		$pagedata['auditordetail'] 	= $this->Auditor_Model->getAuditorList('row',$getdata);
 		$pagedata['vat'] 			= $this->Coc_Model->getPermissions('row');
+		$pagedata['customview'] 	= $this->load->view('common/custom',  '', true);
 		// $pagedata['bankdetail'] 	= $this->Coc_Model->getPermissions('row');
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker'];
 		$data['content'] 			= $this->load->view('auditor/accounts/index', (isset($pagedata) ? $pagedata : ''), true);

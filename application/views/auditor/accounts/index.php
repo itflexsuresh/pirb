@@ -1,7 +1,8 @@
 <?php 
 	// echo '<pre>'; print_r($auditordet);
 // echo $_SERVER['DOCUMENT_ROOT'];
-
+	echo $customview;
+	
 	$billingname = isset($auditordetail['company_name']) ? $auditordetail['company_name'] : '';
 	$billingaddress = explode("@-@",$auditordetail['billingaddress']);
 	$address2 = isset($billingaddress[2]) ? $billingaddress[2] : '';
@@ -24,18 +25,18 @@
 	$vat_vendor = isset($result['vat_vendor']) ? $result['vat_vendor'] : '';
 	$description = isset($result['description']) ? $result['description'] : '';	
 	$total_cost = isset($result['total_cost']) ? $result['total_cost'] : '';
-	$vatvalue = '0';
-	$total = '0';
+	$vatvalue = '0.00';
+	$total = '0.00';
 	if($editid > 0)	{
 		if($vat_vendor > 0){
 			$vatper = $vat['vat_percentage'];		
 			$vat_amount1 = $total_cost * $vatper / 100;
-			$vatvalue = round($vat_amount1,2);
+			$vatvalue = currencyconvertor($vat_amount1);
 
-			$total = $total_cost + $vatvalue;
+			$total = currencyconvertor($total_cost + $vatvalue);
 		}
 		else{
-			$total = $total_cost;
+			$total = currencyconvertor($total_cost);
 		}
 	}
 	
