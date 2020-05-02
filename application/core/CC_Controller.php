@@ -877,7 +877,7 @@ class CC_Controller extends CI_Controller
 					$auditcomplete_count = $this->db->select('count(auditcomplete) as countaudit')->get_where('auditor_statement', ['plumber_id' => $requestData['plumberid'], 'auditcomplete' => '1'])->row_array();
 					$audit_list = $this->db->select('id, allocation')->get_where('compulsory_audit_listing', ['user_id' => $requestData['plumberid']])->row_array();
 					
-					if ($audit_list['allocation']==$auditcomplete_count['countaudit']) {
+					if ($audit_list['allocation']<=$auditcomplete_count['countaudit']) {
 						//$this->db->delete('compulsory_audit_listing', array('id' => $audit_list['id']));
 						//$this->db->delete('compulsory_audit_listing')->where('id', $audit_list['id']);
 						$this->db->where('id', $audit_list['id']);
