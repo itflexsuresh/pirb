@@ -69,6 +69,9 @@ class Index extends CC_Controller
 
 		echo json_encode($json);
 	}
-
+	
+	public function stockvalidation(){
+		echo $this->Paper_Model->stockvalidation($this->input->post());
+	}
 	
 }

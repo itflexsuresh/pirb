@@ -70,15 +70,20 @@ class Paper_Model extends CC_Model
 
 		$userid			= 	$this->getUserID();		
 		$datetime		= 	date('Y-m-d H:i:s');
-		$id				= 	$data['id'];
 
 		if(isset($data['cocstock'])) 			$request1['stock'] 					= $data['cocstock'];
 		if(isset($data['range_start'])) 		$request1['range_start'] 			= $data['range_start'];
 		if(isset($data['range_end'])) 			$request1['range_end'] 				= $data['range_end'];
 		
+		if(isset($data['startrange']) && isset($data['endrange']) && $data['startrange']!='' && $data['endrange']!=''){
+			$request1['stock'] 					= ($data['startrange']==$data['endrange']) ? '1' : ($data['endrange']-$data['startrange'])+1;
+			$data['cocstock']					= $request1['stock'];
+			$request1['range_start'] 			= $data['startrange'];
+			$request1['range_end'] 				= $data['endrange'];
+		}
+		
 		if(isset($request1))
 		{	
-
 			$request1['created_at'] = $datetime;
 			$userdata = $this->db->insert('stock_management_log', $request1);
 			
@@ -88,12 +93,18 @@ class Paper_Model extends CC_Model
 				{
 					for($i =0; $i<$data['cocstock']; $i++)
 					{
-						$request2['coc_status'] = "1";
-						$request2['audit_status'] = "1";
-						$request2['type'] = "2";
-						$request2['purchased_at'] = $datetime;
-						$request2['allocation_date'] = $datetime;
-
+						$request2['coc_status'] 		= "1";
+						$request2['audit_status'] 		= "1";
+						$request2['type'] 				= "2";
+						$request2['purchased_at'] 		= $datetime;
+						$request2['allocation_date'] 	= $datetime;
+						
+						if(isset($data['startrange']) && isset($data['endrange']) && $data['startrange']!='' && $data['endrange']!=''){
+							$request2['id'] = $data['startrange']+$i;
+						}else{
+							//$request2['id'] = $data['range_start']+$i;
+						}
+						
 						$user_stock = $this->db->insert('stock_management', $request2);
 					}
 				}
@@ -114,6 +125,25 @@ class Paper_Model extends CC_Model
 		{
 			$this->db->trans_commit();
 			return true;
+		}
+	}
+	
+	
+	public function stockvalidation($data)
+	{
+		$startrange = $data['startrange'];
+		$endrange 	= $data['endrange'];
+		
+		if($startrange=='' || $endrange=='') return 'true';
+		
+		$this->db->where('id >=', $startrange);
+		$this->db->where('id <=', $endrange);
+		$query = $this->db->get('stock_management');
+		
+		if($query->num_rows() > 0){
+			return 'false';
+		}else{
+			return 'true';
 		}
 	}
 }

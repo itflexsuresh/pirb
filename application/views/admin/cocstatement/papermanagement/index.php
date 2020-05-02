@@ -1,5 +1,6 @@
 <?php
-$id 			= (isset($result['id']) && $result['id']!='') ? $result['id']+1 : 1;
+$customstockno	= $this->config->item('customstockno');
+$id 			= (isset($result['id']) && $result['id']!='') ? $result['id']+1 : $customstockno;
 ?>
 
 <div class="row page-titles">
@@ -25,7 +26,7 @@ $id 			= (isset($result['id']) && $result['id']!='') ? $result['id']+1 : 1;
 					<h4 class="card-title">Paper Certificate Stock Management</h4>
 					<div class="row">
 						<div class="col-md-12">
-							<div class="row add_top_value">
+							<div class="row add_top_value stockwrapper">
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Number of COC Available for Allocation</label>
@@ -56,8 +57,34 @@ $id 			= (isset($result['id']) && $result['id']!='') ? $result['id']+1 : 1;
 								</div>
 							</div>
 
-							<div class="row text-right">			
-								<button type="submit" name="submit" value="submit" class="btn btn-block btn-primary btn-rounded">Generate COC Stock</button>		
+							<div class="row add_top_value displaynone customstockwrapper">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Start Range</label>
+										<input type="text" class="form-control" id="startrange" name="startrange">
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>End Range</label>
+										<input type="text" class="form-control" id="endrange" name="endrange">
+									</div>
+								</div>
+							</div>
+
+							<div class="row">	
+								<div class="col-md-6">	
+									<?php if($id!=$customstockno){ ?>
+										<div class="custom-control custom-checkbox">
+											<input type="checkbox" id="oldstock" name="oldstock" value="1" class="custom-control-input">
+											<label class="custom-control-label" for="oldstock">Add stock below <?php echo $customstockno; ?></label>
+										</div>
+									<?php } ?>
+								</div>
+								<div class="col-md-6 text-right">	
+									<button type="submit" name="submit" value="submit" class="btn btn-block btn-primary btn-rounded">Generate COC Stock</button>		
+								</div>	
 							</div>	
 						</div>	
 					</div>															
@@ -82,30 +109,81 @@ $id 			= (isset($result['id']) && $result['id']!='') ? $result['id']+1 : 1;
 
 
 <script type="text/javascript">
+	var customstockno = parseInt('<?php echo $customstockno; ?>');
+	
 	$(function(){
 
 		var options = {
 			url 	: 	'<?php echo base_url()."admin/cocstatement/papermanagement/index/DTStocklog"; ?>',
 			columns : 	[
-			{ "data": "stock" },
-			{ "data": "range_start" },
-			{ "data": "range_end" },
-			{ "data": "createdat" }
+				{ "data": "stock" },
+				{ "data": "range_start" },
+				{ "data": "range_end" },
+				{ "data": "createdat" }
 			]
 		};
 		ajaxdatatables('.datatables', options);
-
+		
+		$.validator.addMethod("rangecheck", function(value, element){
+			return value < customstockno ;
+		}, "Please enter values below stock.");
+	   
+		$.validator.addMethod("startrangecheck", function(value, element){
+			return ($('#endrange').val()!='') ? value <= parseInt($('#endrange').val()) : true;
+		}, "Please enter values less than or equal to end range.");
+	   
+		$.validator.addMethod("endrangecheck", function(value, element){
+			return value >= parseInt($('#startrange').val());
+		}, "Please enter values greater than or equal to start range.");
+	   
 		validation(
 			'.form',
 			{	
 				cocstock : {
-					required	: true,
-
+					required		: true,
+				},
+				startrange : {
+					required		: true,
+					number			: true,
+					rangecheck		: true,
+					startrangecheck	: true,
+					remote		: 	{
+										url		: 	"<?php echo base_url().'admin/cocstatement/papermanagement/index/stockvalidation'; ?>",
+										type	: 	"post",
+										async	: 	false,
+										data	: 	{
+														endrange : function () { return $('#endrange').val(); }
+													}
+									}
+				},
+				endrange : {
+					required		: true,
+					number			: true,
+					rangecheck		: true,
+					endrangecheck	: true,
+					remote		: 	{
+										url		: 	"<?php echo base_url().'admin/cocstatement/papermanagement/index/stockvalidation'; ?>",
+										type	: 	"post",
+										async	: 	false,
+										data	: 	{
+														startrange : function () { return $('#startrange').val(); }
+													}
+									}
 				}
 			},
 			{
 				cocstock 	: {
-					required	: "Please enter the cocstock."
+					required	: 	"Please enter the cocstock."
+				},
+				startrange 	: {
+					required	: 	"Please enter start range.",
+					number		: 	"Enter number only.",
+					remote		: 	"Stock in range already exists"
+				},
+				endrange 	: {
+					required	: 	"Please enter end range.",
+					number		: 	"Enter number only.",
+					remote		: 	"Stock in range already exists"
 				}										
 			}
 		);
@@ -119,5 +197,28 @@ $id 			= (isset($result['id']) && $result['id']!='') ? $result['id']+1 : 1;
 			if(cocstock!='') $('#range_end').val((cocstock+rangestart)-1);
 			else $('#range_end').val('');
 		});
+		
+		oldstock();
 	});
+	
+	$('#startrange, #endrange').blur(function(){
+		if($('#startrange').val()!='' && $('#endrange').val()!='') $('.form').valid();
+	}) 
+	
+	
+	$('#oldstock').click(function(){
+		oldstock();
+	});
+	
+	function oldstock(){
+		$('#startrange, #endrange').val('')
+		
+		if($('#oldstock').is(':checked')){
+			$('.customstockwrapper').removeClass('displaynone');
+			$('.stockwrapper').addClass('displaynone');
+		}else{
+			$('.customstockwrapper').addClass('displaynone');
+			$('.stockwrapper').removeClass('displaynone');
+		}
+	}
 </script>

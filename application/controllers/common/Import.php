@@ -567,6 +567,26 @@ class Import extends CC_Controller {
 			$this->Noncompliancelisting_Model->action($reportdatas);
 		}
 	}
+	
+	public function updategender()
+	{
+		$file 	= './assets/import/gender.xlsx';
+		$type 	= \PhpOffice\PhpSpreadsheet\IOFactory::identify($file);
+		$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($type);
+		$spreadsheet = $reader->load($file);
+		
+		$datas 	= $spreadsheet->getActiveSheet()->toArray();
+		unset($datas[0]);
+		
+		foreach($datas as $key => $data){
+			
+			$checkUser = $this->db->get_where('users', ['email' => '000'.$data[5]])->row_array();
+			
+			if($checkUser){
+				$this->db->update('users_detail', ['gender' => '2'], ['user_id' => $checkUser['id']]);
+			}
+		}
+	}
 }
 
 	

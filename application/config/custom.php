@@ -2,6 +2,10 @@
 
 $config['sitename']	 				= 	'Audit IT';
 
+$config['customstockno']			= 	'393056';
+
+
+
 $config['psidconfig']	 			= 	['2'];
 $config['roleadmin']	 			= 	'1';
 $config['rolesubadmin']	 			= 	'2';
