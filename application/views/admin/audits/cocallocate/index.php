@@ -98,10 +98,10 @@
 						<div class="col-md-12">
 							<div class="row form-group">
 								<div class="col-md-4">
-									<label>Compulsory Audit</label>
-								</div>
-								<div class="col-md-6">
-									<input type="checkbox" name="compulsory_audit" id="compulsory_audit" value="1">
+									<div class="custom-control custom-checkbox">
+										<input type="checkbox" id="compulsory_audit" name="compulsory_audit" value="1" class="custom-control-input">
+										<label class="custom-control-label" for="compulsory_audit">Compulsory Audit</label>
+									</div>
 								</div>
 							</div>
 						</div>
