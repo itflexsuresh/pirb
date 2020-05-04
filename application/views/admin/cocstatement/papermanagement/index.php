@@ -1,6 +1,6 @@
 <?php
 $customstockno	= $this->config->item('customstockno');
-$id 			= (isset($result['id']) && $result['id']!='') ? $result['id']+1 : $customstockno;
+$id 			= (isset($result['id']) && $result['id']!='' && $result['id'] >= $customstockno) ? $result['id']+1 : $customstockno;
 ?>
 
 <div class="row page-titles">
