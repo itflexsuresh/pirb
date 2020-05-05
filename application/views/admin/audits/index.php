@@ -38,7 +38,7 @@
 					</table>
 				</div>
 				<div class="col-md-12 text-right">
-					<button type="button" name="submit" value="submit" onclick="window.location.href='http://localhost/audit_it/admin/audits/index/action';" class="btn btn-primary">Add New</button>
+					<a href="<?php echo base_url().'admin/audits/index/action'; ?>" class="btn btn-primary">Add New</a>
 				</div>
 
 			</div>
