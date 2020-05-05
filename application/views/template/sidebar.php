@@ -18,6 +18,7 @@ if(count($permission) > 0){
 		<nav class="sidebar-nav">
 			<ul id="sidebarnav">
 				<?php if($type=='1' || $type=='2'){ ?>
+					<li><a href="<?php echo base_url().'admin/dashboard/index'; ?>">Dashboard</a></li>
 					<?php if($menu=='1' || ($menu=='2' && in_array('1', $parent))){ ?>
 						<li class="setp one"> 
 							<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Administration</span></a>
