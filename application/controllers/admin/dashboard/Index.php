@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Dashboard extends CC_Controller 
+class Index extends CC_Controller 
 {
 	public function index()
 	{
