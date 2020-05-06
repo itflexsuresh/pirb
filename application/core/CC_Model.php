@@ -14,6 +14,13 @@ class CC_Model extends CI_Model
 		
 		$this->load->library('email');
 		
+		$config['protocol'] = 'sendmail';
+		$config['mailpath'] = '/usr/sbin/sendmail';
+		$config['mailtype'] = 'html';
+		$config['charset'] 	= 'iso-8859-1';
+		$config['wordwrap'] = TRUE;
+
+		/*
 		$config['protocol']    	= 'mail';
         $config['smtp_host']    = 'ssl://smtp.gmail.com';
         $config['smtp_port']    = '465';
@@ -23,7 +30,8 @@ class CC_Model extends CI_Model
 		$config['charset'] 		= 'iso-8859-1';
 		$config['newline']      = '\r\n';
 		$config['wordwrap'] 	= TRUE;
-
+		*/
+		
 		$this->email->initialize($config);
 		$this->email->from($settings['system_email'], $sitename);
 		$this->email->to($to);
@@ -31,7 +39,6 @@ class CC_Model extends CI_Model
 		$this->email->message($message);
 		
 		if($file!="") $this->email->attach($file);
-
 
 		if($this->email->send()){
 			$this->email->clear(true);
@@ -45,14 +52,29 @@ class CC_Model extends CI_Model
 	
 	public function sentMail2($to, $subject, $message)
 	{
+		$settings 	= 	$this->db->get('settings_details')->row_array();
+		
 		$headers = "MIME-Version: 1.0" . "\r\n";
 		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-		$headers .= 'From: <pirb@gmail.com>' . "\r\n";
+		$headers .= 'From: <'.$settings['system_email'].'>' . "\r\n";
 		
 		if(mail($to,$subject,$message,$headers)){
 			return 'true';
 		}else{
 			return 'false';
+		}
+	}
+	
+	public function sentMail3()
+	{
+		$to 		= "itflexsolutions@pirb.co.za";
+		$subject 	= "subject";
+		$message 	= "message";
+		
+		if(mail($to,$subject,$message)){
+			echo 'true';
+		}else{
+			echo 'false';
 		}
 	}
 	

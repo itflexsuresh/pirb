@@ -31,7 +31,7 @@ class Import extends CC_Controller {
 						<div>Lea Smith</div>
 						Chairman of the PIRB';
 	
-		$this->CC_Model->sentMail('nanthakumar@itflexsolutions.com', $subject, $message);
+		$this->CC_Model->sentMail('itflexsolutions@pirb.co.za', $subject, $message);
 	}
 	
     public function province()

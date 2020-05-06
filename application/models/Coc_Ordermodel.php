@@ -528,14 +528,18 @@ class Coc_Ordermodel extends CC_Model
 
 	public function autosearchReseller($postData){
 		
-		$this->db->select('ud.status,ud.company as name,cc.count,u.id, "0" as coc_electronic');
+		$this->db->select('ud.status, concat(ud.name, " ", ud.surname, " (", ud.company, ")") as name,cc.count,u.id, "0" as coc_electronic');
 		$this->db->from('users_detail ud');
 		$this->db->join('users u', 'u.id=ud.user_id','inner');
 		$this->db->join('coc_count cc', 'cc.user_id=ud.user_id','inner');
 		$this->db->where(['ud.status' => '1', 'u.type' => '6']);
-		$this->db->like('ud.name',$postData['search_keyword']);
-		$this->db->or_like('ud.surname',$postData['search_keyword']);
-		$this->db->or_like('ud.company',$postData['search_keyword']);
+		
+		$this->db->group_start();
+			$this->db->like('ud.name',$postData['search_keyword']);
+			$this->db->or_like('ud.surname',$postData['search_keyword']);
+			$this->db->or_like('ud.company',$postData['search_keyword']);
+		$this->db->group_end();
+		
 		$this->db->group_by("ud.id");
 		
 		$query = $this->db->get();
