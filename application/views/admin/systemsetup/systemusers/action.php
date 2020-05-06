@@ -1,7 +1,7 @@
 <?php
 	if(isset($result) && $result){
 		$id 			= $result['id'];
-		$role_id        = (set_value('type')) 			? set_value('type') 			: $result['type'];
+		$role_id        = (set_value('role_id')) 			? set_value('role_id') 			: $result['roletype'];
 		$name 			= (set_value('name')) ? set_value('name') : $result['name'];
 		$surname        = (set_value('surname')) ? set_value('surname') : $result['surname'];
 		$email          = (set_value('email')) ? set_value('email') : $result['email'];

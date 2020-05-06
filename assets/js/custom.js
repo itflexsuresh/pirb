@@ -21,12 +21,14 @@ function ajaxdatatables(selector, options={}){
 		$(selector).DataTable().destroy();
 	}
 	
+	var order = (options.order) ? options.order : [[0, 'asc']];
+	
 	var columndefs 		= [];
 	var columndefsobj 	= {};
 	if(options.target) 	columndefsobj['targets'] 	= options.target;
 	if(options.sort) 	columndefsobj['orderable'] 	= (options.sort=='1') ? true : false;
 	columndefs.push(columndefsobj);
-	
+		
 	$(selector).DataTable({
 		'processing'	: 	true,
 		'serverSide'	: 	true,
@@ -41,6 +43,7 @@ function ajaxdatatables(selector, options={}){
 								
 							},
 		'columns'		: 	options.columns,
+		'order'			: 	order,
 		'columnDefs'	: 	columndefs,
 		'searching'		: 	(options.search && options.search=='0') ? false : true,
 		'lengthMenu'	: 	(options.lengthmenu && options.lengthmenu.length > 0) ? options.lengthmenu : [10, 25, 50, 100]

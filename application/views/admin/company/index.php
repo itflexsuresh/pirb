@@ -50,8 +50,9 @@
 							{ "data": "lttqcount" },
 							{ "data": "action" }
 						],
-						target : [5],
-						sort : '0'
+			target 	: [5],
+			sort 	: '0',
+			order 	: [['2', 'asc']]
 		};
 		
 		ajaxdatatables('.datatables', options);
