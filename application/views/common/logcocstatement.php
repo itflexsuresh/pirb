@@ -1,6 +1,6 @@
 <?php
 	$userid					= $userdata['id'];
-	$id 					= isset($result['cl_id']) ? $result['cl_id'] : '';
+	$id 					= isset($result['cl_id']) ? $result['cl_id'] : ''; 
 	$cocid					= $result['id'];
 	
 	$logdate 				= isset($result['cl_log_date']) && date('Y-m-d', strtotime($result['cl_log_date']))!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_log_date'])) : '';
