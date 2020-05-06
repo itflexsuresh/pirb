@@ -3,7 +3,7 @@
 	$id 					= isset($result['cl_id']) ? $result['cl_id'] : '';
 	$cocid					= $result['id'];
 	
-	$logdate 				= isset($result['cl_log_date']) && $result['cl_log_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_log_date'])) : '';
+	$logdate 				= isset($result['cl_log_date']) && date('Y-m-d', strtotime($result['cl_log_date']))!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_log_date'])) : '';
 	$completiondate 		= isset($result['cl_completion_date']) && $result['cl_completion_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_completion_date'])) : '';
 	$orderno 				= isset($result['cl_order_no']) ? $result['cl_order_no'] : '';
 	$name 					= isset($result['cl_name']) ? $result['cl_name'] : '';
@@ -31,8 +31,10 @@
 		$explodefile1 	= explode('.', $file1);
 		$extfile1 		= array_pop($explodefile1);
 		$file1img 		= (in_array($extfile1, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$file1;
+		$file1imgurl	= $filepath.$file1;
 	}else{
 		$file1img 		= $profileimg;
+		$file1imgurl	= 'javascript:void(0);';
 	}
 	
 	$coctypeid 				= isset($result['type']) ? $result['type'] : '';
@@ -184,7 +186,7 @@
 										<td style="text-align: center;"><?php echo $value['code']; ?></td>
 										<td style="text-align: center;">
 											<div class="custom-control custom-checkbox">
-												<input type="checkbox" name="installationtype[]" class="custom-control-input" id="<?php echo 'installationtype-'.$key.'-'.$value['code']; ?>" value="<?php echo $value['id']; ?>" <?php echo (in_array($value['id'], $installationtypeid)) ? 'checked="checked"' : ''; ?>>
+												<input type="checkbox" name="installationtype[]" class="custom-control-input installationtypebox" id="<?php echo 'installationtype-'.$key.'-'.$value['code']; ?>" value="<?php echo $value['id']; ?>" <?php echo (in_array($value['id'], $installationtypeid)) ? 'checked="checked"' : ''; ?>>
 												<label class="custom-control-label" for="<?php echo 'installationtype-'.$key.'-'.$value['code']; ?>"></label>
 											</div>
 										</td>
@@ -209,7 +211,7 @@
 											<td style="text-align: center;"><?php echo $value['code']; ?></td>
 											<td style="text-align: center;">
 												<div class="custom-control custom-checkbox">
-													<input type="checkbox" name="specialisations[]" class="custom-control-input" id="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>" value="<?php echo $value['id']; ?>" <?php echo (in_array($value['id'], $specialisationsid)) ? 'checked="checked"' : ''; ?>>
+													<input type="checkbox" name="specialisations[]" class="custom-control-input specialisationsbox" id="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>" value="<?php echo $value['id']; ?>" <?php echo (in_array($value['id'], $specialisationsid)) ? 'checked="checked"' : ''; ?>>
 													<label class="custom-control-label" for="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>"></label>
 												</div>
 											</td>
@@ -254,7 +256,9 @@
 								<h4 class="card-title add_top_value">Image of COC (Paper)</h4>
 								<div class="form-group">
 									<div>
-										<img src="<?php echo $file1img; ?>" class="file1_img" width="100">
+										<a href="<?php echo $file1imgurl; ?>" target="_blank">
+											<img src="<?php echo $file1img; ?>" class="file1_img" width="100">
+										</a>
 									</div>
 									<input type="file" id="file1_file" class="file1_file">
 									<input type="hidden" name="file1" class="file1" value="<?php echo $file1; ?>">
@@ -268,7 +272,7 @@
 								<div class="form-group">
 									<div>
 										<a href="<?php echo base_url().$electroniccocreport;?>" target="_blank">
-										<img src="<?php echo $pdfimg; ?>" width="50">
+											<img src="<?php echo $pdfimg; ?>" width="50">
 										</a>
 									</div>
 								</div>
@@ -293,8 +297,12 @@
 									?>
 												<div class="multipleupload">
 													<input type="hidden" value="<?php echo $value; ?>" name="file2[]">
-													<img src="<?php echo $file1img; ?>" width="100">
-													<i class="fa fa-times"></i>
+													<a href="<?php echo $filepath.$value; ?>" target="_blank">
+-														<img src="<?php echo $file1img; ?>" width="100">
+-													</a>
+-													<?php if($logdate==''){ ?>
+-														<i class="fa fa-times"></i>
+-													<?php } ?>
 												</div>
 									<?php
 											}
@@ -481,10 +489,10 @@ $(function(){
 	fileupload([".file1_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.file1', '.file1_img', filepath, pdfimg]);
 	fileupload([".file2_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file2[]', '.file2append', filepath, pdfimg], 'multiple');
 	fileupload(["#nc_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.ncfileappend', filepath, pdfimg], 'multiple');
-	subtypereportinglist(['#nc_installationtype','#nc_subtype','#nc_statement'], ['', '']);
+	subtypereportinglist(['#nc_installationtype','#nc_subtype','#nc_statement'], ['', ''], noncompliancedata);
 	inputmask('#contact_no, #alternate_no', 1);
 	
-	var noncompliancelists = $.parseJSON('<?php echo json_encode($noncompliance); ?>');
+	var noncompliancelists = $.parseJSON('<?php echo str_replace("'", "\'", json_encode($noncompliance)); ?>');
 	if(noncompliancelists.length > 0){
 		$(noncompliancelists).each(function(i, v){
 			var noncompliancedata 	= {status : 1, result : { id: v.id, details: v.details }}
@@ -531,7 +539,14 @@ $(function(){
 							}			
 			},
 			'installationtype[]':{
-				required    : true
+				required:  	function() {
+								return $(".specialisationsbox:checked").length == 0;
+							}
+			},
+			'specialisations[]':{
+				required:  	function() {
+								return $(".installationtypebox:checked").length == 0;
+							}
 			},
 			agreement:{
 				required    : true
@@ -743,7 +758,7 @@ function noncomplianceedit(data){
 		$('#nc_reference').val(result.reference);
 		$('#nc_id').val(result.id);
 		
-		subtypereportinglist(['#nc_installationtype','#nc_subtype','#nc_statement'], [result.subtype, result.statement]);
+		subtypereportinglist(['#nc_installationtype','#nc_subtype','#nc_statement'], [result.subtype, result.statement], noncompliancedata);
 		
 		if(result.file!=''){
 			var filesplit = result.file.split(',');
@@ -787,5 +802,25 @@ function noncomplianceextras(){
 	}else{
 		$('.noncompliancenotfound').show();
 	}
+}
+
+function noncompliancedata(){
+	setTimeout(function(){
+		var installationtype 	= $('#nc_installationtype').val();
+		var subtype 			= $('#nc_subtype').val();
+		var statement 			= $('#nc_statement').val();
+		
+		if(installationtype!=null && subtype!=null && statement!=null){
+			ajax('<?php echo base_url()."ajax/index/ajaxnoncompliancelisting"; ?>', {'installationtype' : installationtype,'subtype' : subtype,'statement' : statement}, '', { success : function(data){
+				if(data.status==1){
+					var result = data.result;
+					
+					if($('#nc_details').val()=='') $('#nc_details').val(result.details)
+					if($('#nc_action').val()=='') $('#nc_action').val(result.action)
+					if($('#nc_reference').val()=='') $('#nc_reference').val(result.reference)
+				}	
+			}});
+		}
+	}, 1000);
 }
 </script>
