@@ -115,7 +115,7 @@ class Users_Model extends CC_Model
 		$this->db->trans_begin();
 		
 		$id 		= 	$data['id'];
-		$email 		= 	$data['email'];
+		$email 		= 	trim($data['email']);
 		$password 	= 	(isset($data['password']) ? $data['password'] : '');
 		$type 		= 	$data['type'];
 		$status 	= 	$data['status'];

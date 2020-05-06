@@ -18,13 +18,13 @@
 
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
-		<h4 class="text-themecolor">Managearea</h4>
+		<h4 class="text-themecolor">Manage Area</h4>
 	</div>
 	<div class="col-md-7 align-self-center text-right">
 		<div class="d-flex justify-content-end align-items-center">
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="j<?php echo base_url().'admin/dashboard'; ?>">Home</a></li>
-				<li class="breadcrumb-item active">Managearea </li>
+				<li class="breadcrumb-item"><a href="<?php echo base_url().'admin/dashboard'; ?>">Home</a></li>
+				<li class="breadcrumb-item active">Manage Area</li>
 			</ol>
 		</div>
 	</div>
@@ -34,7 +34,7 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">Managearea </h4>
+				<h4 class="card-title">Manage Area </h4>
 				<?php if($checkpermission){ ?>
 				<form class="mt-4 form" action="" method="post">
 					<div class="row">

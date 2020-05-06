@@ -48,7 +48,8 @@ $postalcode2 			= isset($postaladdress[6]) ? $postaladdress[6] : '';
 	<div class="col-md-7 align-self-center text-right">
 		<div class="d-flex justify-content-end align-items-center">
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="j<?php echo base_url().'admin/dashboard'; ?>">Home</a></li>
+				<li class="breadcrumb-item"><a href="<?php echo base_url().'admin/dashboard'; ?>">Home</a></li>
+				<li class="breadcrumb-item"><a href="<?php echo base_url().'admin/resellers/index'; ?>">Resellers List</a></li>
 				<li class="breadcrumb-item active">Reseller Details</li>
 			</ol>
 		</div>

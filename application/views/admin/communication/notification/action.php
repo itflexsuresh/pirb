@@ -10,7 +10,20 @@ $sms  			= isset($result['sms_body']) ? $result['sms_body'] : set_value ('sms_bo
 $heading = 'Update';
 } 
 ?>
-
+<div class="row page-titles">
+	<div class="col-md-5 align-self-center">
+		<h4 class="text-themecolor">Notification and SMS Templates</h4>
+	</div>
+	<div class="col-md-7 align-self-center text-right">
+		<div class="d-flex justify-content-end align-items-center">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="<?php echo base_url().'admin/dashboard'; ?>">Home</a></li>
+				<li class="breadcrumb-item"><a href="<?php echo base_url().'admin/communication/notification/index'; ?>">Notification and SMS Templates</a></li>
+				<li class="breadcrumb-item active">Update Notification and SMS Templates</li>
+			</ol>
+		</div>
+	</div>
+</div>
 <div class="row">
 	<div class="col-12">
 		<div class="card">

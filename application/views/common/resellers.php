@@ -51,7 +51,7 @@ $stock_count = isset($stock_count) ? $stock_count : '';
 	<div class="col-md-7 align-self-center text-right">
 		<div class="d-flex justify-content-end align-items-center">
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="j<?php echo base_url().'admin/dashboard'; ?>">Home</a></li>
+				<li class="breadcrumb-item">Home</li>
 				<li class="breadcrumb-item active">Reseller Details</li>
 			</ol>
 		</div>
