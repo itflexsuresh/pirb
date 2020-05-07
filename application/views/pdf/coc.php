@@ -81,15 +81,20 @@ $currency    	= $this->config->item('currency');
 
 		$PDF_rate =  $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
 		$delivery_rate =  $this->db->select('amount')->from('rates')->where('id',$delivery_method)->get()->row_array();
+		$deliverrate = currencyconvertor($delivery_rate['amount']);
 		
 		$courierdetails = '<tr>
 		<td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Courier/Regsitered Post Fee</td>				
 		<td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;"></td>
-		<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.currencyconvertor($delivery_rate['amount']).'</td>
-		<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.currencyconvertor($delivery_rate['amount']).'</td>
+		<td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$deliverrate.'</td>
+		<td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;">'.$currency.$deliverrate.'</td>
 		</tr>';
     }
   $total_subtotal = $delivery_rate['amount']+$rowData['cost_value'];
+  
+  $pdfrate 		= currencyconvertor($PDF_rate['amount']);
+  $subtotalrate = currencyconvertor($total_subtotal);
+  
   $base_url= base_url();
 
     if($rowData["status"]=='1'){
@@ -253,7 +258,7 @@ $currency    	= $this->config->item('currency');
               <tr>
                 <td style="width: 50%;  margin: 0; padding: 10px 0 10px 5px;">Purchase of <?php echo $rowData['quantity']; ?> PIRB Certificate of Compliance</td>       
                 <td style="width: 10%;  margin: 0; padding: 10px 0 10px 0;text-align: center;"><?php echo $rowData['quantity']; ?></td>
-                <td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;"><?php echo $currency.currencyconvertor($PDF_rate['amount']); ?></td>
+                <td style="width: 19%; margin: 0; padding: 10px 0 10px 0;    text-align: center;"><?php echo $currency.$pdfrate; ?></td>
                 <td style="width: 18%;  margin: 0; padding: 10px 0 10px 0;    text-align: center;"><?php echo $currency.$rowData['cost_value']; ?></td>
               </tr>
 			
@@ -289,7 +294,7 @@ $currency    	= $this->config->item('currency');
 
               <tr style="text-align: center;">
                 <td style="margin: 0; padding: 5px 25px; border: 1px solid #000; font-weight: bold;">Sub Total</td>
-                <td style="margin: 0; padding: 5px 50px; border: 1px solid #000; "><?php echo $currency.currencyconvertor($total_subtotal); ?></td>
+                <td style="margin: 0; padding: 5px 50px; border: 1px solid #000; "><?php echo $currency.$subtotalrate; ?></td>
               </tr>
 
               <tr style="text-align: center;">
