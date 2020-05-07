@@ -9,24 +9,34 @@ class Stock_Model extends CC_Model
 		$this->db->where(["user_id" => "0", "type" => "2"]);
 		$result = $this->db->get()->result_array();
 		
-		$ids = '';
+		$ids 		= '';
+		$checkarray = [];
 		
 		if(count($result) > 0){
 			for($i=0; $i<$quantity; $i++){
-				
 				if($i==0){
 					$ids .= $result[$i]['id'];
 				}else{
-					if($i==($quantity-1)){						
+					if($i==($quantity-1)){		
 						if(($result[$i]['id']-$result[$i-1]['id'])=='1'){
 							$ids .= '-'.$result[$i]['id'];
 						}else{
 							$ids .= ','.$result[$i]['id'];
-						}
+						}			
 					}else{
 						if(isset($result[$i+1]['id'])){
-							if(($result[$i+1]['id']-$result[$i]['id'])!='1'){
-								$ids .= '-'.$result[$i]['id'];
+							$currentprevious 	= abs($result[$i]['id']-$result[$i-1]['id']);
+							$currentnext 		= abs($result[$i]['id']-$result[$i+1]['id']);
+							
+							if(($currentprevious!='1' || $currentnext!='1') && !in_array($result[$i]['id'], $checkarray)){
+								if($currentprevious!='1'){
+									$ids .= ','.$result[$i]['id'];
+								}elseif($currentnext!='1'){
+									$ids .= '-'.$result[$i]['id'];
+									$checkarray[] = $result[$i+1]['id'];
+								}
+							}elseif(in_array($result[$i]['id'], $checkarray)){
+								$ids .= ','.$result[$i]['id'];
 							}
 						}
 					}
