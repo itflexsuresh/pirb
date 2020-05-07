@@ -35,6 +35,7 @@ if(!empty($comments)){
 	}
 }
 
+$stock = (isset($stock)) ? $stock : '';
 $allocate_button_disbled = ($coc_type==2 && $stock=='') ? 'disabled' : '';
 
 

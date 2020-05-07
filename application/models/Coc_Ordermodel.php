@@ -29,7 +29,7 @@ class Coc_Ordermodel extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['id','inv_id','created_at','status','user_id','coc_type','delivery_type'];
+			$column = ['t1.id','t1.inv_id','t1.created_at','t1.status','t1.internal_inv','t2.name','t1.coc_type','t1.quantity','t1.delivery_type','t3.address','t1.tracking_no'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);	
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
