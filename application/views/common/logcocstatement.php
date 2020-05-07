@@ -40,11 +40,15 @@
 	$coctypeid 				= isset($result['type']) ? $result['type'] : '';
 	
 	if($pagetype=='action'){
-		$heading 	= 'Log ';
-		$actionbtn 	= '1';
+		$heading 			= 'Log ';
+		$actionbtn 			= '1';
+		$disablefield 		= '';
+		$disablefieldarray 	= [];
 	}elseif($pagetype=='view'){
-		$heading 	= 'View ';
-		$actionbtn 	= '0';
+		$heading 			= 'View ';
+		$actionbtn 			= '0';
+		$disablefield 		= 'disabled="disabled"';
+		$disablefieldarray 	= ['disabled' => 'disabled'];
 	}
 ?>
 
@@ -76,7 +80,7 @@
 							<div class="form-group">
 								<label>Plumbing Work Completion Date *</label>
 								<div class="input-group">
-									<input type="text" class="form-control completion_date" name="completion_date" data-date="datepicker" value="<?php echo $completiondate; ?>">
+									<input type="text" class="form-control completion_date" name="completion_date" data-date="datepicker" value="<?php echo $completiondate; ?>" <?php echo $disablefield; ?>>
 									<div class="input-group-append">
 										<span class="input-group-text"><i class="icon-calender"></i></span>
 									</div>
@@ -87,7 +91,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Insurance Claim/Order no: (if relevant)</label>
-								<input type="text" class="form-control" name="order_no" value="<?php echo $orderno; ?>">
+								<input type="text" class="form-control" name="order_no" value="<?php echo $orderno; ?>" <?php echo $disablefield; ?>>
 							</div>
 						</div>
 					</div>
@@ -97,28 +101,28 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Owners Name *</label>
-								<input type="text" class="form-control" name="name" value="<?php echo $name; ?>">
+								<input type="text" class="form-control" name="name" value="<?php echo $name; ?>" <?php echo $disablefield; ?>>
 							</div>
 						</div>
 
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Name of Complex/Flat (if applicable)</label>
-								<input type="text" class="form-control" name="address" value="<?php echo $address; ?>">
+								<input type="text" class="form-control" name="address" value="<?php echo $address; ?>" <?php echo $disablefield; ?>>
 							</div>
 						</div>
 
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Street *</label>
-								<input type="text" class="form-control" name="street" value="<?php echo $street; ?>">
+								<input type="text" class="form-control" name="street" value="<?php echo $street; ?>" <?php echo $disablefield; ?>>
 							</div>
 						</div>
 
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Number *</label>
-								<input type="text" class="form-control" name="number" value="<?php echo $number; ?>">
+								<input type="text" class="form-control" name="number" value="<?php echo $number; ?>" <?php echo $disablefield; ?>>
 							</div>
 						</div>
 
@@ -126,7 +130,7 @@
 							<div class="form-group">
 								<label>Province *</label>
 								<?php
-									echo form_dropdown('province', $province, $provinceid, ['id' => 'province', 'class'=>'form-control']);
+									echo form_dropdown('province', $province, $provinceid, ['id' => 'province', 'class'=>'form-control']+$disablefieldarray);
 								?>
 							</div>
 						</div>
@@ -135,7 +139,7 @@
 							<div class="form-group">
 								<label>City *</label>
 								<?php 
-									echo form_dropdown('city', [], $cityid, ['id' => 'city', 'class' => 'form-control']); 
+									echo form_dropdown('city', [], $cityid, ['id' => 'city', 'class' => 'form-control']+$disablefieldarray); 
 								?>
 							</div>
 						</div>
@@ -144,7 +148,7 @@
 							<div class="form-group">
 								<label>Suburb *</label>
 								<?php
-									echo form_dropdown('suburb', [], $suburbid, ['id' => 'suburb', 'class'=>'form-control']);
+									echo form_dropdown('suburb', [], $suburbid, ['id' => 'suburb', 'class'=>'form-control']+$disablefieldarray);
 								?>
 							</div>
 						</div>
@@ -152,21 +156,21 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Contact Mobile *</label>
-								<input type="text" class="form-control" name="contact_no" id="contact_no" value="<?php echo $contactno; ?>">
+								<input type="text" class="form-control" name="contact_no" id="contact_no" value="<?php echo $contactno; ?>" <?php echo $disablefield; ?>>
 							</div>
 						</div>
 
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Alternate Contact</label>
-								<input type="text" class="form-control" name="alternate_no" id="alternate_no" value="<?php echo $alternateno; ?>">
+								<input type="text" class="form-control" name="alternate_no" id="alternate_no" value="<?php echo $alternateno; ?>" <?php echo $disablefield; ?>>
 							</div>
 						</div>
 
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Email Address</label>
-								<input type="text" class="form-control" name="email" value="<?php echo $email; ?>">
+								<input type="text" class="form-control" name="email" value="<?php echo $email; ?>" <?php echo $disablefield; ?>>
 							</div>
 						</div>
 					</div>
@@ -186,7 +190,7 @@
 										<td style="text-align: center;"><?php echo $value['code']; ?></td>
 										<td style="text-align: center;">
 											<div class="custom-control custom-checkbox">
-												<input type="checkbox" name="installationtype[]" class="custom-control-input installationtypebox" id="<?php echo 'installationtype-'.$key.'-'.$value['code']; ?>" value="<?php echo $value['id']; ?>" <?php echo (in_array($value['id'], $installationtypeid)) ? 'checked="checked"' : ''; ?>>
+												<input type="checkbox" name="installationtype[]" class="custom-control-input installationtypebox" id="<?php echo 'installationtype-'.$key.'-'.$value['code']; ?>" value="<?php echo $value['id']; ?>" <?php echo (in_array($value['id'], $installationtypeid)) ? 'checked="checked"' : ''; ?> <?php echo $disablefield; ?>>
 												<label class="custom-control-label" for="<?php echo 'installationtype-'.$key.'-'.$value['code']; ?>"></label>
 											</div>
 										</td>
@@ -211,7 +215,7 @@
 											<td style="text-align: center;"><?php echo $value['code']; ?></td>
 											<td style="text-align: center;">
 												<div class="custom-control custom-checkbox">
-													<input type="checkbox" name="specialisations[]" class="custom-control-input specialisationsbox" id="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>" value="<?php echo $value['id']; ?>" <?php echo (in_array($value['id'], $specialisationsid)) ? 'checked="checked"' : ''; ?>>
+													<input type="checkbox" name="specialisations[]" class="custom-control-input specialisationsbox" id="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>" value="<?php echo $value['id']; ?>" <?php echo (in_array($value['id'], $specialisationsid)) ? 'checked="checked"' : ''; ?> <?php echo $disablefield; ?>>
 													<label class="custom-control-label" for="<?php echo 'specialisations-'.$key.'-'.$value['code']; ?>"></label>
 												</div>
 											</td>
@@ -229,7 +233,7 @@
 
 							<tr>
 								<td colspan="2" style="text-align: left;">
-									<textarea name="installation_detail" rows="10" cols="100"><?php echo $installationdetail; ?></textarea>
+									<textarea name="installation_detail" rows="10" cols="100" <?php echo $disablefield; ?>><?php echo $installationdetail; ?></textarea>
 								</td>
 							</tr>
 						</table>
@@ -248,6 +252,14 @@
 							</div>
 						<?php } ?>
 						
+						<?php if(count($noncompliance) > 0 && $logdate!=''){ ?>
+							<div class="col-md-12 text-right mt_20">
+								<a href="<?php echo base_url().$noncompliancereport;?>">
+									<span>Non Compliance Notice</span>
+									<img src="<?php echo $pdfimg; ?>" width="50">
+								</a>
+							</div>
+						<?php } ?>
 					</div>
 
 					<div class="row">
@@ -284,7 +296,7 @@
 								<div>
 									<img src="<?php echo $profileimg; ?>" width="100">
 								</div>
-								<input type="file" id="file2_file" class="file2_file">
+								<input type="file" id="file2_file" class="file2_file" <?php echo $disablefield; ?>>
 								<p>(Image/File Size Smaller than 5mb)</p>
 								<div class="file2append">
 									<?php 
@@ -311,16 +323,6 @@
 								</div>
 							</div>
 						</div>
-
-						<?php if(count($noncompliance) > 0 && $logdate!=''){ ?>
-							<div class="col-md-3 mt_20">
-								<a href="<?php echo base_url().$noncompliancereport;?>">
-									<span>Non Compliance Notice</span>
-									<img src="<?php echo $pdfimg; ?>" width="50">
-								</a>
-							</div>
-						<?php } ?>
-
 					</div>
 
 					<table class="table table-bordered table-striped datatables fullwidth add_top_value_v2">
@@ -331,7 +333,7 @@
 							<td style="text-align: center; background-color: #ffeae5; vertical-align: middle;">
 								<div class="table-action">
 									<div class="custom-control custom-radio">
-										<input type="radio" id="agreement1" name="agreement" value="1" class="custom-control-input" <?php echo ($agreementid=='1') ? 'checked="checked"' : ''; ?>>
+										<input type="radio" id="agreement1" name="agreement" value="1" class="custom-control-input" <?php echo ($agreementid=='1') ? 'checked="checked"' : ''; ?> <?php echo $disablefield; ?>>
 										<label class="custom-control-label" for="agreement1"></label>
 									</div>
 								</div>	
@@ -342,7 +344,7 @@
 							<td style="text-align: center; background-color: #ffeae5; vertical-align: middle;">
 								<div class="table-action">
 									<div class="custom-control custom-radio">
-										<input type="radio" id="agreement2" name="agreement" value="2" class="custom-control-input" <?php echo ($agreementid=='2') ? 'checked="checked"' : ''; ?>>
+										<input type="radio" id="agreement2" name="agreement" value="2" class="custom-control-input" <?php echo ($agreementid=='2') ? 'checked="checked"' : ''; ?> <?php echo $disablefield; ?>>
 										<label class="custom-control-label" for="agreement2"></label>
 									</div>
 								</div>	

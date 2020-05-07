@@ -59,7 +59,8 @@ class Index extends CC_Controller
 
 	public function ajaxcity()
 	{
-		$post = $this->input->post();
+		$post 				= $this->input->post(); 
+		$post['orderby'] 	= "c.name asc";
 		$result = $this->Managearea_Model->getListCity('all', $post);
 
 		if(count($result)){
@@ -95,6 +96,7 @@ class Index extends CC_Controller
 	public function ajaxsuburb()
 	{
 		$post = $this->input->post();  
+		$post['orderby'] = "name asc";
 		$result = $this->Managearea_Model->getListSuburb('all', $post);
 		
 		if(count($result)){

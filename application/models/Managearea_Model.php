@@ -214,9 +214,13 @@ class Managearea_Model extends CC_Model
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
-		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['c.id', 'p.name', 'c.name', 'c.status'];
-			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+		if(isset($requestdata['orderby'])){
+			$this->db->order_by($requestdata['orderby']);
+		}else{
+			if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
+				$column = ['c.id', 'p.name', 'c.name', 'c.status'];
+				$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+			}
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
@@ -246,6 +250,10 @@ class Managearea_Model extends CC_Model
 		if(isset($requestdata['provinceid'])) 		$this->db->where('province_id', $requestdata['provinceid']);
 		if(isset($requestdata['cityid'])) 			$this->db->where('city_id', $requestdata['cityid']);
 		if(isset($requestdata['status']))			$this->db->where_in('status', $requestdata['status']);
+		
+		if(isset($requestdata['orderby'])){
+			$this->db->order_by($requestdata['orderby']);
+		}
 		
 		if($type=='count'){
 			$result = $this->db->count_all_results();			
