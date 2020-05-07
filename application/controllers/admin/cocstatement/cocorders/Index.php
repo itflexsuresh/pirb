@@ -30,8 +30,8 @@ class Index extends CC_Controller
 			$comments = $this->Ordercomments_Model->getCommentsList('all', ['order_id' => $id]);
 			
 			if($result['coc_type']=='2'){
-				$stock = $this->Stock_Model->getRange('all',[],$result['quantity']);
-				if($stock){
+				$stock = $this->Stock_Model->getRange($result['quantity']);
+				if($stock!=''){
 					$pagedata['stock'] = $stock;
 				}
 			} 

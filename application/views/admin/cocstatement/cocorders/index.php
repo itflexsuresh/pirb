@@ -35,13 +35,7 @@ if(!empty($comments)){
 	}
 }
 
-// 	$allocate_start			= isset($stock['id']) ? $stock['id'] : 0;
-//	$allocate_end			= ($allocate_start>0) ? ($allocate_start+$quantity)-1 : 0;
-
-	$allocate_start			= 	isset($stock['allocate_start']) ? $stock['allocate_start'] : 0;
-	$allocate_end			=	isset($stock['allocate_end']) ? $stock['allocate_end'] : 0;
-
-	$allocate_button_disbled = ($coc_type==2 && ($allocate_start==0 || $allocate_end==0)) ? 'disabled' : '';
+$allocate_button_disbled = ($coc_type==2 && $stock=='') ? 'disabled' : '';
 
 
 $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' : '';
@@ -270,16 +264,17 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 
 				<form method="POST" class="allocate_form">
 					<div class="row mt_20 <?php if($id!=''){}else {echo 'displaynone'; }?>">
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="form-group">
 								<div class="cert_start_range">
-									<label>Certificate Start Range</label>
-									<input type="text" value="<?php echo $allocate_start; ?>" disabled>
-									<input type="hidden" name="allocate_start" value="<?php echo $allocate_start; ?>">
+									<label>Certificate Range</label>
+									<input type="text" value="<?php echo $stock; ?>" disabled class="form-control">
+									<input type="hidden" name="stock" value="<?php echo $stock; ?>">
 								</div>
-								<!-- <select name="designation" class="form-control">
-									<option value="1">Select from COC data range</option>
-								</select> -->
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
 								<div class="custom-control custom-checkbox">
 		                            <input type="checkbox" class="custom-control-input" id="start_notifi" name="sms_coc_track" value="1" checked>
 		                            <label class="custom-control-label" for="start_notifi">Send a SMS COC Allocation Notification</label>
@@ -288,14 +283,6 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<div class="cert_end_range">
-									<label>Certificate End Range</label>
-									<input type="text" value="<?php echo $allocate_end; ?>" disabled>
-									<input type="hidden" name="allocate_end" value="<?php echo $allocate_end; ?>">
-								</div>
-								<!-- <select name="designation" class="form-control">
-									<option value="1">Select from COC data range</option>
-								</select> -->
 								<div class="custom-control custom-checkbox">
 		                            <input type="checkbox" class="custom-control-input" id="end_notifi" name="email_coc_track" value="1" checked>
 		                            <label class="custom-control-label" for="end_notifi">Send a Email COC Allocation Notification</label>
