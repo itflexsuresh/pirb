@@ -22,11 +22,12 @@
 	$VAT          = $settings["vat_percentage"];
 	$currency     = $this->config->item('currency');
 
+	$delivery_rate['amount'] 	= 0;
+	$courierdetails 			= "";
+		
 	if ($rowData['coc_type'] == '1') {
-		$delivery_rate['amount'] 	= 0;
-		$coc_type_id 				= 14;
-		$PDF_rate 					= $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
-		$courierdetails 			= "";
+		$coc_type_id = 14;
+		$PDF_rate 	 = $this->db->select('amount')->from('rates')->where('id',$coc_type_id)->get()->row_array();
 	}elseif($rowData['coc_type'] == '2'){
 		$coc_type_id = 13;
 		
@@ -50,7 +51,7 @@
 		</tr>';
 	}
 	
-	$pdfrate 				= currencyconvertors($PDF_rate['amount']);
+	$pdfrate 				= (isset($PDF_rate['amount'])) ? currencyconvertors($PDF_rate['amount']) : currencyconvertors($rowData['cost_value']);
 	$latesubtotalamount 	= (isset($extras['latesubtotalamount'])) ? $extras['latesubtotalamount'] : '0';
 	$latevatamount 			= (isset($extras['latevatamount'])) ? $extras['latevatamount'] : '0';
 	$latetotalamount 		= (isset($extras['latetotalamount'])) ? $extras['latetotalamount'] : '0';
@@ -201,7 +202,7 @@
 					
 					<?php if(isset($extras['sublogo'])){ ?>
 						<td>
-							<img class="paid" style="width: 250px;" src="<?php echo $this->base64conversion($extras['sublogo']); ?>">
+							<img class="paid" style="width: 250px;" src="<?php echo base64conversion($extras['sublogo']); ?>">
 						</td>
 					<?php } ?>
 					
