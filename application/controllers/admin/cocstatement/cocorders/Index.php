@@ -102,20 +102,7 @@ class Index extends CC_Controller
 
 						if(isset($requestData['email_coc_track'])){
 							
-							$pagedata['rowData'] = $this->Coc_Model->getListPDF('row', ['id' => $inv_id['inv_id'], 'status' => ['0','1']]);
-							$pagedata['settings']		= 	$this->Systemsettings_Model->getList('row');
-							$pagedata['currency']    = $this->config->item('currency');
-							$pagedata['rowData1'] = $this->Coc_Model->getPermissions('row', ['id' => $inv_id['inv_id'], 'status' => ['0','1']]);
-							$pagedata['rowData2'] = $this->Coc_Model->getPermissions1('row', ['id' => $inv_id['inv_id'], 'status' => ['0','1']]);
-							$html = $this->load->view('pdf/coc', (isset($pagedata) ? $pagedata : ''), true);
-						  
-							$pdfFilePath = ''.$inv_id['inv_id'].'.pdf';
-							$filePath = FCPATH.'assets/inv_pdf/';
-							$this->pdf->loadHtml($html);
-							$this->pdf->setPaper('A4', 'portrait');
-							$this->pdf->render();
-							$output = $this->pdf->output();
-							file_put_contents($filePath.$pdfFilePath, $output);
+							$cocreport = $this->cocreport($inv_id['inv_id'], 'PDF Invoice Plumber COC');
 							
 							$cocTypes = $orders['coc_type'];
 							$mail_date = date("d-m-Y", strtotime($orders['created_at']));
@@ -128,7 +115,7 @@ class Index extends CC_Controller
 
 							if ($template['email_active'] == '1') {
 
-								$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body,$filePath.$pdfFilePath);
+								$this->CC_Model->sentMail($userdata1['email'],$template['subject'],$body,$cocreport);
 							}
 						}
 						

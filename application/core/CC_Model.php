@@ -200,6 +200,31 @@ class CC_Model extends CI_Model
 		}
 	}
 	
+	public function cocreport($id, $title, $extras=[])
+	{		
+		$pagedata['settings']	= $this->Systemsettings_Model->getList('row');
+		$pagedata['currency']   = $this->config->item('currency');
+		$pagedata['rowData'] 	= $this->Coc_Model->getListPDF('row', ['id' => $id, 'status' => ['0','1']]);
+		$pagedata['rowData1'] 	= $this->Coc_Model->getPermissions('row', ['id' => $id, 'status' => ['0','1']]);
+		$pagedata['rowData2'] 	= $this->Coc_Model->getPermissions1('row', ['id' => $id, 'status' => ['0','1']]);
+		$pagedata['title'] 		= $title;
+		$pagedata['extras'] 	= $extras;
+		
+		$html 			= $this->load->view('pdf/coc', (isset($pagedata) ? $pagedata : ''), true);						  
+		$pdfFilePath 	= $id.'.pdf';
+		$filePath 		= FCPATH.'assets/inv_pdf/';
+		
+		if(file_exists($filePath.$pdfFilePath)) unlink($filePath.$pdfFilePath);  
+			
+		$this->pdf->loadHtml($html);
+		$this->pdf->setPaper('A4', 'portrait');
+		$this->pdf->render();
+		$output = $this->pdf->output();
+		file_put_contents($filePath.$pdfFilePath, $output);
+		
+		return $filePath.$pdfFilePath;
+	}
+	
 	function base64conversion($path){
 		$type = pathinfo($path, PATHINFO_EXTENSION);
 		$data = file_get_contents($path);

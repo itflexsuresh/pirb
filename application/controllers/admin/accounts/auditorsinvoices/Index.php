@@ -159,14 +159,13 @@ class Index extends CC_Controller
 			$base_url= base_url();
 
 			if($rowData["status"]=='1'){
-
-				$paid = "<img style='width: 290px' src='".$_SERVER['DOCUMENT_ROOT']."/auditit_new/pirb/assets/images/paid.png>";
+				$paid = '<img style="width: 290px;" src="'.$this->base64conversion(base_url()."assets/images/paid.png").'">';
 				$paid_status = "PAID";
 
 			}
 			else{
 
-				$paid ="<img style='width: 290px' src='".$_SERVER['DOCUMENT_ROOT']."/auditit_new/pirb/assets/images/unpaid.png>";
+				$paid ='<img tyle="width: 290px;" src="'.$this->base64conversion(base_url()."assets/images/unpaid.png").'">';
 				$paid_status = "UNPAID";
 
 			}
