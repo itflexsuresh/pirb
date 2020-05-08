@@ -16,7 +16,6 @@ class Index extends CC_Controller
 	
 	public function index()
 	{
-
 		$userid 					=	$this->getUserID();
 		$userdata					= 	$this->getUserDetails();
 		$userdata1					= 	$this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber']);

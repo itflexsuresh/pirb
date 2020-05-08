@@ -18,7 +18,7 @@
 		return $amount;
 	}
 	
-	$invoiceDate  = date("d-m-Y", strtotime($rowData['created_at']));
+	$invoiceDate  = (date("d-m-Y", strtotime($rowData['invoice_date']))!='01-01-1970') ? date("d-m-Y", strtotime($rowData['invoice_date'])) : date("d-m-Y", strtotime($rowData['created_at']));
 	$VAT          = $settings["vat_percentage"];
 	$currency     = $this->config->item('currency');
 
@@ -72,7 +72,7 @@
 	$stringaarr 		= explode("@@@",$rowData['areas']);
 	$provincesettings 	= explode("@@@",$rowData2['provincesettings']);
 
-	$logo = base64conversion(base_url()."assets/images/pitrb-logo.png");
+	$logo = (isset($extras['logo'])) ? base64conversion($extras['logo']) : base64conversion(base_url()."assets/images/pitrb-logo.png");
 ?>
 
 
@@ -124,46 +124,48 @@
 							<thead>
 								<tr>
 									<th style="border: 1px solid #000; padding: 8px 30px 8px 30px;">Invoice Number</th>
-									<th style="padding: 8px 30px 8px 30px; border: 1px solid #000;"><?php echo $rowData['inv_id']; ?></th>  
+									<th style="padding: 8px 30px 8px 30px; border: 1px solid #000;"><?php echo ((isset($rowData['invoice_no']) && $rowData['invoice_no']!='') ? $rowData['invoice_no'] : $rowData['inv_id']); ?></th>  
 								</tr>             
 							</thead>
 						</table>
 					</td>
 				</tr>
-
-				<tr>
-					<td style="vertical-align: top;">
-						<table class="comp_detail_uniq" style="margin-top:10px; border: 1px solid #000; width: 250px;">
-							<thead>
-								<tr>
-									<th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 5px; padding-top: 5px;">Company Details</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr><td><?php echo $rowData2['address']; ?></td></tr>            
-								<tr><td><?php echo $rowData2['name']; ?></td></tr>
-								<tr><td><?php echo $rowData2['suburb']; ?></td></tr>
-								<tr><td><?php echo $rowData2['city']; ?></td></tr>
-								<tr><td><?php echo $rowData1['work_phone']; ?></td></tr>
-								<tr><td><?php echo $rowData1['email']; ?></td></tr>
-								<tr><td><?php echo $rowData1['reg_no']; ?></td></tr>
-								<tr><td><?php echo $rowData1['vat_no']; ?></td></tr>                              
-							</tbody>
-						</table>
-					</td>
-					<td>
-						<table align="right" style="margin-top: 10px;">
-							<thead>
-								<tr>
-									<th>
-										<?php echo $paid; ?>
-									</th> 
-								</tr>
-							</thead>
-						</table>
-					</td>
-				</tr>
-
+				
+				<?php if(!isset($extras['type']) || (isset($extras['type']) && $extras['type']!='2')){ ?>
+					<tr>
+						<td style="vertical-align: top;">
+							<table class="comp_detail_uniq" style="margin-top:10px; border: 1px solid #000; width: 250px;">
+								<thead>
+									<tr>
+										<th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 5px; padding-top: 5px;">Company Details</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr><td><?php echo $rowData2['address']; ?></td></tr>            
+									<tr><td><?php echo $rowData2['name']; ?></td></tr>
+									<tr><td><?php echo $rowData2['suburb']; ?></td></tr>
+									<tr><td><?php echo $rowData2['city']; ?></td></tr>
+									<tr><td><?php echo $rowData1['work_phone']; ?></td></tr>
+									<tr><td><?php echo $rowData1['email']; ?></td></tr>
+									<tr><td><?php echo $rowData1['reg_no']; ?></td></tr>
+									<tr><td><?php echo $rowData1['vat_no']; ?></td></tr>                              
+								</tbody>
+							</table>
+						</td>
+						<td>
+							<table align="right" style="margin-top: 10px;">
+								<thead>
+									<tr>
+										<th>
+											<?php echo $paid; ?>
+										</th> 
+									</tr>
+								</thead>
+							</table>
+						</td>
+					</tr>
+				<?php } ?>
+				
 				<tr>
 					<td>
 						<table class="bill_detail_uniq" style="margin-top:10px; border: 1px solid #000; width: 250px;">
@@ -173,41 +175,101 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr><td><?php echo $rowData['address']; ?></td></tr>            
-								<tr><td><?php echo isset($stringaarr[6]) ? $stringaarr[6] : ''; ?></td></tr>
-								<tr><td><?php echo isset($stringaarr[5]) ? $stringaarr[5] : ''; ?></td></tr>
-								<tr><td><?php echo isset($stringaarr[4]) ? $stringaarr[4] : ''; ?></td></tr>
-								<?php if(isset($extras['type']) && $extras['type']=='1'){ ?>
+								<tr><td><?php echo $rowData['address']; ?></td></tr>  
+								<?php if(isset($extras['type']) && $extras['type']=='2'){ ?>
+									<tr><td><?php echo $rowData['suburb']; ?></td></tr>
+									<tr><td><?php echo $rowData['city'] ?></td></tr>
+									<tr><td><?php echo $rowData['province']; ?></td></tr>
 									<tr><td><?php echo $rowData['home_phone']; ?></td></tr>
 									<tr><td><?php echo $rowData['email2']; ?></td></tr>
 								<?php }else{ ?>
-									<tr><td><?php echo $rowData['email2']; ?></td></tr>
-									<tr><td><?php echo $rowData['reg_no'] ?></td></tr>
-									<tr><td><?php echo $rowData['vat_no']; ?></td></tr>
+									<tr><td><?php echo isset($stringaarr[6]) ? $stringaarr[6] : ''; ?></td></tr>
+									<tr><td><?php echo isset($stringaarr[5]) ? $stringaarr[5] : ''; ?></td></tr>
+									<tr><td><?php echo isset($stringaarr[4]) ? $stringaarr[4] : ''; ?></td></tr>
+									<?php if(isset($extras['type']) && $extras['type']=='1'){ ?>
+										<tr><td><?php echo $rowData['home_phone']; ?></td></tr>
+										<tr><td><?php echo $rowData['email2']; ?></td></tr>
+									<?php }else{ ?>
+										<tr><td><?php echo $rowData['email2']; ?></td></tr>
+										<tr><td><?php echo $rowData['reg_no'] ?></td></tr>
+										<tr><td><?php echo $rowData['vat_no']; ?></td></tr>
+									<?php } ?>
 								<?php } ?>
 							</tbody>
 						</table>
 					</td>
-					<td style="vertical-align: top;">
-						<table align="right" class="custom_reg_uniq" style="margin-top: 10px;">
-							<thead>
-								<tr>
-									<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer Company Reg</th>
-									<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer VAT Reg</th>
-									<th style="padding: 10px;   font-size: 14px; text-align: center;">Invoice Date</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td style="padding: 10px;   font-size: 14px; text-align: center;"><?php echo $rowData['reg_no']; ?></td>
-									<td style="padding: 10px;   font-size: 14px; text-align: center;"><?php echo $rowData['vat_no']; ?></td>
-									<td style="padding: 10px;   font-size: 14px; text-align: center;"><?php echo $invoiceDate; ?></td>
-								</tr>
-							</tbody>
-						</table>
-					</td>
+					
+					<?php if(isset($extras['sublogo'])){ ?>
+						<td>
+							<img class="paid" style="width: 250px;" src="<?php echo $this->base64conversion($extras['sublogo']); ?>">
+						</td>
+					<?php } ?>
+					
+					<?php if(!isset($extras['type']) || (isset($extras['type']) && $extras['type']!='2')){ ?>
+						<td style="vertical-align: top;">
+							<table align="right" class="custom_reg_uniq" style="margin-top: 10px;">
+								<thead>
+									<tr>
+										<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer Company Reg</th>
+										<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer VAT Reg</th>
+										<th style="padding: 10px;   font-size: 14px; text-align: center;">Invoice Date</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td style="padding: 10px;   font-size: 14px; text-align: center;"><?php echo $rowData['reg_no']; ?></td>
+										<td style="padding: 10px;   font-size: 14px; text-align: center;"><?php echo $rowData['vat_no']; ?></td>
+										<td style="padding: 10px;   font-size: 14px; text-align: center;"><?php echo $invoiceDate; ?></td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					<?php } ?>
+					
 				</tr>
+				
+				<?php if(isset($extras['type']) && $extras['type']=='2'){ ?>
+					<tr>
+						<td style="vertical-align: top;">
+							<table class="comp_detail_uniq" style="margin-top:10px; border: 1px solid #000; width: 200px;">
+								<thead>
+									<tr>
+										<th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 5px; padding-top: 5px;">Name / Address</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr><td>Plumbing Industry Registration Board</td></tr>
+									<tr><td><?php echo $rowData2['address']; ?></td></tr>            
+									<tr><td><?php echo $rowData2['name']; ?></td></tr>
+									<tr><td><?php echo $rowData2['suburb']; ?></td></tr>
+									<tr><td><?php echo $rowData2['city']; ?></td></tr>
+									<tr><td><?php echo $rowData1['work_phone']; ?></td></tr>
+									<tr><td><?php echo $rowData1['email']; ?></td></tr>															
+								</tbody>
+							</table>
+						</td>
 
+						<td style="vertical-align: top;">
+							<table align="right" class="custom_reg_uniq" style="margin-top: 10px;">
+								<thead>
+									<tr>
+										<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer Company Reg</th>
+										<th style="padding: 10px;   font-size: 14px; text-align: center;">Customer VAT Reg</th>
+										<th style="padding: 10px;   font-size: 14px; text-align: center;">Invoice Date</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td style="padding: 10px;   font-size: 14px; text-align: center;"><?php echo $rowData['reg_no']; ?></td>
+										<td style="padding: 10px;   font-size: 14px; text-align: center;"><?php echo $rowData['vat_no']; ?></td>
+										<td style="padding: 10px;   font-size: 14px; text-align: center;"><?php echo $invoiceDate; ?></td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				<?php } ?>
+				
 				<tr>
 					<td>
 						<table style="border: 1px solid #000;margin-top: 10px;" class="term_uniq">
@@ -221,7 +283,7 @@
 							<tbody>
 								<tr>
 									<td style="text-align: center; padding:10px 30px;">
-										COD 
+										<?php echo (isset($extras['terms'])) ? $extras['terms'] : 'COD'; ?> 
 									</td>
 								</tr>
 							</tbody>
