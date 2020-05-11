@@ -32,7 +32,8 @@
 							<tr>
 								<th>COC Number</th>
 								<th>Status</th>
-								<th>Date of Allocation/Logged COC</th>
+								<th>Date of Allocation</th>
+								<th>Logged COC</th>
 								<th>COC Type</th>
 								<th>Customer</th>
 								<th>Address</th>
@@ -59,6 +60,7 @@
 							{ "data": "cocno" },
 							{ "data": "cocstatus" },
 							{ "data": "purchased" },
+							{ "data": "logdate" },
 							{ "data": "coctype" },
 							{ "data": "customer" },
 							{ "data": "address" },

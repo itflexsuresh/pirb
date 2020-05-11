@@ -36,22 +36,13 @@ class Index extends CC_Controller
 			foreach($results as $result){
 				if($post['psidconfig']=='1'){
 					$action = '<a href="'.base_url().'plumber/cocstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
-					$allDate = date('d-m-Y', strtotime($result['allocation_date']));
-					$logDate = date('d-m-Y', strtotime($result['cl_log_date']));
-					$allocation_log_date = $logDate.'/'.$allDate;
 				}else{
 					if($result['coc_status']=='5' || $result['coc_status']=='4'){
 						$action = '<a href="'.base_url().'plumber/cocstatement/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>';
-						$allocation_log_date = date('d-m-Y', strtotime($result['allocation_date']));
 					}elseif($result['coc_status']=='2'){
 						$action = '<a href="'.base_url().'plumber/cocstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
-						$allDate = date('d-m-Y', strtotime($result['allocation_date']));
-						$logDate = date('d-m-Y', strtotime($result['cl_log_date']));
-						$allocation_log_date = $logDate.'/'.$allDate;
 					}elseif($result['coc_status']=='7'){
 						$action 	= '';
-						$allDate 	= date('d-m-Y', strtotime($result['allocation_date']));
-						$allocation_log_date = $allDate;
 					}
 				}
 				
@@ -61,7 +52,8 @@ class Index extends CC_Controller
 				$totalrecord[] = 	[
 										'cocno' 			=> 	$result['id'],
 										'cocstatus' 		=> 	$cocstatus,
-										'purchased' 		=> 	$allocation_log_date,
+										'purchased' 		=> 	(date('d-m-Y', strtotime($result['allocation_date']))!='01-01-1970') ? date('d-m-Y', strtotime($result['allocation_date'])) : '-',
+										'logdate' 			=> 	(date('d-m-Y', strtotime($result['cl_log_date']))!='01-01-1970') ? date('d-m-Y', strtotime($result['cl_log_date'])) : '-',
 										'coctype' 			=> 	$coctype,
 										'customer' 			=> 	$result['cl_name'],
 										'address' 			=> 	$result['cl_address'],
