@@ -461,24 +461,11 @@ class Index extends CC_Controller
 				$cocstatus = isset($this->config->item('cocstatus')[$result['coc_status']]) ? $this->config->item('cocstatus')[$result['coc_status']] : '';
 				$coctype = isset($this->config->item('coctype')[$result['type']]) ? $this->config->item('coctype')[$result['type']] : '';
 				
-				$allcateddate = isset($result['allocation_date']) ? $result['allocation_date'] : '';
-				$loggeddate = isset($result['cl_log_date']) ? $result['cl_log_date'] : '';
-				$allcated_logged_date = '';				
-				if($allcateddate != ''){
-					$allcateddate = date('d-m-Y', strtotime($allcateddate));
-					$allcated_logged_date = $allcated_logged_date.$allcateddate;
-				}
-
-				if($loggeddate != ''){
-					$loggeddate = date('d-m-Y', strtotime($loggeddate));
-					$allcated_logged_date = $allcated_logged_date.'/ '.$loggeddate;
-				}
-				
-
 				$totalrecord[] = 	[
 										'cocno' 			=> 	$result['id'],
 										'cocstatus' 		=> 	$cocstatus,
-										'purchased' 		=> 	$allcated_logged_date,
+										'purchased' 		=> 	(date('d-m-Y', strtotime($result['allocation_date']))!='01-01-1970') ? date('d-m-Y', strtotime($result['allocation_date'])) : '-',
+										'logdate' 			=> 	(date('d-m-Y', strtotime($result['cl_log_date']))!='01-01-1970') ? date('d-m-Y', strtotime($result['cl_log_date'])) : '-',
 										'coctype' 			=> 	$coctype,
 										'customer' 			=> 	$result['cl_name'],
 										'address' 			=> 	$result['cl_address'],
