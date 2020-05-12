@@ -27,9 +27,6 @@ if(isset($result) && $result){
 }
 ?>
 
-
-
-
 <div class="row page-titles">
 	<div class="col-md-5 align-self-center">
 		<h4 class="text-themecolor">My Accounts</h4>
@@ -70,8 +67,6 @@ if(isset($result) && $result){
 				</form>
 
 				
-			
-				<h4 class="card-title">My Accounts</h4>
 				<div id="active" class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>

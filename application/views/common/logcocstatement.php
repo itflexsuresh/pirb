@@ -22,10 +22,12 @@
 	$file1 					= isset($result['cl_file1']) ? $result['cl_file1'] : '';
 	$file2 					= isset($result['cl_file2']) ? array_filter(explode(',', $result['cl_file2'])) : [];
 	$agreementid 			= isset($result['cl_agreement']) ? $result['cl_agreement'] : '';
+	$ncnoticeid 			= isset($result['cl_ncnotice']) ? $result['cl_ncnotice'] : '';
+	$ncemail				= isset($result['cl_ncemail']) ? $result['cl_ncemail'] : '';
 	
 	$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/log/';
 	$pdfimg 				= base_url().'assets/images/pdf.png';
-	$profileimg 			= base_url().'assets/images/profile.jpg';
+	$uploadimg 				= base_url().'assets/images/upload.png';
 	
 	if($file1!=''){
 		$explodefile1 	= explode('.', $file1);
@@ -33,7 +35,7 @@
 		$file1img 		= (in_array($extfile1, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$file1;
 		$file1imgurl	= $filepath.$file1;
 	}else{
-		$file1img 		= $profileimg;
+		$file1img 		= $uploadimg;
 		$file1imgurl	= 'javascript:void(0);';
 	}
 	
@@ -72,8 +74,8 @@
 			<div class="card-body">
 				<form class="form" method="post">
 
-					<h4 class="card-title"><?php echo $heading; ?> COC</h4>
-					<h4 class="sup_title">Certificate: <label><?php echo $cocid; ?></label></h4>
+					<h4 class="card-title"></h4>
+					<h4 class="sup_title">Certificate Number: <label><?php echo $cocid; ?></label></h4>
 
 					<div class="row">
 						<div class="col-md-6">
@@ -112,66 +114,73 @@
 							</div>
 						</div>
 
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Street *</label>
-								<input type="text" class="form-control" name="street" value="<?php echo $street; ?>" <?php echo $disablefield; ?>>
+						<div class="col-md-8">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Street *</label>
+										<input type="text" class="form-control" name="street" value="<?php echo $street; ?>" <?php echo $disablefield; ?>>
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Number *</label>
+										<input type="text" class="form-control" name="number" value="<?php echo $number; ?>" <?php echo $disablefield; ?>>
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Province *</label>
+										<?php
+											echo form_dropdown('province', $province, $provinceid, ['id' => 'province', 'class'=>'form-control']+$disablefieldarray);
+										?>
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>City *</label>
+										<?php 
+											echo form_dropdown('city', [], $cityid, ['id' => 'city', 'class' => 'form-control']+$disablefieldarray); 
+										?>
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Suburb *</label>
+										<?php
+											echo form_dropdown('suburb', [], $suburbid, ['id' => 'suburb', 'class'=>'form-control']+$disablefieldarray);
+										?>
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Contact Mobile *</label>
+										<input type="text" class="form-control" name="contact_no" id="contact_no" value="<?php echo $contactno; ?>" <?php echo $disablefield; ?>>
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Alternate Contact</label>
+										<input type="text" class="form-control" name="alternate_no" id="alternate_no" value="<?php echo $alternateno; ?>" <?php echo $disablefield; ?>>
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Email Address</label>
+										<input type="text" class="form-control" name="email" value="<?php echo $email; ?>" <?php echo $disablefield; ?>>
+									</div>
+								</div>
 							</div>
 						</div>
-
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Number *</label>
-								<input type="text" class="form-control" name="number" value="<?php echo $number; ?>" <?php echo $disablefield; ?>>
-							</div>
-						</div>
-
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Province *</label>
-								<?php
-									echo form_dropdown('province', $province, $provinceid, ['id' => 'province', 'class'=>'form-control']+$disablefieldarray);
-								?>
-							</div>
-						</div>
-
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>City *</label>
-								<?php 
-									echo form_dropdown('city', [], $cityid, ['id' => 'city', 'class' => 'form-control']+$disablefieldarray); 
-								?>
-							</div>
-						</div>
-
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Suburb *</label>
-								<?php
-									echo form_dropdown('suburb', [], $suburbid, ['id' => 'suburb', 'class'=>'form-control']+$disablefieldarray);
-								?>
-							</div>
-						</div>
-
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Contact Mobile *</label>
-								<input type="text" class="form-control" name="contact_no" id="contact_no" value="<?php echo $contactno; ?>" <?php echo $disablefield; ?>>
-							</div>
-						</div>
-
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Alternate Contact</label>
-								<input type="text" class="form-control" name="alternate_no" id="alternate_no" value="<?php echo $alternateno; ?>" <?php echo $disablefield; ?>>
-							</div>
-						</div>
-
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Email Address</label>
-								<input type="text" class="form-control" name="email" value="<?php echo $email; ?>" <?php echo $disablefield; ?>>
-							</div>
+						<div class="col-md-4">
+							<div id="addressmap"></div>
 						</div>
 					</div>
 
@@ -231,9 +240,9 @@
 								<th colspan="2" class="table_title">Installation Details<span>(Details of the work undertaken or scope of work for which the COC is being issued for)</span></th>
 							</tr>
 
-							<tr>
-								<td colspan="2" style="text-align: left;">
-									<textarea name="installation_detail" rows="10" cols="100" <?php echo $disablefield; ?>><?php echo $installationdetail; ?></textarea>
+							<tr class="logcoc_textarea_wrapper">
+								<td colspan="2">
+									<textarea name="installation_detail" <?php echo $disablefield; ?>><?php echo $installationdetail; ?></textarea>
 								</td>
 							</tr>
 						</table>
@@ -246,11 +255,31 @@
 								<td colspan="3">No Record Found</td>			
 							</tr>
 						</table>
-						<?php if($actionbtn=='1'){ ?>
-							<div class="row text-right">
-								<button type="button" data-toggle="modal" data-target="#noncompliancemodal" class="btn btn-primary">Add a Non Compliance</button>
+						
+						<div class="col-md-12">
+							<div class="row">
+								<div  class="col-md-4">
+									<div class="form-group ">
+										<label>Was the Non-compliance Notice issued to the Owner*</label>
+										<?php
+											echo form_dropdown('ncnotice', $ncnotice, $ncnoticeid, ['id' => 'ncnotice', 'class'=>'form-control']+$disablefieldarray);
+										?>
+									</div>
+								</div>
+								<div  class="col-md-8 text-right">
+									<div class="ncemail_wrapper">
+										<div class="custom-control custom-radio">
+											<input type="radio" id="ncemail" name="ncemail" value="1" class="custom-control-input" <?php echo ($ncemail=='1') ? 'checked="checked"' : ''; ?> <?php echo $disablefield; ?>>
+											<label class="custom-control-label" for="ncemail">Email* Non Compliance Notice to Owner</label>
+										</div>
+										<p>(Non-compliance Notice will be sent to email address as noted above)</p>
+									</div>
+									<?php if($actionbtn=='1'){ ?>
+										<button type="button" data-toggle="modal" data-target="#noncompliancemodal" class="btn btn-primary">Add a Non Compliance</button>
+									<?php } ?>
+								</div>
 							</div>
-						<?php } ?>
+						</div>
 						
 						<?php if(count($noncompliance) > 0 && $logdate!=''){ ?>
 							<div class="col-md-12 text-right mt_20">
@@ -293,11 +322,9 @@
 						<div class="col-md-4 add_top_value">
 							<h4 class="card-title add_top_value">Installation Images</h4>
 							<div class="form-group">
-								<div>
-									<img src="<?php echo $profileimg; ?>" width="100">
+								<div class="installation_default_image">
+									<img src="<?php echo $uploadimg; ?>" width="100">
 								</div>
-								<input type="file" id="file2_file" class="file2_file" <?php echo $disablefield; ?>>
-								<p>(Image/File Size Smaller than 5mb)</p>
 								<div class="file2append">
 									<?php 
 										if(count($file2)){
@@ -310,17 +337,19 @@
 												<div class="multipleupload">
 													<input type="hidden" value="<?php echo $value; ?>" name="file2[]">
 													<a href="<?php echo $filepath.$value; ?>" target="_blank">
--														<img src="<?php echo $file1img; ?>" width="100">
--													</a>
--													<?php if($logdate==''){ ?>
--														<i class="fa fa-times"></i>
--													<?php } ?>
+														<img src="<?php echo $file1img; ?>" width="100">
+													</a>
+													<?php if($logdate==''){ ?>
+														<i class="fa fa-times"></i>
+													<?php } ?>
 												</div>
 									<?php
 											}
 										}
 									?>
 								</div>
+								<input type="file" id="file2_file" class="file2_file" <?php echo $disablefield; ?>>
+								<p>(Image/File Size Smaller than 5mb)</p>
 							</div>
 						</div>
 					</div>
@@ -425,7 +454,7 @@
 						<div class="col-md-12">
 							<div class="form-group">
 								<div>
-									<img src="<?php echo $profileimg; ?>" width="100">
+									<img src="<?php echo $uploadimg; ?>" width="100">
 								</div>
 								<input type="file" id="nc_file">
 								<p>(Image/File Size Smaller than 5mb)</p>
@@ -497,10 +526,12 @@ $(function(){
 	var noncompliancelists = $.parseJSON('<?php echo str_replace("'", "\'", json_encode($noncompliance)); ?>');
 	if(noncompliancelists.length > 0){
 		$(noncompliancelists).each(function(i, v){
-			var noncompliancedata 	= {status : 1, result : { id: v.id, details: v.details }}
+			var noncompliancedata 	= {status : 1, result : { id: v.id, details: v.details, file: v.file }}
 			noncompliance(noncompliancedata);
 		})
 	}
+	
+	installationdefaultimage();
 	
 	validation(
 		'.form',
@@ -550,6 +581,9 @@ $(function(){
 								return $(".installationtypebox:checked").length == 0;
 							}
 			},
+			ncnotice:{
+				required    : true
+			},
 			agreement:{
 				required    : true
 			}
@@ -596,6 +630,9 @@ $(function(){
 			'specialisations[]':{
 				required    : "Please check the specialisations",
 				maxlength	: "Please check the specialisations"
+			},
+			ncnotice:{
+				required    : "Please check the non compliance notice"
 			},
 			agreement:{
 				required    : "Please check the agreement",
@@ -661,6 +698,14 @@ $('.file2_file').click(function(e){
 	}
 })
 
+function installationdefaultimage(){
+	if($(document).find('.file2append .multipleupload').length){
+		$('.installation_default_image').hide();
+	}else{
+		$('.installation_default_image').show();
+	}
+}
+
 $(document).on('click', '.savecocbtn', function(){
 	$('#submitbtn').attr('value', 'save').click();
 })
@@ -718,6 +763,24 @@ function noncompliance(data){
 	if(data.status==1){		
 		var result 		= 	data.result; 
 		
+		if(result.file!=''){
+			var filesplit 			= result.file.split(',');
+			var attachmentarray 	= [];
+			
+			$(filesplit).each(function(i, v){
+				var ext 		= v.split('.').pop().toLowerCase();
+				if(ext=='jpg' || ext=='jpeg' || ext=='png'){
+					attachmentarray.push('<a href="'+filepath+v+'" target="_blank"  class="noncomplianceappendimg"><img src="'+filepath+v+'" width="80"></a>');
+				}else if(ext=='pdf'){
+					attachmentarray.push('<a href="'+filepath+v+'" target="_blank"  class="noncomplianceappendimg"><?php echo base_url()."assets/images/pdf.png"?></a>');
+				}
+			})
+			
+			var attachment = attachmentarray.join('');
+		}else{
+			var attachment = '';
+		} 
+		
 		if(actionbtn=='1'){
 			var complianceaction 	= 	'<td>\
 											<a href="javascript:void(0);" class="noncomplianceedit" data-id="'+result.id+'"><i class="fa fa-pencil-alt"></i></a>\
@@ -733,7 +796,7 @@ function noncompliance(data){
 		
 		var appenddata 	= 	'\
 								<tr class="noncomplianceappend" data-id="'+result.id+'">\
-									<td style="text-align:left" colspan="'+detailcol+'">'+result.details+'</td>'+complianceaction+'\
+									<td style="text-align:left" colspan="'+detailcol+'">'+result.details+'</td><td>'+attachment+'</td>'+complianceaction+'\
 								</tr>\
 							';
 					
@@ -801,8 +864,10 @@ function noncomplianceclear(){
 function noncomplianceextras(){
 	if($(document).find('.noncomplianceappend').length){
 		$('.noncompliancenotfound').hide();
+		$('.ncemail_wrapper').show();
 	}else{
 		$('.noncompliancenotfound').show();
+		$('.ncemail_wrapper').hide();
 	}
 }
 
@@ -825,4 +890,36 @@ function noncompliancedata(){
 		}
 	}, 1000);
 }
+
+function addressmap(address=''){
+	
+	var geocoder 	= new google.maps.Geocoder();
+
+	geocoder.geocode({'address': address}, function(results, status){
+		if (status == google.maps.GeocoderStatus.OK){
+			var latitude = results[0].geometry.location.lat();
+			var longitude = results[0].geometry.location.lng();
+			var markertoggle 	= 1;
+		}else{
+			var latitude 		= 20.5937;
+			var longitude 		= 78.9629;
+			var markertoggle 	= 0;
+		} 
+		
+		var myLatLng = {lat: latitude, lng: longitude};
+		
+		var map = new google.maps.Map(document.getElementById('addressmap'), {
+			zoom: 9,
+			center: myLatLng
+		});
+		
+		if(markertoggle==1){
+			var marker = new google.maps.Marker({
+				position: myLatLng,
+				map: map
+			});
+		}
+	});
+}
 </script>
+<!--<script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo $this->config->item('googleapikey'); ?>&callback=addressmap"></script>-->

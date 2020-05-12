@@ -2,6 +2,8 @@
 
 $config['sitename']	 				= 	'Audit IT';
 
+$config['googleapikey']	 			= 	'AIzaSyAhzULCO9bsoI4SaLxERW0FBAZlz8iZTxI';
+
 $config['customstockno']			= 	'393056';
 
 
@@ -514,6 +516,13 @@ $config['invtype'] 				= 		[
 											'2' => 'Panorama',
 											'3' => 'Renewal Alert 2',
 											'4' => 'Late Fee Alert'
+										];	
+
+$config['ncnotice'] 			= 		[
+											'' 	=> 'Select one of the following options',
+											'1' => 'Not Applicable',
+											'2' => 'Yes',
+											'3' => 'No'
 										];	
 
 $config['currency'] 			= 		'R';

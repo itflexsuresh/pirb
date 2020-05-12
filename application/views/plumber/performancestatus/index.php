@@ -16,8 +16,6 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">Performance Status</h4>
-				
 				<?php if(count($results) > 0 && $pagestatus!='1'){ ?>
 					<?php $overallpoint = array_sum(array_column($results, 'point')); ?>
 					<h5>Current Performance Status = <?php echo $overallpoint; ?></h5>

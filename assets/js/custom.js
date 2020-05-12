@@ -254,10 +254,12 @@ function fileupload(data1=[], data2=[], multiple='', customfunction=''){
 		}
 		
 		$(selector).val('');
+		if (typeof installationdefaultimage !== 'undefined' && $.isFunction(installationdefaultimage)) installationdefaultimage();
 	}
 	
 	$(document).on('click', '.multipleupload i', function(){
 		$(this).parent().remove();
+		if (typeof installationdefaultimage !== 'undefined' && $.isFunction(installationdefaultimage)) installationdefaultimage();
 	})
 }
 

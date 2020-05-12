@@ -747,6 +747,44 @@ class CC_Controller extends CI_Controller
 							$this->sms(['no' => $userdata['mobile_phone'], 'msg' => $sms]);
 						}
 					}
+					
+					if(isset($requestData['ncemail']) && $requestData['ncemail']=='1'){
+						$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '23', 'emailstatus' => '1']);
+				
+						if(isset($requestData['email']) && $requestData['email']!='' && $notificationdata){
+							$subject = ['', '', '', '', ''];							
+							if(isset($requestData['number'])) 		$subject[0] = $requestData['number'];
+							if(isset($requestData['street'])) 		$subject[1] = $requestData['street'];
+							if(isset($requestData['province'])){
+								$provincename 	= 	$this->Managearea_Model->getListProvince('row', ['id' => $requestData['province']]);
+								$subject[2] 	=  $provincename['name'];
+							} 	
+							if(isset($requestData['city'])){
+								$cityname 	= 	$this->Managearea_Model->getListCity('row', ['id' => $requestData['city']]);
+								$subject[3] =  $cityname['name'];
+							} 		
+							if(isset($requestData['suburb'])){
+								$suburbname = 	$this->Managearea_Model->getListSuburb('row', ['id' => $requestData['suburb']]);
+								$subject[4] =  $suburbname['name'];
+							} 	
+							$subject 	= str_replace(['{Number}', '{Street}', '{Suburb}', '{City}', '{Province}'], $subject, $notificationdata['subject']);
+							$body 		= $notificationdata['email_body'];
+							
+							$pdf 		= FCPATH.'assets/uploads/temp/'.$requestdata['coc_id'].'.pdf';
+							$this->pdfnoncompliancereport($requestdata['coc_id'], $userid, $pdf);
+							$this->CC_Model->sentMail($requestData['email'], $subject, $body, $pdf, $userdata['email']);
+							if(file_exists($pdf)) unlink($pdf);  
+						}				
+						
+						if(isset($requestData['contact_no']) && $requestData['contact_no']!='' && $this->config->item('otpstatus')!='1'){
+							$smsdata 	= $this->Communication_Model->getList('row', ['id' => '23', 'smsstatus' => '1']);
+				
+							if($smsdata){
+								$sms = $smsdata['sms_body'];
+								$this->sms(['no' => $requestData['contact_no'], 'msg' => $sms]);
+							}
+						}
+					}
 				}
 			}
 			
@@ -761,6 +799,7 @@ class CC_Controller extends CI_Controller
 		$pagedata['notification'] 		= $this->getNotification();
 		$pagedata['province'] 			= $this->getProvinceList();
 		$pagedata['designation2'] 		= $this->config->item('designation2');
+		$pagedata['ncnotice'] 			= $this->config->item('ncnotice');
 		$pagedata['installationtype']	= $this->getInstallationTypeList();
 		$pagedata['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => [], 'ids' => range(1,8)]);
 		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations, 'ids' => range(1,8)]);
@@ -771,7 +810,8 @@ class CC_Controller extends CI_Controller
 		foreach($noncompliance as $compliance){
 			$pagedata['noncompliance'][] = [
 				'id' 		=> $compliance['id'],
-				'details' 	=> $this->parsestring($compliance['details'])
+				'details' 	=> $this->parsestring($compliance['details']),
+				'file' 		=> $compliance['file']
 			];
 		}
 		
@@ -999,7 +1039,7 @@ class CC_Controller extends CI_Controller
 		$this->pdf->stream('Electronic COC Report '.$id);
 	}
 	
-	public function pdfnoncompliancereport($id, $userid)
+	public function pdfnoncompliancereport($id, $userid, $save='')
 	{		
 		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);
 		$pagedata['noncompliance'] 	= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $userid]);	
@@ -1009,7 +1049,13 @@ class CC_Controller extends CI_Controller
 		$this->pdf->setPaper('A2', 'portrait');
 		$this->pdf->render();
 		$output = $this->pdf->output();
-		$this->pdf->stream('Non Compliance Report '.$id);
+		
+		if($save==''){
+			$this->pdf->stream('Non Compliance Report '.$id);
+		}else{
+			file_put_contents($save, $output);
+			return $save;
+		}
 	}	
 
 	public function cocreport($id, $title, $extras=[])

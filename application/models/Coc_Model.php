@@ -7,7 +7,7 @@ class Coc_Model extends CC_Model
 		$coclog 			= 	[ 
 									'cl.id cl_id','cl.log_date cl_log_date','cl.completion_date cl_completion_date','cl.order_no cl_order_no','cl.name cl_name','cl.address cl_address','cl.street cl_street','cl.number cl_number',
 									'cl.province cl_province','cl.city cl_city','cl.suburb cl_suburb','cl.contact_no cl_contact_no','cl.alternate_no cl_alternate_no','cl.email cl_email','cl.installationtype cl_installationtype',
-									'cl.specialisations cl_specialisations','cl.installation_detail cl_installation_detail','cl.file1 cl_file1','cl.file2 cl_file2','cl.agreement cl_agreement','cl.status cl_status'
+									'cl.specialisations cl_specialisations','cl.installation_detail cl_installation_detail','cl.file1 cl_file1','cl.file2 cl_file2','cl.agreement cl_agreement','cl.ncnotice cl_ncnotice','cl.ncemail cl_ncemail','cl.status cl_status'
 								];
 							
 		$auditorstatement 	= 	[ 
@@ -347,6 +347,8 @@ class Coc_Model extends CC_Model
 		if(isset($data['agreement'])) 			$request['agreement'] 				= $data['agreement'];
 		if(isset($data['file1'])) 				$request['file1'] 					= $data['file1'];
 		if(isset($data['company_details'])) 	$request['company_details'] 		= $data['company_details'];
+		if(isset($data['ncnotice'])) 			$request['ncnotice'] 				= $data['ncnotice'];
+		if(isset($data['ncemail'])) 			$request['ncemail'] 				= $data['ncemail'];
 		if(isset($data['submit']) && $data['submit']=='log') $request['log_date'] 	= date('Y-m-d H:i:s');
 		
 		$request['file2'] 					= (isset($data['file2'])) ? implode(',', $data['file2']) : '';

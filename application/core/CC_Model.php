@@ -7,7 +7,7 @@ class CC_Model extends CI_Model
 		parent::__construct();
 	}
 	
-	public function sentMail($to, $subject, $message, $file='')
+	public function sentMail($to, $subject, $message, $file='', $cc='')
 	{
 		$settings 	= 	$this->db->get('settings_details')->row_array();
 		$sitename	=	$this->config->item('sitename');
@@ -35,6 +35,7 @@ class CC_Model extends CI_Model
 		$this->email->initialize($config);
 		$this->email->from($settings['system_email'], $sitename);
 		$this->email->to($to);
+		if($cc!='') $this->email->cc($cc);
 		$this->email->subject($subject);
 		$this->email->message($message);
 		

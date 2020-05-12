@@ -1,10 +1,4 @@
 <?php
-// echo "<pre>";
-// print_r($result);die;
-
-// cron URL //auditit_new/pirb/plumber/mycpd/index/year_cron
-// cron URL //auditit_new/pirb/plumber/mycpd/index/monthlyMail
-
 $cpd_id 				= isset($result['id']) ? $result['id'] : '';
 $user_id 				= isset($result['user_id']) ? $result['user_id'] : $id;
 $reg_number 			= isset($result['reg_number']) ? $result['reg_number'] : $user_details['registration_no'];
@@ -69,7 +63,6 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">My CPD</h4>
 				<form class="mt-4 form" method="post" enctype="multipart/form-data">
 
 					<div class="row">

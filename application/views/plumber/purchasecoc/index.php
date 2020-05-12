@@ -48,11 +48,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<!-- action="https://sandbox.payfast.co.za/eng/process" -->
-				
 				<form class="form" method="post">
-
-					<h4 class="card-title">Purchase COC</h4>
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group">
