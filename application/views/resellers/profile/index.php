@@ -23,7 +23,6 @@
 			<div class="card-body">				
 			
 					<form class="form2">
-						<h4 class="card-title">Reseller Details</h4>
 					
 						<div class="row">
 							<div class="col-md-6">

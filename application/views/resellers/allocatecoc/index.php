@@ -60,7 +60,6 @@ if(isset($id) && $id >0)
 		<div class="card">
 			<div class="card-body">	
 				<form form class="mt-4 form" action="" method="post">
-					<h4 class="card-title">Allocate COC</h4>
 				
 					<div class="row">
 						<div class="col-md-3">
