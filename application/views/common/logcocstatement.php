@@ -532,6 +532,7 @@ $(function(){
 	}
 	
 	installationdefaultimage();
+	noncomplianceextras();
 	
 	validation(
 		'.form',
