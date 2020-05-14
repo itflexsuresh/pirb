@@ -95,7 +95,6 @@
 				
 				<form class="form" method="post" enctype="multipart/form-data">
 
-					<h4 class="card-title">My Profile</h4>
 					<?php
 									$z = 1;
 									$availability = '';

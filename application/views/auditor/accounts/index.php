@@ -62,8 +62,6 @@
 			<div class="card-body">
 				<?php if($editid > 0) { ?>
 				<form class="form" method="post">
-
-					<h4 class="card-title">Invocie Details</h4>
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group ">

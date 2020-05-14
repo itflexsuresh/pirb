@@ -19,7 +19,6 @@
 				
 				<form class="form" method="post">
 
-					<h4 class="card-title">Audit Statement</h4>
 					<div class="row">
 						<div class="col-md-12">							
 							<table id="table" class="table table-bordered table-striped datatables fullwidth">
