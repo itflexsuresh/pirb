@@ -103,6 +103,8 @@ function base64conversion($path){
 	$data = file_get_contents($path);
 	return 'data:image/' . $type . ';base64,' . base64_encode($data);
 }
+
+$logoimg = base64conversion(base_url().'assets/images/pitrb-logo.png');
 ?>
 
 <table class="page_overall_auditreport">
@@ -114,7 +116,7 @@ function base64conversion($path){
 					<tbody>
 						<tr>
 							<td><h2>NOTICE OF NON COMPLIANCE</h2></td>
-							<td style="text-align: right; width:250px;"><img width="200px" src="<?php echo base64conversion(base_url().'assets/images/pitrb-logo.png'); ?>"></td>                   
+							<td style="text-align: right; width:250px;"><img width="200px" src="<?php echo $logoimg; ?>"></td>                   
 						</tr>
 					</tbody>
 				</table>
@@ -235,8 +237,9 @@ function base64conversion($path){
 								<?php 
 									$filelist = array_filter(explode(',', $list['file'])); 
 									foreach($filelist as $file){
+										$plumberimg = base64conversion(base_url().'assets/uploads/plumber/'.$plumberid.'/log/'.$file);
 								?>
-										<img src="<?php echo base64conversion(base_url().'assets/uploads/plumber/'.$plumberid.'/log/'.$file); ?>" width="50">
+										<img src="<?php echo $plumberimg; ?>" width="50">
 								<?php
 									}
 								?>

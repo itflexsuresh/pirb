@@ -770,8 +770,8 @@ class CC_Controller extends CI_Controller
 							$subject 	= str_replace(['{Number}', '{Street}', '{Suburb}', '{City}', '{Province}'], $subject, $notificationdata['subject']);
 							$body 		= $notificationdata['email_body'];
 							
-							$pdf 		= FCPATH.'assets/uploads/temp/'.$requestdata['coc_id'].'.pdf';
-							$this->pdfnoncompliancereport($requestdata['coc_id'], $userid, $pdf);
+							$pdf 		= FCPATH.'assets/uploads/temp/'.$requestData['coc_id'].'.pdf';
+							$this->pdfnoncompliancereport($requestData['coc_id'], $userid, $pdf);
 							$this->CC_Model->sentMail($requestData['email'], $subject, $body, $pdf, $userdata['email']);
 							if(file_exists($pdf)) unlink($pdf);  
 						}				
