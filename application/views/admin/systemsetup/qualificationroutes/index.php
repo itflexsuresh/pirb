@@ -33,7 +33,6 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">Qualification Route</h4>
 				<?php if ($checkpermission) { ?>
 				<form class="form" action="" method="post">
 					<div class="form-group">

@@ -52,7 +52,6 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">CPD Activity Form</h4>
 				<?php if ($checkpermission) { ?>
 				<form class="mt-4 form" action="index_queue" method="post" enctype="multipart/form-data">
 					<div class="row">

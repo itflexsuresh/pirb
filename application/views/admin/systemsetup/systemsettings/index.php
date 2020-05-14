@@ -196,7 +196,6 @@ if(isset($result) && $result){
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">Settings</h4>
 				<form class="mt-4 form" action="" method="post">
 					<ul class="nav nav-tabs" role="tablist">
 						<li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#tab1" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">PIRB Company Details</span></a> </li>

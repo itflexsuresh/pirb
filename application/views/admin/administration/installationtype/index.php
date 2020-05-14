@@ -33,7 +33,6 @@ if(isset($result) && $result){
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">Installation Type</h4>
 				<?php if($checkpermission){ ?>
 				<form class="mt-4 form" action="" method="post">
 					<div class="form-group">

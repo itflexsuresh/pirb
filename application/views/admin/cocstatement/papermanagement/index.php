@@ -23,7 +23,6 @@ $id 			= (isset($result['id']) && $result['id']!='' && $result['id'] >= $customs
 			<div class="card-body">	
 			<?php if($checkpermission){ ?>			
 				<form class="form" method="post">
-					<h4 class="card-title">Paper Certificate Stock Management</h4>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="row add_top_value stockwrapper">

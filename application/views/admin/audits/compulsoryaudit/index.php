@@ -28,7 +28,6 @@ $heading				= isset($result['calid']) ? 'Update' : 'Add';
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">Compulsory Audit Listing</h4>
 				<?php if($checkpermission){  ?>
 				<form class="mt-4 form" action="" method="post">
 					<div class="row">

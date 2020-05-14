@@ -17,8 +17,6 @@
 		<div class="card">
 			<div class="card-body">
 				<form class="form" method="post">
-
-					<h4 class="card-title">COC Statement</h4>
 					<h5 class="card_sub_title">COC Range</h5>
 					
 					<div class="row">

@@ -18,7 +18,6 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">Renewal Plumber Registration Invoices</h4>
 				<form class="mt-4 form" action="" method="post">
 					<div class="col-md-6">					
 			    	</div>					

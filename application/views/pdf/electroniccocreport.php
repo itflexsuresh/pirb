@@ -27,7 +27,11 @@ function base64conversion($path){
   return 'data:image/' . $type . ';base64,' . base64_encode($data);
 }
 
-$textimg = base64conversion(base_url().'assets/images/text-img.png');
+$textimg 	= base64conversion(base_url().'assets/images/text-img.png');
+$roundimg 	= base64conversion(base_url()."assets/images/round.png");
+$logoimg 	= base64conversion(base_url()."assets/images/logo-img.png");
+$tickimg 	= base64conversion(base_url()."assets/images/tick.png");
+$ownersimg 	= base64conversion(base_url()."assets/images/owners.png");
 
 echo'<!DOCTYPE html> 
 <html>
@@ -41,7 +45,7 @@ echo'<!DOCTYPE html>
                   <div class="uper-block">
                       <h2 align="center" style=" font-family:Helvetica; padding-bottom:10px; margin:0;"><img src="'.$textimg.'"  style=" font-family:Helvetica; width:96%; margin:0 auto;"></h2>
                       <div class="logo-block" style=" font-family:Helvetica; width:48%; float: left; ">                         
-                          <img style=" font-family:Helvetica; margin-top: 50px; width: 100%; height: auto;" src="'.base64conversion(base_url()."assets/images/logo-img.png").'" />
+                          <img style=" font-family:Helvetica; margin-top: 50px; width: 100%; height: auto;" src="'.$logoimg.'" />
                       </div>
                       <div class="rt-side" style=" font-family:Helvetica; float: right;width: 50%;padding: 20px 0 0 15px;margin-top: 50px; box-sizing: border-box;">
                           <div class="box" style=" font-family:Helvetica; height: 40px; padding:7px 4px 3px 6px; margin: 0 0 4px; background: #d1d3d4;">
@@ -133,7 +137,7 @@ echo'<!DOCTYPE html>
                              <h4 style="padding: 2px 0;font-size: 16px;line-height: 16px; margin:0;"><?php echo $value['code'];?></h4>
                          </div>
                          <div class="block_sec" style="width:10%; float: left; text-align: center;">
-                             <h4 style="padding-top:2px; margin:0;"><?php echo (in_array($value['id'], $installationtypeid)) ? '<img style="width: 20%; height: 20%;" src="'.base64conversion(base_url()."assets/images/tick.png").'" />' : ''; ?></h4>
+                             <h4 style="padding-top:2px; margin:0;"><?php echo (in_array($value['id'], $installationtypeid)) ? '<img style="width: 20%; height: 20%;" src="'.$tickimg.'" />' : ''; ?></h4>
                          </div>
                          <div style="clear:both;"></div>
                       </div>
@@ -166,7 +170,7 @@ echo'<!DOCTYPE html>
                              <h4 style="padding: 2px 0;font-size: 16px;line-height: 16px; margin:0;"><?php echo $value['code'];?></h4>
                          </div>
                          <div class="block_sec" style="width:10%; float: left; text-align: center;">
-                             <h4 style="padding-top:2px; margin:0;"><?php echo (in_array($value['id'], $specialisationsid)) ? '<img style="width: 20%; height: 20%;" src="'.base64conversion(base_url()."assets/images/tick.png").'" />' : ''; ?></h4>
+                             <h4 style="padding-top:2px; margin:0;"><?php echo (in_array($value['id'], $specialisationsid)) ? '<img style="width: 20%; height: 20%;" src="'.$tickimg.'" />' : ''; ?></h4>
                          </div>
                          <div style="clear:both;"></div>
                       </div>
@@ -260,32 +264,32 @@ if($agreementid=='1'){
                       </div>
   
                       <div class="text" style=" font-family:Helvetica; padding:3px 10px 0 5px;">
-                          <span style=" font-family:Helvetica; padding: 0 0 0 0; float: left; width:3%;"><img src="'.base64conversion(base_url()."assets/images/round.png").'" style=" font-family:Helvetica; margin:10px;" /></span>
+                          <span style=" font-family:Helvetica; padding: 0 0 0 0; float: left; width:3%;"><img src="'.$roundimg.'" style=" font-family:Helvetica; margin:10px;" /></span>
                           <p style=" font-family:Helvetica; float: right;width: 97%; font-size:14px; line-height:20px; color: #000; font-weight:400; padding: 0; margin: 0;">An incorrect statement of fact, including an omission, is an offence in terms of the PIRB Code of conduct, and will be subjected to PIRB disciplinary procedures.</p>
                           <div style=" font-family:Helvetica; clear:both;"></div>
                       </div>
                       <div class="text" style=" font-family:Helvetica; padding:3px 10px 0 5px;">
-                          <span style=" font-family:Helvetica; padding: 0 0 0 0; float: left; width:3%;"><img src="'.base64conversion(base_url()."assets/images/round.png").'" style=" font-family:Helvetica; margin:10px;"/></span>
+                          <span style=" font-family:Helvetica; padding: 0 0 0 0; float: left; width:3%;"><img src="'.$roundimg.'" style=" font-family:Helvetica; margin:10px;"/></span>
                           <p style=" font-family:Helvetica; float: right;width: 97%; font-size:14px; line-height:20px; color: #000; font-weight:400; padding: 0; margin: 0;">A completed Certificate of Compliance must be provided to the owner/consumer within 5 days of the completion of the plumbing works and the details of the Certificate of Compliance must be logged electronically with the PIRB within that period.</p>
                           <div style=" font-family:Helvetica; clear:both;"></div>
                       </div>
                       <div class="text" style=" font-family:Helvetica; padding:3px 10px 0 5px;">
-                          <span style=" font-family:Helvetica; float: left; width: 3%; padding: 0 0 0 0;"><img src="'.base64conversion(base_url()."assets/images/round.png").'" style=" font-family:Helvetica; margin:10px;"/></span>
+                          <span style=" font-family:Helvetica; float: left; width: 3%; padding: 0 0 0 0;"><img src="'.$roundimg.'" style=" font-family:Helvetica; margin:10px;"/></span>
                           <p style=" font-family:Helvetica; float: right; width: 97%; font-size:14px; line-height:20px; color: #000; font-weight:400; padding: 0; margin: 0 0 7px;">The relevant plumbing work that was certified as complaint through the issuing of this certificate may be possibly be audited by a PIRB Auditor for compliance to the regulations, work- manship and health and safety of the plumbing.</p>
                       </div>
                       <div class="text" style=" font-family:Helvetica; padding:3px 10px 0 5px;">
-                          <span style=" font-family:Helvetica; float: left; width: 3%; padding: 0 0 0 0;"><img src="'.base64conversion(base_url()."assets/images/round.png").'" style=" font-family:Helvetica; margin:22px 6px;" /></span>
+                          <span style=" font-family:Helvetica; float: left; width: 3%; padding: 0 0 0 0;"><img src="'.$roundimg.'" style=" font-family:Helvetica; margin:22px 6px;" /></span>
                           <p style=" font-family:Helvetica; float: right; width: 97%; font-size:14px; line-height:20px; color: #000; font-weight:400; padding: 0; margin: 0;">If this Certificate of Compliance has been chosen for an audit you must cooperated fully with the PIRB Auditor in allowing them to carry out the relevant audit.</p>
                           <div style=" font-family:Helvetica; clear:both;"></div>
                       </div>
                       <div class="text" style=" font-family:Helvetica; padding:3px 10px 0 5px;">
-                          <span style=" font-family:Helvetica; float: left; width: 3%; padding: 0 0 0 0;"><img src="'.base64conversion(base_url()."assets/images/round.png").'"  style=" font-family:Helvetica; float:left;margin:10px;" /></span>
+                          <span style=" font-family:Helvetica; float: left; width: 3%; padding: 0 0 0 0;"><img src="'.$roundimg.'"  style=" font-family:Helvetica; float:left;margin:10px;" /></span>
                           <p style=" font-family:Helvetica; float: right; width:97%; font-size:14px; line-height:20px; color: #000; font-weight:400; padding: 0; margin: 0;">See reverse side of this Certificate of Compliance for further details </p>
                           <div style=" font-family:Helvetica; clear:both;"></div>
                       </div>
                   </div>
                   <div class="owners" style=" font-family:Helvetica; margin: 2px 0 0;">
-                      <img style=" font-family:Helvetica; width: 100%; height: auto;" src="'.base64conversion(base_url()."assets/images/owners.png").'" />
+                      <img style=" font-family:Helvetica; width: 100%; height: auto;" src="'.$ownersimg.'" />
                   </div>
               </div>
           </div>

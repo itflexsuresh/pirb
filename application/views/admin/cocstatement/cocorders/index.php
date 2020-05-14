@@ -64,7 +64,6 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 			<div class="card-body">
 			<?php if($checkpermission){ ?>
 				<form class="form" method="post">
-					<h4 class="card-title">COC Orders</h4>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group">

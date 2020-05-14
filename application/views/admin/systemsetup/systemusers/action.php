@@ -48,7 +48,6 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">Add Edit System Users</h4>
 				<form class="mt-4 form" action="" method="post">
 					<div class="row">
 					<div class="form-group col-md-6">

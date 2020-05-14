@@ -16,7 +16,6 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">COC Allocation for Audit</h4>
 				<form class="mt-4 form" action="" method="post" id="filter">
 					
 					<h5 class="card-title">Search Range:</h5>

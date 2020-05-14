@@ -16,7 +16,6 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">Manage Auditors</h4>	
 				<?php if($checkpermission){ ?>			
 				
 			<?php } ?>

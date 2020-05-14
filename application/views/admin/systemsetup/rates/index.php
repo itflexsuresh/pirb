@@ -45,7 +45,6 @@ else
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<h4 class="card-title">Rates</h4>
 				<?php if($heading=='Update'){ ?>
 					<form class="mt-4 form" action="" method="post">
 						<div class="row">
