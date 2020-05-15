@@ -64,6 +64,8 @@ class Chat_Model extends CC_Model
 		if(isset($data['toid']))		 			$request['to_id'] 			= $data['toid'];
 		if(isset($data['message']))		 			$request['message'] 		= $data['message'];
 		if(isset($data['attachment']))		 		$request['attachment'] 		= $data['attachment'];
+		if(isset($data['quote']))		 			$request['quote'] 			= $data['quote'];
+		if(isset($data['quoteattachment']))		 	$request['quoteattachment'] = $data['quoteattachment'];
 		if(isset($data['state1']))		 			$request['state1'] 			= $data['state1'];
 		if(isset($data['state2']))		 			$request['state2'] 			= $data['state2'];
 		if(isset($data['type']))		 			$request['type'] 			= $data['type'];
@@ -87,6 +89,11 @@ class Chat_Model extends CC_Model
 			$this->db->trans_commit();
 			return $insertid;
 		}
+	}
+	
+	public function delete($data)
+	{
+		return $this->db->delete('chat', ['id' => $data['id']]);
 	}
 
 }

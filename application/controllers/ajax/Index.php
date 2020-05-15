@@ -290,6 +290,20 @@ class Index extends CC_Controller
 	
 		echo json_encode($json);
 	}
+	
+	public function ajaxdelete()
+	{
+		$post 	= $this->input->post();
+		$result = $this->Chat_Model->delete($post);
+
+		if($result){
+			$json 	= ['status' => '1', 'result' => []];
+		}else{
+			$json 	= ['status' => '0', 'result' => []];
+		}
+	
+		echo json_encode($json);
+	}
 
 	public function ajaxdtaudithistory()
 	{

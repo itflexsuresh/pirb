@@ -603,9 +603,13 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 					'type' 			: '1'
 				}
 				
+				if($(document).find('.quote').length && $(document).find('.quote').val()!='') data['quote'] = $('.quote').val();
+				if($(document).find('.quoteattachment').length && $(document).find('.quoteattachment').val()!='') data['quoteattachment'] = $('.quoteattachment').val();
+				
 				var chatid = chataction(data);
 				chatcontent({'cocid' : data2[0], 'checkfrom' : data2[1] }, 'checkfrom');
 				$(data1[0]).val('');
+				$(document).find('.chatquote').remove();
 				
 				if(relationship=='child') window.opener.postMessage('id-'+chatid, "*");
 				if(seperatechat!=null) seperatechat.postMessage('id-'+chatid, "*");
@@ -631,6 +635,37 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 								chataction({'id' : v.id, 'state1' : '1'});
 							}else{
 								sound = '1';
+								
+								// Start Options
+								var options = 	'<div class="chatbar_options">\
+													<i class="fa fa-chevron-down"></i>\
+													<div class="displaynone">';
+								if(data2[1]==v.from_id){
+									options +=			'<p><a href="javascript:void(0);" class="chatbar_delete" data-id="'+v.id+'">Delete</a></p>';
+								}
+								options 	+=			'<p><a href="javascript:void(0);" class="chatbar_quote" data-id="'+v.id+'">Quote</a></p>\
+													</div>\
+												</div>';
+							
+								if(v.quote!=''){
+									var quote = '<div class="chatbar_quotes">"'+v.quote+'"</div>';
+								}else{
+									var quote = '';
+								}
+								
+								if(v.quoteattachment!=''){
+									var ext = v.quoteattachment.split('.').pop().toLowerCase();
+									if(ext=='jpg' || ext=='jpeg' || ext=='png' || ext=='tif' || ext=='tiff'){
+										var filesrc = data3[0]+'/'+v.quoteattachment;
+									}else if(ext=='pdf'){
+										var filesrc = data3[1];
+									}
+									var quote = '<div class="chatbar_quotes"><img src="'+filesrc+'" width="100"></div>';
+								}else{
+									var quote = '';
+								}
+								// End Options
+								
 								var chatappend = '<div class="chatbar_section"><div class="chatbar_wrapper '+((v.from_id!=data2[1]) ? 'chatbar_wrapper_right' : '')+'"><p class="chatbar_user">'+v.name+'  '+formatdate(v.created_at, 3)+'</p>';							
 								if(v.type=='2'){
 									var ext = v.attachment.split('.').pop().toLowerCase();
@@ -640,9 +675,9 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 										var filesrc = data3[1];
 									}
 									
-									chatappend += '<a href="'+data3[0]+'/'+v.attachment+'" target="_blank"><img src="'+filesrc+'" width="100"></a><a href="'+downloadurl+'/'+data2[0]+'/'+v.attachment+'"><i class="fa fa-download"></i></a>';
-								}else{
-									chatappend += '<div class="chatbar"><p class="chatbar_message">'+v.message+'</p></div>';
+									chatappend += '<div class="chatfile">'+options+'<a href="'+data3[0]+'/'+v.attachment+'" target="_blank"><img src="'+filesrc+'" data-img="'+v.attachment+'" width="100" class="chatattachmentimage"></a><a href="'+downloadurl+'/'+data2[0]+'/'+v.attachment+'" class="chatattachmentdownload"><i class="fa fa-download"></i></a></div>';
+								}else{									
+									chatappend += '<div class="chatbar">'+quote+'<p class="chatbar_message">'+v.message+'</p>'+options+'<div class="clear"></div></div>';
 								}	
 								
 								if(v.from_id!=data2[1]) chatappend += '<div class="clear"></div>';
@@ -715,6 +750,39 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 	function stopunread(){
 		clearInterval(unreadinterval);
 	}
+	
+	$(document).on('click', '.chatbar_options i', function(){
+		$(this).parent().find('div').toggleClass('displaynone');		
+	})
+	
+	$(document).on('click', '.chatbar_delete', function(){
+		var _this = $(this);
+		ajax(baseurl()+'ajax/index/ajaxdelete', {id : _this.attr('data-id')}, '', { success : function(data){ if(data.status=='1'){ _this.parents('.chatbar_section').remove(); } }, asynchronous : 1 });	
+	})
+	
+	$(document).on('click', '.chatbar_quote', function(){
+		$(document).find('.chatquote').remove();
+		$(document).find('.chatbar_options div').addClass('displaynone');
+		
+		var _this = $(this);
+		
+		if(_this.parents('.chatbar_section').find('.chatbar_message').length){
+			var quotetext 	= '"'+_this.parents('.chatbar_section').find('.chatbar_message').text()+'"';
+			var quoteval 	= _this.parents('.chatbar_section').find('.chatbar_message').text();
+			var quotename 	= 'quote';
+		}else{
+			var quotetext 	= _this.parents('.chatbar_section').find('.chatattachmentimage').parent().html();
+			var quoteval 	= _this.parents('.chatbar_section').find('.chatattachmentimage').attr('data-img');
+			var quotename 	= 'quoteattachment';
+		}
+		
+		var data = '<div class="chatquote">'+quotetext+'<input type="text" class="displaynone '+quotename+'" value="'+quoteval+'"><i class="fa fa-times"></i></div>';
+		$('.chatfooter').prepend(data);
+	})
+	
+	$(document).on('click', '.chatquote i', function(){
+		$(this).parent().remove();
+	})
 }
 
 function scrolltobottom(id){

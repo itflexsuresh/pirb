@@ -1726,6 +1726,7 @@ table#id_Card_back img {
     padding: 10px;
     margin: 0 0 15px 0;
 	border: 1px solid lightgrey;
+	position: relative;
 }
 
 .chatbar_wrapper .chatbar{
@@ -1740,13 +1741,64 @@ table#id_Card_back img {
 	margin: 0 0 5px;
 }
 
+.chatbar_quotes{
+	font-size: 13px;
+    font-style: italic;
+    padding-bottom: 7px;
+    border-bottom: 1px solid silver;
+    margin-bottom: 7px;
+}
+
 .chatbar_message{
 	margin: 0;
 	white-space: pre-line;
+	float: left;
+}
+
+.chatbar_options{
+	float : right;
+}
+
+.chatbar_options div{
+	position: absolute;
+    background: white;
+    padding: 5px 20px;
+	z-index: 1;
+}
+
+.chatbar_options i{
+	cursor :pointer;
+}
+
+.chatbar_options div p{
+	margin-bottom: 3px;
+}
+
+.chatbar_options div p a{
+	color : black;
 }
 
 .chatfooter{
 	margin: 15px 0 0;
+}
+
+.chatquote{
+	border-radius: 8px;
+    background: white;
+    min-height: 50px;
+    margin-bottom: 10px;
+    padding: 15px;
+    font-size: 13px;
+    font-style: italic;
+	position:relative;
+}
+
+.chatquote i{
+	position: absolute;
+    top: -7px;
+    right: -4px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 #chatcontent{
@@ -1757,6 +1809,22 @@ table#id_Card_back img {
 
 #chattext{
 	height :60px!important;
+}
+
+.chatfile{
+	position: relative;
+}
+
+.chatfile .chatbar_options{
+	float: none;
+    position: absolute;
+    top: 0;
+    z-index: 9;
+    left: 85px;	
+}
+
+.chatattachmentdownload{
+	margin-left: 5px;
 }
 
 .diarybar, .comment_section{
