@@ -2147,3 +2147,15 @@ div#DataTables_Table_0_wrapper {
     display: inline-block;
 }
 
+.datepicker-months,
+.datepicker-years,
+.datepicker-decades,
+.datepicker-centuries{
+	width :275px;
+}
+.datepicker-months table,
+.datepicker-years table,
+.datepicker-decades table,
+.datepicker-centuries table{
+	width :100%;
+}
