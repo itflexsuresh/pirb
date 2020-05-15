@@ -95,7 +95,7 @@
 				
 				<form class="form" method="post" enctype="multipart/form-data">
 
-					<h4 class="card-title">My Profile</h4>
+					<!-- <h4 class="card-title">My Profile</h4> -->
 					<div class="row">
 					<?php
 									$z = 1;
