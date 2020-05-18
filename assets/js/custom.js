@@ -646,11 +646,11 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 								options 	+=			'<p><a href="javascript:void(0);" class="chatbar_quote" data-id="'+v.id+'">Quote</a></p>\
 													</div>\
 												</div>';
-							
+								
+								var quote = '';
+								
 								if(v.quote!=''){
 									var quote = '<div class="chatbar_quotes">"'+v.quote+'"</div>';
-								}else{
-									var quote = '';
 								}
 								
 								if(v.quoteattachment!=''){
@@ -661,8 +661,6 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 										var filesrc = data3[1];
 									}
 									var quote = '<div class="chatbar_quotes"><img src="'+filesrc+'" width="100"></div>';
-								}else{
-									var quote = '';
 								}
 								// End Options
 								
