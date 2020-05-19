@@ -1138,9 +1138,12 @@ class CC_Controller extends CI_Controller
 		$userid			= $this->getUserID();
 		$date			= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
 		
-		if(count($data)==0) $data['plumberid'] = $userid;
-		$results = $this->Plumber_Model->performancestatus('all', ['date' => $date, 'archive' => '0']+$data);
-		if(count($data)){
+		$extradata = $data;
+		if(count($data)==0) $extradata['plumberid'] = $userid;
+		
+		$results = $this->Plumber_Model->performancestatus('all', ['date' => $date, 'archive' => '0']+$extradata);
+		
+		if(count($data) > 0){
 			return array_search($userid, array_column($results, 'userid'))+1;
 		}else{
 			return count($results) ? array_sum(array_column($results, 'point')) : '0';

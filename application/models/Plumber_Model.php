@@ -411,7 +411,7 @@ class Plumber_Model extends CC_Model
 		
 		
 		if(isset($requestdata['plumbergroup'])) $query = "select group_concat(point order by date separator ',') as point, userid from ($result1 UNION $result2) as data where 1=1 group by userid order by date asc";
-		else if(isset($requestdata['province']) || isset($requestdata['city'])) $query = "select sum(point) as point, userid from ($result1 UNION $result2 UNION $result3) as data where 1=1 group by userid order by sum(point) desc";
+		elseif(isset($requestdata['province']) || isset($requestdata['city'])) $query = "select sum(point) as point, userid from ($result1 UNION $result2 UNION $result3) as data where 1=1 group by userid order by sum(point) desc";
 		else $query = "select * from ($result1 UNION $result2 UNION $result3) as data where 1=1 ";
 		
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
