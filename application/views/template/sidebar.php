@@ -180,7 +180,11 @@ if(count($permission) > 0){
 						<?php } ?>
 						<p>Renewal Date: <?php echo date('jS F Y', strtotime($expirydate)); ?></p>
 					</div>
-					
+					<div>
+						<p> Performance Score: <?php echo $performancestatus; ?></p>
+						<p> Country Ranking: <?php echo $provinceperformancestatus; ?></p>
+						<p> Regional Ranking: <?php echo $cityperformancestatus; ?></p>
+					</div>
 					<li><a href="<?php echo base_url().'plumber/dashboard/index'; ?>">Dashboard</a></li>
 					
 					<?php if($formstatus=='1'){ ?>

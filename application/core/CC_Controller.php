@@ -45,9 +45,12 @@ class CC_Controller extends CI_Controller
 	
 	public function layout2($data=[])
 	{
-		$this->middleware();
-		$data['userdata'] 		= $this->getUserDetails();
-		$data['permission'] 	= ($data['userdata']['type']=='2') ? $this->getUserPermission() : [];
+		$this->middleware();	
+		$data['userdata'] 					= $this->getUserDetails();
+		$data['permission'] 				= ($data['userdata']['type']=='2') ? $this->getUserPermission() : [];
+		$data['performancestatus'] 			= ($data['userdata']['type']=='3') ? $this->userperformancestatus() : '';
+		$data['provinceperformancestatus'] 	= ($data['userdata']['type']=='3') ? $this->userperformancestatus(['province' => $data['userdata']['province']]) : '';
+		$data['cityperformancestatus'] 		= ($data['userdata']['type']=='3') ? $this->userperformancestatus(['city' => $data['userdata']['city']]) : '';
 		
 		$data['sidebar'] 		= $this->load->view('template/sidebar', $data, true);
 		$this->load->view('template/layout2', $data);
@@ -1128,6 +1131,20 @@ class CC_Controller extends CI_Controller
 		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
 		$data['content'] 			= $this->load->view('plumber/mycpd/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
+	}
+	
+	public function userperformancestatus($data = []){	
+		$rollingavg 	= $this->getRollingAverage();
+		$userid			= $this->getUserID();
+		$date			= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
+		
+		if(count($data)==0) $data['plumberid'] = $userid;
+		$results = $this->Plumber_Model->performancestatus('all', ['date' => $date, 'archive' => '0']+$data);
+		if(count($data)){
+			return array_search($userid, array_column($results, 'userid'))+1;
+		}else{
+			return count($results) ? array_sum(array_column($results, 'point')) : '0';
+		}
 	}
 	
 	public function performancestatusrollingaverage(){	
