@@ -1,8 +1,13 @@
 <?php 
+$userid 		= $userdata['id'];
+$username 		= $userdata['name'];
 $designation 	= $userdata['designation'];
 $approvalstatus = $userdata['approvalstatus'];
 $type 		 	= $userdata['type']; 
 $formstatus  	= $userdata['formstatus']; 
+$file2  		= $userdata['file2']; 
+$registrationno = $userdata['registration_no']; 
+$expirydate 	= $userdata['expirydate']; 
 
 if(count($permission) > 0){
 	$readpermission 	= explode(',', $permission['readpermission']);
@@ -150,7 +155,32 @@ if(count($permission) > 0){
 							</ul>
 						</li>				      
 					<?php } ?>
-				<?php }elseif($type=='3'){ ?>
+				<?php 
+					}elseif($type=='3'){ 
+						$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/';
+						$pdfimg 				= base_url().'assets/images/pdf.png';
+						$profileimg 			= base_url().'assets/images/profile.jpg';
+						
+						if($file2!=''){
+							$explodefile2 	= explode('.', $file2);
+							$extfile2 		= array_pop($explodefile2);
+							$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$file2;
+							$photoidurl		= $filepath.$file2;
+						}else{
+							$photoidimg 	= $profileimg;
+							$photoidurl		= 'javascript:void(0);';
+						}
+				?>
+					<div>
+						<p><a href="<?php echo base_url().'plumber/profile/index'; ?>" target="_blank"><i class="fa fa-edit"></i></a></p>
+						<a href="<?php echo $photoidurl; ?>" target="_blank"><img src="<?php echo $photoidimg; ?>" class="photo_image" width="100"></a>
+						<p><?php echo $username; ?></p>
+						<?php if($registrationno!=''){ ?>
+						<p>Reg No:<?php echo $registrationno; ?></p>
+						<?php } ?>
+						<p>Renewal Date: <?php echo date('jS F Y', strtotime($expirydate)); ?></p>
+					</div>
+					
 					<li><a href="<?php echo base_url().'plumber/dashboard/index'; ?>">Dashboard</a></li>
 					
 					<?php if($formstatus=='1'){ ?>
@@ -192,7 +222,6 @@ if(count($permission) > 0){
 							<?php
 						} ?>
 						
-						<li><a href="<?php echo base_url().'plumber/profile/index'; ?>">My Profile</a></li>
 						<?php if($msg!=''){?>
 						<div id="message">
 							<?php echo $msg;?>

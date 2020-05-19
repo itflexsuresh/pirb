@@ -50,31 +50,35 @@ if (in_array($plumberstatus, $plumber_status)) {
 			<div class="card-body">
 				<form class="form" method="post">
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<div class="form-group">
-								<label class="add_max_height">Number of COCs yet to allot by admin</label>
-								<input type="text" id="admin_allot" class="form-control" name="admin_allot" value="<?php  echo $admin_allot; ?>" readonly>
+								<div><?php  echo $admin_allot; ?></div>
+								<label class="add_max_height">COC’s yet to allocated</label>
+								<input type="hidden" id="admin_allot" class="form-control" name="admin_allot" value="<?php  echo $admin_allot; ?>" readonly>
 							</div>
 						</div>
 
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<div class="form-group">
+								<div><?php  echo $log_coc; ?></div>
 								<label class="add_max_height">Number of Non Logged COC's</label>
-								<input type="text" id="log_coc" class="form-control" name="log_coc" value="<?php  echo $log_coc; ?>" readonly>
+								<input type="hidden" id="log_coc" class="form-control" name="log_coc" value="<?php  echo $log_coc; ?>" readonly>
 							</div>
 						</div>
 
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<div class="form-group">
+								<div><?php  echo $coc_purchase_limit; ?></div>
 								<label class="add_max_height">Total Number COC's You are Permitted</label>
-								<input type="text" class="form-control" id="coc_permitted" name="coc_permitted" readonly value="<?php echo $coc_purchase_limit; ?>">
+								<input type="hidden" class="form-control" id="coc_permitted" name="coc_permitted" readonly value="<?php echo $coc_purchase_limit; ?>">
 							</div>
 						</div>
 
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<div class="form-group">
+								<div><?php  echo $coc_counts; ?></div>
 								<label class="add_max_height">Number of Permitted COC's that you are able to purchase</label>
-								<input type="text" class="form-control" id="number_of_purchase_coc" name="number_of_purchase_coc" readonly value="<?php echo $coc_counts; ?>">
+								<input type="hidden" class="form-control" id="number_of_purchase_coc" name="number_of_purchase_coc" readonly value="<?php echo $coc_counts; ?>">
 							</div>
 						</div>
 					</div>					
