@@ -46,7 +46,12 @@ class Index extends CC_Controller
 					}
 				}
 				
-				$cocstatus = isset($this->config->item('cocstatus')[$result['coc_status']]) ? $this->config->item('cocstatus')[$result['coc_status']] : '';
+				if($result['coc_status']=='2' && $result['auditorid']!='0'){
+					$cocstatus = isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';					
+				}else{
+					$cocstatus = isset($this->config->item('cocstatus')[$result['coc_status']]) ? $this->config->item('cocstatus')[$result['coc_status']] : '';
+				}
+				
 				$coctype = isset($this->config->item('coctype')[$result['type']]) ? $this->config->item('coctype')[$result['type']] : '';
 				
 				$totalrecord[] = 	[
