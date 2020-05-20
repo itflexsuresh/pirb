@@ -376,8 +376,10 @@ class Plumber_Model extends CC_Model
 	
 	public function performancestatus($type, $requestdata=[]){	
 		
-		$this->db->select('astat.id as id, astat.auditcompletedate as date, "Audit" as type, "" as comments, astat.point as point, "" as attachment, astat.plumber_id as userid, "1" as flag');
+		$this->db->select('astat.id as id, astat.auditcompletedate as date, "Audit" as type, "" as comments, astat.point as point, "" as attachment, astat.plumber_id as userid, "1" as flag, concat(ud.name, " ", ud.surname) as name, ud.file2 as image');
 		$this->db->from('auditor_statement astat');		
+		$this->db->join('users u', 'u.id=astat.plumber_id', 'inner');
+		$this->db->join('users_detail ud', 'ud.user_id=u.id', 'inner');
 		if(isset($requestdata['province']))	$this->db->join('users_address ua', 'ua.user_id=astat.plumber_id and ua.type="1" and ua.province="'.$requestdata['province'].'"', 'inner');
 		if(isset($requestdata['city']))	$this->db->join('users_address ua', 'ua.user_id=astat.plumber_id and ua.type="1" and ua.city="'.$requestdata['city'].'"', 'inner');
 		
@@ -387,8 +389,10 @@ class Plumber_Model extends CC_Model
 		$this->db->where(['astat.auditcomplete' => '1']);
 		$result1 = $this->db->get_compiled_select();
 		
-		$this->db->select('caf.id as id, caf.approved_date as date, "CPD" as type, caf.comments as comments, caf.points as point, caf.file1 as attachment, caf.user_id as userid, "2" as flag');
+		$this->db->select('caf.id as id, caf.approved_date as date, "CPD" as type, caf.comments as comments, caf.points as point, caf.file1 as attachment, caf.user_id as userid, "2" as flag, concat(ud.name, " ", ud.surname) as name, ud.file2 as image');
 		$this->db->from('cpd_activity_form caf');	
+		$this->db->join('users u', 'u.id=caf.user_id', 'inner');
+		$this->db->join('users_detail ud', 'ud.user_id=u.id', 'inner');
 		if(isset($requestdata['province']))	$this->db->join('users_address ua', 'ua.user_id=caf.user_id and ua.type="1" and ua.province="'.$requestdata['province'].'"', 'inner');
 		if(isset($requestdata['city']))	$this->db->join('users_address ua', 'ua.user_id=caf.user_id and ua.type="1" and ua.city="'.$requestdata['city'].'"', 'inner');
 		
@@ -398,8 +402,10 @@ class Plumber_Model extends CC_Model
 		$this->db->where(['caf.status' => '1']);
 		$result2 = $this->db->get_compiled_select();
 		
-		$this->db->select('ps.id as id, ps.date as date, "Admin" as type, ps.comments as comments, ps.point as point, ps.attachment as attachment, ps.plumber_id as userid, "3" as flag');
+		$this->db->select('ps.id as id, ps.date as date, "Admin" as type, ps.comments as comments, ps.point as point, ps.attachment as attachment, ps.plumber_id as userid, "3" as flag, concat(ud.name, " ", ud.surname) as name, ud.file2 as image');
 		$this->db->from('performance_status ps');	
+		$this->db->join('users u', 'u.id=ps.plumber_id', 'inner');
+		$this->db->join('users_detail ud', 'ud.user_id=u.id', 'inner');
 		if(isset($requestdata['province']))	$this->db->join('users_address ua', 'ua.user_id=ps.plumber_id and ua.type="1" and ua.province="'.$requestdata['province'].'"', 'inner');
 		if(isset($requestdata['city']))	$this->db->join('users_address ua', 'ua.user_id=ps.plumber_id and ua.type="1" and ua.city="'.$requestdata['city'].'"', 'inner');
 		
@@ -411,9 +417,11 @@ class Plumber_Model extends CC_Model
 		
 		
 		if(isset($requestdata['plumbergroup'])) $query = "select group_concat(point order by date separator ',') as point, userid from ($result1 UNION $result2) as data where 1=1 group by userid order by date asc";
-		elseif(isset($requestdata['province']) || isset($requestdata['city'])) $query = "select sum(point) as point, userid from ($result1 UNION $result2 UNION $result3) as data where 1=1 group by userid order by sum(point) desc";
+		elseif(isset($requestdata['province']) || isset($requestdata['city'])) $query = "select sum(point) as point, name, image, userid from ($result1 UNION $result2 UNION $result3) as data where 1=1 group by userid order by sum(point) desc";
 		else $query = "select * from ($result1 UNION $result2 UNION $result3) as data where 1=1 ";
 		
+		if(isset($requestdata['limit'])) $query .= ' limit '.$requestdata['limit'].' ';
+			
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
 			

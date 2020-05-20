@@ -22,6 +22,13 @@ class Index extends CC_Controller
 		$pagedata['settings_cpd']	= $this->Systemsettings_Model->getList('all');
 		$pagedata['user_details'] 	= $this->Plumber_Model->getList('row', ['id' => $id], ['usersplumber']);
 		
+		$userdata 									= $this->getUserDetails();
+		$pagedata['performancestatus'] 				= $this->userperformancestatus();
+		$pagedata['myprovinceperformancestatus'] 	= $this->userperformancestatus(['province' => $userdata['province']]);
+		$pagedata['mycityperformancestatus'] 		= $this->userperformancestatus(['city' => $userdata['city']]);
+		$pagedata['provinceperformancestatus'] 		= $this->userperformancestatus(['province' => $userdata['province'], 'limit' => '3']);
+		$pagedata['cityperformancestatus'] 			= $this->userperformancestatus(['city' => $userdata['city'], 'limit' => '3']);
+		
 		$data['plugins']			= ['echarts'];
 		$data['content'] 			= $this->load->view('plumber/dashboard/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);

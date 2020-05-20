@@ -88,6 +88,7 @@ $total1 		= $developmental1 + $workbased1 + $individual1;
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
+				<!--
 				<h4 class="card-title">CPD Overview</h4>				
 				<div id="cpd" style="width:100%; height:400px;"></div>
 				<div><div class="target"></div><label>Target</label></div>
@@ -116,6 +117,51 @@ $total1 		= $developmental1 + $workbased1 + $individual1;
 					</div>
 				</div>
 				<div id="audit" style="width:100%; height:400px;"></div>
+				-->
+				
+				<div class="row">
+					<div class="col-md-8">
+						<div class="row">
+							<div class="col-md-6">
+								<p>My CPD Points</p>
+								<div id="mycpdpoints" style="width:100%; height:400px;"></div>
+							</div>
+							<div class="col-md-6">
+								<p>My COC’s</p>
+								<div id="mycocs" style="width:100%; height:400px;"></div>
+							</div>
+							<div class="col-md-6">
+								<p>My Audits</p>
+								<div id="myaudits" style="width:100%; height:400px;"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<p>My Performance Status</p>
+						<p><?php echo $performancestatus; ?></p>
+						<p><?php echo $myprovinceperformancestatus; ?></p>
+						<p><?php echo $mycityperformancestatus; ?></p>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-8">
+						<div class="row">
+							<div class="col-md-6">
+								<p>Current Top 3 Regional Ranking (Country)</p>
+								<div id="provinceperformancestatus" style="width:100%; height:400px;"></div>
+							</div>
+							<div class="col-md-6">
+								<p>Current Top 3 Regional Ranking (City)</p>
+								<div id="cityperformancestatus" style="width:100%; height:400px;"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						
+					</div>
+				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -143,8 +189,22 @@ $total1 		= $developmental1 + $workbased1 + $individual1;
 	var individual1 	= '<?php echo $individual1; ?>';
 	var total1			= '<?php echo $total1; ?>';
 	
+	var provinceperformancestatusxaxis =[], provinceperformancestatusyaxis = [];
+	var provinceperformancestatus = $.parseJSON('<?php echo str_replace("'", "\'", json_encode($provinceperformancestatus)); ?>');
+	$(provinceperformancestatus).each(function(i,v){
+		provinceperformancestatusxaxis.push(v.point);
+		provinceperformancestatusyaxis.push(v.point);
+	})
+	
+	var cityperformancestatusxaxis =[], cityperformancestatusyaxis = [];
+	var cityperformancestatus = $.parseJSON('<?php echo str_replace("'", "\'", json_encode($cityperformancestatus)); ?>');
+	$(cityperformancestatus).each(function(i,v){
+		cityperformancestatusxaxis.push(v.point);
+		cityperformancestatusyaxis.push(v.point);
+	})
+	
 	$(function(){
-		
+		/*
 		barchart(
 			'cpd',
 			{
@@ -227,6 +287,30 @@ $total1 		= $developmental1 + $workbased1 + $individual1;
 						noaudit
 					],
 					colors : ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4']
+				}]
+			}
+		)
+		*/
+		barchart2(
+			'provinceperformancestatus',
+			{
+				xaxis : provinceperformancestatusxaxis,
+				series : [{
+					name : 'Audit',
+					yaxis : provinceperformancestatusyaxis,
+					colors : ['#FFC000','#D0CECE','#BF9000']
+				}]
+			}
+		)
+		
+		barchart2(
+			'cityperformancestatus',
+			{
+				xaxis : cityperformancestatusxaxis,
+				series : [{
+					name : 'Audit',
+					yaxis : cityperformancestatusyaxis,
+					colors : ['#FFC000','#D0CECE','#BF9000']
 				}]
 			}
 		)

@@ -1144,7 +1144,8 @@ class CC_Controller extends CI_Controller
 		$results = $this->Plumber_Model->performancestatus('all', ['date' => $date, 'archive' => '0']+$extradata);
 		
 		if(count($data) > 0){
-			return array_search($userid, array_column($results, 'userid'))+1;
+			if(isset($data['limit'])) return $results;
+			else return array_search($userid, array_column($results, 'userid'))+1;
 		}else{
 			return count($results) ? array_sum(array_column($results, 'point')) : '0';
 		}
