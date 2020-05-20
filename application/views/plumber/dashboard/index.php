@@ -88,37 +88,7 @@ $total1 		= $developmental1 + $workbased1 + $individual1;
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-				<!--
-				<h4 class="card-title">CPD Overview</h4>				
-				<div id="cpd" style="width:100%; height:400px;"></div>
-				<div><div class="target"></div><label>Target</label></div>
-				<div><div class="achieved"></div><label>Achieved</label></div>
-				<p>This chart denotes your current years registration targets and current years registration totals</p>
-				
-				<h4 class="card-title">CoC Overview</h4>
-				<div id="coc" style="width:100%; height:400px;"></div>
-				
-				<h4 class="card-title">Audit Overview</h4>
-				<div class="row">
-					<div class="col-md-2">
-						<label >Number of Logged COC's</label>
-					</div>
-					<div class="col-md-3">
-						<input type="text" class="form-control" value="<?php echo $logged; ?>">
-					</div>
-					<div class="col-md-2">
-						<label>Number of Audits Done to Date</label>
-					</div>
-					<div class="col-md-3">
-						<input type="text" class="form-control" value="<?php echo $count; ?>">
-					</div>
-					<div class="col-md-2">
-						<input type="text" class="form-control" value="<?php echo $auditpercentage; ?>">
-					</div>
-				</div>
-				<div id="audit" style="width:100%; height:400px;"></div>
-				-->
-				
+			
 				<div class="row">
 					<div class="col-md-8">
 						<div class="row">
@@ -130,16 +100,23 @@ $total1 		= $developmental1 + $workbased1 + $individual1;
 								<p>My COC’s</p>
 								<div id="mycocs" style="width:100%; height:400px;"></div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-8">
 								<p>My Audits</p>
 								<div id="myaudits" style="width:100%; height:400px;"></div>
+							</div>
+							<div class="col-md-4">
+								<div id="myaudits" style="width:100%; height:400px;"></div>
+								<p>Audit Ratio</p>
 							</div>
 						</div>
 					</div>
 					<div class="col-md-4">
 						<p>My Performance Status</p>
+						<p>My Performance Score</p>
 						<p><?php echo $performancestatus; ?></p>
+						<p>My Country Ranking</p>
 						<p><?php echo $myprovinceperformancestatus; ?></p>
+						<p>My Regional  Ranking</p>
 						<p><?php echo $mycityperformancestatus; ?></p>
 					</div>
 				</div>
@@ -168,26 +145,11 @@ $total1 		= $developmental1 + $workbased1 + $individual1;
 </div>
 
 <script>
-	var count 			= '<?php echo $count; ?>';
-	var atotal 			= '<?php echo $atotal; ?>';
-	var refixincomplete = '<?php echo $refixincomplete; ?>';
-	var refixcomplete 	= '<?php echo $refixcomplete; ?>';
-	var compliment 		= '<?php echo $compliment; ?>';
-	var cautionary 		= '<?php echo $cautionary; ?>';
-	var noaudit 		= '<?php echo $noaudit; ?>';
 	
-	var logged 			= '<?php echo $logged; ?>';
-	var nonlogged 		= '<?php echo $nonlogged; ?>';		
-	var allocated 		= '<?php echo $allocated; ?>';
-	
-	var developmental 	= '<?php echo $developmental; ?>';
-	var workbased 		= '<?php echo $workbased; ?>';
-	var individual 		= '<?php echo $individual; ?>';
-	var total 			= '<?php echo $total; ?>';
-	var developmental1 	= '<?php echo $developmental1; ?>';
-	var workbased1 		= '<?php echo $workbased1; ?>';
-	var individual1 	= '<?php echo $individual1; ?>';
-	var total1			= '<?php echo $total1; ?>';
+	var mycpd 			= '<?php echo $mycpd; ?>';
+	var nonlogcoc 		= '<?php echo $nonlogcoc; ?>';
+	var adminstock 		= '<?php echo $adminstock; ?>';
+	var coccount 		= '<?php echo $coccount; ?>';
 	
 	var provinceperformancestatusxaxis =[], provinceperformancestatusyaxis = [];
 	var provinceperformancestatus = $.parseJSON('<?php echo str_replace("'", "\'", json_encode($provinceperformancestatus)); ?>');
@@ -204,93 +166,35 @@ $total1 		= $developmental1 + $workbased1 + $individual1;
 	})
 	
 	$(function(){
-		/*
-		barchart(
-			'cpd',
-			{
-				xaxis : [
-					'Development',
-					'Work-Base',
-					'Individual',
-					'Total'
-				],
-				series : [
-					{
-						name : 'CPD',
-						yaxis : [
-							developmental1,
-							workbased1,
-							individual1,
-							total1
-						],
-						color : '#4472C4'
-					},
-					{
-						name : 'CPD',
-						yaxis : [
-							developmental,
-							workbased,
-							individual,
-							total
-						],
-						color : '#ED7D31'
-					}
-				]
-			}
-		);
 		
-		barchart(
-			'coc',
+		piechart2(
+			'mycpdpoints',
+			{
+				name : 'My CPD',
+				yaxis : [{value: mycpd, name: 'cpd'},{value: mycpd, name: 'cpd'}]
+			}
+		)
+		
+		barchart3(
+			'mycocs',
 			{
 				xaxis : [
-					'Non Logged Coc`s',
-					'Non Logged Coc`s Allocated',
-					'Coc`s Logged',
-					'Coc`s Audited to Date',
-					'Refix (Complete)',
-					'Refix(In Complete)'
+					'Number of Non Logged COCs',
+					'COC’s yet to allocated',
+					'Permitted COCs that you are able to purchase'
 				],
 				series : [{
-					name : 'COC',
+					name : 'My COC’s',
 					yaxis : [
-						nonlogged,
-						allocated,
-						logged,
-						count,
-						refixcomplete,
-						refixincomplete
+						nonlogcoc,
+						adminstock,
+						coccount
 					],
-					colors : ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4']
-				}]
-			}
-		);
-		
-		barchart(
-			'audit',
-			{
-				xaxis : [
-					'Total No of Audit Findings',
-					'Compliments',
-					'Cautionary',
-					'Refix (Complete)',
-					'Refix(In Complete)',
-					'No Audit'
-				],
-				series : [{
-					name : 'Audit',
-					yaxis : [
-						atotal,
-						compliment,
-						cautionary,
-						refixcomplete,
-						refixincomplete,
-						noaudit
-					],
-					colors : ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4']
+					colors : ['#C4E0B2','#CEF57F','#9ADD11']
 				}]
 			}
 		)
-		*/
+		
 		barchart2(
 			'provinceperformancestatus',
 			{

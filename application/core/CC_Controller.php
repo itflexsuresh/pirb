@@ -1179,7 +1179,7 @@ class CC_Controller extends CI_Controller
 		$rollingavg = $this->getRollingAverage();
 		$date		= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
 		
-		$datas = $this->Plumber_Model->performancestatus('all', ['plumbergroup' => '1', 'archive' => '0', 'date' => $date]);
+		$datas = $this->Plumber_Model->performancestatus('all', ['plumbergroup' => '1', 'archive' => '0', 'date' => $date, 'performancestatus' => '1']);
 		foreach($datas as $data){
 			$explodepoint 	= explode(',', $data['point']);
 			$plumberid		= $data['userid'];

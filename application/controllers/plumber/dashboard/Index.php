@@ -7,24 +7,24 @@ class Index extends CC_Controller
 	{
 		parent::__construct();
 		$this->load->model('Coc_Model');
+		$this->load->model('Coc_Ordermodel');
 		$this->load->model('Auditor_Model');
 	}
 	
 	public function index()
 	{
-		$id 						= $this->getUserID();
-		
-		$pagedata['history']		= $this->Auditor_Model->getReviewHistoryCount(['plumberid' => $id]);		
-		$pagedata['history2']		= $this->Auditor_Model->getReviewHistory2Count(['plumberid' => $id]);		
-		$pagedata['logged']			= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['2']]);
-		$pagedata['allocated']		= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['4']]);
-		$pagedata['nonlogged']		= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['5']]);
-		$pagedata['settings_cpd']	= $this->Systemsettings_Model->getList('all');
-		$pagedata['user_details'] 	= $this->Plumber_Model->getList('row', ['id' => $id], ['usersplumber']);
-		
+		$id 										= $this->getUserID();
 		$userdata 									= $this->getUserDetails();
-		$pagedata['performancestatus'] 				= $this->userperformancestatus();
+		
+		$pagedata['mycpd'] 							= $this->userperformancestatus(['performancestatus' => '1', 'auditorstatement' => '1']);
+		$pagedata['nonlogcoc']						= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['4','5']]);
+		$adminstock 								= $this->Coc_Ordermodel->getCocorderList('all', ['admin_status' => '0', 'userid' => $id]);
+		$pagedata['adminstock']						= array_sum(array_column($adminstock, 'quantity'));
+		$coccount									= $this->Coc_Model->COCcount(['user_id' => $id]);
+		$pagedata['coccount']						= $coccount['count'];
+		
 		$pagedata['myprovinceperformancestatus'] 	= $this->userperformancestatus(['province' => $userdata['province']]);
+		$pagedata['performancestatus'] 				= $this->userperformancestatus();
 		$pagedata['mycityperformancestatus'] 		= $this->userperformancestatus(['city' => $userdata['city']]);
 		$pagedata['provinceperformancestatus'] 		= $this->userperformancestatus(['province' => $userdata['province'], 'limit' => '3']);
 		$pagedata['cityperformancestatus'] 			= $this->userperformancestatus(['city' => $userdata['city'], 'limit' => '3']);
