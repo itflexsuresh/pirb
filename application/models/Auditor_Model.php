@@ -786,6 +786,24 @@ class Auditor_Model extends CC_Model
 		}
 	}
 	
+	public function getAuditorRatio($type, $requestdata=[])
+	{ 		
+		$this->db->select('*');
+		$this->db->from('auditor_ratio');
+		
+		if(isset($requestdata['userid'])) 			$this->db->where('plumber_id', $requestdata['userid']);
+
+		if($type=='count'){
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		return $result;	
+	}
 	
 	public function actionRatio($id)
 	{

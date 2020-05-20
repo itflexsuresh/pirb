@@ -34,6 +34,7 @@
 							<div class="col-md-4">
 								<div id="myaudits" style="width:100%; height:400px;"></div>
 								<p>Audit Ratio</p>
+								<p><?php echo $auditorratio; ?></p>
 							</div>
 						</div>
 					</div>

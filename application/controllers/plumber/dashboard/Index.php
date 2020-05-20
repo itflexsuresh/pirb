@@ -23,6 +23,12 @@ class Index extends CC_Controller
 		$coccount									= $this->Coc_Model->COCcount(['user_id' => $id]);
 		$pagedata['coccount']						= $coccount['count'];
 		
+		$history									= $this->Auditor_Model->getReviewHistoryCount(['plumberid' => $id]);
+		$pagedata['auditcoc'] 						= $history['total'];
+		$pagedata['auditrefixincomplete'] 			= $history['refixincomplete'];
+		$auditorratio								= $this->Auditor_Model->getAuditorRatio('row', ['userid' => $id]);
+		$pagedata['auditorratio']					= ($auditorratio) ? $auditorratio['audit'].'%' : '0%';
+		
 		$pagedata['myprovinceperformancestatus'] 	= $this->userperformancestatus(['province' => $userdata['province']]);
 		$pagedata['performancestatus'] 				= $this->userperformancestatus();
 		$pagedata['mycityperformancestatus'] 		= $this->userperformancestatus(['city' => $userdata['city']]);
