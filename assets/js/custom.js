@@ -835,6 +835,44 @@ function piechart(selector, options){
 	});
 }
 
+function piechart2(selector, options){
+	var myChart = echarts.init(document.getElementById(selector));
+	var option = {
+		series: [
+			{
+				name: options.name,
+				type: 'pie',
+				radius: ['50%', '70%'],
+				avoidLabelOverlap: false,
+				label: {
+					show: false,
+					position: 'center'
+				},
+				emphasis: {
+					label: {
+						show: true,
+						fontSize: '30',
+						fontWeight: 'bold'
+					}
+				},
+				labelLine: {
+					show: false
+				},
+				data: options.yaxis
+			}
+		]
+	};
+
+	myChart.setOption(option, true), $(function() {
+		function resize() {
+			setTimeout(function() {
+				myChart.resize()
+			}, 100)
+		}
+		$(window).on("resize", resize), $(".icon-menu").on("click", resize)
+	});
+}
+
 function barchart(selector, options){
 	var myChart = echarts.init(document.getElementById(selector));
 	
@@ -898,6 +936,68 @@ function barchart(selector, options){
 }
 
 function barchart2(selector, options){
+	var myChart = echarts.init(document.getElementById(selector));
+	
+	var series = [];
+	$(options['series']).each(function(i, v){
+		series.push({
+			name		: 	v.name,
+			type		: 	'bar',
+			barMaxWidth	: 	60,
+			itemStyle	: 	{
+								normal: {
+									color: function(params) {
+										return (v.colors) ? v.colors[params.dataIndex] : v.color
+									},
+									label : {
+										show: true, 
+										position: 'top'
+									}
+								}
+							},
+			data		: 	v.yaxis
+		})
+	})
+	
+	option = {
+		tooltip : {
+			trigger: 'item'
+		},
+		calculable : true,
+		grid: {
+			borderWidth: 0
+		},
+		xAxis : [
+			{
+				type : 'category',
+				data : 	options['xaxis'],
+				splitLine: { show: false },
+				axisLine: {show: false},	
+				axisTick : {show: false},		
+				axisLabel:{interval:0}			
+			}
+		],
+		yAxis : [
+			{
+				type : 'value',
+				axisLine: {show: false}
+			}
+		],
+		series : series
+	};
+                    
+
+	myChart.setOption(option, true), $(function() {
+		function resize() {
+			setTimeout(function() {
+				myChart.resize()
+			}, 100)
+		}
+		$(window).on("resize", resize), $(".icon-menu").on("click", resize)
+	});
+}
+
+function barchart3(selector, options){
 	var myChart = echarts.init(document.getElementById(selector));
 	
 	var series = [];
