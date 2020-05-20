@@ -979,8 +979,7 @@ function barchart2(selector, options){
 		],
 		yAxis : [
 			{
-				type : 'value',
-				axisLine: {show: false}
+				show: false
 			}
 		],
 		series : series
@@ -1027,7 +1026,9 @@ function barchart3(selector, options){
 		},
 		calculable : true,
 		grid: {
-			borderWidth: 0
+			borderWidth: 0,
+			height :200,
+			width:200
 		},
 		xAxis : [
 			{
@@ -1036,13 +1037,12 @@ function barchart3(selector, options){
 				splitLine: { show: false },
 				axisLine: {show: false},	
 				axisTick : {show: false},		
-				axisLabel:{interval:0}			
+				axisLabel:{interval:0,rotate:-70}			
 			}
 		],
 		yAxis : [
 			{
-				type : 'value',
-				axisLine: {show: false}
+				show: false
 			}
 		],
 		series : series
