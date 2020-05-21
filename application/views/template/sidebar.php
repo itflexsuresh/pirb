@@ -171,21 +171,41 @@ if(count($permission) > 0){
 							$photoidurl		= 'javascript:void(0);';
 						}
 				?>
-					<div>
-						<p><a href="<?php echo base_url().'plumber/profile/index'; ?>" target="_blank"><i class="fa fa-edit"></i></a></p>
-						<a href="<?php echo $photoidurl; ?>" target="_blank"><img src="<?php echo $photoidimg; ?>" class="photo_image" width="100"></a>
-						<p><?php echo $username; ?></p>
-						<?php if($registrationno!=''){ ?>
-						<p>Reg No:<?php echo $registrationno; ?></p>
-						<?php } ?>
-						<p>Renewal Date: <?php echo date('jS F Y', strtotime($expirydate)); ?></p>
+					<div class="row pro_section">
+						<div class="col-sm-9 col-md-9 col-lg-9 side_pro">
+							<a href="<?php echo $photoidurl; ?>" target="_blank" class="side_img">
+								<img src="<?php echo $photoidimg; ?>" class="photo_image" width="100">
+							</a>
+							<p class="cus_username"><?php echo $username; ?></p>
+						</div>
+						<div class="col-sm-3 col-md-3 col-lg-3">
+							<p class="cus_icon">
+								<a href="<?php echo base_url().'plumber/profile/index'; ?>" target="_blank">
+									<i class="fa fa-pencil" aria-hidden="true"></i>
+								</a>
+							</p>
+						</div>
+						<div class="reg_sec">
+							<?php if($registrationno!=''){ ?>
+								<p class="cus_reg">Reg No:<?php echo $registrationno; ?></p>
+							<?php } ?>
+							<p class="cus_ren">Renewal Date: <?php echo date('jS F Y', strtotime($expirydate)); ?></p>
+						</div>
 					</div>
-					<div>
-						<p> Performance Score: <?php echo $performancestatus; ?></p>
-						<p> Country Ranking: <?php echo $provinceperformancestatus; ?></p>
-						<p> Regional Ranking: <?php echo $cityperformancestatus; ?></p>
+					<div class="row side_table">
+						<div class="col-sm-7 col-md-7 col-lg-7 tab_right">  
+							<p class="cus_perf"> Performance Score: </p><span class="per_num"><?php echo $performancestatus; ?></span>
+						</div>
+						<div class="col-sm-5 col-md-5 col-lg-5 tab_left">  
+							<div class="tab_top">
+								<p class="cus_cou"> Country Ranking: </p><span class="coun_num"><?php echo $provinceperformancestatus; ?></span>
+							</div>
+							<div class="tab_bot">
+								<p class="cus_reg_tab"> Regional Ranking: </p> <span class="reg_num"><?php echo $cityperformancestatus; ?></span>
+							</div>
+						</div>
 					</div>
-					<li><a href="<?php echo base_url().'plumber/dashboard/index'; ?>">Dashboard</a></li>
+					<li><a href="<?php echo base_url().'plumber/dashboard/index'; ?>"><i class="fa fa-tachometer" aria-hidden="true"></i>Dashboard</a></li>
 					
 					<?php if($formstatus=='1'){ ?>
 					<?php 
@@ -211,18 +231,18 @@ if(count($permission) > 0){
 						
 						<?php if (($designation == '4' || $designation == '6') && $approvalstatus=='1') {
 							?>
-							<li><a href="<?php echo base_url().'plumber/purchasecoc/index'; ?>">Purchase COC</a></li>
-							<li><a href="<?php echo base_url().'plumber/cocstatement/index'; ?>">COC Statement</a></li>
-							<li><a href="<?php echo base_url().'plumber/auditstatement/index'; ?>">Audit Statement</a></li>
+							<li><a href="<?php echo base_url().'plumber/purchasecoc/index'; ?>"><i class="fa fa-shopping-bag" aria-hidden="true"></i>Purchase COC</a></li>
+							<li><a href="<?php echo base_url().'plumber/cocstatement/index'; ?>"><i class="fa fa-file-text" aria-hidden="true"></i>COC Statement</a></li>
+							<li><a href="<?php echo base_url().'plumber/auditstatement/index'; ?>"><i class="fa fa-calendar-minus-o" aria-hidden="true"></i>Audit Statement</a></li>
 							<?php
 						} ?>
 						
 						
 						<?php if ($approvalstatus=='1') {
 							?>
-							<li><a href="<?php echo base_url().'plumber/myaccounts/index'; ?>">My Accounts</a></li>
-							<li><a href="<?php echo base_url().'plumber/mycpd/index'; ?>">My CPD</a></li>
-							<li><a href="<?php echo base_url().'plumber/performancestatus/index'; ?>">Performance Status</a></li>
+							<li><a href="<?php echo base_url().'plumber/myaccounts/index'; ?>"><i class="fa fa-database" aria-hidden="true"></i>My Accounts</a></li>
+							<li><a href="<?php echo base_url().'plumber/mycpd/index'; ?>"><i class="fa fa-book" aria-hidden="true"></i>My CPD</a></li>
+							<li><a href="<?php echo base_url().'plumber/performancestatus/index'; ?>"><i class="fa fa-line-chart" aria-hidden="true"></i>Performance Status</a></li>
 							<?php
 						} ?>
 						

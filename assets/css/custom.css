@@ -2159,3 +2159,236 @@ div#DataTables_Table_0_wrapper {
 .datepicker-centuries table{
 	width :100%;
 }
+
+
+#sidebarnav li a:hover {
+    color: #000 !important;
+}
+
+a.side_img {
+    margin-left: 20px;
+}
+
+.side_img .photo_image {
+    width: 100px;
+    height: auto;
+    border: 2px solid #fff;
+    border-radius: 60px;
+}
+
+.cus_username {
+    font-size: 16px;
+    font-weight: 700;
+    margin-right: 36px;
+    margin-bottom: 0;
+}
+
+aside.left-sidebar {
+    width: 270px;
+}
+
+p.cus_reg {
+    margin-bottom: 0;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+p.cus_ren {
+    margin-bottom: 0;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.reg_sec {
+    text-align: right;
+width: 92%;
+    float: right;
+    margin: 0 auto;
+}
+
+#sidebarnav a:hover i {
+    color: #000 !important;
+}
+
+i.fa.fa-pencil:before {content: "\f040";font-family: fontAwesome;font-size: 20px;}
+
+p.cus_icon a {
+    float: right;
+    margin-right: 10px;
+}
+
+.side_pro {
+    text-align: center;
+}
+
+p.cus_perf {
+    font-size: 12px;
+    display: inline-block;
+    width: 70%;
+    margin-bottom: 0;
+}
+
+span.per_num {
+    font-size: 12px;
+    display: inline-block;
+    width: 30%;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+p.cus_cou {
+    font-size: 12px;
+    display: inline-block;
+    width: 70%;
+    margin-bottom: 0;
+
+}
+
+p.cus_reg_tab {
+    font-size: 12px;
+    display: inline-block;
+    width: 70%;
+    margin-bottom: 0;
+
+}
+
+span.coun_num {
+    font-size: 12px;
+    display: inline-block;
+    width: 30%;
+    text-align: center;
+    position: relative;
+    bottom: 9px;
+    font-weight: 600;
+}
+
+span.reg_num {
+    font-size: 12px;
+    display: inline-block;
+    width: 26%;
+    text-align: center;
+    position: relative;
+    bottom: 9px;
+        right: 3px;
+        font-weight: 600;
+}
+
+.row.side_table {
+    border-bottom: 1px solid #c5c2c2;
+    border-top: 1px solid #c5c2c2;
+    margin-bottom: 24px;
+}
+
+.pro_section{
+    margin: 6px 6px;
+}
+
+.tab_right {
+    height: 72px;
+    border-right: 1px solid #c5c2c2;
+}
+
+.tab_left {
+    padding: 0 9px 0 0;
+}
+
+p.cus_perf {
+    padding-left: 22px;
+        padding-top: 18px;
+    color: #0898ff;
+    padding-bottom: 18px;
+    border-right: 1px solid #c5c2c2;
+    font-weight: 700;
+}
+
+span.per_num {
+    vertical-align: super;
+    font-weight: 600;
+}
+
+.tab_top {
+    border-bottom: 1px solid #c5c2c2;
+}
+
+p.cus_cou {border-right: 1px solid #c5c2c2;
+color: #0898ff;
+    text-align: center;
+    font-weight: 600;}
+
+p.cus_reg_tab {
+    border-right: 1px solid #c5c2c2;
+    color: #0898ff;
+    text-align: center;
+    font-weight: 600;
+}
+
+i.fa.fa-tachometer:before {content: "\f0e4 ";font-family: fontAwesome;    font-size: 20px;
+    position: relative;
+    }
+
+i.fa.fa-calendar-minus-o:before {content: "\f272 ";font-family: fontAwesome;    font-size: 20px;
+    position: relative;
+    }
+
+    i.fa.fa-shopping-bag:before {content: "\f290  ";font-family: fontAwesome;    font-size: 20px;
+    position: relative;
+    }
+
+    i.fa.fa-file-text:before {content: "\f15c ";font-family: fontAwesome;    font-size: 20px;
+    position: relative;
+    }
+
+    i.fa.fa-database:before {content: "\f1c0";font-family: fontAwesome;    font-size: 20px;
+    position: relative;
+    }
+
+    i.fa.fa-book:before {content: "\f02d";font-family: fontAwesome;    font-size: 20px;
+    position: relative;
+    }
+
+    i.fa.fa-line-chart:before {content: "\f201";font-family: fontAwesome;    font-size: 20px;
+    position: relative;
+    }
+
+    .list_icon {
+    text-align: center;
+    padding-left: 20px;
+}
+
+.list_icon.active {
+    padding-right: 0;
+}
+
+.list_name.active {
+    background-color: #169eff;
+    padding-left: 0;
+}
+
+a.cus_li_name {
+    padding-left: 0px !important;
+}
+
+a.cus_li_name.active {
+    padding-left: 20px !important;
+}
+
+p.custom_li {
+    margin-bottom: 0;
+}
+
+.list_name .cus_li_name .custom_li:hover {
+    color: #169eff;
+}
+
+.list_name .cus_li_name.active .custom_li:hover {
+    color: #000;
+}
+
+.list_name .cus_li_name {
+    padding-right: 0;
+}
+
+.sidebar-nav>ul>li {
+    margin-bottom: 0;
+    margin-top: 0;
+}
