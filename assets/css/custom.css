@@ -21,10 +21,10 @@ p.error_class_1{
 }
 
 .mb-15{
-	margin-bottom : 15px;
+    margin-bottom : 15px;
 }
 .inlineblock{
-	display : inline-block;
+    display : inline-block;
 }
 .authenticationlogo{
     text-align: center;
@@ -35,7 +35,7 @@ p.error_class_1{
 }
 
 .datepicker-dropdown.dropdown-menu{
-	z-index: 99!important;
+    z-index: 99!important;
 }
 
 /* add by ashok */
@@ -1452,7 +1452,7 @@ i.fa.fa-check {
 .multipleupload{
     position: relative;
     display: inline-block;
-	margin-right: 20px;
+    margin-right: 20px;
 }
 
 .multipleupload i{
@@ -1570,13 +1570,13 @@ p.register-num, p.rene-date {
     padding-right: 0;
 }
 .learner_plumber #id_Card_back p.back_license{
-	margin: -44px !important;
+    margin: -44px !important;
 }
 .licensed_plumber #id_Card_back p.back_license{
-	margin: -49px !important;
+    margin: -49px !important;
 }
 .qualified_plumber #id_Card_back p.back_license{
-	margin: -48px !important;
+    margin: -48px !important;
 }
 .master_plumber #id_Card_back td.curr_emptxt p.emp_title, 
 .licensed_plumber #id_Card_back td.curr_emptxt p.emp_title, 
@@ -1712,24 +1712,24 @@ table#id_Card_back img {
 /* Chat */
 
 .chatbar_section{
-	width : 100%;
-	display : inline-block;
+    width : 100%;
+    display : inline-block;
 }
 
 .chatbar_wrapper{
-	width : 50%;
+    width : 50%;
 }
 
 .chatbar_wrapper_right{
-	float : right;
+    float : right;
 }
 
 .chatbar{
     border-radius: 5px;
     padding: 10px;
     margin: 0 0 15px 0;
-	border: 1px solid lightgrey;
-	position: relative;
+    border: 1px solid lightgrey;
+    position: relative;
 }
 
 .chatbar_wrapper .chatbar{
@@ -1741,11 +1741,11 @@ table#id_Card_back img {
 }
 
 .chatbar_user{
-	margin: 0 0 5px;
+    margin: 0 0 5px;
 }
 
 .chatbar_quotes{
-	font-size: 13px;
+    font-size: 13px;
     font-style: italic;
     padding-bottom: 7px;
     border-bottom: 1px solid silver;
@@ -1753,51 +1753,51 @@ table#id_Card_back img {
 }
 
 .chatbar_message{
-	margin: 0;
-	white-space: pre-line;
-	float: left;
+    margin: 0;
+    white-space: pre-line;
+    float: left;
 }
 
 .chatbar_options{
-	float : right;
+    float : right;
 }
 
 .chatbar_options div{
-	position: absolute;
+    position: absolute;
     background: white;
     padding: 5px 20px;
-	z-index: 1;
+    z-index: 1;
 }
 
 .chatbar_options i{
-	cursor :pointer;
+    cursor :pointer;
 }
 
 .chatbar_options div p{
-	margin-bottom: 3px;
+    margin-bottom: 3px;
 }
 
 .chatbar_options div p a{
-	color : black;
+    color : black;
 }
 
 .chatfooter{
-	margin: 15px 0 0;
+    margin: 15px 0 0;
 }
 
 .chatquote{
-	border-radius: 8px;
+    border-radius: 8px;
     background: white;
     min-height: 50px;
     margin-bottom: 10px;
     padding: 15px;
     font-size: 13px;
     font-style: italic;
-	position:relative;
+    position:relative;
 }
 
 .chatquote i{
-	position: absolute;
+    position: absolute;
     top: -7px;
     right: -4px;
     cursor: pointer;
@@ -1805,54 +1805,54 @@ table#id_Card_back img {
 }
 
 #chatcontent{
-	min-height: 400px;
+    min-height: 400px;
     max-height: 400px;
     overflow-y: auto;
 }
 
 #chattext{
-	height :60px!important;
+    height :60px!important;
 }
 
 .chatfile{
-	position: relative;
+    position: relative;
 }
 
 .chatfile .chatbar_options{
-	float: none;
+    float: none;
     position: absolute;
     top: 0;
     z-index: 9;
-    left: 85px;	
+    left: 85px; 
 }
 
 .chatattachmentdownload{
-	margin-left: 5px;
+    margin-left: 5px;
 }
 
 .diarybar, .comment_section{
-	background: white;
+    background: white;
     min-height: 300px;
     padding: 15px;
     max-height: 300px;
-	overflow-y:auto;
+    overflow-y:auto;
 }
 
 .auditmenu_wrapper{
-	text-align: center;
+    text-align: center;
     margin: 15px 0;
 }
 
 .auditmenu{
-	border: 1px solid lightgrey;
+    border: 1px solid lightgrey;
     padding: 10px 0;
     border-radius: 3px;
 }
 .auditmenuactive{
-	background: lightgrey;
+    background: lightgrey;
 }
 .auditmenuactive a{
-	color: black;
+    color: black;
 }
 
 
@@ -1951,34 +1951,34 @@ footer.footer {
 }
 
 .custom_number_box{
-	width: 75px;
+    width: 75px;
 }
 
 .parenttable
 {
-	border-collapse: collapse;
+    border-collapse: collapse;
 }
 
 .parenttable, 
 .parenttable th, 
 .parenttable td 
 {
-	border: 1px solid lightgrey;
-	padding: .4em; 
+    border: 1px solid lightgrey;
+    padding: .4em; 
 }
 
 .parenttable > tbody > tr.childrow
 {
-	display: none;
+    display: none;
 }
 
 .parenttable > tbody > tr.childrow.open 
 {
-	display: table-row;
+    display: table-row;
 }
 
 .childwrapper{
-	padding: 0.5em;
+    padding: 0.5em;
 }
 
 ::placeholder {
@@ -2001,7 +2001,7 @@ footer.footer {
 .mini-sidebar img.navbar_logo {
     display: block;
     position: relative;
-    top: 10px;
+    top: 6px;
 }
 
 /* 25.04.2020 */
@@ -2129,21 +2129,21 @@ div#DataTables_Table_0_wrapper {
 }
 
 .logcoc_textarea_wrapper{
-	display: flex;
+    display: flex;
 }
 
 .logcoc_textarea_wrapper td{
-	display: contents;
+    display: contents;
 }
 
 .logcoc_textarea_wrapper textarea{
-	height: 100px!important;
+    height: 100px!important;
     width: 100%;
-	padding:15px;
+    padding:15px;
 }
 
 .noncomplianceappendimg{
-	padding: 8px 5px!important;
+    padding: 8px 5px!important;
     display: inline-block;
 }
 
@@ -2151,14 +2151,15 @@ div#DataTables_Table_0_wrapper {
 .datepicker-years,
 .datepicker-decades,
 .datepicker-centuries{
-	width :275px;
+    width :275px;
 }
 .datepicker-months table,
 .datepicker-years table,
 .datepicker-decades table,
 .datepicker-centuries table{
-	width :100%;
+    width :100%;
 }
+
 
 #sidebarnav li a:hover {
     color: #000 !important;
@@ -2170,16 +2171,16 @@ a.side_img {
 
 .side_img .photo_image {
     width: 100px;
-    height: auto;
-    border: 2px solid #fff;
+    height: 100px;
+    border: 6px solid #fff;
     border-radius: 60px;
 }
 
 .cus_username {
     font-size: 16px;
     font-weight: 700;
-    margin-right: 36px;
-    margin-bottom: 0;
+    margin-left: 14px;
+        margin-bottom: 0;
 }
 
 aside.left-sidebar {
@@ -2217,7 +2218,7 @@ p.cus_icon a {
 }
 
 .side_pro {
-    text-align: center;
+    text-align: left;
 }
 
 p.cus_perf {
@@ -2390,4 +2391,31 @@ p.custom_li {
 .sidebar-nav>ul>li {
     margin-bottom: 0;
     margin-top: 0;
+}
+
+.page-wrapper {
+    margin-left: 268px !important;
+}
+
+a.side_img {
+    margin-left: 14px;
+}
+
+
+.mini-sidebar aside.left-sidebar {
+    width: 270px;
+}
+
+.mini-sidebar .sidebar-nav #sidebarnav li a{
+    border:none;
+    padding: 10px 35px 10px 15px;
+}
+
+.topbar .top-navbar .navbar-header {
+    line-height: 40px;
+    }
+
+    .cpd_points {
+    border: 1px solid #c5c2c2;
+    box-shadow: 4px 3px 5px 0 #c5c2c2;
 }
