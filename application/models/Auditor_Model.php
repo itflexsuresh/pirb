@@ -659,12 +659,12 @@ class Auditor_Model extends CC_Model
 	
 	public function getReviewHistoryCount($requestdata=[])
 	{
-		$plumberdata1 = isset($requestdata['plumberid']) ? ['plumber_id' => $requestdata['plumberid']] : [];
-		$auditordata1 = isset($requestdata['auditorid']) ? ['auditor_id' => $requestdata['auditorid']] : [];
+		$plumberdata1 = isset($requestdata['plumberid']) ? ['user_id' => $requestdata['plumberid'], 'auditorid !=' => '0'] : [];
+		$auditordata1 = isset($requestdata['auditorid']) ? ['auditorid' => $requestdata['auditorid']] : [];
 		$plumberdata2 = isset($requestdata['plumberid']) ? ['ar.plumber_id' => $requestdata['plumberid']] : [];
 		$auditordata2 = isset($requestdata['auditorid']) ? ['ar.auditor_id' => $requestdata['auditorid']] : [];
 		
-		$count = $this->db->select('count(id) as count')->where($plumberdata1+$auditordata1)->get('auditor_statement')->row_array();
+		$count = $this->db->select('count(id) as count')->where($plumberdata1+$auditordata1)->get('stock_management')->row_array();
 		
 		$total 	= 	$this->db->select('count(ar.id) as count')
 					->join('auditor_statement as', 'as.coc_id=ar.coc_id', 'left')
