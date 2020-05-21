@@ -205,11 +205,20 @@ if(count($permission) > 0){
 							</div>
 						</div>
 					</div>
-					<li><a href="<?php echo base_url().'plumber/dashboard/index'; ?>"><i class="fa fa-tachometer" aria-hidden="true"></i>Dashboard</a></li>
+					
+					<li>
+						<div class="row side_list">
+							<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
+								<a href="<?php echo base_url().'plumber/dashboard/index'; ?>"><i class="fa fa-tachometer" aria-hidden="true"></i></a>
+							</div>
+							<div class="col-sm-9 col-md-9 col-lg-9 list_name">
+								<a href="<?php echo base_url().'plumber/dashboard/index'; ?>" class="cus_li_name"><p class="custom_li">Dashboard</p></a>
+							</div>
+						</div>
+					</li>
 					
 					<?php if($formstatus=='1'){ ?>
 					<?php 
-                        
                        $this->db->select('*');
                        $this->db->from('messages');                  
                        $this->db->where("groups='1' AND status='1'");
@@ -228,32 +237,97 @@ if(count($permission) > 0){
                        }
                     ?>
                       
+						<?php 
+						if (($designation == '4' || $designation == '6') && $approvalstatus=='1'){
+						?>
+							<li>
+								<div class="row side_list">
+									<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
+										<a href="<?php echo base_url().'plumber/purchasecoc/index'; ?>"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a>
+									</div>
+									<div class="col-sm-9 col-md-9 col-lg-9 list_name">
+										<a href="<?php echo base_url().'plumber/purchasecoc/index'; ?>" class="cus_li_name"><p class="custom_li">Purchase COC</p></a>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="row side_list">
+									<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
+										<a href="<?php echo base_url().'plumber/cocstatement/index'; ?>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+									</div>
+									<div class="col-sm-9 col-md-9 col-lg-9 list_name">
+										<a href="<?php echo base_url().'plumber/cocstatement/index'; ?>" class="cus_li_name"><p class="custom_li">COC Statement</p></a>										
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="row side_list">
+									<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
+										<a href="<?php echo base_url().'plumber/auditstatement/index'; ?>"><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></a>
+									</div>
+									<div class="col-sm-9 col-md-9 col-lg-9 list_name">
+										<a href="<?php echo base_url().'plumber/auditstatement/index'; ?>" class="cus_li_name"><p class="custom_li">Audit Statement</p></a>
+									</div>
+								</div>
+							</li>
+						<?php
+						} 
+						?>
 						
-						<?php if (($designation == '4' || $designation == '6') && $approvalstatus=='1') {
-							?>
-							<li><a href="<?php echo base_url().'plumber/purchasecoc/index'; ?>"><i class="fa fa-shopping-bag" aria-hidden="true"></i>Purchase COC</a></li>
-							<li><a href="<?php echo base_url().'plumber/cocstatement/index'; ?>"><i class="fa fa-file-text" aria-hidden="true"></i>COC Statement</a></li>
-							<li><a href="<?php echo base_url().'plumber/auditstatement/index'; ?>"><i class="fa fa-calendar-minus-o" aria-hidden="true"></i>Audit Statement</a></li>
-							<?php
-						} ?>
-						
-						
-						<?php if ($approvalstatus=='1') {
-							?>
-							<li><a href="<?php echo base_url().'plumber/myaccounts/index'; ?>"><i class="fa fa-database" aria-hidden="true"></i>My Accounts</a></li>
-							<li><a href="<?php echo base_url().'plumber/mycpd/index'; ?>"><i class="fa fa-book" aria-hidden="true"></i>My CPD</a></li>
-							<li><a href="<?php echo base_url().'plumber/performancestatus/index'; ?>"><i class="fa fa-line-chart" aria-hidden="true"></i>Performance Status</a></li>
-							<?php
-						} ?>
+						<?php 
+						if ($approvalstatus=='1') {							
+						?>
+							<li>
+								<div class="row side_list">
+									<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
+										<a href="<?php echo base_url().'plumber/myaccounts/index'; ?>"><i class="fa fa-database" aria-hidden="true"></i></a>
+									</div>
+									<div class="col-sm-9 col-md-9 col-lg-9 list_name">
+										<a href="<?php echo base_url().'plumber/myaccounts/index'; ?>" class="cus_li_name"><p class="custom_li">My Accounts</p></a>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="row side_list">
+									<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
+										<a href="<?php echo base_url().'plumber/mycpd/index'; ?>"><i class="fa fa-book" aria-hidden="true"></i></a>
+									</div>
+									<div class="col-sm-9 col-md-9 col-lg-9 list_name">
+										<a href="<?php echo base_url().'plumber/mycpd/index'; ?>" class="cus_li_name"><p class="custom_li">My CPD</p></a>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="row side_list">
+									<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
+										<a href="<?php echo base_url().'plumber/performancestatus/index'; ?>"><i class="fa fa-line-chart" aria-hidden="true"></i></a>
+									</div>
+									<div class="col-sm-9 col-md-9 col-lg-9 list_name">
+										<a href="<?php echo base_url().'plumber/performancestatus/index'; ?>" class="cus_li_name"><p class="custom_li">Performance Status</p></a>
+									</div>
+								</div>
+							</li>
+						<?php
+						} 
+						?>
 						
 						<?php if($msg!=''){?>
-						<div id="message">
-							<?php echo $msg;?>
-						</div><?php }?>
+							<div id="message">
+								<?php echo $msg;?>
+							</div>
+						<?php }?>
 
 					<?php }elseif($formstatus=='0'){ ?>
-						<li><a href="<?php echo base_url().'plumber/registration/index'; ?>">My Profile</a></li>
-						
+						<li>
+							<div class="row side_list">
+								<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
+									<a href="<?php echo base_url().'plumber/registration/index'; ?>"><i class="fa fa-user" aria-hidden="true"></i></a>
+								</div>
+								<div class="col-sm-9 col-md-9 col-lg-9 list_name">
+									<a href="<?php echo base_url().'plumber/registration/index'; ?>" class="cus_li_name"><p class="custom_li">My Profile</p></a>
+								</div>
+							</div>
+						</li>
 					<?php } ?>
 				<?php }elseif($type=='4'){
 
