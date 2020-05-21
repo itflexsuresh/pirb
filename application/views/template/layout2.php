@@ -122,6 +122,9 @@
 			if(in_array('echarts', $plugins)){ 
 				echo '<script src="'.base_url().'assets/plugins/echarts/echarts-all.js"></script>';
 			}
+			if(in_array('knob', $plugins)){ 
+				echo '<script src="'.base_url().'assets/plugins/knob/jquery.knob.js"></script>';
+			}
 		?>
 		
 		<script src="<?php echo base_url().'assets/js/custom.min.js'; ?>"></script>

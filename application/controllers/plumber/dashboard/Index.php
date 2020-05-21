@@ -35,7 +35,7 @@ class Index extends CC_Controller
 		$pagedata['provinceperformancestatus'] 		= $this->userperformancestatus(['province' => $userdata['province'], 'limit' => '3']);
 		$pagedata['cityperformancestatus'] 			= $this->userperformancestatus(['city' => $userdata['city'], 'limit' => '3']);
 		
-		$data['plugins']			= ['echarts'];
+		$data['plugins']			= ['echarts', 'knob'];
 		$data['content'] 			= $this->load->view('plumber/dashboard/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}

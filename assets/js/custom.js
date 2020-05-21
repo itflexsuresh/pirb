@@ -790,6 +790,10 @@ function scrolltobottom(id){
 	}, 500);
 }
 
+function knobchart(){
+	$('[data-plugin="knob"]').knob();
+}
+
 function piechart(selector, options){
 	var myChart = echarts.init(document.getElementById(selector));
 	
@@ -825,44 +829,6 @@ function piechart(selector, options){
 		color: options['colors']
 	};
 	
-	myChart.setOption(option, true), $(function() {
-		function resize() {
-			setTimeout(function() {
-				myChart.resize()
-			}, 100)
-		}
-		$(window).on("resize", resize), $(".icon-menu").on("click", resize)
-	});
-}
-
-function piechart2(selector, options){
-	var myChart = echarts.init(document.getElementById(selector));
-	var option = {
-		series: [
-			{
-				name: options.name,
-				type: 'pie',
-				radius: ['50%', '70%'],
-				avoidLabelOverlap: false,
-				label: {
-					show: false,
-					position: 'center'
-				},
-				emphasis: {
-					label: {
-						show: true,
-						fontSize: '30',
-						fontWeight: 'bold'
-					}
-				},
-				labelLine: {
-					show: false
-				},
-				data: options.yaxis
-			}
-		]
-	};
-
 	myChart.setOption(option, true), $(function() {
 		function resize() {
 			setTimeout(function() {

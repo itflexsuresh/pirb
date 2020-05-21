@@ -21,7 +21,10 @@
 						<div class="row">
 							<div class="col-md-6">
 								<p>My CPD Points</p>
-								<div id="mycpdpoints" style="width:100%; height:400px;"></div>
+								<div class="text-center">
+									<input data-plugin="knob" data-width="200" data-height="200" data-min="0" data-thickness="0.2" data-fgColor="#FEC806" data-angleOffset=-125 data-angleArc=250 value="<?php echo $mycpd; ?>" readonly/>
+								</div>
+								<p><a href="<?php echo base_url().'plumber/mycpd/index'; ?>">View CPD Activities</a></p>
 							</div>
 							<div class="col-md-6">
 								<p>My COC’s</p>
@@ -29,10 +32,16 @@
 							</div>
 							<div class="col-md-8">
 								<p>My Audits</p>
-								<div id="myaudits" style="width:100%; height:400px;"></div>
+								<div style="position:relative;height:250px;">
+									<div style="position:absolute;left:10px;top:10px">
+										<input data-plugin="knob" data-width="200" data-height="200" data-min="0" data-thickness="0.2" data-fgColor="#53C2BF" data-displayInput=false data-angleOffset=-125 data-angleArc=250 value="<?php echo $auditcoc; ?>" readonly/>
+									</div>
+									<div style="position:absolute;left:30px;top:30px">
+										<input data-plugin="knob" data-width="160" data-height="160" data-min="0" data-thickness="0.2" data-fgColor="#FF0000" data-displayInput=false data-angleOffset=-125 data-angleArc=250 value="<?php echo $auditrefixincomplete; ?>" readonly/>
+									</div>
+								</div>
 							</div>
 							<div class="col-md-4">
-								<div id="myaudits" style="width:100%; height:400px;"></div>
 								<p>Audit Ratio</p>
 								<p><?php echo $auditorratio; ?></p>
 							</div>
@@ -94,14 +103,7 @@
 	})
 	
 	$(function(){
-		
-		piechart2(
-			'mycpdpoints',
-			{
-				name : 'My CPD',
-				yaxis : [{value: mycpd, name: 'cpd'},{value: mycpd, name: 'cpd'}]
-			}
-		)
+		knobchart();
 		
 		barchart3(
 			'mycocs',
