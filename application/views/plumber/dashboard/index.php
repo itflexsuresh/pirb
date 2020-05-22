@@ -89,14 +89,14 @@
 	var coccount 		= '<?php echo $coccount; ?>';
 	
 	var provinceperformancestatusxaxis =[], provinceperformancestatusyaxis = [];
-	var provinceperformancestatus = $.parseJSON('<?php echo str_replace("'", "\'", json_encode($provinceperformancestatus)); ?>');
+	var provinceperformancestatus = $.parseJSON('<?php echo str_replace("'", "\'", addslashes(json_encode($provinceperformancestatus))); ?>');
 	$(provinceperformancestatus).each(function(i,v){
 		provinceperformancestatusxaxis.push(v.point);
 		provinceperformancestatusyaxis.push(v.point);
 	})
 	
 	var cityperformancestatusxaxis =[], cityperformancestatusyaxis = [];
-	var cityperformancestatus = $.parseJSON('<?php echo str_replace("'", "\'", json_encode($cityperformancestatus)); ?>');
+	var cityperformancestatus = $.parseJSON('<?php echo str_replace("'", "\'", addslashes(json_encode($cityperformancestatus))); ?>');
 	$(cityperformancestatus).each(function(i,v){
 		cityperformancestatusxaxis.push(v.point);
 		cityperformancestatusyaxis.push(v.point);

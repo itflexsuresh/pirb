@@ -79,5 +79,39 @@ class Index extends CC_Controller
 		$this->auditorprofile($id);
 	}
 	
+	public function DTAuditHistory()
+	{
+		$post 			= $this->input->post();	
+		$totalcount 	= $this->Coc_Model->getCOCList('count', ['coc_status' => ['2']]+$post);
+		$results 		= $this->Coc_Model->getCOCList('all', ['coc_status' => ['2']]+$post);
+		
+		$totalrecord 	= [];
+		if(count($results) > 0){
+			foreach($results as $result){	
+
+				$totalrecord[] = 	[										
+										'cocno' 			=> 	$result['id'],
+										'auditdate' 		=> 	date('d-m-Y', strtotime($result['as_audit_date'])),
+										'plumber' 			=> 	$result['u_name'],
+										'suburb' 			=> 	$result['cl_suburb_name'],
+										'city' 				=> 	$result['cl_city_name'],
+										'province' 			=> 	$result['cl_province_name'],
+										'cautionary' 		=> 	$result['ar_cautionary_point'],
+										'refixcomplete' 	=> 	$result['ar_incomplete_point'],
+										'refixincomplete' 	=> 	$result['ar_complete_point'],
+										'noaudit' 			=> 	$result['ar_noaudit_point']
+									];
+			}
+		}
+		
+		$json = array(
+			"draw"            => intval($post['draw']),   
+			"recordsTotal"    => intval($totalcount),  
+			"recordsFiltered" => intval($totalcount),
+			"data"            => $totalrecord
+		);
+
+		echo json_encode($json);
+	}
 }
 

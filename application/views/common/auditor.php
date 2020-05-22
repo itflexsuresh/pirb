@@ -404,6 +404,7 @@
 					$cautionarypercentage 		= ($cautionary!=0) ? round(($cautionary/$total)*100,2).'%' : '0%'; 
 					$noauditpercentage 			= ($noaudit!=0) ? round(($noaudit/$total)*100,2).'%' : '0%'; 
 					?>
+					<h4 class="card-title">Audit Report History</h4>
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
@@ -479,8 +480,27 @@
 							</div>
 						</div>
 					</div>
+					<h4 class="card-title">Audit History</h4>
+					<div class="table-responsive m-t-40">
+						<table class="table table-bordered table-striped datatabless fullwidth">
+							<thead>
+								<tr>
+									<th>COC Number</th>
+									<th>Audit Date</th>
+									<th>Plumber</th>
+									<th>Suburb</th>
+									<th>City</th>
+									<th>Province</th>
+									<th>Cautionary Count</th>
+									<th>Refix (Complete) Count</th>
+									<th>Refix (In-Complete) Count</th>
+									<th>No Audit Findings Count</th>
+								</tr>							
+							</thead>
+						</table>
+					</div>
 				<?php } ?>
-				
+
 			</div>
 		</div>
 	</div>
@@ -489,7 +509,8 @@
 
 
 <script type="text/javascript">
-
+	var audit_id = '<?php echo $id; ?>';
+	
 	$(function(){
 		
 		fileupload([".auditor_image", "./assets/uploads/auditor/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.auditor_picture', '.auditor_photo', '<?php echo base_url()."assets/uploads/auditor/"; ?>']);
@@ -653,7 +674,6 @@
 		if(areas.length){
 			$(areas).each(function(i, v){
 				var areadatas = v.split('@@@');
-				console.log(areadatas);
 				areadata([areadatas[1],areadatas[2],areadatas[3],areadatas[0]], [areadatas[4],areadatas[5],areadatas[6]]);
 			})			
 		}
@@ -729,63 +749,84 @@
 </script>
 
 <script>
-	var count 			= '<?php echo $count; ?>';
-	var total 			= '<?php echo $total; ?>';
-	var refixincomplete = '<?php echo $refixincomplete; ?>';
-	var refixcomplete 	= '<?php echo $refixcomplete; ?>';
-	var compliment 		= '<?php echo $compliment; ?>';
-	var cautionary 		= '<?php echo $cautionary; ?>';
-	var noaudit 		= '<?php echo $noaudit; ?>';
+	if(audit_id!=''){
+		var count 			= '<?php echo $count; ?>';
+		var total 			= '<?php echo $total; ?>';
+		var refixincomplete = '<?php echo $refixincomplete; ?>';
+		var refixcomplete 	= '<?php echo $refixcomplete; ?>';
+		var compliment 		= '<?php echo $compliment; ?>';
+		var cautionary 		= '<?php echo $cautionary; ?>';
+		var noaudit 		= '<?php echo $noaudit; ?>';
 
-	$(function(){
-		
-		barchart(
-			'auditbar',
-			{
-				xaxis : [
-					'Total No of Audit Findings',
-					'Compliments',
-					'Cautionary',
-					'Refix (Complete)',
-					'Refix(In Complete)',
-					'No Audit'
-				],
-				series : [{
-					name : 'Audit',
-					yaxis : [
-						total,
-						compliment,
-						cautionary,
-						refixcomplete,
-						refixincomplete,
-						noaudit
+		$(function(){
+			
+			var options = {
+				url 	: 	'<?php echo base_url()."admin/audits/index/DTAuditHistory"; ?>',
+				columns : 	[							
+								{ "data": "cocno" },
+								{ "data": "auditdate" },
+								{ "data": "plumber" },
+								{ "data": "suburb" },
+								{ "data": "city" },
+								{ "data": "province" },
+								{ "data": "cautionary" },
+								{ "data": "refixcomplete" },
+								{ "data": "refixincomplete" },
+								{ "data": "noaudit" }
+							],
+							data : {auditorid : '<?php echo $id; ?>', auditcomplete : 1, page : 'auditorprofile'}
+			};
+			
+			ajaxdatatables('.datatabless', options);
+			
+			barchart(
+				'auditbar',
+				{
+					xaxis : [
+						'Total No of Audit Findings',
+						'Compliments',
+						'Cautionary',
+						'Refix (Complete)',
+						'Refix(In Complete)',
+						'No Audit'
 					],
-					colors : ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4']
-				}]
-			}
-		)
-		
-		piechart(
-			'auditpie',
-			{
-				name : 'Audit',
-				xaxis : [
-					'Compliments',
-					'Cautionary',
-					'Refix (Complete)',
-					'Refix(In Complete)',
-					'No Audit'
-				],
-				yaxis : [
-					{value : compliment, name : 'Compliments'},
-					{value : cautionary, name : 'Cautionary'},
-					{value : refixcomplete, name : 'Refix (Complete)'},
-					{value : refixincomplete, name : 'Refix(In Complete)'},
-					{value : noaudit, name : 'No Audit'}
-				],
-				colors : ['#843C0C','#FF0000','#ED7D31','#333F50','#4472C4']				
-			}
-		)
-		
-	});
+					series : [{
+						name : 'Audit',
+						yaxis : [
+							total,
+							compliment,
+							cautionary,
+							refixcomplete,
+							refixincomplete,
+							noaudit
+						],
+						colors : ['#4472C4','#843C0C','#FF0000','#ED7D31','#333F50','#4472C4']
+					}]
+				}
+			)
+			
+			piechart(
+				'auditpie',
+				{
+					name : 'Audit',
+					xaxis : [
+						'Compliments',
+						'Cautionary',
+						'Refix (Complete)',
+						'Refix(In Complete)',
+						'No Audit'
+					],
+					yaxis : [
+						{value : compliment, name : 'Compliments'},
+						{value : cautionary, name : 'Cautionary'},
+						{value : refixcomplete, name : 'Refix (Complete)'},
+						{value : refixincomplete, name : 'Refix(In Complete)'},
+						{value : noaudit, name : 'No Audit'}
+					],
+					colors : ['#843C0C','#FF0000','#ED7D31','#333F50','#4472C4']				
+				}
+			)
+			
+		});
+	}
 </script>

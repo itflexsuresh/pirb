@@ -13,7 +13,11 @@ class Coc_Model extends CC_Model
 		$auditorstatement 	= 	[ 
 									'aas.id as_id','aas.audit_date as_audit_date','aas.workmanship as_workmanship','aas.plumber_verification as_plumber_verification','aas.coc_verification as_coc_verification','aas.hold as_hold','aas.reason as_reason','aas.auditcomplete as_auditcomplete'
 								];
-			
+							
+		$auditorreview 	= 	[ 
+									'ar.incomplete_point ar_incomplete_point','ar.complete_point ar_complete_point','ar.cautionary_point ar_cautionary_point','ar.noaudit_point ar_noaudit_point'
+								];
+				
 		$this->db->select('
 			sm.*, 
 			u.id as u_id,
@@ -54,6 +58,7 @@ class Coc_Model extends CC_Model
 		$this->db->join('users_detail ad', 'ad.user_id=sm.auditorid', 'left'); // Auditor
 		$this->db->join('users a', 'a.id=sm.auditorid', 'left'); // Auditor
 		$this->db->join('auditor_statement aas', 'aas.coc_id=sm.id', 'left'); // Auditor Statement
+		$this->db->join('auditor_review ar', 'ar.coc_id=sm.id', 'left'); // Auditor Review
 		
 		if((isset($requestdata['search']['value']) && $requestdata['search']['value']!='') || (isset($requestdata['order']['0']['column']) && $requestdata['order']['0']['column']!='' && isset($requestdata['order']['0']['dir']) && $requestdata['order']['0']['dir']!='')){
 			$this->db->join('custom c1', 'c1.c_id=sm.coc_status and c1.type="1"', 'left');
@@ -80,6 +85,7 @@ class Coc_Model extends CC_Model
 		if(isset($requestdata['city']) && $requestdata['city']!='')							$this->db->where('cl.city', $requestdata['city']);
 		if(isset($requestdata['auditorid']) && $requestdata['auditorid']!='')				$this->db->where('sm.auditorid', $requestdata['auditorid']);
 		if(isset($requestdata['noaudit']))													$this->db->where('sm.auditorid !=', '');
+		if(isset($requestdata['auditcomplete']))											$this->db->where('aas.auditcomplete', '1');
 		
 		if(isset($requestdata['user_id']) && $requestdata['user_id']!='')					$this->db->where('sm.user_id', $requestdata['user_id']);
 		if(isset($requestdata['id']) && $requestdata['id']!='')								$this->db->where('sm.id', $requestdata['id']);
@@ -135,6 +141,17 @@ class Coc_Model extends CC_Model
 						$this->db->or_like('ad.name', $searchvalue, 'both');		
 						$this->db->or_like('ad.mobile_phone', $searchvalue, 'both');		
 						$this->db->or_like('DATE_FORMAT(sm.audit_allocation_date,"%d-%m-%Y")', $searchvalue, 'both');
+					}elseif($page=='auditorprofile'){
+						$this->db->like('sm.id', $searchvalue, 'both');
+						$this->db->or_like('DATE_FORMAT(aas.audit_date,"%d-%m-%Y")', $searchvalue, 'both');
+						$this->db->or_like('concat(ud.name, " ", ud.surname)', $searchvalue, 'both');
+						$this->db->or_like('s.name', $searchvalue, 'both');		
+						$this->db->or_like('c.name', $searchvalue, 'both');		
+						$this->db->or_like('p.name', $searchvalue, 'both');		
+						$this->db->or_like('ar.incomplete_point', $searchvalue, 'both');		
+						$this->db->or_like('ar.complete_point', $searchvalue, 'both');		
+						$this->db->or_like('ar.cautionary_point', $searchvalue, 'both');		
+						$this->db->or_like('ar.noaudit_point', $searchvalue, 'both');			
 					}
 				$this->db->group_end();
 			}
@@ -152,6 +169,8 @@ class Coc_Model extends CC_Model
 					$column = ['sm.id', 'c1.name', 'cl.name', 'cl.address', 'sm.allocation_date', 'ad.name'];
 				}elseif($page=='adminauditorstatement'){
 					$column = ['sm.id', 'c1.name', 'ad.name', 'ad.mobile_phone', 'sm.allocation_date', 'sm.audit_allocation_date'];
+				}elseif($page=='auditorprofile'){
+					$column = ['sm.id', 'aas.audit_date', 'ud.name', 's.name', 'c.name', 'p.name', 'ar.incomplete_point', 'ar.complete_point', 'ar.cautionary_point', 'ar.noaudit_point'];
 				}
 				
 				$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
