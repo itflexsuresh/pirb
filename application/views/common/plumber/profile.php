@@ -977,7 +977,7 @@ $(function(){
 	applicationstatus();
 	rejectother();
 	
-	var skill = $.parseJSON('<?php echo str_replace("'", "\'", json_encode($skills)); ?>');
+	var skill = $.parseJSON('<?php echo str_replace("'", "\'", addslashes(json_encode($skills))); ?>');
 	if(skill.length > 0){
 		$(skill).each(function(i, v){
 			var skillsplit 	= v.split('@@@');

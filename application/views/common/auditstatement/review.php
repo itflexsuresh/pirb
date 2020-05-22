@@ -27,7 +27,7 @@
 	$auditorname 			= isset($result['auditorname']) ? $result['auditorname'] : '';
 	$auditormobile 			= isset($result['auditormobile']) ? $result['auditormobile'] : '';
 	$auditorstatus 			= isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';
-				
+	
 	$completiondate 		= isset($result['cl_completion_date']) && $result['cl_completion_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_completion_date'])) : '';
 	$name 					= isset($result['cl_name']) ? $result['cl_name'] : '';
 	$address 				= isset($result['cl_address']) ? $result['cl_address'] : '';
@@ -593,7 +593,7 @@ $(function(){
 	fileupload(["#r_file", "./assets/uploads/auditor/statement/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.rfileappend', reviewpath, pdfimg], 'multiple');
 	chat(['.chattext', '.chatcontent'], [cocid, fromid, toid], [chatpath, pdfimg, downloadurl]);
 	
-	var reviewlist = $.parseJSON('<?php echo str_replace("'", "\'", json_encode($reviewlist)); ?>');
+	var reviewlist = $.parseJSON('<?php echo str_replace("'", "\'", addslashes(json_encode($reviewlist))); ?>');
 	if(reviewlist.length > 0){
 		$(reviewlist).each(function(i, v){
 			var reviewlistdata 	= {status : 1, result : { id: v.id, reviewtype: v.reviewtype, statementname: v.statementname, comments: v.comments, file: v.file, point: v.point, status: v.status, incomplete_point: v.incomplete_point, complete_point: v.complete_point, reference: v.reference, link: v.link, created_at: v.created_at }}
