@@ -138,7 +138,7 @@
 							<table class="comp_detail_uniq" style="margin-top:10px; border: 1px solid #000; width: 250px;">
 								<thead>
 									<tr>
-										<th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 5px; padding-top: 5px;">Company Details</th>
+										<th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 5px; padding-top: 5px;"><?php echo $rowData1['company_name']; ?></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -172,7 +172,7 @@
 						<table class="bill_detail_uniq" style="margin-top:10px; border: 1px solid #000; width: 250px;">
 							<thead>
 								<tr>
-									<th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 5px; padding-top: 5px;">Billing Details</th>
+									<th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 5px; padding-top: 5px;"><?php echo (isset($rowData['username']) ? $rowData['username'] : '').' '.(isset($rowData['surname']) ? $rowData['surname'] : ''); ?></th>
 								</tr>
 							</thead>
 							<tbody>
