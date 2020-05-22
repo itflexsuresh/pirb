@@ -21,7 +21,7 @@
 		<div class="card">
 			<div class="card-body">
 			
-				<form action="" method="post">
+				<form action="" method="get">
 					<div class="row">
 						<div class="col-md-1">
 							<div class="form-group">
@@ -30,12 +30,12 @@
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<input type="text" class="form-control" name="search" value="<?php echo isset($post['search']) ? $post['search'] : ''; ?>">
+								<input type="text" class="form-control" name="search" value="<?php echo isset($search) ? $search : ''; ?>">
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
-								<input type="submit" class="btn btn-primary" name="submit" value="Search">
+								<input type="submit" class="btn btn-primary" value="Search">
 							</div>
 						</div>
 					</div>
@@ -45,50 +45,115 @@
 		</div>
 			
 			
-			<?php 
-				if(isset($friendslist)){
-			?>
-				<div class="card">
-					<div class="card-body">
-						
-						<div class="row">
-							<?php 
-								foreach($friendslist as $list){ 
-									$userid					= $list['id'];
-									$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/';
-									$file2 					= isset($list['file2']) ? $list['file2'] : '';
-									if($file2!=''){
-										$explodefile2 	= explode('.', $file2);
-										$extfile2 		= array_pop($explodefile2);
-										$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$file2;
-										$photoidurl		= $filepath.$file2;
-									}else{
-										$photoidimg 	= $profileimg;
-										$photoidurl		= 'javascript:void(0);';
-									}
-							?>
-								<div class="col-md-4">
-									<form action="" method="post">
-										<div class="row">
-											<div class="col-md-4">
-												<img src="<?php echo $photoidimg; ?>" class="photo_image" width="100">
-											</div>
-											<div class="col-md-8">
-												<p><?php echo $list['name']; ?></p>
-												<input type="hidden" name="search" value="<?php echo isset($post['search']) ? $post['search'] : ''; ?>">
-												<input type="hidden" name="toid" value="<?php echo $userid; ?>">
-												<input type="submit" value="Add Friend" name="submit" class="btn btn-primary">
-											</div>
+		<?php 
+			if(isset($friendslist)){
+		?>
+			<div class="card">
+				<div class="card-body">
+					
+					<div class="row">
+						<?php 
+							foreach($friendslist as $list){ 
+								$userid					= $list['userid'];
+								$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/';
+								$file2 					= isset($list['file2']) ? $list['file2'] : '';
+								if($file2!=''){
+									$explodefile2 	= explode('.', $file2);
+									$extfile2 		= array_pop($explodefile2);
+									$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$file2;
+									$photoidurl		= $filepath.$file2;
+								}else{
+									$photoidimg 	= $profileimg;
+									$photoidurl		= 'javascript:void(0);';
+								}
+						?>
+							<div class="col-md-4">
+								<form action="" method="post">
+									<div class="row">
+										<div class="col-md-4">
+											<img src="<?php echo $photoidimg; ?>" class="photo_image" width="100">
 										</div>
-									</form>	
-								</div>
-							<?php } ?>
-						</div>
-						
+										<div class="col-md-8">
+											<p><?php echo $list['name']; ?></p>
+											<input type="hidden" name="search" value="<?php echo isset($search) ? $search : ''; ?>">
+											<input type="hidden" name="toid" value="<?php echo $userid; ?>">
+											<input type="hidden" name="id" value="">
+											<input type="submit" value="Add Friend" name="submit" class="btn btn-primary">
+										</div>
+									</div>
+								</form>	
+							</div>
+						<?php } ?>
 					</div>
+					
 				</div>
-			<?php
+			</div>
+		<?php
+			}
+		?>
+		
+		<?php 
+			if(count($friends) > 0 || count($fromrequestlist) > 0 || count($torequestlist) > 0){
+				for($i=0; $i<3; $i++){
+					if($i==0 && count($friends) > 0){
+						$heading 	= 'Friends List';
+						$loop 		= $friends;
+					}elseif($i==1 && count($fromrequestlist) > 0){
+						$heading 	= 'Request List';
+						$loop 		= $fromrequestlist;
+					}elseif($i==2 && count($torequestlist) > 0){
+						$heading 	= 'Friends Request List';
+						$loop 		= $torequestlist;
+					}else{
+						continue;
+					}
+		?>
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title"><?php echo $heading; ?></h4>
+							<div class="row">
+								<?php 
+									foreach($loop as $list){ 
+										$id						= $list['id'];
+										$userid					= $list['userid'];
+										$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/';
+										$file2 					= isset($list['file2']) ? $list['file2'] : '';
+										if($file2!=''){
+											$explodefile2 	= explode('.', $file2);
+											$extfile2 		= array_pop($explodefile2);
+											$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$file2;
+											$photoidurl		= $filepath.$file2;
+										}else{
+											$photoidimg 	= $profileimg;
+											$photoidurl		= 'javascript:void(0);';
+										}
+								?>
+									<div class="col-md-4">
+										<form action="" method="post">
+											<div class="row">
+												<div class="col-md-4">
+													<img src="<?php echo $photoidimg; ?>" class="photo_image" width="100">
+												</div>
+												<div class="col-md-8">
+													<p><?php echo $list['name']; ?></p>
+													<input type="hidden" name="search" value="<?php echo isset($search) ? $search : ''; ?>">
+													<input type="hidden" name="id" value="<?php echo $id; ?>">
+													<?php if($i==2){ ?>
+														<input type="submit" value="Accept" name="submit" class="btn btn-primary">
+													<?php } ?>
+													<input type="submit" value="Remove" name="submit" class="btn btn-primary">
+												</div>
+											</div>
+										</form>	
+									</div>
+								<?php } ?>
+							</div>
+							
+						</div>
+					</div>
+		<?php
 				}
-			?>
+			}
+		?>
 	</div>
 </div>
