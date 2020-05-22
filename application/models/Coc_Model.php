@@ -42,7 +42,8 @@ class Coc_Model extends CC_Model
 			ad.mobile_phone as auditormobile, 
 			a.email as auditoremail, 
 			ad.status as auditorstatus, 
-			'.implode(',', $auditorstatement).'
+			'.implode(',', $auditorstatement).',
+			'.implode(',', $auditorreview).'
 		');
 		$this->db->from('stock_management sm');
 		$this->db->join('users_plumber up', 'up.user_id=sm.user_id', 'left');

@@ -96,10 +96,10 @@ class Index extends CC_Controller
 										'suburb' 			=> 	$result['cl_suburb_name'],
 										'city' 				=> 	$result['cl_city_name'],
 										'province' 			=> 	$result['cl_province_name'],
-										'cautionary' 		=> 	$result['ar_cautionary_point'],
-										'refixcomplete' 	=> 	$result['ar_incomplete_point'],
-										'refixincomplete' 	=> 	$result['ar_complete_point'],
-										'noaudit' 			=> 	$result['ar_noaudit_point']
+										'cautionary' 		=> 	($result['ar_cautionary_point']!='') ? $result['ar_cautionary_point'] : '0',
+										'refixcomplete' 	=> 	($result['ar_incomplete_point']!='') ? $result['ar_incomplete_point'] : '0',
+										'refixincomplete' 	=>  ($result['ar_complete_point']!='') ? $result['ar_complete_point'] : '0',
+										'noaudit' 			=> 	($result['ar_noaudit_point']!='') ? $result['ar_noaudit_point'] : '0'
 									];
 			}
 		}
