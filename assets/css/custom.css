@@ -2415,7 +2415,262 @@ a.side_img {
     line-height: 40px;
     }
 
-    .cpd_points {
-    border: 1px solid #c5c2c2;
-    box-shadow: 4px 3px 5px 0 #c5c2c2;
+    .cpd_points_sec {
+        box-shadow: 4px 3px 5px 3px #c5c2c2;
+    border-radius: 3px;
+        height: 358px;
+        margin: 20px 0px;
+}
+
+p.cus_view_cpd {
+    text-align: center;
+}
+
+p.cus_view_cpd a {
+    color: #000;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+p.cus_my_cpd {
+    font-weight: 600;
+    padding: 10px 16px;}
+
+#mycocs.cus_line canvas.zr-element {
+    height: 300px !important;
+    top: -20px !important;
+}
+
+div#mycocs.cus_line {
+    height: 300px !important;
+}
+
+.coc_sec {
+    box-shadow: 4px 3px 5px 3px #c5c2c2;
+    border-radius: 3px;
+    margin: 20px 0px;
+}
+
+p.cus_my_coc{
+    font-weight: 600;
+    padding: 10px 16px;}
+
+.zr-element {
+    height: auto !important;
+}
+
+p.my_au_name {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.my_audit_sec {
+margin: 14px 0px;
+    display: inline-block;}
+
+.audit_ratio_cus {
+margin: 14px 0px;
+    display: inline-block;
+position: relative;
+    top: 90px;}
+
+    .my_audit_section_cus {
+    box-shadow: 4px 3px 5px 3px #c5c2c2;
+    padding: 0;
+    margin: 10px 12px;
+    max-width: 97%;
+}
+
+p.rat_box {
+    width: 60%;
+    padding: 40px 0px;
+    border: 1px solid #53c2bf;
+    background-color: #53c2bf;
+    border-radius: 24px;
+    text-align: center;
+    box-shadow: 2px 2px 3px 0px #afabab;
+    font-size: 24px;
+}
+
+.aud_rati p:last-child {
+    text-align: center;
+    width: 60%;
+    font-weight: 700;
+}
+
+.cus_reg_sec {
+    margin-top: 20px;
+}
+
+.cus_regt {
+    box-shadow: 4px 3px 5px 3px #c5c2c2;
+    padding: 10px 7px;
+}
+
+p.reg_he {
+    margin-bottom: 0;
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 12px;
+    margin-top: 4px;
+}
+
+.cus_perform i.fa.fa-line-chart:before {
+    content: "\f201";
+    font-family: fontAwesome;
+    font-size: 70px;
+    position: relative;
+    color: #ff6565;
+}
+
+.cus_perform {
+    box-shadow: 4px 3px 5px 3px #c5c2c2;
+    border-radius: 3px;
+    margin: 20px 0px;
+}
+
+p.perf_hed {
+    font-weight: 600;
+    padding: 10px 16px;
+}
+
+p.per_scr_hed {
+    font-weight: 600;
+    padding: 10px 16px;
+    text-align: center;
+}
+
+.cus_perform i.fa.fa-line-chart {
+    text-align: center;
+    width: 100%;
+}
+
+p.per_scr_box {
+    width: 40%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 40px 20px;
+    border: 1px solid #ff6565;
+    background-color: #ff6565;
+    border-radius: 24px;
+    color: #fff;
+    box-shadow: 2px 2px 3px 0px #afabab;
+    font-size: 20px;
+}
+
+.my_Rank {
+    width: 49%;
+    display: inline-block;
+    padding: 20px;
+    text-align: center;
+}
+
+p.per_coun_hed {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+p.cus_co_rank {
+    width: 80%;
+    margin: 0 auto;
+    padding: 10px 0;
+    border: 1px solid #ff6565;
+    background-color: #ff6565;
+    border-radius: 12px;
+    font-weight: 600;
+    color: #fff;
+    box-shadow: 2px 2px 3px 0px #afabab;
+    font-size: 15px;
+}
+
+img.bar_profil {
+   width: 36%;
+    height: auto;
+    border-radius: 45px;
+    display: block;
+    margin-bottom: 5px;
+    margin-left: 56px;
+}
+
+.ver_name1 {
+    padding: 0px;
+    display: inline-block;
+    transform: rotate(-88deg);
+}
+.ver_name2 {
+    padding: 0px;
+    display: inline-block;
+    transform: rotate(-88deg);
+}
+.ver_name3 {
+    padding: 0px;
+    display: inline-block;
+    transform: rotate(-88deg);
+}
+
+img.bar_3d {
+       width: 47%;
+    display: inline-block;
+    object-fit: fill;
+}
+
+span.bar_bot {
+        display: block;
+    text-align: right;
+    font-size: 14px;
+    font-weight: 600;
+    width: 67%;
+    margin: 0 auto;
+}
+
+.bar_img {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.cus_bar_  {
+    position: relative;
+    height: 300px;
+    padding:0;
+        width: 50%;
+    margin-left: -5px;
+}
+
+img.bar_3d.cus_pirb1 {
+    height: 200px;
+}
+
+img.bar_3d.cus_pirb2 {
+    height: 140px;
+}
+
+img.bar_3d.cus_pirb3 {
+    height: 90px;
+}
+
+span.ver_name1 {
+    position: relative;
+    top: 64px;
+    left: 12px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+span.ver_name2 {
+    position: relative;
+    top: 34px;
+    left: 12px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+span.ver_name3 {
+    position: relative;
+    top: 11px;
+    left: 12px;
+    font-size: 14px;
+    font-weight: 600;
 }

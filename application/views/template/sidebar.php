@@ -307,6 +307,16 @@ if(count($permission) > 0){
 									</div>
 								</div>
 							</li>
+							<li>
+								<div class="row side_list">
+									<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
+										<a href="<?php echo base_url().'plumber/friends/index'; ?>"><i class="fa fa-users" aria-hidden="true"></i></a>
+									</div>
+									<div class="col-sm-9 col-md-9 col-lg-9 list_name">
+										<a href="<?php echo base_url().'plumber/friends/index'; ?>" class="cus_li_name"><p class="custom_li">Friends</p></a>
+									</div>
+								</div>
+							</li>
 						<?php
 						} 
 						?>

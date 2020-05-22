@@ -312,7 +312,7 @@
 						</div>
 						
 					</div>
-					<h4 class="card-title add_top_value">My Auditting Areas</h4>
+					<h4 class="card-title add_top_value">My Auditing Areas</h4>
 					<div class="col-md-6">
 							<div class="form-group">
 								<label>Maximum number of Open COC Allocations allowed:</label>
