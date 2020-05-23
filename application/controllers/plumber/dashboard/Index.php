@@ -9,6 +9,7 @@ class Index extends CC_Controller
 		$this->load->model('Coc_Model');
 		$this->load->model('Coc_Ordermodel');
 		$this->load->model('Auditor_Model');
+		$this->load->model('Friends_Model');
 	}
 	
 	public function index()
@@ -34,6 +35,8 @@ class Index extends CC_Controller
 		$pagedata['mycityperformancestatus'] 		= $this->userperformancestatus(['city' => $userdata['city']]);
 		$pagedata['provinceperformancestatus'] 		= $this->userperformancestatus(['province' => $userdata['province'], 'limit' => '3']);
 		$pagedata['cityperformancestatus'] 			= $this->userperformancestatus(['city' => $userdata['city'], 'limit' => '3']);
+		
+		$pagedata['friends'] 						= $this->Friends_Model->getList('all', ['userid' => $id, 'fromto' => $id, 'status' => ['1'], 'limit' => '10']);
 		
 		$data['plugins']			= ['echarts', 'knob'];
 		$data['content'] 			= $this->load->view('plumber/dashboard/index', (isset($pagedata) ? $pagedata : ''), true);

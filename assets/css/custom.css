@@ -2584,8 +2584,8 @@ p.cus_co_rank {
 }
 
 img.bar_profil {
-   width: 36%;
-    height: auto;
+   width: 40%;
+    height: 40px;
     border-radius: 45px;
     display: block;
     margin-bottom: 5px;
@@ -2673,4 +2673,100 @@ span.ver_name3 {
     left: 12px;
     font-size: 14px;
     font-weight: 600;
+}
+
+ul.custom_friend_list li {
+    list-style-type: none;
+        margin-bottom: 8px;
+}
+
+img.frd_prof {
+    width: 25%;
+    height: 60px;
+    display: inline-block;
+}
+
+.frd_det {
+    width: 40%;
+    display: inline-block;
+        vertical-align: middle;
+}
+
+p.frd_rank {
+    width: 20%;
+    display: inline-block;
+        color: #b8b9b9;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.frd_det p {
+    margin-bottom: 0;
+}
+
+.cus_frnd {
+    width: 90%;
+    display: inline-block;
+    cursor: pointer;
+}
+
+ul.custom_friend_list {
+    padding-left: 0;
+}
+
+.cus_frnd_edit {
+    width: 10%;
+    display: inline;
+}
+
+p.frd_head {
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 12px;
+    margin-top: 4px;
+}
+
+.frd_list {
+    margin-top: 20px;
+    box-shadow: 4px 3px 5px 3px #c5c2c2;
+    padding: 10px 7px;
+}
+
+
+p.frd_name {
+    font-size: 13px;
+    color: #b8b9b9;
+}
+
+p.frd_num {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.cus_frnd_edit i.fa.fa-pencil {
+    color: #b8b9bf;
+}
+
+.cus_frnd:hover {
+    background-color: #ff6565;
+    color: #fff !important;
+}
+
+.cus_frnd:hover p.frd_rank {
+    color: #fff;
+    font-weight: 600;
+}
+
+.message_sec {
+    box-shadow: 4px 3px 5px 3px #c5c2c2;
+    padding: 10px 7px;
+    margin-top: 20px;
+    height: 157px;
+}
+
+.cus_msg p {
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 12px;
+    margin-top: 4px;
 }

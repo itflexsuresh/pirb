@@ -29,11 +29,14 @@ class Friends_Model extends CC_Model
 			f.*, 
 			if(f.from_id='.$requestdata['userid'].', ud1.user_id, ud2.user_id) as userid,
 			if(f.from_id='.$requestdata['userid'].', concat(ud1.name, " ", ud1.surname), concat(ud2.name, " ", ud2.surname)) as name,
-			if(f.from_id='.$requestdata['userid'].', ud1.file2, ud2.file2) as file2
+			if(f.from_id='.$requestdata['userid'].', ud1.file2, ud2.file2) as file2,
+			if(f.from_id='.$requestdata['userid'].', up1.registration_no, up2.registration_no) as registration_no
 		');
 		$this->db->from('friends f');
 		$this->db->join('users_detail ud1', 'ud1.user_id=f.to_id', 'left');
 		$this->db->join('users_detail ud2', 'ud2.user_id=f.from_id', 'left');
+		$this->db->join('users_plumber up1', 'up1.user_id=f.from_id', 'left');
+		$this->db->join('users_plumber up2', 'up2.user_id=f.from_id', 'left');
 		
 		if(isset($requestdata['id'])) 				$this->db->where('f.id', $requestdata['id']);
 		if(isset($requestdata['fromid'])) 			$this->db->where('f.from_id', $requestdata['fromid']);
@@ -49,6 +52,8 @@ class Friends_Model extends CC_Model
 		
 		$this->db->group_by("f.id");	
 		
+		if(isset($requestdata['limit'])) $this->db->limit($requestdata['limit']);
+			
 		if($type=='count'){
 			$result = $this->db->count_all_results();
 		}else{

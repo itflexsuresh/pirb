@@ -80,6 +80,11 @@
 				
 				<div class="row">
 					<div class="col-md-8">
+						<div class="col-md-12 message_sec">
+							<div class="cus_msg">
+							 <p>My Pirb Messages</p>
+							</div>
+						</div>
 						<div class="row">
 							<div class="col-md-6 cus_reg_sec">
 								<div class="cus_regt">
@@ -103,8 +108,8 @@
 												<div class="col-md-4 cus_bar_">
 													<div class="bar_img">
 														<img src="<?php echo $photoidimg; ?>" class="bar_profil">
-														<span class="ver_name1"><?php echo $performance['name']; ?></span>
-														<img src="<?php echo base_url().'assets/images/bar'.($key+1).'.png'; ?>" class="bar_3d cus_pirb1">
+														<span class="ver_name<?php echo $key+1; ?>"><?php echo $performance['name']; ?></span>
+														<img src="<?php echo base_url().'assets/images/bar'.($key+1).'.png'; ?>" class="bar_3d cus_pirb<?php echo $key+1; ?>">
 														<span class="bar_bot"><?php echo $performance['point']; ?></span>
 													</div>
 												</div>
@@ -134,8 +139,8 @@
 												<div class="col-md-4 cus_bar_">
 													<div class="bar_img">
 														<img src="<?php echo $photoidimg; ?>" class="bar_profil">
-														<span class="ver_name1"><?php echo $performance['name']; ?></span>
-														<img src="<?php echo base_url().'assets/images/bar'.($key+1).'.png'; ?>" class="bar_3d cus_pirb1">
+														<span class="ver_name<?php echo $key+1; ?>"><?php echo $performance['name']; ?></span>
+														<img src="<?php echo base_url().'assets/images/bar'.($key+1).'.png'; ?>" class="bar_3d cus_pirb<?php echo $key+1; ?>">
 														<span class="bar_bot"><?php echo $performance['point']; ?></span>
 													</div>
 												</div>
@@ -145,8 +150,54 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-4">
-						
+					<div class="col-md-4 friend_list_section">
+						<div class="frd_list">
+							<p class="frd_head">Friends</p>
+							<ul class="custom_friend_list">
+								<?php 
+									foreach($friends as $key => $list){ 
+										$id						= $list['id'];
+										$userid					= $list['userid'];
+										$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/';
+										$file2 					= isset($list['file2']) ? $list['file2'] : '';
+										if($file2!=''){
+											$explodefile2 	= explode('.', $file2);
+											$extfile2 		= array_pop($explodefile2);
+											$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$file2;
+											$photoidurl		= $filepath.$file2;
+										}else{
+											$photoidimg 	= $profileimg;
+											$photoidurl		= 'javascript:void(0);';
+										}
+										
+										$rank = $key+1;
+								?>
+								<li>
+									<div class="frd_ord">
+										<div class="cus_frnd">
+											<img src="<?php echo $photoidimg; ?>" class="frd_prof">
+											<div class="frd_det">
+												<p class="frd_name"><?php echo $list['name']; ?></p>
+												<p class="frd_num"><?php echo $list['registration_no']; ?></p>
+											</div>
+											<p class="frd_rank">
+												<?php 
+													echo $key+1; 
+													if($rank=='1')		echo 'st'; 
+													elseif($rank=='2') 	echo 'nd'; 
+													elseif($rank=='3') 	echo 'rd'; 
+													else 				echo 'th'; 
+												?>
+											</p>
+										</div>
+										<div class="cus_frnd_edit">
+											<a href="<?php echo base_url().'plumber/friends/index'; ?>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+										</div>
+									</div>
+								</li>
+								<?php } ?>
+							</ul>
+						</div>
 					</div>
 				</div>
 				
