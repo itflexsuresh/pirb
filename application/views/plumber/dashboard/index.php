@@ -178,7 +178,7 @@
 											<img src="<?php echo $photoidimg; ?>" class="frd_prof">
 											<div class="frd_det">
 												<p class="frd_name"><?php echo $list['name']; ?></p>
-												<p class="frd_num"><?php echo $list['registration_no']; ?></p>
+												<p class="frd_num"><?php echo $list['registration_no']; ?></p> 
 											</div>
 											<p class="frd_rank">
 												<?php 
