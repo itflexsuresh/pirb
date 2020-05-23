@@ -2361,7 +2361,7 @@ i.fa.fa-calendar-minus-o:before {content: "\f272 ";font-family: fontAwesome;    
 
 .list_name.active {
     background-color: #169eff;
-    padding-left: 0;
+    padding-left: 10px;
 }
 
 a.cus_li_name {
@@ -2369,7 +2369,7 @@ a.cus_li_name {
 }
 
 a.cus_li_name.active {
-    padding-left: 20px !important;
+    padding-left: 10px !important;
 }
 
 p.custom_li {
@@ -2769,4 +2769,40 @@ p.frd_num {
     font-weight: 600;
     margin-left: 12px;
     margin-top: 4px;
+}
+
+span.ver_name3 {
+    top: 61px !important;
+    left: -8px;
+}
+
+img.bar_3d {
+    margin-left: 30px  !important;
+}
+
+span.bar_bot {
+    text-align: center;
+}
+
+img.bar_profil {
+    margin-bottom: 0px  !important;
+    margin-left: 34px  !important;
+    position: relative;
+    top: 14px;
+}
+
+span.ver_name2 {
+    top: 89px  !important;
+    left: -29px  !important;
+    transform: rotate(-90deg)  !important;
+}
+
+.cus_bar_ {
+    margin-left: 0 !important;
+}
+
+span.ver_name1 {
+    top: 170px  !important;
+    left: -6px  !important;
+    transform: rotate(-89deg)  !important;
 }
