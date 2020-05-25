@@ -128,7 +128,10 @@ function datepicker(selector, extras=[]){
 	if($.inArray('currentdate', extras) != -1) options['startDate'] = new Date();
 	if($.inArray('enddate', extras) != -1) options['endDate'] = new Date();
 	
-	$(selector).datepicker(options);
+	$(selector).datepicker(options).end().on('keypress paste', function(e){
+		e.preventDefault();
+		return false;
+	});
 }
 
 function formsubmit(action, data){
@@ -931,70 +934,9 @@ function barchart2(selector, options){
 		},
 		calculable : true,
 		grid: {
-			borderWidth: 0
-		},
-		xAxis : [
-			{
-				type : 'category',
-				data : 	options['xaxis'],
-				splitLine: { show: false },
-				axisLine: {show: false},	
-				axisTick : {show: false},		
-				axisLabel:{interval:0}			
-			}
-		],
-		yAxis : [
-			{
-				show: false
-			}
-		],
-		series : series
-	};
-                    
-
-	myChart.setOption(option, true), $(function() {
-		function resize() {
-			setTimeout(function() {
-				myChart.resize()
-			}, 100)
-		}
-		$(window).on("resize", resize), $(".icon-menu").on("click", resize)
-	});
-}
-
-function barchart3(selector, options){
-	var myChart = echarts.init(document.getElementById(selector));
-	
-	var series = [];
-	$(options['series']).each(function(i, v){
-		series.push({
-			name		: 	v.name,
-			type		: 	'bar',
-			barMaxWidth	: 	60,
-			itemStyle	: 	{
-								normal: {
-									color: function(params) {
-										return (v.colors) ? v.colors[params.dataIndex] : v.color
-									},
-									label : {
-										show: true, 
-										position: 'top'
-									}
-								}
-							},
-			data		: 	v.yaxis
-		})
-	})
-	
-	option = {
-		tooltip : {
-			trigger: 'item'
-		},
-		calculable : true,
-		grid: {
 			borderWidth: 0,
 			height :200,
-			width:200
+			width:170
 		},
 		xAxis : [
 			{

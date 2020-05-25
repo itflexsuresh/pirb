@@ -12,6 +12,12 @@ class Index extends CC_Controller
 	
 	public function index($pagestatus='')
 	{
+		$userdata 									= $this->getUserDetails();
+		$pagedata['myprovinceperformancestatus'] 	= $this->userperformancestatus(['province' => $userdata['province']]);
+		$pagedata['performancestatus'] 				= $this->userperformancestatus();
+		$pagedata['mycityperformancestatus'] 		= $this->userperformancestatus(['city' => $userdata['city']]);
+		
+		
 		$userid 					= $this->getUserID();
 		$rollingavg 				= $this->getRollingAverage();
 		$date						= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));

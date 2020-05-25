@@ -51,32 +51,32 @@ if (in_array($plumberstatus, $plumber_status)) {
 				<form class="form" method="post">
 					<div class="row">
 						<div class="col-md-3">
-							<div class="form-group">
-								<div><?php  echo $admin_allot; ?></div>
+							<div class="form-group coc_pur_sec">
+								<div class="coc_pur_num1"><?php  echo $admin_allot; ?></div>
 								<label class="add_max_height">COC’s yet to allocated</label>
 								<input type="hidden" id="admin_allot" class="form-control" name="admin_allot" value="<?php  echo $admin_allot; ?>" readonly>
 							</div>
 						</div>
 
 						<div class="col-md-3">
-							<div class="form-group">
-								<div><?php  echo $log_coc; ?></div>
+							<div class="form-group coc_pur_sec">
+								<div class="coc_pur_num2"><?php  echo $log_coc; ?></div>
 								<label class="add_max_height">Number of Non Logged COC's</label>
 								<input type="hidden" id="log_coc" class="form-control" name="log_coc" value="<?php  echo $log_coc; ?>" readonly>
 							</div>
 						</div>
 
 						<div class="col-md-3">
-							<div class="form-group">
-								<div><?php  echo $coc_purchase_limit; ?></div>
+							<div class="form-group coc_pur_sec">
+								<div class="coc_pur_num3"><?php  echo $coc_purchase_limit; ?></div>
 								<label class="add_max_height">Total Number COC's You are Permitted</label>
 								<input type="hidden" class="form-control" id="coc_permitted" name="coc_permitted" readonly value="<?php echo $coc_purchase_limit; ?>">
 							</div>
 						</div>
 
 						<div class="col-md-3">
-							<div class="form-group">
-								<div><?php  echo $coc_counts; ?></div>
+							<div class="form-group coc_pur_sec">
+								<div class="coc_pur_num4"><?php  echo $coc_counts; ?></div>
 								<label class="add_max_height">Number of Permitted COC's that you are able to purchase</label>
 								<input type="hidden" class="form-control" id="number_of_purchase_coc" name="number_of_purchase_coc" readonly value="<?php echo $coc_counts; ?>">
 							</div>

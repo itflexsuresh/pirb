@@ -66,28 +66,41 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 				<form class="mt-4 form" method="post" enctype="multipart/form-data">
 
 					<div class="row">
-						<div class="form-group col-md-6">
-							<label for="points">PIRB CPD Activity:</label>
-							<input type="search" class="form-control" id="activity" name="activity" placeholder = "Enter CPD Activity" <?php if ($status=='1' || $status=='2') {
-								echo "readonly";
-							} ?> autocomplete="off" onkeyup="search_activity(this.value);" value="<?php echo $cpd_activity; ?>">
-							<input type="hidden" id="activity_id_hide" name="activity_id_hide" value="<?php echo $cpd_activity; ?>">
-							<div id="activity_suggesstion" style="display: none;"></div>								
-						</div>					
-						<div class="form-group col-md-6">
-							<label for="enddate">The Date on which the Activity took place or started:</label>
-							<input type="text" <?php if ($status=='1' || $status=='2') {
-								echo "readonly";
-							} ?> autocomplete="off" class="form-control" id="startdate" name="startdate" placeholder="Enter Start Date *" value="<?php echo $cpd_start_date; ?>">						
+						<div class="col-md-6">
+						<div class="row">
+							<div class="form-group col-md-12">
+								<label for="points">PIRB CPD Activity:</label>
+								<input type="search" class="form-control" id="activity" name="activity" placeholder = "Enter CPD Activity" <?php if ($status=='1' || $status=='2') {
+									echo "readonly";
+								} ?> autocomplete="off" onkeyup="search_activity(this.value);" value="<?php echo $cpd_activity; ?>">
+								<input type="hidden" id="activity_id_hide" name="activity_id_hide" value="<?php echo $cpd_activity; ?>">
+								<div id="activity_suggesstion" style="display: none;"></div>								
+							</div>	
+							<div class="form-group col-md-12">
+								<label for="enddate">The Date on which the Activity took place or started:</label>
+								<input type="text" <?php if ($status=='1' || $status=='2') {
+									echo "readonly";
+								} ?> autocomplete="off" class="form-control" id="startdate" name="startdate" placeholder="Enter Start Date *" value="<?php echo $cpd_start_date; ?>">						
+							</div>							
+							<div class="form-group col-md-12">
+								<label for="productcode">Comments</label>
+								<textarea class="form-control" <?php if ($status=='1' || $status=='2') {
+									echo "readonly";
+								} ?> id="comments" placeholder="Enter Comments" name="comments" ><?php echo $comments; ?></textarea>
+							</div>
+
+						</div>	
+						</div>	
+						<div class="col-md-6 cpd_section_sec">
+							<div class="cpd_points_sec">
+								<p class="cus_my_cpd">My CPD Points</p>
+								<div class="text-center">
+									<input data-plugin="knob" data-width="200" data-height="200" data-min="0" data-thickness="0.2" data-fgColor="#FEC806" data-angleOffset=-125 data-angleArc=250 value="<?php echo $mycpd; ?>" readonly/>
+								</div>
+							</div>
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-md-6">
-							<label for="productcode">Comments</label>
-							<textarea class="form-control" <?php if ($status=='1' || $status=='2') {
-								echo "readonly";
-							} ?> id="comments" placeholder="Enter Comments" name="comments" ><?php echo $comments; ?></textarea>
-						</div>
 
 						<!-- PIRB OFFICE SECTION -->
 
@@ -230,6 +243,8 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 
 <script>
 	$(function(){
+		knobchart();
+		
 		$('#addupdate').prop('disabled',true);
 		
 		if($('#declaration').is(':checked')){

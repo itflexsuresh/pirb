@@ -50,6 +50,12 @@
 											<input data-plugin="knob" data-width="160" data-height="160" data-min="0" data-thickness="0.2" data-fgColor="#FF0000" data-displayInput=false data-angleOffset=-125 data-angleArc=250 value="<?php echo $auditrefixincomplete; ?>" readonly/>
 										</div>
 									</div>
+									<div class="myaudit_legend">
+										<div class="legend1"></div>
+										<div>COC being Audited</div>
+										<div class="legend2"></div>
+										<div>Refixes Required</div>
+									</div>
 								</div>
 								<div class="col-md-5 audit_ratio_cus">
 									<div class="aud_rati">
@@ -63,6 +69,7 @@
 					<div class="col-md-4 my_perform_sec">
 						<div class="cus_perform"> 
 							<p class="perf_hed">My Performance Status</p>
+							<div id="performancechart" style="width:100%; height:300px;"></div>
 							<i class="fa fa-line-chart" aria-hidden="true"></i>
 							<p class="per_scr_hed">My Performance Score</p>	
 							<p class="per_scr_box"><?php echo $performancestatus; ?></p>
@@ -208,29 +215,15 @@
 
 <script>
 	
-	var mycpd 			= '<?php echo $mycpd; ?>';
-	var nonlogcoc 		= '<?php echo $nonlogcoc; ?>';
-	var adminstock 		= '<?php echo $adminstock; ?>';
-	var coccount 		= '<?php echo $coccount; ?>';
-	
-	var provinceperformancestatusxaxis =[], provinceperformancestatusyaxis = [];
-	var provinceperformancestatus = $.parseJSON('<?php echo str_replace("'", "\'", json_encode($provinceperformancestatus)); ?>');
-	$(provinceperformancestatus).each(function(i,v){
-		provinceperformancestatusxaxis.push(v.point);
-		provinceperformancestatusyaxis.push(v.point);
-	})
-	
-	var cityperformancestatusxaxis =[], cityperformancestatusyaxis = [];
-	var cityperformancestatus = $.parseJSON('<?php echo str_replace("'", "\'", json_encode($cityperformancestatus)); ?>');
-	$(cityperformancestatus).each(function(i,v){
-		cityperformancestatusxaxis.push(v.point);
-		cityperformancestatusyaxis.push(v.point);
-	})
+	var nonlogcoc 				= '<?php echo $nonlogcoc; ?>';
+	var adminstock 				= '<?php echo $adminstock; ?>';
+	var coccount 				= '<?php echo $coccount; ?>';
+	var performancestatus 		= '<?php echo $performancestatus; ?>';
 	
 	$(function(){
 		knobchart();
 		
-		barchart3(
+		barchart2(
 			'mycocs',
 			{
 				xaxis : [
@@ -248,31 +241,16 @@
 					colors : ['#C4E0B2','#CEF57F','#9ADD11']
 				}]
 			}
-		)
+		);
 		
-		barchart2(
-			'provinceperformancestatus',
+		gaugechart(
+			'performancechart',
 			{
-				xaxis : provinceperformancestatusxaxis,
-				series : [{
-					name : 'Audit',
-					yaxis : provinceperformancestatusyaxis,
-					colors : ['#FFC000','#D0CECE','#BF9000']
-				}]
+				name : 'Performance Chart',
+				data : [{value: performancestatus, name: ''}],
+				colors : [[0.2, '#55ce63'],[0.5, '#FBB596'],[0.8, '#009efb'],[1, '#f62d51']]
+				
 			}
-		)
-		
-		barchart2(
-			'cityperformancestatus',
-			{
-				xaxis : cityperformancestatusxaxis,
-				series : [{
-					name : 'Audit',
-					yaxis : cityperformancestatusyaxis,
-					colors : ['#FFC000','#D0CECE','#BF9000']
-				}]
-			}
-		)
-		
+		);
 	});
 </script>

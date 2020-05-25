@@ -7,12 +7,21 @@ class Index extends CC_Controller
 	{
 		parent::__construct();
 		$this->load->model('Coc_Model');
+		$this->load->model('Auditor_Model');
 	}
 	
 	public function index()
 	{
+		$id 										= $this->getUserID();
+		$history									= $this->Auditor_Model->getReviewHistoryCount(['plumberid' => $id]);
+		$pagedata['auditcoc'] 						= $history['total'];
+		$pagedata['auditrefixincomplete'] 			= $history['refixincomplete'];
+		$auditorratio								= $this->Auditor_Model->getAuditorRatio('row', ['userid' => $id]);
+		$pagedata['auditorratio']					= ($auditorratio) ? $auditorratio['audit'].'%' : '0%';
+		
+		
 		$pagedata['notification'] 	= $this->getNotification();
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'knob'];
 		$data['content'] 			= $this->load->view('plumber/auditstatement/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}

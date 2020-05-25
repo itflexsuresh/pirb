@@ -2369,7 +2369,7 @@ a.cus_li_name {
 }
 
 a.cus_li_name.active {
-    padding-left: 10px !important;
+    padding-left: 0px !important;
 }
 
 p.custom_li {
@@ -2420,6 +2420,7 @@ a.side_img {
     border-radius: 3px;
         height: 358px;
         margin: 20px 0px;
+        height: 400px;
 }
 
 p.cus_view_cpd {
@@ -2436,28 +2437,25 @@ p.cus_my_cpd {
     font-weight: 600;
     padding: 10px 16px;}
 
-#mycocs.cus_line canvas.zr-element {
-    height: 300px !important;
-    top: -20px !important;
-}
-
-div#mycocs.cus_line {
-    height: 300px !important;
+div#mycocs {
+    position: relative;
+    top: -60px;
 }
 
 .coc_sec {
     box-shadow: 4px 3px 5px 3px #c5c2c2;
     border-radius: 3px;
     margin: 20px 0px;
+    height: 400px;
 }
 
 p.cus_my_coc{
     font-weight: 600;
     padding: 10px 16px;}
 
-.zr-element {
+/*.zr-element {
     height: auto !important;
-}
+}*/
 
 p.my_au_name {
     font-weight: 700;
@@ -2777,7 +2775,7 @@ span.ver_name3 {
 }
 
 img.bar_3d {
-    margin-left: 30px  !important;
+    margin-left: 30px !important;
 }
 
 span.bar_bot {
@@ -2785,16 +2783,16 @@ span.bar_bot {
 }
 
 img.bar_profil {
-    margin-bottom: 0px  !important;
-    margin-left: 34px  !important;
+    margin-bottom: 0px !important;
+    margin-left: 34px !important;
     position: relative;
     top: 14px;
 }
 
 span.ver_name2 {
-    top: 89px  !important;
-    left: -29px  !important;
-    transform: rotate(-90deg)  !important;
+    top: 89px !important;
+    left: -29px !important;
+    transform: rotate(-90deg) !important;
 }
 
 .cus_bar_ {
@@ -2802,8 +2800,119 @@ span.ver_name2 {
 }
 
 span.ver_name1 {
-    top: 170px  !important;
-    left: -6px  !important;
-    transform: rotate(-89deg)  !important;
+    top: 170px !important;
+    left: -6px !important;
+    transform: rotate(-89deg) !important;
 }
  
+ .coc_pur_sec{
+        width: 60%;
+        margin: 0 auto;
+ }
+
+ .coc_pur_num1{
+    width: 70%;
+    padding: 24px 0px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #b8f535;
+    border-radius: 16px;
+    font-weight: 600;
+    box-shadow: 2px 2px 3px 0px #afabab;
+ }
+
+
+ .coc_pur_num2{
+    width: 70%;
+    padding: 24px 0px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #c5e0b4;
+    border-radius: 16px;
+    font-weight: 600;
+    box-shadow: 2px 2px 3px 0px #afabab;
+ }
+
+
+ .coc_pur_num3{
+    width: 70%;
+    padding: 24px 0px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #ff0000;
+    border-radius: 16px;
+    font-weight: 600;
+    box-shadow: 2px 2px 3px 0px #afabab;
+ }
+
+ 
+ .coc_pur_num4{
+    width: 70%;
+    padding: 24px 0px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #f5eb35;
+    border-radius: 16px;
+    font-weight: 600;
+    box-shadow: 2px 2px 3px 0px #afabab;
+ }
+
+ label.add_max_height {
+    margin: 0 auto;
+    text-align: center;
+    font-weight: 600;
+    color: #000 !important;
+    font-size: 14px;
+    margin-top: 6px;
+}
+
+
+.cpd_points_sec .text-center {
+    margin-top: 50px;
+}
+
+#activity_suggesstion ul#name-list1 {
+   list-style-type: none;
+   padding-left: 0px;
+   border: 1px solid #dde6ef;
+   border-radius: 4px;
+   border-top: none;
+   background-color: #fff;
+   text-indent: 12px;
+}
+
+#activity_suggesstion ul#name-list1 li {
+   margin: 0px 0px 6px;
+   padding: 2px 0;
+   cursor: pointer;
+}
+
+#activity_suggesstion ul#name-list1 li:hover {
+   background-color: #ebf6ff;
+   color: #000;
+   box-shadow: 0 0 2px 1px #dedbdb;
+}
+
+.myaudit_legend{
+	display: table;
+}
+
+.myaudit_legend div{
+	display: table-cell;
+    vertical-align: middle;
+    padding-right: 10px;
+}
+
+.myaudit_legend .legend1, .myaudit_legend .legend2{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.myaudit_legend .legend1{
+	background: #53C2BF;
+}
+
+.myaudit_legend .legend2{
+	background: #FF0000;
+}

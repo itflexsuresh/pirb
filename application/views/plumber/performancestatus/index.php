@@ -20,7 +20,25 @@
 					<?php $overallpoint = array_sum(array_column($results, 'point')); ?>
 					<h5>Current Performance Status = <?php echo $overallpoint; ?></h5>
 					<div id="performancelinechart" style="width:100%; height:400px;"></div>
-					<div id="performancechart" style="width:100%; height:400px;"></div>
+					<div class="row">
+						<div class="col-md-8">
+							<div id="performancechart" style="width:100%; height:400px;"></div>
+						</div>
+						<div class="col-md-4 my_perform_sec">
+							<div class="cus_perform"> 
+								<p class="per_scr_hed">My Performance Score</p>	
+								<p class="per_scr_box"><?php echo $performancestatus; ?></p>
+								<div class="my_Rank">
+									<p class="per_coun_hed">My Country Ranking</p>
+									<p class="cus_co_rank"><?php echo $myprovinceperformancestatus; ?></p>
+								</div>
+								<div class="my_Rank">
+									<p class="per_coun_hed">My Regional  Ranking</p>
+									<p class="cus_co_rank"><?php echo $mycityperformancestatus; ?></p>
+								</div>
+							</div>
+						</div>
+					</div>
 				<?php } ?>
 				
 				<div class="row m-t-30">

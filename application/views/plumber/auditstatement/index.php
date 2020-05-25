@@ -16,7 +16,33 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-body">
-			
+	
+				<div class="row col-md-12 my_audit_section_cus">
+					<div class="col-md-7 my_audit_sec">
+						<p class="my_au_name">My Audits</p>
+						<div style="position:relative;height:250px;" class="my_au_gram">
+							<div style="position:absolute;left:10px;top:10px">
+								<input data-plugin="knob" data-width="200" data-height="200" data-min="0" data-thickness="0.2" data-fgColor="#53C2BF" data-displayInput=false data-angleOffset=-125 data-angleArc=250 value="<?php echo $auditcoc; ?>" readonly/>
+							</div>
+							<div style="position:absolute;left:30px;top:30px">
+								<input data-plugin="knob" data-width="160" data-height="160" data-min="0" data-thickness="0.2" data-fgColor="#FF0000" data-displayInput=false data-angleOffset=-125 data-angleArc=250 value="<?php echo $auditrefixincomplete; ?>" readonly/>
+							</div>
+						</div>
+						<div class="myaudit_legend">
+							<div class="legend1"></div>
+							<div>COC being Audited</div>
+							<div class="legend2"></div>
+							<div>Refixes Required</div>
+						</div>
+					</div>
+					<div class="col-md-5 audit_ratio_cus">
+						<div class="aud_rati">
+							<p class="rat_box"><?php echo $auditorratio; ?></p>
+							<p>Audit Ratio</p>
+						</div>
+					</div>
+				</div>
+				
 				<div class="table-responsive m-t-40">
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
@@ -40,6 +66,8 @@
 
 <script>
 	$(function(){
+		
+		knobchart();
 		
 		var options = {
 			url 	: 	'<?php echo base_url()."plumber/auditstatement/index/DTAuditStatement"; ?>',

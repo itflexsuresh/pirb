@@ -1124,13 +1124,15 @@ class CC_Controller extends CI_Controller
 			redirect('plumber/mycpd/index'); 
 		}		
 		
+		$pagedata['mycpd'] 							= $this->userperformancestatus(['performancestatus' => '1', 'auditorstatement' => '1']);
+		
 		$userdata1					= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber']);
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['cpdstreamID'] 	= $this->config->item('cpdstream');
 		$pagedata['pagestatus'] 	= $this->getPageStatus($pagestatus);
 		$pagedata['id'] 			= $userid;
 		$pagedata['user_details'] 	= $userdata1;
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker'];
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker', 'knob'];
 		$data['content'] 			= $this->load->view('plumber/mycpd/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}

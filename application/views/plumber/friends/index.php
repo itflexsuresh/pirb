@@ -1,6 +1,10 @@
 <?php 
 	$pdfimg 				= base_url().'assets/images/pdf.png';
 	$profileimg 			= base_url().'assets/images/profile.jpg';
+	
+	$friendids				= array_column($friends, 'userid');
+	$fromrequestlistids		= array_column($friends, 'fromrequestlist');
+	$torequestlistids		= array_column($friends, 'torequestlist');
 ?>
 
 <div class="row page-titles">
@@ -53,6 +57,7 @@
 					
 					<div class="row">
 						<?php 
+							if(count($friendslist) > 0){
 							foreach($friendslist as $list){ 
 								$userid					= $list['userid'];
 								$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/';
@@ -78,10 +83,22 @@
 											<input type="hidden" name="search" value="<?php echo isset($search) ? $search : ''; ?>">
 											<input type="hidden" name="toid" value="<?php echo $userid; ?>">
 											<input type="hidden" name="id" value="">
-											<input type="submit" value="Add Friend" name="submit" class="btn btn-primary">
+											<?php if(in_array($userid, $friendids)){ ?>
+												<input type="button" value="Friend" class="btn btn-primary">
+											<?php }elseif(in_array($userid, $fromrequestlistids)){ ?>
+												<input type="button" value="Request sent" class="btn btn-primary">
+											<?php }elseif(in_array($userid, $torequestlistids)){ ?>
+												<input type="button" value="Awaiting Response" class="btn btn-primary">
+											<?php }else{ ?>
+												<input type="submit" value="Add Friend" name="submit" class="btn btn-primary">
+											<?php } ?>
 										</div>
 									</div>
 								</form>	
+							</div>
+						<?php }}else{ ?>
+							<div class="col-md-12">
+								<p class="tagline">There is not matching plumber name</p>
 							</div>
 						<?php } ?>
 					</div>
