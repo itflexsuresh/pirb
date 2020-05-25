@@ -59,7 +59,7 @@ class Index extends CC_Controller
 					$explodeattachment 	= explode('.', $attachment);
 					$extfile 			= array_pop($explodeattachment);
 					$file 				= (in_array($extfile, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$attachment;
-					$attachment 		= '<a href="'.$filepath.$attachment.'" target="_blank"><img src="'.$file.'" width="70"></a>';
+					$attachment 		= '<a href="'.$filepath.$attachment.'" target="_blank"><img src="'.$file.'" width="50"></a>';
 				}else{
 					$attachment 		= '';
 				}

@@ -19,7 +19,7 @@
 				<?php if(count($results) > 0 && $pagestatus!='1'){ ?>
 					<?php $overallpoint = array_sum(array_column($results, 'point')); ?>
 					<h5>Current Performance Status = <?php echo $overallpoint; ?></h5>
-					<div id="performancelinechart" style="width:100%; height:400px;"></div>
+					<!--<div id="performancelinechart" style="width:100%; height:400px;"></div>-->
 					<div class="row">
 						<div class="col-md-8">
 							<div id="performancechart" style="width:100%; height:400px;"></div>
@@ -91,6 +91,7 @@
 		
 		ajaxdatatables('.datatables', options);
 		
+		/*
 		var chartxaxis 		= [];
 		var chartyaxis 		= [];
 		var chartseries 	= [];
@@ -120,6 +121,7 @@
 				colors 	: 	['#4472C4', '#FFF8E3', '#FFEEB9', '#FBB596', '#FF0000']
 			}
 		);
+		*/
 		
 		gaugechart(
 			'performancechart',

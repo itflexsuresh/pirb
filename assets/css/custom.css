@@ -2900,7 +2900,7 @@ span.ver_name1 {
 .myaudit_legend div{
 	display: table-cell;
     vertical-align: middle;
-    padding-right: 10px;
+    padding: 0 10px 0 7px;
 }
 
 .myaudit_legend .legend1, .myaudit_legend .legend2{
