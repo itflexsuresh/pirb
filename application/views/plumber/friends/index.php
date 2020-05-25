@@ -84,7 +84,7 @@
 											<input type="hidden" name="toid" value="<?php echo $userid; ?>">
 											<input type="hidden" name="id" value="">
 											<?php if(in_array($userid, $friendids)){ ?>
-												<input type="button" value="Friend" class="btn btn-primary">
+												
 											<?php }elseif(in_array($userid, $fromrequestlistids)){ ?>
 												<input type="button" value="Request sent" class="btn btn-primary">
 											<?php }elseif(in_array($userid, $torequestlistids)){ ?>
