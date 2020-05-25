@@ -3,8 +3,8 @@
 	$profileimg 			= base_url().'assets/images/profile.jpg';
 	
 	$friendids				= array_column($friends, 'userid');
-	$fromrequestlistids		= array_column($fromrequestlistids, 'fromrequestlist');
-	$torequestlistids		= array_column($torequestlistids, 'torequestlist');
+	$fromrequestlistids		= array_column($fromrequestlist, 'userid');
+	$torequestlistids		= array_column($torequestlist, 'userid');
 ?>
 
 <div class="row page-titles">
