@@ -2,7 +2,7 @@
 
 $config['sitename']	 				= 	'Audit IT';
 
-$config['googleapikey']	 			= 	'AIzaSyAhzULCO9bsoI4SaLxERW0FBAZlz8iZTxI';
+$config['googleapikey']	 			= 	'AIzaSyD7kpv3FWxlVF2HWBsX6lrJJMGVWucTcoY';
 
 $config['customstockno']			= 	'393056';
 

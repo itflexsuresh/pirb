@@ -632,17 +632,21 @@
 								<p>I declare that I have fully read and understood the Procedure of Acknowledgement</p>
 							</label>
 							<?php echo $codeofconduct; ?>
-							<label class="checkbox">
-								<input type="checkbox" name="codeofconduct" data-checkbox="checkbox1">
-								<p>I declare that I have fully read and understood the PIRB's Code of Conduct</p>
-							</label>
-							<label class="checkbox">								
-								<input type="checkbox" name="declaration" data-checkbox="checkbox1">
-								<p class="inlineblock">I</p>
-								<input type="text" class="declarationname" disabled> 
-								<p> Identity Number</p> 
-								<input type="text" class="declarationidno" disabled>
-							</label>
+							<div>
+								<label class="checkbox">
+									<input type="checkbox" name="codeofconduct" data-checkbox="checkbox1">
+									<p>I declare that I have fully read and understood the PIRB's Code of Conduct</p>
+								</label>
+							</div>
+							<div>
+								<label class="checkbox">								
+									<input type="checkbox" name="declaration" data-checkbox="checkbox1">
+									<p class="inlineblock">I</p>
+									<input type="text" class="declarationname" name="declarationname" data-textbox="textbox1" placeholder="Name and surname"> 
+									<p> Identity Number</p> 
+									<input type="text" class="declarationidno" name="declarationidno" data-textbox="textbox1" placeholder="ID number or alternate id">
+								</label>
+							</div>
 							<?php echo $declaration; ?>
 							<div class="col-md-12 text-right">
 								<input type="hidden" name="application_received" value="<?php echo date('Y-m-d'); ?>">
@@ -1123,6 +1127,12 @@ $(function(){
 			},
 			declaration : {
 				required	: true,
+			},
+			declarationname : {
+				required	: true,
+			},
+			declarationidno : {
+				required	: true,
 			}
 		},
 		{
@@ -1137,6 +1147,12 @@ $(function(){
 			},
 			declaration 	: {
 				required	: "Please Check declaration.",
+			},
+			declarationname : {
+				required	: "Please enter name.",
+			},
+			declarationidno : {
+				required	: "Please enter ID number.",
 			}
 		}
 	);
