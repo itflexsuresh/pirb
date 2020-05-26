@@ -277,10 +277,19 @@ if (in_array($plumberstatus, $plumber_status)) {
 		delivery($('.delivery_card').val());
 
 		$('.alert-msg').hide();
-
+		
+		if($('#coc_purchase').attr('max')=='0'){
+			var cocmaxerror = 'Purchase limit is exceeded. Contact admin for further details.';
+		}else{
+			var cocmaxerror = 'Please enter a value less than or equal to '+$('#coc_purchase').attr('max')
+		}
+		
 		validation(
 			'.form',
 			{
+				coc_purchase : {
+					required	: true,
+				},
 				disclaimer : {
 					required	: true,
 				},
@@ -291,7 +300,8 @@ if (in_array($plumberstatus, $plumber_status)) {
 			},
 			{
 				coc_purchase 	: {
-					required	: "Number of COC wish to Purchase field is required."
+					required	: "Number of COC wish to Purchase field is required.",
+					max 		: cocmaxerror
 				},
 				disclaimer 	: {
 					required	: "Disclaimer is required."
