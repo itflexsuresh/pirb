@@ -2916,3 +2916,17 @@ span.ver_name1 {
 .myaudit_legend .legend2{
 	background: #FF0000;
 }
+
+.customdropdownarrow {
+    position: relative;
+    display: inline-block;
+	width:100%;
+}
+.customdropdownarrow::before {
+    position: absolute;
+    content: "\25bc";
+    top: 13px;
+    right: 0px;
+    height: 20px;
+    width: 20px;
+}

@@ -70,9 +70,11 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 						<div class="row">
 							<div class="form-group col-md-12">
 								<label for="points">PIRB CPD Activity:</label>
-								<input type="search" class="form-control" id="activity" name="activity" placeholder = "Enter CPD Activity" <?php if ($status=='1' || $status=='2') {
+								<div class="customdropdownarrow">
+								<input type="text" class="form-control" id="activity" name="activity" placeholder = "Enter CPD Activity" <?php if ($status=='1' || $status=='2') {
 									echo "readonly";
-								} ?> autocomplete="off" onkeyup="search_activity(this.value);" value="<?php echo $cpd_activity; ?>">
+								}else{ echo 'onclick="search_activity();"'; } ?> autocomplete="off" onkeyup="search_activity(this.value);" value="<?php echo $cpd_activity; ?>">
+								</div>
 								<input type="hidden" id="activity_id_hide" name="activity_id_hide" value="<?php echo $cpd_activity; ?>">
 								<div id="activity_suggesstion" style="display: none;"></div>								
 							</div>	
@@ -316,11 +318,13 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 	// Search activity
 
 	var req2 = null;
-	function search_activity(value)
+	function search_activity(value='')
 	{
-	    if (req2 != null) req2.abort();
-	    var strlength2 = $.trim($('#activity').val()).length;
-	    if(strlength2 > 0)  { 
+		$("#activity_suggesstion").html('');
+		$("#activity, #activity_id_hide, #points, #cpdstream").val('');
+	    //if (req2 != null) req2.abort();
+	   // var strlength2 = $.trim($('#activity').val()).length;
+	    //if(strlength2 > 0)  { 
 		    req2 = $.ajax({
 		        type: "POST",
 		        url: '<?php echo base_url()."plumber/mycpd/index/activityDetails"; ?>',
@@ -338,11 +342,11 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 					$("#activity").css("background","#FFF");
 		        }
 		    });
-		}
-		else{
-			console.log(strlength2);
-			$("#activity_suggesstion").hide();
-		}
+		//}
+		//else{
+			//console.log(strlength2);
+			//$("#activity_suggesstion").hide();
+		//}
 	}
 
 	function selectActivity(activity,id,strt_date,streams,cpdPoints,streamID) {
