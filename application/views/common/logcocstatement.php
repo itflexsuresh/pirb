@@ -174,7 +174,7 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label>Email Address</label>
-										<input type="text" class="form-control" name="email" value="<?php echo $email; ?>" <?php echo $disablefield; ?>>
+										<input type="text" class="form-control email" name="email" value="<?php echo $email; ?>" <?php echo $disablefield; ?>>
 									</div>
 								</div>
 							</div>
@@ -891,6 +891,13 @@ function noncompliancedata(){
 		}
 	}, 1000);
 }
+
+$('#ncemail').click(function(){
+	if($('.email').val()==''){
+		$('#ncemail').prop('checked', false);
+		$('.email').focus();
+	}
+})
 
 function addressmap(address=''){
 	

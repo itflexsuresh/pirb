@@ -855,7 +855,7 @@ function review(data){
 		$(document).find('.reviewappend[data-id="'+result.id+'"]').remove();
 		
 		if(pagetype=='2'){
-			extrafield	=	'<td>'+((result.reference!=null) ? result.reference : "")+'</td><td>'+((result.link!=null) ? result.link : "")+'</td>';
+			extrafield	=	'<td>'+((result.reference!=null) ? result.reference : "")+'</td><td>'+((result.link!=null) ? '<a href="'+result.link+'" target="_blank">'+result.link+'</a>' : "")+'</td>';
 		}
 		
 		if(result.reviewtype==1){
