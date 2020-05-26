@@ -127,7 +127,12 @@ function datepicker(selector, extras=[]){
 	options['autoclose'] = true;
 	if($.inArray('currentdate', extras) != -1) options['startDate'] = new Date();
 	if($.inArray('enddate', extras) != -1) options['endDate'] = new Date();
-	
+	if($.inArray('pastfivedate', extras) != -1){
+		var pastfivedate = new Date();
+		pastfivedate.setDate(pastfivedate.getDate() - 5)
+		options['startDate'] = pastfivedate;
+	}
+
 	$(selector).datepicker(options).on('keypress paste', function(e){
 		e.preventDefault();
 		return false;

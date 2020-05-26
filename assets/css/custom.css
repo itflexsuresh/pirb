@@ -2930,3 +2930,7 @@ span.ver_name1 {
     height: 20px;
     width: 20px;
 }
+
+.select2-results .select2-disabled,  .select2-results__option[aria-disabled=true] { 
+	display: none;
+}

@@ -14,13 +14,14 @@ class CC_Model extends CI_Model
 		
 		$this->load->library('email');
 		
+		/*
 		$config['protocol'] = 'sendmail';
 		$config['mailpath'] = '/usr/sbin/sendmail';
 		$config['mailtype'] = 'html';
 		$config['charset'] 	= 'iso-8859-1';
 		$config['wordwrap'] = TRUE;
-
-		/*
+		*/
+		
 		$config['protocol']    	= 'mail';
         $config['smtp_host']    = 'ssl://smtp.gmail.com';
         $config['smtp_port']    = '465';
@@ -30,7 +31,7 @@ class CC_Model extends CI_Model
 		$config['charset'] 		= 'iso-8859-1';
 		$config['newline']      = '\r\n';
 		$config['wordwrap'] 	= TRUE;
-		*/
+		
 		
 		$this->email->initialize($config);
 		$this->email->from($settings['system_email'], $sitename);

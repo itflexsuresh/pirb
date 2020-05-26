@@ -515,7 +515,7 @@ var installationcount			= '<?php echo count($installation); ?>';
 var specialisationscount		= '<?php echo count($specialisations); ?>';
 
 $(function(){
-	datepicker('.completion_date', ['enddate']);
+	datepicker('.completion_date', ['pastfivedate', 'enddate']);
 	citysuburb(['#province','#city', '#suburb'], ['<?php echo $cityid; ?>', '<?php echo $suburbid; ?>']);
 	fileupload([".file1_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.file1', '.file1_img', filepath, pdfimg]);
 	fileupload([".file2_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file2[]', '.file2append', filepath, pdfimg], 'multiple');
