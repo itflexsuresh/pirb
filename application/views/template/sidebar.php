@@ -208,7 +208,6 @@ if(count($permission) > 0){
 							</div>
 						</div>
 					</div>
-					<?php } ?>
 					
 					<li>
 						<div class="row side_list">
@@ -220,6 +219,8 @@ if(count($permission) > 0){
 							</div>
 						</div>
 					</li>
+					
+					<?php } ?>
 					
 					<?php if($formstatus=='1'){ ?>
 					<?php 
@@ -322,8 +323,19 @@ if(count($permission) > 0){
 								</div>
 							</li>
 						<?php
-						} 
+						}else{ 
 						?>
+							<li>
+								<div class="row side_list">
+									<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
+										<a href="<?php echo base_url().'plumber/profile/index'; ?>"><i class="fa fa-user" aria-hidden="true"></i></a>
+									</div>
+									<div class="col-sm-9 col-md-9 col-lg-9 list_name">
+										<a href="<?php echo base_url().'plumber/profile/index'; ?>" class="cus_li_name"><p class="custom_li">My Profile</p></a>
+									</div>
+								</div>
+							</li>
+						<?php }?>
 						
 						<?php if($msg!=''){?>
 							<div id="message">

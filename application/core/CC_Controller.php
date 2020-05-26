@@ -65,7 +65,8 @@ class CC_Controller extends CI_Controller
 				if($userDetails['type']=='1' || $userDetails['type']=='2'){
 					redirect('admin/dashboard/index'); 
 				}elseif($userDetails['type']=='3'){
-					if($userDetails['formstatus']=='1') redirect('plumber/dashboard/index'); 
+					if($userDetails['formstatus']=='1' && $userDetails['approvalstatus']=='1') redirect('plumber/dashboard/index'); 
+					elseif($userDetails['formstatus']=='1' && $userDetails['approvalstatus']=='0') redirect('plumber/profile/index'); 
 					else redirect('plumber/registration/index'); 
 				}elseif($userDetails['type']=='4'){
 					if($userDetails['formstatus']=='1') redirect('company/profile/index'); 
