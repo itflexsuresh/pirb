@@ -281,9 +281,6 @@ if (in_array($plumberstatus, $plumber_status)) {
 		validation(
 			'.form',
 			{
-				coc_purchase : {
-					required	: true,
-				},
 				disclaimer : {
 					required	: true,
 				},
