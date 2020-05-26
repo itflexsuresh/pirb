@@ -1352,6 +1352,10 @@ function othernationalityidcardbox(value){
 	}else{
 		$('.othernationalityidcardbox').hide();
 	}
+	
+	if(value=='1'){
+		$('#citizen').val('3');
+	}
 }
 
 $('#registration_card').change(function(){
