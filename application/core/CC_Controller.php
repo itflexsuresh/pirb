@@ -757,23 +757,25 @@ class CC_Controller extends CI_Controller
 						$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '23', 'emailstatus' => '1']);
 				
 						if(isset($requestData['email']) && $requestData['email']!='' && $notificationdata){
-							$subject = ['', '', '', '', ''];							
-							if(isset($requestData['number'])) 		$subject[0] = $requestData['number'];
-							if(isset($requestData['street'])) 		$subject[1] = $requestData['street'];
+							$replacetext = ['', '', '', '', '', '', ''];							
+							if(isset($requestData['name'])) 		$replacetext[0] = $requestData['name'];
+							if(isset($requestData['address'])) 		$replacetext[1] = $requestData['address'];
+							if(isset($requestData['street'])) 		$replacetext[2] = $requestData['street'];
+							if(isset($requestData['number'])) 		$replacetext[3] = $requestData['number'];
 							if(isset($requestData['province'])){
 								$provincename 	= 	$this->Managearea_Model->getListProvince('row', ['id' => $requestData['province']]);
-								$subject[2] 	=  $provincename['name'];
+								$replacetext[4] 	=  $provincename['name'];
 							} 	
 							if(isset($requestData['city'])){
 								$cityname 	= 	$this->Managearea_Model->getListCity('row', ['id' => $requestData['city']]);
-								$subject[3] =  $cityname['name'];
+								$replacetext[5] =  $cityname['name'];
 							} 		
 							if(isset($requestData['suburb'])){
 								$suburbname = 	$this->Managearea_Model->getListSuburb('row', ['id' => $requestData['suburb']]);
-								$subject[4] =  $suburbname['name'];
+								$replacetext[6] =  $suburbname['name'];
 							} 	
-							$subject 	= str_replace(['{Number}', '{Street}', '{Suburb}', '{City}', '{Province}'], $subject, $notificationdata['subject']);
-							$body 		= $notificationdata['email_body'];
+							$subject 	= str_replace(['{Customer Name}', '{Complex Name}', '{Street}', '{Number}', '{Suburb}', '{City}', '{Province}'], $replacetext, $notificationdata['subject']);
+							$body 		= str_replace(['{Customer Name}', '{Complex Name}', '{Street}', '{Number}', '{Suburb}', '{City}', '{Province}'], $replacetext, $notificationdata['email_body']);
 							
 							$pdf 		= FCPATH.'assets/uploads/temp/'.$requestData['coc_id'].'.pdf';
 							$this->pdfnoncompliancereport($requestData['coc_id'], $userid, $pdf);
