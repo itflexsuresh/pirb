@@ -593,7 +593,7 @@ $(function(){
 	fileupload(["#r_file", "./assets/uploads/auditor/statement/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.rfileappend', reviewpath, pdfimg], 'multiple');
 	chat(['.chattext', '.chatcontent'], [cocid, fromid, toid], [chatpath, pdfimg, downloadurl]);
 	
-	var reviewlist = $.parseJSON('<?php echo str_replace("'", "\'", addslashes(json_encode($reviewlist))); ?>');
+	var reviewlist = $.parseJSON('<?php echo addslashes(json_encode($reviewlist)); ?>');
 	if(reviewlist.length > 0){
 		$(reviewlist).each(function(i, v){
 			var reviewlistdata 	= {status : 1, result : { id: v.id, reviewtype: v.reviewtype, statementname: v.statementname, comments: v.comments, file: v.file, point: v.point, status: v.status, incomplete_point: v.incomplete_point, complete_point: v.complete_point, reference: v.reference, link: v.link, created_at: v.created_at }}

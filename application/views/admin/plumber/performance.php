@@ -142,8 +142,8 @@ echo isset($menu) ? $menu : '';
 </div>
 
 <script>
-	var results 	= $.parseJSON('<?php echo str_replace("'", "\'", addslashes(json_encode($results))); ?>');
-	var warning 	= $.parseJSON('<?php echo str_replace("'", "\'", addslashes(json_encode($warning))); ?>');
+	var results 	= $.parseJSON('<?php echo addslashes(json_encode($results)); ?>');
+	var warning 	= $.parseJSON('<?php echo addslashes(json_encode($warning)); ?>');
 	var pagestatus 	= '<?php echo $pagestatus; ?>';
 	var id		 	= '<?php echo $id; ?>';
 	var filepath 	= '<?php echo $filepath; ?>';
