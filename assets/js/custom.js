@@ -128,7 +128,7 @@ function datepicker(selector, extras=[]){
 	if($.inArray('currentdate', extras) != -1) options['startDate'] = new Date();
 	if($.inArray('enddate', extras) != -1) options['endDate'] = new Date();
 	
-	$(selector).datepicker(options).end().on('keypress paste', function(e){
+	$(selector).datepicker(options).on('keypress paste', function(e){
 		e.preventDefault();
 		return false;
 	});
