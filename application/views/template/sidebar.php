@@ -171,6 +171,9 @@ if(count($permission) > 0){
 							$photoidurl		= 'javascript:void(0);';
 						}
 				?>
+					<?php 
+						if ($approvalstatus=='1'){
+					?>
 					<div class="row pro_section">
 						<div class="col-sm-9 col-md-9 col-lg-9 side_pro">
 							<a href="<?php echo $photoidurl; ?>" target="_blank" class="side_img">
@@ -205,6 +208,7 @@ if(count($permission) > 0){
 							</div>
 						</div>
 					</div>
+					<?php } ?>
 					
 					<li>
 						<div class="row side_list">
