@@ -1081,3 +1081,36 @@ function currencyconvertor(currency){
 	
 	return amount;
 }
+
+function googlemap(selector, address){
+	var geocoder 	= new google.maps.Geocoder();
+
+	geocoder.geocode({'address': address}, function(results, status){
+		if (status == google.maps.GeocoderStatus.OK){
+			var latitude 		= results[0].geometry.location.lat();
+			var longitude 		= results[0].geometry.location.lng();
+			var markertoggle 	= 1;
+		}else{
+			var latitude 		= -26.195246;
+			var longitude 		= 28.034088;
+			var markertoggle 	= 0;
+		} 
+		
+		var myLatLng = {lat: latitude, lng: longitude};
+		
+		var map = new google.maps.Map(document.getElementById(selector), {
+			zoom: 9,
+			center: myLatLng,
+			scrollwheel: false,
+			draggable:false,
+			disableDefaultUI: true
+		});
+		
+		if(markertoggle==1){
+			var marker = new google.maps.Marker({
+				position: myLatLng,
+				map: map
+			});
+		}
+	});
+}

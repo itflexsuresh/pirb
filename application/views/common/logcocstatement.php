@@ -180,7 +180,7 @@
 							</div>
 						</div>
 						<div class="col-md-4">
-							<div id="addressmap"></div>
+							<div id="addressmap" style="height:100%"></div>
 						</div>
 					</div>
 
@@ -899,35 +899,29 @@ $('#ncemail').click(function(){
 	}
 })
 
-function addressmap(address=''){
-	
-	var geocoder 	= new google.maps.Geocoder();
 
-	geocoder.geocode({'address': address}, function(results, status){
-		if (status == google.maps.GeocoderStatus.OK){
-			var latitude = results[0].geometry.location.lat();
-			var longitude = results[0].geometry.location.lng();
-			var markertoggle 	= 1;
-		}else{
-			var latitude 		= 20.5937;
-			var longitude 		= 78.9629;
-			var markertoggle 	= 0;
-		} 
-		
-		var myLatLng = {lat: latitude, lng: longitude};
-		
-		var map = new google.maps.Map(document.getElementById('addressmap'), {
-			zoom: 9,
-			center: myLatLng
-		});
-		
-		if(markertoggle==1){
-			var marker = new google.maps.Marker({
-				position: myLatLng,
-				map: map
-			});
-		}
-	});
+$('[name="address"], [name="street"], [name="number"]').keyup(function(){
+	addressmap(formaddress());
+})
+
+$('#province, #city, #suburb').change(function(){
+	addressmap(formaddress());
+})
+
+function formaddress(){
+	var address = '';
+	if($('[name="address"]').val()!='') 	address += ' '+$('[name="address"]').val();
+	if($('[name="street"]').val()!='') 		address += ' '+$('[name="street"]').val();
+	if($('[name="number"]').val()!='') 		address += ' '+$('[name="number"]').val();
+	if($('#province').val()!='') 			address += ' '+$('#province option:selected').text();
+	if($('#city').val()!='') 				address += ' '+$('#city option:selected').text();
+	if($('#suburb').val()!='') 				address += ' '+$('#suburb option:selected').text();
+	console.log(address);
+	return address;
+}
+
+function addressmap(address=''){
+	googlemap('addressmap', address);
 }
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo $this->config->item('googleapikey'); ?>&callback=addressmap"></script>
