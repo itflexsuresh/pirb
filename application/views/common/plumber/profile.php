@@ -1314,7 +1314,9 @@ function othernationalityidcardbox(value){
 	}
 	
 	if(value=='1'){
-		$('#citizen').val('3').trigger('change');
+		$('#citizen').val('3').trigger('change');;
+	}else if(value=='2'){
+		$('#citizen').val('4').trigger('change');;
 	}
 }
 
