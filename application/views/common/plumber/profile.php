@@ -336,7 +336,7 @@
 								</div>
 								<div class="col-md-6">
 									<div class="custom-control custom-checkbox">
-										<input type="checkbox" class="custom-control-input" id="coc_electronic" name="coc_electronic" value="1" <?php echo ($cocelectronic=='1') ? 'checked="checked"' : ''; ?> <?php echo $disabled1; ?>>
+										<input type="checkbox" class="custom-control-input" id="coc_electronic" name="coc_electronic" value="1" <?php echo ($cocelectronic=='1') ? 'checked="checked"' : ''; ?> <?php echo $disabled1; ?> <?php if($roletype=='1'){ echo 'disabled="disabled"';} ?>>
 										<label class="custom-control-label" for="coc_electronic">Allow for Electronic COC's loging</label>
 									</div>
 								</div>

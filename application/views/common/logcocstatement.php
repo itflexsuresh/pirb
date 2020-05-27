@@ -901,11 +901,11 @@ $('#ncemail').click(function(){
 
 
 $('[name="address"], [name="street"], [name="number"]').keyup(function(){
-	addressmap(formaddress());
+	addressmap();
 })
 
 $('#province, #city, #suburb').change(function(){
-	addressmap(formaddress());
+	addressmap();
 })
 
 function formaddress(){
@@ -920,8 +920,8 @@ function formaddress(){
 	return address;
 }
 
-function addressmap(address=''){
-	googlemap('addressmap', address);
+function addressmap(){
+	googlemap('addressmap', formaddress());
 }
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo $this->config->item('googleapikey'); ?>&callback=addressmap"></script>
