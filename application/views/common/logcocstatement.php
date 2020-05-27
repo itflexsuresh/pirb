@@ -921,8 +921,8 @@ function formaddress(){
 }
 
 function addressmap(){
-	var formaddress = formaddress();
-	googlemap('addressmap', formaddress);
+	var address = formaddress();
+	googlemap('addressmap', address);
 }
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo $this->config->item('googleapikey'); ?>&callback=addressmap"></script>
