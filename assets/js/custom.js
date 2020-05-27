@@ -131,7 +131,7 @@ function datepicker(selector, extras=[]){
 	if($.inArray('enddate', extras) != -1) options['endDate'] = new Date();
 	if($.inArray('pastfivedate', extras) != -1){
 		var pastfivedate = new Date();
-		pastfivedate.setDate(pastfivedate.getDate() - 5)
+		pastfivedate.setDate(pastfivedate.getDate() - 4)
 		options['startDate'] = pastfivedate;
 	}
 

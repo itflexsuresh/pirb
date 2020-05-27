@@ -321,7 +321,8 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 	function search_activity(value='')
 	{
 		$("#activity_suggesstion").html('');
-		$("#activity, #activity_id_hide, #points, #cpdstream").val('');
+		$("#points, #cpdstream").val('');
+		if($.trim($('#activity').val()).length > 3) $("#activity, #activity_id_hide").val('');
 	    //if (req2 != null) req2.abort();
 	   // var strlength2 = $.trim($('#activity').val()).length;
 	    //if(strlength2 > 0)  { 
@@ -334,7 +335,7 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 				},
 		        success: function(data){          	
 		        	$("#activity_suggesstion").html('');
-		        	$("#activity").val('');
+		        	if($.trim($('#activity').val()).length > 3) $("#activity").val('');
 					$("#points").val('');
 					$("#cpdstream").val('');
 		        	$("#activity_suggesstion").show();      	
