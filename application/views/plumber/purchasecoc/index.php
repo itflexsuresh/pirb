@@ -279,9 +279,9 @@ if (in_array($plumberstatus, $plumber_status)) {
 		$('.alert-msg').hide();
 		
 		if($('#coc_purchase').attr('max')=='0'){
-			var cocmaxerror = 'Purchase limit is exceeded. Contact admin for further details.';
+			var cocmaxerror = 'Purchase limit has been exceeded. Contact our support for further assistance.';
 		}else{
-			var cocmaxerror = 'Please enter a value less than or equal to '+$('#coc_purchase').attr('max')
+			var cocmaxerror = 'You cannot purchase more than '+$('#coc_purchase').attr('max')+' COCs. Contact our support for further assistance.';
 		}
 		
 		validation(

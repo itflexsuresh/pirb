@@ -18,6 +18,11 @@ class Import extends CC_Controller {
 		$this->load->model('CC_Model');
 	}
 
+    public function timezone()
+	{
+		echo date('Y-m-d H:i:s');
+	}
+	
     public function checkmail()
 	{
 		$subject 	= 	'Email Verification';
