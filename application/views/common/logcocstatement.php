@@ -515,6 +515,8 @@ var installationcount			= '<?php echo count($installation); ?>';
 var specialisationscount		= '<?php echo count($specialisations); ?>';
 
 $(function(){
+	addressmap();
+	
 	datepicker('.completion_date', ['pastfivedate', 'enddate']);
 	citysuburb(['#province','#city', '#suburb'], ['<?php echo $cityid; ?>', '<?php echo $suburbid; ?>']);
 	fileupload([".file1_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.file1', '.file1_img', filepath, pdfimg]);
@@ -925,4 +927,4 @@ function addressmap(){
 	googlemap('addressmap', address);
 }
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo $this->config->item('googleapikey'); ?>&callback=addressmap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo $this->config->item('googleapikey'); ?>"></script>
