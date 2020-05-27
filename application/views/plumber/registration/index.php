@@ -1369,10 +1369,13 @@ function othernationalityidcardbox(value){
 		$('.othernationalityidcardbox').hide();
 	}
 	
+	$('#citizen option[value="3"]').removeAttr('disabled');
+		
 	if(value=='1'){
 		$('#citizen').val('3').trigger('change');;
 	}else if(value=='2'){
-		$('#citizen').val('4').trigger('change');;
+		$('#citizen option[value="3"]').attr('disabled', 'disabled');
+		$('#citizen').val('4').trigger('change');
 	}
 }
 
