@@ -909,23 +909,26 @@ $('#province, #city, #suburb').change(function(){
 })
 
 function formaddress(){
-	var address = [];
+	setTimeout(function(){
+		var address = [];
 	
-	if($('[name="address"]').val()!='') 	address.push($('[name="address"]').val());
-	if($('[name="street"]').val()!='') 		address.push($('[name="street"]').val());
-	if($('[name="number"]').val()!='') 		address.push($('[name="number"]').val());
-	if($('#province').val()!='') 			address.push($('#province option:selected').text());
-	if($('#city').val()!='') 				address.push($('#city option:selected').text());
-	if($('#suburb').val()!='') 				address.push($('#suburb option:selected').text());
-	
-	if(address.join('')!=''){
-		address.push('South Africa');
-		var result = address.join(', ');
-	}else{
-		var result = '';
-	}
-	console.log(result);
-	return result;
+		if($('[name="address"]').val()!='') 	address.push($('[name="address"]').val());
+		if($('[name="street"]').val()!='') 		address.push($('[name="street"]').val());
+		if($('[name="number"]').val()!='') 		address.push($('[name="number"]').val());
+		if($('#province').val()!='') 			address.push($('#province option:selected').text());
+		if($('#city').val()!='') 				address.push($('#city option:selected').text());
+		if($('#suburb').val()!='') 				address.push($('#suburb option:selected').text());
+		
+		if(address.join('')!=''){
+			address.push('South Africa');
+			var result = address.join(', ');
+		}else{
+			var result = '';
+		}
+		
+		console.log(result);
+		return result;
+	}, 3000);
 }
 
 function addressmap(){
