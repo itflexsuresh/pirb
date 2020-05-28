@@ -19,7 +19,7 @@ $specialisationsid    = isset($result['cl_specialisations']) ? explode(',', $res
 
 $agreementid 			= isset($result['cl_agreement']) ? $result['cl_agreement'] : '';
 $logdate 				= isset($result['cl_log_date']) &&  date('Y-m-d', strtotime($result['cl_log_date']))!='1970-01-01' ? date('d/m/Y', strtotime($result['cl_log_date'])) : '';
-$logtime 				= isset($result['cl_log_date']) &&  date('Y-m-d', strtotime($result['cl_log_date']))!='1970-01-01' ? date('H', strtotime($result['cl_log_date'])).'H'.date('s', strtotime($result['cl_log_date'])) : '';
+$logtime 				= isset($result['cl_log_date']) &&  date('Y-m-d', strtotime($result['cl_log_date']))!='1970-01-01' ? date('H', strtotime($result['cl_log_date'])).'H'.date('i', strtotime($result['cl_log_date'])) : '';
 		
 function base64conversion($path){
   $type = pathinfo($path, PATHINFO_EXTENSION);
