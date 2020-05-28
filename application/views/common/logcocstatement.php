@@ -924,7 +924,7 @@ function formaddress(){
 	}else{
 		var result = '';
 	}
-	
+	console.log(result);
 	return result;
 }
 
