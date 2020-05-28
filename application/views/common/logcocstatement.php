@@ -909,30 +909,31 @@ $('#province, #city, #suburb').change(function(){
 })
 
 function formaddress(){
-	setTimeout(function(){
-		var address = [];
-	
-		if($('[name="address"]').val()!='') 	address.push($('[name="address"]').val());
-		if($('[name="street"]').val()!='') 		address.push($('[name="street"]').val());
-		if($('[name="number"]').val()!='') 		address.push($('[name="number"]').val());
-		if($('#province').val()!='') 			address.push($('#province option:selected').text());
-		if($('#city').val()!='') 				address.push($('#city option:selected').text());
-		if($('#suburb').val()!='') 				address.push($('#suburb option:selected').text());
+	return new Promise((resolve, reject) => {
+		setTimeout(function(){
+			var address = [];
 		
-		if(address.join('')!=''){
-			address.push('South Africa');
-			var result = address.join(', ');
-		}else{
-			var result = '';
-		}
-		
-		console.log(result);
-		return result;
-	}, 3000);
+			if($('[name="address"]').val()!='') 	address.push($('[name="address"]').val());
+			if($('[name="street"]').val()!='') 		address.push($('[name="street"]').val());
+			if($('[name="number"]').val()!='') 		address.push($('[name="number"]').val());
+			if($('#province').val()!='') 			address.push($('#province option:selected').text());
+			if($('#city').val()!='') 				address.push($('#city option:selected').text());
+			if($('#suburb').val()!='') 				address.push($('#suburb option:selected').text());
+			
+			if(address.join('')!=''){
+				address.push('South Africa');
+				var result = address.join(', ');
+			}else{
+				var result = '';
+			}
+			
+			resolve(result);
+		}, 1000);
+	});
 }
 
-function addressmap(){
-	var address 	= formaddress();
+async function addressmap(){
+	var address 	= await formaddress();
 	var geocoder 	= new google.maps.Geocoder();
 
 	geocoder.geocode({'address': address}, function(results, status){
@@ -964,5 +965,9 @@ function addressmap(){
 		}
 	});
 }
+
+$(window).on('load', function(){
+	addressmap();
+})
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo $this->config->item('googleapikey'); ?>&callback=addressmap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo $this->config->item('googleapikey'); ?>"></script>
