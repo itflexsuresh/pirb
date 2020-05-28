@@ -918,9 +918,9 @@ function formaddress(){
 	if($('#city').val()!='') 				address.push($('#city option:selected').text());
 	if($('#suburb').val()!='') 				address.push($('#suburb option:selected').text());
 	
-	if(address.length > 0){
+	if(address.join('')!=''){
 		address.push('South Africa');
-		var result = address.join(' ,');
+		var result = address.join(', ');
 	}else{
 		var result = '';
 	}
