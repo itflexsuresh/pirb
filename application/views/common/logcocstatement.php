@@ -910,6 +910,7 @@ $('#province, #city, #suburb').change(function(){
 
 function formaddress(){
 	var address = [];
+	
 	if($('[name="address"]').val()!='') 	address.push($('[name="address"]').val());
 	if($('[name="street"]').val()!='') 		address.push($('[name="street"]').val());
 	if($('[name="number"]').val()!='') 		address.push($('[name="number"]').val());
@@ -917,9 +918,14 @@ function formaddress(){
 	if($('#city').val()!='') 				address.push($('#city option:selected').text());
 	if($('#suburb').val()!='') 				address.push($('#suburb option:selected').text());
 	
-	if(address.length > 0) address.push('South Africa');
+	if(address.length > 0){
+		address.push('South Africa');
+		var result = address.join(' ,');
+	}else{
+		var result = '';
+	}
 	
-	return address.join(' ,');
+	return result;
 }
 
 function addressmap(){
