@@ -331,7 +331,7 @@
 									<?php } ?>
 								</tr>
 								<tr class="reviewnotfound">
-									<td colspan="8">No Record Found</td>
+									<td colspan="9">No Record Found</td>
 								</tr>
 							</table>
 							<input type="hidden" class="attachmenthidden" name="attachmenthidden"> 
