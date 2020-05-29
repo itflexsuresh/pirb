@@ -162,10 +162,10 @@ class Coc_Ordermodel extends CC_Model
 
 				$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $requestdata['user_id']], ['users', 'usersdetail']);
 
-				$request['status'] 		= 	'1';
+				//$request['status'] 		= 	'1';
 				 if ($inv_id) {
-					$result 			= $this->db->update('invoice', $request, ['inv_id' => $inv_id,'user_id' => $requestdata['user_id']]);
-				 	$result 			= $this->db->update('coc_orders', $request, ['inv_id' => $inv_id,'user_id' => $requestdata['user_id'] ]);
+					//$result 			= $this->db->update('invoice', $request, ['inv_id' => $inv_id,'user_id' => $requestdata['user_id']]);
+				 	//$result 			= $this->db->update('coc_orders', $request, ['inv_id' => $inv_id,'user_id' => $requestdata['user_id'] ]);
 
 				 	$template = $this->db->select('id,email_active,category_id,email_body,subject')->from('email_notification')->where(['email_active' => '1', 'id' => '17'])->get()->row_array();
 
