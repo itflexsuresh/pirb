@@ -474,7 +474,7 @@ $config['auditstatus'] 			=		[
 											'1'		=>	'Audit Complete',
 											'2'		=>	'Pending',
 											'3'		=>	'Refix Required',
-											'4'		=>	'Audit Complete (with Refix(s))',
+											'4'		=>	'Audit Complete (Refix Incomplete)',
 											'5'		=>	'On hold'
 										];
 										
