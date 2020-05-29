@@ -586,7 +586,7 @@ $(function(){
 	if($('#hold').is(':checked')) $('#hold').data('approvalHoldValue', true);
 	reason()
 	
-	datepicker('.auditdate');	
+	datepicker('.auditdate', ['enddate'], {'customstartdate' : '<?php echo date('Y-m-d', strtotime($completiondate)); ?>'});	
 	select2('#workmanship, #plumberverification, #cocverification');
 	citysuburb(['#province','#city', '#suburb'], ['<?php echo $cityid; ?>', '<?php echo $suburbid; ?>']);
 	subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], ['', ''], reviewpoint);

@@ -123,7 +123,7 @@ function sweetalertautoclose(title, html='', timer=''){
 	}).then((result) => {})
 }
 
-function datepicker(selector, extras=[]){
+function datepicker(selector, extras=[], custom={}){
 	var options = {};	
 	options['format'] = 'dd-mm-yyyy';
 	options['autoclose'] = true;
@@ -134,6 +134,7 @@ function datepicker(selector, extras=[]){
 		pastfivedate.setDate(pastfivedate.getDate() - 4)
 		options['startDate'] = pastfivedate;
 	}
+	if(custom.customstartdate) options['startDate'] = new Date(custom.customstartdate);
 
 	$(selector).datepicker(options).on('keypress paste', function(e){
 		e.preventDefault();
