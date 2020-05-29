@@ -321,8 +321,8 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 	function search_activity(value='')
 	{
 		$("#activity_suggesstion").html('');
-		$("#points, #cpdstream").val('');
-		if($.trim($('#activity').val()).length > 3) $("#activity, #activity_id_hide").val('');
+		$("#points, #cpdstream, #activity_id_hide").val('');
+		//if($.trim($('#activity').val()).length > 3) $("#activity, #activity_id_hide").val('');
 	    //if (req2 != null) req2.abort();
 	   // var strlength2 = $.trim($('#activity').val()).length;
 	    //if(strlength2 > 0)  { 
