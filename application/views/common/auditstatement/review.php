@@ -162,53 +162,60 @@
 							<input type="text" class="form-control" name="address" value="<?php echo $address; ?>" disabled>
 						</div>
 					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>Street</label>
-							<input type="text" class="form-control" name="street" value="<?php echo $street; ?>" disabled>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>Number</label>
-							<input type="text" class="form-control" name="number" value="<?php echo $number; ?>" disabled>
+					<div class="col-md-8">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Street</label>
+									<input type="text" class="form-control" name="street" value="<?php echo $street; ?>" disabled>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Number</label>
+									<input type="text" class="form-control" name="number" value="<?php echo $number; ?>" disabled>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>Province</label>
+									<?php
+										echo form_dropdown('province', $province, $provinceid, ['id' => 'province', 'class'=>'form-control', 'disabled' => 'disabled']);
+									?>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>City</label>
+									<?php 
+										echo form_dropdown('city', [], $cityid, ['id' => 'city', 'class' => 'form-control', 'disabled' => 'disabled']); 
+									?>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>Suburb</label>
+									<?php
+										echo form_dropdown('suburb', [], $suburbid, ['id' => 'suburb', 'class'=>'form-control', 'disabled' => 'disabled']);
+									?>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Contact Mobile</label>
+									<input type="text" class="form-control" name="contact_no" id="contact_no" value="<?php echo $contactno; ?>" disabled>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Alternate Contact</label>
+									<input type="text" class="form-control" name="alternate_no" id="alternate_no" value="<?php echo $alternateno; ?>" disabled>
+								</div>
+							</div>
 						</div>
 					</div>
 					<div class="col-md-4">
-						<div class="form-group">
-							<label>Province</label>
-							<?php
-								echo form_dropdown('province', $province, $provinceid, ['id' => 'province', 'class'=>'form-control', 'disabled' => 'disabled']);
-							?>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<label>City</label>
-							<?php 
-								echo form_dropdown('city', [], $cityid, ['id' => 'city', 'class' => 'form-control', 'disabled' => 'disabled']); 
-							?>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<label>Suburb</label>
-							<?php
-								echo form_dropdown('suburb', [], $suburbid, ['id' => 'suburb', 'class'=>'form-control', 'disabled' => 'disabled']);
-							?>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>Contact Mobile</label>
-							<input type="text" class="form-control" name="contact_no" id="contact_no" value="<?php echo $contactno; ?>" disabled>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>Alternate Contact</label>
-							<input type="text" class="form-control" name="alternate_no" id="alternate_no" value="<?php echo $alternateno; ?>" disabled>
-						</div>
+						<div id="addressmap" style="height:100%"></div>
 					</div>
 				</div>
 				
@@ -1077,4 +1084,75 @@ function pointcalculation(){
 }
 
 
+function formaddress(){
+	return new Promise((resolve, reject) => {
+		setTimeout(function(){
+			var address = [];
+		
+			if($('[name="address"]').val()!='') 						address.push($('[name="address"]').val());
+			if($('[name="street"]').val()!='') 							address.push($('[name="street"]').val());
+			if($('[name="number"]').val()!='') 							address.push($('[name="number"]').val());
+			if($('#province').val()!='') 								address.push($('#province option:selected').text());
+			if($('#city option').length && $('#city').val()!='') 		address.push($('#city option:selected').text());
+			if($('#suburb option').length && $('#suburb').val()!='') 	address.push($('#suburb option:selected').text());
+			
+			if(address.join('')!=''){
+				address.push('South Africa');
+				var result = address.join(', ');
+			}else{
+				var result = '';
+			}
+
+			console.log(result);
+			resolve(result);
+		}, 1000);
+	});
+}
+
+async function addressmap(){
+	var address 	= await formaddress();
+	var geocoder 	= new google.maps.Geocoder();
+
+	geocoder.geocode(
+		{
+			'address': address,
+			'componentRestrictions': {
+				country: 'ZA'
+			}
+		}, 
+		function(results, status){
+			if (address!='' && status == google.maps.GeocoderStatus.OK){
+				var latitude 		= results[0].geometry.location.lat();
+				var longitude 		= results[0].geometry.location.lng();
+				var markertoggle 	= 1;
+			}else{
+				var latitude 		= -26.195246;
+				var longitude 		= 28.034088;
+				var markertoggle 	= 0;
+			} 
+			
+			var myLatLng = {lat: latitude, lng: longitude};
+			
+			var map = new google.maps.Map(document.getElementById('addressmap'), {
+				zoom: 9,
+				center: myLatLng,
+				scrollwheel: false,
+				draggable:false,
+				disableDefaultUI: true
+			});
+			
+			if(markertoggle==1){
+				var marker = new google.maps.Marker({
+					position: myLatLng,
+					map: map
+				});
+			}
+		}
+	);
+}
+
+$(window).on('load', function(){
+	addressmap();
+})
 </script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=<?php echo $this->config->item('googleapikey'); ?>"></script>
