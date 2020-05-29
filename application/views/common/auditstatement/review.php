@@ -497,6 +497,7 @@
 									<div class="form-group">
 										<label>Knowledge Reference link</label>
 										<input type="text" name="link" class="r_link form-control" id="r_link">
+										<p class="tagline">Eg : http://www.google.com</p>
 									</div>
 								</div>
 							</div>
