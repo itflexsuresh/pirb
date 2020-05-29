@@ -292,7 +292,7 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 		validation(
 			'.form',
 			{				
-				activity : {
+				activity_id_hide : {
 					required	: true,
 				},
 				startdate : {
@@ -300,14 +300,17 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 				},	
 			},
 			{
-				activity 	: {
-					required	: "Activity field is required."
+				activity_id_hide 	: {
+					required	: "Activity field is required & choose correct option."
 				},
 				startdate 	: {
 					required	: "Activity date is required."
 				},			
+			},
+			{
+				ignore : []
 			}
-			);
+		);
 		
 	});
 	$( document ).ready(function() {
