@@ -312,10 +312,10 @@
 									<th>Review Type</th>
 									<th>Statement</th>
 									<th>Comments</th>
-									<?php if($pagetype=='2'){ ?>
+									<?php //if($pagetype=='2'){ ?>
 										<th>SANS/Regulation/Bylaw Reference</th>
 										<th>Knowledge Reference link</th>
-									<?php } ?>
+									<?php //} ?>
 									<th>Images</th>
 									<th>Performance Points</th>
 									<th>Refix Status</th>
@@ -854,9 +854,9 @@ function review(data){
 		
 		$(document).find('.reviewappend[data-id="'+result.id+'"]').remove();
 		
-		if(pagetype=='2'){
+		//if(pagetype=='2'){
 			extrafield	=	'<td>'+((result.reference!=null) ? result.reference : "")+'</td><td>'+((result.link!=null) ? '<a href="'+result.link+'" target="_blank">'+result.link+'</a>' : "")+'</td>';
-		}
+		//}
 		
 		if(result.reviewtype==1){
 			var status 	= 	result.status;
