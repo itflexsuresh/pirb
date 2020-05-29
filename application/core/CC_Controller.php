@@ -901,7 +901,10 @@ class CC_Controller extends CI_Controller
 						$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '22', 'emailstatus' => '1']);
 	
 						if($notificationdata){
-							$body 	= str_replace(['{Plumbers Name and Surname}', '{COC number}', '{refix number} '], [$pagedata['result']['u_name'], $pagedata['result']['id'], $pagedata['settings']['refix_period']], $notificationdata['email_body']);
+							$auditreviewrow = $this->Auditor_Model->getReviewList('row', ['coc_id' => $pagedata['result']['id'], 'reviewtype' => '1', 'status' => '0']);
+							$duedate 		= ($auditreviewrow) ? date('d-m-Y', strtotime($auditreviewrow['created_at'].' +'.$pagedata['settings']['refix_period'].'days')) : '';
+				
+							$body 	= str_replace(['{Plumbers Name and Surname}', '{COC number}', '{refix number} ', '{due date}'], [$pagedata['result']['u_name'], $pagedata['result']['id'], $pagedata['settings']['refix_period'], $duedate], $notificationdata['email_body']);
 							$this->CC_Model->sentMail($pagedata['result']['u_email'], $notificationdata['subject'], $body);
 						}
 						
