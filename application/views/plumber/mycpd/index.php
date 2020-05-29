@@ -335,7 +335,7 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 				},
 		        success: function(data){          	
 		        	$("#activity_suggesstion").html('');
-		        	if($.trim($('#activity').val()).length > 3) $("#activity").val('');
+		        	//if($.trim($('#activity').val()).length > 3) $("#activity").val('');
 					$("#points").val('');
 					$("#cpdstream").val('');
 		        	$("#activity_suggesstion").show();      	

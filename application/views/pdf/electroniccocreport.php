@@ -17,21 +17,21 @@ $cl_contact_no      = isset($result['cl_contact_no']) ? $result['cl_contact_no']
 $installationtypeid   = isset($result['cl_installationtype']) ? explode(',', $result['cl_installationtype']) : [];
 $specialisationsid    = isset($result['cl_specialisations']) ? explode(',', $result['cl_specialisations']) : [];
 
-$agreementid 			= isset($result['cl_agreement']) ? $result['cl_agreement'] : '';
-$logdate 				= isset($result['cl_log_date']) &&  date('Y-m-d', strtotime($result['cl_log_date']))!='1970-01-01' ? date('d/m/Y', strtotime($result['cl_log_date'])) : '';
-$logtime 				= isset($result['cl_log_date']) &&  date('Y-m-d', strtotime($result['cl_log_date']))!='1970-01-01' ? date('H', strtotime($result['cl_log_date'])).'H'.date('i', strtotime($result['cl_log_date'])) : '';
-		
+$agreementid      = isset($result['cl_agreement']) ? $result['cl_agreement'] : '';
+$logdate        = isset($result['cl_log_date']) &&  date('Y-m-d', strtotime($result['cl_log_date']))!='1970-01-01' ? date('d/m/Y', strtotime($result['cl_log_date'])) : '';
+$logtime        = isset($result['cl_log_date']) &&  date('Y-m-d', strtotime($result['cl_log_date']))!='1970-01-01' ? date('H', strtotime($result['cl_log_date'])).'H'.date('s', strtotime($result['cl_log_date'])) : '';
+    
 function base64conversion($path){
   $type = pathinfo($path, PATHINFO_EXTENSION);
   $data = file_get_contents($path);
   return 'data:image/' . $type . ';base64,' . base64_encode($data);
 }
 
-$textimg 	= base64conversion(base_url().'assets/images/text-img.png');
-$roundimg 	= base64conversion(base_url()."assets/images/round.png");
-$logoimg 	= base64conversion(base_url()."assets/images/logo-img.png");
-$tickimg 	= base64conversion(base_url()."assets/images/tick.png");
-$ownersimg 	= base64conversion(base_url()."assets/images/owners.png");
+$textimg  = base64conversion(base_url().'assets/images/text-img.png');
+$roundimg   = base64conversion(base_url()."assets/images/round.png");
+$logoimg  = base64conversion(base_url()."assets/images/logo-img.png");
+$tickimg  = base64conversion(base_url()."assets/images/tick.png");
+$ownersimg  = base64conversion(base_url()."assets/images/owners.png");
 
 echo'<!DOCTYPE html> 
 <html>
@@ -41,7 +41,7 @@ echo'<!DOCTYPE html>
   <body style=" font-family:Helvetica; -webkit-print-color-adjust: exact; margin:0;  font-family: arial; width:100%; ">
       <div id="wrapper">
           <div class="certificate-block">
-              <div class="container" style=" font-family:Helvetica; width:1300px; margin:0 auto; padding:16px 25px 25px 25px; border: 4px solid #00aeef; border-radius: 50px;">
+              <div class="container" style=" font-family:Helvetica; width:1300px; margin:0 auto; padding:16px 25px 25px 25px; border: 4px solid #00aeef; border-radius: 50px; margin-bottom: 10px;">
                   <div class="uper-block">
                       <h2 align="center" style=" font-family:Helvetica; padding-bottom:10px; margin:0;"><img src="'.$textimg.'"  style=" font-family:Helvetica; width:96%; margin:0 auto;"></h2>
                       <div class="logo-block" style=" font-family:Helvetica; width:48%; float: left; ">                         
@@ -49,7 +49,7 @@ echo'<!DOCTYPE html>
                       </div>
                       <div class="rt-side" style=" font-family:Helvetica; float: right;width: 50%;padding: 20px 0 0 15px;margin-top: 50px; box-sizing: border-box;">
                           <div class="box" style=" font-family:Helvetica; height: 40px; padding:7px 4px 3px 6px; margin: 0 0 4px; background: #d1d3d4;">
-                              <h4 style=" font-family:Helvetica; font-size: 23px;font-weight: 400;color: #000;padding:10px;float: left; margin:0;">Certificate N:</h4><span style=" font-family:Helvetica; background: #fff;padding:12px 0;width: 70%;display: inline-block;height: 14px;float: right;">'.$cocid.'</span>
+                              <h4 style=" font-family:Helvetica; font-size: 23px;font-weight: 400;color: #000;padding:10px;float: left; margin:0;">Certificate No:</h4><span style=" font-family:Helvetica; background: #fff;padding:12px 0;width: 70%;display: inline-block;height: 14px;float: right; padding-left: 10px;">'.$cocid.'</span>
                               <div style=" font-family:Helvetica; clear:both;"></div>
                           </div>
                           <div class="box" style=" font-family:Helvetica; text-align: center;padding:10px;margin: 0 0 4px;background: #f3cfc1;;">
@@ -62,17 +62,17 @@ echo'<!DOCTYPE html>
                       <div style=" font-family:Helvetica; clear:both;"></div>
                   </div>
                   <div class="down-block" style=" font-family:Helvetica; padding-bottom: 4px; margin-top: 70px;">
-                      <div class="lt-side" style=" font-family:Helvetica; float: left; width:50%;">
-                          <label style=" font-family:Helvetica; font-size: 18px; line-height: 22px; font-weight: 400; color: #000; padding: 0; margin: 0px 30px; float: left;">Plumbing Work <br>Completion Date:</labeel> <span style=" font-family:Helvetica; width:60%;height: 40px;border: 1px solid #bbbcbe;display: inline-block;padding: 0;margin: 0;float: right;"> '.$completiondate.'</span>
+                      <div class="lt-side" style=" font-family:Helvetica; float: left; width:28%;">
+                          <label style=" font-family:Helvetica; font-size: 18px; line-height: 22px; font-weight: 400; color: #000; padding: 0; margin: 0px 30px; float: left;">Plumbing Work <br>Completion Date:</label> <label style="position: relative;line-height: 22px;top: -31px; bottom:20px; margin-bottom:20px;font-family: Helvetica;width: 50%; ;height: 40px;border: 1px solid #bbbcbe;display: inline-block;padding: 0px;margin: 0;position: relative;float: right;"><span style="position: relative;top: 20px;"> '.$completiondate.'</span></label>
                       </div>
                       <div class="rt-side" style=" font-family:Helvetica; float: right; width:47%; clear: both;">
-                          <label style=" font-family:Helvetica; font-size: 18px;line-height: 23px;font-weight: 400;color: #000;padding: 0;margin:11px 0 0;float: left;">INSURANCE CLAIM/ORDER NO. (If relevant)</label><span style=" font-family:Helvetica; width: 40%;height: 25px;border: 1px solid #bbbcbe;display: inline-block;padding: 0;margin:11px 0 0;float: right;"> '.$cl_order_no.'</span>
+                          <label style=" font-family:Helvetica; font-size: 18px;line-height: 23px;font-weight: 400;color: #000;padding: 0;margin:0px 0 0;float: left; margin-left: -8px;">INSURANCE CLAIM/ORDER NO. (If relevant)</label><label style="font-family: Helvetica;width: 40%;height: 25px;border: 1px solid #bbbcbe;display: inline-block;padding: 0;margin: 0;float: right;position: relative;"><span style="position: relative;top: 4px;"> '.$cl_order_no.'</span></label>
                       </div>
                       <div style=" font-family:Helvetica; clear:both;"></div>
                   </div>
                   <div style=" font-family:Helvetica; clear:both;"></div>
-                  <div class="address-block" style=" font-family:Helvetica; border: 1px solid #aab294; margin:12px">
-                      <h2 style=" font-family:Helvetica; text-align: center;background: #c9db82;padding: 10;border-bottom: 1px solid #aab294;font-size: 18px;line-height: 18px;color: #000; margin:10px;">Physical Address Details of Installation:</h2>
+                  <div class="address-block" style=" font-family:Helvetica; border: 1px solid #aab294; margin:12px 0">
+                      <h2 style=" font-family:Helvetica; text-align: center;background: #c9db82;padding: 10;border-bottom: 1px solid #aab294;font-size: 18px;line-height: 18px;color: #000; margin:0px;">Physical Address Details of Installation:</h2>
                       <div class="block" style=" font-family:Helvetica;  border-bottom: 1px solid #aab294; width:40%; float:left">
                           <h5 style=" font-family:Helvetica; font-size:20px; line-height:17px; font-weight: 300; color: #000; padding: 8px 7px; margin:0;">Owners name: '.$name.'</h5>
                       </div>
@@ -100,10 +100,10 @@ echo'<!DOCTYPE html>
                       </div>
                       <div class="block">
                           <div class="lt-left" style=" font-family:Helvetica; width: 55%; border-right: 1px solid #adabad; float: left;">
-                              <h5 style=" font-family:Helvetica; font-size: 20px;line-height:17px;font-weight: 300;color: #000;padding: 8x 7px;padding-right: 10px;border-right: 1px solid #adabad;display: inline-block; margin:0; float:left;">Area Code: (of property where COC was issued) </h5><h5 style=" font-family:Helvetica; font-size:16px; line-height:12px; font-weight: 300; color: #000; padding: 2px 7px; padding-right: 70px; display: inline-block; margin:0; float:left"> </h5>
+                              <h5 style=" font-family:Helvetica; font-size: 20px;font-weight: 300;color: #000;padding: 8px 7px;padding-right: 10px;border-right: 1px solid #adabad;display: inline-block; margin:0; float:left;">Area Code: (of property where COC was issued) </h5><h5 style=" font-family:Helvetica; font-size:16px; line-height:12px; font-weight: 300; color: #000; padding: 2px 7px; padding-right: 70px; display: inline-block; margin:0; float:left"> </h5>
                           </div>
                           <div class="rt-right" style=" font-family:Helvetica; float: right; text-align: left; width: 44%;">
-                              <h5 style=" font-family:Helvetica; font-size:20px; line-height:17px; font-weight: 300; color: #000; padding: 8px 0; padding-right:39px; border-right: 1px solid #adabad; display: inline-block; margin:0; float:left;">Tel No: '.$cl_contact_no.'</h5><h5 style=" font-family:Helvetica; font-size:16px; line-height:12px; font-weight: 300; color: #000; padding: 2px 7px; padding-right: 70px; display: inline-block; margin:0; float:left"> </h5>
+                              <h5 style=" font-family:Helvetica; font-size:20px; font-weight: 300;    padding: 8px 7px; color: #000;  padding-right:39px; border-right: 1px solid #adabad; display: inline-block; margin:0; float:left;">Tel No: '.$cl_contact_no.'</h5><h5 style=" font-family:Helvetica; font-size:16px; line-height:12px; font-weight: 300; color: #000; padding: 2px 7px; padding-right: 70px; display: inline-block; margin:0; float:left"> </h5>
                           </div>
                           <div style=" font-family:Helvetica; clear:both;"></div>
                       </div>
@@ -115,10 +115,10 @@ echo'<!DOCTYPE html>
                              <h4 style=" font-family:Helvetica; font-size:18px; line-height:18px; margin:0;">Type of Installation Carried Out by '.$designation2[$userdata['designation']].'</h4>
                               <p style=" font-family:Helvetica; padding: 0; margin: 0; font-size:18px;">(Clearly tick the appropriate Installation Category Code and complete the installation details below)</p>
                          </div>
-                         <div class="block_sec" style=" font-family:Helvetica; width:10%; float: left; border-right: 1px solid #adabad; text-align: center; padding:9px 0;">
+                         <div class="block_sec" style=" font-family:Helvetica; width:10%; float: left; border-right: 1px solid #adabad; text-align: center; padding:19px 0;">
                              <h4 style=" font-family:Helvetica; font-size:18px; margin:0;">Code</h4>
                          </div>
-                         <div class="block_sec" style=" font-family:Helvetica; width:10%;float: left;text-align: center;padding: 9px 0;">
+                         <div class="block_sec" style=" font-family:Helvetica; width:10%;float: left;text-align: center;padding: 19px 0;">
                              <h4 style=" font-family:Helvetica; font-size:18px; margin:0;">Tick</h4>
                          </div>
                          <div style=" font-family:Helvetica; clear:both;"></div>
@@ -130,14 +130,14 @@ echo'<!DOCTYPE html>
                         
                         
                        <div class="top" style="border-bottom: 1px solid #adabad;">
-                         <div class="block_sec" style="width:79%; float: left; border-right: 1px solid #adabad; background: #fff; padding: 10px 0;">
+                         <div class="block_sec" style="width:79%; float: left; border-right: 1px solid #adabad; background: #fff; padding: 12px 0;">
                           <h5 style="font-size:20px; line-height:18px; color: #000; font-weight: 400; margin:0; padding: 0 0 0 5px; "><?php echo substr($value['name'],0,45); ?><span style="font-weight: 600; color: #d2232a;"><?php echo substr($value['name'],45); ?></span></h5>
                          </div>
-                         <div class="block_sec" style="width:10%; float: left; border-right: 1px solid #adabad; text-align: center; ">
+                         <div class="block_sec" style="width:10%; float: left; border-right: 1px solid #adabad; text-align: center; padding: 10px 0;">
                              <h4 style="padding: 2px 0;font-size: 16px;line-height: 16px; margin:0;"><?php echo $value['code'];?></h4>
                          </div>
                          <div class="block_sec" style="width:10%; float: left; text-align: center;">
-                             <h4 style="padding-top:2px; margin:0;"><?php echo (in_array($value['id'], $installationtypeid)) ? '<img style="width: 20%; height: 20%;" src="'.$tickimg.'" />' : ''; ?></h4>
+                             <h4 style=" margin:0;"><?php echo (in_array($value['id'], $installationtypeid)) ? '<img style="width: 20%; height: 20%;" src="'.$tickimg.'" />' : ''; ?></h4>
                          </div>
                          <div style="clear:both;"></div>
                       </div>
@@ -151,10 +151,10 @@ echo'<!DOCTYPE html>
                              <h4 style=" font-family:Helvetica; font-size:16px; line-height:18px; margin:0;">Specialisations: To be Carried Out by Licensed Plumber Only Registered to do the Specialised Work </h4>
                               <p style=" font-family:Helvetica; padding: 0; margin: 0; font-size:18px;">(To verify and authenticate Licensed Plumbers specialisations visit pirb.co.z)</p>
                          </div>
-                         <div class="block_sec" style=" font-family:Helvetica; width:10%; float: left; border-right: 1px solid #adabad; text-align: center; padding:9px 0;">
+                         <div class="block_sec" style=" font-family:Helvetica; width:10%; float: left; border-right: 1px solid #adabad; text-align: center; padding:19px 0;">
                              <h4 style=" font-family:Helvetica; font-size:18px; margin:0;">Code</h4>
                          </div>
-                         <div class="block_sec" style=" font-family:Helvetica; width:10%;float: left;text-align: center;padding: 9px 0;">
+                         <div class="block_sec" style=" font-family:Helvetica; width:10%;float: left;text-align: center;padding: 19px 0;">
                              <h4 style=" font-family:Helvetica; font-size:18px; margin:0;">Tick</h4>
                          </div>
                          <div style=" font-family:Helvetica; clear:both;"></div>
@@ -163,40 +163,40 @@ echo'<!DOCTYPE html>
                       foreach ($specialisations as $key => $value) { ?>
 
                       <div class="top" style="border-bottom: 1px solid #adabad;">
-                         <div class="block_sec" style="width:79%; float: left; border-right: 1px solid #adabad; background: #fff; padding: 10px 0;">
+                         <div class="block_sec" style="width:79%; float: left; border-right: 1px solid #adabad; background: #fff; padding: 12px 0;">
                           <h5 style="font-size:20px; line-height:18px; color: #000; font-weight: 400; margin:0; padding: 0 0 0 5px; "><?php echo substr($value['name'],0,45); ?><span style="font-weight: 600; color: #d2232a;"><?php echo substr($value['name'],45); ?></span></h5>
                          </div>
-                         <div class="block_sec" style="width:10%; float: left; border-right: 1px solid #adabad; text-align: center; ">
+                         <div class="block_sec" style="width:10%; float: left; border-right: 1px solid #adabad; text-align: center; padding: 10px 0;">
                              <h4 style="padding: 2px 0;font-size: 16px;line-height: 16px; margin:0;"><?php echo $value['code'];?></h4>
                          </div>
                          <div class="block_sec" style="width:10%; float: left; text-align: center;">
-                             <h4 style="padding-top:2px; margin:0;"><?php echo (in_array($value['id'], $specialisationsid)) ? '<img style="width: 20%; height: 20%;" src="'.$tickimg.'" />' : ''; ?></h4>
+                             <h4 style=" margin:0;"><?php echo (in_array($value['id'], $specialisationsid)) ? '<img style="width: 20%; height: 20%;" src="'.$tickimg.'" />' : ''; ?></h4>
                          </div>
                          <div style="clear:both;"></div>
                       </div>
 
             <?php     } 
-			
+      
 if($agreementid=='1'){
-	$agreement = ' 
-	  <div class="block" style=" font-family:Helvetica; padding:0; width:100%;border-top:1px solid #adafb1;border-bottom:1px solid #adafb1;">
-		  <div class="lt-left" style=" padding-top: 5px; font-family:Helvetica;background-color:#fff;border-top:1px solid #adafb1;border-bottom:1px solid #adafb1;">
-		   <p style=" font-family:Helvetica; width: 6%;border-right:1px solid #adafb1; font-weight: 700; display: inline-block; padding: 0;margin: 0; text-align: center; border-right:1px solid #adafb1;">A</p>
-		   <p style=" font-family:Helvetica; width: 90%; padding-top: 5px; display: inline-block; margin: 0;">The above plumbing work was carried out by me or under my supervision, and that it complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</p>
-		  </div>
-		  <div class="clear"></div>
-	  </div>
-	';
+  $agreement = ' 
+    <div class="block" style=" font-family:Helvetica; padding:0; width:100%;border-top:1px solid #adafb1;border-bottom:1px solid #adafb1;">
+      <div class="lt-left" style=" padding-top: 5px; font-family:Helvetica;background-color:#fff;border-top:1px solid #adafb1;border-bottom:1px solid #adafb1;">
+       <p style=" font-family:Helvetica; width: 6%;border-right:1px solid #adafb1; font-weight: 700; display: inline-block; padding: 0;margin: 0; text-align: center; border-right:1px solid #adafb1;">A</p>
+       <p style=" font-family:Helvetica; width: 90%; padding-top: 5px; display: inline-block; margin: 0;">The above plumbing work was carried out by me or under my supervision, and that it complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</p>
+      </div>
+      <div class="clear"></div>
+    </div>
+  ';
 }elseif($agreementid=='2'){
-	$agreement = ' 
-	  <div class="block" style=" font-family:Helvetica; padding:0; width:100%;border-bottom:1px solid #adafb1;">
-	   <div class="lt-left" style=" padding-top: 5px; font-family:Helvetica;background-color:#fff;border-bottom:1px solid #adafb1;">
-		   <p style=" font-family:Helvetica; width: 6%;border-right:1px solid #adafb1; font-weight: 700; display: inline-block; padding: 0;margin: 0; text-align: center; border-right:1px solid #adafb1;">B</p>
-		   <p style=" font-family:Helvetica; width: 90%; padding-top: 5px; display: inline-block; margin: 0;">I have fully inspected and tested the work started but not completed by another Licensed plumber and the necessary completion work was carried out by me or under my supervision-  complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</p>
-	   </div>
-	   <div class="clear"></div>
-	  </div>
-	';
+  $agreement = ' 
+    <div class="block" style=" font-family:Helvetica; padding:0; width:100%;border-bottom:1px solid #adafb1;">
+     <div class="lt-left" style=" padding-top: 5px; font-family:Helvetica;background-color:#fff;border-bottom:1px solid #adafb1;">
+       <p style=" font-family:Helvetica; width: 6%;border-right:1px solid #adafb1; font-weight: 700; display: inline-block; padding: 0;margin: 0; text-align: center; border-right:1px solid #adafb1;">B</p>
+       <p style=" font-family:Helvetica; width: 90%; padding-top: 5px; display: inline-block; margin: 0;">I have fully inspected and tested the work started but not completed by another Licensed plumber and the necessary completion work was carried out by me or under my supervision-  complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</p>
+     </div>
+     <div class="clear"></div>
+    </div>
+  ';
 }
 
           echo' </div>
@@ -240,12 +240,12 @@ if($agreementid=='1'){
                       </div>
 
                   </div>
-                  <div class="white_box" style=" font-family:Helvetica; border:1px solid #adafb1; margin:5px 0 0; font-size:16px;">
+                  <div class="white_box" style=" font-family:Helvetica; border:1px solid #adafb1; margin:0px 0 0; border-top: none; font-size:16px;">
                       <div class="block" style=" font-family:Helvetica; padding:10px 5px; border-bottom:1px solid #adafb1;">
-                          <p style=" font-family:Helvetica; line-height:25px; color: #000; padding: 0; margin: 0; ">I '.$userdata['name'].' '.$userdata['surname'].', Licensed registration number '.$userdata['registration_no'].', certify that, the above compliance certificate details are true and correct and will be logged in accordance with the prescribed requirements as defined by the PIRB.  I further certify that;<br>I further certify that (as highlighted);</p>
+                          <p style=" font-family:Helvetica; line-height:25px; color: #000; padding: 0; margin: 0; ">I '.$userdata['name'].' '.$userdata['surname'].', Licensed registration number '.$userdata['registration_no'].', certify that, the above compliance certificate details are true and correct and will be logged in accordance with the prescribed requirements as defined by the PIRB.I further certify that (as highlighted);</p>
                       </div>                      
                         
-						'.$agreement.'
+            '.$agreement.'
 
                       <div class="test" style="width: 100%;">
                       <img src="" style="border-top:1px dashed #adafb1;font-family:Helvetica; height: 100px;">
@@ -278,8 +278,7 @@ if($agreementid=='1'){
                           <p style=" font-family:Helvetica; float: right; width: 97%; font-size:14px; line-height:20px; color: #000; font-weight:400; padding: 0; margin: 0 0 7px;">The relevant plumbing work that was certified as complaint through the issuing of this certificate may be possibly be audited by a PIRB Auditor for compliance to the regulations, work- manship and health and safety of the plumbing.</p>
                       </div>
                       <div class="text" style=" font-family:Helvetica; padding:3px 10px 0 5px;">
-                          <span style=" font-family:Helvetica; float: left; width: 3%; padding: 0 0 0 0;"><img src="'.$roundimg.'" style=" font-family:Helvetica; margin:22px 6px;" /></span>
-                          <p style=" font-family:Helvetica; float: right; width: 97%; font-size:14px; line-height:20px; color: #000; font-weight:400; padding: 0; margin: 0;">If this Certificate of Compliance has been chosen for an audit you must cooperated fully with the PIRB Auditor in allowing them to carry out the relevant audit.</p>
+                                                    <p style=" font-family:Helvetica; float: right; width: 97%; font-size:14px; line-height:20px; color: #000; font-weight:400; padding: 0; margin: 0;">If this Certificate of Compliance has been chosen for an audit you must cooperated fully with the PIRB Auditor in allowing them to carry out the relevant audit.</p>
                           <div style=" font-family:Helvetica; clear:both;"></div>
                       </div>
                       <div class="text" style=" font-family:Helvetica; padding:3px 10px 0 5px;">
@@ -298,8 +297,8 @@ if($agreementid=='1'){
     
   
   <div id="wrapper">
-  <div class="certificate-block">
-    <div class="container" style=" font-family:Helvetica; width:1327px; margin: 280px auto 100px auto; padding:10px 15px 15px 15px; border: 4px solid #00aeef; background: #fff; border-radius: 20px; ">
+  <div class="certificate-block" style="margin-top:0px; ">
+    <div class="container" style=" font-family:Helvetica; width:1327px; margin: 360px auto 100px auto; padding:10px 15px 15px 15px; border: 4px solid #00aeef; background: #fff; border-radius: 20px; ">
         <div class="title" style=" font-family:Helvetica; background: #d1e28d; text-align: center; color: #000; padding:10px 0; margin-bottom:4px;">
             <h3 style=" font-family:Helvetica; margin:0; margin:0; font-size:21px; line-height: 14px; font-weight: 600;">TERMS & CONDITIONS</h3>
         </div>
@@ -325,7 +324,7 @@ if($agreementid=='1'){
               <ul style=" font-family:Helvetica; font-size: 14px; line-height: 30px;  color: #000; font-weight: 400;">
                     <li style=" font-family:Helvetica; line-height: 20px; padding-bottom:0px;">Where the total value of the work, including materials, labour and VAT, is more than the prescribe value as defined by the PIRB (material costs must be included, regardless of whether the materials were supplied by another person) a certificate must be issued for the following:</li><br>
                  <li style=" font-family:Helvetica;  line-height: 15px;float: right; width:90%; list-style: none;">When an Installation, Replacement and/or Repair of Hot Water Systems and/ or Components is carried out</li><br>
-                  <li style=" font-family:Helvetica; float: right; width:90%; list-style: none;">When an Installation, Replacement and/or Repair of Cold Water Systems and/ or Components is carried out</li><br>
+                  <li style=" font-family:Helvetica; line-height: 15px; float: right; width:90%; list-style: none;">When an Installation, Replacement and/or Repair of Cold Water Systems and/ or Components is carried out</li><br>
                     <li style=" font-family:Helvetica;  line-height: 15px;float: right; width:90%; list-style: none;">Installation, Replacement and/or Repair of Sanitary-ware and Sanitary-fittings is carried out</li><br>
                      <li style=" font-family:Helvetica;  line-height: 15px;float: right; width:90%; list-style: none;">Installation, Replacement and/or Repair of a Solar Water Heating System</li><br>
                       <li style=" font-family:Helvetica;  line-height: 15px;float: right; width:90%; list-style: none;">Installation, Replacement and/or Repair of a Below-ground Drainage System</li><br>
@@ -384,16 +383,16 @@ if($agreementid=='1'){
             <div class="lt-left" style=" font-family:Helvetica; float: left; width: 6%; text-align: center; border-right: 1px solid #939598; padding: 10px 0; box-sizing: border-box;">
               <h3 style=" font-family:Helvetica; margin:0; font-size:16px; line-height: 16px; font-weight: 600; color: #000;">Code</h3>
             </div>
-            <div class="rt-right" style=" font-family:Helvetica; float: left; width:92%; background: #d1e28d;  box-sizing: border-box;">
+            <div class="rt-right" style=" font-family:Helvetica; float: left; width:94%; background: #d1e28d;  box-sizing: border-box;">
               <h3 style=" font-family:Helvetica; margin:0; font-size:18px; line-height: 17px; padding: 0; margin:0; text-align: center; color: #000; padding: 10px 0px; margin: 0;">Type of Installation Carried Out:</h3>
             </div>
             <div style=" font-family:Helvetica; clear:both;"></div>
           </div>
           <div class="block" style=" font-family:Helvetica; border-bottom: 1px solid #939598;">
-            <div class="lt-left" style=" font-family:Helvetica; float: left; width: 6%; text-align: center; border-right: 1px solid #939598; padding:18px 4px; box-sizing: border-box; ">
+            <div class="lt-left" style=" font-family:Helvetica; float: left; width: 6%; text-align: center; border-right: 1px solid #939598; padding:19px 4px; box-sizing: border-box; ">
               <h3 style=" font-family:Helvetica; margin:12px 0px; font-size: 22px; line-height: 17px; font-weight: 600; color: #d2232a;">01</h3>
             </div>
-            <div class="rt-right" style=" font-family:Helvetica; float: left; width:92%; background: #fbf0eb; padding:4px; box-sizing: border-box;">
+            <div class="rt-right" style=" font-family:Helvetica; float: left; width:93%; background: #fbf0eb; padding:4px; box-sizing: border-box;">
               <h3 style=" font-family:Helvetica; margin:2px 0px; font-size: 18px; line-height: 16px; color: #000; font-weight: 600;">Installation, Replacement and/or Repair of a <span style=" font-family:Helvetica; color:#d2232a; font-weight: 600;">Hot water System and /or Components</span> </h4>
               <p style=" font-family:Helvetica; font-size:11px; line-height:16px; line-height:16px padding: 0; margin: 2px 0px;">(A Certificate of Compliance is to be issued for  the  installation,  replacement  and/or  repair  of any plumbing work carried out on the hot water reticulation system upstream of the 
               pressure regulating valve, which shall include but not be limited to: the pressure regulating valve; an electrical hot water cylinder; all relevant valves and components and all hot 
@@ -403,10 +402,10 @@ if($agreementid=='1'){
             <div style=" font-family:Helvetica; clear:both;"></div>
           </div>
           <div class="block" style=" font-family:Helvetica; border-bottom: 1px solid #939598;">
-            <div class="lt-left" style=" font-family:Helvetica; float: left; width: 6%; text-align: center; border-right: 1px solid #939598; padding:18px 4px; box-sizing: border-box;">
+            <div class="lt-left" style=" font-family:Helvetica; float: left; width: 6%; text-align: center; border-right: 1px solid #939598; padding:19px 4px; box-sizing: border-box;">
               <h3 style=" font-family:Helvetica; margin:12px 0px; font-size: 22px; line-height: 17px; font-weight: 600; color: #00aeef;">02</h3>
             </div>
-            <div class="rt-right" style=" font-family:Helvetica; box-sizing: border-box; float: left; width:92%; background: #eff9fe; padding: 4px 4px 4px 4px; box-sizing: border-box;">
+            <div class="rt-right" style=" font-family:Helvetica; box-sizing: border-box; float: left; width:93%; background: #eff9fe; padding: 4px 4px 4px 4px; box-sizing: border-box;">
               <h3 style=" font-family:Helvetica; margin: 2px 0px; font-size: 20px; line-height: 16px; color: #000; font-weight: 600;">Installation, Replacement and/or Repair of a <span style=" font-family:Helvetica; color:#00aeef; font-weight: 600;">Cold water System and /or Components</span> </h4>
               <p style=" font-family:Helvetica; font-size:11px; line-height:16px; padding: 0; margin: 2px 0px;">(A Certificate of Compliance is to be issued for  the  installation,  replacement  and/or  repair  of any plumbing work carried out on the hot water reticulation system upstream of the 
               pressure regulating valve, which shall include but not be limited to: the pressure regulating valve; an electrical hot water cylinder; all relevant valves and components and all hot 
@@ -416,10 +415,10 @@ if($agreementid=='1'){
             <div style=" font-family:Helvetica; clear:both;"></div>
           </div>
           <div class="block" style=" font-family:Helvetica; border-bottom: 1px solid #939598;">
-            <div class="lt-left" style=" font-family:Helvetica; float: left; width: 6%; text-align: center; border-right: 1px solid #939598; padding:18px 4px; box-sizing: border-box;">
+            <div class="lt-left" style=" font-family:Helvetica; float: left; width: 6%; text-align: center; border-right: 1px solid #939598; padding:19px 4px; box-sizing: border-box;">
               <h3 style=" font-family:Helvetica; margin:12px 0x; font-size: 22px; line-height:17px; font-weight: 600; color: #5b579c;">03</h3>
             </div>
-            <div class="rt-right" style=" font-family:Helvetica; box-sizing: border-box; float: left; width:92%; background: #f0eff7; padding: 4px 4px 4px 4px; box-sizing: border-box;">
+            <div class="rt-right" style=" font-family:Helvetica; box-sizing: border-box; float: left; width:93%; background: #f0eff7; padding: 4px 4px 4px 4px; box-sizing: border-box;">
               <h3 style=" font-family:Helvetica; margin: 2px 0px; font-size: 20px; line-height: 16px; color: #000; font-weight: 600;">Installation, Replacement and/or Repair of a <span style=" font-family:Helvetica; color:#5b579c; font-weight: 600;">Sanitary-ware and Sanitary-fittings</span> </h4>
               <p style=" font-family:Helvetica; font-size:11px; line-height:16px;  padding: 0; margin: 2px 0px;">(A Certificate of Compliance is to be issued for  the  installation,  replacement  and/or  repair  of any plumbing work carried out on the hot water reticulation system upstream of the 
               pressure regulating valve, which shall include but not be limited to: the pressure regulating valve; an electrical hot water cylinder; all relevant valves and components and all hot 
@@ -429,10 +428,10 @@ if($agreementid=='1'){
             <div style=" font-family:Helvetica; clear:both;"></div>
           </div>
           <div class="block" style=" font-family:Helvetica; border-bottom: 1px solid #939598;">
-            <div class="lt-left" style=" font-family:Helvetica; box-sizing: border-box; float: left; width: 6%; text-align: center; border-right: 1px solid #939598; padding:18px 4px;">
+            <div class="lt-left" style=" font-family:Helvetica; box-sizing: border-box; float: left; width: 6%; text-align: center; border-right: 1px solid #939598; padding:26px 4px;">
               <h3 style=" font-family:Helvetica; margin:12px 0px; font-size: 22px; line-height: 17px; font-weight: 600; color: #f36f21;">04</h3>
             </div>
-            <div class="rt-right" style=" font-family:Helvetica; box-sizing: border-box; float: left; width:92%; background: #fff5ed; padding: 4px 4px 4px 4px; box-sizing: border-box;">
+            <div class="rt-right" style=" font-family:Helvetica; box-sizing: border-box; float: left; width:93%; background: #fff5ed; padding: 4px 4px 4px 4px; box-sizing: border-box;">
               <h3 style=" font-family:Helvetica; margin: 2px 0px; font-size: 20px; line-height: 16px; color: #000; font-weight: 600;">Installation, Replacement and/or Repair of a <span style=" font-family:Helvetica; color:#f36f21; font-weight: 600;">Solar water Heating System</span> </h4>
               <p style=" font-family:Helvetica; font-size: 11px; line-height:16px; padding: 0; margin: 2px 0px;">(A Certificate of Compliance is to be issued for  the  installation,  replacement  and/or  repair  of any plumbing work carried out on the hot water reticulation system upstream of the 
               pressure regulating valve, which shall include but not be limited to: the pressure regulating valve; an electrical hot water cylinder; all relevant valves and components and all hot 
@@ -445,7 +444,7 @@ if($agreementid=='1'){
             <div class="lt-left" style=" font-family:Helvetica; box-sizing: border-box; float: left; width: 6%; text-align: center; border-right: 1px solid #939598; padding:19px 4px;">
               <h3 style=" font-family:Helvetica; margin:12px 0px; font-size: 22px; line-height: 17px; font-weight: 600; color: #7d4e35;">05</h3>
             </div>
-            <div class="rt-right" style=" font-family:Helvetica; box-sizing: border-box; float: left; width:92%; background: #f3efeb; padding: 4px 4px 4px 4px; box-sizing: border-box;">
+            <div class="rt-right" style=" font-family:Helvetica; box-sizing: border-box; float: left; width:93%; background: #f3efeb; padding: 4px 4px 4px 4px; box-sizing: border-box;">
               <h3 style=" font-family:Helvetica; margin: 2px 0px; font-size: 20px; line-height: 16px; color: #000; font-weight: 600;">Installation, Replacement and/or Repair of a <span style=" font-family:Helvetica; color:#7d4e35; font-weight: 600;">Below-ground Drainage System</span> </h4>
               <p style=" font-family:Helvetica; font-size:11px; line-height:16px; padding: 0; margin: 2px 0px;">(A Certificate of Compliance is to be issued for  the  installation,  replacement  and/or  repair  of any plumbing work carried out on the hot water reticulation system upstream of the 
               pressure regulating valve, which shall include but not be limited to: the pressure regulating valve; an electrical hot water cylinder; all relevant valves and components and all hot 
@@ -455,10 +454,10 @@ if($agreementid=='1'){
             <div style=" font-family:Helvetica; clear:both;"></div>
           </div>
           <div class="block" style=" font-family:Helvetica; border-bottom: 1px solid #939598;">
-            <div class="lt-left" style=" font-family:Helvetica; box-sizing: border-box; float: left; width: 6%; text-align: center; border-right: 1px solid #939598; padding:18px 4px;">
+            <div class="lt-left" style=" font-family:Helvetica; box-sizing: border-box; float: left; width: 6%; text-align: center; border-right: 1px solid #939598; padding:18]9px 4px;">
               <h3 style=" font-family:Helvetica; margin:12px 0px; font-size: 22px; line-height: 17px; font-weight: 600; color: #41ad49;">06</h3>
             </div>
-            <div class="rt-right" style=" font-family:Helvetica; box-sizing: border-box; float: left; width:92%; background: #f3f8f1; padding: 4px 4px 4px 4px; box-sizing: border-box;">
+            <div class="rt-right" style=" font-family:Helvetica; box-sizing: border-box; float: left; width:93%; background: #f3f8f1; padding: 4px 4px 4px 4px; box-sizing: border-box;">
               <h3 style=" font-family:Helvetica; margin: 2px 0px; font-size: 20px; line-height: 16px; color: #000; font-weight: 600;">Installation, Replacement and/or Repair of a <span style=" font-family:Helvetica; color:#41ad49; font-weight: 600;">Above-ground Drainage System</span> </h4>
               <p style=" font-family:Helvetica; font-size:11px; line-height:16px; padding: 0; margin: 2px 0px;">(A Certificate of Compliance is to be issued for  the  installation,  replacement  and/or  repair  of any plumbing work carried out on the hot water reticulation system upstream of the 
               pressure regulating valve, which shall include but not be limited to: the pressure regulating valve; an electrical hot water cylinder; all relevant valves and components and all hot 
@@ -468,10 +467,10 @@ if($agreementid=='1'){
             <div style=" font-family:Helvetica; clear:both;"></div>
           </div>
           <div class="block" style=" font-family:Helvetica; border-bottom: 1px solid #939598;">
-            <div class="lt-left" style=" font-family:Helvetica; box-sizing: border-box; float: left; width: 6%; text-align: center; border-right: 1px solid #939598; padding:18px 4px;">
+            <div class="lt-left" style=" font-family:Helvetica; box-sizing: border-box; float: left; width: 6%; text-align: center; border-right: 1px solid #939598; padding:19px 4px;">
               <h3 style=" font-family:Helvetica; margin:12px 0px; font-size: 22px; line-height: 17px; font-weight: 600; color: #00386c;">07</h3>
             </div>
-            <div class="rt-right" style=" font-family:Helvetica; box-sizing: border-box; float: left; width:92%; background: #e7e9f1; padding: 4px 4px 4px 4px; box-sizing: border-box;">
+            <div class="rt-right" style=" font-family:Helvetica; box-sizing: border-box; float: left; width:93%; background: #e7e9f1; padding: 4px 4px 4px 4px; box-sizing: border-box;">
               <h3 style=" font-family:Helvetica; margin: 2px 0px; font-size: 20px; line-height: 16px; color: #000; font-weight: 600;">Installation, Replacement and/or Repair of a <span style=" font-family:Helvetica; color:#00386c; font-weight: 600;">Rain water Disposal System</span> </h4>
               <p style=" font-family:Helvetica; font-size:11px; line-height:16px; padding: 0; margin: 2px 0px;">(A Certificate of Compliance is to be issued for  the  installation,  replacement  and/or  repair  of any plumbing work carried out on the hot water reticulation system upstream of the 
               pressure regulating valve, which shall include but not be limited to: the pressure regulating valve; an electrical hot water cylinder; all relevant valves and components and all hot 
@@ -481,10 +480,10 @@ if($agreementid=='1'){
             <div style=" font-family:Helvetica; clear:both;"></div>
           </div>
           <div class="block">
-            <div class="lt-left" style=" font-family:Helvetica; box-sizing: border-box; float: left; width: 6%; text-align: center; border-right: 1px solid #939598; padding:18px 4px;">
+            <div class="lt-left" style=" font-family:Helvetica; box-sizing: border-box; float: left; width: 6%; text-align: center; border-right: 1px solid #939598; padding:26px 4px;">
               <h3 style=" font-family:Helvetica; margin:12px 0px; font-size: 22px; line-height: 17px; font-weight: 600; color: #790000;">08</h3>
             </div>
-            <div class="rt-right" style=" font-family:Helvetica; box-sizing: border-box; float: left; width:92%; background: #f5e9e3; padding: 4px 4px 4px 4px; box-sizing: border-box;">
+            <div class="rt-right" style=" font-family:Helvetica; box-sizing: border-box; float: left; width:93%; background: #f5e9e3; padding: 4px 4px 4px 4px; box-sizing: border-box;">
               <h3 style=" font-family:Helvetica; margin: 2px 0px; font-size: 20px; line-height: 16px; color: #000; font-weight: 600;">Installation, Replacement and/or Repair of a <span style=" font-family:Helvetica; color:#790000; font-weight: 600;">Heat Pump</span> </h4>
               <p style=" font-family:Helvetica; font-size:11px; line-height:16px; padding: 0; margin: 2px 0px;">(A Certificate of Compliance is to be issued for  the  installation,  replacement  and/or  repair  of any plumbing work carried out on the hot water reticulation system upstream of the 
               pressure regulating valve, which shall include but not be limited to: the pressure regulating valve; an electrical hot water cylinder; all relevant valves and components and all hot 
