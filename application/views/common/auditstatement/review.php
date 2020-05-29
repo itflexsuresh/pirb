@@ -330,7 +330,7 @@
 										<th>Action</th>
 									<?php } ?>
 								</tr>
-								<tr class="reviewnotfound">
+								<tr class="reviewnotfound"> 
 									<td colspan="9">No Record Found</td>
 								</tr>
 							</table>
