@@ -53,7 +53,7 @@ class Index extends CC_Controller
 				$invoicestatus = 	isset($this->config->item('payment_status2')[$result['status']]) ? $this->config->item('payment_status2')[$result['status']] : '';
 				//print_r($this->db->last_query());
 				
-				if($result['status']=='0'){
+				if($result['status']=='0' && $result['coc_type']=='0'){
 					$this->session->set_userdata('pay_purchaseorder', $result['inv_id']);
 
 					$action = 	'
