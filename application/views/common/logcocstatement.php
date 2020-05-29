@@ -913,12 +913,12 @@ function formaddress(){
 		setTimeout(function(){
 			var address = [];
 		
-			if($('[name="address"]').val()!='') 	address.push($('[name="address"]').val());
-			if($('[name="street"]').val()!='') 		address.push($('[name="street"]').val());
-			if($('[name="number"]').val()!='') 		address.push($('[name="number"]').val());
-			if($('#province').val()!='') 			address.push($('#province option:selected').text());
-			if($('#city').val()!='') 				address.push($('#city option:selected').text());
-			if($('#suburb').val()!='') 				address.push($('#suburb option:selected').text());
+			if($('[name="address"]').val()!='') 						address.push($('[name="address"]').val());
+			if($('[name="street"]').val()!='') 							address.push($('[name="street"]').val());
+			if($('[name="number"]').val()!='') 							address.push($('[name="number"]').val());
+			if($('#province').val()!='') 								address.push($('#province option:selected').text());
+			if($('#city option').length && $('#city').val()!='') 		address.push($('#city option:selected').text());
+			if($('#suburb option').length && $('#suburb').val()!='') 	address.push($('#suburb option:selected').text());
 			
 			if(address.join('')!=''){
 				address.push('South Africa');
@@ -926,6 +926,7 @@ function formaddress(){
 			}else{
 				var result = '';
 			}
+
 			console.log(result);
 			resolve(result);
 		}, 1000);
@@ -936,34 +937,42 @@ async function addressmap(){
 	var address 	= await formaddress();
 	var geocoder 	= new google.maps.Geocoder();
 
-	geocoder.geocode({'address': address}, function(results, status){
-		if (status == google.maps.GeocoderStatus.OK){
-			var latitude 		= results[0].geometry.location.lat();
-			var longitude 		= results[0].geometry.location.lng();
-			var markertoggle 	= 1;
-		}else{
-			var latitude 		= -26.195246;
-			var longitude 		= 28.034088;
-			var markertoggle 	= 0;
-		} 
-		
-		var myLatLng = {lat: latitude, lng: longitude};
-		
-		var map = new google.maps.Map(document.getElementById('addressmap'), {
-			zoom: 9,
-			center: myLatLng,
-			scrollwheel: false,
-			draggable:false,
-			disableDefaultUI: true
-		});
-		
-		if(markertoggle==1){
-			var marker = new google.maps.Marker({
-				position: myLatLng,
-				map: map
+	geocoder.geocode(
+		{
+			'address': address,
+			'componentRestrictions': {
+				country: 'ZA'
+			}
+		}, 
+		function(results, status){
+			if (address!='' && status == google.maps.GeocoderStatus.OK){
+				var latitude 		= results[0].geometry.location.lat();
+				var longitude 		= results[0].geometry.location.lng();
+				var markertoggle 	= 1;
+			}else{
+				var latitude 		= -26.195246;
+				var longitude 		= 28.034088;
+				var markertoggle 	= 0;
+			} 
+			
+			var myLatLng = {lat: latitude, lng: longitude};
+			
+			var map = new google.maps.Map(document.getElementById('addressmap'), {
+				zoom: 9,
+				center: myLatLng,
+				scrollwheel: false,
+				draggable:false,
+				disableDefaultUI: true
 			});
+			
+			if(markertoggle==1){
+				var marker = new google.maps.Marker({
+					position: myLatLng,
+					map: map
+				});
+			}
 		}
-	});
+	);
 }
 
 $(window).on('load', function(){
