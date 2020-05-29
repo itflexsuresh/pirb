@@ -926,7 +926,7 @@ function formaddress(){
 			}else{
 				var result = '';
 			}
-			
+			console.log(result);
 			resolve(result);
 		}, 1000);
 	});
