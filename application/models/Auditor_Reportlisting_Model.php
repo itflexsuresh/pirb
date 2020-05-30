@@ -28,14 +28,18 @@ class Auditor_Reportlisting_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['t1.installationtype_id', 't1.subtype_id', 't1.favour_name', 't1.comments', 't2.name', 't3.insname'];
+			$column = ['t1.favour_name', 't2.name', 't3.name', 't1.comments', 't1.status'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = strtolower((trim($requestdata['search']['value'])));
-			$this->db->like('t1.favour_name', $searchvalue);
-			
+			$this->db->group_start();
+				$this->db->like('t1.favour_name', $searchvalue, 'both');
+				$this->db->or_like('t2.name', $searchvalue, 'both');
+				$this->db->or_like('t3.name', $searchvalue, 'both');
+				$this->db->or_like('t1.comments', $searchvalue, 'both');
+			$this->db->group_end();
 		}
 		
 		if($type=='count'){

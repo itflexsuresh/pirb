@@ -29,7 +29,7 @@ class Accounts_Model extends CC_Model
 					$column = ['t1.description', 't1.inv_id', 't1.created_at', 't2.total_due'];
 				}
 			}else{
-				$column = ['inv_id', 'created_at', 'name', 'registration_no', 'description', 'total_cost', 'total_cost', 'internal_inv'];
+				$column = ['inv_id', 'created_at', 'name', 'registration_no', 'description', 'total_cost', 'internal_inv'];
 			}
 			
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);

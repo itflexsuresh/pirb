@@ -62,8 +62,8 @@ if(isset($result) && $result){
 								<th>Plumber Reg Number </th>
 								<th>Invoice Description </th>
 								<th>Total Invoice Value</th>
-								<th></th>
-								<th>Internal Inv Number</th>			
+								<th>Internal Inv Number</th>	
+								<th></th>		
 							</tr>
 						</thead>
 					</table>
@@ -80,16 +80,17 @@ if(isset($result) && $result){
 		var options = {
 			url 	: '<?php echo base_url()."admin/accounts/Accounts/DTAccounts"; ?>',
 			columns : 	[
-			{ "data": "inv_id" },
-			{ "data": "created_at" },
-			{ "data": "name" },
-			{ "data": "registration_no" },
-			{ "data": "description" },
-			{ "data": "total_cost" },
-			{ "data": "action" },
-			{ "data": "internal_inv" }
-			
+				{ "data": "inv_id" },
+				{ "data": "created_at" },
+				{ "data": "name" },
+				{ "data": "registration_no" },
+				{ "data": "description" },
+				{ "data": "total_cost" },
+				{ "data": "internal_inv" },
+				{ "data": "action" }
 			],
+			target	:	[7],
+			sort	:	'0'
 			
 		};
 		

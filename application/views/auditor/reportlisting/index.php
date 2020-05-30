@@ -126,14 +126,15 @@ else
 		var options = {
 			url 	: 	'<?php echo base_url()."auditor/reportlisting/Index/DTReportListing"; ?>',
 			columns : 	[	
-
-			{ "data": "favour_name" },
-			{ "data": "installationtype_id" },
-			{ "data": "subtype_id" },
-			{ "data": "comments" },
-			{ "data": "status" },			
-			{ "data": "action" }
-			]
+				{ "data": "favour_name" },
+				{ "data": "installationtype_id" },
+				{ "data": "subtype_id" },
+				{ "data": "comments" },
+				{ "data": "status" },			
+				{ "data": "action" }
+			],
+			target	:	[5],
+			sort	:	'0'
 		};
 		
 		ajaxdatatables('.datatables', options);
