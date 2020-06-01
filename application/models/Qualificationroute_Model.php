@@ -5,7 +5,7 @@ class Qualificationroute_Model extends CC_Model
 	public function getList($type, $requestdata=[])
 	{
 		$this->db->select('*');
-		$this->db->from('qualificationroute')->order_by('id','desc');
+		$this->db->from('qualificationroute');
 		
 		if(isset($requestdata['id'])) 		$this->db->where('id', $requestdata['id']);
 		if(isset($requestdata['status']))	$this->db->where_in('status', $requestdata['status']);
@@ -14,12 +14,15 @@ class Qualificationroute_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['id', 'name', 'status'];
+			$column = ['name', 'status'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
-			$this->db->like('name', $searchvalue);
+			$this->db->group_start();
+				$this->db->like('name', $searchvalue);
+				$this->db->or_like('status', $searchvalue);
+			$this->db->group_end();
 		}
 		
 		if($type=='count'){

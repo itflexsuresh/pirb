@@ -5,7 +5,7 @@ class Message_Model extends CC_Model
 	public function getList($type, $requestdata=[])
 	{
 		$this->db->select('*');
-		$this->db->from('messages')->order_by('id','desc');
+		$this->db->from('messages');
 		
 		if(isset($requestdata['id'])) 		$this->db->where('id', $requestdata['id']);
 		if(isset($requestdata['status']))	$this->db->where_in('status', $requestdata['status']);
@@ -19,12 +19,13 @@ class Message_Model extends CC_Model
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
-			$this->db->like('message', $searchvalue);
-			$this->db->or_like('groups', $searchvalue);
-			$this->db->or_like('startdate', $searchvalue);
-			$this->db->or_like('enddate', $searchvalue);
-			$this->db->or_like('message', $searchvalue);
-			$this->db->or_like('status', $searchvalue);
+			$this->db->group_start();
+				$this->db->like('message', $searchvalue);
+				$this->db->or_like('groups', $searchvalue);
+				$this->db->or_like('startdate', $searchvalue);
+				$this->db->or_like('enddate', $searchvalue);
+				$this->db->or_like('status', $searchvalue);
+			$this->db->group_end();
 		}
 		
 		if($type=='count'){

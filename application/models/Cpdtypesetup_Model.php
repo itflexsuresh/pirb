@@ -5,7 +5,7 @@ class Cpdtypesetup_Model extends CC_Model
 	public function getList($type, $requestdata=[])
 	{
 		$this->db->select('*');
-		$this->db->from('cpdtypes')->order_by('id','desc');
+		$this->db->from('cpdtypes');
 		
 		if(isset($requestdata['id'])) 		$this->db->where('id', $requestdata['id']);
 		if(isset($requestdata['status']))	$this->db->where_in('status', $requestdata['status']);
@@ -19,14 +19,15 @@ class Cpdtypesetup_Model extends CC_Model
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
-			$this->db->like('activity', $searchvalue);
-			$this->db->or_like('startdate', $searchvalue);
-			$this->db->or_like('enddate', $searchvalue);
-			$this->db->or_like('points', $searchvalue);
-			$this->db->or_like('productcode', $searchvalue);
-			$this->db->or_like('cpdstream', $searchvalue);
-			$this->db->or_like('status', $searchvalue);
-
+			$this->db->group_start();
+				$this->db->like('activity', $searchvalue);
+				$this->db->or_like('startdate', $searchvalue);
+				$this->db->or_like('enddate', $searchvalue);
+				$this->db->or_like('points', $searchvalue);
+				$this->db->or_like('productcode', $searchvalue);
+				$this->db->or_like('cpdstream', $searchvalue);
+				$this->db->or_like('status', $searchvalue);
+			$this->db->group_end();
 		}
 		
 		if($type=='count'){
@@ -135,7 +136,7 @@ class Cpdtypesetup_Model extends CC_Model
 		}
 
 		$this->db->select('*');
-		$this->db->from('cpd_activity_form')->order_by('id','desc');
+		$this->db->from('cpd_activity_form');
 		
 		if(isset($requestdata['id'])) 		$this->db->where('id', $requestdata['id']);
 		if(isset($requestdata['status']))	$this->db->where_in('status', $requestdata['pagestatus']);
@@ -144,17 +145,19 @@ class Cpdtypesetup_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['id', 'reg_number', 'name_surname', 'cpd_activity', 'cpd_start_date', 'points'];
+			$column = ['id', 'name_surname', 'reg_number', 'cpd_activity', 'points', 'status'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
-			$this->db->like('reg_number', $searchvalue);
-			$this->db->or_like('name_surname', $searchvalue);
-			$this->db->or_like('cpd_activity', $searchvalue);
-			$this->db->or_like('cpd_start_date', $searchvalue);
-			$this->db->or_like('points', $searchvalue);
-			$this->db->or_like('status', $searchvalue);
+			$this->db->group_start();
+				$this->db->like('reg_number', $searchvalue);
+				$this->db->or_like('name_surname', $searchvalue);
+				$this->db->or_like('cpd_activity', $searchvalue);
+				$this->db->or_like('cpd_start_date', $searchvalue);
+				$this->db->or_like('points', $searchvalue);
+				$this->db->or_like('status', $searchvalue);
+			$this->db->group_end();
 
 		}
 		
