@@ -913,12 +913,12 @@ function formaddress(){
 		setTimeout(function(){
 			var address = [];
 		
-			if($('[name="address"]').val()!='') 						address.push($('[name="address"]').val());
-			if($('[name="street"]').val()!='') 							address.push($('[name="street"]').val());
-			if($('[name="number"]').val()!='') 							address.push($('[name="number"]').val());
-			if($('#province').val()!='') 								address.push($('#province option:selected').text());
-			if($('#city option').length && $('#city').val()!='') 		address.push($('#city option:selected').text());
-			if($('#suburb option').length && $('#suburb').val()!='') 	address.push($('#suburb option:selected').text());
+			if($('[name="address"]').val()!='') 						address.push($.trim($('[name="address"]').val()));
+			if($('[name="street"]').val()!='') 							address.push($.trim($('[name="street"]').val()));
+			if($('[name="number"]').val()!='') 							address.push($.trim($('[name="number"]').val()));
+			if($('#province').val()!='') 								address.push($.trim($('#province option:selected').text()));
+			if($('#city option').length && $('#city').val()!='') 		address.push($.trim($('#city option:selected').text()));
+			if($('#suburb option').length && $('#suburb').val()!='') 	address.push($.trim($('#suburb option:selected').text()));
 			
 			if(address.join('')!=''){
 				address.push('South Africa');
@@ -945,7 +945,9 @@ async function addressmap(){
 			}
 		}, 
 		function(results, status){
-			if (address!='' && status == google.maps.GeocoderStatus.OK && results[0].geometry.location_type=='ROOFTOP'){
+			var locationtype = new Array('ROOFTOP', 'RANGE_INTERPOLATED');
+			
+			if (address!='' && status == google.maps.GeocoderStatus.OK && results[0].geometry && $.inArray(results[0].geometry.location_type, locationtype)!= -1){
 				var latitude 		= results[0].geometry.location.lat();
 				var longitude 		= results[0].geometry.location.lng();
 				var markertoggle 	= 1;
