@@ -67,7 +67,7 @@
 							{ "data": "reseller" },
 							{ "data": "action" }
 						],
-			target	:	[7],
+			target	:	[9],
 			sort	:	'0'
 		};
 		

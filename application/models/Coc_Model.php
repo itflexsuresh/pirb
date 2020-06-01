@@ -108,11 +108,13 @@ class Coc_Model extends CC_Model
 					if($page=='plumbercocstatement'){					
 						$this->db->like('sm.id', $searchvalue, 'both');
 						$this->db->or_like('c1.name', $searchvalue, 'both');
-						$this->db->or_like('DATE_FORMAT(sm.purchased_at,"%d-%m-%Y")', $searchvalue, 'both');
+						$this->db->or_like('DATE_FORMAT(sm.allocation_date,"%d-%m-%Y")', $searchvalue, 'both');
+						$this->db->or_like('DATE_FORMAT(sm.log_date,"%d-%m-%Y")', $searchvalue, 'both');
 						$this->db->or_like('c3.name', $searchvalue, 'both');
 						$this->db->or_like('cl.name', $searchvalue, 'both');
 						$this->db->or_like('cl.address', $searchvalue, 'both');
 						$this->db->or_like('cd1.company', $searchvalue, 'both');					
+						$this->db->or_like('rd.name', $searchvalue, 'both');					
 					}elseif($page=='admincocdetails'){
 						$this->db->like('sm.id', $searchvalue, 'both');
 						$this->db->or_like('c3.name', $searchvalue, 'both');
@@ -161,7 +163,7 @@ class Coc_Model extends CC_Model
 			if(isset($requestdata['page'])){
 				$page = $requestdata['page'];				
 				if($page=='plumbercocstatement'){
-					$column = ['sm.id', 'c1.name', 'sm.purchased_at', 'c3.name', 'cl.name', 'cl.address', 'cd1.company'];
+					$column = ['sm.id', 'c1.name', 'sm.allocation_date', 'sm.log_date', 'c3.name', 'cl.name', 'cl.address', 'cd1.company', 'rd.name'];
 				}elseif($page=='admincocdetails'){
 					$column = ['sm.id', 'c3.name', 'c1.name', 'ud1.name', 'ud2.name', 'ud3.name'];
 				}elseif($page=='auditorstatement'){
