@@ -259,7 +259,7 @@
 					<h4 class="card-title"><?php echo $dynamictitle; ?></h4>
 					
 					<?php if(($roletype=='1' && $approval_status=='1') || $roletype=='3'){ ?>
-						<div class="col-md-12 application_field_wrapper">
+						<div class="col-md-12 application_field_wrapper <?php if($disabled1!=''){ echo 'application_field_status_wrapper'; } ?>">
 							<?php if($disabled1!=''){ ?>
 								<div class="application_field_status">
 									<p>Application Pending</p>

@@ -101,7 +101,7 @@ class Index extends CC_Controller
 				
 				if($result['status'] != '2'){
 					$totalrecord[] = 	[      
-						'inv_id' 		=> 	$result['inv_id'],
+						'inv_id' 		=> 	$result['invoice_no'],
 						'created_at'    =>  $originalDate,
 						'name' 		    => 	$result['name'].' '.$result['surname'],
 						'description'   =>  $result['description'],

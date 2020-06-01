@@ -1037,6 +1037,11 @@ position: relative;
    padding: 0;
 }
 
+.application_field_status_wrapper{
+       padding: 15px;
+    border: 1px solid lightgrey;
+}
+
 .application_field_status{
 position: absolute;
    z-index: 1;
@@ -1049,7 +1054,7 @@ position: absolute;
 .application_field_status p{
 position: relative;
    top: 50%;
-font-size: 26px;
+font-size: 52px;
 }
 
 img.plumber_profile {
