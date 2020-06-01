@@ -283,7 +283,7 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 			{ "data": "action" }
 			],
 			data : {pagestatus : '<?php echo $pagestatus; ?>',user_id : '<?php echo $id; ?>'},
-			target	:	[7],
+			target	:	[5, 7],
 			sort	:	'0'
 		};
 		
@@ -313,6 +313,15 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 		);
 		
 	});
+	
+	$('.form').submit(function(){
+		if(!$(this).valid()){
+			if($('#activity_id_hide').hasClass('error_class_1')){
+				$('#activity').val('');
+			}
+		}
+	})
+	
 	$( document ).ready(function() {
 		
 		datepicker('#startdate', ['enddate']);

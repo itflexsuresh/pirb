@@ -8,27 +8,27 @@ class Mycpd_Model extends CC_Model
 		
 		$datetime = date('Y-m-d H:i:s');
 		if ($requestdata['pagestatus'] == '1') {
-		$this->db->select('t1.*, t2.renewal_date, t2.expirydate');
-		$this->db->from('cpd_activity_form t1');
-		$this->db->join('users t2', 't2.id = t1.user_id', 'left')->order_by('t1.id','DESC');
+			$this->db->select('t1.*, if(t1.status="2", 0, t1.points) as custompoint, t2.renewal_date, t2.expirydate');
+			$this->db->from('cpd_activity_form t1');
+			$this->db->join('users t2', 't2.id = t1.user_id', 'left');
 
-		if(isset($requestdata['user_id'][0])) $this->db->where('t1.user_id', $requestdata['user_id'][0]);
-		if(isset($requestdata['id'])) $this->db->where('t1.id', $requestdata['id']);
+			if(isset($requestdata['user_id'][0])) $this->db->where('t1.user_id', $requestdata['user_id'][0]);
+			if(isset($requestdata['id'])) $this->db->where('t1.id', $requestdata['id']);
 
-		if(isset($requestdata['user_id'][0])) $this->db->where('t2.id', $requestdata['user_id'][0]);
+			if(isset($requestdata['user_id'][0])) $this->db->where('t2.id', $requestdata['user_id'][0]);
 
-		$this->db->where('t2.expirydate>=','t1.created_at', false);
+			$this->db->where('t2.expirydate>=','t1.created_at', false);
 
 		}elseif ($requestdata['pagestatus'] == '0') {
-		$this->db->select('t1.*, t2.renewal_date');
-		$this->db->from('cpd_activity_form t1');
-		$this->db->join('users t2', 't2.id = t1.user_id', 'right')->order_by('t1.id','DESC');
+			$this->db->select('t1.*, if(t1.status="2", 0, t1.points) as custompoint, t2.renewal_date');
+			$this->db->from('cpd_activity_form t1');
+			$this->db->join('users t2', 't2.id = t1.user_id', 'right');
 
-		if(isset($requestdata['user_id'][0])) $this->db->where('t1.user_id', $requestdata['user_id'][0]);
-		if(isset($requestdata['user_id'][0])) $this->db->where('t2.id', $requestdata['user_id'][0]);
-		if(isset($requestdata['id'])) $this->db->where('t1.id', $requestdata['id']);
+			if(isset($requestdata['user_id'][0])) $this->db->where('t1.user_id', $requestdata['user_id'][0]);
+			if(isset($requestdata['user_id'][0])) $this->db->where('t2.id', $requestdata['user_id'][0]);
+			if(isset($requestdata['id'])) $this->db->where('t1.id', $requestdata['id']);
 
-		$this->db->where('t2.expirydate<=','t1.created_at', false);
+			$this->db->where('t2.expirydate<=','t1.created_at', false);
 		}
 
 
@@ -51,8 +51,12 @@ class Mycpd_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['t2.id', 't1.reg_number', 't1.name_surname', 't1.cpd_activity', 't1.cpd_start_date', 't1.comments', 't1.points'];
-			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+			if($requestdata['order']['0']['column']=='4'){
+				$this->db->order_by('custompoint', $requestdata['order']['0']['dir']);
+			}else{
+				$column = ['t1.id', 't1.cpd_activity', 't1.cpd_stream', 't1.comments', '', '', 't1.status'];
+				$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+			}
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			//$searchvalue = $requestdata['search']['value'];
@@ -91,6 +95,7 @@ class Mycpd_Model extends CC_Model
 				$this->db->group_end();
 			}
 		}
+		
 		
 		if($type=='count'){
 			$result = $this->db->count_all_results();

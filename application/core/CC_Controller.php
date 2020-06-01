@@ -857,6 +857,29 @@ class CC_Controller extends CI_Controller
 					$this->db->update('stock_management', ['audit_status' => '2'], ['id' => $pagedata['result']['id']]);
 				}
 				
+				if($requestData['auditstatus']=='0'){
+					$auditreviewrow = $this->Auditor_Model->getReviewList('row', ['coc_id' => $pagedata['result']['id'], 'reviewtype' => '1', 'status' => '0']);
+					if($auditreviewrow){
+						$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '22', 'emailstatus' => '1']);
+
+						if($notificationdata){
+							$duedate 		= ($auditreviewrow) ? date('d-m-Y', strtotime($auditreviewrow['created_at'].' +'.$pagedata['settings']['refix_period'].'days')) : '';
+				
+							$body 	= str_replace(['{Plumbers Name and Surname}', '{COC number}', '{refix number} ', '{due date}'], [$pagedata['result']['u_name'], $pagedata['result']['id'], $pagedata['settings']['refix_period'], $duedate], $notificationdata['email_body']);
+							$this->CC_Model->sentMail($pagedata['result']['u_email'], $notificationdata['subject'], $body);
+						}
+						
+						if($this->config->item('otpstatus')!='1'){
+							$smsdata 	= $this->Communication_Model->getList('row', ['id' => '22', 'smsstatus' => '1']);
+				
+							if($smsdata){
+								$sms = str_replace(['{number of COC}'], [$id], $smsdata['sms_body']);
+								$this->sms(['no' => $pagedata['result']['u_mobile'], 'msg' => $sms]);
+							}
+						}
+					}
+				}
+				
 				if(isset($requestData['auditcomplete']) && $requestData['auditcomplete']=='1' && $requestData['submit']=='submitreport'){
 
 					
@@ -898,25 +921,6 @@ class CC_Controller extends CI_Controller
 						
 						$this->CC_Model->diaryactivity(['plumberid' => $pagedata['result']['user_id'], 'auditorid' => $pagedata['result']['auditorid'], 'cocid' => $pagedata['result']['id'], 'action' => '9', 'type' => '4']);
 					}elseif($requestData['auditstatus']=='0'){
-						$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '22', 'emailstatus' => '1']);
-	
-						if($notificationdata){
-							$auditreviewrow = $this->Auditor_Model->getReviewList('row', ['coc_id' => $pagedata['result']['id'], 'reviewtype' => '1', 'status' => '0']);
-							$duedate 		= ($auditreviewrow) ? date('d-m-Y', strtotime($auditreviewrow['created_at'].' +'.$pagedata['settings']['refix_period'].'days')) : '';
-				
-							$body 	= str_replace(['{Plumbers Name and Surname}', '{COC number}', '{refix number} ', '{due date}'], [$pagedata['result']['u_name'], $pagedata['result']['id'], $pagedata['settings']['refix_period'], $duedate], $notificationdata['email_body']);
-							$this->CC_Model->sentMail($pagedata['result']['u_email'], $notificationdata['subject'], $body);
-						}
-						
-						if($this->config->item('otpstatus')!='1'){
-							$smsdata 	= $this->Communication_Model->getList('row', ['id' => '22', 'smsstatus' => '1']);
-				
-							if($smsdata){
-								$sms = str_replace(['{number of COC}'], [$id], $smsdata['sms_body']);
-								$this->sms(['no' => $pagedata['result']['u_mobile'], 'msg' => $sms]);
-							}
-						}
-						
 						$this->db->update('stock_management', ['audit_status' => '4'], ['id' => $pagedata['result']['id']]);
 						
 						$this->CC_Model->diaryactivity(['plumberid' => $pagedata['result']['user_id'], 'auditorid' => $pagedata['result']['auditorid'], 'cocid' => $pagedata['result']['id'], 'action' => '10', 'type' => '4']);

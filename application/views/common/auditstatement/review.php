@@ -504,7 +504,7 @@
 									<div class="form-group">
 										<label>Knowledge Reference link</label>
 										<input type="text" name="link" class="r_link form-control" id="r_link">
-										<p class="tagline">Eg : http://www.google.com</p>
+										<p class="tagline displaynone referencelinktagline">Eg : http://www.google.com</p>
 									</div>
 								</div>
 							</div>
@@ -1083,6 +1083,15 @@ function pointcalculation(){
 	$('#point').val(workmanshipval + plumberverificationval + cocverificationval + reviewval);
 }
 
+
+
+$('#r_link').focusin(function() {
+  $('.referencelinktagline').removeClass('displaynone');
+});
+
+$('#r_link').focusout(function() {
+  $('.referencelinktagline').addClass('displaynone');
+});
 
 function formaddress(){
 	return new Promise((resolve, reject) => {
