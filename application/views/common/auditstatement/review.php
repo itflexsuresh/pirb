@@ -1130,7 +1130,7 @@ async function addressmap(){
 			}
 		}, 
 		function(results, status){
-			if (address!='' && status == google.maps.GeocoderStatus.OK){
+			if (address!='' && status == google.maps.GeocoderStatus.OK && results[0].geometry.location_type=='ROOFTOP'){
 				var latitude 		= results[0].geometry.location.lat();
 				var longitude 		= results[0].geometry.location.lng();
 				var markertoggle 	= 1;
