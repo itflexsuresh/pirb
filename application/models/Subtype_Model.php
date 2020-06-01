@@ -4,7 +4,7 @@ class Subtype_Model extends CC_Model
 {
 	public function getList($type, $requestdata=[])
 	{
-		$this->db->select('ist.*, it.name as installationtypename')->order_by('id','desc');
+		$this->db->select('ist.*, it.name as installationtypename');
 		$this->db->from('installationsubtype as ist');
 		$this->db->join('installationtype as it', 'it.id = ist.installationtype_id', 'left');
 		
@@ -22,8 +22,11 @@ class Subtype_Model extends CC_Model
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
-			$this->db->like('ist.name', $searchvalue);
-			$this->db->or_like('it.name', $searchvalue);
+			$this->db->group_start();
+				$this->db->like('ist.name', $searchvalue);
+				$this->db->or_like('it.name', $searchvalue);
+				$this->db->or_like('ist.status', $searchvalue);
+			$this->db->group_end();
 		}
 		
 		if($type=='count'){
