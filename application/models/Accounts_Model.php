@@ -15,6 +15,8 @@ class Accounts_Model extends CC_Model
         $this->db->join('users_detail t3', 't3.user_id = t1.user_id', 'left');
         $this->db->join('users_address t4', 't4.user_id = t1.user_id AND t4.type=1', 'left');
 		$this->db->join('users_plumber t5', 't5.user_id = t1.user_id', 'left');
+		$this->db->join('users u', 'u.id=t1.user_id', 'inner');
+		$this->db->where('u.type', '3');
 		
 		if(isset($requestdata['id'])) 		$this->db->where('t1.inv_id', $requestdata['id']);
 		if(isset($requestdata['user_id'])) 	$this->db->where('t1.user_id', $requestdata['user_id']);
