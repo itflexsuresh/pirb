@@ -226,6 +226,7 @@ class Auditor_Model extends CC_Model
 		$id 	= $data['id'];
 		$invoiceno 	= $data['invoice_no'];		
 		$this->db->where('invoice_no', $invoiceno);
+		if(isset($data['userid'])) $this->db->where('user_id', $data['userid']);	
 		if($id!='') $this->db->where('inv_id !=', $id);
 		$query = $this->db->get('invoice');
 		

@@ -66,9 +66,10 @@ class Index extends CC_Controller
 
 	public function invoicenovalidation()
 	{	
-		$requestData 		= $this->input->post();
-		$requestData['id'] 	= isset($requestData['id']) ? $requestData['id'] : '';
-		$data 				= $this->Auditor_Model->invoicenovalidation($requestData);		
+		$requestData 			= $this->input->post();
+		$requestData['id'] 		= isset($requestData['id']) ? $requestData['id'] : '';
+		$requestData['userid'] 	= $this->getUserID();
+		$data 					= $this->Auditor_Model->invoicenovalidation($requestData);		
 		echo $data;
 	}
 	
