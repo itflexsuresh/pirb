@@ -315,7 +315,8 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 	});
 	
 	$('#activity').focusout(function(){
-		$('#activity_suggesstion').hide();
+		setTimeout(function(){ $('#activity_suggesstion').hide(); }, 500);
+		
 	});
 
 	$('.form').submit(function(){
