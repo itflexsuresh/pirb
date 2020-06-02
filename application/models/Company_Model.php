@@ -78,7 +78,7 @@ class Company_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['u.id', 'ud.company', 'u.status'];
+			$column = ['u.id', 'ud.company', 'u.status', 'lmcount', 'lttqcount'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){

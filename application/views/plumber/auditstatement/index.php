@@ -81,7 +81,7 @@
 							{ "data": "auditor" },
 							{ "data": "action" }
 						],
-			target	:	[6],
+			target	:	[4, 6],
 			sort	:	'0'
 		};
 		
