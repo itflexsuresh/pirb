@@ -106,17 +106,17 @@ if(isset($result) && $result){
 						</tbody>
 					    </table></br>
 					    <div class="row">
-					    <div class="col-md-6">
+					    <div class="col-md-8">
 			                <div class="form-group">
 								<label style="font-weight:bold;">Performance Rolling Averages</label>&nbsp&nbsp&nbsp &nbsp &nbsp  
 
 								<?php foreach($results1 as $key2=>$val2){}?>
 
 								<input type="text" class="form-group" id="avg" name="points[<?php echo $val2['id']; ?>]"  value="<?php echo $val2['point']; ?>" placeholder="months" >	
-												
+								<span>Month(s)</span>				
 					        </div>			
 		    			</div>
-                		<div class="col-md-6 text-right">
+                		<div class="col-md-4 text-right">
 					       <input type="hidden" name="id" value="<?php //echo $id; ?>">
 					       <?php if($checkpermission){ ?>
 						   <button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?>

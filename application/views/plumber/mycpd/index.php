@@ -314,6 +314,10 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 		
 	});
 	
+	$('#activity').focusout(function(){
+		$('#activity_suggesstion').hide();
+	});
+
 	$('.form').submit(function(){
 		if(!$(this).valid()){
 			if($('#activity_id_hide').hasClass('error_class_1')){
