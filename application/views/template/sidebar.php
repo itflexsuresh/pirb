@@ -337,7 +337,7 @@ if(count($permission) > 0){
 							</li>
 						<?php }?>
 						
-						<?php if($msg!=''){?>
+						<?php if($msg!='' && $approvalstatus=='1'){?>
 							<div id="message">
 								<?php echo $msg;?>
 							</div>
@@ -414,7 +414,7 @@ if(count($permission) > 0){
 					<li><a href="<?php echo base_url().'auditor/accounts/index'; ?>">Accounts</a></li>
 					<li><a href="<?php echo base_url().'auditor/reportlisting/index'; ?>">My Report Listing</a></li>
 					<li><a href="<?php echo base_url().'auditor/profile/index'; ?>">My Profile</a></li>
-					<?php if($msg!=''){?>
+					<?php if($msg!='' && $approvalstatus=='1'){?>
 						<div id="message">
 							<?php echo $msg;?>
 						</div><?php }?>
