@@ -78,7 +78,7 @@ class Message extends CC_Controller
 				if ($result['status']=='2' || $result['status']==2) {
 					$msg_status = '0';
 				}else{
-					$msg_status = '1';
+					$msg_status = $result['status'];
 				}
 
 				$totalrecord[] = 	[
