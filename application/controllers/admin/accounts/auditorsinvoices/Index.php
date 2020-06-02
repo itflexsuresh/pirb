@@ -57,8 +57,8 @@ class Index extends CC_Controller
 		$post 			= $this->input->post();
 		// $post['adminsearch'] = '1';
 		
-		$totalcount 	= $this->Auditor_Model->getInvoiceList('count',$post);
-		$results 		= $this->Auditor_Model->getInvoiceList('all', $post);
+		$totalcount 	= $this->Auditor_Model->getInvoiceList('count',['statuslist' => ['0','1']]+$post);
+		$results 		= $this->Auditor_Model->getInvoiceList('all', ['statuslist' => ['0','1']]+$post);
 
 		$checkpermission	=	$this->checkUserPermission('23', '2');
 

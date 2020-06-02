@@ -141,6 +141,7 @@ class Auditor_Model extends CC_Model
 		$this->db->where('u.type', '5');
 
 		if(isset($requestdata['status'])) $this->db->where('inv.status', $requestdata['status']);
+		if(isset($requestdata['statuslist'])) $this->db->where_in('inv.status', $requestdata['statuslist']);
 		if(isset($requestdata['id'])) $this->db->where('inv.inv_id', $requestdata['id']);
 		if(isset($requestdata['user_id'])) $this->db->where('inv.user_id', $requestdata['user_id']);
 
@@ -148,7 +149,8 @@ class Auditor_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['inv.inv_id', 'inv.description', 'inv.invoice_no', 'inv.invoice_date', 'inv.total_cost', 'inv.total_cost', 'inv.internal_inv', 'ud.name'];
+			$column = ['inv.invoice_no', 'inv.created_at', 'ud.name', 'inv.description', 'inv.total_cost', 'inv.status', 'inv.internal_inv'];
+			//$column = ['inv.inv_id', 'inv.description', 'inv.invoice_no', 'inv.invoice_date', 'inv.total_cost', 'inv.total_cost', 'inv.internal_inv', 'ud.name'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){

@@ -32,9 +32,9 @@
 								<th>Auditor</th>
 								<th>Invoice Description</th>
 								<th>Total Invoice Value</th>
-								<th></th>
 								<th>Payment Status</th>
-								<th>Internal Inv Number</th>		
+								<th>Internal Inv Number</th>	
+								<th></th>	
 							</tr>
 						</thead>
 					</table>
@@ -51,16 +51,17 @@
 		var options = {
 			url 	: '<?php echo base_url()."admin/accounts/auditorsinvoices/Index/DTAccounts"; ?>',
 			columns : 	[
-			{ "data": "inv_id" },
-			{ "data": "created_at" },
-			{ "data": "name" },
-			{ "data": "description" },
-			{ "data": "total_cost" },
-			{ "data": "action" },			
-			{ "data": "status" },
-			{ "data": "internal_inv" }
-			
+				{ "data": "inv_id" },
+				{ "data": "created_at" },
+				{ "data": "name" },
+				{ "data": "description" },
+				{ "data": "total_cost" },
+				{ "data": "status" },
+				{ "data": "internal_inv" },
+				{ "data": "action" }				
 			],
+			target : [7],
+			sort : '0'
 			
 		};
 		
