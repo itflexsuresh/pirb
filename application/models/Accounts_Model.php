@@ -26,7 +26,7 @@ class Accounts_Model extends CC_Model
 			if(isset($requestdata['page'])){
 				$page = $requestdata['page'];
 				if($page=='plumberaccount'){
-					$column = ['t1.description', 't1.inv_id', 't1.created_at', 't2.total_due'];
+					$column = ['t1.description', 't1.inv_id', 't1.created_at', 't2.total_due', 't1.status'];
 				}
 			}else{
 				$column = ['inv_id', 'created_at', 'name', 'registration_no', 'description', 'total_cost', 'internal_inv'];

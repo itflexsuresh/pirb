@@ -133,7 +133,7 @@ class Coc_Model extends CC_Model
 						$this->db->or_like('cl.contact_no', $searchvalue, 'both');		
 					}elseif($page=='plumberauditorstatement'){
 						$this->db->like('sm.id', $searchvalue, 'both');
-						$this->db->or_like('c1.name', $searchvalue, 'both');
+						$this->db->or_like('c2.name', $searchvalue, 'both');
 						$this->db->or_like('cl.name', $searchvalue, 'both');		
 						$this->db->or_like('cl.address', $searchvalue, 'both');		
 						$this->db->or_like('DATE_FORMAT(sm.allocation_date,"%d-%m-%Y")', $searchvalue, 'both');
@@ -169,7 +169,7 @@ class Coc_Model extends CC_Model
 				}elseif($page=='auditorstatement'){
 					$column = ['sm.id', 'c1.name', 'ud.name', 'ud.mobile_phone', 'sm.allocation_date', 's.name', 'cl.name', 'cl.contact_no'];
 				}elseif($page=='plumberauditorstatement'){
-					$column = ['sm.id', 'c1.name', 'cl.name', 'cl.address', 'sm.allocation_date', 'ad.name'];
+					$column = ['sm.id', 'c2.name', 'cl.name', 'cl.address', 'sm.allocation_date', 'ad.name'];
 				}elseif($page=='adminauditorstatement'){
 					$column = ['sm.id', 'c1.name', 'ad.name', 'ad.mobile_phone', 'sm.allocation_date', 'sm.audit_allocation_date'];
 				}elseif($page=='auditorprofile'){
