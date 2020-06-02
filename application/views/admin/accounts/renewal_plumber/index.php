@@ -33,18 +33,9 @@
 								<th>Plumber Reg Number </th>
 								<th>Invoice Description </th>
 								<th>Total Invoice Value</th>
-								<th></th>
 								<th>Payment Status</th>
-								<!-- <div class="form-group">
-
-									<?php //$attributes = 'class="form-control" id="store"';
-									//echo form_dropdown('status', $store, set_value('store',$store),$attributes);?>
-									<span class="text-danger"><?php //echo form_error('store');?></span>
-								</div> -->
-
-
-
-								<th>Internal Inv Number</th>			
+								<th>Internal Inv Number</th>		
+								<th></th>	
 							</tr>
 						</thead>
 					</table>
@@ -66,10 +57,10 @@
 			{ "data": "name" },
 			{ "data": "registration_no" },
 			{ "data": "description" },
-			{ "data": "total_cost" },
-			{ "data": "action" },			
+			{ "data": "total_cost" },			
 			{ "data": "status" },
-			{ "data": "internal_inv" }
+			{ "data": "internal_inv" },
+			{ "data": "action" }
 			
 			],	
 			target : [8],

@@ -24,7 +24,7 @@ class Renewal_Model extends CC_Model
 		}
 		
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['inv.inv_id', 'inv.created_at', 'ud.name', 'ud.surname', 'up.registration_no', 'inv.description', 'inv.total_cost', 'ud.status'];
+			$column = ['inv.inv_id', 'inv.created_at', 'ud.name', 'up.registration_no', 'inv.description', 'inv.total_cost', 'inv.status', 'inv.internal_inv'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 
