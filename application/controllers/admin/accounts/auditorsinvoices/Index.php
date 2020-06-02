@@ -73,7 +73,8 @@ class Index extends CC_Controller
 				if($result['status'] == '0'){
 
 					if($checkpermission){
-					$internal_inv = '<form class="form" method="post"><div class="table-action"><input type="text" name="internal_inv"><input type="hidden" name="editid" value="'.$result['inv_id'].'"><a href="'.base_url().'admin/accounts/auditorsinvoices/index/index" data-toggle="tooltip" data-placement="top" title="Update"><input type="submit" value="Update"></i></a></div></form>';
+					$internal_inv = '<form class="form" method="post"><div class="table-action"><input type="text" name="internal_inv"><input type="hidden" name="editid" value="'.$result['inv_id'].'"><input type="button" value="Update"></div></form>';
+					//<a href="'.base_url().'admin/accounts/auditorsinvoices/index/index" data-toggle="tooltip" data-placement="top" title="Update"></a>
 				}else{
 					$internal_inv = '';
 				}

@@ -17,6 +17,7 @@ class Index extends CC_Controller
 		$this->load->model('Plumberperformance_Model');
 		$this->load->model('Auditor_Reportlisting_Model');
 		$this->load->model('Chat_Model');
+		$this->load->model('Auditor_Model');
 	}
 	
 	public function ajaxfileupload()
@@ -414,5 +415,13 @@ class Index extends CC_Controller
 
 		echo json_encode($json);
 	}
-
+	
+	
+	public function ajaxauditorinvoicevalidation()
+	{
+		$post 			= $this->input->post();		
+		$result 		= $this->Auditor_Model->auditorinvoicevalidation($post);
+		echo $result;
+	}
+	
 }

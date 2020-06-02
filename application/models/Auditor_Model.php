@@ -1003,4 +1003,19 @@ class Auditor_Model extends CC_Model
 		return $result;
 
 	}
+	
+	public function auditorinvoicevalidation($data)
+	{
+		$internalinv 	= $data['internalinv'];
+		
+		$this->db->where('i.internal_inv', $internalinv);
+		$this->db->join('users u', 'u.id=i.user_id and type="5"', 'inner');
+		$query = $this->db->get('invoice i');
+		
+		if($query->num_rows() > 0){
+			return 'false';
+		}else{
+			return 'true';
+		}
+	}
 }

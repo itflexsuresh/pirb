@@ -70,7 +70,28 @@
 	
 	});
 	
-	// Delete
+	$(document).on('click', '.form input[type="button"]', function(){
+		$('.error_class_1').remove();
+		
+		var _form = $(this).parents('.form');
+		
+		if(_form.find('input[name="internal_inv"]').val()==''){
+			_form.append('<p class="error_class_1">Internal Inv Number field is required.</p>')
+			return false;
+		}else{
+			ajax('<?php echo base_url()."ajax/index/ajaxauditorinvoicevalidation"; ?>', {'internalinv' : _form.find('input[name="internal_inv"]').val()}, '', { 
+				success:function(data){
+					if(data=='false'){
+						_form.append('<p class="error_class_1">Internal Inv Number already exists.</p>')
+						return false;
+					}else{
+						_form.submit();
+					}
+				}
+			})
+		}
+		
+	})
 	
 	
 </script>
