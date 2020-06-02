@@ -632,13 +632,13 @@
 								<p>I declare that I have fully read and understood the Procedure of Acknowledgement</p>
 							</label>
 							<?php echo $codeofconduct; ?>
-							<div>
+							<div class="col-md-12">
 								<label class="checkbox">
 									<input type="checkbox" name="codeofconduct" data-checkbox="checkbox1">
 									<p>I declare that I have fully read and understood the PIRB's Code of Conduct</p>
 								</label>
 							</div>
-							<div>
+							<div class="col-md-12">
 								<label class="checkbox">								
 									<input type="checkbox" name="declaration" data-checkbox="checkbox1">
 									<p class="inlineblock">I</p>
