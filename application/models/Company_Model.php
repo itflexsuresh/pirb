@@ -47,6 +47,9 @@ class Company_Model extends CC_Model
 										WHERE lttq.company_details = u.id and (lttq.designation="1" or lttq.designation="2" or lttq.designation="3" or lttq.designation="5")
 									) as lttqcount
 								';
+			$sortlttq 		= 	'lttqcount';
+		}else{
+			$sortlttq 		= 	'';
 		}
 		
 		if(in_array('lmcount', $querydata)){
@@ -58,6 +61,10 @@ class Company_Model extends CC_Model
 										WHERE lm.company_details = u.id and (lm.designation="4" or lm.designation="6")
 									) as lmcount
 								';
+		
+			$sortlm 		= 	'lmcount';
+		}else{
+			$sortlm 		= 	'';
 		}
 		
 		$this->db->select(implode(',', $select));
@@ -78,7 +85,7 @@ class Company_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['u.id', 'ud.company', 'u.status', 'lmcount', 'lttqcount'];
+			$column = ['u.id', 'ud.company', 'u.status', $sortlm, $sortlttq];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
