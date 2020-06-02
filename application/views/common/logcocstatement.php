@@ -945,7 +945,7 @@ async function addressmap(){
 			}
 		}, 
 		function(results, status){
-			var locationtype = new Array('ROOFTOP', 'RANGE_INTERPOLATED');
+			var locationtype = new Array('ROOFTOP');
 			
 			if (address!='' && status == google.maps.GeocoderStatus.OK && results[0].geometry && $.inArray(results[0].geometry.location_type, locationtype)!= -1){
 				var latitude 		= results[0].geometry.location.lat();
