@@ -684,7 +684,7 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 										var filesrc = data3[1];
 									}
 									
-									chatappend += '<div class="chatfile">'+options+'<a href="'+data3[0]+'/'+v.attachment+'" target="_blank"><img src="'+filesrc+'" data-img="'+v.attachment+'" width="100" class="chatattachmentimage"></a><a href="'+downloadurl+'/'+data2[0]+'/'+v.attachment+'" class="chatattachmentdownload"><i class="fa fa-download"></i></a></div>';
+									chatappend += '<div class="chatfile">'+options+'<a href="'+data3[0]+'/'+v.attachment+'" target="_blank"><img src="'+filesrc+'" data-img="'+v.attachment+'" width="100" class="chatattachmentimage"></a><a href="'+data3[2]+'/'+data2[0]+'/'+v.attachment+'" class="chatattachmentdownload"><i class="fa fa-download"></i></a></div>';
 								}else{									
 									chatappend += '<div class="chatbar">'+quote+'<p class="chatbar_message">'+v.message+'</p>'+options+'<div class="clear"></div></div>';
 								}	
