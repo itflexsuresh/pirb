@@ -109,7 +109,7 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 							// { "data": "reseller" },
 							{ "data": "action" }
 						],
-			target	:	[7],
+			target	:	[8],
 			sort	:	'0'
 		};
 		
