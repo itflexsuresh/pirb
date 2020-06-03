@@ -712,7 +712,7 @@ window.addEventListener('message', function(e) {
 } , false);
 
 function processparent(id) {
-	chat(['.chattext', '.chatcontent'], [cocid, fromid, toid, id], [chatpath, pdfimg, chatpath2], 'childparent');
+	chat(['.chattext', '.chatcontent'], [cocid, fromid, toid, id], [chatpath, pdfimg, downloadurl], 'childparent');
 }
 
 $('#save').click(function(){
