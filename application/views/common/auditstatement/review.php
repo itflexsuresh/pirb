@@ -819,7 +819,7 @@ function reviewpoint(){
 			
 			$('#r_reference').val(statementoption.attr('data-reference'));
 			$('#r_link').val(statementoption.attr('data-link'));
-			if($('#r_comments').val()=='') $('#r_comments').val(statementoption.attr('data-comments'));
+			$('#r_comments').val(statementoption.attr('data-comments'));
 		} 
 		
 		if(reviewtype==4){
