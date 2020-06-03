@@ -81,7 +81,7 @@
 		}else{
 			ajax('<?php echo base_url()."ajax/index/ajaxauditorinvoicevalidation"; ?>', {'internalinv' : _form.find('input[name="internal_inv"]').val()}, '', { 
 				success:function(data){
-					if(data=='false'){
+					if(data=='0'){
 						_form.append('<p class="error_class_1">Internal Inv Number already exists.</p>')
 						return false;
 					}else{

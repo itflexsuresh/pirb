@@ -1013,9 +1013,9 @@ class Auditor_Model extends CC_Model
 		$query = $this->db->get('invoice i');
 		
 		if($query->num_rows() > 0){
-			return 'false';
+			return '0';
 		}else{
-			return 'true';
+			return '1';
 		}
 	}
 }
