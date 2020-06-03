@@ -158,7 +158,9 @@ $pagestatus = isset($pagestatus) ? $pagestatus : '';
 			{ "data": "status" },
 			{ "data": "action" }
 			],
-			data : {pagestatus : '<?php echo $pagestatus; ?>',user_id : '<?php echo $id; ?>'}
+			data : {pagestatus : '<?php echo $pagestatus; ?>',user_id : '<?php echo $id; ?>'},
+			target	:	[5, 7],
+			sort	:	'0'
 		};
 		
 		ajaxdatatables('.datatables', options);
