@@ -540,6 +540,11 @@ $(function(){
 			completion_date : {
 				required	: true
 			},
+			order_no : {
+				number		: true,
+				minlength	: 9,
+				maxlength	: 9
+			},
 			name : {
 				required    : true
 			},
@@ -593,6 +598,11 @@ $(function(){
 		{
 			completion_date 	: {
 				required	: "Please select completion date"
+			},
+			order_no : {
+				number		: "Please enter number only",
+				minlength	: "Order no should be 9 digits",
+				maxlength	: "Order no should be 9 digits"
 			},
 			name : {
 				required    : "Please fill the owner name"

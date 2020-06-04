@@ -254,7 +254,7 @@
 	
 $(function(){	
 	var userid = <?php echo $user_id;?>;
-	datepicker('.invoicedate');	
+	datepicker('.invoicedate', ['enddate']);	
 	validation(
 		'.form',
 		{

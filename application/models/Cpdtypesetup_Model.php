@@ -145,7 +145,7 @@ class Cpdtypesetup_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['id', 'name_surname', 'reg_number', 'cpd_activity', 'points', 'status'];
+			$column = ['cpd_start_date', 'name_surname', 'reg_number', 'cpd_activity', 'points', 'status'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
