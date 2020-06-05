@@ -255,7 +255,7 @@ function base64conversion($path){
 										$filelist = array_filter(explode(',', $list['file'])); 
 										foreach($filelist as $file){
 									?>
-											<img src="<?php echo base64conversion(base_url().'assets/uploads/auditor/statement/'.$file); ?>" width="50">
+											<img src="<?php echo base64conversion(base_url().'assets/uploads/auditor/statement/'.$file); ?>" width="150">
 									<?php
 										}
 									?>
