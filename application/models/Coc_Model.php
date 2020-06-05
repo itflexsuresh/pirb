@@ -123,9 +123,9 @@ class Coc_Model extends CC_Model
 						$this->db->like('sm.id', $searchvalue, 'both');
 						$this->db->or_like('c3.name', $searchvalue, 'both');
 						$this->db->or_like('c1.name', $searchvalue, 'both');
-						$this->db->or_like('concat(ud1.name, " ", ud1.surname)', $searchvalue, 'both');
-						$this->db->or_like('concat(ud2.name, " ", ud2.surname)', $searchvalue, 'both');
-						$this->db->or_like('concat(ud3.name, " ", ud3.surname)', $searchvalue, 'both');							
+						$this->db->or_like('concat(ud.name, " ", ud.surname)', $searchvalue, 'both');
+						$this->db->or_like('concat(rd.name, " ", rd.surname)', $searchvalue, 'both');
+						$this->db->or_like('concat(ad.name, " ", ad.surname)', $searchvalue, 'both');							
 					}elseif($page=='auditorstatement'){
 						$this->db->like('sm.id', $searchvalue, 'both');
 						$this->db->or_like('c1.name', $searchvalue, 'both');
@@ -169,7 +169,7 @@ class Coc_Model extends CC_Model
 				if($page=='plumbercocstatement'){
 					$column = ['sm.id', 'c1.name', 'sm.allocation_date', 'cl.log_date', 'c3.name', 'cl.name', 'cl.address', 'cd1.company', 'rd.name'];
 				}elseif($page=='admincocdetails'){
-					$column = ['sm.id', 'c3.name', 'c1.name', 'ud1.name', 'ud2.name', 'ud3.name'];
+					$column = ['sm.id', 'c3.name', 'c1.name', 'ud.name', 'rd.name', 'ad.name'];
 				}elseif($page=='auditorstatement'){
 					$column = ['sm.id', 'c1.name', 'ud.name', 'ud.mobile_phone', 'sm.allocation_date', 's.name', 'cl.name', 'cl.contact_no'];
 				}elseif($page=='plumberauditorstatement'){
@@ -347,6 +347,11 @@ class Coc_Model extends CC_Model
 		$userid			= 	$this->getUserID();
 		$id 			= 	$data['id'];
 		$datetime		= 	date('Y-m-d H:i:s');
+		
+		if(isset($data['coc_id']) && $id==''){
+			$checkcoc = $this->db->get_where('coc_log', ['coc_id' => $data['coc_id']])->row_array();
+			if($checkcoc) return true;
+		}
 		
 		$request		=	[
 			'updated_at' 		=> $datetime,

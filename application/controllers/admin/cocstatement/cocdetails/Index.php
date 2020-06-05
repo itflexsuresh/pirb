@@ -66,8 +66,8 @@ class Index extends CC_Controller
 										'coctype' 		=> 	$coctype,
 										'status' 		=> 	$status,
 										'plumber' 		=> 	($result['u_type']=='3') ? $result['u_name'] : '-',
-										'reseller' 		=> 	($result['u_type']=='6') ? $result['u_name'] : '-',
-										'auditor' 		=> 	($result['u_type']=='5') ? $result['u_name'] : '-',
+										'reseller' 		=> 	($result['resellername']!='') ? $result['resellername'] : (($result['u_type']=='6') ? $result['u_name'] : '-'),
+										'auditor' 		=> 	($result['auditorname']!='') ? $result['auditorname'] : '-',
 										'action'		=> 	$action
 									];
 			}

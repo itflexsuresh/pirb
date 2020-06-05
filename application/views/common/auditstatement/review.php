@@ -325,7 +325,7 @@
 									<?php //} ?>
 									<th>Images</th>
 									<th>Performance Points</th>
-									<th>Refix Status</th>
+									<th style="width:100%!important;">Refix Status</th>
 									<?php if($roletype=='5' && $pagetype=='1'){ ?>
 										<th>Action</th>
 									<?php } ?>
