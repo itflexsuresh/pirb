@@ -863,10 +863,14 @@ class CC_Controller extends CI_Controller
 						$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '22', 'emailstatus' => '1']);
 
 						if($notificationdata){
+							$pdf 		= FCPATH.'assets/uploads/temp/'.$id.'.pdf';
+							$this->pdfauditreport($id, $pdf);
+							
 							$duedate 		= ($auditreviewrow) ? date('d-m-Y', strtotime($auditreviewrow['created_at'].' +'.$pagedata['settings']['refix_period'].'days')) : '';
-				
+							
 							$body 	= str_replace(['{Plumbers Name and Surname}', '{COC number}', '{refix number} ', '{due date}'], [$pagedata['result']['u_name'], $pagedata['result']['id'], $pagedata['settings']['refix_period'], $duedate], $notificationdata['email_body']);
-							$this->CC_Model->sentMail($pagedata['result']['u_email'], $notificationdata['subject'], $body);
+							$this->CC_Model->sentMail($pagedata['result']['u_email'], $notificationdata['subject'], $body, $pdf);
+							if(file_exists($pdf)) unlink($pdf);  
 						}
 						
 						if($this->config->item('otpstatus')!='1'){
@@ -1022,7 +1026,7 @@ class CC_Controller extends CI_Controller
 		$this->load->view('common/auditstatement/chat', $data);
 	}
 	
-	public function pdfauditreport($id)
+	public function pdfauditreport($id, $save='')
 	{
 		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);
 		$pagedata['reviewlist']		= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
@@ -1031,7 +1035,13 @@ class CC_Controller extends CI_Controller
 		$this->pdf->setPaper('A4', 'portrait');
 		$this->pdf->render();
 		$output = $this->pdf->output();
-		$this->pdf->stream('Audit Report '.$id);
+		
+		if($save==''){
+			$this->pdf->stream('Audit Report '.$id);
+		}else{
+			file_put_contents($save, $output);
+			return $save;
+		}
 	}
 
 	public function pdfelectroniccocreport($id, $userid)
