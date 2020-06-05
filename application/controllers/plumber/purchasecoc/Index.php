@@ -130,7 +130,7 @@ class Index extends CC_Controller
 
 	}
 
-	public function return(){
+	public function paymentsuccess(){
 		$userid 				=	$this->getUserID();
 		$settings = $this->Systemsettings_Model->getList('row');
 
@@ -257,18 +257,20 @@ class Index extends CC_Controller
 				}
 		 	}
 			$this->session->unset_userdata('pay_purchaseorder');
-			redirect('plumber/purchasecoc/index/notify');
+			$this->session->set_flashdata('success','COC Purchase Sucessfully.');
+			redirect('plumber/myaccounts/index');
 		 }
 		
 	}
 
-	public function cancel(){
+	public function paymentcancel(){
 		echo "Your Payement Sucessfully Done.";
 		redirect('plumber/registration/index');
 	}
 
-	public function notify(){
-		$this->session->set_flashdata('success','COC Purchase Sucessfully.');
-		redirect('plumber/myaccounts/index');
+	public function paymentnotify(){
+		$file = fopen("./assets/payment.txt","w");
+		fwrite($file,$_REQUEST);
+		fclose($file);
 	}
 }

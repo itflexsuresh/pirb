@@ -209,11 +209,12 @@ if (in_array($plumberstatus, $plumber_status)) {
 					<!---	Payment	--->
 					<input id="merchant_id" name="merchant_id" value="10016054" type="hidden">
 					<input id="merchant_key" name="merchant_key" value="uwfiy08dfb6jn" type="hidden">
-					<input id="return_url" name="return_url" value="<?php echo base_url().'plumber/purchasecoc/index/return'; ?>" type="hidden">
-					<input id="cancel_url" name="cancel_url" value="<?php echo base_url().'plumber/purchasecoc/index/cancel'; ?>" type="hidden">
-					<input id="notify_url" name="notify_url" value="<?php echo base_url().'plumber/purchasecoc/index/notify'; ?>" type="hidden">
+					<input id="return_url" name="return_url" value="<?php echo base_url().'plumber/purchasecoc/index/paymentsuccess'; ?>" type="hidden">
+					<input id="cancel_url" name="cancel_url" value="<?php echo base_url().'plumber/purchasecoc/index/paymentcancel'; ?>" type="hidden">
+					<input id="notify_url" name="notify_url" value="<?php echo base_url().'plumber/purchasecoc/index/paymentnotify'; ?>" type="hidden">
 					<input id="name_first" name="name_first" value="<?php echo $username['name']; ?>" type="hidden">
 					<input id="name_last" name="name_last" value="<?php echo $username['surname']; ?>" type="hidden">
+					<input id="userid" name="userid" value="<?php echo $userid; ?>" type="hidden">
 					<input id="email_address" name="email_address" value="<?php echo $username['email']; ?>" type="hidden">
 					<input id="m_payment_id" name="m_payment_id" value="TRN1481493600" type="hidden">
 					<input type="hidden" id="totaldue1" class="form-control" readonly name="amount">
@@ -393,7 +394,9 @@ if (in_array($plumberstatus, $plumber_status)) {
 					if (data == 0) {
 						$('.invalidOTP').show();
 					}else{
-						ajaxInsert(delivery_type, cocType, delivery_cost);
+						$('.form').prop('action','https://sandbox.payfast.co.za/eng/process');
+						$('.form').submit();
+						//ajaxInsert(delivery_type, cocType, delivery_cost);
 					}
 				}
 			})
