@@ -128,7 +128,7 @@ class Import extends CC_Controller {
 	
 	public function city()
 	{
-		$file 	= './assets/import/pcs.xlsx';
+		$file 	= './assets/import/pcs.xls';
 		$type 	= \PhpOffice\PhpSpreadsheet\IOFactory::identify($file);
 		$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($type);
 		$spreadsheet = $reader->load($file);
@@ -161,7 +161,7 @@ class Import extends CC_Controller {
 	
 	public function suburb()
 	{
-		$file 	= './assets/import/pcs.xlsx';
+		$file 	= './assets/import/pcs.xls';
 		$type 	= \PhpOffice\PhpSpreadsheet\IOFactory::identify($file);
 		$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($type);
 		$spreadsheet = $reader->load($file);
