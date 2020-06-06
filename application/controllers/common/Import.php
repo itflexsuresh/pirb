@@ -38,7 +38,7 @@ class Import extends CC_Controller {
 	
 		$this->CC_Model->sentMail('itflexsolutions@pirb.co.za', $subject, $message);
 	}
-	
+	/*
     public function province()
 	{
 		$data = $this->db->get('importprovince')->result_array();
@@ -102,6 +102,95 @@ class Import extends CC_Controller {
 							];
 				
 			$this->db->insert('suburb', $result);			
+		}
+    }
+	*/
+	
+	public function province()
+	{
+		$file 	= './assets/import/pcs.xlsx';
+		$type 	= \PhpOffice\PhpSpreadsheet\IOFactory::identify($file);
+		$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($type);
+		$spreadsheet = $reader->load($file);
+		
+		$datas 	= $spreadsheet->getActiveSheet()->toArray();
+		unset($datas[0]);
+		
+		foreach($datas as $key => $data){
+			
+			$checkProvince = $this->db->get_where('province', ['name' => $data[2]])->row_array();
+			
+			if(!$checkProvince){
+				$this->db->insert('province', ['name' => $data[2], 'status' => '1']);
+			}
+		}
+    }
+	
+	public function city()
+	{
+		$file 	= './assets/import/pcs.xlsx';
+		$type 	= \PhpOffice\PhpSpreadsheet\IOFactory::identify($file);
+		$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($type);
+		$spreadsheet = $reader->load($file);
+		
+		$datas 	= $spreadsheet->getActiveSheet()->toArray();
+		unset($datas[0]);
+		
+		foreach($datas as $key => $data){
+			
+			$checkCity = $this->db->get_where('city', ['name' => $data[1]])->row_array();
+			
+			if(!$checkCity){
+				
+				$getProvince = $this->db->get_where('province', ['name' => $data[2]])->row_array();
+				
+				$citydata = [
+					'province_id' 		=> $getProvince['id'],
+					'name' 				=> $data[1],
+					'status'			=> '1',
+					'created_at'		=> date('Y-m-d H:i:s'),
+					'created_by'		=> '1',
+					'updated_at'		=> date('Y-m-d H:i:s'),
+					'updated_by'		=> '1'
+				];
+				
+				$this->db->insert('city', $citydata);
+			}
+		}
+    }
+	
+	public function suburb()
+	{
+		$file 	= './assets/import/pcs.xlsx';
+		$type 	= \PhpOffice\PhpSpreadsheet\IOFactory::identify($file);
+		$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($type);
+		$spreadsheet = $reader->load($file);
+		
+		$datas 	= $spreadsheet->getActiveSheet()->toArray();
+		unset($datas[0]);
+		
+		foreach($datas as $key => $data){
+			
+			$checkSuburb = $this->db->get_where('suburb', ['name' => $data[0]])->row_array();
+			
+			if(!$checkSuburb){
+				
+				$getProvince 	= $this->db->get_where('province', ['name' => $data[2]])->row_array();
+				$getCity 		= $this->db->get_where('city', ['name' => $data[1]])->row_array();
+				
+				$citydata = [
+					'province_id' 		=> $getProvince['id'],
+					'city_id' 			=> $getCity['id'],
+					'name' 				=> $data[0],
+					'status'			=> '1',
+					'created_at'		=> date('Y-m-d H:i:s'),
+					'created_by'		=> '1',
+					'updated_at'		=> date('Y-m-d H:i:s'),
+					'updated_by'		=> '1'
+				];
+				
+				$this->db->insert('suburb', $citydata);
+			}
 		}
     }
 	
