@@ -108,7 +108,7 @@ class Import extends CC_Controller {
 	
 	public function province()
 	{
-		$file 	= './assets/import/pcs.xlsx';
+		$file 	= './assets/import/pcs.xls';
 		$type 	= \PhpOffice\PhpSpreadsheet\IOFactory::identify($file);
 		$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($type);
 		$spreadsheet = $reader->load($file);
