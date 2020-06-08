@@ -44,7 +44,7 @@ class Index extends CC_Controller
 				$friendsarray[] =  $friend+['rank' => $friendperformance];
 			}
 			
-			array_multisort(array_column($friendsarray, 'rank'), SORT_ASC);
+			array_multisort(array_column($friendsarray, 'rank'), SORT_ASC, $friendsarray);
 		}
 		
 		$pagedata['friends'] 						= $friendsarray;

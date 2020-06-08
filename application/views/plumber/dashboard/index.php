@@ -190,7 +190,7 @@
 											</div>
 											<p class="frd_rank">
 												<?php 
-													echo $key+1; 
+													echo $rank; 
 													if($rank=='1')		echo 'st'; 
 													elseif($rank=='2') 	echo 'nd'; 
 													elseif($rank=='3') 	echo 'rd'; 
