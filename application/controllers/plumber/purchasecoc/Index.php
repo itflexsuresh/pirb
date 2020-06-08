@@ -89,14 +89,14 @@ class Index extends CC_Controller
 	}
 	
 	public function paymentnotify(){
-		$this->output->set_header('HTTP/1.0 200 OK');
+		header( 'HTTP/1.0 200 OK' );
 		flush();
 		
 		$result = $_POST;
 		
 		if($result['payment_status']=='COMPLETE'){
 			$settings 		= 	$this->Systemsettings_Model->getList('row');
-			$requestData 	= 	json_decode($result['custom_str1']);
+			$requestData 	= 	json_decode(stripslashes($result['custom_str1']), true);
 			$userid 		=	$requestData['userid'];
 
 			$requestData1['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
@@ -140,7 +140,7 @@ class Index extends CC_Controller
 			$this->db->update('coc_count', $requestData0, ['user_id' => $userid]);
 				
 			$insert_id 				= 	$this->db->select('id,inv_id')->from('coc_orders')->order_by('id','desc')->get()->row_array();
-			$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $userid]);
+			$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail']);
 			$request['status'] 		= 	'1';
 			
 			if ($insert_id) {
@@ -204,8 +204,8 @@ class Index extends CC_Controller
 			}
 		}
 		
-		$file = fopen("assets/payment.txt","a");
-		fwrite($file,$_POST);
+		$file = fopen("assets/payment/payment.txt","a");
+		fwrite($file,json_encode($result). PHP_EOL);
 		fclose($file);
 	}
 

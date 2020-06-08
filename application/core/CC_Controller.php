@@ -33,8 +33,14 @@ class CC_Controller extends CI_Controller
 		$this->load->library('pdf');
 		$this->load->library('phpqrcode/qrlib');
 		
+		$currenturl = current_url();
+		$paymentarray = [
+			base_url().'plumber/purchasecoc/index/paymentnotify'
+		];
+		
 		$segment1 = $this->uri->segment(1);
-		if($segment1!='' && $segment1!='login' && $segment1!='forgotpassword' && $segment1!='authentication' && $segment1!='ajax' && $segment1!='common') $this->middleware();
+		
+		if(!in_array($currenturl, $paymentarray) && $segment1!='' && $segment1!='login' && $segment1!='forgotpassword' && $segment1!='authentication' && $segment1!='ajax' && $segment1!='common') $this->middleware();
 	}
 	
 	public function layout1($data=[])
@@ -58,15 +64,6 @@ class CC_Controller extends CI_Controller
 	
 	public function middleware($type='')
 	{
-		$currenturl = current_url();
-		$paymentarray = [
-			base_url().'plumber/purchasecoc/index/paymentnotify'
-		];
-		
-		if(in_array($currenturl, $paymentarray)){
-			return;
-		}
-		
 		$userDetails = $this->getUserDetails();
 		
 		if($type=='1'){
