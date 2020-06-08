@@ -111,10 +111,10 @@ class Index extends CC_Controller
 			$this->db->insert('invoice',$requestData1);
 			$inv_id 		= $this->db->insert_id();
 
-			$this->CC_Model->diaryactivity(['plumberid' => $this->getUserID(), 'action' => '5', 'type' => '2']);
+			$this->CC_Model->diaryactivity(['plumberid' => $userid, 'action' => '5', 'type' => '2']);
 				
 			$requestData2['description'] 	= 	'Purchase of '.$requestData['quantity'].' PIRB Certificate of Compliance';
-			$requestData2['user_id']			= 	$this->getUserID();
+			$requestData2['user_id']		= 	$userid;
 			$requestData2['created_by']		= 	$userid;
 			$requestData2['created_at']		= 	date('Y-m-d H:i:s');
 			$requestData2['updated_at']		=	$requestData2['created_at'];
