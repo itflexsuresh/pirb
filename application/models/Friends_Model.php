@@ -35,7 +35,7 @@ class Friends_Model extends CC_Model
 		$this->db->from('friends f');
 		$this->db->join('users_detail ud1', 'ud1.user_id=f.to_id', 'left');
 		$this->db->join('users_detail ud2', 'ud2.user_id=f.from_id', 'left');
-		$this->db->join('users_plumber up1', 'up1.user_id=f.from_id', 'left');
+		$this->db->join('users_plumber up1', 'up1.user_id=f.to_id', 'left');
 		$this->db->join('users_plumber up2', 'up2.user_id=f.from_id', 'left');
 		
 		if(isset($requestdata['id'])) 				$this->db->where('f.id', $requestdata['id']);
