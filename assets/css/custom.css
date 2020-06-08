@@ -2656,6 +2656,8 @@ span.ver_name1 {
     left: 12px;
     font-size: 14px;
     font-weight: 600;
+	white-space: nowrap;
+	width: 100%;
 }
 
 span.ver_name2 {
@@ -2664,6 +2666,8 @@ span.ver_name2 {
     left: 12px;
     font-size: 14px;
     font-weight: 600;
+	width: 100%;
+	white-space: nowrap;
 }
 
 span.ver_name3 {
@@ -2672,6 +2676,8 @@ span.ver_name3 {
     left: 12px;
     font-size: 14px;
     font-weight: 600;
+	width: 100%;
+	white-space: nowrap;
 }
 
 ul.custom_friend_list li {
