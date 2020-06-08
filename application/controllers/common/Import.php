@@ -136,14 +136,12 @@ class Import extends CC_Controller {
 		$datas 	= $spreadsheet->getActiveSheet()->toArray();
 		unset($datas[0]);
 		
-		foreach($datas as $key => $data){
+		foreach($datas as $key => $data){			
+			$getProvince = $this->db->get_where('province', ['name' => $data[2]])->row_array();
 			
-			$checkCity = $this->db->get_where('city', ['name' => $data[1]])->row_array();
+			$checkCity = $this->db->get_where('city', ['name' => $data[1], 'province_id' => $getProvince['id']])->row_array();
 			
 			if(!$checkCity){
-				
-				$getProvince = $this->db->get_where('province', ['name' => $data[2]])->row_array();
-				
 				$citydata = [
 					'province_id' 		=> $getProvince['id'],
 					'name' 				=> $data[1],
@@ -170,14 +168,12 @@ class Import extends CC_Controller {
 		unset($datas[0]);
 		
 		foreach($datas as $key => $data){
-			
-			$checkSuburb = $this->db->get_where('suburb', ['name' => $data[0]])->row_array();
+			$getProvince 	= $this->db->get_where('province', ['name' => $data[2]])->row_array();
+			$getCity 		= $this->db->get_where('city', ['name' => $data[1]])->row_array();
+				
+			$checkSuburb = $this->db->get_where('suburb', ['name' => $data[0], 'province_id' => $getProvince['id'], 'city_id' => $getCity['id']])->row_array();
 			
 			if(!$checkSuburb){
-				
-				$getProvince 	= $this->db->get_where('province', ['name' => $data[2]])->row_array();
-				$getCity 		= $this->db->get_where('city', ['name' => $data[1]])->row_array();
-				
 				$citydata = [
 					'province_id' 		=> $getProvince['id'],
 					'city_id' 			=> $getCity['id'],
