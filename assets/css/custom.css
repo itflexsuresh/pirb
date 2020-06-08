@@ -1047,7 +1047,7 @@ position: absolute;
 }
 
 .application_field_status p{
-	position: relative;
+    position: relative;
     top: 20%;
     font-size: 52px;
     border: 3px solid lightgrey;
@@ -2771,8 +2771,9 @@ p.frd_num {
 }
 
 span.ver_name3 {
-    top: 61px !important;
-    left: -8px;
+   left: -20px;
+   transform: rotate(-90deg) !important;
+   top: 45px !important;
 }
 
 img.bar_3d {
@@ -2791,9 +2792,9 @@ img.bar_profil {
 }
 
 span.ver_name2 {
-    top: 89px !important;
-    left: -29px !important;
-    transform: rotate(-90deg) !important;
+  left: -25px !important;
+   top: 90px !important;
+   transform: rotate(-90deg) !important;
 }
 
 .cus_bar_ {
@@ -2801,9 +2802,9 @@ span.ver_name2 {
 }
 
 span.ver_name1 {
-    top: 170px !important;
-    left: -6px !important;
-    transform: rotate(-89deg) !important;
+    left: -24px !important;
+   transform: rotate(-90deg) !important;
+   top: 150px !important;
 }
  
  .coc_pur_sec{
@@ -2895,11 +2896,11 @@ span.ver_name1 {
 }
 
 .myaudit_legend{
-	display: table;
+    display: table;
 }
 
 .myaudit_legend div{
-	display: table-cell;
+    display: table-cell;
     vertical-align: middle;
     padding: 0 10px 0 7px;
 }
@@ -2911,17 +2912,17 @@ span.ver_name1 {
 }
 
 .myaudit_legend .legend1{
-	background: #53C2BF;
+    background: #53C2BF;
 }
 
 .myaudit_legend .legend2{
-	background: #FF0000;
+    background: #FF0000;
 }
 
 .customdropdownarrow {
     position: relative;
     display: inline-block;
-	width:100%;
+    width:100%;
 }
 .customdropdownarrow::before {
     position: absolute;
@@ -2933,5 +2934,5 @@ span.ver_name1 {
 }
 
 .select2-results .select2-disabled,  .select2-results__option[aria-disabled=true] { 
-	display: none;
+    display: none;
 }
