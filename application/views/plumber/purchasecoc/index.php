@@ -137,7 +137,6 @@ if (in_array($plumberstatus, $plumber_status)) {
 					</div>
 
 					<div class="row">
-
 						<div class="col-md-6 methodofdelivery" <?php echo $methodof_delivery; ?>>
 							<div class="form-group">
 								<label>Method Of Delivery</label>
@@ -166,9 +165,6 @@ if (in_array($plumberstatus, $plumber_status)) {
 								<input type="hidden" name="deliveryclass1" id="deliveryclass1" value="<?php echo $collectedbypirb; ?>">
 								<input type="hidden" name="deliveryclass2" id="deliveryclass2" value="<?php echo $couriour; ?>">
 								<input type="hidden" name="deliveryclass3" id="deliveryclass3" value="<?php echo $postage; ?>">
-
-
-
 							</div>
 						</div>
 						<div class="col-md-6">
@@ -193,7 +189,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 					</div>
 					<p class="info_text">
 						That all the plumbing works comply in all respect to the plumbing regulations and laws as defined by the National Compulsory Standards and Local By-Laws. The PIRB's auditing, rectification and disciplinary policy and procedures and that I fully comply to them. If I fail to comply with the policy and procedures it may result in disciplinary action being taken against me, which could result in my suspension from the PIRB.  As a professional plumber I abide by the PIRB Code of Conduct as a professional Plumber
-					</div>
+					</p>
 
 					<input type="hidden" id="dbvat" name="dbvat" value="<?php echo $VAT; ?>">
 					<input type="hidden" id="dbcocpaperwork" name="dbcocpaperwork" value="<?php echo $cocpaperwork; ?>">
@@ -206,22 +202,25 @@ if (in_array($plumberstatus, $plumber_status)) {
 							<button type="button" id="purchase" name="purchase" value="purchase" class="btn btn-block btn-primary btn-rounded">Purchase</button>
 						</div>
 					</div>
+					
 					<!---	Payment	--->
-					<input id="merchant_id" name="merchant_id" value="10016054" type="hidden">
-					<input id="merchant_key" name="merchant_key" value="uwfiy08dfb6jn" type="hidden">
+					<input id="merchant_id" name="merchant_id" value="<?php echo $this->config->item('paymentid'); ?>" type="hidden">
+					<input id="merchant_key" name="merchant_key" value="<?php echo $this->config->item('paymentkey'); ?>" type="hidden">
 					<input id="return_url" name="return_url" value="<?php echo base_url().'plumber/purchasecoc/index/paymentsuccess'; ?>" type="hidden">
 					<input id="cancel_url" name="cancel_url" value="<?php echo base_url().'plumber/purchasecoc/index/paymentcancel'; ?>" type="hidden">
 					<input id="notify_url" name="notify_url" value="<?php echo base_url().'plumber/purchasecoc/index/paymentnotify'; ?>" type="hidden">
+					
 					<input id="name_first" name="name_first" value="<?php echo $username['name']; ?>" type="hidden">
 					<input id="name_last" name="name_last" value="<?php echo $username['surname']; ?>" type="hidden">
-					<input id="userid" name="userid" value="<?php echo $userid; ?>" type="hidden">
 					<input id="email_address" name="email_address" value="<?php echo $username['email']; ?>" type="hidden">
+					
 					<input id="m_payment_id" name="m_payment_id" value="TRN1481493600" type="hidden">
 					<input type="hidden" id="totaldue1" class="form-control" readonly name="amount">
 					<input id="item_name" name="item_name" value="Coc Purchase" type="hidden">
 					<input id="item_description" name="item_description" value="coc" type="hidden">
 					<input id="payment_method" name="payment_method" value="cc" type="hidden">
 					
+					<input type="hidden" name="custom_str1" id="paymentcustomdata">
 				</form>
 				<div id="skillmodal" class="modal fade" role="dialog">
 					<div class="modal-dialog modal-lg">
@@ -268,7 +267,6 @@ if (in_array($plumberstatus, $plumber_status)) {
 	</div>
 </div>
 
-
 <script type="text/javascript">
 	$(function(){
 		$('.deliverygroupdiv').hide();
@@ -311,16 +309,14 @@ if (in_array($plumberstatus, $plumber_status)) {
 					required	: "Please Select Your COC Type."
 				},
 			}
-			);
+		);
 		
 		if ($('#log_coc').val()!='') {
 			var coccount = 0
 			coccount = Math.abs(parseInt($('#log_coc').val())-parseInt($('#coc_permitted').val()));
-			//$('#number_of_purchase_coc').val(coccount);
-			//$("#coc_purchase").attr('max', coccount);
 		}
+		
 		$("#coc_purchase").keyup(function(e){
-
 			calc();
 			delivery($('.delivery_card').val());
 		});
@@ -367,127 +363,67 @@ if (in_array($plumberstatus, $plumber_status)) {
 				delivery_cost = $('#cost_f_delivery').val();
 			}
 
-			/*
-			$.ajax({
-				type  		: 'ajax',
-				url   		: '<?php // echo base_url().'plumber/purchasecoc/Index/OTPVerification'; ?>',
-				async 		: true,
-				dataType 	: 'json',
-				method 		: 'POST',
-				data 		: { otp: otpver},
-				success: function(data) {
-					if (data == 0) {
-						$('.invalidOTP').show();
-						//alert('Given OTP is Invalid !');
-					}else{
-						ajaxInsert(delivery_type, cocType, delivery_cost);
-
-					}
-
-					console.log(data);
-				}
-			});
-			*/
-			
 			ajax('<?php echo base_url().'ajax/index/ajaxotpverification'; ?>', {otp: otpver}, '', { 
 				success:function(data){
 					if (data == 0) {
 						$('.invalidOTP').show();
 					}else{
+						var customdata = { 
+							coc_type: $('.coc_type:checked').val(), 
+							delivery_type: ($('.methodofdelivery').css('display') == 'none') ? 0 : $('#delivery_card').val(), 
+							cost_value: $('#coc_cost').val(), 
+							quantity: $('#coc_purchase').val(), 
+							vat: $('#vat').val(), 
+							total_due: $('#totaldue').val(), 
+							delivery_cost: ($('.deliverygroupdiv').css('display') == 'none') ? 0 : $('#cost_f_delivery').val(),
+							permittedcoc: $('#number_of_purchase_coc').val(),
+							userid: '<?php echo $userid; ?>'
+						};
+
+						$('#paymentcustomdata').val(JSON.stringify(customdata));
 						$('.form').prop('action','https://sandbox.payfast.co.za/eng/process');
 						$('.form').submit();
-						//ajaxInsert(delivery_type, cocType, delivery_cost);
 					}
 				}
 			})
 		});
 
 		$('.coc_type').click(function(){
-		coctype1($(this).val());
-	});
+			coctype1($(this).val());
+		});
 
-			$('.delivery_card').change(function(){
-				delivery($(this).val());
-				
-			});
+		$('.delivery_card').change(function(){
+			delivery($(this).val());
+		});
 
 	});
 
 	function typeclick(){
-			
-			
-			
-			var coc_types = $("input[name='coc_type']:checked").val();
-			
-			if (coc_types == '1') {
-				$('.methodofdelivery').hide();
-			}else{
-				$('.methodofdelivery').show();
-			}
-
-			delivery($('.delivery_card').val());
+		var coc_types = $("input[name='coc_type']:checked").val();
+		
+		if (coc_types == '1') {
+			$('.methodofdelivery').hide();
+		}else{
+			$('.methodofdelivery').show();
 		}
 
-
-	function ajaxInsert(delivery_type, cocType, delivery_cost){
-		$.ajax({
-			type  		: 'ajax',
-			url   		: '<?php echo base_url().'plumber/purchasecoc/Index/insertOrders'; ?>',
-			async 		: true,
-			dataType 	: 'json',
-			method 		: 'POST',
-			data 		: { coc_type: cocType, delivery_type: delivery_type, cost_value: $('#coc_cost').val(), quantity: $('#coc_purchase').val(), vat: $('#vat').val(), total_due: $('#totaldue').val(), delivery_cost: delivery_cost,permittedcoc: $('#number_of_purchase_coc').val(),},
-			success: function(data) {
-				if (data == 1) {
-					$('.form').prop('action','https://sandbox.payfast.co.za/eng/process');
-					$('.form').submit();
-				}else{
-					alert('Something Went Wrong Please Try Again !');
-				}
-			}
-		});
+		delivery($('.delivery_card').val());
 	}
 
-
-	
 	var coc = 0;
 	var coc_amount = 0;
 	function coctype1(value){
 		if(value=='1'){
-			//coc_purchase
-			//$('.coc_cost').val('<?php // echo $cocelectronic; ?>')	
 			coc_amount = $('#dbcocelectronic').val();
 			$('.deliverygroupdiv').hide();
-			//alert(coc_amount);
 			$('#cost_f_delivery').val('0');
 		}else if(value=='2'){
-			//coc_purchase
 			coc_amount = $('#dbcocpaperwork').val();
 			$('.deliverygroupdiv').show();
-			//alert(coc_amount);
-			//$('.coc_cost').val('<?php // echo $cocelectronic; ?>')
-			//$('#cost_f_delivery').val('<?php //echo $cocpaperwork; ?>');
 		}
-
 	}
 
-
-
-
-
 	function ajaxotp(){
-		$.ajax({
-			type  : 'ajax',
-			url   : '<?php echo base_url().'plumber/purchasecoc/Index/ajaxOTP'; ?>',
-			async : true,
-			dataType : 'json',
-			method 	: 'POST',
-			data: {generate:'otp', ammount: $('#totaldue1').val(), item_description: $('#item_description').val(),payment_method: $('#payment_method').val(), m_payment_id: $('#m_payment_id').val(), },
-			success: function(data) {
-				//$('#sampleOtp').val(data.otp);
-			}
-		});
-		
 		ajax('<?php echo base_url().'ajax/index/ajaxotp'; ?>', {}, '', { 
 			success:function(data){
 				if(data!=''){
@@ -497,69 +433,22 @@ if (in_array($plumberstatus, $plumber_status)) {
 		})
 	}
 
-	// function calculations(data,value){
-		
-
-	// 		var count = $('#number_of_purchase_coc').val();			
-	// 		var numberOdCoc = parseFloat($('#coc_purchase').val());
-	// 		var cocCost = parseFloat(coc_amount)*numberOdCoc;
-	// 		$('.coc_cost').val(cocCost);
-
-	// 		if (count > parseFloat(data)) {
-	// 			$("#coc_purchase").val((data));
-	// 			//console.log($("#coc_purchase").val((data)));
-	// 			$('.alert-msg').hide();
-	// 		}else{
-	// 			if ($("#coc_purchase").val() != '') {
-	// 				$('.alert-msg').show();
-	// 				$("#coc_purchase").val(count);
-	// 			}
-				
-	// 		}
-
-	// 		var count 	= data;
-	// 		var coctype = $('#coc_cost').val();
-	// 		if (coctype!='') {
-	// 			var typecoc = $("input[name='coc_type']:checked").val();
-	// 			var dbvat = parseFloat($('#dbvat').val());
-				
-	// 			var allvat = (((parseFloat($('#coc_cost').val())+parseFloat($('#cost_f_delivery').val()))*dbvat)/100);
-
-	// 			$('#vat').val(allvat.toFixed(2));
-				
-	// 			var total = parseFloat(coctype)+parseFloat(allvat)+parseFloat($('#cost_f_delivery').val())
-				
-
-	// 			$('#totaldue').val(total.toFixed(2));
-	// 			$('#totaldue1').val(total.toFixed(2));
-	// 		}
-
-	// 	}
-
-
-
-
 	function calc(){
-		
-
 		var coc_cost 		= parseFloat($('#coc_cost').val());
 		var costdelivery 	= parseFloat($('#cost_f_delivery').val());
 		var vat 			= parseFloat($('#dbvat').val());
 
 
 		var vat1 = (((costdelivery + coc_cost ) * vat) / 100);
-
 		var total = vat1 + coc_cost + costdelivery;
 
 		$('#vat').val(currencyconvertor(vat1));
 		$('#totaldue').val(currencyconvertor(total));
 		$('#totaldue1').val(currencyconvertor(total));
-
 	}
 
 	function modifycost()
 	{
-		
 		var quan = $("#coc_purchase").val();
 
 		var coc_types = $("input[name='coc_type']:checked").val();
@@ -573,8 +462,8 @@ if (in_array($plumberstatus, $plumber_status)) {
 		calc();
 	}
 
-	function delivery(value){
-
+	function delivery(value)
+	{
 		$('.deliveryclass').val($('#deliveryclass'+value).val());
 		modifycost();
 

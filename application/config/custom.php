@@ -4,6 +4,11 @@ $config['sitename']	 				= 	'Audit IT';
 
 $config['googleapikey']	 			= 	'AIzaSyD7kpv3FWxlVF2HWBsX6lrJJMGVWucTcoY';
 
+$config['paymentid']				= 	'10018056';
+$config['paymentkey']				= 	'u1jqr1spqbpes';
+
+$config['customstockno']			= 	'393056';
+
 $config['customstockno']			= 	'393056';
 
 

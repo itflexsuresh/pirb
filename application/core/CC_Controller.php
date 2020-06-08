@@ -58,6 +58,15 @@ class CC_Controller extends CI_Controller
 	
 	public function middleware($type='')
 	{
+		$currenturl = current_url();
+		$paymentarray = [
+			base_url().'plumber/purchasecoc/index/paymentnotify'
+		];
+		
+		if(in_array($currenturl, $paymentarray)){
+			return;
+		}
+		
 		$userDetails = $this->getUserDetails();
 		
 		if($type=='1'){
