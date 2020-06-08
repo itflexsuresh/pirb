@@ -51,7 +51,6 @@ class Index extends CC_Controller
 		if(count($results) > 0){
 			foreach($results as $result){
 				$invoicestatus = 	isset($this->config->item('payment_status2')[$result['status']]) ? $this->config->item('payment_status2')[$result['status']] : '';
-				//print_r($this->db->last_query());
 				
 				if($result['status']=='0' && $result['coc_type']=='0'){
 					$this->session->set_userdata('pay_purchaseorder', $result['inv_id']);
@@ -61,26 +60,30 @@ class Index extends CC_Controller
 									<input type="hidden" id="name" value="'.$userdata1['name'].'">
 									<input type="hidden" id="surname" value="'.$userdata1['surname'].'">
 									<input type="hidden" id="usremail" value="'.$userdata1['email'].'">
-									<a <a href="javascript:void(0);"> <i class="fa fa-credit-card payfastpayment">
-									<script>
-									$(".payfastpayment").click(function(){
-									$("#name_first").val($("#name").val());
-									$("#name_last").val($("#surname").val());
-									$("#totaldue1").val($("#feeamt").val());
-									$("#email_address").val($("#usremail").val());
-									$( "#paymentsubmit" ).trigger( "click" );								
-									
-								});
-								</script></i></a>
+									<a href="javascript:void(0);"> 
+										<i class="fa fa-credit-card payfastpayment">
+											<script>
+												$(".payfastpayment").click(function(){
+													$("#name_first").val($(this).parent().parent().find("#name").val());
+													$("#name_last").val($(this).parent().parent().find("#surname").val());
+													$("#totaldue1").val($(this).parent().parent().find("#feeamt").val());
+													$("#email_address").val($(this).parent().parent().find("#usremail").val());
+													$("#paymentsubmit").trigger("click");			
+												});
+											</script>
+										</i>
+									</a>
 								';
 				}else{
 					$action = 	'';	
 				}
+				
 				if ($result['total_cost']!='') {
-      $amt = $this->config->item('currency').' '.$result['total_due'];
-      }else{
-      	$amt = $this->config->item('currency').' '.$result['total_due'];
-      }
+					$amt = $this->config->item('currency').' '.$result['total_due'];
+				}else{
+					$amt = $this->config->item('currency').' '.$result['total_due'];
+				}
+				
 				$totalrecord[] = 	[      
 										'description' 	=> 	$result['description'],
 										'invoiceno' 	=> 	$result['inv_id'],
@@ -308,10 +311,12 @@ td {
 		}
 		
 	}
+	
 	public function cancelurl(){
 		$this->session->set_flashdata('success','Payement Cancel.');
 		redirect('plumber/profile/Index');
 	}
+	
 	public function notifyurl(){
 		$this->session->set_flashdata('success','Registration Renewed Sucessfully.');
 		redirect('plumber/profile/Index');
