@@ -1165,7 +1165,7 @@ class CC_Controller extends CI_Controller
 	
 	public function userperformancestatus($data = []){	
 		$rollingavg 	= $this->getRollingAverage();
-		$userid			= $this->getUserID();
+		$userid			= (isset($data['userid'])) ? $data['userid'] : $this->getUserID();
 		$date			= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
 		
 		$extradata 				= $data;

@@ -36,7 +36,18 @@ class Index extends CC_Controller
 		$pagedata['provinceperformancestatus'] 		= $this->userperformancestatus(['province' => $userdata['province'], 'limit' => '3']);
 		$pagedata['cityperformancestatus'] 			= $this->userperformancestatus(['city' => $userdata['city'], 'limit' => '3']);
 		
-		$pagedata['friends'] 						= $this->Friends_Model->getList('all', ['userid' => $id, 'fromto' => $id, 'status' => ['1'], 'limit' => '10']);
+		$friends 									= $this->Friends_Model->getList('all', ['userid' => $id, 'fromto' => $id, 'status' => ['1'], 'limit' => '10']);
+		$friendsarray								= [];
+		if(count($friends) > 0){
+			foreach($friends as $friend){
+				$friendperformance = $this->userperformancestatus(['userid' => $friend['userid']]);
+				$friendsarray[] =  $friend+['rank' => $friendperformance];
+			}
+			
+			array_multisort(array_column($friendsarray, 'rank'), SORT_ASC);
+		}
+		
+		$pagedata['friends'] 						= $friendsarray;
 		
 		$data['plugins']			= ['echarts', 'knob'];
 		$data['content'] 			= $this->load->view('plumber/dashboard/index', (isset($pagedata) ? $pagedata : ''), true);

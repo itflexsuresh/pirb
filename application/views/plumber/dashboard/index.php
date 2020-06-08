@@ -162,6 +162,7 @@
 							<p class="frd_head">Friends</p>
 							<ul class="custom_friend_list">
 								<?php 
+									if(count($friends) > 0){
 									foreach($friends as $key => $list){ 
 										$id						= $list['id'];
 										$userid					= $list['userid'];
@@ -177,7 +178,7 @@
 											$photoidurl		= 'javascript:void(0);';
 										}
 										
-										$rank = $key+1;
+										$rank = $list['rank'];
 								?>
 								<li>
 									<div class="frd_ord">
@@ -202,7 +203,7 @@
 										</div>
 									</div>
 								</li>
-								<?php } ?>
+								<?php }}else{ echo '<li><p class="frd_head">-</p></li>'; } ?>
 							</ul>
 						</div>
 					</div>
