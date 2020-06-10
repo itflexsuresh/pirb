@@ -174,7 +174,9 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 								<th>Activity</th>
 								<th>Points</th>
 								<th>Status</th>
-								<th>Action</th>
+								<?php if($pagestatus!=1){ ?>
+									<th>Action</th>
+								<?php } ?>
 							</tr>
 						</thead>
 					</table>
@@ -186,6 +188,8 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 </div>
 
 <script>
+	var pagestatus = '<?php echo $pagestatus; ?>';
+
 	$(function(){
 		$('#addupdate').prop('disabled',true);
 		$('#aprooved').prop('disabled', true);
@@ -222,20 +226,28 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 
 		fileupload([".document_file", "./assets/uploads/cpdqueue", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.document_picture', '.document_image', filepath, pdfimg]);
 		
-		var options = {
-			url 	: 	'<?php echo base_url()."admin/cpd/cpdtypesetup/DTCpdQueue"; ?>',
-			columns : 	[
+		var column = [
 			{ "data": "date" },
 			{ "data": "namesurname" },
 			{ "data": "reg_number" },
 			{ "data": "acivity" },
 			{ "data": "points" },
-			{ "data": "status" },
-			{ "data": "action" }
-			],
-			data : {pagestatus : '<?php echo $pagestatus; ?>'},
-			target : [6],
-			sort : '0'
+			{ "data": "status" }
+		];
+		
+		if(pagestatus!=1){
+			column.push({'data' : 'action'});
+			var target = [6];
+		}else{
+			var target = [];
+		}
+		console.log(column);
+		var options = {
+			url 	: '<?php echo base_url()."admin/cpd/cpdtypesetup/DTCpdQueue"; ?>',
+			columns : column,
+			data 	: {pagestatus : pagestatus},
+			target 	: target,
+			sort 	: '0'
 		};
 		
 		ajaxdatatables('.datatables', options);

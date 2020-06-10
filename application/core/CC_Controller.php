@@ -75,12 +75,12 @@ class CC_Controller extends CI_Controller
 					elseif($userDetails['formstatus']=='1' && $userDetails['approvalstatus']=='0') redirect('plumber/profile/index'); 
 					else redirect('plumber/registration/index'); 
 				}elseif($userDetails['type']=='4'){
-					if($userDetails['formstatus']=='1') redirect('company/profile/index'); 
+					if($userDetails['formstatus']=='1') redirect('company/dashboard/index'); 
 					else redirect('company/registration/index'); 
 				}elseif($userDetails['type']=='5'){
 					redirect('auditor/dashboard/index'); 
 				}elseif($userDetails['type']=='6'){
-					redirect('resellers/profile/index'); 
+					redirect('resellers/dashboard/index'); 
 				}
 			}
 		}else{
@@ -101,15 +101,15 @@ class CC_Controller extends CI_Controller
 				if(($userDetails['type']=='1'  || $userDetails['type']=='2') && $segment1!='admin'){
 					redirect('admin/dashboard/index'); 
 				}elseif($userDetails['type']=='3' && $segment1!='plumber'){
-					if($userDetails['formstatus']=='1') redirect('plumber/profile/index'); 
+					if($userDetails['formstatus']=='1') redirect('plumber/dashboard/index'); 
 					else redirect('plumber/registration/index'); 
 				}elseif($userDetails['type']=='4' && $segment1!='company'){
-					if($userDetails['formstatus']=='1') redirect('company/profile/index'); 
+					if($userDetails['formstatus']=='1') redirect('company/dashboard/index'); 
 					else redirect('company/registration/index'); 
 				}elseif($userDetails['type']=='5' && $segment1!='auditor'){
-					redirect('auditor/profile/index'); 
+					redirect('auditor/dashboard/index'); 
 				}elseif($userDetails['type']=='6' && $segment1!='resellers'){
-					redirect('resellers/profile/index'); 
+					redirect('resellers/dashboard/index'); 
 				}
 			}
 		}
