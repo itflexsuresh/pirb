@@ -478,7 +478,7 @@
 			<form class="skillform">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">A One Time Pin (OTP) was sent to the Licensed Plumber with the following Mobile Number`</h4>
+					<h4 class="modal-title">A One Time Pin (OTP) was sent to the following Mobile Number <span id="otpmobileno"></span></h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">
@@ -530,7 +530,8 @@ $(function(){
 			if($('.form').valid()==false){
 				if(formvalid==0) formvalid = 0; 
 			}else{
-				ajaxotp();			
+				ajaxotp();		
+				$('#otpmobileno').text($('#mobile_phone').val());
 				$('#skillmodal').modal('show');
 				$('.invalidOTP').hide();
 			}
