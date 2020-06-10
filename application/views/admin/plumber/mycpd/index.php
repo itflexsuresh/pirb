@@ -33,8 +33,10 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 		$explodefile2 	= explode('.', $image);
 		$extfile2 		= array_pop($explodefile2);
 		$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath1;
+		$photoidurl		= $filepath1;
 	}else{
 		$photoidimg 	= $profileimg;
+		$photoidurl 	= 'javascript:void(0);';
 	}
 	
 ?>
@@ -126,13 +128,11 @@ $heading 				= isset($result['id']) ? 'Submit' : 'Submit';
 					<div class="row">
 						<div class="form-group col-md-6">
 							<h4 class="card-title">Supporting Document:</h4>
-								<div class="form-group">
-									<div>
-										<img src="<?php echo $photoidimg; ?>" class="document_image" width="100">
-									</div>
-									
-									
+							<div class="form-group">
+								<div>
+									<a href="<?php echo $photoidurl; ?>" target="_blank"><img src="<?php echo $photoidimg; ?>" class="document_image" width="100"></a>
 								</div>
+							</div>
 						</div>
 						
 					</div>

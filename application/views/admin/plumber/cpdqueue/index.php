@@ -31,16 +31,20 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 		$explodefile2 	= explode('.', $image);
 		$extfile2 		= array_pop($explodefile2);
 		$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath1;
+		$photoidurl1	= $filepath1;
 	}else{
 		$photoidimg 	= $profileimg;
+		$photoidurl1 	= 'javascript:void(0);';
 	}
 
 	if($image_ad!=''){
 		$explodefile_ad 	= explode('.', $image_ad);
 		$extfile_ad 		= array_pop($explodefile_ad);
 		$photoidimg2 		= (in_array($extfile_ad, ['pdf', 'tiff'])) ? $pdfimg : $filepath_ad;
+		$photoidurl2		= $filepath_ad;
 	}else{
 		$photoidimg2 	= $profileimg_ad;
+		$photoidurl2 	= 'javascript:void(0);';
 	}
 	//echo $photoidimg;
 	//print_r($streamID);die;
@@ -103,7 +107,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 							<h4 class="card-title">Supporting Document:</h4>
 								<div class="form-group">
 									<div>
-										<a href="<?php echo $filepath1; ?>" target="_blank">
+										<a href="<?php echo $photoidurl1; ?>" target="_blank">
 										    <img src="<?php echo $photoidimg; ?>" class="document_image" width="100">
 										</a>
 										
@@ -124,7 +128,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 							<h4 class="card-title">Supporting Document:</h4>
 								<div class="form-group">
 									<div>
-										<a href="<?php echo $filepath_ad; ?>" target="_blank">
+										<a href="<?php echo $photoidurl2; ?>" target="_blank">
 										    <img src="<?php echo $photoidimg2; ?>" class="document_image_ad" width="100">
 										</a>
 										

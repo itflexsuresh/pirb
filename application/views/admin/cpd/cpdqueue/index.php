@@ -27,8 +27,10 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 		$explodefile2 	= explode('.', $image);
 		$extfile2 		= array_pop($explodefile2);
 		$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath1;
+		$photoidurl 	= $filepath1;
 	}else{
 		$photoidimg 	= $profileimg;
+		$photoidurl 	= 'javascript:void(0);';
 	}
 	//echo $photoidimg;
 	//print_r($streamID);die;
@@ -89,7 +91,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 							<h4 class="card-title">Supporting Document:</h4>
 								<div class="form-group">
 									<div>
-										<img src="<?php echo $photoidimg; ?>" class="document_image" width="100">
+										<a href="<?php echo $photoidurl; ?>" target="_blank"><img src="<?php echo $photoidimg; ?>" class="document_image" width="100"></a>
 									</div>
 									<input type="file" id="file" class="document_file">
 									<label for="file" class="choose_file">Choose File</label>
