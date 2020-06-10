@@ -358,7 +358,7 @@ if(count($permission) > 0){
 				<?php }elseif($type=='4'){
 
 				 ?>
-					<li><a href="javascript:void(0);">Dashboard</a></li>
+					<li><a href="<?php echo base_url().'company/dashboard/index'; ?>">Dashboard</a></li>
 					<?php if($formstatus=='1'){ ?>
 						<li><a href="<?php echo base_url().'company/profile/index'; ?>">My Profile</a></li>
 						<li><a href="<?php echo base_url().'company/employee_listing'; ?>">Employee Listing</a></li>
@@ -438,7 +438,7 @@ if(count($permission) > 0){
                             }
                        }
 				 ?>
-					<li><a href="javascript:void(0);">Dashboard</a></li>
+					<li><a href="<?php echo base_url().'resellers/dashboard/index'; ?>">Dashboard</a></li>
                     <li><a href="<?php echo base_url().'resellers/cocstatement/index'; ?>">COC Statement</a></li>
 					<li><a href="<?php echo base_url().'resellers/allocatecoc/index'; ?>">Allocate COC</a></li>
 					<li><a href="<?php echo base_url().'resellers/profile/index'; ?>">My Profile</a></li>

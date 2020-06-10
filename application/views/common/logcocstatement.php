@@ -540,11 +540,11 @@ $(function(){
 			completion_date : {
 				required	: true
 			},
-			order_no : {
-				number		: true,
-				minlength	: 9,
-				maxlength	: 9
-			},
+			//order_no : {
+				//number		: true,
+				//minlength	: 9,
+				//maxlength	: 9
+			//},
 			name : {
 				required    : true
 			},
