@@ -448,7 +448,7 @@
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
-												<label>Alternate ID *</label>
+												<label>Alternative ID *</label>
 												<input type="text" class="form-control" name="otheridcard" value="<?php echo $otheridcard; ?>" <?php echo $disabled2; ?>>
 												</div>
 										</div>
@@ -549,7 +549,7 @@
 									<div class="row">
 										<div class="col-md-6">
 											<h4 class="card-title">Physical Address</h4>
-											<p class="tagline">Note all delivery services will be sent to this address</p>
+											<p class="tagline">Note: All delivery services will be sent to this address.</p>
 											<div class="form-group">
 												<label>Physical Address *</label>
 												<input type="hidden" class="form-control" name="address[1][id]" value="<?php echo $addressid1; ?>">
@@ -559,7 +559,7 @@
 										</div>
 										<div class="col-md-6">
 											<h4 class="card-title">Postal Address</h4>
-											<p class="tagline">Note all postal services will be sent to this address</p>
+											<p class="tagline">Note: All postal services will be sent to this address.</p>
 											<div class="form-group">
 												<label>Postal Address *</label>
 												<input type="hidden" class="form-control" name="address[2][id]" value="<?php echo $addressid2; ?>">
@@ -643,7 +643,7 @@
 											<div class="form-group">
 												<label>Mobile Phone *</label>
 												<input type="text" class="form-control" name="mobile_phone" id="mobile_phone" value="<?php echo $mobilephone; ?>" <?php echo $disabled2; ?>>
-												<p>Note all SMS and OTP notifications will be sent to this mobile number above</p>
+												<p>Note: All SMS and OTP notifications will be sent to this mobile number above.</p>
 											</div>
 										</div>
 									</div>
@@ -666,7 +666,7 @@
 											<div class="form-group">
 												<label>Email Address *</label>
 												<input type="text" class="form-control" id="email" name="email" value="<?php echo $email; ?>" <?php echo $disabled2; ?>>
-												<p>Note: this email will be used as your user profile name and all emails notifications will be sent to it</p>
+												<p>Note: This email will be used as your user profile name and all emails notifications will be sent to it.</p>
 											</div>
 										</div>
 										<div class="col-md-6">
@@ -708,7 +708,7 @@
 										</div>
 										<div class="col-md-4">
 											<div class="form-group">
-												<label>Company Vat</label>
+												<label>Company VAT Number</label>
 												<input type="text" class="form-control" name="vat_no" value="<?php echo $vatno; ?>">
 											</div>
 										</div>                            
@@ -787,7 +787,7 @@
 												?>
 											</div>
 											<?php if($roletype=='3'){ ?>
-												<p>If the Company does not appear on this listing please ask the company to Register with the PIRB. Once they have been approved and registered return to the listing and select the company</p>
+												<p>If the Company does not appear on this list please ask the company to register with the PIRB. Once they have been approved and registered, return to the list and select the company</p>
 												<!--<a href="javascript:void(0)">Register Company with the PIRB</a>-->
 											<?php } ?>
 										</div>
@@ -815,7 +815,7 @@
 											<td>Certificate Number</td>
 											<td>Qualification Route</td>
 											<td>Training Provider</td>
-											<td>Attachement</td>
+											<td>Attachments</td>
 											<?php if(!isset($psidconfig)){ ?>
 												<td>Action</td>
 											<?php } ?>
@@ -1160,7 +1160,7 @@ $(function(){
 				required	: "Other nationality field is required.",
 			},
 			otheridcard : {
-				required	: "Alternate ID Card  field is required.",
+				required	: "Alternative ID Card  field is required.",
 			},
 			homelanguage : {
 				required	: "Home Language field is required.",

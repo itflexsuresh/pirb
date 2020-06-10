@@ -227,12 +227,13 @@ $config['designation1'] 			= 	[
 														<label>
 														<input type="radio" value="1" name="designation" class="designation" data-radio="radio1"> <p>Learner Plumber</p>
 														</label>
-														<p>The following designation requirements must be observed to hold and/or maintain a Learner designations;</p>
+														<p>The following designation requirements must be met to hold and/or maintain a Learner Plumber designation;</p>
 														<ul>
 															<li>Completion of the PIRB induction course;</li>
 															<li>Must preferably be employed and must work under the supervision and/or mentorship of a Licensed or Qualified Plumber;</li>
 															<li>Provide details of the PIRB Licensed/Qualified Plumber under whose adequate supervision and/or mentorship you will be doing your plumbing training;</li>
-															<li>Obtain 10 CPD points over 12-month cycle Re-register every 12 months.</li>
+															<li>Obtain 10 CPD points over 12-month cycle</li>
+															<li>Re-register every 12 months.</li>
 														</ul>
 														<p>Current Registration Fee : %s</p>
 													</div>
@@ -240,9 +241,9 @@ $config['designation1'] 			= 	[
 											'2' => 	'
 													<div class="des_points">
 													<label>
-														<input type="radio" value="2" name="designation" class="designation"  data-radio="radio1"> <p>Technical Assisting Practitioner</p>
+														<input type="radio" value="2" name="designation" class="designation"  data-radio="radio1"> <p>Technical Assistant Practitioner</p>
 													</label
-														<p>The following designation requirements must be observed to hold and/or maintain a Technical Assistance Practitioner designation;</p>
+														<p>The following designation requirements must be met to hold and/or maintain a Technical Assistant Practitioner designation;</p>
 														<ul>
 															<li>3 Years proven practicing experience in the plumbing industry</li>
 															<li>Completion of the PIRB online induction course;</li>
@@ -257,11 +258,11 @@ $config['designation1'] 			= 	[
 													<label>
 														<input type="radio" value="3" name="designation" class="designation"  data-radio="radio1"> <p>Technical Operator Practitioner</p>
 													</label>
-														<p>The following designation requirements must be observed to hold and/or maintain a Technical Operating Practitioner:</p>
+														<p>The following designation requirements must be met to hold and/or maintain a Technical Operating Practitioner:</p>
 														<ul>
 															<li>3 Years proven practicing experience in the plumbing industry and respective designation being applied for;</li>
 															<li>Completion of the PIRB online induction course;</li>
-															<li>Pass the PIRB’s Written and or Practical assessment;</li>
+															<li>Pass the PIRB’s written and/or practical assessment;</li>
 															<li>Obtain 10 CPD points over 12-month cycle;</li>
 															<li>Re-register every 12 months.</li>
 														</ul>
@@ -273,11 +274,11 @@ $config['designation1'] 			= 	[
 													<label>
 														<input type="radio" value="4" name="designation" class="designation"  data-radio="radio1"> <p>Licensed Plumber</p>
 													</label>
-														<p>The following designation requirements must be observed to hold and/or maintain a Licensed Plumber Designation;</p>
+														<p>The following designation requirements must be met to hold and/or maintain a Licensed Plumber Designation;</p>
 														<ul>
-															<li>Must have completed and passed the relevant plumber trade teat as specified in the Manpower training act section 28 or 13 and/or have obtained a plumber qualification in terms of the Skills Development Act;</li>
+															<li>Must have completed and passed the relevant plumber trade test as specified in the Manpower Training Act Section 28 or 13 and/or have obtained a plumber qualification in terms of the Skills Development Act;</li>
 															<li>Completion of the PIRB online induction course; </li>
-															<li>Pass PIRB’s practical and or written board assessment in the 5 Core PIRB designation levels;</li>
+															<li>Pass PIRB’s practical and/or written board assessment in the 5 Core PIRB designation levels;</li>
 															<li>Obtain 25 CPD points over your respective 12-month registration cycle;</li>
 															<li>Re-register every 12 months.</li>
 														</ul>
@@ -296,7 +297,7 @@ $config['designation2'] 			= 	[
 											'6' => 'Master Plumber'
 										];
 				
-$config['criminalact'] 				= 	'<div class="custom-control custom-checkbox"><input type="checkbox" name="criminalact" id="criminalact" class="criminalact custom-control-input " value="1"> <label for="criminalact" class="custom-control-label">I fully understand sumbitting a false qualification is a criminal act, which comes with a chance of jail time or a fine and anyone can report someone who does it.</label></div>';
+$config['criminalact'] 				= 	'<div class="custom-control custom-checkbox"><input type="checkbox" name="criminalact" id="criminalact" class="criminalact custom-control-input " value="1"> <label for="criminalact" class="custom-control-label">I fully understand that providing false information regarding my qualification during this application is a criminal offense and can lead to criminal conviction.</label></div>';
 
 $config['registerprocedure'] 		= 	'
 											<div class="des_points">

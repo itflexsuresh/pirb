@@ -211,7 +211,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Alternate ID *</label>
+									<label>Alternative ID *</label>
 									<input type="text" class="form-control percentageslide" name="otheridcard" value="<?php echo $otheridcard; ?>">
 									</div>
 							</div>
@@ -286,7 +286,7 @@
 						</div>
 
 						<h4 class="card-title">Registration Card</h4>
-						<p>Due to the high number of card returns and cost incurred the registration fees do not include a registration card. Registration cards are available but must be requested separately.  If registration card is selected you will be billed accordingly.</p>
+						<p>Due to the high number of card returns and cost incurred, the registration fees do not include a registration card. Registration cards are available but must be requested separately.  If the registration card option is selected you will be billed accordingly.</p>
 
 						<div class="row">
 							<div class="col-md-6">
@@ -309,7 +309,7 @@
 						<div class="row add_top_value">
 							<div class="col-md-6">
 								<h4 class="card-title">Physical Address</h4>
-								<p class="tagline">Note all delivery services will be sent to this address</p>
+								<p class="tagline">Note: All delivery services will be sent to this address.</p>
 								<div class="form-group">
 									<label>Physical Address *</label>
 									<input type="hidden" class="form-control" name="address[1][id]" value="<?php echo $addressid1; ?>">
@@ -319,7 +319,7 @@
 							</div>
 							<div class="col-md-6">
 								<h4 class="card-title">Postal Address</h4>
-								<p class="tagline">Note all postal services will be sent to this address</p>
+								<p class="tagline">Note: All postal services will be sent to this address.</p>
 								<div class="form-group">
 									<label>Postal Address *</label>
 									<input type="hidden" class="form-control" name="address[2][id]" value="<?php echo $addressid2; ?>">
@@ -440,7 +440,7 @@
 								<div class="form-group">
 									<label>Mobile Phone *</label>
 									<input type="text" class="form-control percentageslide" name="mobile_phone" id="mobile_phone" value="<?php echo $mobilephone; ?>">
-									<p>Note all SMS and OTP notifications will be sent to this mobile number above</p>
+									<p>Note: All SMS and OTP notifications will be sent to this mobile number above.</p>
 								</div>
 							</div>
 						</div>
@@ -455,7 +455,7 @@
 								<div class="form-group">
 									<label>Email Address *</label>
 									<input type="text" class="form-control" id="email" name="email" value="<?php echo $email; ?>" disabled>
-									<p>Note: this email will be used as your user profile name and all emails notifications will be sent to it</p>
+									<p>Note: This email will be used as your user profile name and all emails notifications will be sent to it.</p>
 								</div>
 							</div>
 						</div>
@@ -468,7 +468,7 @@
 				<div class="steps displaynone" data-id="3">
 					<form class="form3">
 						<h4 class="card-title">Billing Details</h4>
-						<p>All invocies genreated will used this billing information.</p>
+						<p>All invoices genreated, will be used this billing information.</p>
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
@@ -484,7 +484,7 @@
 							</div>
 							<div class="col-md-4">
 								<div class="form-group">
-									<label>Company Vat</label>
+									<label>Company VAT Number</label>
 									<input type="text" class="form-control" name="vat_no" value="<?php echo $vatno; ?>">
 								</div>
 							</div>                            
@@ -573,7 +573,7 @@
 										echo form_dropdown('company_details', $company, $companydetailsid,['id' => 'company_details', 'class'=>'form-control percentageslide']);
 									?>									
 								</div>
-								<p>If the Company does not appear on this listing please ask the company to Register with the PIRB. Once they have been approved and registered return to the listing and select the company</p>
+								<p>If the Company does not appear on this list please ask the company to register with the PIRB. Once they have been approved and registered, return to the list and select the company</p>
 							</div>
 						</div>
 						<div class="col-md-12 text-right">
@@ -585,7 +585,7 @@
 				<div class="steps displaynone" data-id="5">
 					<form class="form5">
 						<h4 class="card-title">Designation</h4>
-						<p>Applications for Master Plumber and or specialisations can only be done once your registration has been verified and approved. See Application for further designations/specializations</p>
+						<p>Applications for Master Plumber and/or specialisations can only be done once your registration has been verified and approved. See application for further designations/specialisations</p>
 						<p>Please select the relevant designation being applied for. <a style="margin-left: 10px;" href="javascript:void()">View the designation requirements</a></p>                    	
 						<?php 
 							foreach($designation1 as $k => $design){
@@ -593,15 +593,15 @@
 							}
 						?>
 						<div class="designationattachment displaynone">
-							<h4 class="card-title">Attachements</h4>
-							<p>Please Attach ALL your relevant trade certificates, course certificates, evidence that supports your registration application:</p>
+							<h4 class="card-title">Attachments</h4>
+							<p>Please attach ALL your relevant trade certificates, course certificates, evidence that supports your registration application:</p>
 							<table class="table table-bordered skilltable">
 								<tr>
 									<td>Date of Qualification/Skill Obtained</td>
 									<td>Certificate Number</td>
 									<td>Qualification Route</td>
 									<td>Training Provider</td>
-									<td>Attachement</td>
+									<td>Attachments</td>
 									<td>Action</td>
 								</tr>
 								<tr class="skillnotfound"><td colspan="6">No Record Found</td></tr>
@@ -943,7 +943,7 @@ $(function(){
 				required	: "Other nationality field is required.",
 			},
 			otheridcard : {
-				required	: "Alternate ID Card  field is required.",
+				required	: "Alternative ID Card  field is required.",
 			},
 			homelanguage : {
 				required	: "Home Language field is required.",

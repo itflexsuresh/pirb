@@ -14,7 +14,7 @@
 					}else{
 						$card_title = "Already Registered";
 						$header_title = "Individual Registration with the PIRB";
-						$header_title2 = "Register as a Individaul with the Plumbing Regsitration Board";
+						$header_title2 = "Register as an Individual with the Plumbing Registration Board";
 						$footer = "Register Plumber with the PIRB"; 
 						$footer2 = "Register your company with the PIRB";
 						$pointer_title = "About the Registration Process";
