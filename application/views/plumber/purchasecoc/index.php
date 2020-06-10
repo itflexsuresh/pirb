@@ -6,10 +6,10 @@ $mobile_phone 			= $username['mobile_phone'];
 $userid		 			= $username['id'];
 $log_coc 				= $logcoc;
 $VAT 					= $settings["vat_percentage"];
-$coc_purchase_limit   	= $username["coc_purchase_limit"];
+$coc_purchase_limit   	= $username["coc_purchase_limit"]=='' ? '0' : $username["coc_purchase_limit"];
 $electronic_coc_log   	= $username["coc_electronic"];
 
-$coc_counts 			= $coc_count['count'];
+$coc_counts 			= $coc_count['count']=='' ? '0' : $coc_count['count'];
 // echo "<pre>";
 // print_r($coc_counts);die;
 
@@ -21,6 +21,15 @@ $couriour 				= currencyconvertor($couriour["amount"]);
 $collectedbypirb 		= currencyconvertor($collectedbypirb["amount"]);
 
 $admin_allot 			= isset($userorderstock) ? $userorderstock : '';
+
+$regno 					= $username['registration_no'];
+if($regno==''){
+	$disabled 		= 'disabled="disabled"';
+	$disabledarray 	= ['disabled' => 'disabled'];
+}else{
+	$disabled 		= '';
+	$disabledarray 	= [];
+}
 ?>
 <?php
 $plumber_status = array(3, 4, 5);
@@ -101,7 +110,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 										?>
 										<div class="col-md-3">
 											<div class="custom-control custom-radio">
-												<input type="radio" id="<?php echo $key.'-'.$type; ?>" name="coc_type" <?php echo $check; ?> value="<?php echo $key; ?>" class="coc_type custom-control-input" onclick="typeclick();">
+												<input type="radio" id="<?php echo $key.'-'.$type; ?>" name="coc_type" <?php echo $check; ?> value="<?php echo $key; ?>" class="coc_type custom-control-input" onclick="typeclick();" <?php echo $disabled; ?>>
 												<label class="custom-control-label" for="<?php echo $key.'-'.$type; ?>"><?php echo $type; ?></label>
 											</div>
 										</div>
@@ -121,7 +130,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 									?>
 									<div class="col-md-3">
 										<div class="custom-control custom-radio">
-											<input type="radio" id="2-Paper_Based" checked="checked" name="coc_type" value="2" class="coc_type custom-control-input">
+											<input type="radio" id="2-Paper_Based" checked="checked" name="coc_type" value="2" class="coc_type custom-control-input" <?php echo $disabled; ?>>
 											<label class="custom-control-label" for="coc_type">Paper Based</label>
 										</div>
 									</div>
@@ -141,14 +150,14 @@ if (in_array($plumberstatus, $plumber_status)) {
 							<div class="form-group">
 								<label>Method Of Delivery</label>
 								<?php 
-								echo form_dropdown('delivery_card', $deliverycard, '', ['id' => 'delivery_card', 'class' => 'form-control delivery_card']); 
+								echo form_dropdown('delivery_card', $deliverycard, '', ['id' => 'delivery_card', 'class' => 'form-control delivery_card']+$disabledarray); 
 								?>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Number of COC's You wish to Purchase</label>
-								<input onchange="modifycost();" type="number" id="coc_purchase" class="form-control" min="1" value="1" name="coc_purchase" for="coc_purchase" max="<?php echo $coc_counts; ?>">
+								<input onchange="modifycost();" type="number" id="coc_purchase" class="form-control" min="1" value="1" name="coc_purchase" for="coc_purchase" max="<?php echo $coc_counts; ?>" <?php echo $disabled; ?>>
 							</div>
 						</div>
 						<div class="alert-msg">Your Purchase Limit is Reached</div>
@@ -184,7 +193,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 					
 					<h4 class="card-title add_top_value">Disclaimer</h4>
 					<div class="custom-control custom-checkbox">
-						<input type="checkbox" id="disclaimer" name="disclaimer" class="custom-control-input">
+						<input type="checkbox" id="disclaimer" name="disclaimer" class="custom-control-input" <?php echo $disabled; ?>>
 						<label class="custom-control-label" for="disclaimer">I declare and understand</label>
 					</div>
 					<p class="info_text">

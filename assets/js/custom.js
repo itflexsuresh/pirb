@@ -294,7 +294,8 @@ function citysuburb(data1=[], data2=[], data3=[]){
 
 	function city(data){
 		$('.'+cityappend).remove();
-
+		$('.'+suburbappend).remove();
+		
 		if(data.status=='1'){
 			var append = [];
 			$(data.result).each(function(i, v){

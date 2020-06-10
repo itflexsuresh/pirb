@@ -431,10 +431,11 @@ $(function(){
 					],
 					
 	};
-<?php if($closed_status!='closed'){ ?>
+	<?php if($closed_status!='closed'){ ?>
 	options['target']=	[11];
 	options['sort'] =	'0';
 	<?php } ?>
+	options['order'] = [[0, 'desc']];
 	ajaxdatatables('.datatables', options);
 
 	// $(".order_cancelled").hide();

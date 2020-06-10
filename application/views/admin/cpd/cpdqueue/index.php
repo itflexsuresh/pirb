@@ -241,13 +241,14 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 		}else{
 			var target = [];
 		}
-		console.log(column);
+		
 		var options = {
 			url 	: '<?php echo base_url()."admin/cpd/cpdtypesetup/DTCpdQueue"; ?>',
 			columns : column,
 			data 	: {pagestatus : pagestatus},
 			target 	: target,
-			sort 	: '0'
+			sort 	: '0',
+			order 	: [['0', 'desc']]
 		};
 		
 		ajaxdatatables('.datatables', options);
