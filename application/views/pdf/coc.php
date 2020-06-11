@@ -18,6 +18,11 @@
 		return $amount;
 	}
 	
+	function url_exists($url){
+	   $headers = get_headers($url);
+	   return stripos($headers[0],"200 OK") ? true : false;
+	}
+
 	$invoiceDate  = (date("d-m-Y", strtotime($rowData['invoice_date']))!='01-01-1970') ? date("d-m-Y", strtotime($rowData['invoice_date'])) : date("d-m-Y", strtotime($rowData['created_at']));
 	$VAT          = $settings["vat_percentage"];
 	$currency     = $this->config->item('currency');
@@ -73,7 +78,13 @@
 	$stringaarr 		= explode("@@@",$rowData['areas']);
 	$provincesettings 	= explode("@@@",$rowData2['provincesettings']);
 
-	$logo = (isset($extras['logo'])) ? base64conversion($extras['logo']) : base64conversion(base_url()."assets/images/pitrb-logo.png");
+	if(isset($extras['logo']) && url_exists($extras['logo'])){
+		$logo = base64conversion($extras['logo']);
+	}else{
+		$logo = base64conversion(base_url()."assets/images/pitrb-logo.png");
+	}
+	
+	$usertype = $rowData['usertype'];
 ?>
 
 
@@ -339,11 +350,11 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr><td><?php echo $rowData1['bank_name']; ?></td></tr>            
-								<tr><td><?php echo $rowData1['branch_code']; ?></td></tr>
-								<tr><td><?php echo $rowData1['account_name']; ?></td></tr>
-								<tr><td><?php echo $rowData1['account_no']; ?></td></tr>
-								<tr><td><?php echo $rowData1['account_type']; ?></td></tr>
+								<tr><td><?php echo ($usertype=='5') ? $rowData['bank_name'] : $rowData1['bank_name']; ?></td></tr>            
+								<tr><td><?php echo ($usertype=='5') ? $rowData['branch_code'] : $rowData1['branch_code']; ?></td></tr>
+								<tr><td><?php echo ($usertype=='5') ? $rowData['account_name'] : $rowData1['account_name']; ?></td></tr>
+								<tr><td><?php echo ($usertype=='5') ? $rowData['account_no'] : $rowData1['account_no']; ?></td></tr>
+								<tr><td><?php echo ($usertype=='5') ? $rowData['account_type'] : $rowData1['account_type']; ?></td></tr>
 							</tbody>
 						</table>
 					</td>
