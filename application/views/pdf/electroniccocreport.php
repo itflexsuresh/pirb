@@ -349,7 +349,7 @@ if($agreementid=='1'){
             <h3 style=" font-family:Helvetica; margin:9px 0px; font-size:16px; line-height: 16px; text-transform: uppercase; margin-bottom: 10px;">HOw COMPLIANCE CERTIFICATES MAY BE PURCHASED</h3>
             <p style=" font-family:Helvetica; font-size: 14px; line-height: 16px; padding: 0; margin: 2px 0;">Compliance Certificates may be purchased by licensed persons or authorized persons through any of the following methods:</p>
             <ul style=" font-family:Helvetica; font-size: 14px; line-height: 16px; color: #000; font-weight: 400; padding: 0; margin: 9px 0px;"> 
-              <li style=" font-family:Helvetica; padding-bottom: 8px;"><span style=" font-family:Helvetica; font-weight: 700;">Over the counter at the Plumbing Industry Registration Board offices.</span>Purchasers will need to present their current license card. Compliance certificates may only be given on-the spot where payment is by cash, credit card, bank transfer (confirmation required) and or bank cheque.</li>
+              <li style=" font-family:Helvetica; padding-bottom: 8px;"><span style=" font-family:Helvetica; font-weight: 700;">Over the counter at the Plumbing Industry Registration Board offices.</span>Purchasers will need to present their current license card. Compliance certificates may only be given “on-the spot where payment is by cash, credit card, bank transfer (confirmation required) and or bank cheque.</li>
               <li style=" font-family:Helvetica; padding-bottom: 8px;"><span style=" font-family:Helvetica; font-weight: 700; display: block; padding-bottom: 10px;">Online:</span>Purchasers should log on to www.pirb.co.za, click on Order COC and follow the prompts.</li>
               <li style=" font-family:Helvetica; padding-bottom: 8px;"><span style=" font-family:Helvetica; font-weight: 700;">Resellers (merchant): </span>The PIRB Licensed Plumber will need to present his/her current licensed card upon purchasing a compliance certificate from a participating reseller (merchant) outlet.  No third parties may purchase from a reseller unless preapproved and verified by the PIRB first.</li>
             </ul>
@@ -498,5 +498,3 @@ if($agreementid=='1'){
   </div>
   </body>
 </html>';
-
-
