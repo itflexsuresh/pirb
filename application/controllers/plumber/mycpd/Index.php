@@ -99,7 +99,7 @@ class index extends CC_Controller
 					</div>
 					';
 				}elseif($result['status']==3){
-					$statuz 	= 'Not Submited';
+					$statuz 	= 'Not Submitted';
 					$awardPts 	= '';
 					$action 	= '
 					<div class="table-action">

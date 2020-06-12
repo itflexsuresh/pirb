@@ -341,7 +341,9 @@ class Cpdtypesetup extends CC_Controller
 				}
 
 				if ($result['status']==0) {
-					$statuz = '';
+					$statuz = 'Pending';
+				}elseif ($result['status']==3) {
+					$statuz = 'Not Submitted';
 				}else{
 					$statuz = $this->config->item('approvalstatus')[$result['status']];
 				}
