@@ -423,7 +423,7 @@ class Plumber_Model extends CC_Model
 		
 		$compileresult = implode(' UNION ', $compileresult);
 		if(isset($requestdata['plumbergroup'])) $query = "select group_concat(point order by date separator ',') as point, userid from (".$compileresult.") as data where 1=1 group by userid order by date asc";
-		elseif(isset($requestdata['province']) || isset($requestdata['city'])) $query = "select sum(point) as point, name, image, userid from (".$compileresult.") as data where 1=1 group by userid order by sum(point) desc";
+		elseif(isset($requestdata['overall']) || isset($requestdata['province'])) $query = "select sum(point) as point, name, image, userid from (".$compileresult.") as data where 1=1 group by userid order by sum(point) desc";
 		else $query = "select * from (".$compileresult.") as data where 1=1 ";
 		
 		if(isset($requestdata['limit'])) $query .= ' limit '.$requestdata['limit'].' ';

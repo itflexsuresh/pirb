@@ -30,17 +30,17 @@ class Index extends CC_Controller
 		$auditorratio								= $this->Auditor_Model->getAuditorRatio('row', ['userid' => $id]);
 		$pagedata['auditorratio']					= ($auditorratio) ? $auditorratio['audit'].'%' : '0%';
 		
-		$pagedata['myprovinceperformancestatus'] 	= $this->userperformancestatus(['province' => $userdata['province']]);
 		$pagedata['performancestatus'] 				= $this->userperformancestatus();
-		$pagedata['mycityperformancestatus'] 		= $this->userperformancestatus(['city' => $userdata['city']]);
-		$pagedata['provinceperformancestatus'] 		= $this->userperformancestatus(['province' => $userdata['province'], 'limit' => '3']);
-		$pagedata['cityperformancestatus'] 			= $this->userperformancestatus(['city' => $userdata['city'], 'limit' => '3']);
+		$pagedata['overallperformancestatus'] 		= $this->userperformancestatus(['overall' => '1']);
+		$pagedata['overallperformancestatuslimit'] 	= $this->userperformancestatus(['overall' => '1', 'limit' => '3']);
+		$pagedata['provinceperformancestatus'] 		= $this->userperformancestatus(['province' => $userdata['province']]);
+		$pagedata['provinceperformancestatuslimit'] = $this->userperformancestatus(['province' => $userdata['province'], 'limit' => '3']);
 		
 		$friends 									= $this->Friends_Model->getList('all', ['userid' => $id, 'fromto' => $id, 'status' => ['1'], 'limit' => '10']);
 		$friendsarray								= [];
 		if(count($friends) > 0){
 			foreach($friends as $friend){
-				$friendperformance = $this->userperformancestatus(['userid' => $friend['userid']]);
+				$friendperformance = $this->userperformancestatus(['overall' => '1', 'userid' => $friend['userid']]);
 				$friendsarray[] =  $friend+['rank' => $friendperformance];
 			}
 			

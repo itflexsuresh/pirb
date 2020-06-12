@@ -75,11 +75,11 @@
 							<p class="per_scr_box"><?php echo $performancestatus; ?></p>
 							<div class="my_Rank">
 								<p class="per_coun_hed">My Country Ranking</p>
-								<p class="cus_co_rank"><?php echo $myprovinceperformancestatus; ?></p>
+								<p class="cus_co_rank"><?php echo $overallperformancestatus; ?></p>
 							</div>
 							<div class="my_Rank">
 								<p class="per_coun_hed">My Regional  Ranking</p>
-								<p class="cus_co_rank"><?php echo $mycityperformancestatus; ?></p>
+								<p class="cus_co_rank"><?php echo $provinceperformancestatus; ?></p>
 							</div>
 						</div>
 					</div>
@@ -98,7 +98,7 @@
 									<p class="reg_he">Current Top 3 Regional Ranking (Country)</p>
 									<div class="row reg_grap">
 										<?php 
-											foreach($provinceperformancestatus as $key => $performance){ 
+											foreach($overallperformancestatuslimit as $key => $performance){ 
 												$userid					= $performance['userid'];
 												$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/';
 												$file2 					= isset($performance['image']) ? $performance['image'] : '';
@@ -126,10 +126,10 @@
 							</div>
 							<div class="col-md-6 cus_reg_sec">
 								<div class="cus_regt">
-									<p class="reg_he">Current Top 3 Regional Ranking (Country)</p>
+									<p class="reg_he">Current Top 3 Regional Ranking (Province)</p>
 									<div class="row reg_grap">
 										<?php 
-											foreach($cityperformancestatus as $key => $performance){ 
+											foreach($provinceperformancestatuslimit as $key => $performance){ 
 												$userid					= $performance['userid'];
 												$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/';
 												$file2 					= isset($performance['image']) ? $performance['image'] : '';

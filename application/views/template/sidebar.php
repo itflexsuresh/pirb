@@ -201,10 +201,10 @@ if(count($permission) > 0){
 						</div>
 						<div class="col-sm-5 col-md-5 col-lg-5 tab_left">  
 							<div class="tab_top">
-								<p class="cus_cou"> Country Ranking: </p><span class="coun_num"><?php echo $provinceperformancestatus; ?></span>
+								<p class="cus_cou"> Country Ranking: </p><span class="coun_num"><?php echo $overallperformancestatus; ?></span>
 							</div>
 							<div class="tab_bot">
-								<p class="cus_reg_tab"> Regional Ranking: </p> <span class="reg_num"><?php echo $cityperformancestatus; ?></span>
+								<p class="cus_reg_tab"> Regional Ranking: </p> <span class="reg_num"><?php echo $provinceperformancestatus; ?></span>
 							</div>
 						</div>
 					</div>

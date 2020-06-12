@@ -55,8 +55,8 @@ class CC_Controller extends CI_Controller
 		$data['userdata'] 					= $this->getUserDetails();
 		$data['permission'] 				= ($data['userdata']['type']=='2') ? $this->getUserPermission() : [];
 		$data['performancestatus'] 			= ($data['userdata']['type']=='3') ? $this->userperformancestatus() : '';
+		$data['overallperformancestatus'] 	= ($data['userdata']['type']=='3') ? $this->userperformancestatus(['overall' => '1']) : '';
 		$data['provinceperformancestatus'] 	= ($data['userdata']['type']=='3') ? $this->userperformancestatus(['province' => $data['userdata']['province']]) : '';
-		$data['cityperformancestatus'] 		= ($data['userdata']['type']=='3') ? $this->userperformancestatus(['city' => $data['userdata']['city']]) : '';
 		
 		$data['sidebar'] 		= $this->load->view('template/sidebar', $data, true);
 		$this->load->view('template/layout2', $data);
@@ -1150,7 +1150,7 @@ class CC_Controller extends CI_Controller
 			redirect('plumber/mycpd/index'); 
 		}		
 		
-		$pagedata['mycpd'] 							= $this->userperformancestatus(['performancestatus' => '1', 'auditorstatement' => '1']);
+		$pagedata['mycpd'] 			= $this->userperformancestatus(['performancestatus' => '1', 'auditorstatement' => '1']);
 		
 		$userdata1					= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber']);
 		$pagedata['notification'] 	= $this->getNotification();
@@ -1184,8 +1184,12 @@ class CC_Controller extends CI_Controller
 		$results = $this->Plumber_Model->performancestatus('all', $extradata);
 		
 		if(isset($data) && count($data) > 0){
-			if(isset($data['limit'])) return $results;
-			else return array_search($userid, array_column($results, 'userid'))+1;
+			if(isset($data['limit'])){
+				return $results;
+			}else{
+				$useridsearch = array_search($userid, array_column($results, 'userid'));
+				return ($useridsearch !== false) ? $useridsearch+1 : 0;
+			}
 		}else{
 			return count($results) ? array_sum(array_column($results, 'point')) : '0';
 		}
