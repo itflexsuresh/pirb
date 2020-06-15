@@ -107,7 +107,8 @@ class Index extends CC_Controller
 			$requestData1['created_at']		= 	date('Y-m-d H:i:s');
 			$requestData1['inv_type']		= 	1;
 			$requestData1['coc_type']		= 	$requestData['coc_type'];
-			
+			if($requestData['coc_type']=='1') $requestData1['order_status'] = '1';
+				
 			$this->db->insert('invoice',$requestData1);
 			$inv_id 		= $this->db->insert_id();
 

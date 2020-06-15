@@ -522,6 +522,7 @@ $(function(){
 	fileupload(["#nc_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.ncfileappend', filepath, pdfimg], 'multiple');
 	subtypereportinglist(['#nc_installationtype','#nc_subtype','#nc_statement'], ['', ''], noncompliancedata);
 	inputmask('#contact_no, #alternate_no', 1);
+	select2('#province, #city, #suburb');
 	
 	var noncompliancelists = $.parseJSON('<?php echo addslashes(json_encode($noncompliance)); ?>');
 	if(noncompliancelists.length > 0){

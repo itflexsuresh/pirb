@@ -8,7 +8,8 @@ class Accounts_Model extends CC_Model
 			t1.*,
         	t2.inv_id as inv_id2, t2.total_due, t2.quantity, t2.cost_value, t2.delivery_cost,
 			t3.reg_no, t3.id, t3.name name, t3.surname surname, t3.company_name company_name, t3.vat_no vat_no, t3.email2, t3.home_phone,
-			t4.type,t4.address,t4.province, t4.suburb, t4.city,t5.registration_no
+			t4.type,t4.address,t4.province, t4.suburb, t4.city,t5.registration_no,
+			c1.name as orderstatusname
 		');
         $this->db->from('invoice t1');
         $this->db->join('coc_orders t2','t2.inv_id = t1.inv_id', 'left');
@@ -16,6 +17,7 @@ class Accounts_Model extends CC_Model
         $this->db->join('users_address t4', 't4.user_id = t1.user_id AND t4.type=1', 'left');
 		$this->db->join('users_plumber t5', 't5.user_id = t1.user_id', 'left');
 		$this->db->join('users u', 'u.id=t1.user_id', 'inner');
+		$this->db->join('custom c1', 'c1.c_id=t1.order_status and c1.type="7"', 'left');
 		$this->db->where('u.type', '3');
 		
 		if(isset($requestdata['id'])) 		$this->db->where('t1.inv_id', $requestdata['id']);
@@ -28,7 +30,7 @@ class Accounts_Model extends CC_Model
 			if(isset($requestdata['page'])){
 				$page = $requestdata['page'];
 				if($page=='plumberaccount'){
-					$column = ['t1.description', 't1.inv_id', 't1.created_at', 't2.total_due', 't1.status'];
+					$column = ['t1.description', 't1.inv_id', 't1.created_at', 't2.total_due', 't1.status', 'c1.name'];
 				}
 			}else{
 				$column = ['inv_id', 'created_at', 'name', 'registration_no', 'description', 'total_cost', 'internal_inv'];

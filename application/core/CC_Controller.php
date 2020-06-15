@@ -829,7 +829,7 @@ class CC_Controller extends CI_Controller
 			];
 		}
 		
-		$data['plugins']				= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker', 'inputmask'];
+		$data['plugins']				= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'datepicker', 'inputmask', 'select2'];
 		$data['content'] 				= $this->load->view('common/logcocstatement', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$this->layout2($data);

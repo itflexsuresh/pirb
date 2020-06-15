@@ -75,6 +75,7 @@ class Index extends CC_Controller
 					$userdata1				= 	$this->Plumber_Model->getList('row', ['id' => $requestData['user_id']], ['users', 'usersdetail']);
 					
 					if ($inv_id) {
+						$this->db->update('invoice', ['order_status' => '1'], ['inv_id' => $inv_id['inv_id']]);
 						
 						$invoicedata = $this->db->select('*')->from('invoice')->where(['inv_id' => $inv_id['inv_id']])->get()->row_array();
 						if($invoicedata['email_track']!='0'){

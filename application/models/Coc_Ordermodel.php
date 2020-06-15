@@ -106,7 +106,6 @@ class Coc_Ordermodel extends CC_Model
 		if(isset($data['email_track'])) 	$requestdata['email_track']  	= $data['email_track'];
 		if(isset($data['sms_track'])) 		$requestdata['sms_track']  		= $data['sms_track'];
 
-
 		if(isset($requestdata)){	
 
 			if(isset($data['total_due'])) unset($requestdata['total_cost']);
@@ -117,13 +116,14 @@ class Coc_Ordermodel extends CC_Model
 			if(isset($data['delivery_cost'])) 	$requestdata1['delivery_cost'] 	= $data['delivery_cost'];
 			if(isset($data['vat'])) 		    $requestdata1['vat'] 			= $data['vat'];
 			if(isset($data['total_due'])) 		$requestdata1['total_due'] 		= $data['total_due'];
-			$requestdata1['admin_status'] 	= (isset($data['admin_status']) && $data['admin_status']='on') ? '2' : '0';
+			$requestdata1['admin_status'] 	= (isset($data['admin_status']) && $data['admin_status']=='on') ? '2' : '0';
 			if(isset($data['order_id']))		$requestdata1['id'] 				= $data['order_id'];	
 			if(isset($data['email_track'])) 	unset($requestdata1['email_track']);
 			if(isset($data['sms_track'])) 		unset($requestdata1['sms_track']);
 			
 			if(isset($requestdata['inv_id']) && $requestdata['inv_id']!=''){
 				
+				if(isset($data['admin_status']) && $data['admin_status']=='on') $requestdata['order_status']  = '2';
 				$result1 = $this->db->update('invoice', $requestdata,['inv_id'=>$requestdata['inv_id']]);				
 		
 				$result = $this->db->update('coc_orders', $requestdata1,['id'=>$requestdata1['id']]);

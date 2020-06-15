@@ -105,7 +105,7 @@ if(isset($result) && $result){
 							{ "data": "orderstatus" },
 							{ "data": "action" }
 						],
-			target : [5, 6],
+			target : [6],
 			sort : '0'
 		};
 		

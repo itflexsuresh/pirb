@@ -1064,10 +1064,6 @@ span.select2-selection {
     height: auto !important;
 }
 
-.select2-selection__rendered {
-    padding: 9px 10px 9px 20px;
-}
-
 .select2-container--default .select2-selection--single .select2-selection__arrow {
     top: 6px !important;
     right: 7px !important;
@@ -2941,4 +2937,14 @@ span.ver_name1 {
 
 .select2-results .select2-disabled,  .select2-results__option[aria-disabled=true] { 
     display: none;
+}
+
+.select2-selection__rendered {
+    line-height: 47px !important;
+}
+.select2-container .select2-selection--single {
+    height: 47px !important;
+}
+.select2-selection__arrow {
+    height: 34px !important;
 }
