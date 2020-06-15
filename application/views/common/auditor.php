@@ -521,7 +521,7 @@
 		citysuburb(['#province','#city', '#suburb'], ['<?php echo $city; ?>', '<?php echo $suburb; ?>']);
 		inputmask('#work_phone, #mobile_phone', 1);
 
-
+		vatvendor();
 
 		validation(
 			'.form',
@@ -741,11 +741,23 @@
         $('#area_table').append(append);
         areacount++;
     
-		}
+	}
 
-    $(document).on('click', '.area_remove', function(){
+	$(document).on('click', '.area_remove', function(){
     	$(this).parent().parent().remove();
     })
+	
+    $(document).on('click', '#vatvendor', function(){
+    	vatvendor();
+    })
+	
+	function vatvendor(){
+		if($('#vatvendor').is(':checked')){
+			$('input[name="reg_no"]').removeAttr('disabled');
+		}else{
+			$('input[name="reg_no"]').val('').attr('disabled', 'disabled');
+		}
+	}
 </script>
 
 <script>
@@ -828,5 +840,7 @@
 			)
 			
 		});
+		
+		
 	}
 </script>
