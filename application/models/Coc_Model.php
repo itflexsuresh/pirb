@@ -203,7 +203,7 @@ class Coc_Model extends CC_Model
 
 
         $query=$this->db->select('t1.*,t1.status,t1.created_at,
-        	t2.inv_id, t2.total_due, t2.quantity, t2.cost_value,t2.vat, t2.delivery_cost, t2.total_due, t3.reg_no, t3.id, t3.name username, t3.surname surname, t3.company_name company_name, t3.vat_no vat_no, t3.email2, t3.home_phone, t3.file2, t4.address, t4.suburb, t4.city,t4.province, t5.id, t5.name as province,t6.id, t6.province_id, t6.name as city,t7.id, t7.province_id, t7.city_id, t7.name as suburb,t8.registration_no, t8.designation,ub.bank_name, ub.branch_code, ub.account_name, ub.account_no, ub.account_type, t9.type as usertype');
+        	t2.inv_id, t2.total_due, t2.quantity, t2.cost_value,t2.vat, t2.delivery_cost, t2.total_due, t3.reg_no, t3.id, t3.name username, t3.surname surname, t3.company_name company_name, t3.vat_no vat_no, t3.email2, t3.home_phone, t3.file2, t4.address, t4.suburb, t4.city,t4.province,t4.postal_code, t5.id, t5.name as province,t6.id, t6.province_id, t6.name as city,t7.id, t7.province_id, t7.city_id, t7.name as suburb,t8.registration_no, t8.designation,ub.bank_name, ub.branch_code, ub.account_name, ub.account_no, ub.account_type, t9.type as usertype');
 		        $this->db->select('
 			group_concat(concat_ws("@@@", t4.id, t4.suburb, t4.city,t4.province, t5.name, t6.name, t7.name) separator "@-@") as areas'
 		);

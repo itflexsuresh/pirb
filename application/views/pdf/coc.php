@@ -192,6 +192,7 @@
 									<tr><td><?php echo $rowData['suburb']; ?></td></tr>
 									<tr><td><?php echo $rowData['city'] ?></td></tr>
 									<tr><td><?php echo $rowData['province']; ?></td></tr>
+									<tr><td><?php echo $rowData['postal_code']; ?></td></tr>
 									<tr><td><?php echo $rowData['home_phone']; ?></td></tr>
 									<tr><td><?php echo $rowData['email2']; ?></td></tr>
 								<?php }else{ ?>
