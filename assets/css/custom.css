@@ -2187,13 +2187,13 @@ aside.left-sidebar {
 p.cus_reg {
     margin-bottom: 0;
     font-size: 11px;
-    font-weight: 800;
+    font-weight: 100;
 }
 
 p.cus_ren {
     margin-bottom: 0;
     font-size: 11px;
-    font-weight: 800;
+    font-weight: 100;
 }
 
 .reg_sec {
@@ -2418,6 +2418,7 @@ a.side_img {
         height: 358px;
         margin: 20px 0px;
         height: 400px;
+		background-color: #fff;
 }
 
 p.cus_view_cpd {
@@ -2444,6 +2445,7 @@ div#mycocs {
     border-radius: 3px;
     margin: 20px 0px;
     height: 400px;
+	background-color: #fff;
 }
 
 p.cus_my_coc{
@@ -2469,11 +2471,12 @@ margin: 14px 0px;
 position: relative;
     top: 90px;}
 
-    .my_audit_section_cus {
+.my_audit_section_cus {
     box-shadow: 4px 3px 5px 3px #c5c2c2;
     padding: 0;
     margin: 10px 12px;
     max-width: 97%;
+	background-color: #fff;
 }
 
 p.rat_box {
@@ -2500,6 +2503,7 @@ p.rat_box {
 .cus_regt {
     box-shadow: 4px 3px 5px 3px #c5c2c2;
     padding: 10px 7px;
+	background-color: #fff;
 }
 
 p.reg_he {
@@ -2522,6 +2526,7 @@ p.reg_he {
     box-shadow: 4px 3px 5px 3px #c5c2c2;
     border-radius: 3px;
     margin: 20px 0px;
+	background-color: #fff;
 }
 
 p.perf_hed {
@@ -2682,8 +2687,8 @@ ul.custom_friend_list li {
 }
 
 img.frd_prof {
-    width: 25%;
-    height: 60px;
+    width: 22%;	
+    height: 48px;
     display: inline-block;
 }
 
@@ -2731,6 +2736,7 @@ p.frd_head {
     margin-top: 20px;
     box-shadow: 4px 3px 5px 3px #c5c2c2;
     padding: 10px 7px;
+	background-color: #fff;
 }
 
 
@@ -2763,6 +2769,7 @@ p.frd_num {
     padding: 10px 7px;
     margin-top: 20px;
     height: 157px;
+	background-color: #fff;
 }
 
 .cus_msg p {
@@ -2947,4 +2954,29 @@ span.ver_name1 {
 }
 .select2-selection__arrow {
     height: 34px !important;
+}
+
+.row.page-titles {	
+    padding: 10px !important;	
+    margin-bottom: 18px !important;	
+}	
+.card-body {	
+    max-width: 1100px;	
+}	
+p.frd_rank {	
+    text-align: right;	
+}	
+.cus_frnd {	
+    padding: 5px;	
+}	
+.cus_frnd:hover p.frd_name {	
+    color: #fff;	
+}	
+.perform_graph {	
+    width: 50%;	
+    margin: 0 auto;	
+}	
+.perform_graph img {	
+    width: 100%;	
+    height: auto;	
 }

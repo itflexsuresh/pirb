@@ -468,7 +468,7 @@
 				<div class="steps displaynone" data-id="3">
 					<form class="form3">
 						<h4 class="card-title">Billing Details</h4>
-						<p>All invoices genreated, will be used this billing information.</p>
+						<p>All invoices generated, will be used this billing information.</p>
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
@@ -585,7 +585,7 @@
 				<div class="steps displaynone" data-id="5">
 					<form class="form5">
 						<h4 class="card-title">Designation</h4>
-						<p>Applications for Master Plumber and/or specialisations can only be done once your registration has been verified and approved. See application for further designations/specialisations</p>
+						<p>Applications for Master Plumber and/or specialisations can only be done once your registration has been verified and approved.</p>
 						<p>Please select the relevant designation being applied for. <a style="margin-left: 10px;" href="javascript:void()">View the designation requirements</a></p>                    	
 						<?php 
 							foreach($designation1 as $k => $design){

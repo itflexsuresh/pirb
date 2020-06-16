@@ -57,20 +57,21 @@
 		$explodefile2 	= explode('.', $image);
 		$extfile2 		= array_pop($explodefile2);
 		$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath1;
+		$photoidurl 	= $filepath1;
 	}else{
 		$photoidimg 	= $profileimg;
+		$photoidurl 	= 'javascript:void(0);';
 	}	
 
-		if($complogo!=''){
+	if($complogo!=''){
 		$explodefile21 	= explode('.', $complogo);
 		$extfile21 		= array_pop($explodefile21);
 		$photoidimg1 	= (in_array($extfile21, ['pdf', 'tiff'])) ? $pdfimg : $filepath2;
-		//print_r($photoidimg1);die;
+		$photoidurl1 	= $filepath2;
 	}else{
 		$photoidimg1 	= $profileimg;
+		$photoidurl1 	= 'javascript:void(0);';
 	}
-
-//print_r($photoidimg1);die;
 
 ?>
 
@@ -97,7 +98,7 @@
 
 					<!-- <h4 class="card-title">My Profile</h4> -->
 					<div class="row">
-					<?php
+						<?php
 									$z = 1;
 									$availability = '';
 									$nonavailability = '';		
@@ -120,7 +121,7 @@
 									$nonavailability = '';	
 										$z++;
 									}
-									?>
+							?>
 							<div class="col-md-4" style="vertical-align: top; margin-top: -17px;">
 							<div class="form-group">	
 								<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">	
@@ -157,7 +158,7 @@
 									<div class="form-group">
 										<label>Photo</label>
 										<div>
-											<img src="<?php echo $photoidimg; ?>" class="auditor_photo" width="100">
+											<a href="<?php echo $photoidurl; ?>" target="_blank"><img src="<?php echo $photoidimg; ?>" class="auditor_photo" width="100"></a>
 										</div>
 										<input type="file" class="auditor_image">
 										<input type="hidden" name="file1" class="auditor_picture" value="<?php echo $image; ?>">
@@ -264,7 +265,7 @@
 							<div class="form-group">
 								<label>Company Logo</label>
 								<div>
-									<img src="<?php echo $photoidimg1; ?>" class="comp_logo" width="100">
+									<a href="<?php echo $photoidurl1; ?>" target="_blank"><img src="<?php echo $photoidimg1; ?>" class="comp_logo" width="100"></a>
 								</div>
 								<input type="file" class="comp_emb">
 								<input type="hidden" name="file2" class="comp_photo" value="<?php echo $complogo; ?>">
@@ -753,9 +754,9 @@
 	
 	function vatvendor(){
 		if($('#vatvendor').is(':checked')){
-			$('input[name="reg_no"]').removeAttr('disabled');
+			$('input[name="vat_no"]').removeAttr('disabled');
 		}else{
-			$('input[name="reg_no"]').val('').attr('disabled', 'disabled');
+			$('input[name="vat_no"]').val('').attr('disabled', 'disabled');
 		}
 	}
 </script>

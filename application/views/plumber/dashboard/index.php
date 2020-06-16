@@ -70,7 +70,9 @@
 						<div class="cus_perform"> 
 							<p class="perf_hed">My Performance Status</p>
 							<div id="performancechart" style="width:100%; height:300px;"></div>
-							<i class="fa fa-line-chart" aria-hidden="true"></i>
+							<div class="perform_graph">
+                             <img src="<?php echo base_url().'assets/images/graph_icon.png'; ?>">
+                            </div>
 							<p class="per_scr_hed">My Performance Score</p>	
 							<p class="per_scr_box"><?php echo $performancestatus; ?></p>
 							<div class="my_Rank">
