@@ -659,7 +659,7 @@ class Index extends CC_Controller
 										'invoicedate' 	=> 	date('d-m-Y', strtotime($result['created_at'])),
 										'invoicevalue' 	=> 	$result['total_due'],
 										'invoicestatus' => 	$invoicestatus,
-										'orderstatus' 	=> 	'',			
+										'orderstatus' 	=> 	$result['orderstatusname'],		
 							     		'action'	    => 	'
 																<div class="col-md-6">
 																	<a  href="' .base_url().'assets/inv_pdf/'.$result['inv_id'].'.pdf" target="_blank" ><img src="'.base_url().'assets/images/pdf.png" height="50" width="50"></a>
