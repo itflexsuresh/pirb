@@ -246,7 +246,18 @@ function base64conversion($path){
 					<tbody>
 						<?php foreach($reviewlist as $list){ ?>
 							<tr>
-								<td style="font-family:Helvetica;" class="<?php echo isset($reviewtableclass[$list['reviewtype']]) ? $reviewtableclass[$list['reviewtype']] : ''; ?>"><?php echo isset($this->config->item('reviewtype')[$list['reviewtype']]) ? $this->config->item('reviewtype')[$list['reviewtype']] : ''; ?></td>
+								<td style="font-family:Helvetica;" class="<?php echo isset($reviewtableclass[$list['reviewtype']]) ? $reviewtableclass[$list['reviewtype']] : ''; ?>">
+									<?php echo isset($this->config->item('reviewtype')[$list['reviewtype']]) ? $this->config->item('reviewtype')[$list['reviewtype']] : ''; ?>
+									<?php 
+										if($list['reviewtype']=='1'){
+											if($list['status']=='0'){
+												echo '<p>(Incomplete)</p>';
+											}else{
+												echo '<p>(Complete)</p>';
+											}
+										}
+									?>
+								</td>
 								<td style="font-family:Helvetica;"><?php echo $list['statementname']; ?></td>
 								<td style="font-family:Helvetica;"><?php echo $list['reference']; ?></td>
 								<td style="font-family:Helvetica;"><?php echo $list['comments']; ?></td>
