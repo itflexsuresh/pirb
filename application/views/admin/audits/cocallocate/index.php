@@ -411,6 +411,7 @@
 							var autoresult 		= userautocomplete([], ['', 5, {suburb : v.suburbname,city : v.cityname,province : v.provincename}], '', 1);
 							$(autoresult).each(function(ii, vv){
 								$(vv).each(function(index, values){
+									if(values.sort=='0') return false;
 									postauditorname = values.name;
 									postauditorid 	= values.id;
 									openaudit 		= values.openaudit;

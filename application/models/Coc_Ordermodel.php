@@ -306,10 +306,12 @@ class Coc_Ordermodel extends CC_Model
 			$result		= [];
 			
 			foreach($results as $k => $res){
-				$result[$k] = 0;
+				$result[$k] 			= '0';
+				$results[$k]['sort'] 	= '0';
 				
 				if($res['province']==$postData['province'] && $res['city']==$postData['city'] && $res['suburb']==$postData['suburb']){
-					$result[$k] = '1';
+					$result[$k] 			= '1';
+					$results[$k]['sort'] 	= '1';
 					continue;
 				}
 				
@@ -327,7 +329,8 @@ class Coc_Ordermodel extends CC_Model
 				}
 				
 				if($checklist=='1'){
-					$result[$k] = '1';
+					$result[$k] 			= '1';
+					$results[$k]['sort'] 	= '1';
 					continue;
 				}
 			}
