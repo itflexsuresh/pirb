@@ -49,7 +49,7 @@ class Index extends CC_Controller
 		
 		$pagedata['friends'] 						= $friendsarray;
 		
-		$data['plugins']			= ['echarts', 'knob'];
+		$data['plugins']			= ['echarts', 'knob', 'zingchart'];
 		$data['content'] 			= $this->load->view('plumber/dashboard/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}

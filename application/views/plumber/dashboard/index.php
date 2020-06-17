@@ -210,7 +210,7 @@
 						</div>
 					</div>
 				</div>
-				
+				<div id="myCharts"></div>
 			</div>
 		</div>
 	</div>
@@ -255,5 +255,6 @@
 				
 			}
 		);
+		//meterchart('performancechart', performancestatus);
 	});
 </script>

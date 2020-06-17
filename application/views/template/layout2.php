@@ -125,6 +125,9 @@
 			if(in_array('knob', $plugins)){ 
 				echo '<script src="'.base_url().'assets/plugins/knob/jquery.knob.js"></script>';
 			}
+			if(in_array('zingchart', $plugins)){ 
+				echo '<script src="'.base_url().'assets/plugins/zingchart/zingchart.min.js"></script>';
+			}
 		?>
 		
 		<script src="<?php echo base_url().'assets/js/custom.min.js'; ?>"></script>

@@ -1071,6 +1071,61 @@ function gaugechart(selector, options){
 	});
 }
 
+
+function meterchart(selector, value){
+	
+	var options = {
+		type: "gauge",
+		'scale-r': {
+			aperture:200,
+			values: "0:100:25",
+			center: {
+				size:5,
+				'background-color': "#009efb #f62d51",
+				'border-color': "none"
+			},
+			ring: {
+				size:10,
+				rules: [
+					{
+						rule: "%v >= 0 && %v <= 25",
+						'background-color': "red"
+					},
+					{
+						rule: "%v >= 25 && %v <= 50",
+						'background-color': "orange"
+					},
+					{
+						rule: "%v >= 50 && %v <= 75",
+						'background-color': "black"
+					},
+					{
+						rule: "%v >= 75 && %v <= 100",
+						'background-color': "green"
+					}
+				]
+			},
+			guide: { 
+				'background-color': "#009efb #f62d51",
+				alpha:0.2
+			}
+		},
+		plot: {
+			csize: "5%",
+			size: "100%",
+			'background-color': "#000000"
+		},
+		series: [
+			{ values: [value]}
+		]
+	};
+	
+	zingchart.render({
+		id		: selector,
+		data	: options
+	});
+}
+
 function currencyconvertor(currency){
 	amount 	= (Math.floor(currency*100)/100).toFixed(2);
 	lastchr	= amount[amount.length-1];
