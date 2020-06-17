@@ -187,7 +187,7 @@
 					<div class="row add_top_value">
 						<table class="table table-bordered table-striped datatables fullwidth">
 							<tr>
-								<th colspan="2" class="table_title">Type of Installation Carried Out by <?php echo $designation2[$userdata['designation']]; ?><span>(Clearly tick the appropriate Installation Category Code and complete the installation details below)</span></th>
+								<th colspan="2" class="table_title">Type of Installation Carried Out by Licensed Plumber<span>(Clearly tick the appropriate Installation Category Code and complete the installation details below)</span></th>
 								<th style="text-align: center;">Code</th>
 								<th style="text-align: center;">Tick</th>
 							</tr>
@@ -212,7 +212,7 @@
 						<?php if(count($specialisations) > 0){ ?>
 							<table class="table table-bordered table-striped datatables fullwidth add_top_value_v2">
 								<tr>
-									<th colspan="2" class="table_title">Specialisations: To be Carried Out by <?php echo $designation2[$userdata['designation']]; ?> Only Registered to do the Specialised work<span>(Clearly tick the appropriate Installation Category Code and complete the installation details below)</span></th>
+									<th colspan="2" class="table_title">Specialisations: To be Carried Out by Licensed Plumber Only Registered to do the Specialised work<span>(Clearly tick the appropriate Installation Category Code and complete the installation details below)</span></th>
 									<th style="text-align: center;">Code</th>
 									<th style="text-align: center;">Tick</th>
 								</tr>
