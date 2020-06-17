@@ -2780,7 +2780,7 @@ p.frd_num {
 }
 
 span.ver_name3 {
-   left: -30px;
+   left: -34px;
    transform: rotate(-90deg) !important;
    top: 45px !important;
 }
@@ -2801,7 +2801,7 @@ img.bar_profil {
 }
 
 span.ver_name2 {
-  left: -30px !important;
+  left: -34px !important;
    top: 90px !important;
    transform: rotate(-90deg) !important;
 }
@@ -2811,7 +2811,7 @@ span.ver_name2 {
 }
 
 span.ver_name1 {
-    left: -30px !important;
+    left: -34px !important;
    transform: rotate(-90deg) !important;
    top: 150px !important;
 }
