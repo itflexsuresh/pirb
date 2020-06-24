@@ -12,6 +12,19 @@ class Index extends CC_Controller
 	
 	public function index()
 	{
+		if($this->input->post()){
+			$requestData 	=  $this->input->post();
+			$data 			=  $this->Auditor_Model->actionReviewRating($requestData);
+						
+			if($data){
+				$this->session->set_flashdata('success', 'Successfully Rated.');
+			}else{
+				$this->session->set_flashdata('error', 'Try Later.');
+			}
+			
+			redirect('plumber/auditstatement/index'); 
+		}
+		
 		$id 										= $this->getUserID();
 		$history									= $this->Auditor_Model->getReviewHistoryCount(['plumberid' => $id]);
 		$pagedata['auditcoc'] 						= $history['total'];
@@ -21,7 +34,7 @@ class Index extends CC_Controller
 		
 		
 		$pagedata['notification'] 	= $this->getNotification();
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'knob'];
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'knob', 'rating'];
 		$data['content'] 			= $this->load->view('plumber/auditstatement/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
@@ -32,7 +45,6 @@ class Index extends CC_Controller
 		$post 			= $this->input->post();
 		$totalcount 	= $this->Coc_Model->getCOCList('count', ['coc_status' => ['2'], 'user_id' => $userid, 'noaudit' => '']+$post);
 		$results 		= $this->Coc_Model->getCOCList('all', ['coc_status' => ['2'], 'user_id' => $userid, 'noaudit' => '']+$post);	
-		$settings 		= $this->Systemsettings_Model->getList('row');
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
@@ -40,15 +52,22 @@ class Index extends CC_Controller
 				$auditstatus 	= isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';
 				$action 		= '<a href="'.base_url().'plumber/auditstatement/index/view/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
 				
-				$review 		= $this->Auditor_Model->getReviewList('row', ['coc_id' => $result['id'], 'reviewtype' => '1', 'status' => '0']);
-				$refixdate 		= ($review) ? date('d-m-Y', strtotime($review['created_at'].' +'.$settings['refix_period'].'days')) : '';
+				if($result['as_auditcomplete']=='1'){
+					$action 	.= '<a href="javascript:void(0);" class="starrating" data-auditorid="'.$result['auditorid'].'" data-cocid="'.$result['id'].'" data-toggle="modal" data-target="#ratingmodal"><i class="fa fa-star"></i></a>';
+				}
+				
+				$refixdate 			= ($result['ar1_refix_date']!='') ? '<p class="'.((date('Y-m-d') > date('Y-m-d', strtotime($result['ar1_refix_date']))) && $result['as_refixcompletedate']=='' ? "tagline" : "").'">'.date('d-m-Y', strtotime($result['ar1_refix_date'])).'</p>' : '';
+				$refixcompletedate 	= ($result['as_refixcompletedate']!='') ? '<p class="successtagline">'.date('d-m-Y', strtotime($result['as_refixcompletedate'])).'</p>' : '';
 				
 				$totalrecord[] 	= 	[
+										'notification' 		=> 	$result['notification'],
 										'cocno' 			=> 	$result['id'],
 										'status' 			=> 	$auditstatus,
 										'consumer' 			=> 	$result['cl_name'],
 										'address' 			=> 	$result['cl_address'],
-										'refixdate' 		=> 	($refixdate!='') ? '<p class="'.((date('Y-m-d') > date('Y-m-d', strtotime($refixdate))) ? "tagline" : "").'">'.$refixdate.'</p>' : '',
+										'refixdate' 		=> 	$refixdate,
+										'refixcompletedate' => 	$refixcompletedate,
+										'auditordate' 		=> 	isset($result['audit_allocation_date']) && $result['audit_allocation_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['audit_allocation_date'])) : '',
 										'auditor' 			=> 	$result['auditorname'],
 										'action'			=> 	'
 																	<div class="table-action">
@@ -71,7 +90,7 @@ class Index extends CC_Controller
 	
 	public function view($id)
 	{
-		$this->getauditreview($id, ['pagetype' => 'view', 'viewcoc' => 'plumber/auditstatement/index/viewcoc', 'downloadattachment' => 'plumber/auditstatement/index/downloadattachment', 'seperatechat' => 'plumber/auditstatement/index/seperatechat/'.$id.'/view', 'auditreport' => 'plumber/auditstatement/index/auditreport/'.$id, 'roletype' => $this->config->item('roleplumber')], ['redirect' => 'plumber/auditstatement/index', 'plumberid' => $this->getUserID()]);
+		$this->getauditreview($id, ['pagetype' => 'view', 'viewcoc' => 'plumber/auditstatement/index/viewcoc', 'downloadattachment' => 'plumber/auditstatement/index/downloadattachment', 'seperatechat' => 'plumber/auditstatement/index/seperatechat/'.$id.'/view', 'auditreport' => 'plumber/auditstatement/index/auditreport/'.$id, 'roletype' => $this->config->item('roleplumber')], ['redirect' => 'plumber/auditstatement/index', 'plumberid' => $this->getUserID(), 'notification' => '1']);
 	}
 	
 	public function viewcoc($id, $plumberid)

@@ -54,6 +54,12 @@ class Index extends CC_Controller
 				
 				$coctype = isset($this->config->item('coctype')[$result['type']]) ? $this->config->item('coctype')[$result['type']] : '';
 				
+				if($result['cl_address']!=''){
+					$address = $result['cl_address'];
+				}else{
+					$address = $result['cl_street'].'<br>'.$result['cl_suburb_name'].'<br>'.$result['cl_city_name'].'<br>'.$result['cl_province_name'];
+				}
+				
 				$totalrecord[] = 	[
 										'cocno' 			=> 	$result['id'],
 										'cocstatus' 		=> 	$cocstatus,
@@ -61,7 +67,7 @@ class Index extends CC_Controller
 										'logdate' 			=> 	(date('d-m-Y', strtotime($result['cl_log_date']))!='01-01-1970') ? date('d-m-Y', strtotime($result['cl_log_date'])) : '-',
 										'coctype' 			=> 	$coctype,
 										'customer' 			=> 	$result['cl_name'],
-										'address' 			=> 	$result['cl_address'],
+										'address' 			=> 	$address,
 										'company' 			=> 	$result['plumbercompany'],
 										'reseller' 			=> 	$result['resellername'],
 										'action'			=> 	'

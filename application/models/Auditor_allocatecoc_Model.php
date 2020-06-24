@@ -40,7 +40,7 @@ class Auditor_allocatecoc_Model extends CC_Model
 		$this->db->join('users u', 'sm.user_id=u.id', 'left');
 		$this->db->join('users_detail ud', 'sm.user_id=ud.user_id', 'left');
 		$this->db->join('users_plumber up', 'sm.user_id=up.user_id', 'left');
-		$this->db->join('users_detail cd', 'cd.id=up.company_details', 'left');
+		$this->db->join('users_detail cd', 'cd.user_id=up.company_details', 'left');
 		$this->db->join('users_address ua2', 'sm.user_id=ua2.user_id and ua2.type="2"', 'left');
 		$this->db->join('province p', 'ua2.province=p.id','left');		
 		$this->db->join('city c', 'ua2.city=c.id','left');				
@@ -242,7 +242,8 @@ class Auditor_allocatecoc_Model extends CC_Model
 
 		$requestdata['auditorid'] 				= 	$data['auditor_id'];	
 		$requestdata['audit_status']			=	2;
-		$requestdata['audit_allocation_date']	=	date('Y-m-d H:i:s');;
+		$requestdata['audit_allocation_date']	=	date('Y-m-d H:i:s');
+		$requestdata['notification']			=	'1';
 				
 		$result = $this->db->update('stock_management', $requestdata, ['id' => $data['coc_id']]);
 		return $result;	

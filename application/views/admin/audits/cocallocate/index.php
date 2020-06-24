@@ -248,6 +248,7 @@
 	var totalcoccount = '<?php echo $totalcoccount; ?>';
 	
 	$(function(){
+		select2('#province1, #city1');
 		datepicker('#start_date_range');
 		datepicker('#end_date_range');
 		citysuburb(['#province1','#city1'], ['']);

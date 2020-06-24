@@ -16,7 +16,7 @@ class Plumber_Model extends CC_Model
 		
 		if(in_array('usersdetail', $querydata)){
 			$usersdetail 	= 	[ 
-									'ud.id as usersdetailid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.reg_no','ud.vat_no','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit','ud.specialisations','ud.status as plumberstatus'
+									'ud.id as usersdetailid','ud.title','ud.name','ud.surname','ud.dob','ud.gender','ud.company_name','ud.reg_no','ud.vat_no','ud.billing_email','ud.billing_contact','ud.contact_person','ud.home_phone','ud.mobile_phone','ud.mobile_phone2','ud.work_phone','ud.email2','ud.file1','ud.file2','ud.coc_purchase_limit','ud.specialisations','ud.status as plumberstatus'
 								];
 								
 			$select[] 		= 	implode(',', $usersdetail);
@@ -170,6 +170,8 @@ class Plumber_Model extends CC_Model
 		if(isset($data['company_name'])) 		$request1['company_name'] 		= $data['company_name'];
 		if(isset($data['reg_no'])) 				$request1['reg_no'] 			= $data['reg_no']; 
 		if(isset($data['vat_no'])) 				$request1['vat_no'] 			= $data['vat_no'];
+		if(isset($data['billing_email'])) 		$request1['billing_email'] 		= $data['billing_email'];
+		if(isset($data['billing_contact'])) 	$request1['billing_contact'] 	= $data['billing_contact'];
 		if(isset($data['home_phone'])) 			$request1['home_phone'] 		= $data['home_phone'];
 		if(isset($data['mobile_phone'])) 		$request1['mobile_phone'] 		= $data['mobile_phone'];
 		if(isset($data['work_phone'])) 			$request1['work_phone'] 		= $data['work_phone'];

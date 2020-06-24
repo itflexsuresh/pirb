@@ -27,6 +27,7 @@
 								<th>Auditor Phone (Mobile)</th>
 								<th>Allocated Assigned Date</th>
 								<th>Refix Date</th>
+								<th>Refix Complete Date</th>
 								<th>Action</th>
 							</tr>							
 						</thead>
@@ -92,9 +93,10 @@
 							{ "data": "auditormobile" },
 							{ "data": "auditordate" },
 							{ "data": "refixdate" },
+							{ "data": "refixcompletedate" },
 							{ "data": "action" }
 						],
-			target	:	[6],
+			target	:	[7],
 			sort	:	'0'
 		};
 		

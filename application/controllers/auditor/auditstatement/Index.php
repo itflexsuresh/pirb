@@ -23,8 +23,7 @@ class Index extends CC_Controller
 		$userid 		= $this->getUserID();
 		$post 			= $this->input->post();
 		$totalcount 	= $this->Coc_Model->getCOCList('count', ['coc_status' => ['2'], 'auditorid' => $userid]+$post);
-		$results 		= $this->Coc_Model->getCOCList('all', ['coc_status' => ['2'], 'auditorid' => $userid]+$post);		
-		$settings 		= $this->Systemsettings_Model->getList('row');
+		$results 		= $this->Coc_Model->getCOCList('all', ['coc_status' => ['2'], 'auditorid' => $userid]+$post);
 		
 		$totalrecord 	= [];
 		if(count($results) > 0){
@@ -37,15 +36,18 @@ class Index extends CC_Controller
 					$action 		= '<a href="'.base_url().'auditor/auditstatement/index/action/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>';
 				}
 				
-				$review 		= $this->Auditor_Model->getReviewList('row', ['coc_id' => $result['id'], 'reviewtype' => '1', 'status' => '0']);
-				$refixdate 		= ($review) ? date('d-m-Y', strtotime($review['created_at'].' +'.$settings['refix_period'].'days')) : '';
+				$refixdate 			= ($result['ar1_refix_date']!='') ? '<p class="'.((date('Y-m-d') > date('Y-m-d', strtotime($result['ar1_refix_date']))) && $result['as_refixcompletedate']=='' ? "tagline" : "").'">'.date('d-m-Y', strtotime($result['ar1_refix_date'])).'</p>' : '';
+				$refixcompletedate 	= ($result['as_refixcompletedate']!='') ? '<p class="successtagline">'.date('d-m-Y', strtotime($result['as_refixcompletedate'])).'</p>' : '';
 				
 				$totalrecord[] 	= 	[
+										'notification' 		=> 	$result['notification'],
 										'cocno' 			=> 	$result['id'],
 										'status' 			=> 	$auditstatus,
 										'plumber' 			=> 	$result['u_name'],
 										'plumbermobile' 	=> 	$result['u_mobile'],
-										'refixdate' 		=> 	($refixdate!='') ? '<p class="'.((date('Y-m-d') > date('Y-m-d', strtotime($refixdate))) ? "tagline" : "").'">'.$refixdate.'</p>' : '',
+										'allocateddate' 	=> 	isset($result['audit_allocation_date']) && $result['audit_allocation_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['audit_allocation_date'])) : '',
+										'refixdate' 		=> 	$refixdate,
+										'refixcompletedate' => 	$refixcompletedate,
 										'suburb' 			=> 	$result['cl_suburb_name'],
 										'ownername' 		=> 	$result['cl_name'],
 										'ownermobile' 		=> 	$result['cl_contact_no'],
@@ -70,7 +72,7 @@ class Index extends CC_Controller
 	
 	public function action($id)
 	{
-		$this->getauditreview($id, ['pagetype' => 'action', 'viewcoc' => 'auditor/auditstatement/index/viewcoc', 'downloadattachment' => 'auditor/auditstatement/index/downloadattachment', 'seperatechat' => 'auditor/auditstatement/index/seperatechat/'.$id.'/action', 'roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index', 'auditorid' => $this->getUserID()]);
+		$this->getauditreview($id, ['pagetype' => 'action', 'viewcoc' => 'auditor/auditstatement/index/viewcoc', 'downloadattachment' => 'auditor/auditstatement/index/downloadattachment', 'seperatechat' => 'auditor/auditstatement/index/seperatechat/'.$id.'/action', 'roletype' => $this->config->item('roleauditor')], ['redirect' => 'auditor/auditstatement/index', 'auditorid' => $this->getUserID(), 'notification' => '1']);
 	}
 	
 	public function view($id)

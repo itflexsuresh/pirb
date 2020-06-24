@@ -38,11 +38,26 @@ class Chat_Model extends CC_Model
 			$this->db->group_end();
 		}
 		
-		$this->db->order_by('c.created_at', 'asc');
+		if(isset($requestdata['viewed'])){
+			$this->db->group_start();
+				$this->db->where('c.to_id', $requestdata['viewed']);
+				$this->db->where('c.viewed', '0');
+			$this->db->group_end();
+		}
+		
+		if(isset($requestdata['state'])){
+			$this->db->group_start();
+				$this->db->where('c.state1', '0');
+				$this->db->or_where('c.state2', '0');
+			$this->db->group_end();
+		}
+		
 		
 		if($type=='count'){
 			$result = $this->db->count_all_results();
 		}else{
+			$this->db->order_by('c.created_at', 'asc');
+			
 			$query = $this->db->get();
 			
 			if($type=='all') 		$result = $query->result_array();
@@ -68,6 +83,7 @@ class Chat_Model extends CC_Model
 		if(isset($data['quoteattachment']))		 	$request['quoteattachment'] = $data['quoteattachment'];
 		if(isset($data['state1']))		 			$request['state1'] 			= $data['state1'];
 		if(isset($data['state2']))		 			$request['state2'] 			= $data['state2'];
+		if(isset($data['viewed']))		 			$request['viewed'] 			= $data['viewed'];
 		if(isset($data['type']))		 			$request['type'] 			= $data['type'];
 		
 		if($id==''){
@@ -77,6 +93,18 @@ class Chat_Model extends CC_Model
 		}else{
 			$this->db->update('chat', $request, ['id' => $id]);
 			$insertid = $id;
+		}
+		
+		if($insertid){
+			$this->db->select('u.type, c.viewed, c.coc_id');
+			$this->db->from('chat c');
+			$this->db->join('users u', 'u.id=c.to_id', 'left');
+			$this->db->where('c.id', $insertid);
+			$query 	= $this->db->get();
+			$result = $query->row_array();
+			
+			$notification = ($result['viewed']=='1') ? '0' : (($result['type']=='3') ? '1' : '2'); 
+			$this->db->update('stock_management', ['notification' => $notification], ['id' => $result['coc_id']]);
 		}
 		
 		if($this->db->trans_status() === FALSE)

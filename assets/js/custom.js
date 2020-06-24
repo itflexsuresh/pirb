@@ -24,12 +24,18 @@ function ajaxdatatables(selector, options={}){
 	var order = (options.order) ? options.order : [[0, 'asc']];
 	
 	var columndefs 		= [];
+	
 	var columndefsobj 	= {};
 	if(options.target) 	columndefsobj['targets'] 	= options.target;
 	if(options.sort) 	columndefsobj['orderable'] 	= (options.sort=='1') ? true : false;
 	columndefs.push(columndefsobj);
-		
-	$(selector).DataTable({
+	
+	var columndefsobj1 	= {};
+	if(options.target1) 	columndefsobj1['targets'] 	= options.target1;
+	if(options.visible1) 	columndefsobj1['visible'] 	= (options.visible1=='1') ? true : false;
+	if(options.target1 && options.visible1) columndefs.push(columndefsobj1);
+	
+	var optiondata = {
 		'processing'	: 	true,
 		'serverSide'	: 	true,
 		'ajax'			: 	{
@@ -47,7 +53,13 @@ function ajaxdatatables(selector, options={}){
 		'columnDefs'	: 	columndefs,
 		'searching'		: 	(options.search && options.search=='0') ? false : true,
 		'lengthMenu'	: 	(options.lengthmenu && options.lengthmenu.length > 0) ? options.lengthmenu : [10, 25, 50, 100]
-	});
+	};
+	
+	if(options.createdrow){
+		optiondata.createdRow = options.createdrow
+	}
+	
+	$(selector).DataTable(optiondata);
 }
 
 
@@ -55,6 +67,14 @@ function ajaxdatatables(selector, options={}){
 
 function validation(selector, rules, messages, extras=[])
 {
+	$.validator.addMethod("lettersonly", function(value, element) {
+	  return this.optional(element) || /^[a-z \s]+$/i.test(value);
+	}, "Please Enter Letters Only.");
+	
+	$.validator.addMethod("noSpace", function(value, element) { 
+		return value.indexOf(" ") < 0 && value != ""; 
+	}, "No space please and don't leave it empty");
+	
 	var validation = {};
 	
 	validation['rules'] 			= 	rules;
@@ -210,11 +230,22 @@ function editor(selector, validation='', height=300){
 	});
 }
 
+function rating(selector, field, values=0){
+	$(selector).rating({
+		"half":true,
+		"click":function(e){
+			$(document).find(field).val(e.stars);
+		},
+		"value": values
+	});
+}
+
 function fileupload(data1=[], data2=[], multiple='', customfunction=''){
 	var ajaxurl 	= baseurl()+"ajax/index/ajaxfileupload";
+	var loader 		= baseurl()+"assets/images/ajax-loader.gif";
 	
 	var selector 	= data1[0];
-	var extension = data1[2] ? data1[2] : ['jpg','jpeg','png'];
+	var extension 	= data1[2] ? data1[2] : ['jpg','jpeg','png'];
 	
 	$(document).on('change', selector, function(){
 		var name 		= $(this).val();
@@ -226,7 +257,31 @@ function fileupload(data1=[], data2=[], multiple='', customfunction=''){
 			form_data.append("path", data1[1]);
 			form_data.append("type", extension.join('|'));
 			
-			ajax(ajaxurl, form_data, fileappend, { contenttype : 1, processdata : 1});
+			var datasrc = (data2[1]) ? $(document).find(data2[1]).attr('src') : '';
+			if(multiple!=''){
+				var mutiplesection = $(document).find(data2[1]).parent().find('div:first');
+				var defaultimg = mutiplesection.find('img').attr('src');
+			}
+			
+			ajax(ajaxurl, form_data, fileappend, {
+				contenttype : 1, 
+				processdata : 1,
+				beforesend : function(){
+					if(multiple!=''){
+						mutiplesection.show();
+						mutiplesection.find('img').attr('src', loader);
+					}else if(datasrc!=''){
+						$(document).find(data2[1]).attr('src', loader);
+					}
+				},
+				complete : function(){
+					if(multiple!=''){
+						var mutiplesection = $(document).find(data2[1]).parent().find('div:first');
+						mutiplesection.hide();
+						mutiplesection.find('img').attr('src', defaultimg);
+					}
+				}
+			});
 		}else{
 			$(selector).val('');
 			alert('Supported file format are '+extension.join(','));
@@ -579,6 +634,7 @@ function userautocomplete(data1=[], data2=[], customfunction='', customappend=''
 
 function chat(data1=[], data2=[], data3=[], relationship=''){
 	chatcontent({'cocid' : data2[0], 'checkfrom' : data2[1] }, 'initial');
+	chatviewed();
 	
 	var seperatechat = null;
 	
@@ -676,7 +732,8 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 								}
 								// End Options
 								
-								var chatappend = '<div class="chatbar_section"><div class="chatbar_wrapper '+((v.from_id!=data2[1]) ? 'chatbar_wrapper_right' : '')+'"><p class="chatbar_user">'+v.name+'  '+formatdate(v.created_at, 3)+'</p>';							
+								var viewed = (state=='checkfrom') ? '1' : v.viewed;
+								var chatappend = '<div class="chatbar_section" data-id="'+v.id+'" data-viewed="'+viewed+'"><div class="chatbar_wrapper '+((v.from_id!=data2[1]) ? 'chatbar_wrapper_right' : '')+'"><p class="chatbar_user">'+v.name+'  '+formatdate(v.created_at, 3)+'</p>';							
 								if(v.type=='2'){
 									var ext = v.attachment.split('.').pop().toLowerCase();
 									if(ext=='jpg' || ext=='jpeg' || ext=='png' || ext=='tif' || ext=='tiff'){
@@ -702,6 +759,14 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 						})
 						
 						if(state!='initial'){
+							
+							if(state=='checkto' && chatdata.length > 0){
+								var newline = 	'<span class="chatline">\
+													<h2><span>New Message</span></h2>\
+												</span>';
+								$(data1[1]).append(newline);
+							}
+							
 							$(data1[1]).append(chatdata.join(''));						
 							if(sound=='1' && state=='checkto') audioselector.play();
 							scrolltobottom(data1[1].substring(1));
@@ -749,6 +814,8 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 	
 	function chatunread(){
 		chatcontent({'cocid' : data2[0], 'checkto' : data2[1] }, 'checkto');
+		$(document).find(".chatline").delay(5000).fadeOut(300);
+		chatviewed();
 	}
 	
 	var unreadinterval;
@@ -793,6 +860,47 @@ function chat(data1=[], data2=[], data3=[], relationship=''){
 	$(document).on('click', '.chatquote i', function(){
 		$(this).parent().remove();
 	})
+	
+	$(document).on('mouseenter', '.chatbar_section', function() {
+		var __this = $(this);
+		if(__this.attr('data-viewed')=='0'){
+			ajax(
+				baseurl()+'ajax/index/ajaxchataction', 
+				{id : __this.attr('data-id'), viewed : '1'}, 
+				'', 
+				{ 
+					success : function(data){ 
+						if(data.status=='1'){ 
+							chatviewed();
+							__this.attr('data-viewed', '1');
+						} 
+					}, 
+					asynchronous : 1 
+				}
+			);	
+		}
+	});
+	
+	function chatviewed(){
+		ajax(
+			baseurl()+'ajax/index/ajaxchatviewed', 
+			{
+				'cocid' 	: data2[0], 
+				'viewed' 	: data2[1]
+			}, 
+			'', 
+			{ 
+				success : function(data){ 
+					if(data.status=='1'){ 
+						$(document).find('#chatviewed').text('('+data.result+')');
+					}else{
+						$(document).find('#chatviewed').text('');
+					} 
+				}, 
+				asynchronous : 1
+			}
+		);
+	}
 }
 
 function scrolltobottom(id){

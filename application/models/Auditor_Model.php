@@ -5,7 +5,7 @@ class Auditor_Model extends CC_Model
 	public function getList($type, $requestdata=[])
 	{ 		
 		$user 			= ['u.id as id', 'u.email','u.type','u.status as usstatus', 'u.password_raw'];
-		$usersdetail 	= ['ud.id as userdetailid','ud.name','ud.surname','ud.company_name','ud.reg_no','ud.vat_no','ud.vat_vendor','ud.mobile_phone','ud.work_phone','ud.file1','ud.file2','ud.identity_no'];		
+		$usersdetail 	= ['ud.id as userdetailid','ud.name','ud.surname','ud.company_name','ud.reg_no','ud.vat_no','ud.vat_vendor','ud.billing_email','ud.billing_contact','ud.mobile_phone','ud.work_phone','ud.file1','ud.file2','ud.identity_no'];		
 		$useraddress 	= ['ua.id as useraddressid', 'ua.address', 'ua.province', 'ua.city', 'ua.suburb', 'ua.postal_code'];
 
 		$userbank 		= ['ub.id as userbankid', 'ub.bank_name', 'ub.branch_code', 'ub.account_name', 'ub.account_no', 'account_type'];
@@ -240,9 +240,6 @@ class Auditor_Model extends CC_Model
 
 	public function action($data)
 	{
-		//print_r($data);die;
-
-		
 		$this->db->trans_begin();
 
 		$userid			= 	$this->getUserID();		
@@ -256,9 +253,6 @@ class Auditor_Model extends CC_Model
 		$request1['mailstatus'] = '1';
 		$request1['status'] 					= isset($data['status']) ? $data['status'] : '2';
 		
-		
-
-		
 		if(isset($request1)){
 			if($id==''){
 				$request1['type']	 		= '5';
@@ -266,14 +260,6 @@ class Auditor_Model extends CC_Model
 
 				$userdata = $this->db->insert('users', $request1);
 				$id = $this->db->insert_id();
-
-				// $source = './assets/uploads/temp/';
-				// $destination = './assets/uploads/'.$id;
-				// $image = $data['file1'];
-
-				// if(is_file($source.$image)){
-				// 	rename($source.$image, $destination.$image);
-				// }
 
 			}else{
 				$request1['updated_at']		= 	date('Y-m-d H:i:s');
@@ -283,7 +269,7 @@ class Auditor_Model extends CC_Model
 
 		if(isset($id)) 							$request0['user_id'] 			= $id;
 		if(isset($data['allowed'])) 			$request0['allocation_allowed']	= $data['allowed'];
-		if(isset($data['auditstatus'])) 			$request0['status'] 			= $data['auditstatus'];
+		if(isset($data['auditstatus'])) 		$request0['status'] 			= $data['auditstatus'];
 
 		if (isset($request0)) {
 			$auditoravaid			= $data['auditoravaid'];
@@ -292,7 +278,6 @@ class Auditor_Model extends CC_Model
 				$auditoravaid1 = $this->db->insert('auditor_availability', $request0);
 			}else{
 				$request0['updated_at'] 		= $datetime;
-				//print_r($request0);die();
 				$auditoravaid1 = $this->db->update('auditor_availability', $request0, ['id' => $auditoravaid]);
 			}
 		}
@@ -303,9 +288,11 @@ class Auditor_Model extends CC_Model
 		if(isset($data['company_name'])) 		$request2['company_name'] 		= $data['company_name'];
 		if(isset($data['reg_no'])) 				$request2['reg_no'] 			= $data['reg_no']; 
 		if(isset($data['vat_no'])) 				$request2['vat_no'] 			= $data['vat_no'];
-
+		
 		$request2['vat_vendor'] 				= isset($data['vat_vendor']) ? $data['vat_vendor'] : '0';
-
+		
+		if(isset($data['billing_email'])) 		$request2['billing_email'] 		= $data['billing_email'];
+		if(isset($data['billing_contact'])) 	$request2['billing_contact'] 	= $data['billing_contact'];
 		if(isset($data['work_phone'])) 			$request2['work_phone'] 		= $data['work_phone'];
 		if(isset($data['mobile_phone'])) 		$request2['mobile_phone'] 		= $data['mobile_phone'];	
 		if(isset($data['file1'])) 				$request2['file1'] 				= $data['file1'];
@@ -392,9 +379,6 @@ class Auditor_Model extends CC_Model
 
 	public function profileAction($data)
 	{
-		//echo "<pre>";print_r($data['area']);die;
-
-		
 		$this->db->trans_begin();
 
 		$userid			= 	$this->getUserID();		
@@ -414,15 +398,6 @@ class Auditor_Model extends CC_Model
 
 				$userdata = $this->db->insert('users', $request1);
 				$id = $this->db->insert_id();
-
-				// $source = './assets/uploads/temp/';
-				// $destination = './assets/uploads/'.$id;
-				// $image = $data['file1'];
-
-				// if(is_file($source.$image)){
-				// 	rename($source.$image, $destination.$image);
-				// }
-
 			}else{
 				$request1['updated_at']		= 	date('Y-m-d H:i:s');
 				$userdata = $this->db->update('users', $request1, ['id' => $id]);
@@ -440,7 +415,6 @@ class Auditor_Model extends CC_Model
 				$auditoravaid1 = $this->db->insert('auditor_availability', $request0);
 			}else{
 				$request0['updated_at'] 		= $datetime;
-				//print_r($request0);die();
 				$auditoravaid1 = $this->db->update('auditor_availability', $request0, ['id' => $auditoravaid]);
 			}
 		}
@@ -453,7 +427,9 @@ class Auditor_Model extends CC_Model
 		if(isset($data['vat_no'])) 				$request2['vat_no'] 			= $data['vat_no'];
 
 		$request2['vat_vendor'] 				= isset($data['vat_vendor']) ? $data['vat_vendor'] : '0';
-
+		
+		if(isset($data['billing_email'])) 		$request2['billing_email'] 		= $data['billing_email'];
+		if(isset($data['billing_contact'])) 	$request2['billing_contact'] 	= $data['billing_contact'];		
 		if(isset($data['work_phone'])) 			$request2['work_phone'] 		= $data['work_phone'];
 		if(isset($data['mobile_phone'])) 		$request2['mobile_phone'] 		= $data['mobile_phone'];	
 		if(isset($data['file1'])) 				$request2['file1'] 				= $data['file1'];
@@ -624,7 +600,6 @@ class Auditor_Model extends CC_Model
 		if(isset($data['link'])) 						$request['link'] 				= $data['link'];
 		if(isset($data['comments'])) 					$request['comments'] 			= $data['comments'];
 		if(isset($data['file'])) 						$request['file'] 				= implode(',', $data['file']);
-		if(isset($data['refixdate'])) 					$request['refixdate'] 			= date('Y-m-d', strtotime($data['refixdate']));
 		if(isset($data['incompletepoint'])) 			$request['incomplete_point'] 	= $data['incompletepoint'];
 		if(isset($data['completepoint'])) 				$request['complete_point'] 		= $data['completepoint'];
 		if(isset($data['cautionarypoint'])) 			$request['cautionary_point'] 	= $data['cautionarypoint'];
@@ -632,7 +607,7 @@ class Auditor_Model extends CC_Model
 		if(isset($data['noauditpoint'])) 				$request['noaudit_point'] 		= $data['noauditpoint'];
 		if(isset($data['point'])) 						$request['point'] 				= $data['point'];
 		if(isset($data['status'])) 						$request['status'] 				= $data['status'];
-
+		
 		if($id==''){
 			$request['created_at'] = $datetime;
 			$request['created_by'] = $userid;
@@ -643,6 +618,35 @@ class Auditor_Model extends CC_Model
 			$insertid = $id;
 		}
 
+		if(isset($data['refixperiod']) && isset($data['status'])){
+			$list = $this->getReviewList('row', ['id' => $insertid]);
+			
+			if($list['reviewtype']=='1'){
+				$reviewstatus			= $data['status'];
+				$listrefixdate 			= $list['refix_date'];
+				
+				if($listrefixdate=='' && $reviewstatus=='0'){
+					$refixdate 			= date('Y-m-d', strtotime(date('d-m-Y').' +'.$data['refixperiod'].'days'));
+					$this->db->update('auditor_review', ['refix_date' => $refixdate], ['id' => $insertid]);
+				}
+				
+				/*
+				$reviewstatus			= $data['status'];
+				$refixdate 				= date('Y-m-d', strtotime(date('d-m-Y').' +'.$data['refixperiod'].'days'));
+				$refixcompletedate 		= date('Y-m-d');
+				
+				$listrefixdate 			= $list['refix_date'];
+				$listrefixcompletedate 	= $list['refix_complete_date'];
+				
+				if((($listrefixdate!='' && $listrefixcompletedate!='') || ($listrefixdate=='' && $listrefixcompletedate=='')) && $reviewstatus=='0'){
+					$this->db->update('auditor_review', ['refix_date' => $refixdate, 'refix_complete_date' => NULL], ['id' => $insertid]);
+				}elseif($listrefixdate!='' && $listrefixcompletedate=='' && $reviewstatus=='1'){
+					$this->db->update('auditor_review', ['refix_complete_date' => $refixcompletedate], ['id' => $insertid]);
+				}
+				*/
+			}
+		}
+		
 		if($this->db->trans_status() === FALSE)
 		{
 			$this->db->trans_rollback();
@@ -658,6 +662,62 @@ class Auditor_Model extends CC_Model
 	public function deleteReview($id)
 	{
 		return $this->db->where('id', $id)->delete('auditor_review');
+	}
+	
+	
+	public function getReviewRating($type, $requestdata=[])
+	{
+		$this->db->select('*');
+		$this->db->from('auditor_rating');
+		
+		if(isset($requestdata['id'])) 			$this->db->where('id', $requestdata['id']);
+		if(isset($requestdata['cocid'])) 		$this->db->where('coc_id', $requestdata['cocid']);
+		if(isset($requestdata['auditorid'])) 	$this->db->where('auditor_id', $requestdata['auditorid']);
+		if(isset($requestdata['plumberid'])) 	$this->db->where('plumber_id', $requestdata['plumberid']);
+		
+		if($type=='count'){
+			$result = $this->db->count_all_results();
+		}else{
+			$query = $this->db->get();
+			
+			if($type=='all') 		$result = $query->result_array();
+			elseif($type=='row') 	$result = $query->row_array();
+		}
+		
+		return $result;
+	}
+	
+	public function actionReviewRating($data)
+	{
+		$this->db->trans_begin();
+		
+		$userid			= 	$this->getUserID();
+		$datetime		= 	date('Y-m-d H:i:s');
+		
+		$request		=	[
+			'plumber_id' 		=> $userid,
+			'created_at' 		=> $datetime,
+			'created_by' 		=> $userid,
+			'updated_at' 		=> $datetime,
+			'updated_by' 		=> $userid
+		];
+
+		if(isset($data['cocid']))		 				$request['coc_id'] 				= $data['cocid'];
+		if(isset($data['auditorid']))		 			$request['auditor_id'] 			= $data['auditorid'];
+		if(isset($data['rating'])) 						$request['rating'] 				= $data['rating'];
+		if(isset($data['comments'])) 					$request['comments'] 			= $data['comments'];
+		
+		$this->db->insert('auditor_rating', $request);
+		if($this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+			return false;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return true;
+		}
 	}
 	
 	public function getReviewHistoryCount($requestdata=[])
@@ -767,7 +827,8 @@ class Auditor_Model extends CC_Model
 		if(isset($data['auditcomplete']) && isset($data['submit']) && $data['submit']=='submitreport') 	$request['status'] 				= '1';
 		if(isset($data['auditcomplete']) && isset($data['submit']) && $data['submit']=='submitreport') 	$request['auditcompletedate'] 	= date('Y-m-d');
 
-		$request['hold'] = (isset($data['hold'])) ? $data['hold'] : '0';
+		$request['refixcompletedate'] 	= (isset($data['refixcompletedate']) && $data['refixcompletedate']!='') ? date('Y-m-d', strtotime($data['refixcompletedate'])) : NULL;	
+		$request['hold'] 				= (isset($data['hold'])) ? $data['hold'] : '0';
 		
 		if($id==''){
 			$request['created_at'] = $datetime;

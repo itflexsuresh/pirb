@@ -198,7 +198,7 @@ class Coc_Ordermodel extends CC_Model
 	
 	public function autosearchPlumber($postData){
 		
-		$this->db->select('concat(ud.name, " ", ud.surname) as name,cc.count,u.type,ud.status,u.id,up.coc_electronic');
+		$this->db->select('concat(ud.name, " ", ud.surname, " (", up.registration_no, ")") as name,cc.count,u.type,ud.status,u.id,up.coc_electronic');
 		$this->db->from('users_detail ud');
 		$this->db->join('users u', 'u.id=ud.user_id','inner');
 		$this->db->join('users_plumber up', 'up.user_id=ud.user_id','inner');

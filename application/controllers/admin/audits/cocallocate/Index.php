@@ -37,8 +37,9 @@ class Index extends CC_Controller
 						$array1 = ['{Plumbers Name and Surname}','{COC number}', '{Auditors Names and Surname}'];
 						$array2 = [$plumberdata['name'], $cocid, $auditordata['name']];
 						
-						$body 	= str_replace($array1, $array2, $notificationdata['email_body']);
-						$this->CC_Model->sentMail($plumberdata['email'], $notificationdata['subject'], $body);
+						$body 		= str_replace($array1, $array2, $notificationdata['email_body']);
+						$subject 	= str_replace(['{cocno}'], [$cocid], $notificationdata['subject']);
+						$this->CC_Model->sentMail($plumberdata['email'], $subject, $body);
 					}
 					
 					if($this->config->item('otpstatus')!='1'){
@@ -62,7 +63,7 @@ class Index extends CC_Controller
 		$pagedata['checkpermission'] 	= $this->checkUserPermission('27', '2');
 		$pagedata['totalcoccount'] 		= $this->Auditor_allocatecoc_Model->getCOCList('count', []);
 		
-		$data['plugins']				= ['datatables', 'datatablesresponsive', 'sweetalert', 'datepicker'];
+		$data['plugins']				= ['datatables', 'datatablesresponsive', 'sweetalert', 'datepicker', 'select2'];
 		$data['content'] 				= $this->load->view('admin/audits/cocallocate/index', (isset($pagedata) ? $pagedata : ''), true);
 		
 		$this->layout2($data);		

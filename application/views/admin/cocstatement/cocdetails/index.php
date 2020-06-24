@@ -141,6 +141,7 @@
 
 <script type="text/javascript">
 $(function(){
+	select2('#province, #city');
 	datepicker('.startdate, .enddate');
 	citysuburb(['#province','#city']);
 })

@@ -546,23 +546,24 @@ class Index extends CC_Controller
 		$userid 		= $post['user_id'];
 		$totalcount 	= $this->Coc_Model->getCOCList('count', ['coc_status' => ['2'], 'user_id' => $userid, 'noaudit' => '']+$post);
 		$results 		= $this->Coc_Model->getCOCList('all', ['coc_status' => ['2'], 'user_id' => $userid, 'noaudit' => '']+$post);	
-		$settings 		= $this->Systemsettings_Model->getList('row');
-
+		
 		$totalrecord 	= [];
 		if(count($results) > 0){
 			foreach($results as $result){
 				$auditstatus 	= isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';
 				$action 		= '<a href="'.base_url().'admin/plumber/index/viewaudit/'.$result['id'].'/'.$userid.'" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i></a>';
 				
-				$review 		= $this->Auditor_Model->getReviewList('row', ['coc_id' => $result['id'], 'reviewtype' => '1', 'status' => '0']);
-				$refixdate 		= ($review) ? date('d-m-Y', strtotime($review['created_at'].' +'.$settings['refix_period'].'days')) : '';
+				$refixdate 			= ($result['ar1_refix_date']!='') ? '<p class="'.((date('Y-m-d') > date('Y-m-d', strtotime($result['ar1_refix_date']))) && $result['as_refixcompletedate']=='' ? "tagline" : "").'">'.date('d-m-Y', strtotime($result['ar1_refix_date'])).'</p>' : '';
+				$refixcompletedate 	= ($result['as_refixcompletedate']!='') ? '<p class="successtagline">'.date('d-m-Y', strtotime($result['as_refixcompletedate'])).'</p>' : '';
 				
 				$totalrecord[] 	= 	[
 										'cocno' 			=> 	$result['id'],
 										'status' 			=> 	$auditstatus,
 										'consumer' 			=> 	$result['cl_name'],
 										'address' 			=> 	$result['cl_address'],
-										'refixdate' 		=> 	($refixdate!='') ? '<p class="'.((date('Y-m-d') > date('Y-m-d', strtotime($refixdate))) ? "tagline" : "").'">'.$refixdate.'</p>' : '',
+										'refixdate' 		=> 	$refixdate,
+										'refixcompletedate' => 	$refixcompletedate,
+										'auditordate' 		=> 	isset($result['audit_allocation_date']) && $result['audit_allocation_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['audit_allocation_date'])) : '',
 										'auditor' 			=> 	$result['auditorname'],
 										'action'			=> 	'
 																	<div class="table-action">

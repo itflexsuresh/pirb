@@ -24,6 +24,7 @@
 	$agreementid 			= isset($result['cl_agreement']) ? $result['cl_agreement'] : '';
 	$ncnoticeid 			= isset($result['cl_ncnotice']) ? $result['cl_ncnotice'] : '';
 	$ncemail				= isset($result['cl_ncemail']) ? $result['cl_ncemail'] : '';
+	$ncreason				= isset($result['cl_ncreason']) ? $result['cl_ncreason'] : '';
 	
 	$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/log/';
 	$pdfimg 				= base_url().'assets/images/pdf.png';
@@ -109,7 +110,7 @@
 
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>Name of Complex/Flat (if applicable)</label>
+								<label>Name of Complex/Flat and Unit Number (if applicable)</label>
 								<input type="text" class="form-control" name="address" value="<?php echo $address; ?>" <?php echo $disablefield; ?>>
 							</div>
 						</div>
@@ -259,14 +260,14 @@
 						<div class="col-md-12">
 							<div class="row">
 								<div  class="col-md-4">
-									<div class="form-group ">
+									<div class="form-group">
 										<label>Was the Non-compliance Notice issued to the Owner*</label>
 										<?php
 											echo form_dropdown('ncnotice', $ncnotice, $ncnoticeid, ['id' => 'ncnotice', 'class'=>'form-control']+$disablefieldarray);
 										?>
 									</div>
 								</div>
-								<div  class="col-md-8 text-right">
+								<div class="col-md-8 text-right">
 									<div class="ncemail_wrapper">
 										<div class="custom-control custom-radio">
 											<input type="radio" id="ncemail" name="ncemail" value="1" class="custom-control-input" <?php echo ($ncemail=='1') ? 'checked="checked"' : ''; ?> <?php echo $disablefield; ?>>
@@ -277,6 +278,15 @@
 									<?php if($actionbtn=='1'){ ?>
 										<button type="button" data-toggle="modal" data-target="#noncompliancemodal" class="btn btn-primary">Add a Non Compliance</button>
 									<?php } ?>
+								</div>
+								<div  class="col-md-4 ncnote_wrapper displaynone">
+									<p class="tagline">Note : Your are required by law to notify the client of all Non Compliances.</p>
+								</div>
+								<div  class="col-md-4 ncreason_wrapper displaynone">
+									<div class="form-group">
+										<label>Reason for not sending Non-compliance Report*</label>
+										<textarea name="ncreason" class="form-control"><?php echo $ncreason; ?></textarea>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -513,8 +523,11 @@ var filepath 					= '<?php echo $filepath; ?>';
 var pdfimg						= '<?php echo $pdfimg; ?>';
 var installationcount			= '<?php echo count($installation); ?>';
 var specialisationscount		= '<?php echo count($specialisations); ?>';
+var ncemailid					= '<?php echo $ncemail; ?>';
 
 $(function(){
+	$('body').addClass('logcocstatementbody');
+	
 	datepicker('.completion_date', ['pastfivedate', 'enddate']);
 	citysuburb(['#province','#city', '#suburb'], ['<?php echo $cityid; ?>', '<?php echo $suburbid; ?>']);
 	fileupload([".file1_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.file1', '.file1_img', filepath, pdfimg]);
@@ -522,7 +535,7 @@ $(function(){
 	fileupload(["#nc_file", "./assets/uploads/plumber/"+userid+"/log/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.ncfileappend', filepath, pdfimg], 'multiple');
 	subtypereportinglist(['#nc_installationtype','#nc_subtype','#nc_statement'], ['', ''], noncompliancedata);
 	inputmask('#contact_no, #alternate_no', 1);
-	select2('#province, #city, #suburb');
+	select2('#province, #city, #suburb, #ncnotice');
 	
 	var noncompliancelists = $.parseJSON('<?php echo addslashes(json_encode($noncompliance)); ?>');
 	if(noncompliancelists.length > 0){
@@ -534,6 +547,8 @@ $(function(){
 	
 	installationdefaultimage();
 	noncomplianceextras();
+	ncreason('<?php echo $ncnoticeid; ?>');
+	if(ncemailid=='1') $('#ncemail').data('ncEmailValue', true);
 	
 	validation(
 		'.form',
@@ -541,11 +556,11 @@ $(function(){
 			completion_date : {
 				required	: true
 			},
-			//order_no : {
-				//number		: true,
-				//minlength	: 9,
-				//maxlength	: 9
-			//},
+			order_no : {
+				number		: true,
+				minlength	: 9,
+				maxlength	: 9
+			},
 			name : {
 				required    : true
 			},
@@ -590,6 +605,11 @@ $(function(){
 			},
 			ncnotice:{
 				required    : true
+			},
+			ncreason:{
+				required:  	function() {
+								return ($("#ncnotice").val() == "1");
+							}
 			},
 			agreement:{
 				required    : true
@@ -645,6 +665,9 @@ $(function(){
 			},
 			ncnotice:{
 				required    : "Please check the non compliance notice"
+			},
+			ncreason:{
+				required    : "Please fill the reason field"
 			},
 			agreement:{
 				required    : "Please check the agreement",
@@ -907,6 +930,22 @@ $('#ncemail').click(function(){
 	if($('.email').val()==''){
 		$('#ncemail').prop('checked', false);
 		$('.email').focus();
+		return false;
+	}
+	
+	var previousValue = $(this).data('ncEmailValue');
+    if (previousValue){
+		$(this).prop('checked', !previousValue);
+		$(this).data('ncEmailValue', !previousValue);
+    }else{
+		$(this).data('ncEmailValue', true);
+		$("#ncemail:not(:checked)").data("ncEmailValue", false);
+    }
+	
+	if($(this).is(':checked')){
+		$('#ncnotice').val('2').trigger('change'); 
+	}else{
+		$('#ncnotice').val('').trigger('change'); 
 	}
 })
 
@@ -942,6 +981,25 @@ function formaddress(){
 			resolve(result);
 		}, 1000);
 	});
+}
+
+$('#ncnotice').change(function(){
+	ncreason($(this).val());
+})
+
+function ncreason(value){
+	$('.ncreason_wrapper').addClass('displaynone');
+	$('.ncnote_wrapper').addClass('displaynone');
+	$('.logcocbtn').removeAttr('disabled');
+		
+	if(value=='1'){
+		$('.ncreason_wrapper').removeClass('displaynone');
+	}
+	
+	if(value=='3'){
+		$('.ncnote_wrapper').removeClass('displaynone');
+		$('.logcocbtn').attr('disabled', 'disabled');
+	}
 }
 
 async function addressmap(){

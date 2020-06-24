@@ -183,7 +183,15 @@
 						<table class="bill_detail_uniq" style="margin-top:10px; border: 1px solid #000; width: 250px;">
 							<thead>
 								<tr>
-									<th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 5px; padding-top: 5px;"><?php echo (isset($rowData['username']) ? $rowData['username'] : '').' '.(isset($rowData['surname']) ? $rowData['surname'] : ''); ?></th>
+									<th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 5px; padding-top: 5px;">
+										<?php 
+										if(isset($extras['type']) && $extras['type']=='2'){
+											echo $rowData['company_name'];
+										}else{
+											echo (isset($rowData['username']) ? $rowData['username'] : '').' '.(isset($rowData['surname']) ? $rowData['surname'] : ''); 
+										}
+										?>
+									</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -193,8 +201,10 @@
 									<tr><td><?php echo $rowData['city'] ?></td></tr>
 									<tr><td><?php echo $rowData['province']; ?></td></tr>
 									<tr><td><?php echo $rowData['postal_code']; ?></td></tr>
-									<tr><td><?php echo $rowData['home_phone']; ?></td></tr>
-									<tr><td><?php echo $rowData['email2']; ?></td></tr>
+									<tr><td><?php echo $rowData['billingcontact']; ?></td></tr>
+									<tr><td><?php echo $rowData['billingemail']; ?></td></tr>
+									<tr><td><?php echo $rowData['reg_no']; ?></td></tr>
+									<tr><td><?php echo $rowData['vat_no']; ?></td></tr>
 								<?php }else{ ?>
 									<tr><td><?php echo isset($stringaarr[6]) ? $stringaarr[6] : ''; ?></td></tr>
 									<tr><td><?php echo isset($stringaarr[5]) ? $stringaarr[5] : ''; ?></td></tr>
@@ -203,9 +213,8 @@
 										<tr><td><?php echo $rowData['home_phone']; ?></td></tr>
 										<tr><td><?php echo $rowData['email2']; ?></td></tr>
 									<?php }else{ ?>
-										<tr><td><?php echo $rowData['email2']; ?></td></tr>
-										<tr><td><?php echo $rowData['reg_no'] ?></td></tr>
-										<tr><td><?php echo $rowData['vat_no']; ?></td></tr>
+										<tr><td><?php echo $rowData['billingemail'] ?></td></tr>
+										<tr><td><?php echo $rowData['billingcontact']; ?></td></tr>
 									<?php } ?>
 								<?php } ?>
 							</tbody>
@@ -273,8 +282,8 @@
 								</thead>
 								<tbody>
 									<tr>
-										<td style="padding: 10px;   font-size: 14px; text-align: center;"><?php echo $rowData['reg_no']; ?></td>
-										<td style="padding: 10px;   font-size: 14px; text-align: center;"><?php echo $rowData['vat_no']; ?></td>
+										<td style="padding: 10px;   font-size: 14px; text-align: center;"><?php echo $rowData1['reg_no']; ?></td>
+										<td style="padding: 10px;   font-size: 14px; text-align: center;"><?php echo $rowData1['vat_no']; ?></td>
 										<td style="padding: 10px;   font-size: 14px; text-align: center;"><?php echo $invoiceDate; ?></td>
 									</tr>
 								</tbody>

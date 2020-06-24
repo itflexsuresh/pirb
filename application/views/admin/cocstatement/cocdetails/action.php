@@ -347,6 +347,7 @@
 	var pdfimg		= '<?php echo $pdfimg; ?>';
 
 	$(function(){
+		select2('#province, #city, #suburb');
 		citysuburb(['#province','#city', '#suburb'], ['<?php echo $cityid; ?>', '<?php echo $suburbid; ?>']);
 		fileupload([".document_file", "./assets/uploads/coc/cocdetails/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.document', '.document_image', filepath, pdfimg]);
 	

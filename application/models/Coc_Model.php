@@ -7,17 +7,24 @@ class Coc_Model extends CC_Model
 		$coclog 			= 	[ 
 									'cl.id cl_id','cl.log_date cl_log_date','cl.completion_date cl_completion_date','cl.order_no cl_order_no','cl.name cl_name','cl.address cl_address','cl.street cl_street','cl.number cl_number',
 									'cl.province cl_province','cl.city cl_city','cl.suburb cl_suburb','cl.contact_no cl_contact_no','cl.alternate_no cl_alternate_no','cl.email cl_email','cl.installationtype cl_installationtype',
-									'cl.specialisations cl_specialisations','cl.installation_detail cl_installation_detail','cl.file1 cl_file1','cl.file2 cl_file2','cl.agreement cl_agreement','cl.ncnotice cl_ncnotice','cl.ncemail cl_ncemail','cl.status cl_status'
+									'cl.specialisations cl_specialisations','cl.installation_detail cl_installation_detail','cl.file1 cl_file1','cl.file2 cl_file2','cl.agreement cl_agreement','cl.ncnotice cl_ncnotice','cl.ncemail cl_ncemail','cl.ncreason cl_ncreason','cl.status cl_status'
 								];
 							
 		$auditorstatement 	= 	[ 
-									'aas.id as_id','aas.audit_date as_audit_date','aas.workmanship as_workmanship','aas.plumber_verification as_plumber_verification','aas.coc_verification as_coc_verification','aas.hold as_hold','aas.reason as_reason','aas.auditcomplete as_auditcomplete'
+									'aas.id as_id','aas.audit_date as_audit_date','aas.workmanship as_workmanship','aas.plumber_verification as_plumber_verification','aas.coc_verification as_coc_verification','aas.hold as_hold','aas.reason as_reason','aas.auditcomplete as_auditcomplete','aas.refixcompletedate as_refixcompletedate'
 								];
 							
-		$auditorreview 	= 	[ 
-									'ar.incomplete_point ar_incomplete_point','ar.complete_point ar_complete_point','ar.cautionary_point ar_cautionary_point','ar.noaudit_point ar_noaudit_point'
+		$auditorreview 		= 	[ 
+									'ar.incomplete_point ar_incomplete_point','ar.complete_point ar_complete_point','ar.cautionary_point ar_cautionary_point','ar.noaudit_point ar_noaudit_point','ar.refix_date ar_refix_date'
 								];
-				
+		
+		$auditorreview1 = [];
+		if(isset($requestdata['page']) && (in_array($requestdata['page'], ['adminauditorstatement', 'auditorstatement', 'plumberauditorstatement', 'review']))){
+			$auditorreview1 = 	[ 
+									'ar1.refix_date ar1_refix_date'
+								];
+		}
+		
 		$this->db->select('
 			sm.*, 
 			u.id as u_id,
@@ -43,7 +50,8 @@ class Coc_Model extends CC_Model
 			a.email as auditoremail, 
 			ad.status as auditorstatus, 
 			'.implode(',', $auditorstatement).',
-			'.implode(',', $auditorreview).'
+			'.implode(',', $auditorreview).',
+			'.implode(',', $auditorreview1).'
 		');
 		$this->db->from('stock_management sm');
 		$this->db->join('users_plumber up', 'up.user_id=sm.user_id', 'left');
@@ -65,6 +73,10 @@ class Coc_Model extends CC_Model
 			$this->db->join('custom c1', 'c1.c_id=sm.coc_status and c1.type="1"', 'left');
 			$this->db->join('custom c2', 'c2.c_id=sm.audit_status and c2.type="2"', 'left');
 			$this->db->join('custom c3', 'c3.c_id=sm.type and c3.type="3"', 'left');
+		}
+		
+		if(isset($requestdata['page']) && (in_array($requestdata['page'], ['adminauditorstatement', 'auditorstatement', 'plumberauditorstatement', 'review']))){
+			$this->db->join('auditor_review ar1', 'ar1.coc_id=sm.id and ar1.reviewtype="1"', 'left');
 		}
 		
 		if(isset($requestdata['startrange']) && $requestdata['startrange']!='')				$this->db->where('sm.id >=', $requestdata['startrange']);
@@ -122,7 +134,9 @@ class Coc_Model extends CC_Model
 						$this->db->or_like('c1.name', $searchvalue, 'both');
 						$this->db->or_like('concat(ud.name, " ", ud.surname)', $searchvalue, 'both');		
 						$this->db->or_like('ud.mobile_phone', $searchvalue, 'both');
-						$this->db->or_like('DATE_FORMAT(sm.allocation_date,"%d-%m-%Y")', $searchvalue, 'both');
+						$this->db->or_like('DATE_FORMAT(sm.audit_allocation_date,"%d-%m-%Y")', $searchvalue, 'both');
+						$this->db->or_like('DATE_FORMAT(ar1.refix_date,"%d-%m-%Y")', $searchvalue, 'both');
+						$this->db->or_like('DATE_FORMAT(aas.refixcompletedate,"%d-%m-%Y")', $searchvalue, 'both');
 						$this->db->or_like('s.name', $searchvalue, 'both');		
 						$this->db->or_like('cl.name', $searchvalue, 'both');		
 						$this->db->or_like('cl.contact_no', $searchvalue, 'both');		
@@ -131,7 +145,9 @@ class Coc_Model extends CC_Model
 						$this->db->or_like('c2.name', $searchvalue, 'both');
 						$this->db->or_like('cl.name', $searchvalue, 'both');		
 						$this->db->or_like('cl.address', $searchvalue, 'both');		
-						$this->db->or_like('DATE_FORMAT(sm.allocation_date,"%d-%m-%Y")', $searchvalue, 'both');
+						$this->db->or_like('DATE_FORMAT(ar1.refix_date,"%d-%m-%Y")', $searchvalue, 'both');
+						$this->db->or_like('DATE_FORMAT(aas.refixcompletedate,"%d-%m-%Y")', $searchvalue, 'both');
+						$this->db->or_like('DATE_FORMAT(sm.audit_allocation_date,"%d-%m-%Y")', $searchvalue, 'both');
 						$this->db->or_like('ad.name', $searchvalue, 'both');		
 					}elseif($page=='adminauditorstatement'){
 						$this->db->like('sm.id', $searchvalue, 'both');
@@ -139,6 +155,8 @@ class Coc_Model extends CC_Model
 						$this->db->or_like('ad.name', $searchvalue, 'both');		
 						$this->db->or_like('ad.mobile_phone', $searchvalue, 'both');		
 						$this->db->or_like('DATE_FORMAT(sm.audit_allocation_date,"%d-%m-%Y")', $searchvalue, 'both');
+						$this->db->or_like('DATE_FORMAT(ar1.refix_date,"%d-%m-%Y")', $searchvalue, 'both');
+						$this->db->or_like('DATE_FORMAT(aas.refixcompletedate,"%d-%m-%Y")', $searchvalue, 'both');
 					}elseif($page=='auditorprofile'){
 						$this->db->like('sm.id', $searchvalue, 'both');
 						$this->db->or_like('DATE_FORMAT(aas.audit_date,"%d-%m-%Y")', $searchvalue, 'both');
@@ -162,11 +180,11 @@ class Coc_Model extends CC_Model
 				}elseif($page=='admincocdetails'){
 					$column = ['sm.id', 'c3.name', 'c1.name', 'ud.name', 'rd.name', 'ad.name'];
 				}elseif($page=='auditorstatement'){
-					$column = ['sm.id', 'c1.name', 'ud.name', 'ud.mobile_phone', 'sm.allocation_date', 's.name', 'cl.name', 'cl.contact_no'];
+					$column = ['sm.id', 'sm.audit_status', 'ud.name', 'ud.mobile_phone', 'sm.audit_allocation_date', 'ar1.refix_date', 'aas.refixcompletedate', 's.name', 'cl.name', 'cl.contact_no'];
 				}elseif($page=='plumberauditorstatement'){
-					$column = ['sm.id', 'c2.name', 'cl.name', 'cl.address', 'sm.allocation_date', 'ad.name'];
+					$column = ['sm.id', 'c2.name', 'cl.name', 'cl.address', 'ar1.refix_date', 'aas.refixcompletedate', 'sm.audit_allocation_date', 'ad.name'];
 				}elseif($page=='adminauditorstatement'){
-					$column = ['sm.id', 'c1.name', 'ad.name', 'ad.mobile_phone', 'sm.allocation_date', 'sm.audit_allocation_date'];
+					$column = ['sm.id', 'c1.name', 'ad.name', 'ad.mobile_phone', 'sm.audit_allocation_date', 'ar1.refix_date', 'aas.refixcompletedate'];
 				}elseif($page=='auditorprofile'){
 					$column = ['sm.id', 'aas.audit_date', 'ud.name', 's.name', 'c.name', 'p.name', 'ar.incomplete_point', 'ar.complete_point', 'ar.cautionary_point', 'ar.noaudit_point'];
 				}
@@ -199,12 +217,9 @@ class Coc_Model extends CC_Model
 
 	}
 	public function getListPDF($type, $requestdata=[]){
-		//print_r($requestdata);die;
-
-
         $query=$this->db->select('t1.*,t1.status,t1.created_at,
-        	t2.inv_id, t2.total_due, t2.quantity, t2.cost_value,t2.vat, t2.delivery_cost, t2.total_due, t3.reg_no, t3.id, t3.name username, t3.surname surname, t3.company_name company_name, t3.vat_no vat_no, t3.email2, t3.home_phone, t3.file2, t4.address, t4.suburb, t4.city,t4.province,t4.postal_code, t5.id, t5.name as province,t6.id, t6.province_id, t6.name as city,t7.id, t7.province_id, t7.city_id, t7.name as suburb,t8.registration_no, t8.designation,ub.bank_name, ub.branch_code, ub.account_name, ub.account_no, ub.account_type, t9.type as usertype');
-		        $this->db->select('
+        	t2.inv_id, t2.total_due, t2.quantity, t2.cost_value,t2.vat, t2.delivery_cost, t2.total_due, t3.reg_no, t3.id, t3.name username, t3.surname surname, t3.company_name company_name, t3.vat_no vat_no, t3.email2, t3.home_phone, t3.file2, t4.address, t4.suburb, t4.city,t4.province,t4.postal_code, t5.id, t5.name as province,t6.id, t6.province_id, t6.name as city,t7.id, t7.province_id, t7.city_id, t7.name as suburb,t8.registration_no, t8.designation,ub.bank_name, ub.branch_code, ub.account_name, ub.account_no, ub.account_type, t9.type as usertype, t3.billing_email as billingemail, t3.billing_contact as billingcontact');
+		$this->db->select('
 			group_concat(concat_ws("@@@", t4.id, t4.suburb, t4.city,t4.province, t5.name, t6.name, t7.name) separator "@-@") as areas'
 		);
 
@@ -228,14 +243,8 @@ class Coc_Model extends CC_Model
 
         $this->db->join('users_bank ub', 'ub.user_id=t1.user_id', 'left');
    
-       if(isset($requestdata['id'])) $this->db->where('t1.inv_id', $requestdata['id']);
+		if(isset($requestdata['id'])) $this->db->where('t1.inv_id', $requestdata['id']);
 
-
-       
-		// if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
-		// 	$this->db->limit($requestdata['length'], $requestdata['start']);
-		// }
-		
 		if($type=='count'){
 			$result = $this->db->count_all_results();
 		}else{
@@ -245,24 +254,18 @@ class Coc_Model extends CC_Model
 			elseif($type=='row') 	$result = $query->row_array();
 		}
 
-		// echo $this->db->last_query();
-		// die;
-
-		//print_r($result);die;
-		
 		return $result;
 	}
 
 	public function getPermissions($type1)
 	{ 
 		$this->db->select('*');
-		$this->db->from('settings_details ');		
-      if($type1=='count'){
+		$this->db->from('settings_details');		
+		
+		if($type1=='count'){
 			$result = $this->db->count_all_results();
-			
 		}else{
 			$query = $this->db->get();
-			
 			
 			if($type1=='all') 		$result = $query->result_array();
 			elseif($type1=='row') 	$result = $query->row_array();
@@ -271,20 +274,17 @@ class Coc_Model extends CC_Model
 		return $result;
 	}
 
-	 public function getPermissions1($type2)
+	public function getPermissions1($type2)
 	{ 
 		$this->db->select('st1.*, p1.id, p1.name');
-		$this->db->select('
-			group_concat(concat_ws("@@@", st1.province, p1.name) separator "@-@") as provincesettings');
+		$this->db->select('group_concat(concat_ws("@@@", st1.province, p1.name) separator "@-@") as provincesettings');
 		$this->db->from('settings_address st1', 'st1.type="2"');
 		$this->db->join('province p1', 'p1.id = st1.province', 'left');
 		
-      if($type2=='count'){
+		if($type2=='count'){
 			$result = $this->db->count_all_results();
-			
 		}else{
 			$query = $this->db->get();
-			
 			
 			if($type2=='all') 		$result = $query->result_array();
 			elseif($type2=='row') 	$result = $query->row_array();
@@ -293,7 +293,7 @@ class Coc_Model extends CC_Model
 		return $result;
 	}
 
-		public function action($requestdata, $flag){
+	public function action($requestdata, $flag){
 		//$datetime		= 	date('Y-m-d H:i:s');
 
 		if ($flag == 1) {
@@ -373,6 +373,7 @@ class Coc_Model extends CC_Model
 		if(isset($data['company_details'])) 	$request['company_details'] 		= $data['company_details'];
 		if(isset($data['ncnotice'])) 			$request['ncnotice'] 				= $data['ncnotice'];
 		if(isset($data['ncemail'])) 			$request['ncemail'] 				= $data['ncemail'];
+		if(isset($data['ncreason'])) 			$request['ncreason'] 				= $data['ncreason'];
 		if(isset($data['submit']) && $data['submit']=='log') $request['log_date'] 	= date('Y-m-d H:i:s');
 		
 		$request['file2'] 					= (isset($data['file2'])) ? implode(',', $data['file2']) : '';

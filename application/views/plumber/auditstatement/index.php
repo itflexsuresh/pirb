@@ -52,14 +52,53 @@
 								<th>Consumer</th>
 								<th>Address</th>
 								<th>Refix Date</th>
+								<th>Refix Complete Date</th>
+								<th>Date Allocated to Auditor</th>
 								<th>Auditor</th>
 								<th>Action</th>
+								<th class="displaynone">Notification</th>
 							</tr>							
 						</thead>
 					</table>
 				</div>
 
 			</div>
+		</div>
+	</div>
+</div>
+
+<div id="ratingmodal" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<form class="ratingform" method="post">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Rating</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label>Rate your experience with <span class="ratingauditor"></span></label>
+								<div id="ratingwrapper"></div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label>Comments</label>
+								<textarea name="comments" id="comments" class="form-control"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer ratingfooter">
+					<input type="hidden" name="rating" id="rating">
+					<input type="hidden" name="cocid" class="cocid">
+					<input type="hidden" name="auditorid" class="auditorid">
+					<button type="submit" class="btn btn-success">Submit</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -78,13 +117,45 @@
 							{ "data": "consumer" },
 							{ "data": "address" },
 							{ "data": "refixdate" },
+							{ "data": "refixcompletedate" },
+							{ "data": "auditordate" },
 							{ "data": "auditor" },
-							{ "data": "action" }
+							{ "data": "action" },
+							{ "data": "notification" }
 						],
-			target	:	[4, 6],
-			sort	:	'0'
+			target	:	[8],
+			sort	:	'0',
+			order 	: 	[[0, 'desc']],
+			target1	:	[9],
+			visible1:	'0',
+			createdrow : createdrow
 		};
 		
 		ajaxdatatables('.datatables', options);
 	});
+	
+	function createdrow(row, data, dataIndex){
+		if(data.notification=='1'){
+			$(row).addClass('tablestripe');
+		}
+	}
+	
+	$(document).on('click', '.starrating', function(){
+		var cocid 		= $(this).attr('data-cocid');
+		var auditorid 	= $(this).attr('data-auditorid');
+		
+		$('.cocid').val(cocid);
+		$('.auditorid').val(auditorid);
+		$('.ratingfooter').show();
+		$('#comments').val('');
+		rating('#ratingwrapper', '#rating', '0');
+		
+		ajax('<?php echo base_url()."ajax/index/ajaxreviewrating"; ?>', {'cocid' : cocid, 'auditorid' : auditorid}, '', { success : function(data){ 
+			if(data.status=='1'){
+				$('.ratingfooter').hide();
+				$('#comments').val(data.result.comments);
+				rating('#ratingwrapper', '#rating', data.result.rating);
+			}
+		}});
+	})
 </script>

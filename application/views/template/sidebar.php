@@ -302,7 +302,7 @@ if(count($permission) > 0){
 									</div>
 								</div>
 							</li>
-							<li>
+							<li class="displaynone">
 								<div class="row side_list">
 									<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
 										<a href="<?php echo base_url().'plumber/performancestatus/index'; ?>"><i class="fa fa-line-chart" aria-hidden="true"></i></a>

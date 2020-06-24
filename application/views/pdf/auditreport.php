@@ -161,7 +161,7 @@ function base64conversion($path){
 							<td><input type="text"  style="font-family:Helvetica;" value="<?php echo $name; ?>"></td>
 						</tr> 
 						<tr>
-							<td style="padding: 0;"><label style="font-family:Helvetica;">Name of Complex/Flat (if applicable)</label></td>
+							<td style="padding: 0;"><label style="font-family:Helvetica;">Name of Complex/Flat and Unit Number (if applicable)</label></td>
 							<td><label style="font-family:Helvetica;">Street</label></td>
 							<td><label style="font-family:Helvetica;">Number</label></td>
 						</tr>
@@ -229,53 +229,52 @@ function base64conversion($path){
 			</td>
 		</tr>
 		
-		<tr>
-			<td>
-				<table class="table table-bordered reviewtable">    
-					<thead>
-					<tr style="width:200px;"><th style="border:none; font-family:Helvetica; padding-left:0px; width:100%; text-align: left;"><h3>AUDIT REVIEW</h3></th></tr>
-						<tr>
-							<th style="font-family:Helvetica;">Review Type</th>
-							<th style="font-family:Helvetica;">Statement</th>
-							<th style="font-family:Helvetica;">SANS/Regulation/Bylaw Reference</th>
-							<th style="font-family:Helvetica;">Comments</th>
-							<th style="font-family:Helvetica;">Images</th>
-						</tr>
-					</thead>
-
-					<tbody>
-						<?php foreach($reviewlist as $list){ ?>
-							<tr>
-								<td style="font-family:Helvetica;" class="<?php echo isset($reviewtableclass[$list['reviewtype']]) ? $reviewtableclass[$list['reviewtype']] : ''; ?>">
-									<?php echo isset($this->config->item('reviewtype')[$list['reviewtype']]) ? $this->config->item('reviewtype')[$list['reviewtype']] : ''; ?>
-									<?php 
-										if($list['reviewtype']=='1'){
-											if($list['status']=='0'){
-												echo '<p>(Incomplete)</p>';
-											}else{
-												echo '<p>(Complete)</p>';
-											}
-										}
-									?>
-								</td>
-								<td style="font-family:Helvetica;"><?php echo $list['statementname']; ?></td>
-								<td style="font-family:Helvetica;"><?php echo $list['reference']; ?></td>
-								<td style="font-family:Helvetica;"><?php echo $list['comments']; ?></td>
-								<td style="font-family:Helvetica;">
-									<?php 
-										$filelist = array_filter(explode(',', $list['file'])); 
-										foreach($filelist as $file){
-									?>
-											<img src="<?php echo base64conversion(base_url().'assets/uploads/auditor/statement/'.$file); ?>" width="150">
-									<?php
-										}
-									?>
-								</td>
-							</tr>
-						<?php } ?>      
-					</tbody>                            
-				</table>
-			</td>
-		</tr>
 	</tbody>
+</table>
+<table class="table table-bordered reviewtable">    
+	<thead>
+		<tr>
+			<th colspan="5" style="border:none; font-family:Helvetica; padding-left:0px; width:100%; text-align: left;">
+				<h3>AUDIT REVIEW</h3>
+			</th>
+		</tr>
+		<tr>
+			<th style="font-family:Helvetica;">Review Type</th>
+			<th style="font-family:Helvetica;">Statement</th>
+			<th style="font-family:Helvetica;">SANS/Regulation/Bylaw Reference</th>
+			<th style="font-family:Helvetica;">Comments</th>
+			<th style="font-family:Helvetica;">Images</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach($reviewlist as $list){ ?>
+			<tr>
+				<td style="font-family:Helvetica;" class="<?php echo isset($reviewtableclass[$list['reviewtype']]) ? $reviewtableclass[$list['reviewtype']] : ''; ?>">
+					<?php echo isset($this->config->item('reviewtype')[$list['reviewtype']]) ? $this->config->item('reviewtype')[$list['reviewtype']] : ''; ?>
+					<?php 
+						if($list['reviewtype']=='1'){
+							if($list['status']=='0'){
+								echo '<p>(Incomplete)</p>';
+							}else{
+								echo '<p>(Complete)</p>';
+							}
+						}
+					?>
+				</td>
+				<td style="font-family:Helvetica;"><?php echo $list['statementname']; ?></td>
+				<td style="font-family:Helvetica;"><?php echo $list['reference']; ?></td>
+				<td style="font-family:Helvetica;"><?php echo $list['comments']; ?></td>
+				<td style="font-family:Helvetica;">
+					<?php 
+						$filelist = array_filter(explode(',', $list['file'])); 
+						foreach($filelist as $file){
+					?>
+							<p><img src="<?php echo base64conversion(base_url().'assets/uploads/auditor/statement/'.$file); ?>" width="150"></p>
+					<?php
+						}
+					?>
+				</td>
+			</tr>
+		<?php } ?>      
+	</tbody>                            
 </table>

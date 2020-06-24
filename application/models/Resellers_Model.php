@@ -67,7 +67,7 @@ class Resellers_Model extends CC_Model
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['ud.company','u.email','ud.mobile_phone','cc.count' ];
+			$column = ['u.id', 'ud.company','u.email','ud.mobile_phone','cc.count' ];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){

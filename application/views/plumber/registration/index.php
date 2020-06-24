@@ -28,6 +28,8 @@
 	$companyname 			= isset($result['company_name']) ? $result['company_name'] : '';
 	$regno 					= isset($result['reg_no']) ? $result['reg_no'] : '';
 	$vatno 					= isset($result['vat_no']) ? $result['vat_no'] : '';
+	$billingemail 			= isset($result['billing_email']) ? $result['billing_email'] : '';
+	$billingcontact 		= isset($result['billing_contact']) ? $result['billing_contact'] : '';
 	$employmentdetailsid	= isset($result['employment_details']) ? $result['employment_details'] : '';
 	$companydetailsid		= isset($result['company_details']) ? $result['company_details'] : '';
 	$designationid			= isset($result['designation']) ? $result['designation'] : '';
@@ -81,6 +83,9 @@
 		$photoidimg 	= $profileimg;
 		$photoidurl 	= 'javascript:void(0);';
 	}
+	
+	$email2 				= isset($result['email2']) ? $result['email2'] : '';
+	$mobilephone2 			= isset($result['mobile_phone2']) ? $result['mobile_phone2'] : '';
 ?>
 
 <div class="row page-titles">
@@ -453,9 +458,23 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
+									<label>Secondary Mobile Phone</label>
+									<input type="text" class="form-control" name="mobile_phone2" id="mobile_phone2" value="<?php echo $mobilephone2; ?>">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
 									<label>Email Address *</label>
 									<input type="text" class="form-control" id="email" name="email" value="<?php echo $email; ?>" disabled>
 									<p>Note: This email will be used as your user profile name and all emails notifications will be sent to it.</p>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Secondary Email Address</label>
+									<input type="text" class="form-control" name="email2" value="<?php echo $email2; ?>">
 								</div>
 							</div>
 						</div>
@@ -488,6 +507,20 @@
 									<input type="text" class="form-control" name="vat_no" value="<?php echo $vatno; ?>">
 								</div>
 							</div>                            
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Billing Email *</label>
+									<input type="text" class="form-control percentageslide" name="billing_email" value="<?php echo $billingemail; ?>">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Billing Contact *</label>
+									<input type="text" class="form-control percentageslide" id="billing_contact" name="billing_contact" value="<?php echo $billingcontact; ?>">
+								</div>
+							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6">
@@ -755,8 +788,8 @@
 		<div class="modal-content">
 			<div class="modal-body">
 				<div class="row">
-					<p>Please confirm that you wish to sumbit your PIRB Registation Application.</p>
-					<p>A One Time Pin (OTP) was sent to the following Mobile Number: <?php echo $mobilephone; ?></p>
+					<p>Please confirm that you wish to submit your PIRB Registation Application.</p>
+					<p>A One Time Pin (OTP) was sent to the following Mobile Number: <span id="otpmobile"></span></p>
 					<div>
 						<input id="sampleotp" type="text" class="form-control displaynone" readonly>
 						<p>Enter OTP</p>
@@ -781,7 +814,7 @@ $(function(){
 	checkstep();
 	select2('#title, #gender, #racial, #nationality, #othernationality, #homelanguage, #disability, #citizen, #registration_card, #delivery_card, #province1, #city1, #suburb1, #province2, #city2, #suburb2, #province3, #city3, #suburb3, #employment_details, #company_details, #skill_route');
 	datepicker('.dob, .skill_date');
-	inputmask('#home_phone, #work_phone, #mobile_phone', 1);
+	inputmask('#home_phone, #work_phone, #mobile_phone, #mobile_phone2, #billing_contact', 1);
 	fileupload([".document_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.document', '.document_image', filepath, pdfimg]);
 	fileupload([".photo_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.photo', '.photo_image', filepath, pdfimg]);
 	fileupload([".skill_attachment_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.skill_attachment', '.skill_attachment_image', filepath, pdfimg]);
@@ -822,9 +855,11 @@ $(function(){
 			},
 			name : {
 				required	: true,
+				lettersonly	: true
 			},
 			surname : {
 				required	: true,
+				lettersonly	: true
 			},
 			gender : {
 				required	: true,
@@ -1018,6 +1053,13 @@ $(function(){
 			company_name : {
 				required	: true,
 			},
+			billing_email : {
+				required	: true,
+				email		: true
+			},
+			billing_contact : {
+				required	: true
+			},
 			'address[3][address]' : {
 				required	: true,
 			},
@@ -1038,6 +1080,13 @@ $(function(){
 		{
 			company_name 	: {
 				required	: "Billing name field is required.",
+			},
+			billing_email : {
+				required	: "Billing email field is required.",
+				email		: "Enter valid email address"
+			},
+			billing_contact : {
+				required	: "Billing contact field is required.",
 			},
 			'address[3][address]' 	: {
 				required	: "Address field is required.",
@@ -1220,6 +1269,7 @@ $('#submit').click(function(e){
 		}
 		
 		ajaxotp();
+		$('#otpmobile').text($('#mobile_phone').val());
 		$('#otpmodal').modal('show');
 		return true;
 	}else{

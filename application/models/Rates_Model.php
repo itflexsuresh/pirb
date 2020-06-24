@@ -16,6 +16,8 @@ class Rates_Model extends CC_Model
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
 			$column = ['id', 'name', 'status'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
+		}else{
+			$this->db->order_by('orders', 'asc');
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];

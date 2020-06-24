@@ -26,6 +26,7 @@
 	$auditorid 				= isset($result['auditorid']) ? $result['auditorid'] : '';
 	$auditorname 			= isset($result['auditorname']) ? $result['auditorname'] : '';
 	$auditormobile 			= isset($result['auditormobile']) ? $result['auditormobile'] : '';
+	$auditordate 			= isset($result['audit_allocation_date']) && $result['audit_allocation_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['audit_allocation_date'])) : '';
 	$auditorstatus 			= isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';
 	
 	$completiondate 		= isset($result['cl_completion_date']) && $result['cl_completion_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_completion_date'])) : '';
@@ -47,6 +48,7 @@
 	$hold 					= isset($result['as_hold']) ? $result['as_hold'] : '';
 	$reason 				= isset($result['as_reason']) ? $result['as_reason'] : '';
 	$auditcomplete 			= isset($result['as_auditcomplete']) ? $result['as_auditcomplete'] : '';
+	$refixcompletedate 		= isset($result['as_refixcompletedate']) && $result['as_refixcompletedate']!='' ? date('d-m-Y', strtotime($result['as_refixcompletedate'])) : date('d-m-Y');
 	
 	$reviewtableclass		= ['1' => 'review_failure', '2' => 'review_cautionary', '3' => 'review_compliment', '4' => 'review_noaudit'];
 	
@@ -297,7 +299,18 @@
 										<textarea class="form-control"  name="reason" id="reason" rows="4" cols="50"><?php echo $reason; ?></textarea>			
 									</div>
 								</div>		
-							<?php } ?>		
+							<?php } ?>	
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Date Allocated to Auditor</label>
+									<div class="input-group">
+										<input type="text" class="form-control" data-date="datepicker" value="<?php echo $auditordate; ?>" disabled>
+										<div class="input-group-append">
+											<span class="input-group-text"><i class="icon-calender"></i></span>
+										</div>
+									</div>
+								</div>
+							</div>							
 							<?php if($auditcomplete=='1' && $pagetype=='2'){ ?>		
 								<div class="col-md-12">
 									<a href="<?php echo base_url().'/'.$auditreport; ?>">
@@ -305,8 +318,7 @@
 										<span>Audit Report</span>
 									</a>
 								</div>
-							<?php } ?>				
-								
+							<?php } ?>
 						</div>
 					</div>
 				</div>
@@ -347,6 +359,12 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="row">
+							<div class="col-md-12 refixcompletedate_wrapper displaynone">
+								<div class="form-group">
+									<label>Refix Completed date</label>
+									<input type="text" class="form-control" name="refixcompletedate" id="refixcompletedate">
+								</div>
+							</div>
 							<div class="col-md-12 refix_wrapper displaynone">
 								<div class="form-group">
 									<label><?php echo  $roletype=='5' ? "Refix Period (Days)" : "Refix's to this Audit review are to be completed by latest"; ?></label>
@@ -404,7 +422,7 @@
 
 <div class="row">
 	<div class="col-12">
-		<h4 class="card-title">Chat (History)</h4>
+		<h4 class="card-title">Chat (History) <span id="chatviewed"></span></h4>
 		<div class="card">
 			<div class="chatcontent" id="chatcontent">
 				<p><a href="javascript:void(0);" data-url="<?php echo isset($seperatechat) ? base_url().$seperatechat : ''; ?>" id="seperatechat">Open In a Seperate Chat Window</a></p>
@@ -544,6 +562,7 @@
 					<input type="hidden" value="0" name="cautionarypoint" id="cautionarypoint">
 					<input type="hidden" value="0" name="complimentpoint" id="complimentpoint">
 					<input type="hidden" value="0" name="noauditpoint" id="noauditpoint">
+					<input type="hidden" value="<?php echo $settings['refix_period']; ?>" name="refixperiod">
 					<button type="button" class="btn btn-success reviewsubmit">Submit</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
@@ -575,6 +594,7 @@ var reviewclass 			= JSON.parse('<?php echo json_encode($reviewtableclass); ?>')
 var workmanshippt 			= JSON.parse('<?php echo json_encode($workmanshippt); ?>');
 var plumberverificationpt 	= JSON.parse('<?php echo json_encode($plumberverificationpt); ?>');
 var cocverificationpt 		= JSON.parse('<?php echo json_encode($cocverificationpt); ?>');
+var refixcompletedate 		= '<?php echo $refixcompletedate; ?>';
 var noaudit		= '<?php echo $noaudit; ?>';
 var filepath 	= '<?php echo $filepath; ?>';
 var chatpath 	= '<?php echo $chatfilepath; ?>';
@@ -594,8 +614,9 @@ $(function(){
 	if($('#hold').is(':checked')) $('#hold').data('approvalHoldValue', true);
 	reason()
 	
+	datepicker('#refixcompletedate', ['enddate']);
 	datepicker('.auditdate', ['enddate'], {'customstartdate' : '<?php echo date('Y-m-d', strtotime($completiondate)); ?>'});	
-	select2('#workmanship, #plumberverification, #cocverification');
+	select2('#workmanship, #plumberverification, #cocverification, #province, #city, #suburb');
 	citysuburb(['#province','#city', '#suburb'], ['<?php echo $cityid; ?>', '<?php echo $suburbid; ?>']);
 	subtypereportinglist(['#r_installationtype','#r_subtype','#r_statement'], ['', ''], reviewpoint);
 	fileupload(["#r_file", "./assets/uploads/auditor/statement/", ['jpg','gif','jpeg','png','pdf','tiff']], ['file[]', '.rfileappend', reviewpath, pdfimg], 'multiple');
@@ -763,7 +784,8 @@ function reason(){
 
 
 $(document).on('change', '.reviewstatus', function(){
-	var _this = $(this);
+	var _this 		= $(this);
+	var refixperiod = '<?php echo $settings['refix_period']; ?>';
 	
 	if(_this.val()==0){
 		var point = _this.parent().parent().attr('data-incompletept');
@@ -771,7 +793,7 @@ $(document).on('change', '.reviewstatus', function(){
 		var point = _this.parent().parent().attr('data-completept');
 	}
 	
-	ajax('<?php echo base_url()."ajax/index/ajaxreviewaction"; ?>', {'id' : _this.parent().parent().attr('data-id'), 'point' : point, 'status' : _this.val()}, '', { success : function(data){ 
+	ajax('<?php echo base_url()."ajax/index/ajaxreviewaction"; ?>', {'id' : _this.parent().parent().attr('data-id'), 'point' : point, 'refixperiod' : refixperiod, 'status' : _this.val()}, '', { success : function(data){ 
 		sweetalertautoclose('successfully saved'); 
 		refixcheck(); 
 		_this.parent().parent().find('td:eq(4)').text(point)
@@ -997,7 +1019,8 @@ function reviewextras(){
 }
 
 function refixcheck(){
-	$('.refix_wrapper, .report_wrapper, .auditcomplete_wrapper, .refixmodaltext, #submitreport').addClass('displaynone');
+	$('.refix_wrapper, .report_wrapper, .auditcomplete_wrapper, .refixmodaltext, #submitreport, .refixcompletedate_wrapper').addClass('displaynone');
+	$('#refixcompletedate').val('');
 	
 	var reportcheck = 0;
 	var newdate;
@@ -1051,7 +1074,8 @@ function refixcheck(){
 				$('#auditstatus').val(0);
 			}
 		}else if(reportcheck==3){
-			if($('.attachmenthidden').val()!='') $('.report_wrapper, .auditcomplete_wrapper, #submitreport').removeClass('displaynone');
+			$('#refixcompletedate').val(refixcompletedate);
+			if($('.attachmenthidden').val()!='') $('.report_wrapper, .auditcomplete_wrapper, #submitreport, .refixcompletedate_wrapper').removeClass('displaynone');
 		}else{
 			if($('.attachmenthidden').val()!='') $('.report_wrapper, .auditcomplete_wrapper, #submitreport').removeClass('displaynone');
 		}

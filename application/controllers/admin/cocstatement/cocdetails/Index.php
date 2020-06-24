@@ -20,7 +20,7 @@ class Index extends CC_Controller
 		$pagedata['cocstatus'] 		= $this->config->item('cocstatus');	
 		$pagedata['auditstatus'] 	= $this->config->item('auditstatus');	
 		$pagedata['checkpermission'] = $this->checkUserPermission('6', '2');
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'validation', 'datepicker'];
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'validation', 'datepicker', 'select2'];
 		$data['content'] 			= $this->load->view('admin/cocstatement/cocdetails/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
@@ -127,7 +127,7 @@ class Index extends CC_Controller
 		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id]);
 		$pagedata['cocdetails']		= $this->Coc_Model->getCOcDetails('row', ['coc_id' => $id]);
 		
-		$data['plugins']			= ['validation'];
+		$data['plugins']			= ['validation', 'select2'];
 		$data['content'] 			= $this->load->view('admin/cocstatement/cocdetails/action', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}

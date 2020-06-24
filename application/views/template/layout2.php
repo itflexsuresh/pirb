@@ -1,5 +1,6 @@
 <?php 
 	$sitename	= $this->config->item('sitename');
+	$userid		= $userdata['id'];
 ?>
 
 <!DOCTYPE html>
@@ -95,6 +96,9 @@
 		<script src="<?php echo base_url().'assets/plugins/sparkline/jquery.sparkline.min.js'; ?>"></script>
 		
 		<?php
+			if(in_array('rating', $plugins)){ 
+				echo '<script src="'.base_url().'assets/plugins/rating/rating.js"></script>';
+			}
 			if(in_array('datatables', $plugins)){ 
 				echo '<script src="'.base_url().'assets/plugins/datatables/js/jquery.dataTables.min.js"></script>';
 			}

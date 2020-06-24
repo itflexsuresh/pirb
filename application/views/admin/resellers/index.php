@@ -21,6 +21,7 @@
 					<table class="table table-bordered table-striped datatables fullwidth">
 						<thead>
 							<tr>
+								<th class="displaynone">ID</th>
 								<th>Reseller Name</th>
 								<th>Email Address</th>
 								<th>Contact Number</th>
@@ -46,25 +47,23 @@
 		datatable();
 	});
 	
-	$('.search').on('click',function(){		
-		datatable(1);
-	});
-	
 	function datatable(destroy=0){
 
 		var options = {
 			url 	: 	'<?php echo base_url()."admin/resellers/index/DTResellers"; ?>',
-			data    :   { customsearch : 'listsearch1', search_reg_no:$('#reg_no').val(), search_plumberstatus:$('#plumberstatus').val(), search_idcard:$('#idcard').val(), search_mobile_phone:$('#mobile_phone').val(), search_dob:$('#dob').val(), search_company_details:$('#company_details').val()},  			
-			destroy :   destroy,  			
 			columns : 	[							
+							{ "data": "id" },
 							{ "data": "name" },
 							{ "data": "email" },
 							{ "data": "contactnumber" },
 							{ "data": "stockcount" },
 							{ "data": "action" }
 						],
-						target : [4],
-						sort : '0'
+			target : [5],
+			sort : '0',
+			target1 : [0],
+			visible1 : '0',
+			order : [[0, 'desc']]
 		};
 		
 		ajaxdatatables('.datatables', options);

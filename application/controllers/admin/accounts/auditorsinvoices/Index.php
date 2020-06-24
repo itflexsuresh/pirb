@@ -70,35 +70,34 @@ class Index extends CC_Controller
 			{
 				$internal_inv = "";	
 				$originalDate = isset($result['created_at']) && $result['created_at']!='1970-01-01' && $result['created_at']!='0000-00-00' ? date('d-m-Y', strtotime($result['created_at'])) : '';
+				
 				if($result['status'] == '0'){
 
 					if($checkpermission){
-					$internal_inv = '<form class="form" method="post"><div class="table-action"><input type="text" name="internal_inv"><input type="hidden" name="editid" value="'.$result['inv_id'].'"><input type="button" value="Update"></div></form>';
-					//<a href="'.base_url().'admin/accounts/auditorsinvoices/index/index" data-toggle="tooltip" data-placement="top" title="Update"></a>
-				}else{
-					$internal_inv = '';
-				}
+						$internal_inv = '<form class="form" method="post"><div class="table-action"><input type="text" name="internal_inv" value="'.$result['invoice_no'].'"><input type="hidden" name="editid" value="'.$result['inv_id'].'"><input type="button" value="Update"></div></form>';
+					}else{
+						$internal_inv = '';
+					}
 
 					$status = "Unpaid";
-					
-				}
-				elseif($result['status'] == '1'){
+				}elseif($result['status'] == '1'){
 					$status = "Paid";
 					$internal_inv = $result['internal_inv'];
 				}
 
 				$action = '
 					<div class="col-md-6">
-					<a  href="' .base_url().'assets/inv_pdf/'.$result['inv_id'].'.pdf"  target="_blank">
-					<img src="'.base_url().'assets/images/pdf.png" height="50" width="50">
-					</div></a>
+						<a  href="' .base_url().'assets/inv_pdf/'.$result['inv_id'].'.pdf"  target="_blank">
+							<img src="'.base_url().'assets/images/pdf.png" height="50" width="50">
+						</a>
+					</div>
 					';
 
-					if ($result['total_cost']!='') {
-      $amt = $this->config->item('currency').' '.$result['total_cost'];
-      }else{
-      	$amt = $result['total_cost'];
-      }
+				if ($result['total_cost']!='') {
+					$amt = $this->config->item('currency').' '.$result['total_cost'];
+				}else{
+					$amt = $result['total_cost'];
+				}
 				
 				if($result['status'] != '2'){
 					$totalrecord[] = 	[      

@@ -29,6 +29,8 @@
 	$companyname 			= isset($result['company_name']) ? $result['company_name'] : '';
 	$regno 					= isset($result['reg_no']) ? $result['reg_no'] : '';
 	$vatno 					= isset($result['vat_no']) ? $result['vat_no'] : '';
+	$billingemail 			= isset($result['billing_email']) ? $result['billing_email'] : '';
+	$billingcontact 		= isset($result['billing_contact']) ? $result['billing_contact'] : '';
 	$employmentdetailsid	= isset($result['employment_details']) ? $result['employment_details'] : '';
 	$companydetailsid		= isset($result['company_details']) ? $result['company_details'] : '';
 	$designationid			= isset($result['designation']) ? $result['designation'] : '';
@@ -373,7 +375,7 @@
 											<div class="form-group">
 												<label>Title *</label>
 												<?php
-													echo form_dropdown('title', $titlesign, $titleid, ['id'=>'title', 'class'=>'form-control']+$disabled2array);
+													echo form_dropdown('title', $titlesign, $titleid, ['id'=>'title', 'class'=>'form-control']+$disabled1array);
 												?>
 											</div>
 										</div>
@@ -381,7 +383,7 @@
 											<label>Date of Birth *</label>
 											<div class="form-group">
 												<div class="input-group">
-													<input type="text" class="form-control dob" name="dob" value="<?php echo $dob; ?>" <?php echo $disabled2; ?>>
+													<input type="text" class="form-control dob" name="dob" value="<?php echo $dob; ?>" <?php echo $disabled1; ?>>
 													<div class="input-group-append">
 														<span class="input-group-text"><i class="icon-calender"></i></span>
 													</div>
@@ -393,13 +395,13 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Name *</label>
-												<input type="text" class="form-control"  id="name" name="name" value="<?php echo $name; ?>" <?php echo $disabled2; ?>>
+												<input type="text" class="form-control"  id="name" name="name" value="<?php echo $name; ?>" <?php echo $disabled1; ?>>
 												</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Surname *</label>
-												<input type="text" class="form-control" name="surname" id="surname" value="<?php echo $surname; ?>" <?php echo $disabled2; ?>>
+												<input type="text" class="form-control" name="surname" id="surname" value="<?php echo $surname; ?>" <?php echo $disabled1; ?>>
 											</div>
 										</div>
 									</div>
@@ -408,7 +410,7 @@
 											<div class="form-group">
 												<label>Gender *</label>
 												<?php
-													echo form_dropdown('gender', $gender, $genderid, ['id'=>'gender', 'class'=>'form-control']+$disabled2array);
+													echo form_dropdown('gender', $gender, $genderid, ['id'=>'gender', 'class'=>'form-control']+$disabled1array);
 												?>
 											</div>
 										</div>
@@ -416,7 +418,7 @@
 											<div class="form-group">
 												<label>Racial Status *</label>
 												<?php
-													echo form_dropdown('racial', $racial, $racialid,['id'=>'racial', 'class'=>'form-control', 'data-select' => 'select2']+$disabled2array);
+													echo form_dropdown('racial', $racial, $racialid,['id'=>'racial', 'class'=>'form-control', 'data-select' => 'select2']+$disabled1array);
 												?>
 											</div>
 										</div>
@@ -426,14 +428,14 @@
 											<div class="form-group">
 												<label>South African National *</label>
 												<?php
-													echo form_dropdown('nationality', $yesno, $nationality,['id' => 'nationality', 'class'=>'form-control']+$disabled2array);
+													echo form_dropdown('nationality', $yesno, $nationality,['id' => 'nationality', 'class'=>'form-control']+$disabled1array);
 												?>
 												</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>ID Number</label>
-												<input type="text" class="form-control" name="idcard" value="<?php echo $idcard; ?>" <?php echo $disabled2; ?>>
+												<input type="text" class="form-control" name="idcard" value="<?php echo $idcard; ?>" <?php echo $disabled1; ?>>
 												</div>
 										</div>
 									</div>
@@ -442,14 +444,14 @@
 											<div class="form-group">
 												<label>Other Nationality <span class="othernationality_required">*</span></label>
 												<?php
-													echo form_dropdown('othernationality', $othernationality, $othernationalityid, ['id' => 'othernationality', 'class'=>'form-control']+$disabled2array);
+													echo form_dropdown('othernationality', $othernationality, $othernationalityid, ['id' => 'othernationality', 'class'=>'form-control']+$disabled1array);
 												?>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Alternative ID *</label>
-												<input type="text" class="form-control" name="otheridcard" value="<?php echo $otheridcard; ?>" <?php echo $disabled2; ?>>
+												<input type="text" class="form-control" name="otheridcard" value="<?php echo $otheridcard; ?>" <?php echo $disabled1; ?>>
 												</div>
 										</div>
 									</div>
@@ -458,7 +460,7 @@
 											<div class="form-group">
 												<label>Home Language *</label>
 												<?php
-													echo form_dropdown('homelanguage', $homelanguage, $homelanguageid, ['id' => 'homelanguage', 'class'=>'form-control', 'data-select' => 'select2']+$disabled2array);
+													echo form_dropdown('homelanguage', $homelanguage, $homelanguageid, ['id' => 'homelanguage', 'class'=>'form-control', 'data-select' => 'select2']+$disabled1array);
 												?>
 											</div>
 										</div>
@@ -466,7 +468,7 @@
 											<div class="form-group">
 												<label>Disability *</label>
 												<?php
-												echo form_dropdown('disability', $disability, $disabilityid,['id' => 'disability', 'class'=>'form-control']+$disabled2array);
+												echo form_dropdown('disability', $disability, $disabilityid,['id' => 'disability', 'class'=>'form-control']+$disabled1array);
 												?>
 												</div>
 										</div>
@@ -476,7 +478,7 @@
 											<div class="form-group">
 												<label>Citizen Residential Status *</label>
 												<?php
-												echo form_dropdown('citizen', $citizen, $citizenid,['id' => 'citizen', 'class'=>'form-control']+$disabled2array);
+												echo form_dropdown('citizen', $citizen, $citizenid,['id' => 'citizen', 'class'=>'form-control']+$disabled1array);
 												?>
 												</div>
 										</div>
@@ -488,8 +490,8 @@
 												<div>
 													<a href="<?php echo $photoidurl; ?>" target="_blank"><img src="<?php echo $photoidimg; ?>" class="photo_image" width="100"></a>
 												</div>
-												<input type="file" class="photo_file" <?php echo $disabled2; ?>>
-												<input type="hidden" name="image2" class="photo" value="<?php echo $file2; ?>" <?php echo $disabled1.$disabled2; ?>>
+												<input type="file" class="photo_file" <?php echo $disabled1; ?>>
+												<input type="hidden" name="image2" class="photo" value="<?php echo $file2; ?>">
 												<p>(Image/File Size Smaller than 5mb)</p>
 											</div>
 										</div>
@@ -517,7 +519,7 @@
 											<div class="form-group">
 												<label>Registration Card Required *</label>
 												<?php
-													echo form_dropdown('registration_card', $yesno, $registrationcard,['id' => 'registration_card', 'class'=>'form-control', 'id' => 'registration_card']);
+													echo form_dropdown('registration_card', $yesno, $registrationcard,['id' => 'registration_card', 'class'=>'form-control', 'id' => 'registration_card']+$disabled1array);
 												?>
 												</div>
 										</div>
@@ -525,7 +527,7 @@
 											<div class="form-group">
 												<label>Method of Delivery of Card <span class="delivery_card_required">*</span></label>
 												<?php
-													echo form_dropdown('delivery_card', $deliverycard, $deliverycardid,['id' => 'delivery_card', 'class'=>'form-control']);
+													echo form_dropdown('delivery_card', $deliverycard, $deliverycardid,['id' => 'delivery_card', 'class'=>'form-control']+$disabled1array);
 												?>
 											</div>
 										</div>
@@ -554,7 +556,7 @@
 												<label>Physical Address *</label>
 												<input type="hidden" class="form-control" name="address[1][id]" value="<?php echo $addressid1; ?>">
 												<input type="hidden" class="form-control" name="address[1][type]" value="1">
-												<input type="text" class="form-control" name="address[1][address]"  value="<?php echo $address1; ?>">
+												<input type="text" class="form-control" name="address[1][address]"  value="<?php echo $address1; ?>" <?php echo $disabled1; ?>>
 											</div>
 										</div>
 										<div class="col-md-6">
@@ -564,7 +566,7 @@
 												<label>Postal Address *</label>
 												<input type="hidden" class="form-control" name="address[2][id]" value="<?php echo $addressid2; ?>">
 												<input type="hidden" class="form-control" name="address[2][type]" value="2">
-												<input type="text" class="form-control" name="address[2][address]" value="<?php echo $address2; ?>">
+												<input type="text" class="form-control" name="address[2][address]" value="<?php echo $address2; ?>" <?php echo $disabled1; ?>>
 											</div>
 										</div>
 									</div>
@@ -573,7 +575,7 @@
 											<div class="form-group"> 
 												<label>Province *</label>
 												<?php 
-													echo form_dropdown('address[1][province]', $province, $province1, ['id' => 'province1', 'class' => 'form-control']); 
+													echo form_dropdown('address[1][province]', $province, $province1, ['id' => 'province1', 'class' => 'form-control']+$disabled1array); 
 												?>
 											</div>
 										</div>
@@ -581,7 +583,7 @@
 											<div class="form-group">
 												<label>Province *</label>
 												<?php
-													echo form_dropdown('address[2][province]', $province, $province2, ['id' => 'province2', 'class'=>'form-control']);
+													echo form_dropdown('address[2][province]', $province, $province2, ['id' => 'province2', 'class'=>'form-control']+$disabled1array);
 												?>
 											</div>
 										</div>
@@ -591,7 +593,7 @@
 											<div class="form-group">
 												<label>City *</label>
 												<?php 
-													echo form_dropdown('address[1][city]', [], $city1, ['id' => 'city1', 'class' => 'form-control']); 
+													echo form_dropdown('address[1][city]', [], $city1, ['id' => 'city1', 'class' => 'form-control']+$disabled1array); 
 												?>
 											</div>
 										</div>
@@ -599,7 +601,7 @@
 											<div class="form-group">
 												<label>City *</label>
 												<?php 
-													echo form_dropdown('address[2][city]', [], $city2, ['id' => 'city2', 'class' => 'form-control']); 
+													echo form_dropdown('address[2][city]', [], $city2, ['id' => 'city2', 'class' => 'form-control']+$disabled1array); 
 												?>
 											</div>
 										</div>
@@ -609,7 +611,7 @@
 											<div class="form-group">
 												<label>Suburb *</label>
 												<?php
-													echo form_dropdown('address[1][suburb]', [], $suburb1, ['id' => 'suburb1', 'class'=>'form-control']);
+													echo form_dropdown('address[1][suburb]', [], $suburb1, ['id' => 'suburb1', 'class'=>'form-control']+$disabled1array);
 												?>
 											</div>
 										</div>
@@ -618,7 +620,7 @@
 											<div class="form-group">
 												<label>Suburb *</label>
 												<?php
-													echo form_dropdown('address[2][suburb]', [], $suburb2, ['id' => 'suburb2', 'class'=>'form-control']);
+													echo form_dropdown('address[2][suburb]', [], $suburb2, ['id' => 'suburb2', 'class'=>'form-control']+$disabled1array);
 												?>
 											</div>
 										</div>
@@ -627,7 +629,7 @@
 										<div class="col-md-6 offset-6">
 											<div class="form-group">
 												<label>Postal Code *</label>
-												<input type="text" class="form-control" name="address[2][postal_code]" value="<?php echo $postalcode2; ?>">
+												<input type="text" class="form-control" name="address[2][postal_code]" value="<?php echo $postalcode2; ?>" <?php echo $disabled1; ?>>
 											</div>
 										</div>
 									</div>
@@ -636,13 +638,13 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Home Phone:</label>
-												<input type="text" class="form-control" name="home_phone" id="home_phone" value="<?php echo $homephone; ?>">
+												<input type="text" class="form-control" name="home_phone" id="home_phone" value="<?php echo $homephone; ?>" <?php echo $disabled1; ?>>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Mobile Phone *</label>
-												<input type="text" class="form-control" name="mobile_phone" id="mobile_phone" value="<?php echo $mobilephone; ?>" <?php echo $disabled2; ?>>
+												<input type="text" class="form-control" name="mobile_phone" id="mobile_phone" value="<?php echo $mobilephone; ?>" <?php echo $disabled1; ?>>
 												<p>Note: All SMS and OTP notifications will be sent to this mobile number above.</p>
 											</div>
 										</div>
@@ -651,13 +653,13 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Work Phone:</label>
-												<input type="text" class="form-control" name="work_phone" id="work_phone" value="<?php echo $workphone; ?>">
+												<input type="text" class="form-control" name="work_phone" id="work_phone" value="<?php echo $workphone; ?>" <?php echo $disabled1; ?>>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Secondary Mobile Phone</label>
-												<input type="text" class="form-control" name="mobile_phone2" id="mobile_phone2" value="<?php echo $mobilephone2; ?>">
+												<input type="text" class="form-control" name="mobile_phone2" id="mobile_phone2" value="<?php echo $mobilephone2; ?>" <?php echo $disabled1; ?>>
 											</div>
 										</div>
 									</div>
@@ -665,14 +667,14 @@
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Email Address *</label>
-												<input type="text" class="form-control" id="email" name="email" value="<?php echo $email; ?>" <?php echo $disabled2; ?>>
+												<input type="text" class="form-control" id="email" name="email" value="<?php echo $email; ?>" <?php echo $disabled1.$disabled2; ?>>
 												<p>Note: This email will be used as your user profile name and all emails notifications will be sent to it.</p>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Secondary Email Address</label>
-												<input type="text" class="form-control" name="email2" value="<?php echo $email2; ?>">
+												<input type="text" class="form-control" name="email2" value="<?php echo $email2; ?>" <?php echo $disabled1; ?>>
 											</div>
 										</div>
 									</div>
@@ -697,36 +699,50 @@
 										<div class="col-md-4">
 											<div class="form-group">
 												<label>Billing Name *</label>
-												<input type="text" class="form-control" name="company_name" value="<?php echo $companyname; ?>">
+												<input type="text" class="form-control" name="company_name" value="<?php echo $companyname; ?>" <?php echo $disabled1; ?>>
 											</div>
 										</div>
 										<div class="col-md-4">
 											<div class="form-group">
 												<label>Company Reg Number</label>
-												<input type="text" class="form-control" name="reg_no" value="<?php echo $regno; ?>">
+												<input type="text" class="form-control" name="reg_no" value="<?php echo $regno; ?>" <?php echo $disabled1; ?>>
 											</div>
 										</div>
 										<div class="col-md-4">
 											<div class="form-group">
 												<label>Company VAT Number</label>
-												<input type="text" class="form-control" name="vat_no" value="<?php echo $vatno; ?>">
+												<input type="text" class="form-control" name="vat_no" value="<?php echo $vatno; ?>" <?php echo $disabled1; ?>>
 											</div>
 										</div>                            
+									</div>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Billing Email *</label>
+												<input type="text" class="form-control percentageslide" name="billing_email" value="<?php echo $billingemail; ?>" <?php echo $disabled1; ?>>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label>Billing Contact *</label>
+												<input type="text" class="form-control percentageslide" id="billing_contact" name="billing_contact" value="<?php echo $billingcontact; ?>" <?php echo $disabled1; ?>>
+											</div>
+										</div>
 									</div>
 									<div class="row">
 										<div class="col-md-12">
 											<div class="form-group">
 												<label>Billing Address *</label>
-												<input type="hidden" class="form-control" name="address[3][id]" value="<?php echo $addressid3; ?>">
+												<input type="hidden" class="form-control" name="address[3][id]" value="<?php echo $addressid3; ?>" <?php echo $disabled1; ?>>
 												<input type="hidden" class="form-control" name="address[3][type]" value="3">
-												<input type="text" class="form-control" name="address[3][address]" value="<?php echo $address3; ?>">
+												<input type="text" class="form-control" name="address[3][address]" value="<?php echo $address3; ?>" <?php echo $disabled1; ?>>
 											</div>
 										</div>
 										<div class="col-md-12">
 											<div class="form-group">
 												<label>Province *</label>
 												<?php
-													echo form_dropdown('address[3][province]', $province, $province3, ['id' => 'province3', 'class'=>'form-control']);
+													echo form_dropdown('address[3][province]', $province, $province3, ['id' => 'province3', 'class'=>'form-control']+$disabled1array);
 												?>
 											</div>
 										</div>
@@ -734,7 +750,7 @@
 											<div class="form-group">
 												<label>City *</label>
 												<?php 
-													echo form_dropdown('address[3][city]', [], $city3, ['id' => 'city3', 'class' => 'form-control']); 
+													echo form_dropdown('address[3][city]', [], $city3, ['id' => 'city3', 'class' => 'form-control']+$disabled1array); 
 												?>
 											</div>
 										</div>
@@ -742,14 +758,14 @@
 											<div class="form-group">
 												<label>Suburb *</label>
 												<?php 
-													echo form_dropdown('address[3][suburb]', [], $suburb3, ['id' => 'suburb3', 'class'=>'form-control']);
+													echo form_dropdown('address[3][suburb]', [], $suburb3, ['id' => 'suburb3', 'class'=>'form-control']+$disabled1array);
 												?>
 											</div>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
 												<label>Postal Code *</label>
-												<input type="text" class="form-control" name="address[3][postal_code]" value="<?php echo $postalcode3; ?>">
+												<input type="text" class="form-control" name="address[3][postal_code]" value="<?php echo $postalcode3; ?>" <?php echo $disabled1; ?>>
 											</div>
 										</div>
 									</div>
@@ -775,7 +791,7 @@
 											<div class="form-group">
 												<label>Your Employment Status</label>
 												<?php
-													echo form_dropdown('employment_details', $employmentdetail, $employmentdetailsid,['id' => 'employment_details', 'class'=>'form-control', 'id' => 'employment_details']);
+													echo form_dropdown('employment_details', $employmentdetail, $employmentdetailsid,['id' => 'employment_details', 'class'=>'form-control', 'id' => 'employment_details']+$disabled1array);
 												?>
 											</div>
 										</div>
@@ -783,7 +799,7 @@
 											<div class="form-group">
 												<label>Company *</label>
 												<?php
-													echo form_dropdown('company_details', $company, $companydetailsid,['id' => 'company_details', 'class'=>'form-control']);
+													echo form_dropdown('company_details', $company, $companydetailsid,['id' => 'company_details', 'class'=>'form-control']+$disabled1array);
 												?>
 											</div>
 											<?php if($roletype=='3'){ ?>
@@ -816,7 +832,7 @@
 											<td>Qualification Route</td>
 											<td>Training Provider</td>
 											<td>Attachments</td>
-											<?php if(!isset($psidconfig)){ ?>
+											<?php if(!isset($psidconfig) && $disabled1==''){ ?>
 												<td>Action</td>
 											<?php } ?>
 										</tr>
@@ -946,7 +962,7 @@ var type		= '<?php echo $type; ?>';
 $(function(){
 	select2('#plumberstatus, #designation2, #title, #gender, #racial, #nationality, #othernationality, #homelanguage, #disability, #citizen, #registration_card, #delivery_card, #province1, #city1, #suburb1, #province2, #city2, #suburb2, #province3, #city3, #suburb3, #employment_details, #company_details, #skill_route');
 	datepicker('.dob, .skill_date');
-	inputmask('#home_phone, #work_phone, #mobile_phone, #mobile_phone2', 1);
+	inputmask('#home_phone, #work_phone, #mobile_phone, #mobile_phone2, #billing_contact', 1);
 	fileupload([".document_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.document', '.document_image', filepath, pdfimg]);
 	fileupload([".photo_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.photo', '.photo_image', filepath, pdfimg]);
 	fileupload([".skill_attachment_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.skill_attachment', '.skill_attachment_image', filepath, pdfimg]);
@@ -997,9 +1013,11 @@ $(function(){
 			},
 			name : {
 				required	: true,
+				lettersonly	: true
 			},
 			surname : {
 				required	: true,
+				lettersonly	: true
 			},
 			gender : {
 				required	: true,
@@ -1093,6 +1111,13 @@ $(function(){
 			},
 			company_name : {
 				required	: true,
+			},
+			billing_email : {
+				required	: true,
+				email		: true
+			},
+			billing_contact : {
+				required	: true
 			},
 			'address[3][address]' : {
 				required	: true,
@@ -1225,6 +1250,13 @@ $(function(){
 			},
 			company_name 	: {
 				required	: "Billing name field is required.",
+			},
+			billing_email : {
+				required	: "Billing email field is required.",
+				email		: "Enter valid email address"
+			},
+			billing_contact : {
+				required	: "Billing contact field is required.",
 			},
 			'address[3][address]' 	: {
 				required	: "Address field is required.",
@@ -1388,9 +1420,10 @@ function skills(data){
 			var attachment = '';
 		} 
 		
-		var psidconfig =	 '<?php echo !isset($psidconfig) ? "1" : ''; ?>';
+		var psidconfig 	=	 '<?php echo !isset($psidconfig) ? "1" : ''; ?>';
+		var disabled1 	=	 '<?php echo $disabled1; ?>';
 		
-		if(psidconfig=='1'){
+		if(psidconfig=='1' && disabled1==''){
 			var action 		= 	'<td>\
 									<a href="javascript:void(0);" class="skilledit" data-id="'+result.id+'"><i class="fa fa-pencil-alt"></i></a>\
 									<a href="javascript:void(0);" class="skillremove" data-id="'+result.id+'"><i class="fa fa-trash"></i></a>\

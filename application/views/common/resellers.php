@@ -320,7 +320,7 @@ $(function(){
 	datatable();
 
 	var userid		= '<?php echo $usersid; ?>';
-	// select2('#plumberstatus, #designation2, #title, #gender, #racial, #nationality, #othernationality, #homelanguage, #disability, #citizen, #registration_card, #delivery_card, #province1, #city1, #suburb1, #province2, #city2, #suburb2, #province3, #city3, #suburb3, #employment_details, #company_details, #skill_route');
+	select2('#province1, #city1, #suburb1, #province2, #city2, #suburb2');
 	inputmask('#work_phone, #mobile_phone', 1);
 	citysuburb(['#province1','#city1', '#suburb1'], ['<?php echo $city1; ?>', '<?php echo $suburb1; ?>']);
 	citysuburb(['#province2','#city2', '#suburb2'], ['<?php echo $city2; ?>', '<?php echo $suburb2; ?>']);
@@ -335,12 +335,15 @@ $(function(){
 			
 			company : {
 				required	: true,
+				lettersonly	: true
 			},
 			name : {
 				required	: true,
+				lettersonly	: true
 			},			
 			surname : {
 				required	: true,
+				lettersonly	: true
 			},
 			mobile_phone : {
 				required	: true,

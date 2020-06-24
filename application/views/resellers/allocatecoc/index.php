@@ -250,17 +250,12 @@ if(isset($id) && $id >0)
 				<div class="modal-dialog modal-lg">
 					<div class="modal-content">
 						<form class="skillform">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title">A One Time Pin (OTP) was sent to the Licensed Plumber with the following Mobile Number`</h4>
-							</div>
 							<div class="modal-body">
 								<div class="row">
 									<div class="col-md-12">
-										<div class="col-md-12">
-											<div class="form-group">
-												<label><?php echo $name." ".$surname." (".$search_reg_no.")";?></label>
-											</div>
+										<p class="modal-title">A One Time Pin (OTP) was sent to the Licensed Plumber with the following Mobile Number</p>
+										<div class="form-group">
+											<label><?php echo $name." ".$surname." (".$search_reg_no.")";?></label>
 										</div>
 									</div>
 									<div class="col-md-12">
@@ -346,7 +341,8 @@ function selectuser(val,id,limit) {
 }
 */
 $(function(){
-
+	numberonly('#rangebalace_coc');
+	
 	validation(
 		'.form',
 		{	
@@ -452,7 +448,14 @@ $(function(){
 $('#rangebalace_coc').on('keyup',function(){
 	var permitval = parseInt($('#balace_coc1').val());
 	var allocateval = parseInt($('#rangebalace_coc').val());
-
+	
+	if(allocateval=='' || isNaN(allocateval)){
+		$('#checklimit').text("");
+		$('#startrange').val('');
+		$('#endrange').val('');
+		return false;
+	}
+	
 	if(permitval >= allocateval){
 		$('#checklimit').text("");
 		$('#startrange').val('');

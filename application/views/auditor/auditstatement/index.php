@@ -25,11 +25,14 @@
 								<th>Status</th>
 								<th>Plumber</th>
 								<th>Phone (Mobile)</th>
+								<th>Date Allocated to Plumber</th>
 								<th>Refix Date</th>
+								<th>Refix Complete Date</th>
 								<th>Suburb</th>
 								<th>Owners Name and Surname</th>
 								<th>Owners Tel Number</th>
 								<th>Action</th>
+								<th class="displaynone">Notification</th>
 							</tr>							
 						</thead>
 					</table>
@@ -51,16 +54,29 @@
 							{ "data": "status" },
 							{ "data": "plumber" },
 							{ "data": "plumbermobile" },
+							{ "data": "allocateddate" },
 							{ "data": "refixdate" },
+							{ "data": "refixcompletedate" },
 							{ "data": "suburb" },
 							{ "data": "ownername" },
 							{ "data": "ownermobile" },
-							{ "data": "action" }
+							{ "data": "action" },
+							{ "data": "notification" }
 						],
-			target	:	[8],
-			sort	:	'0'
+			target	:	[10],
+			sort	:	'0',
+			order 	: 	[[0, 'desc']],
+			target1	:	[11],
+			visible1:	'0',
+			createdrow : createdrow
 		};
 		
 		ajaxdatatables('.datatables', options);
 	});
+	
+	function createdrow(row, data, dataIndex){
+		if(data.notification=='2'){
+			$(row).addClass('tablestripe');
+		}
+	}
 </script>

@@ -239,7 +239,7 @@ $logoimg = base64conversion(base_url().'assets/images/pitrb-logo.png');
 									foreach($filelist as $file){
 										$plumberimg = base64conversion(base_url().'assets/uploads/plumber/'.$plumberid.'/log/'.$file);
 								?>
-										<img src="<?php echo $plumberimg; ?>" width="150">
+										<p><img src="<?php echo $plumberimg; ?>" width="200"></p>
 								<?php
 									}
 								?>

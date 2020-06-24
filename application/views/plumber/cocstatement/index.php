@@ -68,7 +68,8 @@
 							{ "data": "action" }
 						],
 			target	:	[9],
-			sort	:	'0'
+			sort	:	'0',
+			order 	: 	[[0, 'desc']]
 		};
 		
 		ajaxdatatables('.datatables', options);

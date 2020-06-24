@@ -235,17 +235,12 @@ if (in_array($plumberstatus, $plumber_status)) {
 					<div class="modal-dialog modal-lg">
 						<div class="modal-content">
 							<form class="skillform">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal">&times;</button>
-									<h4 class="modal-title">A One Time Pin (OTP) was sent to the Licensed Plumber with the following Mobile Number`</h4>
-								</div>
 								<div class="modal-body">
 									<div class="row">
 										<div class="col-md-12">
-											<div class="col-md-12">
-												<div class="form-group">
-													<label><?php echo $username['name']." ".$username['surname']; ?></label>
-												</div>
+											<p>A One Time Pin (OTP) was sent to the Licensed Plumber with the following Mobile Number <?php echo $mobile_phone; ?></p>
+											<div class="form-group">
+												<label><?php echo $username['name']." ".$username['surname']; ?></label>
 											</div>
 										</div>
 										<div class="col-md-12">
@@ -308,7 +303,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 			},
 			{
 				coc_purchase 	: {
-					required	: "Number of COC wish to Purchase field is required.",
+					required	: "Number of COC's You Wish to Purchase field is required.",
 					max 		: cocmaxerror
 				},
 				disclaimer 	: {

@@ -110,7 +110,8 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 							{ "data": "action" }
 						],
 			target	:	[8],
-			sort	:	'0'
+			sort	:	'0',
+			order 	: 	[[0, 'desc']]
 		};
 		
 		ajaxdatatables('.datatables', options);

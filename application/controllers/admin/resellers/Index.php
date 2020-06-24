@@ -55,6 +55,7 @@ class Index extends CC_Controller
 				}
 				
 				$totalrecord[] = 	[										
+										'id' 			=> 	$result['id'],
 										'name' 			=> 	$result['company'],
 										'email' 		=> 	$result['email'],										
 										'contactnumber' => 	$result['mobile_phone'],

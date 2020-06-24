@@ -219,6 +219,20 @@ class Index extends CC_Controller
 		echo json_encode($json);
 	}
 	
+	public function ajaxreviewrating()
+	{
+		$post 	= $this->input->post();
+		$result = $this->Auditor_Model->getReviewRating('row', $post);
+		
+		if($result){
+			$json = ['status' => '1', 'result' => $result];
+		}else{
+			$json = ['status' => '0'];
+		}
+		
+		echo json_encode($json);
+	}
+	
 	public function ajaxauditorreportinglist()
 	{
 		$post = $this->input->post();  
@@ -270,6 +284,20 @@ class Index extends CC_Controller
 		$result = $this->Chat_Model->getList('all', $post);
 		
 		if(count($result)){
+			$json = ['status' => '1', 'result' => $result];
+		}else{
+			$json = ['status' => '0', 'result' => []];
+		}
+		
+		echo json_encode($json);
+	}
+	
+	public function ajaxchatviewed()
+	{
+		$post = $this->input->post();  
+		$result = $this->Chat_Model->getList('count', $post);
+		
+		if($result!=0){
 			$json = ['status' => '1', 'result' => $result];
 		}else{
 			$json = ['status' => '0', 'result' => []];

@@ -443,116 +443,44 @@ if(isset($result) && $result){
 					required	: "Wrok Phone field is required."
 				},
 			}
-			);
+		);
+		
 		numberonly('#workphone');
-
-			
-			$(".cpdmaster").keyup(function(){
-				var sumMaster=0;
-				$(".cpdmaster").each(function(){
-					if ($(this).val()!=undefined) {
-
-						sumMaster += parseInt($(this).val());
-
-					}
-				});
-				$('.cpdmaster-total').val(sumMaster);
-			});
-			var sumMaster=0;
-			$(".cpdmaster").each(function(){
-
-				if ($(this).val()!=undefined) {
-					
-					sumMaster += parseInt($(this).val());
-				}
-				$('.cpdmaster-total').val(sumMaster);
-			});
-
-			$(".cpdlicensed").keyup(function(){
-				var sumLicensed=0;
-				$(".cpdlicensed").each(function(){
-					if ($(this).val()!=undefined) {
-
-						sumLicensed += parseInt($(this).val());
-
-					}
-				});
-				$('.cpdlicensed-total').val(sumLicensed);
-			});
-			var sumLicensed=0;
-			$(".cpdlicensed").each(function(){
-
-				if ($(this).val()!=undefined) {
-					
-					sumLicensed += parseInt($(this).val());
-				}
-				$('.cpdlicensed-total').val(sumLicensed);
-			});	
-
-			$(".cpdoperating").keyup(function(){
-				var cpdoperating=0;
-				$(".cpdoperating").each(function(){
-					if ($(this).val()!=undefined) {
-
-						cpdoperating += parseInt($(this).val());
-
-					}
-				});
-				$('.cpdoperating-total').val(cpdoperating);
-			});
-			var cpdoperating=0;
-			$(".cpdoperating").each(function(){
-
-				if ($(this).val()!=undefined) {
-					
-					cpdoperating += parseInt($(this).val());
-				}
-				$('.cpdoperating-total').val(cpdoperating);
-			});	
-
-			$(".cpdassistant").keyup(function(){
-				var cpdoperating=0;
-				$(".cpdassistant").each(function(){
-					if ($(this).val()!=undefined) {
-
-						cpdoperating += parseInt($(this).val());
-
-					}
-				});
-				$('.cpdassistant-total').val(cpdoperating);
-			});
-			var cpdassistant=0;
-			$(".cpdassistant").each(function(){
-
-				if ($(this).val()!=undefined) {
-					
-					cpdassistant += parseInt($(this).val());
-				}
-				$('.cpdassistant-total').val(cpdassistant);
-			});	
-
-			$(".cpdlearner").keyup(function(){
-				var cpdlearner=0;
-				$(".cpdlearner").each(function(){
-					if ($(this).val()!=undefined) {
-
-						cpdlearner += parseInt($(this).val());
-
-					}
-				});
-				$('.cpdlearner-total').val(cpdoperating);
-			});
-			var cpdlearner=0;
-			$(".cpdlearner").each(function(){
-
-				if ($(this).val()!=undefined) {
-					
-					cpdlearner += parseInt($(this).val());
-				}
-				$('.cpdlearner-total').val(cpdlearner);
-			});	
-
-
+		totalcalculation('.cpdmaster', '.cpdmaster-total');
+		totalcalculation('.cpdlicensed', '.cpdlicensed-total');
+		totalcalculation('.cpdoperating', '.cpdoperating-total');
+		totalcalculation('.cpdassistant', '.cpdassistant-total');
+		totalcalculation('.cpdlearner', '.cpdlearner-total');
 		
 	});
+	
+	$(".cpdmaster").on('keyup change wheel', function(){
+		totalcalculation('.cpdmaster', '.cpdmaster-total');
+	});
+	
+	$(".cpdlicensed").on('keyup change wheel', function(){
+		totalcalculation('.cpdlicensed', '.cpdlicensed-total');
+	});
+	
+	$(".cpdoperating").on('keyup change wheel', function(){
+		totalcalculation('.cpdoperating', '.cpdoperating-total');
+	});
+	
+	$(".cpdassistant").on('keyup change wheel', function(){
+		totalcalculation('.cpdassistant', '.cpdassistant-total');
+	});
+	
+	$(".cpdlearner").on('keyup change scroll', function(){
+		totalcalculation('.cpdlearner', '.cpdlearner-total');
+	});
+			
+	function totalcalculation(selector, totalselector){
+		var total=0;
+		$(selector).each(function(){
+			if ($(this).val()!=undefined) {
+				total += parseInt($(this).val());
+			}
+			$(totalselector).val(total);
+		});	
+	}
 </script>

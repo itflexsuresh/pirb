@@ -33,7 +33,7 @@
 								<th>Invoice Description</th>
 								<th>Total Invoice Value</th>
 								<th>Payment Status</th>
-								<th>Internal Inv Number</th>	
+								<th>Auditors Invoice Numbers</th>	
 								<th></th>	
 							</tr>
 						</thead>
@@ -61,7 +61,8 @@
 				{ "data": "action" }				
 			],
 			target : [7],
-			sort : '0'
+			sort : '0',
+			order : [[5, 'asc']]
 			
 		};
 		

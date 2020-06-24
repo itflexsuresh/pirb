@@ -29,6 +29,7 @@ class CC_Controller extends CI_Controller
 		$this->load->model('Resellers_Model');
 		$this->load->model('Resellers_allocatecoc_Model');
 		$this->load->model('Plumberperformance_Model');
+		$this->load->model('Chat_Model');
 
 		$this->load->library('pdf');
 		$this->load->library('phpqrcode/qrlib');
@@ -676,7 +677,7 @@ class CC_Controller extends CI_Controller
 		$pagedata['notification'] 	= $this->getNotification();
 		$pagedata['province'] 		= $this->getProvinceList();
 		
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','inputmask'];
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','inputmask','select2'];
 		$data['content'] 			= $this->load->view('common/resellers', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
@@ -712,7 +713,7 @@ class CC_Controller extends CI_Controller
 		
 		$pagedata['history']	  = $this->Auditor_Model->getReviewHistoryCount(['auditorid' => $id]);	
 		
-		$data['plugins'] = ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','inputmask','echarts'];
+		$data['plugins'] = ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','inputmask','echarts','select2'];
 		$data['content'] = $this->load->view('common/auditor', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
@@ -747,8 +748,9 @@ class CC_Controller extends CI_Controller
 					$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '18', 'emailstatus' => '1']);
 				
 					if($notificationdata){
-						$body 	= str_replace(['{Plumbers Name and Surname}', '{number}'], [$userdata['name'].' '.$userdata['surname'], $id], $notificationdata['email_body']);
-						$this->CC_Model->sentMail($userdata['email'], $notificationdata['subject'], $body);
+						$body 		= str_replace(['{Plumbers Name and Surname}', '{number}'], [$userdata['name'].' '.$userdata['surname'], $id], $notificationdata['email_body']);
+						$subject 	= str_replace(['{cocno}'], [$id], $notificationdata['subject']);
+						$this->CC_Model->sentMail($userdata['email'], $subject, $body);
 					}				
 					
 					if($this->config->item('otpstatus')!='1'){
@@ -837,9 +839,15 @@ class CC_Controller extends CI_Controller
 	
 	public function getauditreview($id, $pagedata=[], $extras=[])
 	{		
+		if(isset($extras['notification'])){
+			$this->db->update('stock_management', ['notification' => '0'], ['id' => $id]);
+		}
+		
 		$extraparam = [];
 		if(isset($extras['auditorid'])) $extraparam['auditorid'] 	= $extras['auditorid'];
-		if(isset($extras['plumberid'])) $extraparam['user_id'] 		= $extras['plumberid'];		
+		if(isset($extras['plumberid'])) $extraparam['user_id'] 		= $extras['plumberid'];	
+		$extraparam['page'] = 'review';	
+		
 		$result	= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]+$extraparam);	
 		if(!$result){
 			$this->session->set_flashdata('error', 'No Record Found.');
@@ -856,11 +864,11 @@ class CC_Controller extends CI_Controller
 						
 			if($data){
 				if($requestData['submit']=='save' && isset($requestData['hold'])){
-					$this->db->update('stock_management', ['audit_status' => '5'], ['id' => $pagedata['result']['id']]);
+					$this->db->update('stock_management', ['audit_status' => '5', 'notification' => '1'], ['id' => $pagedata['result']['id']]);
 				}elseif($requestData['submit']=='save' && !isset($requestData['hold']) && $requestData['auditstatus']=='0'){
-					$this->db->update('stock_management', ['audit_status' => '3'], ['id' => $pagedata['result']['id']]);
+					$this->db->update('stock_management', ['audit_status' => '3', 'notification' => '1'], ['id' => $pagedata['result']['id']]);
 				}elseif($requestData['submit']=='save' && !isset($requestData['hold']) && $requestData['auditstatus']=='1'){
-					$this->db->update('stock_management', ['audit_status' => '2'], ['id' => $pagedata['result']['id']]);
+					$this->db->update('stock_management', ['audit_status' => '2', 'notification' => '1'], ['id' => $pagedata['result']['id']]);
 				}
 				
 				if($requestData['auditstatus']=='0'){
@@ -874,8 +882,9 @@ class CC_Controller extends CI_Controller
 							
 							$duedate 		= ($auditreviewrow) ? date('d-m-Y', strtotime($auditreviewrow['created_at'].' +'.$pagedata['settings']['refix_period'].'days')) : '';
 							
-							$body 	= str_replace(['{Plumbers Name and Surname}', '{COC number}', '{refix number} ', '{due date}'], [$pagedata['result']['u_name'], $pagedata['result']['id'], $pagedata['settings']['refix_period'], $duedate], $notificationdata['email_body']);
-							$this->CC_Model->sentMail($pagedata['result']['u_email'], $notificationdata['subject'], $body, $pdf);
+							$body 		= str_replace(['{Plumbers Name and Surname}', '{COC number}', '{refix number} ', '{due date}'], [$pagedata['result']['u_name'], $pagedata['result']['id'], $pagedata['settings']['refix_period'], $duedate], $notificationdata['email_body']);
+							$subject 	= str_replace(['{cocno}'], [$id], $notificationdata['subject']);
+							$this->CC_Model->sentMail($pagedata['result']['u_email'], $subject, $body, $pdf);
 							if(file_exists($pdf)) unlink($pdf);  
 						}
 						
@@ -891,7 +900,12 @@ class CC_Controller extends CI_Controller
 				}
 				
 				if(isset($requestData['auditcomplete']) && $requestData['auditcomplete']=='1' && $requestData['submit']=='submitreport'){
-
+					$chatlists = $this->Chat_Model->getList('all', ['coc_id' => $id, 'state' => '1']);
+					if(count($chatlists)){
+						foreach($chatlists as $chatlist){
+							$this->Chat_Model->action(['id' => $chatlist['id'], 'state1' => '1', 'state2' => '1', 'viewed' => '1']);
+						}
+					}
 					
 					//Invoice and Order
 					$inspectionrate = $this->currencyconvertor($this->getRates($this->config->item('inspection')));
@@ -912,8 +926,9 @@ class CC_Controller extends CI_Controller
 						// Email
 						$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '21', 'emailstatus' => '1']);
 						if($notificationdata){
-							$body 	= str_replace(['{Plumbers Name and Surname}', '{COC number}'], [$pagedata['result']['u_name'], $pagedata['result']['id']], $notificationdata['email_body']);
-							$this->CC_Model->sentMail($pagedata['result']['u_email'], $notificationdata['subject'], $body);
+							$body 		= str_replace(['{Plumbers Name and Surname}', '{COC number}'], [$pagedata['result']['u_name'], $pagedata['result']['id']], $notificationdata['email_body']);
+							$subject 	= str_replace(['{cocno}'], [$id], $notificationdata['subject']);
+							$this->CC_Model->sentMail($pagedata['result']['u_email'], $subject, $body);
 						}
 						
 						// SMS
@@ -927,11 +942,11 @@ class CC_Controller extends CI_Controller
 						}
 						
 						// Stock
-						$this->db->update('stock_management', ['audit_status' => '1'], ['id' => $pagedata['result']['id']]);
+						$this->db->update('stock_management', ['audit_status' => '1', 'notification' => '1'], ['id' => $pagedata['result']['id']]);
 						
 						$this->CC_Model->diaryactivity(['plumberid' => $pagedata['result']['user_id'], 'auditorid' => $pagedata['result']['auditorid'], 'cocid' => $pagedata['result']['id'], 'action' => '9', 'type' => '4']);
 					}elseif($requestData['auditstatus']=='0'){
-						$this->db->update('stock_management', ['audit_status' => '4'], ['id' => $pagedata['result']['id']]);
+						$this->db->update('stock_management', ['audit_status' => '4', 'notification' => '1'], ['id' => $pagedata['result']['id']]);
 						
 						$this->CC_Model->diaryactivity(['plumberid' => $pagedata['result']['user_id'], 'auditorid' => $pagedata['result']['auditorid'], 'cocid' => $pagedata['result']['id'], 'action' => '10', 'type' => '4']);
 					}
@@ -1064,7 +1079,7 @@ class CC_Controller extends CI_Controller
 
 		$html = $this->load->view('pdf/electroniccocreport', (isset($pagedata) ? $pagedata : ''), true);
 		$this->pdf->loadHtml($html);
-		$this->pdf->setPaper('A2', 'portrait');
+		$this->pdf->setPaper('A4', 'portrait');
 		$this->pdf->render();
 		$output = $this->pdf->output();
 		$this->pdf->stream('Electronic COC Report '.$id);
@@ -1077,7 +1092,7 @@ class CC_Controller extends CI_Controller
 
 		$html = $this->load->view('pdf/noncompliancereport', (isset($pagedata) ? $pagedata : ''), true);
 		$this->pdf->loadHtml($html);
-		$this->pdf->setPaper('A2', 'portrait');
+		$this->pdf->setPaper('A4', 'portrait');
 		$this->pdf->render();
 		$output = $this->pdf->output();
 		
@@ -1094,12 +1109,12 @@ class CC_Controller extends CI_Controller
 		$pagedata['settings']	= $this->Systemsettings_Model->getList('row');
 		$pagedata['currency']   = $this->config->item('currency');
 		$pagedata['rowData'] 	= $this->Coc_Model->getListPDF('row', ['id' => $id, 'status' => ['0','1']]);
-		$pagedata['rowData1'] 	= $this->Coc_Model->getPermissions('row', ['id' => $id, 'status' => ['0','1']]);
-		$pagedata['rowData2'] 	= $this->Coc_Model->getPermissions1('row', ['id' => $id, 'status' => ['0','1']]);
+		$pagedata['rowData1'] 	= $this->Coc_Model->getPermissions('row'); 
+		$pagedata['rowData2'] 	= $this->Coc_Model->getPermissions1('row');
 		$pagedata['title'] 		= $title;
 		$pagedata['extras'] 	= $extras;
 		
-		$html 			= $this->load->view('pdf/coc', (isset($pagedata) ? $pagedata : ''), true);						  
+		$html 			= $this->load->view('pdf/coc', (isset($pagedata) ? $pagedata : ''), true);
 		$pdfFilePath 	= $id.'.pdf';
 		$filePath 		= FCPATH.'assets/inv_pdf/';
 		

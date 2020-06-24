@@ -160,15 +160,6 @@
 		
 <script>
 	$(function(){
-		
-		$.validator.addMethod("lettersonly", function(value, element) {
-          return this.optional(element) || /^[a-z \s]+$/i.test(value);
-        }, "Only Letters");
-		
-		jQuery.validator.addMethod("noSpace", function(value, element) { 
-  			return value.indexOf(" ") < 0 && value != ""; 
-		}, "No space please and don't leave it empty");
-		
 		validation(
 			'.form',
 			{

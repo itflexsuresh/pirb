@@ -36,7 +36,7 @@ class Index extends CC_Controller
 		$pagedata['provincelist'] 	= $this->getProvinceList();	
 		$pagedata['userid']			= $userid;
 		$pagedata['audit_status'] = $this->config->item('audits_status1');
-		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker','inputmask'];
+		$data['plugins']			= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation','datepicker','inputmask','select2'];
 		$data['content'] 			= $this->load->view('auditor/profile/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}

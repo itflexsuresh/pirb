@@ -15,6 +15,8 @@
 	$compreg 		= isset($result['reg_no']) ? $result['reg_no'] : set_value ('reg_no');
 	$compvat 		= isset($result['vat_no']) ? $result['vat_no'] : set_value ('vat_no');
 	$compvatvendor	= isset($result['vat_vendor']) ? $result['vat_vendor'] : set_value ('vat_vendor');
+	$billingemail 	= isset($result['billing_email']) ? $result['billing_email'] : '';
+	$billingcontact = isset($result['billing_contact']) ? $result['billing_contact'] : '';
 	$mobile  		= isset($result['mobile_phone']) ? $result['mobile_phone'] : set_value ('mobile_phone');
 	$workphone  	= isset($result['work_phone']) ? $result['work_phone'] : set_value ('work_phone');
 	$image 			= isset($result['file1']) ? $result['file1'] : set_value ('file1');	
@@ -219,6 +221,18 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
+									<label>Billing Email *</label>
+									<input type="text" class="form-control percentageslide" name="billing_email" value="<?php echo $billingemail; ?>">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Billing Contact *</label>
+									<input type="text" class="form-control percentageslide" id="billing_contact" name="billing_contact" value="<?php echo $billingcontact; ?>">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
 									<label>Billing Address</label>
 									<input type="text" class="form-control" name="address" value="<?php echo$billaddress; ?>">
 								</div>
@@ -383,6 +397,7 @@
 <script type="text/javascript">
 
 	$(function(){
+		select2('#province, #city, #suburb, #area_province, #area_city, #area_suburb');
 		
 		fileupload([".auditor_image", "./assets/uploads/auditor/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.auditor_picture', '.auditor_photo', '<?php echo base_url()."assets/uploads/auditor/"; ?>']);
 	
@@ -390,7 +405,7 @@
 
 		
 		citysuburb(['#province','#city', '#suburb'], ['<?php echo $city; ?>', '<?php echo $suburb; ?>']);
-		inputmask('#work_phone, #mobile_phone', 1);
+		inputmask('#work_phone, #mobile_phone, #billing_contact', 1);
 
 		vatvendor();
 
@@ -399,9 +414,11 @@
 			{
 				name : {
 					required	: true,
+					lettersonly	: true
 				},
 				surname : {
 					required	: true,
+					lettersonly	: true
 				},
 				idno : {
 					required	: true,
@@ -448,6 +465,13 @@
 				},
 				vat : {
 					required	: true,
+				},
+				billing_email : {
+					required	: true,
+					email		: true
+				},
+				billing_contact : {
+					required	: true
 				},
 				billingaddress : {
 					required	: true,
@@ -517,6 +541,13 @@
 				vat : {
 					required	: "Please enter the VAT"
 				},
+				billing_email : {
+					required	: "Billing email field is required.",
+					email		: "Enter valid email address"
+				},
+				billing_contact : {
+					required	: "Billing contact field is required.",
+				},
 				billingaddress : {
 					required	: "Please enter the billing address"
 				},
@@ -574,8 +605,6 @@
     });
 
     $('#area_province').on('change', function(){
-		// citysuburb(['<?php // echo base_url()."ajax/index/ajaxcity"; ?>', {provinceid : $("#area_province").val()}, '#area_city'], ['<?php // echo base_url()."ajax/index/ajaxsuburb"; ?>', {provinceid : $("#area_province").val(), cityid : '<?php // echo $city; ?>'}, '#area_suburb']);
-
 		citysuburb(['#area_province','#area_city', '#area_suburb'], ['<?php echo $city; ?>']);
 	});
 

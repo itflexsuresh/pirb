@@ -381,15 +381,12 @@
 					</div>
 					<h4 class="card-title">Contact Details</h4>
 					<div class="row">
-						<?php if ($pagetype!='registration' && $result['formstatus'] !='0') { ?>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Home Phone:</label>
-									<input type="text" class="form-control" name="home_phone" id="home_phone" value="<?php echo $home_phone; ?>">
-								</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Home Phone:</label>
+								<input type="text" class="form-control" name="home_phone" id="home_phone" value="<?php echo $home_phone; ?>">
 							</div>
-						<?php } ?>
-						
+						</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Work Phone*:</label>
@@ -409,14 +406,12 @@
 								<p>Note all SMS and OTP notifications will be sent to this mobile number above</p>
 							</div>
 						</div>
-						<?php if ($pagetype!='registration' && $result['formstatus'] !='0') { ?>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Secondary Mobile Phone:</label>
-									<input type="text" class="form-control" name="secondary_phone" id="secondary_phone" value="<?php echo $mobile_phone2; ?>">
-								</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Secondary Mobile Phone:</label>
+								<input type="text" class="form-control" name="secondary_phone" id="secondary_phone" value="<?php echo $mobile_phone2; ?>">
 							</div>
-						<?php } ?>
+						</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Email Address *</label>
@@ -424,14 +419,12 @@
 								<p>Note: this email will be used as your user profile name and all emails notifications will be sent to it</p>
 							</div>
 						</div>
-						<?php if ($pagetype!='registration' && $result['formstatus'] !='0') { ?>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Secondary Email Address:</label>
-									<input type="text" class="form-control" name="email" id="email" value="<?php echo $email2; ?>">
-								</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Secondary Email Address:</label>
+								<input type="text" class="form-control" name="email" id="email" value="<?php echo $email2; ?>">
 							</div>
-						<?php } ?>
+						</div>
 					</div>					
 					<div class="row">
 						<div class="col-md-6">
@@ -476,20 +469,11 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<form class="skillform">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">A One Time Pin (OTP) was sent to the following Mobile Number <span id="otpmobileno"></span></h4>
-				</div>
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-md-12">
-							<div class="col-md-12">
-								<div class="form-group">
-									<label><?php // echo $username['name']." ".$username['surname']; ?></label>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-12">
+							<p>Please confirm that you wish to submit your PIRB Company Application.</p>
+							<p>A One Time Pin (OTP) was sent to the following Mobile Number <span id="otpmobileno"></span></p>
 							<div class="form-group">
 								<input id="sampleotp" type="text" class="form-control skill_training" readonly>
 								<label>Enter OTP</label>
@@ -580,6 +564,7 @@ $(function(){
 		{
 			name : {
 				required	: true,
+				lettersonly	: true
 			},
 			reg_no : {
 				required	: true,

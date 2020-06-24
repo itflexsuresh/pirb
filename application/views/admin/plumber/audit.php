@@ -104,6 +104,8 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 								<th>Consumer</th>
 								<th>Address</th>
 								<th>Refix Date</th>
+								<th>Refix Complete Date</th>
+								<th>Date Allocated to Auditor</th>
 								<th>Auditor</th>
 								<th>Action</th>
 							</tr>							
@@ -128,11 +130,14 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 							{ "data": "consumer" },
 							{ "data": "address" },
 							{ "data": "refixdate" },
+							{ "data": "refixcompletedate" },
+							{ "data": "auditordate" },
 							{ "data": "auditor" },
 							{ "data": "action" }
 						],
-			target	:	[6],
-			sort	:	'0'
+			target	:	[8],
+			sort	:	'0',
+			order 	: 	[[0, 'desc']]
 		};
 		
 	ajaxdatatables('.datatables', options);

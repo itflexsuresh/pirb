@@ -383,7 +383,7 @@ $(function(){
 				required	: "Date of order field is required."
 			},
 			quantity 	: {
-				required	: "Number of COC wish to Purchase field is required."
+				required	: "Number of COC's You Wish to Purchase field is required."
 			},			
 			coc_type 	: {
 				required	: "Please Select Your COC Type."

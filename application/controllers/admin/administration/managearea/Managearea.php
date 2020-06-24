@@ -34,9 +34,9 @@ class Managearea extends CC_Controller
 			$this->checkUserPermission('4', '2', '1');
 
 			$requestData 				= 	$this->input->post();
-			$requestData['citydata']	=	$citydata;
+			//$requestData['citydata']	=	$citydata;
 
-			if($requestData['submit']=='submit'){
+			if(isset($requestData['submit']) && $requestData['submit']=='submit'){
 				if($requestData['city1']!=''){
 					$data=$this->Managearea_Model->checkUsername($requestData);
 					if($data)
@@ -72,7 +72,7 @@ class Managearea extends CC_Controller
 		$pagedata['provincelist'] 			= $this->getProvinceList();
 		$pagedata['checkpermission'] 		= $this->checkUserPermission('4', '2');
 		$pagedata['msggrp'] 				= $this->config->item('messagegroup');
-		$data['plugins']					= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
+		$data['plugins']					= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'select2'];
 		$data['content'] 					= $this->load->view('admin/administration/managearea/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}

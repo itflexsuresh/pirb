@@ -41,7 +41,6 @@ class Index extends CC_Controller
 		$post 			= $this->input->post();
 		$totalcount 	= $this->Coc_Model->getCOCList('count', ['coc_status' => ['2'], 'noaudit' => '']+$post);
 		$results 		= $this->Coc_Model->getCOCList('all', ['coc_status' => ['2'], 'noaudit' => '']+$post);	
-		$settings 		= $this->Systemsettings_Model->getList('row');
 
 		$checkpermission	=	$this->checkUserPermission('28', '2');
 		
@@ -61,8 +60,8 @@ class Index extends CC_Controller
 										
 									';
 				
-				$review 		= $this->Auditor_Model->getReviewList('row', ['coc_id' => $result['id'], 'reviewtype' => '1', 'status' => '0']);
-				$refixdate 		= ($review) ? date('d-m-Y', strtotime($review['created_at'].' +'.$settings['refix_period'].'days')) : '';
+				$refixdate 			= ($result['ar1_refix_date']!='') ? '<p class="'.((date('Y-m-d') > date('Y-m-d', strtotime($result['ar1_refix_date']))) && $result['as_refixcompletedate']=='' ? "tagline" : "").'">'.date('d-m-Y', strtotime($result['ar1_refix_date'])).'</p>' : '';
+				$refixcompletedate 	= ($result['as_refixcompletedate']!='') ? '<p class="successtagline">'.date('d-m-Y', strtotime($result['as_refixcompletedate'])).'</p>' : '';
 				
 				$totalrecord[] 	= 	[
 										'cocno' 			=> 	$result['id'],
@@ -70,7 +69,8 @@ class Index extends CC_Controller
 										'auditorname' 		=> 	$result['auditorname'],
 										'auditormobile' 	=> 	$result['auditormobile'],
 										'auditordate' 		=> 	isset($result['audit_allocation_date']) && $result['audit_allocation_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['audit_allocation_date'])) : '',
-										'refixdate' 		=> 	($refixdate!='') ? '<p class="'.((date('Y-m-d') > date('Y-m-d', strtotime($refixdate))) ? "tagline" : "").'">'.$refixdate.'</p>' : '',
+										'refixdate' 		=> 	$refixdate,
+										'refixcompletedate' => 	$refixcompletedate,
 										'action'			=> 	'
 																	<div class="table-action">
 																		'.$action.'

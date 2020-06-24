@@ -41,6 +41,26 @@
     $profileimg             = base_url().'assets/images/profile.jpg';
 
     $cardcolor = ['1' => 'learner_plumber', '2' => 'technical_assistant', '3' => 'technical_operator', '4' => 'licensed_plumber', '5' => 'qualified_plumber', '6' => 'master_plumber'];
+
+    if ($designation2[$designation2id] == 'Learner Plumber') {
+        $plumber_icon = 'assets/images/card/Learner plumber.png';
+
+    }elseif($designation2[$designation2id] == 'Technical Assistant Practitioner'){
+        $plumber_icon = 'assets/images/card/Technical Assistant.png';
+
+    }elseif($designation2[$designation2id] == 'Technical Operator Practitioner'){
+        $plumber_icon = 'assets/images/card/Technical Operator.png';
+
+    }elseif($designation2[$designation2id] == 'Licensed Plumber'){
+        $plumber_icon = 'assets/images/card/licensed plumber.png';
+
+    }elseif($designation2[$designation2id] == 'Qualified Plumber'){
+        $plumber_icon = 'assets/images/card/licensed plumber';
+
+    }elseif($designation2[$designation2id] == 'Master Plumber'){
+        $plumber_icon = 'assets/images/card/Master-plumber.png';
+    }
+    
 ?>
 
 
@@ -61,7 +81,9 @@
                 </tr>
                 <tr class="add_idcard_color" >
                     <td>
-                        <img class="plum_lic" src="<?php echo base_url()?>assets/images/Plumber_License.png">
+                        <div class="idcard_icon">
+                            <img class="plum_lic" src="<?php echo base_url().$plumber_icon; ?>">
+                        </div>                   
                     </td>
                     <td>
                         <p class="license"><?php echo isset($designation2[$designation2id]) ? $designation2[$designation2id] : '-'; ?></p>
