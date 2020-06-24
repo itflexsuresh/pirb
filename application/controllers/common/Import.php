@@ -502,6 +502,26 @@ class Import extends CC_Controller {
 		}
 	}
 	
+	public function updategender()
+	{
+		$file 	= './assets/import/gender.xlsx';
+		$type 	= \PhpOffice\PhpSpreadsheet\IOFactory::identify($file);
+		$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($type);
+		$spreadsheet = $reader->load($file);
+		
+		$datas 	= $spreadsheet->getActiveSheet()->toArray();
+		unset($datas[0]);
+		
+		foreach($datas as $key => $data){
+			
+			$checkUser = $this->db->get_where('users', ['email' => 'test'.$data[5]])->row_array();
+			
+			if($checkUser){
+				$this->db->update('users_detail', ['gender' => '2'], ['user_id' => $checkUser['id']]);
+			}
+		}
+	}
+	
     public function resellers()
 	{
 		$datetime 	= date('Y-m-d H:i:s');
@@ -703,14 +723,15 @@ class Import extends CC_Controller {
 	
 	public function noncompliancelisting()
 	{
-		$file 	= './assets/import/listing.xlsx';
+		$file 	= './assets/import/noncompliancelisting.xlsx';
 		$type 	= \PhpOffice\PhpSpreadsheet\IOFactory::identify($file);
 		$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($type);
-		$reader->setLoadSheetsOnly(['Non Compliance Statement Listin']);
 		$spreadsheet = $reader->load($file);
 		
 		$datas 	= $spreadsheet->getActiveSheet()->toArray();
 		unset($datas[0]);
+		unset($datas[1]);
+		unset($datas[2]);
 		
 		$installtiontypes 	= array_unique(array_column($datas, 0));
 		foreach($installtiontypes as $key => $data){
@@ -751,26 +772,6 @@ class Import extends CC_Controller {
 			];
 			
 			$this->Noncompliancelisting_Model->action($reportdatas);
-		}
-	}
-	
-	public function updategender()
-	{
-		$file 	= './assets/import/gender.xlsx';
-		$type 	= \PhpOffice\PhpSpreadsheet\IOFactory::identify($file);
-		$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($type);
-		$spreadsheet = $reader->load($file);
-		
-		$datas 	= $spreadsheet->getActiveSheet()->toArray();
-		unset($datas[0]);
-		
-		foreach($datas as $key => $data){
-			
-			$checkUser = $this->db->get_where('users', ['email' => 'test'.$data[5]])->row_array();
-			
-			if($checkUser){
-				$this->db->update('users_detail', ['gender' => '2'], ['user_id' => $checkUser['id']]);
-			}
 		}
 	}
 	
