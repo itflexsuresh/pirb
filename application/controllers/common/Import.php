@@ -39,73 +39,6 @@ class Import extends CC_Controller {
 	
 		$this->CC_Model->sentMail('itflexsolutions@pirb.co.za', $subject, $message);
 	}
-	/*
-    public function province()
-	{
-		$data = $this->db->get('importprovince')->result_array();
-
-		foreach ($data as $value) {
-			
-			$result  	= 	[
-								'id' 		=> $value['ID'],
-								'name' 		=> $value['Name'],
-								'status' 	=> '1'
-							];
-				
-			$this->db->insert('province', $result);			
-		}
-    }
-	
-    public function city()
-	{
-		$datetime 	= date('Y-m-d H:i:s');
-		$userid		= $this->getUserID();
-		
-		$data 		= $this->db->get('importcity')->result_array();
-		
-		foreach ($data as $value) {
-			
-			$result  	= 	[
-								'id' 				=> $value['ID'],
-								'province_id' 		=> $value['ProvinceID'],
-								'name' 				=> $value['Name'],
-								'code' 				=> $value['Code'],
-								'status' 			=> '1',
-								'created_at' 		=> $datetime,
-								'created_by' 		=> $userid,
-								'updated_at' 		=> $datetime,
-								'updated_by' 		=> $userid
-							];
-				
-			$this->db->insert('city', $result);			
-		}
-    }
-	
-    public function suburb()
-	{
-		$datetime 	= date('Y-m-d H:i:s');
-		$userid		= $this->getUserID();
-		
-		$data 		= $this->db->get('importsuburb')->result_array();
-		
-		foreach ($data as $value) {
-			
-			$result  	= 	[
-								'id' 				=> $value['SuburbID'],
-								'province_id' 		=> $value['ProvinceID'],
-								'city_id' 			=> $value['CityID'],
-								'name' 				=> $value['Name'],
-								'status' 			=> $value['isActive'],
-								'created_at' 		=> $datetime,
-								'created_by' 		=> $userid,
-								'updated_at' 		=> $datetime,
-								'updated_by' 		=> $userid
-							];
-				
-			$this->db->insert('suburb', $result);			
-		}
-    }
-	*/
 	
 	public function province()
 	{
@@ -202,7 +135,7 @@ class Import extends CC_Controller {
 				
 			$user = [
 				'id' 				=> '',
-				'email' 			=> $value['Email'],
+				'email' 			=> 'test'.$value['Email'],
 				'password' 			=> '12345678',
 				'type'				=> '4',
 				'mailstatus'		=> '1',
@@ -243,8 +176,8 @@ class Import extends CC_Controller {
 								'name' 						=> $value['Name'],
 								'reg_no' 					=> $value['RegNo'],
 								'contact_person' 			=> $value['PrimaryContact'],
-								'work_phone' 				=> $value['BusinessPhone'],
-								'mobile_phone' 				=> $value['Fax'],
+								'work_phone' 				=> '999'.$value['BusinessPhone'],
+								'mobile_phone' 				=> '999'.$value['Fax'],
 								'address' 					=> $address,
 								'insurancepolicyno' 		=> $value['InsurancePolicyNo'],
 								'insurancecompany' 			=> $value['InsuranceCompany'],
@@ -356,7 +289,7 @@ class Import extends CC_Controller {
 								'name' 						=> $value['FirstName'],
 								'surname' 					=> $value['Surname'],
 								'dob' 						=> $value['BirthDate'],
-								'gender' 					=> $value['GenderID'],
+								'gender' 					=> ($value['GenderID']=='1') ? '2' : '1',
 								'home_phone' 				=> '999'.$value['HomePhone'],
 								'mobile_phone' 				=> '999'.$value['MobilePhone'],
 								'work_phone' 				=> '999'.$value['BusinessPhone'],
@@ -369,7 +302,7 @@ class Import extends CC_Controller {
 								'disability' 				=> $value['DisabilityStatusID'],
 								'citizen' 					=> $value['CitizenResidentStatusID'],
 								'employment_details' 		=> $value['SocioeconomicStatusID'],
-								'company_details' 			=> $company ? $company['id'] : '',
+								'company_details' 			=> $company ? $company['user_id'] : '',
 								'insurancepolicyno' 		=> $value['InsurancePolicyNo'],
 								'insurancecompany' 			=> $value['InsuranceCompany'],
 								'insurancepolicyholder' 	=> $value['InsurancePolicyHolder'],
@@ -378,7 +311,7 @@ class Import extends CC_Controller {
 								'status'					=> '1',
 								'customregno'				=> $value['RegNo'],
 								'registration_date'			=> $value['RegistrationStart'],
-								'expirydate'				=> $value['ExpiryNotificationDate'],
+								'expirydate'				=> $value['RegistrationEnd'],
 								'application_received'		=> $value['DateCreated'],
 								'designation'				=> isset($designation[$value['Designation']]) ? $designation[$value['Designation']] : '',
 								'approval_status'			=> '1',
@@ -642,7 +575,9 @@ class Import extends CC_Controller {
 								'surname' 					=> $data[3],
 								'idno' 						=> $data[4],
 								'email' 					=> 'test'.$data[6],
-								'password' 					=> $data[7],
+								'password' 					=> ($data[7]!='') ? $data[7] : '123456789',
+								'billing_email' 			=> 'test'.$data[4],
+								'billing_contact' 			=> '999'.$data[9],
 								'work_phone' 				=> '999'.$data[8],
 								'mobile_phone' 				=> '999'.$data[9],
 								'company_name' 				=> $data[10],
@@ -654,9 +589,9 @@ class Import extends CC_Controller {
 								'account_no' 				=> $data[22],
 								'branch_code' 				=> $data[23],
 								'account_type' 				=> $data[24],
-								'status' 					=> '1',
+								'status' 					=> ($data[1]=='Y') ? '1' : '0',
 								'allowed' 					=> '50',
-								'auditstatus' 				=> '1',
+								'auditstatus' 				=> ($data[0]=='Y') ? '1' : '0',
 								'address' 					=> '164 Ruimte road',
 								'province' 					=> '3',
 								'city' 						=> '159',
