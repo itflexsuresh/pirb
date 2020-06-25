@@ -3178,3 +3178,7 @@ p.per_scr_hed {
 	padding: 0 25px;
     font-size: 12px;
 }
+
+.emailnotificationnotes p{
+	margin-bottom: 5px;
+}

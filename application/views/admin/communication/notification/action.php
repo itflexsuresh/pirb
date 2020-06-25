@@ -83,7 +83,12 @@ $heading = 'Update';
 														<input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
 														<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?></button>
 													</div>
-
+													
+													
+													<div class="col-md-12 emailnotificationnotes">
+														<h4>Allowed Meta Tag on this template: </h4>
+														<?php echo $result['notes']; ?>
+													</div>
 												
 
 											</form>

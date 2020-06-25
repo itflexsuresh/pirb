@@ -38,7 +38,8 @@ class Plumber_Model extends CC_Model
 		
 		if(in_array('company', $querydata)){
 			$userscompany	= 	[ 
-									'c.company as companyname' 
+									'c.company as companyname',
+									'c.mobile_phone as companymobile'
 								];
 			
 			$select[] 		= 	implode(',', $userscompany);

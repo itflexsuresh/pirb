@@ -728,7 +728,7 @@ class CC_Controller extends CI_Controller
 			redirect($extras['redirect']); 
 		}
 		
-		$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber']);
+		$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber', 'company']);
 		$specialisations 				= explode(',', $userdata['specialisations']);
 		
 		if($this->input->post()){
@@ -764,27 +764,28 @@ class CC_Controller extends CI_Controller
 					
 					if(isset($requestData['ncemail']) && $requestData['ncemail']=='1'){
 						$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '23', 'emailstatus' => '1']);
-				
+						$replacetext = ['', '', '', '', '', '', ''];							
+						if(isset($requestData['name'])) 		$replacetext[0] = $requestData['name'];
+						if(isset($requestData['address'])) 		$replacetext[1] = $requestData['address'];
+						if(isset($requestData['street'])) 		$replacetext[2] = $requestData['street'];
+						if(isset($requestData['number'])) 		$replacetext[3] = $requestData['number'];
+						if(isset($requestData['province'])){
+							$provincename 	= 	$this->Managearea_Model->getListProvince('row', ['id' => $requestData['province']]);
+							$replacetext[4] 	=  $provincename['name'];
+						} 	
+						if(isset($requestData['city'])){
+							$cityname 	= 	$this->Managearea_Model->getListCity('row', ['id' => $requestData['city']]);
+							$replacetext[5] =  $cityname['name'];
+						} 		
+						if(isset($requestData['suburb'])){
+							$suburbname = 	$this->Managearea_Model->getListSuburb('row', ['id' => $requestData['suburb']]);
+							$replacetext[6] =  $suburbname['name'];
+						} 	
+						
 						if(isset($requestData['email']) && $requestData['email']!='' && $notificationdata){
-							$replacetext = ['', '', '', '', '', '', ''];							
-							if(isset($requestData['name'])) 		$replacetext[0] = $requestData['name'];
-							if(isset($requestData['address'])) 		$replacetext[1] = $requestData['address'];
-							if(isset($requestData['street'])) 		$replacetext[2] = $requestData['street'];
-							if(isset($requestData['number'])) 		$replacetext[3] = $requestData['number'];
-							if(isset($requestData['province'])){
-								$provincename 	= 	$this->Managearea_Model->getListProvince('row', ['id' => $requestData['province']]);
-								$replacetext[4] 	=  $provincename['name'];
-							} 	
-							if(isset($requestData['city'])){
-								$cityname 	= 	$this->Managearea_Model->getListCity('row', ['id' => $requestData['city']]);
-								$replacetext[5] =  $cityname['name'];
-							} 		
-							if(isset($requestData['suburb'])){
-								$suburbname = 	$this->Managearea_Model->getListSuburb('row', ['id' => $requestData['suburb']]);
-								$replacetext[6] =  $suburbname['name'];
-							} 	
+							
 							$subject 	= str_replace(['{Customer Name}', '{Complex Name}', '{Street}', '{Number}', '{Suburb}', '{City}', '{Province}'], $replacetext, $notificationdata['subject']);
-							$body 		= str_replace(['{Customer Name}', '{Complex Name}', '{Street}', '{Number}', '{Suburb}', '{City}', '{Province}'], $replacetext, $notificationdata['email_body']);
+							$body 		= str_replace(['{Customer Name}', '{Plumber Name}', '{plumbers company name}', '{company contact number}'], [$replacetext[0], $userdata['name'].' '.$userdata['surname'], $userdata['companyname'], $userdata['companymobile']], $notificationdata['email_body']);
 							
 							$pdf 		= FCPATH.'assets/uploads/temp/'.$requestData['coc_id'].'.pdf';
 							$this->pdfnoncompliancereport($requestData['coc_id'], $userid, $pdf);
@@ -796,7 +797,7 @@ class CC_Controller extends CI_Controller
 							$smsdata 	= $this->Communication_Model->getList('row', ['id' => '23', 'smsstatus' => '1']);
 				
 							if($smsdata){
-								$sms = $smsdata['sms_body'];
+								$sms = str_replace(['{Customer Name}', '{Complex Name}', '{Street}', '{Number}', '{Suburb}', '{City}', '{Province}'], $replacetext, $smsdata['sms_body']);
 								$this->sms(['no' => $requestData['contact_no'], 'msg' => $sms]);
 							}
 						}
