@@ -507,7 +507,6 @@ function subtypereportinglist(data1=[], data2=[], customfunction=''){
 		
 		subtypedata.installationtypeid = $(this).val();
 		ajax(subtypeurl, subtypedata, subtypefn)
-		if(customfunction!='') customfunction();
 	})
 
 	function subtypefn(data){
@@ -525,6 +524,8 @@ function subtypereportinglist(data1=[], data2=[], customfunction=''){
 			var reportlistingdata  = { installationtypeid : $(data1[0]).val(), subtypeid : $(data1[1]).val() };
 			if(data1[2]) ajax(reportlistingurl, reportlistingdata, reportlistingfn);
 		}
+		
+		if(customfunction!='') customfunction();
 	}
 	
 	if(data1[2]){
@@ -533,7 +534,6 @@ function subtypereportinglist(data1=[], data2=[], customfunction=''){
 		
 			var reportlistingdata  = { installationtypeid : $(data1[0]).val(), subtypeid : $(this).val() };
 			ajax(reportlistingurl, reportlistingdata, reportlistingfn);
-			if(customfunction!='') customfunction();
 		})
 
 		function reportlistingfn(data){
@@ -548,6 +548,8 @@ function subtypereportinglist(data1=[], data2=[], customfunction=''){
 
 				$(data1[2]).append(append);
 			}
+			
+			if(customfunction!='') customfunction();
 		}
 		
 		$(document).on('change', data1[2], function(){

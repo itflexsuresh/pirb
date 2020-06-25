@@ -3160,3 +3160,21 @@ p.per_scr_hed {
 		padding: 26px 83px !important;
 	}
 }   
+
+.noticebox{
+	border: 1px solid lightgrey;
+    margin-bottom: 15px;
+    padding: 0;
+}
+
+.noticebox h3{
+	background: red;
+    color: white;
+    padding: 5px 0;
+    text-align: center;
+}
+
+.noticebox ul{
+	padding: 0 25px;
+    font-size: 12px;
+}

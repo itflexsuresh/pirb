@@ -490,7 +490,7 @@
 		<div class="modal-content">
 			<div class="modal-body">
 				<div class="row">
-					<div>
+					<div class="col-md-12 noticebox">
 						<h3>IMPORTANCE NOTICE</h3>
 						<ul>
 							<li>An incorrect statement of fact, including an omission, is an offence in terms of the PIRB Code of conduct, and will be subjected to PIRB disciplinary procedures.</li>
@@ -499,17 +499,25 @@
 							<li>If this Certifcate of Compliance has been chosen for an audit you must cooperated fully with the PIRB Auditor in allowing them to carry out the relevant audit.</li>
 						</ul>
 					</div>
-					<p>A One Time Pin (OTP) was sent to the Licensed Plumber with the following Mobile Number:</p>
-					<p><?php echo $userdata['name'].' '.$userdata['surname']; ?> - <?php echo $userdata['mobile_phone']; ?></p>
-					<div>
-						<input id="sampleotp" type="text" class="form-control displaynone" readonly>
-						<p>Enter OTP</p>
-						<input type="text" name="otp" id="otp">
+					<div class="col-md-12 text-center">
+						<div class="form-group">
+							<h4 class="mb-15">A One Time Pin (OTP) was sent to the Licensed Plumber with the following Mobile Number :</h4>
+							<h4><?php echo $userdata['name']." / ".$userdata['surname']." - ".$userdata['mobile_phone']; ?></h4>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<input id="sampleotp" type="text" class="form-control displaynone" readonly>
+							<label>Enter OTP</label>
+							<input type="text" name="otp" id="otp" class="form-control">
+						</div>
+					</div>
+					<div class="col-md-12 text-center">
+						<button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-success resendotp">Resend</button>
+						<button type="button" class="btn btn-success verifyotp">Verify</button>
 					</div>
 				</div>
-				<button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-				<button type="button" class="btn btn-success resendotp">Resend</button>
-				<button type="button" class="btn btn-success verifyotp">Verify</button>
 			</div>
 		</div>
 	</div>
@@ -907,7 +915,9 @@ function noncomplianceextras(){
 }
 
 function noncompliancedata(){
-	setTimeout(function(){
+	$('#nc_details, #nc_action, #nc_reference').val('');
+	
+	//setTimeout(function(){
 		var installationtype 	= $('#nc_installationtype').val();
 		var subtype 			= $('#nc_subtype').val();
 		var statement 			= $('#nc_statement').val();
@@ -917,13 +927,13 @@ function noncompliancedata(){
 				if(data.status==1){
 					var result = data.result;
 					
-					if($('#nc_details').val()=='') $('#nc_details').val(result.details)
-					if($('#nc_action').val()=='') $('#nc_action').val(result.action)
-					if($('#nc_reference').val()=='') $('#nc_reference').val(result.reference)
+					$('#nc_details').val(result.details)
+					$('#nc_action').val(result.action)
+					$('#nc_reference').val(result.reference)
 				}	
 			}});
 		}
-	}, 1000);
+	//}, 1000);
 }
 
 $('#ncemail').click(function(){

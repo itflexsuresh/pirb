@@ -226,18 +226,22 @@
 		<div class="modal-content">
 			<div class="modal-body">
 				<div class="row">
+					<div class="col-md-12 text-center">
+						<div class="form-group">
+							<h4 class="mb-15">Confirm that you wish to Allocate <span class="confirmcoc"></span> Audits.</h4>
+						</div>
+					</div>
 					<div class="col-md-12">
-						<h3>Confirm that you wish to Allocate <span class="confirmcoc"></span> Audits.</h3>
 						<div class="form-group">
 							<input type="text" class="form-control confirmtext" name="confirmtext" placeholder="Type in Yes to Confirm">
 							<span class="tagline confirmtagline displaynone">Please fill with confirm text.</span>
 						</div>
 					</div>
+					<div class="col-md-12 text-center">
+						<button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-success confirmsubmit">Confirm</button>
+					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-				<button type="button" class="btn btn-success confirmsubmit">Confirm</button>
 			</div>
 		</div>
 	</div>

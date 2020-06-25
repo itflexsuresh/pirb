@@ -47,9 +47,9 @@ class Index extends CC_Controller
 				}
 				
 				if($result['coc_status']=='2' && $result['auditorid']!='0'){
-					$cocstatus = isset($this->config->item('auditstatus')[$result['audit_status']]) ? $this->config->item('auditstatus')[$result['audit_status']] : '';					
+					$cocstatus = '7'+$result['audit_status'];					
 				}else{
-					$cocstatus = isset($this->config->item('cocstatus')[$result['coc_status']]) ? $this->config->item('cocstatus')[$result['coc_status']] : '';
+					$cocstatus = $result['coc_status'];
 				}
 				
 				$coctype = isset($this->config->item('coctype')[$result['type']]) ? $this->config->item('coctype')[$result['type']] : '';
@@ -62,7 +62,7 @@ class Index extends CC_Controller
 				
 				$totalrecord[] = 	[
 										'cocno' 			=> 	$result['id'],
-										'cocstatus' 		=> 	$cocstatus,
+										'cocstatus' 		=> 	isset($this->config->item('cocauditstatus')[$cocstatus]) ? $this->config->item('cocauditstatus')[$cocstatus] : '',
 										'purchased' 		=> 	(date('d-m-Y', strtotime($result['allocation_date']))!='01-01-1970') ? date('d-m-Y', strtotime($result['allocation_date'])) : '-',
 										'logdate' 			=> 	(date('d-m-Y', strtotime($result['cl_log_date']))!='01-01-1970') ? date('d-m-Y', strtotime($result['cl_log_date'])) : '-',
 										'coctype' 			=> 	$coctype,

@@ -45,13 +45,13 @@
 			<div class="modal-body">
 				<form action="" method="post" class="cancelcocform">
 					<div class="row">						
-						<div class="col-md-12">
-							<label class="checkbox">
+						<div class="col-md-12 text-center">
+							<label class="checkbox-inline">
 								<input type="checkbox" name="cancelcoc">
-								<p>Cancel COC</p>
+								Cancel COC
 							</label>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-12 text-center">
 							<input type="hidden" name="coc_id" id="coc_id">
 							<button type="submit" name="cancelcocsubmit" class="btn btn-success cancelcocsubmit">Confirm</button>
 							<button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>

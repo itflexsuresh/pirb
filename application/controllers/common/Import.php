@@ -620,6 +620,8 @@ class Import extends CC_Controller {
 		
 		$installtiontypes 	= array_unique(array_column($datas, 0));
 		foreach($installtiontypes as $key => $data){
+			$data 	= trim($data);
+			
 			$installationaction = $this->Installationtype_Model->getList('row', ['name' => $data, 'status' => ['0', '1']]);
 			if(!$installationaction){
 				$this->Installationtype_Model->action(['id' => '', 'name' => $data, 'status' => '1']);
@@ -627,6 +629,8 @@ class Import extends CC_Controller {
 		}
 		
 		foreach($datas as $key => $data){
+			$data 	= array_map('trim', $data);
+			
 			$installation 	= $this->Installationtype_Model->getList('row', ['name' => $data[0], 'status' => ['0', '1']]);
 			$installationid = $installation['id'];
 			
@@ -670,6 +674,8 @@ class Import extends CC_Controller {
 		
 		$installtiontypes 	= array_unique(array_column($datas, 0));
 		foreach($installtiontypes as $key => $data){
+			$data 	= trim($data);
+			
 			$installationaction = $this->Installationtype_Model->getList('row', ['name' => $data, 'status' => ['0', '1']]);
 			if(!$installationaction){
 				$this->Installationtype_Model->action(['id' => '', 'name' => $data, 'status' => '1']);
@@ -677,6 +683,8 @@ class Import extends CC_Controller {
 		}
 		
 		foreach($datas as $key => $data){
+			$data 	= array_map('trim', $data);
+			
 			$installation 	= $this->Installationtype_Model->getList('row', ['name' => $data[0], 'status' => ['0', '1']]);
 			$installationid = $installation['id'];
 			

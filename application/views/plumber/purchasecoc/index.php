@@ -230,37 +230,38 @@ if (in_array($plumberstatus, $plumber_status)) {
 					<input id="payment_method" name="payment_method" value="cc" type="hidden">
 					
 					<input type="hidden" name="custom_str1" id="paymentcustomdata">
+					<?php } ?>
 				</form>
+				
 				<div id="skillmodal" class="modal fade" role="dialog">
 					<div class="modal-dialog modal-lg">
 						<div class="modal-content">
 							<form class="skillform">
 								<div class="modal-body">
 									<div class="row">
-										<div class="col-md-12">
-											<p>A One Time Pin (OTP) was sent to the Licensed Plumber with the following Mobile Number <?php echo $mobile_phone; ?></p>
+										<div class="col-md-12 text-center">
 											<div class="form-group">
-												<label><?php echo $username['name']." ".$username['surname']; ?></label>
+												<h4 class="mb-15">A One Time Pin (OTP) was sent to the Licensed Plumber with the following Mobile Number :</h4>
+												<h4><?php echo $username['name']." / ".$username['surname']." - ".$mobile_phone; ?></h4>
 											</div>
 										</div>
 										<div class="col-md-12">
 											<div class="form-group">
 												<input id="sampleOtp" type="text" class="form-control skill_training displaynone" readonly>
-												<div class="invalidOTP" style="color: red;"> Given OTP is Invalid ! </div>
 												<label>Enter OTP</label>
 												<input name="otpnumber" id="otpnumber" type="text" class="form-control skill_training">
+												<div class="invalidOTP" style="color: red;"> Given OTP is Invalid ! </div>
 											</div>
 											<div class="otp-status"></div>
 										</div>
+										<div class="col-md-12 text-center">
+											<input type="hidden" name="skill_id" class="skill_id">
+											<button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+											<button type="button" class="btn btn-success resend">Resend</button>
+											<button type="button" class="btn btn-success verify">Verify</button>
+										</div>
 									</div>
 								</div>
-								<div class="modal-footer">
-									<input type="hidden" name="skill_id" class="skill_id">
-									<button type="button" class="btn btn-success verify">Verify</button>
-									<button type="button" class="btn btn-success resend">Resend</button>
-									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-								</div>
-								<?php } ?>
 							</form>
 						</div>
 					</div>

@@ -576,9 +576,11 @@
 		<div class="modal-content">
 			<div class="modal-body">
 				<div class="row">
-					<p>Confirm to submit your Audit report for <?php echo $plumbername; ?> undertaken for COC <?php echo $cocid; ?>?</p>
-					<p class="refixmodaltext displaynone">The refix for this COC is required by lastests: <span class="refixdateappend"></span>.</p>
-					<div class="col-md-12">
+					<div class="col-md-12 text-center">
+						<h4 class="mb-15">Confirm to submit your Audit report for <?php echo $plumbername; ?> undertaken for COC <?php echo $cocid; ?>?</h4>
+						<p class="refixmodaltext displaynone">The refix for this COC is required by lastests: <span class="refixdateappend"></span>.</p>
+					</div>
+					<div class="col-md-12 text-center">
 						<button type="button" class="btn btn-success confirmsubmit">Confirm</button>
 						<button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
 					</div>
@@ -817,7 +819,7 @@ function reviewtoggle(data){
 }
 
 function reviewpoint(){
-	setTimeout(function(){
+	//setTimeout(function(){
 		var statement = $('#r_statement');
 		var reviewtype = $('.r_reviewtype:checked').val();
 		
@@ -848,7 +850,7 @@ function reviewpoint(){
 			$('.r_point').val(noaudit);
 			$('#noauditpoint').val(noaudit);
 		} 
-	}, 1000);
+	//}, 1000);
 }
 
 $('.r_auditorreportlist').change(function(){

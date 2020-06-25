@@ -60,11 +60,12 @@ class Index extends CC_Controller
 
 		}
 
-		$pagedata['notification'] 	= $this->getNotification();
-		$pagedata['company'] 		= $this->getCompanyList();
+		$pagedata['notification'] 		= $this->getNotification();
+		$pagedata['company'] 			= $this->getCompanyList();
 		$pagedata['designation2'] 		= $this->config->item('designation2');
 		$pagedata['specialisations'] 	= $this->config->item('specialisations');
-		$pagedata['userid'] 	= $this->getUserID();
+		$pagedata['userid'] 			= $this->getUserID();
+		$pagedata['userdetails'] 		= $this->getUserDetails();
 
 		
 		

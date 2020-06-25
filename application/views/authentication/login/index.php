@@ -81,7 +81,7 @@
 						<?php if($usertype=='3'){ ?><a href="<?php echo base_url('login/company'); ?>"><?php echo $footer2; ?></a><?php } ?>
 						<?php if($usertype=='4'){ ?><a href="<?php echo base_url('login/plumber'); ?>"><?php echo $footer; ?></a><?php } ?>
 					</div>
-					<input type="hidden" value="<?php echo $usertype; ?>" name="type">
+					<input type="hidden" value="<?php echo $usertype; ?>" name="type" id="userrole">
 					<button type="submit" name="submit" value="register" class="btn btn-success"><?php echo $btn_name; ?></button>
 				</form>
 			</div>
@@ -129,7 +129,8 @@
 										data: {
 											email: function() {
 												return $( "#email2" ).val();
-											}
+											},
+											type : $( "#userrole" ).val()
 										}
 									}
 				},

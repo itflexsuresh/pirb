@@ -788,17 +788,25 @@
 		<div class="modal-content">
 			<div class="modal-body">
 				<div class="row">
-					<p>Please confirm that you wish to submit your PIRB Registation Application.</p>
-					<p>A One Time Pin (OTP) was sent to the following Mobile Number: <span id="otpmobile"></span></p>
-					<div>
-						<input id="sampleotp" type="text" class="form-control displaynone" readonly>
-						<p>Enter OTP</p>
-						<input type="text" name="otp" id="otp">
+					<div class="col-md-12 text-center">
+						<div class="form-group">
+							<h4 class="mb-15">Please confirm that you wish to submit your PIRB Registation Application.</h4>
+							<h4>A One Time Pin (OTP) was sent to the following Mobile Number : <span id="otpmobile"></span></h4>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<input id="sampleotp" type="text" class="form-control displaynone" readonly>
+							<label>Enter OTP</label>
+							<input type="text" name="otp" id="otp" class="form-control">
+						</div>
+					</div>
+					<div class="col-md-12 text-center">
+						<button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-success resendotp">Resend</button>
+						<button type="button" class="btn btn-success verifyotp">Verify</button>
 					</div>
 				</div>
-				<button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-				<button type="button" class="btn btn-success resendotp">Resend</button>
-				<button type="button" class="btn btn-success verifyotp">Verify</button>
 			</div>
 		</div>
 	</div>

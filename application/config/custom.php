@@ -530,5 +530,20 @@ $config['ncnotice'] 			= 		[
 											'3' => 'No'
 										];	
 
+$config['cocauditstatus'] 		=		[
+											'1'		=>	'Admin Stock',
+											'2'		=>	'Logged',
+											'3'		=>	'Allocated (Reseller)',
+											'4'		=>	'Allocated (Plumber)',
+											'5'		=>	'Non-Logged Allocated (Customer)',
+											'6'		=>	'Recalled (unallocated)',
+											'7' 	=> 	'Cancelled',
+											'8'		=>	'Audit Complete',
+											'9'		=>	'Pending (Audit)',
+											'10'	=>	'Refix Required',
+											'11'	=>	'Audit Complete (Refix Incomplete)',
+											'12'	=>	'On hold'
+										];
+										
 $config['currency'] 			= 		'R';
 
