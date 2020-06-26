@@ -66,7 +66,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-4 my_perform_sec">
+					<div class="col-md-4 my_perform_sec displaynone">
 						<div class="cus_perform"> 
 							<p class="perf_hed">My Performance Status</p>
 							<div id="performancechart" style="width:100%; height:300px;"></div>
@@ -85,16 +85,81 @@
 							</div>
 						</div>
 					</div>
+						<div class="col-md-4 friend_list_section">
+							<div class="frd_list">
+								<p class="frd_head">Friends</p>
+								<ul class="custom_friend_list">
+									<?php 
+										if(count($friends) > 0){
+										foreach($friends as $key => $list){ 
+											$id						= $list['id'];
+											$userid					= $list['userid'];
+											$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/';
+											$file2 					= isset($list['file2']) ? $list['file2'] : '';
+											if($file2!=''){
+												$explodefile2 	= explode('.', $file2);
+												$extfile2 		= array_pop($explodefile2);
+												$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$file2;
+												$photoidurl		= $filepath.$file2;
+											}else{
+												$photoidimg 	= $profileimg;
+												$photoidurl		= 'javascript:void(0);';
+											}
+											
+											$rank = $list['rank'];
+									?>
+									<li>
+										<div class="frd_ord">
+											<div class="cus_frnd">
+												<img src="<?php echo $photoidimg; ?>" class="frd_prof">
+												<div class="frd_det">
+													<p class="frd_name"><?php echo $list['name']; ?></p>
+													<p class="frd_num"><?php echo $list['registration_no']; ?></p> 
+												</div>
+												<p class="frd_rank">
+													<?php 
+														echo $rank; 
+														if($rank=='1')		echo 'st'; 
+														elseif($rank=='2') 	echo 'nd'; 
+														elseif($rank=='3') 	echo 'rd'; 
+														else 				echo 'th'; 
+													?>
+												</p>
+											</div>
+											<div class="cus_frnd_edit">
+												<a href="<?php echo base_url().'plumber/friends/index'; ?>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+											</div>
+										</div>
+									</li>
+									<?php }}else{ echo '<li><p class="frd_head">-</p></li>'; } ?>
+								</ul>
+							</div>
+						</div>
+
 				</div>
 				
 				<div class="row">
 					<div class="col-md-8">
 						<div class="col-md-12 message_sec">
 							<div class="cus_msg">
-							 <p>My Pirb Messages</p>
+								<p>My Pirb Messages</p>
+								<?php 
+									$data 	= $this->db->where("groups='1' AND status='1'")->get('messages')->result_array();
+									$msg 	= "";
+									foreach ($data as $key => $value) {
+										$currentDate = date('Y-m-d');
+										$startdate   = date('Y-m-d',strtotime($value['startdate']));
+										$enddate = date('Y-m-d',strtotime($value['enddate']));
+										if ($currentDate>= $startdate && $currentDate<=$enddate){
+											$msg = $msg.$value['message'].'</br></br>'; 
+										}
+									}
+									
+									echo '<div class="col-md-12">'.$msg.'</div>';
+								?>
 							</div>
 						</div>
-						<div class="row">
+						<div class="row displaynone">
 							<div class="col-md-6 cus_reg_sec">
 								<div class="cus_regt">
 									<p class="reg_he">Current Top 3 Regional Ranking (Country)</p>
@@ -159,7 +224,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-4 friend_list_section">
+					<div class="col-md-4 friend_list_section displaynone">
 						<div class="frd_list">
 							<p class="frd_head">Friends</p>
 							<ul class="custom_friend_list">

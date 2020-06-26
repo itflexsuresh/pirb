@@ -331,6 +331,134 @@ class Import extends CC_Controller {
 		}
     }
 	
+    public function plumber()
+	{
+		$titlesign		= 	[
+								'Mr' 	=> '1',
+								'Mrs' 	=> '2',
+								'Miss' 	=> '3',
+								'Other' => '4'
+							];
+		
+		$designation	= 	[
+								'Learner Plumber' 	=> '1',
+								'Technical Assistant Practitioner' 	=> '2',
+								'Technical Operator Practitioner' 	=> '3',
+								'Licensed Plumber' => '4',
+								'Qualified Plumber' => '5',
+								'Master Plumber' => '6',
+								'Director Plumber' => '7',
+								'Plumbing Inspector' => '8',
+								'Probationary Plumber' => '9',
+								'Technical Assisting Practitioner' => '10',
+								'Technical Operator Plumber' => '11'
+							];
+							
+		$datetime 	= date('Y-m-d H:i:s');
+		
+		$data 		= 	$this->db->select('ip.*, pd.Designation')
+						->join('importplumberdesignations pd', 'pd.PlumberID=ip.ID', 'left')
+						->get('importplumber ip')
+						->result_array();
+
+		foreach ($data as $value) {
+			$user = [
+				'id' 				=> '',
+				'email' 			=> 'test'.$value['EMail'],
+				'password' 			=> $value['PIN'],
+				'type'				=> '3',
+				'mailstatus'		=> '1',
+				'formstatus'		=> '1',
+				'status'			=> '1'
+			];
+			
+			$userid = $this->Users_Model->actionUsers($user);
+			
+			$physicalprovince 	= $this->db->get_where('province', ['name' => $value['Res_Province']])->row_array();
+			$physicalcity 		= $this->db->get_where('city', ['name' => $value['Res_City']])->row_array();
+			$physicalsuburb 	= $this->db->get_where('suburb', ['name' => $value['Res_Suburb']])->row_array();
+			
+			$postalcity 		= $this->db->get_where('suburb', ['name' => $value['Post_City']])->row_array();
+			
+			//$importcompany 	= $this->db->get_where('importcompany', ['id' => $value['CompanyID']])->row_array();
+			//$company 			= $this->db->get_where('users_detail', ['company' => $importcompany['Name']])->row_array();
+			
+			$address[0] 	=	[
+									'id' 				=> '',
+									'address' 			=> $value['Res_Street'],
+									'province' 			=> ($physicalprovince) ? $physicalprovince['id'] : $value['Res_Province'],
+									'city' 				=> ($physicalcity) ? $physicalcity['id'] : $value['Res_City'],
+									'suburb' 			=> ($physicalsuburb) ? $physicalsuburb['id'] : $value['Res_Suburb'],
+									'postal_code' 		=> $value['Res_Code'],
+									'type' 				=> '1'
+								];
+							
+			$address[1] 	=	[
+									'id' 				=> '',
+									'address' 			=> $value['Post_Add'],
+									'province' 			=> ($physicalprovince) ? $physicalprovince['id'] : $value['Res_Province'], // Extras
+									'city' 				=> ($postalcity) ? $postalcity['id'] : $value['Post_City'],
+									'suburb' 			=> ($physicalsuburb) ? $physicalsuburb['id'] : $value['Res_Suburb'], // Extras
+									'postal_code' 		=> $value['Post_Code'],
+									'type' 				=> '2'
+								];
+					
+			// Start Extras
+			
+			$address[2] 	=	[
+									'id' 				=> '',
+									'address' 			=> $value['Res_Street'],
+									'province' 			=> ($physicalprovince) ? $physicalprovince['id'] : $value['Res_Province'],
+									'city' 				=> ($physicalcity) ? $physicalcity['id'] : $value['Res_City'],
+									'suburb' 			=> ($physicalsuburb) ? $physicalsuburb['id'] : $value['Res_Suburb'],
+									'postal_code' 		=> $value['Res_Code'],
+									'type' 				=> '3'
+								];
+			// End Extras
+			
+			$result  	= 	[
+								'user_id' 					=> $userid,
+								'title' 					=> isset($titlesign[$value['Title']]) ? $titlesign[$value['Title']] : '',
+								'name' 						=> $value['Name'],
+								'surname' 					=> $value['Surname'],
+								//'dob' 						=> $value['BirthDate'],
+								//'gender' 					=> ($value['GenderID']=='1') ? '2' : '1',
+								'home_phone' 				=> '999'.$value['Home_Phone'],
+								'mobile_phone' 				=> '999'.$value['Mob_Phone'],
+								'work_phone' 				=> '999'.$value['Bus_Phone'],
+								//'racial' 					=> $value['EquityID'],
+								//'nationality' 				=> $value['NationalityID'],
+								//'othernationality' 			=> $value['AlternativeIDTypeID'],
+								'idcard' 					=> $value['ID_NO'],
+								//'otheridcard' 				=> $value['AlternateID'],
+								//'homelanguage' 				=> $value['LanguageID'],
+								//'disability' 				=> $value['DisabilityStatusID'],
+								//'citizen' 					=> $value['CitizenResidentStatusID'],
+								//'employment_details' 		=> $value['SocioeconomicStatusID'],
+								//'company_details' 			=> $company ? $company['user_id'] : '',
+								'status'					=> '1',
+								'customregno'				=> $value['REG_NO'],
+								'registration_date'			=> $value['Reg_Start'],
+								'expirydate'				=> $value['Reg_End'],
+								//'application_received'		=> $value['DateCreated'],
+								//'designation'				=> isset($designation[$value['Designation']]) ? $designation[$value['Designation']] : '',
+								'approval_status'			=> '1',
+								'usersdetailid'				=> '',
+								'usersplumberid'			=> '',
+								'registration_card'			=> '2',
+								'company_name'				=> $value['FirstName'].' '.$value['Surname'],
+								'address' 					=> $address,
+								'migrateid' 				=> $value['ID'],
+								'created_at' 				=> $datetime,
+								'created_by' 				=> $userid,
+								'updated_at' 				=> $datetime,
+								'updated_by' 				=> $userid
+							];
+							
+			$this->Plumber_Model->action($result);	
+		}
+    }
+	
     public function plumberimage($id, $userid)
 	{
 		$sourceimg 			= './assets/plumbermigration/'.$id.'_7.*';
@@ -647,8 +775,8 @@ class Import extends CC_Controller {
 				'subtype' 			=> $subtypeid,
 				'statement' 		=> $data[2],
 				'comment' 			=> $data[3],
-				'regulation' 		=> $data[4],
-				'knowledge' 		=> $data[5],
+				'knowledge' 		=> $data[4],
+				'regulation' 		=> $data[5],
 				'refix_in'			=> $data[6],
 				'refix_complete'	=> $data[7],
 				'caution'	 		=> $data[8],

@@ -854,6 +854,7 @@
 						<div class="col-md-12 text-right">
 							<input type="hidden" name="usersdetailid" value="<?php echo $usersdetailid; ?>">
 							<input type="hidden" name="usersplumberid" value="<?php echo $usersplumberid; ?>">
+							<input type="hidden" name="usertype" value="<?php echo $roletype; ?>">
 							<?php if(!isset($disablebtn)){ ?>
 								<button type="button" id="plumbersubmit" class="btn btn-primary">Submit</button>
 							<?php } ?>

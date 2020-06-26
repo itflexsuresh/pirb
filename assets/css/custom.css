@@ -3090,10 +3090,21 @@ p.per_scr_hed {
     height: 338px !important;	
 }	
 .idcard_icon {	
-    width: 30%;	
+    width: auto;	
     margin: 0 auto;	
-    background-color: #fff;	
-}	
+    background-color: transparent;	
+}
+
+.master_plumber .idcard_icon img {
+    background: #fff;
+    object-fit: contain;
+    margin-top: 0 !important;
+}
+
+.master_plumber .add_idcard_color td{
+    padding: 10px 0 !important;
+}
+
 #id_Card tr.add_idcard_color td:first-child {padding: 0px !important;}	
 .qualified_plumber .idcard_icon{	
     display: none;	
@@ -3103,10 +3114,10 @@ p.per_scr_hed {
     margin: 14px 5px 0px 5px;	
 }	
 .master_plumber      {	
-    width: 30%;	
+    width: auto;	
     margin: 0 auto;	
-    background-color: #fff;	
-    height: 86px;	
+    background-color: transparent;	
+    height: auto;	
 }
 
 #ratingwrapper i{
@@ -3181,4 +3192,32 @@ p.per_scr_hed {
 
 .emailnotificationnotes p{
 	margin-bottom: 5px;
+}
+
+
+.adt-sttment--scrollng .card-body {
+    padding: 0;
+}
+
+.adt-sttment--scrollng .card-body table td {
+    padding: 6px !important;
+}
+
+.adt-sttment--scrollng .card-body thead th, .adt-sttment--scrollng .card-body table.dataTable thead td {
+    padding: 10px !important;
+}
+
+.mini-sidebar .scroll-sidebar,
+.mini-sidebar .sidebar-nav #sidebarnav>li>a{
+    width: 100%;
+}
+
+@media screen and (min-width: 1367px){
+    .adt-sttment--scrollng .card-body table td {
+    font-size: 10px;
+}
+
+.adt-sttment--scrollng .card-body thead th, .adt-sttment--scrollng .card-body table.dataTable thead td {
+    font-size: 10px;
+}
 }

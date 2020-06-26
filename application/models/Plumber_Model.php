@@ -242,7 +242,7 @@ class Plumber_Model extends CC_Model
 		}
 		
 		if(isset($request2)){
-			$request2['coc_electronic'] 	= (isset($data['coc_electronic'])) ? $data['coc_electronic'] : '0';
+			if((isset($data['usertype']) && $data['usertype']!='1') || !isset($data['usertype'])) $request2['coc_electronic'] 	= (isset($data['coc_electronic'])) ? $data['coc_electronic'] : '0';
 			$usersplumberid					= $data['usersplumberid'];
 			if(isset($data['user_id'])) $request2['user_id'] 	= $data['user_id'];
 			

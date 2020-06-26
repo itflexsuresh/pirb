@@ -195,7 +195,7 @@ if(count($permission) > 0){
 							<p class="cus_ren">Renewal Date: <?php echo date('jS F Y', strtotime($expirydate)); ?></p>
 						</div>
 					</div>
-					<div class="row side_table">
+					<div class="row side_table displaynone">
 						<div class="col-sm-7 col-md-7 col-lg-7 tab_right">  
 							<p class="cus_perf"> Performance Score: </p><span class="per_num"><?php echo $performancestatus; ?></span>
 						</div>
