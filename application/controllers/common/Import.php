@@ -312,24 +312,6 @@ class Import extends CC_Controller {
 		}
     }
 	
-    public function plumberdiary()
-	{
-		$datas 	= 	$this->db->select('ip.Notes, u.id as userid')
-					->join('users u', 'u.migrateid=ip.ID', 'left')
-					->get('importplumber ip')
-					->result_array();
-					
-		foreach ($datas as $data) {
-			$diarydata = [
-				'plumberid' => $data['userid'],
-				'message' 	=> $data['Notes'],
-				'type' 		=> '2',
-			];
-			
-			$this->CC_Model->diaryactivity($diarydata);
-		}
-	}
-	
     public function plumberskillsdesignationspecialisation()
 	{
 		$specialisations = [];
@@ -411,6 +393,24 @@ class Import extends CC_Controller {
 		}
 		
 		$this->db->update('users_plumber', ['designation' => '1'], ['designation' => '']);
+	}
+	
+    public function plumberdiary()
+	{
+		$datas 	= 	$this->db->select('ip.Notes, u.id as userid')
+					->join('users u', 'u.migrateid=ip.ID', 'left')
+					->get('importplumber ip')
+					->result_array();
+					
+		foreach ($datas as $data) {
+			$diarydata = [
+				'plumberid' => $data['userid'],
+				'message' 	=> $data['Notes'],
+				'type' 		=> '2',
+			];
+			
+			$this->CC_Model->diaryactivity($diarydata);
+		}
 	}
 	
     public function plumberimage($id, $userid)

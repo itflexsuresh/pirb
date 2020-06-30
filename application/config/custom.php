@@ -11,7 +11,7 @@ $config['paymenturl']				= 	'https://sandbox.payfast.co.za/eng/process';
 //$config['paymentid']				= 	'11034518';
 //$config['paymentkey']				= 	'47bfxswooibsp';
 
-$config['customstockno']			= 	'393056';
+$config['customstockno']			= 	'420496';
 
 
 $config['psidconfig']	 			= 	['2'];
