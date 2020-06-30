@@ -184,13 +184,7 @@ class Plumber_Model extends CC_Model
 		if(isset($data['specialisations'])) 	$request1['specialisations'] 	= implode(',', $data['specialisations']);	
 		if(isset($data['plumberstatus'])) 		$request1['status'] 			= $data['plumberstatus'];
 		
-		if(isset($data['insurancepolicyno'])) 		$request1['insurancepolicyno'] 			= $data['insurancepolicyno'];
-		if(isset($data['insurancecompany'])) 		$request1['insurancecompany'] 			= $data['insurancecompany'];
-		if(isset($data['insurancepolicyholder'])) 	$request1['insurancepolicyholder'] 		= $data['insurancepolicyholder'];
-		if(isset($data['insurancestartdate'])) 		$request1['insurancestartdate'] 		= date('Y-m-d H:i:s', strtotime($data['insurancestartdate']));
-		if(isset($data['insuranceenddate'])) 		$request1['insuranceenddate'] 			= date('Y-m-d H:i:s', strtotime($data['insuranceenddate']));
-		
-		if(isset($data['approval_status']) && $data['approval_status']=='1'){
+		if(isset($data['approval_status']) && $data['approval_status']=='1' && !isset($data['plumberstatus'])){
 			$request1['status'] 	= '1';
 		}
 		
@@ -237,7 +231,7 @@ class Plumber_Model extends CC_Model
 			$request2['registration_no'] 		= $this->plumberregistrationno($data['user_id'], $data['designation2'], ((isset($data['qualification_year'])) ? $data['qualification_year'] : ''));
 		}
 		
-		if(isset($data['approval_status']) && $data['approval_status']=='1'){
+		if(isset($data['approval_status']) && $data['approval_status']=='1' && !isset($data['registration_date'])){
 			$request2['registration_date'] 	= date('Y-m-d');
 		}
 		

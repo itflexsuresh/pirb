@@ -178,26 +178,26 @@ $config['othernationality'] 		= 	[
 											'23' => 'Zambia',
 											'24' => 'Zimbabwe'
 										];
-										
+		
 $config['disability'] 				= 	[
 											'' 	=> 'None',
-											'1' => 'Communication(talk/listen)',
-											'2' => 'Disabled but unspecified',
-											'3' => 'Emotional (behav/psych)',
-											'4' => 'Hearing (even with h. aid)',
+											'1' => 'Sight (even with glasses)',
+											'2' => 'Hearing (even with h. aid)',
+											'3' => 'Communication(talk/listen)',
+											'4' => 'Physical (move/stand etc)',
 											'5' => 'Intellectual (learn etc)',
-											'6' => 'Multiple',
-											'7' => 'None',
-											'8' => 'None now - was Communic',
-											'9' => 'None now - was Disabled but unspecified',
-											'10' => 'None now - was Emotional',
+											'6' => 'Emotional (behav/psych)',
+											'7' => 'Multiple',
+											'8' => 'Disabled but unspecified',
+											'9' => 'None',
+											'10' => 'None now - was Sight',
 											'11' => 'None now - was Hearing',
-											'12' => 'None now - was Intellect',
-											'13' => 'None now - was Multiple',
-											'14' => 'None now - was Physical',
-											'15' => 'None now - was Sight',
-											'16' => 'Physical (move/stand etc)',
-											'17' => 'Sight (even with glasses)'
+											'12' => 'None now - was Communic',
+											'13' => 'None now - was Physical',
+											'14' => 'None now - was Intellect',
+											'15' => 'None now - was Emotional',
+											'16' => 'None now - was Multiple',
+											'17' => 'None now - was Disabled but unspecified'
 										];	
 										
 $config['citizen'] 					= 	[

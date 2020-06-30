@@ -186,6 +186,7 @@ class CC_Model extends CI_Model
 		if(isset($data['actionid'])) 	$request['action_id']	= $data['actionid'];
 		if(isset($data['action'])) 		$request['action']	 	= $data['action'];
 		if(isset($data['type'])) 		$request['type']	 	= $data['type'];
+		if(isset($data['message'])) 	$request['message']	 	= $data['message'];
 		
 		$this->db->insert('diary', $request);
 		

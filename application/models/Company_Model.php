@@ -211,12 +211,6 @@ class Company_Model extends CC_Model
 			$request1['status'] 	= '1';
 		}
 		
-		if(isset($data['insurancepolicyno'])) 		$request1['insurancepolicyno'] 			= $data['insurancepolicyno'];
-		if(isset($data['insurancecompany'])) 		$request1['insurancecompany'] 			= $data['insurancecompany'];
-		if(isset($data['insurancepolicyholder'])) 	$request1['insurancepolicyholder'] 		= $data['insurancepolicyholder'];
-		if(isset($data['insurancestartdate'])) 		$request1['insurancestartdate'] 		= date('Y-m-d H:i:s', strtotime($data['insurancestartdate']));
-		if(isset($data['insuranceenddate'])) 		$request1['insuranceenddate'] 			= date('Y-m-d H:i:s', strtotime($data['insuranceenddate']));
-		
 		if(isset($request1)){
 			$usersdetailid	= 	$data['usersdetailid'];
 			if(isset($data['user_id'])) $request1['user_id'] = $data['user_id'];
@@ -259,6 +253,7 @@ class Company_Model extends CC_Model
 		}
 		
 		if(isset($data['formstatus'])) 		$request4['formstatus'] 	= $data['formstatus'];
+		if(isset($data['migrateid'])) 		$request4['migrateid'] 		= $data['migrateid'];
 		//if(isset($data['companystatus'])) 	$request4['status']			= $data['companystatus'];
 		if(isset($data['approval_status'])) $request4['status']			= '1';
 		if(isset($data['companystatus']) && $data['companystatus']=='2') 	$request4['status'] 		= '2';

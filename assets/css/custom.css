@@ -1585,7 +1585,7 @@ p.register-num, p.rene-date {
 }
 
 #id_Card_back p.alter_lost_veri{
-    padding: 5px 0 0px 20px;
+    padding: 5px 0 0px 10px;
     margin-bottom: 0 !important; 
 }
 
@@ -1865,12 +1865,10 @@ p.vrfy {
     font-size: 10px !important;
     text-align: left;
     float: left;
-    margin: 0px 0 3px 20px;
+    margin: 0px 0 3px 10px;
 }
 
-td.curr_emptxt + td > div {
-    width: 100% !important;
-}
+
 
 td.curr_emptxt + td p {
     font-weight: 600 !important;
@@ -3046,7 +3044,7 @@ p.per_scr_hed {
 #id_Card_back td.curr_emptxt {	
     padding: 0 !important;	
     padding-top: 0px !important;
-    width: 1217px;
+    width: 580px;
     vertical-align: top;
     text-align: left;
 }	
@@ -3275,7 +3273,7 @@ td.add_width.img-txt {
 }
 
 .spclizatn---sctn p, .spclizatn---sctn div {
-    font-size: 12px !important;
+    font-size: 11px !important;
     margin-top: 0 !important;
 }
 
@@ -3283,9 +3281,9 @@ td.add_width.img-txt {
     margin-bottom: 0;
 }
 
-.spclizatn---sctn div {
+/*.spclizatn---sctn div {
     display: none !important;
-}
+}*/
 
 .add_width.empty-data {
     height: 122px;

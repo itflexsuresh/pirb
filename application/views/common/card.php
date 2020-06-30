@@ -168,14 +168,17 @@
                     <?php if($designation2id != '1' and $designation2id != '2' and $designation2id != '3'){ ?>
                     <td class="spclizatn---sctn" style=" vertical-align: top;">
                         <p style="width: 100%; margin-right: 0; margin-left: 0;">Specialisations</p>
+                        <div>
                         <?php 
                             if(count($specialisationsid) > 0){
+                                $specialisationarray = [];
                                 foreach($specialisationsid as $specialisationsdata){
+                                    $specialisationarray[] =  isset($specialisations[$specialisationsdata]) ? $specialisations[$specialisationsdata] : '-';
+                                }
                                 
                         ?>
-                                    <div><?php echo isset($specialisations[$specialisationsdata]) ? $specialisations[$specialisationsdata] : '-'; ?></div>
+                                    <?php echo implode(',  &nbsp;',$specialisationarray);?>
                         <?php   
-                                }
                             }else{
                             
                         ?>
@@ -185,6 +188,7 @@
                         }
 
                         ?>
+                        </div>
                     </td>
 
                 </tr>

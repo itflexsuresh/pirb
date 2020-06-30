@@ -11,23 +11,26 @@
 				$cocid 			= isset($result['coc_id']) ? $result['coc_id'] : '';
 				$action 		= isset($result['action']) ? $result['action'] : '';
 				$type 			= isset($result['type']) ? $result['type'] : '';
+				$message 		= isset($result['message']) ? $result['message'] : '';
 				$datetime 		= isset($result['datetime']) && $result['datetime']!='1970-01-01' ? date('d-m-Y', strtotime($result['datetime'])) : '';
 				$diary			= $this->config->item('diary');
 		?>
 			<div>
 				<?php echo ($datetime!='') ? $datetime.' -  ' : ''; ?>
-				<?php 
-					if($type!=''){
-						if($type=='1') echo $adminname;
-						elseif($type=='2') echo $plumbername;
-						elseif($type=='3') echo $companyname;
-						elseif($type=='4') echo $auditorname;
-						
-						echo ' : ';
-					}
-				?>
-				<?php echo isset($diary[$action]) ? $diary[$action] : ''; ?>
-				<?php echo ($cocid!='' && $cocid!='0') ? ' - '.$cocid : ''; ?>
+				<?php if($message!=''){ echo $message; }else{ ?>
+					<?php 
+						if($type!=''){
+							if($type=='1') echo $adminname;
+							elseif($type=='2') echo $plumbername;
+							elseif($type=='3') echo $companyname;
+							elseif($type=='4') echo $auditorname;
+							
+							echo ' : ';
+						}
+					?>
+					<?php echo isset($diary[$action]) ? $diary[$action] : ''; ?>
+					<?php echo ($cocid!='' && $cocid!='0') ? ' - '.$cocid : ''; ?>
+				<?php } ?>
 			</div>
 		<?php 
 			}

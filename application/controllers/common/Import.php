@@ -179,15 +179,11 @@ class Import extends CC_Controller {
 								'work_phone' 				=> '999'.$value['BusinessPhone'],
 								'mobile_phone' 				=> '999'.$value['Fax'],
 								'address' 					=> $address,
-								'insurancepolicyno' 		=> $value['InsurancePolicyNo'],
-								'insurancecompany' 			=> $value['InsuranceCompany'],
-								'insurancepolicyholder' 	=> $value['InsurancePolicyHolder'],
-								'insurancestartdate' 		=> $value['InsuranceStartDate'],
-								'insuranceenddate' 			=> $value['InsuranceEndDate'],
 								'status'					=> $value['Active'],
 								'approval_status'			=> '1',
 								'usersdetailid' 			=> '',
 								'userscompanyid' 			=> '',
+								'migrateid' 				=> $value['ID'],
 								'created_at' 				=> $datetime,
 								'created_by' 				=> $userid,
 								'updated_at' 				=> $datetime,
@@ -207,28 +203,13 @@ class Import extends CC_Controller {
 								'Other' => '4'
 							];
 		
-		$designation	= 	[
-								'Learner Plumber' 	=> '1',
-								'Technical Assistant Practitioner' 	=> '2',
-								'Technical Operator Practitioner' 	=> '3',
-								'Licensed Plumber' => '4',
-								'Qualified Plumber' => '5',
-								'Master Plumber' => '6',
-								'Director Plumber' => '7',
-								'Plumbing Inspector' => '8',
-								'Probationary Plumber' => '9',
-								'Technical Assisting Practitioner' => '10',
-								'Technical Operator Plumber' => '11'
-							];
-							
 		$datetime 	= date('Y-m-d H:i:s');
 		
-		$data 		= 	$this->db->select('ip.*, pd.Designation')
-						->join('importplumberdesignations pd', 'pd.PlumberID=ip.ID', 'left')
-						->get('importplumber ip')
-						->result_array();
+		$data 		= 	$this->db->get('importplumber')->result_array();
 
 		foreach ($data as $value) {
+			$value 	= array_map('trim', $value);
+			
 			$user = [
 				'id' 				=> '',
 				'email' 			=> 'test'.$value['Email'],
@@ -241,14 +222,13 @@ class Import extends CC_Controller {
 			
 			$userid = $this->Users_Model->actionUsers($user);
 			
+			$company 			= $this->db->get_where('users', ['migrateid' => $value['CompanyID'], 'type' => '4'])->row_array();
+			
 			$physicalprovince 	= $this->db->get_where('province', ['name' => $value['ProvinceID']])->row_array();
 			$physicalcity 		= $this->db->get_where('city', ['name' => $value['ResidentialCity']])->row_array();
 			$physicalsuburb 	= $this->db->get_where('suburb', ['name' => $value['ResidentialSuburb']])->row_array();
 			
 			$postalcity 		= $this->db->get_where('suburb', ['name' => $value['PostalCity']])->row_array();
-			
-			$importcompany 		= $this->db->get_where('importcompany', ['id' => $value['CompanyID']])->row_array();
-			$company 			= $this->db->get_where('users_detail', ['company' => $importcompany['Name']])->row_array();
 			
 			$address[0] 	=	[
 									'id' 				=> '',
@@ -270,8 +250,6 @@ class Import extends CC_Controller {
 									'type' 				=> '2'
 								];
 					
-			// Start Extras
-			
 			$address[2] 	=	[
 									'id' 				=> '',
 									'address' 			=> $value['ResidentialStreet'],
@@ -281,7 +259,6 @@ class Import extends CC_Controller {
 									'postal_code' 		=> $value['ResidentialCode'],
 									'type' 				=> '3'
 								];
-			// End Extras
 			
 			$plumberstatus = '1';
 			if($value['RegistrationSuspended']=='1'){
@@ -291,7 +268,6 @@ class Import extends CC_Controller {
 			}elseif(date('Y-m-d', strtotime($value['RegistrationEnd'])) < date('Y-m-d')){
 				$plumberstatus = '3';
 			}
-			
 			
 			$result  	= 	[
 								'user_id' 					=> $userid,
@@ -312,12 +288,11 @@ class Import extends CC_Controller {
 								'disability' 				=> $value['DisabilityStatusID'],
 								'citizen' 					=> $value['CitizenResidentStatusID'],
 								'employment_details' 		=> $value['SocioeconomicStatusID'],
-								'company_details' 			=> $company ? $company['user_id'] : '',
+								'company_details' 			=> $company ? $company['id'] : '',
 								'customregno'				=> $value['RegNo'],
 								'registration_date'			=> $value['RegistrationStart'],
 								'expirydate'				=> $value['RegistrationEnd'],
 								'application_received'		=> $value['DateCreated'],
-								'designation'				=> isset($designation[$value['Designation']]) ? $designation[$value['Designation']] : '',
 								'approval_status'			=> '1',
 								'usersdetailid'				=> '',
 								'usersplumberid'			=> '',
@@ -337,21 +312,27 @@ class Import extends CC_Controller {
 		}
     }
 	
-    public function plumberskillsandspecialisation()
+    public function plumberdiary()
 	{
-		$datas 	= 	$this->db->select('ips.*, u.id as userid')
-					->join('users u', 'u.migrateid=ips.ID', 'left')
-					->get('importplumberskills ips')
+		$datas 	= 	$this->db->select('ip.Notes, u.id as userid')
+					->join('users u', 'u.migrateid=ip.ID', 'left')
+					->get('importplumber ip')
 					->result_array();
-		
-		$qualificationarray = [
-			'1' => '2',
-			'2' => '4',
-			'3' => '6',
-			'4' => '1',
-			'5' => '3'
-		];
-		
+					
+		foreach ($datas as $data) {
+			$diarydata = [
+				'plumberid' => $data['userid'],
+				'message' 	=> $data['Notes'],
+				'type' 		=> '2',
+			];
+			
+			$this->CC_Model->diaryactivity($diarydata);
+		}
+	}
+	
+    public function plumberskillsdesignationspecialisation()
+	{
+		$specialisations = [];
 		$specialisationarray = [
 			'2' 	=> '4',
 			'5' 	=> '1',
@@ -360,20 +341,76 @@ class Import extends CC_Controller {
 			'12' 	=> '4',
 		];
 		
+		
+		$designations = [];
+		$designationarray = [
+			'1' => '1',
+			'3' => '4',
+			'4' => '5'
+		];
+
+		$routearray = [
+			'1' => '2',
+			'2' => '4',
+			'3' => '6',
+			'4' => '1',
+			'5' => '3'
+		];
+		
+		$datas 	= 	$this->db->select('ips.*, u.id as userid')
+					->join('users u', 'u.migrateid=ips.PlumberID', 'left')
+					->get('importplumberskills ips')
+					->result_array();
+		
 		foreach ($datas as $data) {
-			$userid 	= $data['userid'];
-			
-			$skilldata 	= [
-				'skill_date' 		=> $data['CourseDateCompleted'],
-				'skill_certificate' => $data['CertificationNo'],
-				'skill_route' 		=> isset($qualificationarray[$data['QualificationTypeID']]) ? $qualificationarray[$data['QualificationTypeID']] : '',
-				'skill_training' 	=> $data['TrainingProvider'],
-				'skill_id' 			=> '',
-				'user_id' 			=> $data['userid']
-			];
-			
-			$this->Plumber_Model->action($skilldata);	
+			if($data['CourseDateCompleted']!='' && $data['CourseDateCompleted']!=NULL && $data['CertificationNo']!='' && $data['CertificationNo']!=NULL && $data['TrainingProvider']!='' && $data['TrainingProvider']!=NULL && $data['userid']!=''){
+				$userid 	= $data['userid'];
+				
+				$skilldata 	= [
+					'date' 				=> date('Y-m-d', strtotime($data['CourseDateCompleted'])),
+					'certificate' 		=> $data['CertificationNo'],
+					'skills' 			=> isset($routearray[$data['RouteID']]) ? $routearray[$data['RouteID']] : '',
+					'training' 			=> $data['TrainingProvider'],
+					'user_id' 			=> $userid
+				];
+				
+				$this->db->insert('users_plumber_skill', $skilldata);
+				
+				if(isset($specialisationarray[$data['QualificationTypeID']]) && $data['Completed']=='1'){
+					if(!isset($specialisations[$userid])){
+						$specialisations[$userid] = [$specialisationarray[$data['QualificationTypeID']]];
+					}else{
+						array_push($specialisations[$userid], $specialisationarray[$data['QualificationTypeID']]);
+						array_unique($specialisations[$userid]);
+					}
+				}
+				
+				if(isset($designationarray[$data['QualificationTypeID']]) && $data['Completed']=='1'){
+					if(!isset($designations[$userid])){
+						$designations[$userid] = [$designationarray[$data['QualificationTypeID']]];
+					}else{
+						array_push($designations[$userid], $designationarray[$data['QualificationTypeID']]);
+						array_unique($designations[$userid]);
+					}
+				}
+			}
 		}
+		
+		foreach($specialisations as $key => $specialisation) {
+			$specialisationdata 	= [
+				'specialisations' => implode(',', $specialisation)
+			];
+			$this->db->update('users_detail', $specialisationdata, ['user_id' => $key]);
+		}
+		
+		foreach($designations as $key => $designation) {
+			$designationdata 	= [
+				'designation' => end($designation)
+			];
+			$this->db->update('users_plumber', $designationdata, ['user_id' => $key]);
+		}
+		
+		$this->db->update('users_plumber', ['designation' => '1'], ['designation' => '']);
 	}
 	
     public function plumberimage($id, $userid)
