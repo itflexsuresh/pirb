@@ -66,7 +66,7 @@
 
 <div class="row add_top_value <?php echo (isset($cardcolor[$designation2id]) ? $cardcolor[$designation2id] : ''); ?>">
     <div class="col-md-6">  
-        <table id="id_Card" style="height: 300px;">
+        <table id="id_Card" width="442" height="276" class="front--card--design">
             <tbody>
                 <tr>
                     <td>
@@ -80,21 +80,22 @@
                     </td>
                 </tr>
                 <tr class="add_idcard_color" >
-                    <td>
+                    <td colspan="2">
                         <div class="idcard_icon">
                             <img class="plum_lic" src="<?php echo base_url().$plumber_icon; ?>">
+                        </div>
+                        <div class="idcard--name">
+                            <p class="license"><?php echo isset($designation2[$designation2id]) ? $designation2[$designation2id] : '-'; ?></p>
                         </div>                   
                     </td>
-                    <td>
-                        <p class="license"><?php echo isset($designation2[$designation2id]) ? $designation2[$designation2id] : '-'; ?></p>
-                    </td>
+                        
                 </tr>
             </tbody>
         </table>
     </div>
     <div class="col-md-6 alter_img">
-        <table id="id_Card_back">
-            <tbody style="width: 90%; display: inline-block;">
+        <table id="id_Card_back" width="442" height="276" class="back---card--design">
+            <tbody>
                 
                 <?php if($designation2id != '1' and $designation2id != '2' and $designation2id != '3'){ ?>
                 <tr>
@@ -148,7 +149,7 @@
                             <?php
                         }else{
                     ?>
-                            <td class="add_width" style="vertical-align: top;">-</td>
+                            <td class="add_width empty-data" style="vertical-align: top;">-</td>
                     <?php 
                         }
                         
@@ -158,14 +159,14 @@
                     ?>
                 </tr>
                 <tr style="border-top: 1px solid #000;">
-                    <td class="curr_emptxt" style="border-right: 1px solid #000; height: 203px; vertical-align: middle;">
+                    <td class="curr_emptxt" style="border-right: 1px solid #000;">
                         <span class="curr_txts"><p class="emp_title">Current <br> Employer </p> 
                         <p class="plumber_name add_style"><?php echo  $companyname; ?></p></span>
                         <p class="alter_lost_veri" style="width: 100%;">Lost or Found <?php echo $work_phone; ?></p>
 						<p class="vrfy">Verification can be done via www.pirb.co.za</p>
                     </td>
                     <?php if($designation2id != '1' and $designation2id != '2' and $designation2id != '3'){ ?>
-                    <td style=" vertical-align: top;">
+                    <td class="spclizatn---sctn" style=" vertical-align: top;">
                         <p style="width: 100%; margin-right: 0; margin-left: 0;">Specialisations</p>
                         <?php 
                             if(count($specialisationsid) > 0){
@@ -189,10 +190,10 @@
                 </tr>
                 
             </tbody>
-            <tbody class="rght-rotate-txt" style="width: 10%; display: inline-block;">
+            <tbody class="rght-rotate-txt">
                 <tr style="height: 298px;">
                     <td class="add_idcard_color" colspan="2" style="text-align: center; padding: 0px;">
-                        <p class="back_license" style="transform: rotate(-90deg);margin: -48px;"><?php echo isset($designation2[$designation2id]) ? $designation2[$designation2id] : '-'; ?></p>
+                        <p class="back_license" style="transform: rotate(-90deg) !important;margin: -48px;"><?php echo isset($designation2[$designation2id]) ? $designation2[$designation2id] : '-'; ?></p>
                     </td>
                 </tr>
             </tbody>

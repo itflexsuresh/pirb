@@ -226,7 +226,7 @@ class Plumber_Model extends CC_Model
 		if(isset($data['designation2'])) 		$request2['designation'] 			= $data['designation2'];
 		if(isset($data['qualification_year'])) 	$request2['qualification_year'] 	= $data['qualification_year'];
 		if(isset($data['message'])) 			$request2['message'] 				= $data['message'];
-		if(isset($data['application_received']))$request2['application_received'] 	= $data['application_received'];
+		if(isset($data['application_received']))$request2['application_received'] 	= date('Y-m-d', strtotime($data['application_received']));
 		if(isset($data['application_status'])) 	$request2['application_status'] 	= implode(',', $data['application_status']);
 		if(isset($data['approval_status'])) 	$request2['approval_status'] 		= $data['approval_status'];
 		if(isset($data['reject_reason'])) 		$request2['reject_reason'] 			= implode(',', $data['reject_reason']);

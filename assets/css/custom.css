@@ -944,17 +944,16 @@ table th {
 /* id card tabel */
 
 #id_Card img.id_logo {
-    width: 200px;
-    margin-bottom: 60px;
+    width: 213px;
+    margin-bottom: 36px;
     text-align: left;
     padding-left: 15px;
+    height: 63px;
+    margin-left: 5px;
 }
 
 #id_Card img.id_admin {
-    width: 160px;
-    height: 176px;
     object-fit: contain;
-    margin: 25px 0px 10px;
     border: 2px solid #e4010c;
 }
 
@@ -969,12 +968,11 @@ table#id_Card, table#id_Card_back {
 
 #id_Card p.license {
     font-size: 25px;
-    text-align: center;
+    text-align: left;
     font-weight: 600;
-    position: relative;
-    right: 90px;
     margin-bottom: 0;
     width: 100%;
+    margin-top: 0px;
 }
 
 #id_Card img.plum_lic {
@@ -983,7 +981,6 @@ table#id_Card, table#id_Card_back {
 }
 
 #id_Card p {
-    margin: 0 0 10px 20px;
     font-weight: 500;
 }
 
@@ -993,7 +990,6 @@ table#id_Card, table#id_Card_back {
 
 #id_Card_back p {
     font-size: 14px;
-    margin: 7px 0 3px 19px;
     font-weight: 500;
     width: auto;
     display: inline-block;
@@ -1125,16 +1121,13 @@ span.select2-selection {
     margin: -100px !important;
     font-size: 15px !important;
 }
-.technical_operator .add_idcard_color {
-    background-color: #800080 !important;
-}
-.technical_operator .id_admin {
-    border: 2px solid #800080 !important;
-}
 
 .technical_operator p.back_license {
-    white-space: nowrap;
-    margin: -100px !important;
+    margin: -120px !important;
+}
+
+.technical_operator .alter_img img{
+    display: none;
 }
 
 
@@ -1148,33 +1141,6 @@ span.select2-selection {
     white-space: nowrap;
 }
 
-
-
-.learner_plumber td.curr_emptxt,
-.technical_assistant td.curr_emptxt,
-.technical_operator td.curr_emptxt{
-   text-align: left;
-}
-
-.learner_plumber p.alter_lost_veri,
-.technical_assistant p.alter_lost_veri,
-.technical_operator p.alter_lost_veri{
-   margin-left: 10px !important;
-}
-
-.learner_plumber p.emp_title,
-.technical_assistant p.emp_title,
-.technical_operator p.emp_title{
-padding-left: 10px !important;
-}
-
-.technical_operator p.alter_lost_veri{
-text-align: left!important;
-margin-left: 10px;
-}
-.licensed_plumber .curr_emptxt {
-   text-align: left;
-}
 #id_Card_back br {
    display: none;
 }
@@ -1193,7 +1159,7 @@ margin-left: 10px;
 
     table#id_Card, table#id_Card_back {
         width: 100%;
-        max-width: 83%;
+        max-width: 98%;
     }
 
 }
@@ -1202,7 +1168,7 @@ margin-left: 10px;
 
     table#id_Card, table#id_Card_back {
         width: 100%;
-        max-width: 60%;
+        max-width: 98%;
     }
 
 }
@@ -1557,6 +1523,7 @@ p.back_license {transform: none !important;margin: 0 !important;}
 #id_Card_back p.first-card-txt {
     font-size: 11px;
     margin: 0;
+    line-height: 1;
 }
 p.register-num, p.rene-date {
     text-align: left;
@@ -1589,9 +1556,13 @@ p.register-num, p.rene-date {
     font-weight: 600;
     width: 49%;
     float: left;
-    padding-left: 10px; 
     margin: 0; 
 }
+
+#id_Card_back td.curr_emptxt p.emp_title{
+    padding-left: 10px;
+}
+
 .master_plumber #id_Card_back td.curr_emptxt p.plumber_name.add_style,
 .licensed_plumber #id_Card_back td.curr_emptxt p.plumber_name.add_style,
 .qualified_plumber #id_Card_back td.curr_emptxt p.plumber_name.add_style {
@@ -1605,28 +1576,29 @@ p.register-num, p.rene-date {
 .qualified_plumber #id_Card_back p.alter_lost_veri
  {
     text-align: left;
-    font-size: 12px;
     color: #4d4d4d;
-    padding: 20px 0 0px 10px;
     margin: 0;
 }
+
+#id_Card_back p.alter_lost_veri{
+    font-size: 10px;
+}
+
+#id_Card_back p.alter_lost_veri{
+    padding: 5px 0 0px 20px;
+    margin-bottom: 0 !important; 
+}
+
 .technical_operator #id_Card_back p.alter_lost_veri
 {
-    text-align: center;
-    font-size: 12px;
     color: #4d4d4d;
-    line-height: 25px;
-    margin: 0;
-    margin-top: 50px;
 }
+
+
 .learner_plumber #id_Card_back p.alter_lost_veri,
 .technical_assistant  #id_Card_back p.alter_lost_veri {
     text-align: left;
-    margin-left: 50px;
-    font-size: 12px;
     color: #4d4d4d;
-    line-height: 25px;
-    margin-top: 50px;
 }
 .qualified_plumber p.emp_title br, .qualified_plumber p.alter_lost_veri br {
     display: none;
@@ -1637,54 +1609,78 @@ td.add_width.img-txt {
     width: 100%;
     text-align: left;
     line-height: 2.5;
+    padding-top: 10px !important;
+    padding-right: 75px !important;
 }
 #id_Card_back td.add_width.img-txt span {
-    margin-left: 7px;
+    margin-left: 0px;
+    float: left;
+    width: 6%;
+    padding-right: 0px;
+    margin-bottom: 4px;
 }
 .master_plumber p.back_license {
-   margin: -40px !important;
+   margin: -69px !important;
+   font-size: 20px !important;
 }
+
+td.add_idcard_color{
+    padding: 6px 20px 6px 20px !important;
+}
+
 #id_Card_back td.add_width.img-txt span p{
     margin: 0;
 }
 #id_Card_back td .txt-img-card {
     margin: 0;
-    font-size: 13px;
+    font-size: 10px;
     font-weight: 600;
     color: #727272;
+    line-height: 1;
 }
-.technical_operator #id_Card_back tr td.curr_emptxt, 
+
+.txt-img-card {
+    padding-right: 30px;
+    height: 19px;
+    display: flex !important;
+    vertical-align: middle;
+    align-items: center;
+}
+
+/*.technical_operator #id_Card_back tr td.curr_emptxt, 
 .technical_assistant #id_Card_back tr td.curr_emptxt, 
 .learner_plumber #id_Card_back tr td.curr_emptxt {
     border-right: none !important;
-}
-.technical_operator #id_Card_back tr , 
+}*/
+/*.technical_operator #id_Card_back tr , 
 .technical_assistant #id_Card_back tr , 
 .learner_plumber #id_Card_back tr  {
     border-top: none !important;
 }
-.technical_operator #id_Card p.license, .technical_assistant #id_Card p.license {
-    font-size: 16px;
+*/
+.technical_operator #id_Card p.license {
+    font-size: 21px;
+    line-height: 2;
+    margin-left: 15px;
 }
+
+.technical_assistant #id_Card p.license{
+    font-size: 21px;
+    margin-left: 10px;
+    line-height: 2;
+}
+
+
 .learner_plumber #id_Card_back td.curr_emptxt p.emp_title,
 .technical_assistant #id_Card_back td.curr_emptxt p.emp_title,
 .technical_operator #id_Card_back td.curr_emptxt p.emp_title  {
-    display: inline-block;
-    width: 49%;
-    margin-left: 0;
-    padding-left: 47px;
     font-weight: 600;
     text-align: left;
-    margin: 0;
-    margin-top: 100px;
 }
 .learner_plumber #id_Card_back td.curr_emptxt p.plumber_name.add_style,
 .technical_assistant #id_Card_back td.curr_emptxt p.plumber_name.add_style,
 .technical_operator #id_Card_back td.curr_emptxt p.plumber_name.add_style  {
-    display: inline-block !important;
-    width: 49% !important;
     text-align: left;
-    margin: 0;
 }
 .alter_img img {
     position: absolute;
@@ -1703,7 +1699,7 @@ table#id_Card_back img {
     width: 100%;
     margin: 0;
     border-bottom: 1px solid #000;
-    padding-bottom: 20px;
+    padding-bottom: 0px;
 }
 
 .learner_plumber #id_Card_back span.curr_txts,
@@ -1860,19 +1856,16 @@ table#id_Card_back img {
 }
 
 
-td.curr_emptxt {
-    height: 173px !important;
-}
-
 body > * {
     font-family: "Helvetica";
 }
 
 
 p.vrfy {
-    margin-left: 10px !important;
-    font-size: 12px !important;
+    font-size: 10px !important;
     text-align: left;
+    float: left;
+    margin: 0px 0 3px 20px;
 }
 
 td.curr_emptxt + td > div {
@@ -1885,7 +1878,7 @@ td.curr_emptxt + td p {
 
 td.curr_emptxt + td {
     text-align: left;
-    padding-left: 40px !important;
+    padding-left: 10px !important;
 }
 
 /*
@@ -2204,9 +2197,8 @@ p.cus_ren {
 }
 
 .reg_sec {
-    text-align: right;
-width: 92%;
-    float: right;
+    text-align: left;
+    width: 80%;
     margin: 0 auto;
 }
 
@@ -3021,81 +3013,62 @@ p.per_scr_hed {
 #id_Card p.rene-date {	
     font-weight: 600;	
 }	
-.learner_plumber table#id_Card_back {height: 307px;}	
-.learner_plumber table#id_Card_back tbody {	
-    height: 307px;	
-}	
-.learner_plumber table#id_Card_back tbody tr {	
-    height: 307px; !important;	
-}	
-.learner_plumber #id_Card p.license{	
-        font-size: 22px !important;	
-}	
-.learner_plumber tbody.rght-rotate-txt tr {	
-    height: 308px !important;	
-}	
-.technical_assistant table#id_Card_back {	
-    height: 316px;	
-}	
-.technical_assistant table#id_Card_back tr {	
-    height: 315px !important;	
-}	
+
+.qualified_plumber #id_Card p.license,
+.learner_plumber #id_Card p.license{
+    font-size: 29px;
+}
 .licensed_plumber #id_Card p.license{	
-        font-size: 21px !important;	
+        font-size: 34px !important;	
+        line-height: 1.3;
+        width: auto;
 }	
-.licensed_plumber table#id_Card_back tbody.rght-rotate-txt tr {	
-    height: 306px !important;	
-}	
+	
 .licensed_plumber #id_Card_back tr td.curr_emptxt{	
         padding-left: 0 !important;	
-    padding-right: 0 !important;	
+        padding-right: 0 !important;	
 }	
 .licensed_plumber #id_Card_back tr td span.curr_txts {	
-    padding: 4px 20px !important;	
+    padding: 4px 2px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }	
-.licensed_plumber #id_Card_back tr td {	
-    padding-top: 26px !important;	
-}	
-.licensed_plumber #id_Card_back tr td p.vrfy {	
-    padding: 4px 20px !important;	
-}	
-.licensed_plumber #id_Card_back tr td p.alter_lost_veri {	
-    padding: 4px 31px !important;	
-}	
-.technical_operator td.add_idcard_color p.back_license {	
-    margin: -120px !important;	
-}	
-.technical_operator #id_Card_back tr {	
-    height: 312px !important;	
-}	
+
 #id_Card_back td .txt-img-card{	
-    margin-left: 6px;	
-    margin-right: 20px;	
+    margin-left: 0;
+    margin-right: 0;
+    float: left;
+    width: 44%;
+    padding-left: 7px;
+    
 }	
-.master_plumber #id_Card_back td.curr_emptxt {	
+#id_Card_back td.curr_emptxt {	
     padding: 0 !important;	
-    padding-top: 5px !important;	
+    padding-top: 0px !important;
+    width: 1217px;
+    vertical-align: top;
+    text-align: left;
 }	
-.master_plumber #id_Card_back tbody.rght-rotate-txt tr {	
-    height: 338px !important;	
+
+#id_Card_back span.curr_txts {
+    height: 64px;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+#id_Card_back tbody.rght-rotate-txt tr {	
+    height: 274px !important;	
 }	
-.qualified_plumber #id_Card_back tr td.curr_emptxt {	
-    padding-left: 0 !important;	
-    padding-right: 0 !important;	
-}	
-.qualified_plumber #id_Card_back tr td {	
-    padding-top: 23px !important;	
-}	
-.qualified_plumber tbody.rght-rotate-txt tr {	
-    height: 338px !important;	
-}	
+
 .idcard_icon {	
     width: auto;	
     margin: 0 auto;	
     background-color: transparent;	
 }
 
-.master_plumber .idcard_icon img {
+.idcard_icon img {
     background: #fff;
     object-fit: contain;
     margin-top: 0 !important;
@@ -3109,13 +3082,12 @@ p.per_scr_hed {
 .qualified_plumber .idcard_icon{	
     display: none;	
 }	
-.master_plumber #id_Card img.plum_lic {	
-    width: 44px;	
-    margin: 14px 5px 0px 5px;	
+#id_Card img.plum_lic {	
+    width: 77px;
+    margin: -22px 5px 0px 5px !important;
+    height: 66px;
 }	
-.master_plumber      {	
-    width: auto;	
-    margin: 0 auto;	
+.master_plumber{
     background-color: transparent;	
     height: auto;	
 }
@@ -3130,46 +3102,46 @@ p.per_scr_hed {
 
 @media only screen and (min-width: 993px) and (max-width: 1249px) {
 	 table#id_Card_back tbody.rght-rotate-txt tr {
-		height: auto !important;
-	}
-	#id_Card_back tbody {
-		width: 100% !important;
-	}
-	 table#id_Card_back tbody.rght-rotate-txt tr {
 		width: 100% !important;
 	}
 	 .add_idcard_color {
 		width: 100%  !important;
 	}
+
+    .add_top_value .alter_img {
+        max-width: 462px !important;
+    }
+
+    .row.add_top_value .col-md-6 {
+    flex: 100%;
+    max-width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
 }
 
 @media only screen and (min-width: 993px) and (max-width: 1249px) {
-	table#id_Card tr td, table#id_Card_back tr td {
-		width: 100%;
-		display: inline-block;
+]	table#id_Card tr td, table#id_Card_back tr td {
+		width: auto;
+		/*display: inline-block;*/
 		height: auto !important;
-		border: none !important;
 	}
-	#id_Card_back tbody {
-		width: 100% !important;
-	}
+
+    .technical_operator p.back_license{
+        margin: -121px !important;
+    }
+	
 	#id_Card_back p.back_license {
-		margin: 0px !important;
-		width: 100%;
 		transform: rotate(0deg) !important;
 	}
-	tbody.rght-rotate-txt{
-	margin-top: 96px !important;
-	}
+	
 	.mini-sidebar .scroll-sidebar{
 		width: 100%;
 	}
 	.mini-sidebar .sidebar-nav #sidebarnav li a{
 		width: 100%;
 	}
-	 #id_Card_back .rght-rotate-txt tr td {
-		padding: 26px 83px !important;
-	}
+	 
 }   
 
 .noticebox{
@@ -3220,4 +3192,128 @@ p.per_scr_hed {
 .adt-sttment--scrollng .card-body thead th, .adt-sttment--scrollng .card-body table.dataTable thead td {
     font-size: 10px;
 }
+}
+
+.idcard_icon img {background: #fff;}
+
+#id_Card_back td.add_width.img-txt span:nth-child(4n + 1) {
+    clear: both;
+}
+
+
+/**** card---design ****/
+/*.front--card--design, .back---card--design {
+    table-layout: fixed;
+}
+*/
+.front--card--design img.id_logo{
+    margin-top: 13px;
+}
+
+
+.front--card--design td{
+    padding: 6px 0px 6px 20px !important;
+}
+
+.front--card--design td p{
+    margin: 0 0 10px 8px;
+}
+
+.front--card--design img.id_admin{
+    width: 142px;
+    height: 155px;
+    margin: 0 10px 10px 0;
+    margin-left: 39px;
+}
+
+
+tr.add_idcard_color .idcard_icon {
+    width: 25%;
+    display: inline-block;
+    float: left;
+    text-align: left;
+    vertical-align: middle;
+    padding-left: 29px;
+}
+
+tr.add_idcard_color .idcard--name{
+    width: 75%;
+    display: inline-block;
+    float: left;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.front--card--design tbody tr:first-child td:first-child{
+    padding-bottom: 28px !important;
+}
+
+.master_plumber .idcard--name p {
+    font-size: 35px !important;
+    line-height: 1.3;
+}
+
+.front--card--design .idcard--name p.license {
+    margin-left: 28px;
+}
+
+#id_Card_back td.add_width.img-txt span{
+    line-height: 1;
+}
+
+#id_Card_back tbody:first-child tr:first-child td {
+    padding: 6px 75px 6px 16px !important;
+}
+
+td.add_width.img-txt {
+    height: 119px;
+    vertical-align: top;
+}
+
+.spclizatn---sctn {
+    padding-top: 0px !important;
+}
+
+.spclizatn---sctn p, .spclizatn---sctn div {
+    font-size: 12px !important;
+    margin-top: 0 !important;
+}
+
+.spclizatn---sctn p {
+    margin-bottom: 0;
+}
+
+.spclizatn---sctn div {
+    display: none !important;
+}
+
+.add_width.empty-data {
+    height: 122px;
+}
+
+.rght-rotate-txt{
+    width: 10%;
+    display: inline-block;
+    float: right;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    height: 274px;
+}
+
+td.spclizatn---sctn {
+    padding-right: 48px !important;
+}
+
+.technical_assistant .alter_img img,
+.learner_plumber .alter_img img{
+    display: none;
+}
+
+#id_Card_back img {
+    display: block;
+}
+
+#id_Card_back span.curr_txts{
+    border-bottom: 1px solid #000;
 }

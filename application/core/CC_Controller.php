@@ -41,7 +41,7 @@ class CC_Controller extends CI_Controller
 		
 		$segment1 = $this->uri->segment(1);
 		
-		if(!in_array($currenturl, $paymentarray) && $segment1!='' && $segment1!='login' && $segment1!='forgotpassword' && $segment1!='authentication' && $segment1!='ajax' && $segment1!='common') $this->middleware();
+		if(!in_array($currenturl, $paymentarray) && $segment1!='' && $segment1!='login' && $segment1!='forgotpassword' && $segment1!='authentication' && $segment1!='ajax' && $segment1!='common' && $segment1!='webservice') $this->middleware();
 	}
 	
 	public function layout1($data=[])
