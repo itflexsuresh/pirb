@@ -340,7 +340,7 @@ class Import extends CC_Controller {
 		];
 		
 		$datas 	= 	$this->db->select('ips.*, u.id as userid')
-					->join('users u', 'u.migrateid=ips.PlumberID', 'left')
+					->join('users u', 'u.migrateid=ips.PlumberID and u.type="3"', 'left')
 					->get('importplumberskills ips')
 					->result_array();
 		
@@ -360,6 +360,8 @@ class Import extends CC_Controller {
 			}
 			
 			if($data['userid']!=''){
+				$userid 	= $data['userid'];
+				
 				if($data['QualificationTypeID']!=''  && $data['Completed']=='1' && isset($specialisationarray[$data['QualificationTypeID']])){
 					if(!isset($specialisations[$userid])){
 						$specialisations[$userid] = [$specialisationarray[$data['QualificationTypeID']]];
@@ -403,7 +405,7 @@ class Import extends CC_Controller {
     public function plumberdiary()
 	{
 		$datas 	= 	$this->db->select('ip.Notes, u.id as userid')
-					->join('users u', 'u.migrateid=ip.ID', 'left')
+					->join('users u', 'u.migrateid=ip.ID and u.type="3"', 'left')
 					->get('importplumber ip')
 					->result_array();
 					
