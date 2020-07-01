@@ -16,8 +16,8 @@
 				$diary			= $this->config->item('diary');
 		?>
 			<div>
-				<?php echo ($datetime!='') ? $datetime.' -  ' : ''; ?>
 				<?php if($message!=''){ echo $message; }else{ ?>
+					<?php echo ($datetime!='') ? $datetime.' -  ' : ''; ?>
 					<?php 
 						if($type!=''){
 							if($type=='1') echo $adminname;
