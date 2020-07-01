@@ -33,7 +33,7 @@ class Plumber_Model extends CC_Model
 		}
 		
 		if(in_array('usersskills', $querydata)){
-					$select[]		= 	'group_concat(concat_ws("@@@", ups.id, ups.user_id, ups.date, COALESCE(ups.certificate, ""), COALESCE(ups.skills, ""), COALESCE(ups.training, ""), COALESCE(ups.attachment, ""), COALESCE(qr.name, "")) separator "@-@") as skills';
+			$select[]		= 	'group_concat(IF(COALESCE(ups.id, "")="", "", concat_ws("@@@", COALESCE(ups.id, ""), COALESCE(ups.user_id, ""), COALESCE(ups.date, ""), COALESCE(ups.certificate, ""), COALESCE(ups.skills, ""), COALESCE(ups.training, ""), COALESCE(ups.attachment, ""), COALESCE(qr.name, ""))) separator "@-@") as skills';
 		}
 		
 		if(in_array('company', $querydata)){
