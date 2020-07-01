@@ -1346,13 +1346,13 @@ function othernationalityidcardbox(value){
 		$('.othernationalityidcardbox').hide();
 	}
 	
-	$('#citizen option[value="3"]').removeAttr('disabled');
+	$('#citizen option[value="4"]').removeAttr('disabled');
 		
 	if(value=='1'){
-		$('#citizen').val('3').trigger('change');;
+		$('#citizen').val('4').trigger('change');;
 	}else if(value=='2'){
-		$('#citizen option[value="3"]').attr('disabled', 'disabled');
-		$('#citizen').val('4').trigger('change');
+		$('#citizen option[value="4"]').attr('disabled', 'disabled');
+		$('#citizen').val('2').trigger('change');
 	}
 }
 

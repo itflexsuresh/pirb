@@ -213,7 +213,7 @@ class Import extends CC_Controller {
 			$user = [
 				'id' 				=> '',
 				'email' 			=> 'test'.$value['Email'],
-				'password' 			=> $value['PIN'],
+				'password' 			=> ($value['PIN']!='') ? $value['PIN'] : '123456789',
 				'type'				=> '3',
 				'mailstatus'		=> '1',
 				'formstatus'		=> '1',
@@ -280,14 +280,14 @@ class Import extends CC_Controller {
 								'mobile_phone' 				=> '999'.$value['MobilePhone'],
 								'work_phone' 				=> '999'.$value['BusinessPhone'],
 								'racial' 					=> $value['EquityID'],
-								'nationality' 				=> $value['NationalityID'],
-								'othernationality' 			=> $value['AlternativeIDTypeID'],
-								'idcard' 					=> $value['IdNo'],
-								'otheridcard' 				=> $value['AlternateID'],
+								'nationality' 				=> ($value['NationalityID']=='15') ? '1' : '2',
+								'othernationality' 			=> ($value['NationalityID']!='15') ? $value['NationalityID'] : '',
+								'idcard' 					=> ($value['NationalityID']=='15') ? $value['IdNo'] : '',
+								'otheridcard' 				=> ($value['NationalityID']!='15') ? $value['IdNo'] : '',
 								'homelanguage' 				=> $value['LanguageID'],
 								'disability' 				=> $value['DisabilityStatusID'],
 								'citizen' 					=> $value['CitizenResidentStatusID'],
-								'employment_details' 		=> $value['SocioeconomicStatusID'],
+								'employment_details' 		=> $company ? '1' : '2',
 								'company_details' 			=> $company ? $company['id'] : '',
 								'customregno'				=> $value['RegNo'],
 								'registration_date'			=> $value['RegistrationStart'],
@@ -345,7 +345,7 @@ class Import extends CC_Controller {
 					->result_array();
 		
 		foreach ($datas as $data) {
-			if($data['CourseDateCompleted']!='' && $data['CourseDateCompleted']!=NULL && $data['CertificationNo']!='' && $data['CertificationNo']!=NULL && $data['TrainingProvider']!='' && $data['TrainingProvider']!=NULL && $data['userid']!=''){
+			if($data['CourseDateCompleted']!='' && $data['CourseDateCompleted']!=NULL && $data['userid']!=''){
 				$userid 	= $data['userid'];
 				
 				$skilldata 	= [
@@ -369,10 +369,12 @@ class Import extends CC_Controller {
 				
 				if(isset($designationarray[$data['QualificationTypeID']]) && $data['Completed']=='1'){
 					if(!isset($designations[$userid])){
-						$designations[$userid] = [$designationarray[$data['QualificationTypeID']]];
+						$designations[$userid]['designation'] 		= [$designationarray[$data['QualificationTypeID']]];
+						$designations[$userid]['qualificationyear'] = date('Y', strtotime($data['CourseDateCompleted']));
 					}else{
-						array_push($designations[$userid], $designationarray[$data['QualificationTypeID']]);
-						array_unique($designations[$userid]);
+						array_push($designations[$userid]['designation'], $designationarray[$data['QualificationTypeID']]);
+						array_unique($designations[$userid]['designation']);
+						$designations[$userid]['qualificationyear'] = date('Y', strtotime($data['CourseDateCompleted']));
 					}
 				}
 			}
@@ -387,7 +389,8 @@ class Import extends CC_Controller {
 		
 		foreach($designations as $key => $designation) {
 			$designationdata 	= [
-				'designation' => end($designation)
+				'designation' 				=> end($designation['designation']),
+				'qualification_year'		=> $designation['qualificationyear']
 			];
 			$this->db->update('users_plumber', $designationdata, ['user_id' => $key]);
 		}
@@ -575,7 +578,7 @@ class Import extends CC_Controller {
 								'work_phone' 				=> '999'.$value['BusinessPhone'],
 								'mobile_phone' 				=> '999'.$value['ContactMobilePhone'],
 								'email' 					=> 'test'.$value['Email'],
-								'password' 					=> $value['Password'],
+								'password' 					=> ($value['Password']!='') ? $value['Password'] : '123456789',
 								'company_name' 				=> $value['Username'],
 								'reg_no' 					=> $value['CompanyRegNo'],
 								'vat_no' 					=> $value['VatRegNo'],
@@ -624,6 +627,15 @@ class Import extends CC_Controller {
 				}else{
 					$stock['id'] = $coc;
 					$this->db->insert('stock_management', $stock);
+					
+					$stocklog = [
+						'stock' 		=> '1',
+						'range_start' 	=> $coc,
+						'range_end' 	=> $coc,
+						'created_at' 	=> date('Y-m-d H:i:s', strtotime(trim($created))),
+					];
+					
+					$this->db->insert('stock_management_log', $stocklog);
 				}
 				
 				$this->db->update('coc_count',['count' => 'count - 1'], ['user_id' => $userid]); 

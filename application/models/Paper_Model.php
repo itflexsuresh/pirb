@@ -75,7 +75,7 @@ class Paper_Model extends CC_Model
 		if(isset($data['range_start'])) 		$request1['range_start'] 			= $data['range_start'];
 		if(isset($data['range_end'])) 			$request1['range_end'] 				= $data['range_end'];
 		
-		if(isset($data['startrange']) && isset($data['endrange']) && $data['startrange']!='' && $data['endrange']!=''){
+		if(isset($data['startrange']) && isset($data['endrange']) && $data['startrange']!='' && $data['endrange']!='' && isset($data['oldstock']) && $data['oldstock']=='1'){
 			$request1['stock'] 					= ($data['startrange']==$data['endrange']) ? '1' : ($data['endrange']-$data['startrange'])+1;
 			$data['cocstock']					= $request1['stock'];
 			$request1['range_start'] 			= $data['startrange'];
@@ -99,10 +99,10 @@ class Paper_Model extends CC_Model
 						$request2['purchased_at'] 		= $datetime;
 						$request2['allocation_date'] 	= $datetime;
 						
-						if(isset($data['startrange']) && isset($data['endrange']) && $data['startrange']!='' && $data['endrange']!=''){
+						if(isset($data['startrange']) && isset($data['endrange']) && $data['startrange']!='' && $data['endrange']!='' && isset($data['oldstock']) && $data['oldstock']=='1'){
 							$request2['id'] = $data['startrange']+$i;
 						}else{
-							//$request2['id'] = $data['range_start']+$i;
+							$request2['id'] = $data['range_start']+$i;
 						}
 						
 						$user_stock = $this->db->insert('stock_management', $request2);

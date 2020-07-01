@@ -74,12 +74,10 @@ $id 			= (isset($result['id']) && $result['id']!='' && $result['id'] >= $customs
 
 							<div class="row">	
 								<div class="col-md-6">	
-									<?php //if($id!=$customstockno){ ?>
-										<div class="custom-control custom-checkbox">
-											<input type="checkbox" id="oldstock" name="oldstock" value="1" class="custom-control-input">
-											<label class="custom-control-label" for="oldstock">Add stock below <?php echo $customstockno; ?></label>
-										</div>
-									<?php //} ?>
+									<div class="custom-control custom-checkbox">
+										<input type="checkbox" id="oldstock" name="oldstock" value="1" class="custom-control-input">
+										<label class="custom-control-label" for="oldstock">Add stock below <?php echo $customstockno; ?></label>
+									</div>
 								</div>
 								<div class="col-md-6 text-right">	
 									<button type="submit" name="submit" value="submit" class="btn btn-block btn-primary btn-rounded">Generate COC Stock</button>		
