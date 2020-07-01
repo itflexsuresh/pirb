@@ -334,7 +334,7 @@ class Import extends CC_Controller {
 		$routearray = [
 			'1' => '2',
 			'2' => '4',
-			'3' => '6',
+			'3' => '5',
 			'4' => '1',
 			'5' => '3'
 		];
