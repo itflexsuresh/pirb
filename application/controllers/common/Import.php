@@ -135,7 +135,7 @@ class Import extends CC_Controller {
 				
 			$user = [
 				'id' 				=> '',
-				'email' 			=> 'test'.$value['Email'],
+				'email' 			=> $value['Email'],
 				'password' 			=> '12345678',
 				'type'				=> '4',
 				'mailstatus'		=> '1',
@@ -176,8 +176,8 @@ class Import extends CC_Controller {
 								'name' 						=> $value['Name'],
 								'reg_no' 					=> $value['RegNo'],
 								'contact_person' 			=> $value['PrimaryContact'],
-								'work_phone' 				=> '999'.$value['BusinessPhone'],
-								'mobile_phone' 				=> '999'.$value['Fax'],
+								'work_phone' 				=> $value['BusinessPhone'],
+								'mobile_phone' 				=> $value['Fax'],
 								'address' 					=> $address,
 								'status'					=> $value['Active'],
 								'approval_status'			=> '1',
@@ -212,7 +212,7 @@ class Import extends CC_Controller {
 			
 			$user = [
 				'id' 				=> '',
-				'email' 			=> 'test'.$value['Email'],
+				'email' 			=> $value['Email'],
 				'password' 			=> ($value['PIN']!='') ? $value['PIN'] : '123456789',
 				'type'				=> '3',
 				'mailstatus'		=> '1',
@@ -276,9 +276,9 @@ class Import extends CC_Controller {
 								'surname' 					=> $value['Surname'],
 								'dob' 						=> $value['BirthDate'],
 								'gender' 					=> ($value['GenderID']=='1') ? '2' : '1',
-								'home_phone' 				=> '999'.$value['HomePhone'],
-								'mobile_phone' 				=> '999'.$value['MobilePhone'],
-								'work_phone' 				=> '999'.$value['BusinessPhone'],
+								'home_phone' 				=> $value['HomePhone'],
+								'mobile_phone' 				=> $value['MobilePhone'],
+								'work_phone' 				=> $value['BusinessPhone'],
 								'racial' 					=> $value['EquityID'],
 								'nationality' 				=> ($value['NationalityID']=='15') ? '1' : '2',
 								'othernationality' 			=> ($value['NationalityID']!='15') ? $value['NationalityID'] : '',
@@ -532,7 +532,7 @@ class Import extends CC_Controller {
 		
 		foreach($datas as $key => $data){
 			
-			$checkUser = $this->db->get_where('users', ['email' => 'test'.$data[5]])->row_array();
+			$checkUser = $this->db->get_where('users', ['email' => $data[5]])->row_array();
 			
 			if($checkUser){
 				$this->db->update('users_detail', ['gender' => '2'], ['user_id' => $checkUser['id']]);
@@ -575,9 +575,9 @@ class Import extends CC_Controller {
 								'company' 					=> $value['CompanyName'],
 								'name' 						=> $value['ContactName'],
 								'surname' 					=> $value['ContactSurname'],
-								'work_phone' 				=> '999'.$value['BusinessPhone'],
-								'mobile_phone' 				=> '999'.$value['ContactMobilePhone'],
-								'email' 					=> 'test'.$value['Email'],
+								'work_phone' 				=> $value['BusinessPhone'],
+								'mobile_phone' 				=> $value['ContactMobilePhone'],
+								'email' 					=> $value['Email'],
 								'password' 					=> ($value['Password']!='') ? $value['Password'] : '123456789',
 								'company_name' 				=> $value['Username'],
 								'reg_no' 					=> $value['CompanyRegNo'],
@@ -668,12 +668,12 @@ class Import extends CC_Controller {
 								'name' 						=> $data[2],
 								'surname' 					=> $data[3],
 								'idno' 						=> $data[4],
-								'email' 					=> 'test'.$data[6],
+								'email' 					=> $data[6],
 								'password' 					=> ($data[7]!='') ? $data[7] : '123456789',
-								'billing_email' 			=> 'test'.$data[4],
-								'billing_contact' 			=> '999'.$data[9],
-								'work_phone' 				=> '999'.$data[8],
-								'mobile_phone' 				=> '999'.$data[9],
+								'billing_email' 			=> $data[4],
+								'billing_contact' 			=> $data[9],
+								'work_phone' 				=> $data[8],
+								'mobile_phone' 				=> $data[9],
 								'company_name' 				=> $data[10],
 								'reg_no' 					=> $data[11],
 								'vat_no' 					=> $data[12],
