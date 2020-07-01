@@ -3315,3 +3315,14 @@ td.spclizatn---sctn {
 #id_Card_back span.curr_txts{
     border-bottom: 1px solid #000;
 }
+
+.qualified_plumber .idcard_icon {
+    display: none !important;
+}
+
+.qualified_plumber .add_idcard_color td * {
+    text-align: center !important;
+    margin-left: 0 !important;
+    width: 100%;
+    float: none;
+}
