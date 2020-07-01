@@ -972,7 +972,7 @@ $(function(){
 	citysuburb(['#province3','#city3', '#suburb3'], ['<?php echo $city3; ?>', '<?php echo $suburb3; ?>']);
 	
 	var nationality = $('#nationality').val();
-	othernationalityidcardbox(nationality);
+	othernationalityidcardbox(nationality, 1);
 	
 	var registrationcard = $('#registration_card').val();
 	deliverycardbox(registrationcard);
@@ -1339,7 +1339,7 @@ $('#nationality').change(function(){
 	othernationalityidcardbox($(this).val());
 })
 
-function othernationalityidcardbox(value){
+function othernationalityidcardbox(value, citizen=''){
 	if(value=='2'){
 		$('.othernationalityidcardbox').show();
 	}else{
@@ -1354,6 +1354,8 @@ function othernationalityidcardbox(value){
 		$('#citizen option[value="4"]').attr('disabled', 'disabled');
 		$('#citizen').val('2').trigger('change');
 	}
+	
+	if(citizen==1) $('#citizen').val('<?php echo $citizenid; ?>').trigger('change');
 }
 
 $('#registration_card').change(function(){
@@ -1410,7 +1412,7 @@ function skills(data){
 		
 		$(document).find('.skillappend[data-id="'+result.id+'"]').remove();
 		
-		if(result.attachment!=''){
+		if(result.attachment!=undefined && result.attachment!=''){
 			var ext 		= result.attachment.split('.').pop().toLowerCase();
 			if(ext=='jpg' || ext=='jpeg' || ext=='png'){
 				var attachment = '<a href="'+filepath+(result.attachment)+'" target="_blank"><img src="'+filepath+(result.attachment)+'" width="50"></a>';
@@ -1436,10 +1438,10 @@ function skills(data){
 		var appenddata 	= 	'\
 								<tr class="skillappend" data-id="'+result.id+'">\
 									<td>'+formatdate(result.date,1)+'</td>\
-									<td>'+result.certificate+'</td>\
-									<td>'+result.skillname+'</td>\
-									<td>'+result.training+'</td>\
-									<td>'+attachment+'</td>\
+									<td>'+((result.certificate!=undefined && result.certificate!='') ? result.certificate :  "")+'</td>\
+									<td>'+((result.skillname!=undefined && result.skillname!='') ? result.skillname :  "")+'</td>\
+									<td>'+((result.training!=undefined && result.training!='') ? result.training :  "")+'</td>\
+									<td>'+((attachment!=undefined && attachment!='') ? attachment :  "")+'</td>\
 									'+action+'\
 								</tr>\
 							';
@@ -1461,12 +1463,12 @@ function skillsedit(data){
 		var result 	= 	data.result;
 		
 		$('.skill_date').val(formatdate(result.date, 1));
-		$('.skill_certificate').val(result.certificate);
-		$('.skill_route').val(result.skills);
-		$('.skill_training').val(result.training);
-		$('.skill_attachment').val(result.attachment);
+		$('.skill_certificate').val(((result.certificate!=undefined && result.certificate!='') ? result.certificate :  ""));
+		$('.skill_route').val(((result.skills!=undefined && result.skills!='') ? result.skills :  ""));
+		$('.skill_training').val(((result.training!=undefined && result.training!='') ? result.training :  ""));
+		$('.skill_attachment').val(((result.attachment!=undefined && result.attachment!='') ? result.attachment :  ""));
 		
-		if(result.attachment!=''){
+		if(result.attachment!=undefined && result.attachment!=''){
 			var ext 		= result.attachment.split('.').pop().toLowerCase();
 			if(ext=='jpg' || ext=='jpeg' || ext=='png'){
 				$('.skill_attachment_image').attr('src', filepath+(result.attachment));	

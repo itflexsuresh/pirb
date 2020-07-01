@@ -357,8 +357,10 @@ class Import extends CC_Controller {
 				];
 				
 				$this->db->insert('users_plumber_skill', $skilldata);
-				
-				if(isset($specialisationarray[$data['QualificationTypeID']]) && $data['Completed']=='1'){
+			}
+			
+			if($data['userid']!=''){
+				if($data['QualificationTypeID']!=''  && $data['Completed']=='1' && isset($specialisationarray[$data['QualificationTypeID']])){
 					if(!isset($specialisations[$userid])){
 						$specialisations[$userid] = [$specialisationarray[$data['QualificationTypeID']]];
 					}else{
@@ -367,7 +369,7 @@ class Import extends CC_Controller {
 					}
 				}
 				
-				if(isset($designationarray[$data['QualificationTypeID']]) && $data['Completed']=='1'){
+				if($data['QualificationTypeID']!=''  && $data['Completed']=='1' && isset($designationarray[$data['QualificationTypeID']])){
 					if(!isset($designations[$userid])){
 						$designations[$userid]['designation'] 		= [$designationarray[$data['QualificationTypeID']]];
 						$designations[$userid]['qualificationyear'] = date('Y', strtotime($data['CourseDateCompleted']));

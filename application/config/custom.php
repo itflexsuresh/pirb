@@ -123,11 +123,12 @@ $config['gender'] 					= 	[
 										
 $config['racial'] 					= 	[
 											'' 	=> 'Select Racial Status',
-											'1' => 'African',
-											'2' => 'Indian',
-											'3' => 'Coloured',
-											'4' => 'White'
-										];		
+											'1' => 'Black: African',
+											'2' => 'Black: Coloured',
+											'3' => 'Black: Indian',
+											'4' => 'White',
+											'5' => 'Unknown'
+										];	
 										
 $config['yesno'] 					= 	[
 											'1' => 'Yes',
@@ -202,9 +203,9 @@ $config['disability'] 				= 	[
 										
 $config['citizen'] 					= 	[
 											'1' => 'Dual (South African & Other)',
+											'2' => 'Other',
 											'3' => 'Permanent',
-											'4' => 'South African',
-											'2' => 'Other'
+											'4' => 'South African'
 										];		
 										
 $config['deliverycard'] 			= 	[
