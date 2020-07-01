@@ -1464,7 +1464,7 @@ function skillsedit(data){
 		
 		$('.skill_date').val(formatdate(result.date, 1));
 		$('.skill_certificate').val(((result.certificate!=undefined && result.certificate!='') ? result.certificate :  ""));
-		$('.skill_route').val(((result.skills!=undefined && result.skills!='') ? result.skills :  ""));
+		$('.skill_route').val(((result.skills!=undefined && result.skills!='') ? result.skills :  "")).trigger('change');
 		$('.skill_training').val(((result.training!=undefined && result.training!='') ? result.training :  ""));
 		$('.skill_attachment').val(((result.attachment!=undefined && result.attachment!='') ? result.attachment :  ""));
 		
@@ -1494,10 +1494,11 @@ $(document).on('click', '.skillremove', function(){
 function skillsremove(data){}
 
 function skillsclear(){
-	$('.skill_date, .skill_certificate, .skill_route, .skill_training, .skill_attachment').val('');
+	$('.skill_date, .skill_certificate, .skill_training, .skill_attachment').val('');
 	$('.skill_attachment_image').attr("src", "<?php echo base_url().'assets/images/profile.jpg'; ?>");
 	$('.skillform').find("p.error_class_1").remove();
 	$('.skillform').find(".error_class_1").removeClass('error_class_1');
+	$('.skill_route').val('').trigger('change');
 	
 	$('.attachmenthidden').valid();
 }
