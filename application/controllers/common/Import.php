@@ -494,7 +494,8 @@ class Import extends CC_Controller {
 	
     public function plumberdocument()
 	{
-		$plumbers 	= $this->db->get_where('users', ['type' => '3', 'migrateid !=' => ''])->result_array();
+		$plumbers 			= $this->db->get_where('users', ['type' => '3', 'migrateid !=' => ''])->result_array();
+		$descriptionarray	= ['IDDocument', 'TradeCertificate'];
 		
 		foreach($plumbers as $plumber){
 			$migrateid 	= $plumber['migrateid'];
@@ -515,6 +516,7 @@ class Import extends CC_Controller {
 					$data = [
 						'file1' 		=> $file,
 						'plumberid' 	=> $userid,
+						'description' 	=> isset($descriptionarray[$i-1]) ? $descriptionarray[$i-1] : '',
 						'documentsid' 	=> ''
 					];
 					
