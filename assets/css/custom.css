@@ -3350,7 +3350,8 @@ tr.dynmci---icns {
 .technical_operator .technical----operator--static-icons,
 .technical_assistant .back--crd--logo,
 .technical_assistant .tchn--asiiisss,
-.learner_plumber .back--crd--logo{
+.learner_plumber .back--crd--logo,
+.learner_plumber .tchn--asiiisss{
     display: block !important;
 }
 
@@ -3396,7 +3397,8 @@ tr.dynmci---icns {
     border-top: 0px !important;
 }
 
-.technical_assistant .curr_emptxt img {
+.technical_assistant .curr_emptxt img,
+.learner_plumber .curr_emptxt img {
     position: absolute !important;
     margin-top: -50px !important;
     width: 90px;

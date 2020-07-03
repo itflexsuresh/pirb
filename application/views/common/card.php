@@ -25,7 +25,16 @@
     $spl4                   = base_url().'assets/images/card/Heatpump.png';
     $spl5                   = base_url().'assets/images/card/Training Assessor.png';
     $spl6                   = base_url().'assets/images/card/Arbitrator.png';
-    $techassis              = base_url().'assets/images/card/Technical Assistant.png';
+    $backcard               = base_url().'assets/images/card/back-card/Above Ground Drainage Icon.png';
+    $backcard1              = base_url().'assets/images/card/back-card/Below Ground Drainage Icon.png';
+    $backcard2              = base_url().'assets/images/card/back-card/Cold Water Icon.png';
+    $backcard3              = base_url().'assets/images/card/back-card/Drainage Icon.png';
+    $backcard4              = base_url().'assets/images/card/back-card/Gas.png';
+    $backcard5              = base_url().'assets/images/card/back-card/Heatpump.png';
+    $backcard6              = base_url().'assets/images/card/back-card/Hot Water Icon.png';
+    $backcard7              = base_url().'assets/images/card/back-card/Rainwater Disposal Icon.png';
+    $backcard8              = base_url().'assets/images/card/back-card/Solar.png';
+    $backcard9              = base_url().'assets/images/card/back-card/Water Energy Efficiency Icon.png';
 
 
 
@@ -48,7 +57,7 @@
         $plumber_icon = 'assets/images/card/Learner plumber.png';
 
     }elseif($designation2[$designation2id] == 'Technical Assistant Practitioner'){
-        $plumber_icon = 'assets/images/card/Technical Operator.png';
+        $plumber_icon = 'assets/images/card/Technical Assistant.png';
 
     }elseif($designation2[$designation2id] == 'Technical Operator Practitioner'){
         $plumber_icon = 'assets/images/card/Technical Operator.png';
@@ -108,18 +117,29 @@
 
                 <tr class="stct---icons">
                     <td colspan="2" class="add_width img-txt">
-                                <span class="abve---img"><p><img src="http://localhost/pirb/assets/images/card/Solar.png"></p></span>
+                                <span class="abve---img"><p><img src="<?php echo $backcard; ?>"></p></span>
                                 <div class="txt-img-card abve-grnd--ttle">Above Ground Drainage</div>
-                                <span class="hot--wtr---img"><p><img src="http://localhost/pirb/assets/images/card/Gas.png"></p></span>
+
+                                <span class="hot--wtr---img"><p><img src="<?php echo $backcard6; ?>"></p></span>
                                 <div class="txt-img-card ht--wtr--ttle">Hot Water</div>
-                                <span class="blw---img"><p><img src="http://localhost/pirb/assets/images/card/Estimator.png"></p></span>
+
+                                <span class="blw---img"><p><img src="<?php echo $backcard1; ?>"></p></span>
                                 <div class="txt-img-card blw-grnd--ttle">Below Ground Drainage</div>
-                                <span class="solar---img"><p><img src="http://localhost/pirb/assets/images/card/Heatpump.png"></p></span>
+
+                                <span class="solar---img"><p><img src="<?php echo $backcard8; ?>"></p></span>
                                 <div class="txt-img-card slr--wtr-ttle">Solar Water Heating</div>
-                                <span class="rain--wtr---img"><p><img src="http://localhost/pirb/assets/images/card/Training Assessor.png"></p></span><div class="txt-img-card rain---ttle">Rain Water Drainage</div>
-                                <span class="heat---img"><p><img src="http://localhost/pirb/assets/images/card/Arbitrator.png"></p></span>       <div class="txt-img-card heat---ttle">Heat Pumps</div>
-                                <span class="cold--wtr---img"><p><img src="http://localhost/pirb/assets/images/card/Arbitrator.png"></p></span>       <div class="txt-img-card cold---ttle">Cold Water</div>
-                                <span class="gas---img"><p><img src="http://localhost/pirb/assets/images/card/Arbitrator.png"></p></span>       <div class="txt-img-card gas-title">Gas</div>
+
+                                <span class="rain--wtr---img"><p><img src="<?php echo $backcard7; ?>"></p></span>
+                                <div class="txt-img-card rain---ttle">Rain Water Drainage</div>
+
+                                <span class="heat---img"><p><img src="<?php echo $backcard5; ?>"></p></span>
+                                <div class="txt-img-card heat---ttle">Heat Pumps</div>
+
+                                <span class="cold--wtr---img"><p><img src="<?php echo $backcard2; ?>"></p></span>
+                                <div class="txt-img-card cold---ttle">Cold Water</div>
+
+                                <span class="gas---img"><p><img src="<?php echo $backcard4; ?>"></p></span>
+                                <div class="txt-img-card gas-title">Gas</div>
                                     
                    </td>
                 </tr>
@@ -190,13 +210,16 @@
                 </tr>
                 <tr class="technical----operator--static-icons">
                     <td colspan="2" class="add_width img-txt">
-                        <span class="wtr--efncy---img"><p><img src="http://localhost/pirb/assets/images/card/Gas.png"></p></span>
+                       <span class="wtr--efncy---img"><p><img src="<?php echo $backcard9; ?>"></p></span>
                        <div class="txt-img-card wtr--efncy--ttle">Water Energy Efficiency</div>
-                       <span class="drngee---img"><p><img src="http://localhost/pirb/assets/images/card/Gas.png"></p></span>
+
+                       <span class="drngee---img"><p><img src="<?php echo $backcard3; ?>"></p></span>
                        <div class="txt-img-card drngee--ttle">Drainage</div>
-                       <span class="cold--wtr---img"><p><img src="http://localhost/pirb/assets/images/card/Arbitrator.png"></p></span>       
+
+                       <span class="cold--wtr---img"><p><img src="<?php echo $backcard2; ?>"></p></span>       
                        <div class="txt-img-card cold---ttle">Cold Water</div>
-                       <span class="hot--wtr---img"><p><img src="http://localhost/pirb/assets/images/card/Gas.png"></p></span>
+
+                       <span class="hot--wtr---img"><p><img src="<?php echo $backcard6; ?>"></p></span>
                        <div class="txt-img-card ht--wtr--ttle">Hot Water</div>
                     </td>
                 </tr>
