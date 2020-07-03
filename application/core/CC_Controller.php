@@ -1075,8 +1075,8 @@ class CC_Controller extends CI_Controller
 		$pagedata['designation2'] 		= $this->config->item('designation2');
 		$specialisations 				= explode(',', $userdata['specialisations']);
 		$pagedata['installationtype']	= $this->getInstallationTypeList();
-		$pagedata['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => []]);
-		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations]);
+		$pagedata['installation'] 		= $this->Installationtype_Model->getList('all', ['ids' => ['1','2','3','5','6','7']]);
+		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['ids' => ['4','8']]);
 
 		$html = $this->load->view('pdf/electroniccocreport', (isset($pagedata) ? $pagedata : ''), true);
 		$this->pdf->loadHtml($html);

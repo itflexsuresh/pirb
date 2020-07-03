@@ -366,9 +366,10 @@ class Index extends CC_Controller
 	
 	
 	public function ajaxotp(){
+		$post		= $this->input->post();
 		$userdata 	= $this->getUserDetails();
 		$userid 	= $userdata['id'];
-		$mobile 	= str_replace([' ', '(', ')', '-'], ['', '', '', ''], trim($userdata['mobile_phone']));
+		$mobile 	= str_replace([' ', '(', ')', '-'], ['', '', '', ''], trim(isset($post['mobile']) ? $post['mobile'] : $userdata['mobile_phone']));
 		$otp		= rand (10000, 99999);
 		
 		$query = $this->db->get_where('otp', ['user_id' => $userid]);

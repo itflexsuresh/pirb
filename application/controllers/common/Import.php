@@ -309,6 +309,18 @@ class Import extends CC_Controller {
 							];
 							
 			$this->Plumber_Model->action($result);	
+			
+			/*for($i=6122; $i<=12729; $i++){
+				$data = [
+					'user_id' => $i,
+					'count' => '50',
+					'created_at' => date('Y-m-d H:i:s'),
+					'created_by' => $i,
+					'updated_at' => date('Y-m-d H:i:s'),
+					'updated_by' => $i
+				];
+				$this->db->insert('coc_count', $data);
+			}*/
 		}
     }
 	

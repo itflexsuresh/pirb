@@ -1,9 +1,9 @@
 <?php
-//Reseller View File
 $id = isset($result['id']) ? $result['id'] : '';
 $search_reg_no = isset($result['registration_no']) ? $result['registration_no'] : '';
 $name = isset($result['name']) ? $result['name'] : '';
 $surname = isset($result['surname']) ? $result['surname'] : '';
+$mobilephone = isset($result['mobile_phone']) ? $result['mobile_phone'] : '';
 $designationtemp = isset($result['designation']) ? $result['designation'] : '';
 $designation = "";
 if(isset($designationtemp) && $designationtemp > 0) {
@@ -12,18 +12,10 @@ if(isset($designationtemp) && $designationtemp > 0) {
 $companyname = isset($result['companyname']) ? $result['companyname'] : 'Unemployed';
 $company_details = isset($result['company_details']) ? $result['company_details'] : '';
 $balace_coc = 0 ;
-// $orderqty = 0;
-// $coc_purchase_limit = 0;
-// $coc_purchase_limit = isset($result['coc_purchase_limit']) ? $result['coc_purchase_limit'] : '';
-// if(isset($id) && $id >0)
-// {	
-// 	$orderqty = $array_orderqty['sumqty'];
-// 	$balace_coc = $coc_purchase_limit - $orderqty;
-// }
+
 if(isset($id) && $id >0){
 	$balace_coc = $array_orderqty['sumqty'];
 }
-
 
 $startrange= isset($result['startrange']) ? $result['startrange'] : '';
 $endrange= isset($result['endrange']) ? $result['endrange'] : '';
@@ -35,8 +27,6 @@ if(isset($id) && $id >0)
 	else
 		$searchbox = $search_reg_no;
 }
-
-
 ?>
 
 
@@ -60,12 +50,10 @@ if(isset($id) && $id >0)
 		<div class="card">
 			<div class="card-body">	
 				<form form class="mt-4 form" action="" method="post">
-				
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-group">
 								<label>Plumber / Reg Number</label>  
-								
 							</div>
 						</div>
 						<div class="col-md-4">
@@ -73,12 +61,7 @@ if(isset($id) && $id >0)
 								<input type="search" autocomplete="off" class="form-control"  name="search_reg_no" id="search_reg_no"  value="<?php if(isset($id) && $id >0){ echo $searchbox; }?>" placeholder="Type in Plumbers reg number; name or surname">
 								<input type="hidden" id="user_id_hide" name="user_id_hide" value="0">
 								<div id="plumber_suggesstion" style="display: none;"></div>
-
-<?php if(isset($emptyvalue) && $emptyvalue == 0){ echo '<span style="color:red">Record was not found</span>'; }?>
-
-								<!-- <div class="search_icon">
-									<i class="fa fa-search" aria-hidden="true"></i>
-								</div> -->
+								<?php if(isset($emptyvalue) && $emptyvalue == 0){ echo '<span style="color:red">Record was not found</span>'; }?>
 							</div>
 						</div>
 						<div class="col-md-5">
@@ -88,14 +71,13 @@ if(isset($id) && $id >0)
 							</div>							
 						</div>
 					</div>
-				</form>				
-		<?php			
-
+				</form>	
+				
+		<?php		
 			if(isset($id) && $id >0)
 			{ 
 		?>
 			<form form class="mt-4 form2" action="" method="post">
-				
 				<input type="hidden" class="form-control"  name="plumberid" id="plumberid"  value="<?php echo $id;?>" >	
 				<div class="row">
 					<div class="col-md-3">
@@ -112,7 +94,7 @@ if(isset($id) && $id >0)
 				<div class="row">
 					<?php echo $card ;?>
 				</div>
-			</br>
+				</br>
 				<div class="row">
 					<div class="col-md-3">
 						<div class="form-group">
@@ -171,13 +153,6 @@ if(isset($id) && $id >0)
 					<div class="col-md-4">
 						<div class="form-group">
 							<input type="text" value="" readonly name="startrange" id="startrange">
-
-						<?php
-							// if(count($rangedata) > 0){
-							// 	echo form_dropdown('startrange', $rangedata, $startrange, ['id' => 'startrange', 'class'=>'form-control']);
-							// }
-
-						?>	
 						</div>
 					</div>
 				</div>
@@ -191,25 +166,9 @@ if(isset($id) && $id >0)
 					<div class="col-md-4">
 						<div class="form-group">							
 							<input type="text" value="" readonly name="endrange" id="endrange">
-
-						<?php
-							// if(count($rangedata) > 0){
-							// 	echo form_dropdown('endrange', $rangedata, $endrange, ['id' => 'endrange', 'class'=>'form-control']);
-							// }
-						?>
 						</div>
 					</div>
 				</div>
-
-				
-
-				<!-- <div class="row">
-					<div class="col-md-12">
-						<div class="form-group">
-							<label>Caution: Number of COC that been selected for allocation is greater than the number of permitted COC's that can be allocated to the Plumber.</label>
-						</div>
-					</div>
-				</div> -->
 
 				<div class="row">
 					<div class="col-md-3">
@@ -255,7 +214,7 @@ if(isset($id) && $id >0)
 									<div class="col-md-12 text-center">
 										<div class="form-group">
 											<h4 class="mb-15">A One Time Pin (OTP) was sent to the Licensed Plumber with the following Mobile Number :</h4>
-											<h4><?php echo $userdetails['uname']." / ".$userdetails['usurname']." - ".$userdetails['mobile_phone']; ?></h4>
+											<h4><?php echo $name." / ".$surname." - ".$mobilephone; ?></h4>
 										</div>
 									</div>
 									<div class="col-md-12">
@@ -304,42 +263,7 @@ $('#search_reg_no').keyup(function(){
 		$("#plumber_suggesstion").html('');
 	}
 })
-/*
-var req = null;
-function search_func(value)
-{
-    if (req != null) req.abort();
-    
-    var type1 = 3;
-    var strlength = $.trim($('#search_reg_no').val()).length;
-    if(strlength > 0)  { 
-	    req = $.ajax({
-	        type: "POST",
-	        url: '<?php //echo base_url()."resellers/allocatecoc/Index/userDetails"; ?>',
-	        data: {'search_keyword' : value,type:type1},        
-	        beforeSend: function(){
-				// $("#search_reg_no").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
-			},
-	        success: function(data){          	
-	        	$("#plumber_suggesstion").html('');
-	        	$("#plumber_suggesstion").show();      	
-				$("#plumber_suggesstion").html(data);			
-				$("#search_reg_no").css("background","#FFF");
-	        }
-	    });
-	}
-	else{
-		console.log(strlength);
-		$("#plumber_suggesstion").hide();
-	}
-}
 
-function selectuser(val,id,limit) {
-	$("#search_reg_no").val(val);
-	$("#user_id_hide").val(id);
-	$("#plumber_suggesstion").hide();
-}
-*/
 $(function(){
 	numberonly('#rangebalace_coc');
 	
@@ -392,22 +316,8 @@ $(function(){
 			$('#submit2').prop('disabled', true);	
 		}
 	});
-	// $('#startrange').on('change', function() {
-	// 	var startrange = parseInt(this.value);
-	// 	var endrange = parseInt($('#endrange').val());
-	// 	var range = endrange - startrange + 1;		
-	// 	$('#rangebalace_coc').val(range);
-	// });
-	// $('#endrange').on('change', function() {
-	// 	var endrange = parseInt(this.value);
-	// 	var startrange = parseInt($('#startrange').val());
-	// 	var range = endrange - startrange + 1;		
-	// 	$('#rangebalace_coc').val(range);
-	// });
-
-
-	$('#submit2').on('click',function(){		
-		// event.preventDefault();
+	
+	$('#submit2').on('click',function(){	
 		if(!$('.form2').valid()) return false;
 		ajaxotp();
 		$('#skillmodal').modal('show');
@@ -420,7 +330,7 @@ $(function(){
 	});
 
 	function ajaxotp(){
-		ajax('<?php echo base_url().'ajax/index/ajaxotp'; ?>', {}, '', { 
+		ajax('<?php echo base_url().'ajax/index/ajaxotp'; ?>', { 'mobile' : '<?php echo $mobilephone; ?>' }, '', { 
 			success:function(data){
 				if(data!=''){
 					$('#sampleOtp').removeClass('displaynone').val(data);
@@ -483,5 +393,4 @@ function allocate_coc_range_set(data){
 	}
 	
 }
-
 </script>
