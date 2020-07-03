@@ -34,6 +34,7 @@ class Api extends CC_Controller
 		$this->load->model('Resellers_Model');
 		$this->load->model('Resellers_allocatecoc_Model');
 		$this->load->model('Plumberperformance_Model');
+		$this->load->model('Mycpd_Model');
 	}
 	// Plumber Registration:
 
@@ -61,7 +62,7 @@ class Api extends CC_Controller
 			}
 
 		}else{
-			
+
 			$jsonArray = array("status"=>'0', "message"=>'invalid request', 'result' => []);
 		}
 		
@@ -185,6 +186,7 @@ class Api extends CC_Controller
 	public function logcoc(){
 
 		if ($this->input->post()) {
+			
 
 			$this->form_validation->set_rules('completion_date','Completeion date','trim|required');
 			$this->form_validation->set_rules('name','Owners name','trim|required');
@@ -194,7 +196,7 @@ class Api extends CC_Controller
 			$this->form_validation->set_rules('agreement','Agreement','trim|required');
 
 			if ($this->form_validation->run()==FALSE) {
-				$errorMsg = implode(",", validation_errors());
+				$errorMsg = validation_errors();
 				$jsonArray = array("status"=>'0', "message"=>$errorMsg, 'result' => []);
 			}else{
 
@@ -205,10 +207,22 @@ class Api extends CC_Controller
 				$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $plumberID], ['users', 'usersdetail', 'usersplumber', 'company']);
 				$specialisations 				= explode(',', $userdata['specialisations']);
 				$post['company_details'] 		= 	$userdata['company_details'];
-				$data 	=  $this->Coc_Model->actionCocLog($post);
 
+				if($post['submit']=='save'){
+					$data 	=  $this->Coc_Model->actionCocLog($post);
+					$message = 'Thanks for Saving the COC.';
+				}elseif($post['submit']=='log'){
+					$data 	=  $this->Coc_Model->actionCocLog($post);
+					$message = 'Thanks for Logging the COC.';
+				}
 				
-				$auditorid						= isset($this->input->post('auditorid')) ? ['auditorid' => $this->input->post('auditorid')] : [];
+
+				if ($this->input->post('auditorid') != '') {
+					$auditorid						= ['auditorid' => $this->input->post('auditorid')];
+				}else{
+					$auditorid						= [];
+				}
+				
 				$jsonData['coc_result']							= $this->Coc_Model->getCOCList('row', ['id' => $cocId, 'user_id' => $plumberID]+$auditorid);
 		
 		
@@ -225,7 +239,7 @@ class Api extends CC_Controller
 				$jsonData['installationtype']	= $this->getInstallationTypeList();
 				$jsonData['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => [], 'ids' => range(1,8)]);
 				$jsonData['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations, 'ids' => range(1,8)]);
-				$jsonData['result']				= $result;
+				$jsonData['result']				= $userdata;
 				
 				$noncompliance					= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $userid]);		
 				$jsonData['noncompliance']		= [];
@@ -237,12 +251,6 @@ class Api extends CC_Controller
 					];
 				}
 
-				if($post['submit']=='save'){
-					$message = 'Thanks for Saving the COC.';
-				}elseif($post['submit']=='log'){
-					$message = 'Thanks for Logging the COC.';
-				}
-
 				$jsonArray = array("status"=>'1', "message"=>$message, "result"=>$jsonData);
 			}
 		}else{
@@ -250,6 +258,262 @@ class Api extends CC_Controller
 			$jsonArray = array("status"=>'0', "message"=>'invalid request', "result"=>[]);
 		}
 
+		echo json_encode($jsonArray);
+	}
+
+	// Audit Statement:
+	public function audit_statement(){
+
+		if ($this->input->post() && $this->input->post('type') == 'list') {
+
+			$userid 		= $this->input->post('user_id');
+			$post 			= $this->input->post();
+			$totalcount 	= $this->Coc_Model->getCOCList('count', ['coc_status' => ['2'], 'user_id' => $userid, 'noaudit' => '']+$post);
+			$results 		= $this->Coc_Model->getCOCList('all', ['coc_status' => ['2'], 'user_id' => $userid, 'noaudit' => '']+$post);
+
+			if (count($results) > 0) {
+				$jsonArray = array("status"=>'1', "message"=>'Audit Statement', "result"=>$results);
+			}else{
+				$jsonArray = array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+			}
+
+		}else{
+			$jsonArray = array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+		}
+
+		echo json_encode($jsonArray);
+	}
+
+	// Audit Review;
+	public function auditreview_coc(){
+
+		if ($this->input->post() && $this->input->post('type') == 'auditreview_coc') {
+			$extraparam = [];
+
+			$cocID 						= $this->input->post('coc_id');
+			if ($this->input->post('auditorid') != '') {
+				$extraparam['auditorid'] = $this->input->post('auditorid');
+			}else{
+				$extraparam['auditorid'] = '';
+			}
+			
+			$extraparam['user_id'] 		= $this->input->post('user_id');	
+			$result						= $this->Coc_Model->getCOCList('row', ['id' => $cocID, 'coc_status' => ['2']]+$extraparam);	
+
+			if (count($result) > 0) {
+				$jsonArray = array("status"=>'1', "message"=>'Audit Statement', "result"=>$result);
+			}else{
+				$jsonArray = array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+			}
+		}elseif ($this->input->post() && $this->input->post('user_id') && $this->input->post('type') == 'view_coc') {
+
+			$userid							= $this->input->post('user_id');
+
+			if ($this->input->post('auditorid') != '') {
+				$auditorid						= ['auditorid' => $this->input->post('auditorid')];
+			}else{
+				$auditorid						= [];
+			}
+			
+			$result							= $this->Coc_Model->getCOCList('row', ['id' => $id, 'user_id' => $userid]+$auditorid);
+
+			if (count($result) > 0) {
+				$jsonArray = array("status"=>'1', "message"=>'View CoC', "result"=>$result);
+			}else{
+				$jsonArray = array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+			}
+		}
+
+		else{
+			$jsonArray = array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+		}
+		echo json_encode($jsonArray);
+	}
+
+	// Chat History:
+	public function chathistory(){
+
+		if ($this->input->post()) {
+
+			$cocID 		= $this->input->post('coc_id');
+			if ($this->input->post('auditorid') != '') {
+				$auditorid	= ['auditorid' => $this->input->post('auditorid')];
+			}else{
+				$auditorid	= [];
+			}
+
+			
+			$result		= $this->Coc_Model->getCOCList('row', ['id' => $cocID, 'coc_status' => ['2']]+$auditorid);	
+
+			if (count($result) > 0) {
+				$jsonArray = array("status"=>'1', "message"=>'Chat History', "result"=>$result);
+			}else{
+				$jsonArray = array("status"=>'0', "message"=>'No Record Found', "result"=>[]);
+			}
+		}else{
+			$jsonArray = array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+		}
+		echo json_encode($jsonArray);
+	}
+
+	public function mycpd_current_year(){
+
+		if ($this->input->post() && $this->input->post('user_id')) {
+
+			$user_id 		= $this->input->post('user_id');
+			$pagestatus 	= '1';
+			$post['pagestatus'] = $pagestatus;
+
+			$totalcount 	= $this->Mycpd_Model->getQueueList('count', ['status' => [$pagestatus], 'user_id' => [$user_id]]+$post);
+			$results 		= $this->Mycpd_Model->getQueueList('all', ['status' => [$pagestatus], 'user_id' => [$user_id]]+$post);
+			
+
+			if (count($results) > 0) {
+				$jsonArray 	= array("status"=>'1', "message"=>'My CPD', "result"=>$results);
+			}else{
+				$jsonArray 	= array("status"=>'0', "message"=>'No Record Found', "result"=>[]);
+			}
+
+			
+		}else{
+			$jsonArray 		= array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+		}
+		echo json_encode($jsonArray);
+	}
+
+	public function mycpd_previous_year(){
+
+		if ($this->input->post() && $this->input->post('user_id')) {
+
+			$user_id 		= $this->input->post('user_id');
+			$pagestatus 	= '0';
+			$post['pagestatus'] = $pagestatus;
+
+			$totalcount 	= $this->Mycpd_Model->getQueueList('count', ['status' => [$pagestatus], 'user_id' => [$user_id]]+$post);
+			$results 		= $this->Mycpd_Model->getQueueList('all', ['status' => [$pagestatus], 'user_id' => [$user_id]]+$post);
+			
+
+			if (count($results) > 0) {
+				$jsonArray 	= array("status"=>'1', "message"=>'My CPD', "result"=>$results);
+			}else{
+				$jsonArray 	= array("status"=>'0', "message"=>'No Record Found', "result"=>[]);
+			}
+
+			
+		}else{
+			$jsonArray 		= array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+		}
+		echo json_encode($jsonArray);
+	}
+
+	public function mycpd_edit_view(){
+
+		if ($this->input->post() && $this->input->post('cpdID') && $this->input->post('pagestatus')) {
+
+			$cpdID 			= $this->input->post('cpdID');
+			$pagestatus 	= $this->input->post('pagestatus');
+
+			$result 		= $this->Mycpd_Model->getQueueList('row', ['id' => $cpdID, 'pagestatus' => $pagestatus]);
+
+			if (count($result) > 0) {
+				$jsonArray 	= array("status"=>'1', "message"=>'My CPD', "result"=>$result);
+			}else{
+				$jsonArray 	= array("status"=>'0', "message"=>'No Record Found', "result"=>[]);
+			}
+
+			
+		}else{
+			$jsonArray 		= array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+		}
+		echo json_encode($jsonArray);
+	}
+
+	public function mycpd_insert_action(){
+
+		if ($this->input->post() && $this->input->post('user_id')) {
+			
+			$pagestatus 	= $this->input->post('pagestatus');
+
+			$this->form_validation->set_rules('activity','CPD Activity','trim|required');
+			$this->form_validation->set_rules('startdate','Start date','trim|required');
+
+			if ($this->form_validation->run()==FALSE) {
+				$errorMsg = implode(",", validation_errors());
+				$jsonArray = array("status"=>'0', "message"=>$errorMsg, 'result' => []);
+			}else{
+				$requestData1 		= [];
+
+				$post 				= $this->input->post();
+				$plumberID 			= $this->input->post('user_id');
+				$datetime			= date('Y-m-d H:i:s');
+
+				if(isset($post['hidden_regnumber'])) 	$requestData1['reg_number']    		= $post['hidden_regnumber'];
+				if(isset($post['user_id']))  			$requestData1['user_id'] 	    	= $post['user_id'];
+				if(isset($post['name_surname']))  		$requestData1['name_surname']  		= $post['name_surname'];
+				if(isset($post['activity'])) 			$requestData1['cpd_activity']  		= $post['activity'];
+				if(isset($post['startdate'])) 	 		$requestData1['cpd_start_date'] 	= date("Y-m-d H:i:s", strtotime($post['startdate']));
+				if(isset($post['comments'])) 	 		$requestData1['comments'] 			= $post['comments'];
+				if(isset($post['image1'])) 		 		$requestData1['file1'] 				= $post['image1'];
+				if(isset($post['points'])) 		 		$requestData1['points'] 			= $post['points'];
+				if(isset($post['hidden_stream_id'])) 	$requestData1['cpd_stream'] 		= $post['hidden_stream_id'];
+				$requestData1['status'] 														= '0';
+
+				$requestData1['created_at'] = 	$datetime;
+				$requestData1['created_by']	= 	$plumberID;
+
+				$result = $this->db->insert('cpd_activity_form', $requestData1);
+
+				$jsonArray = array("status"=>'1', "message"=>'My CPD Inserted Successfully', "result"=>$result);
+			}
+			
+		}else{
+			$jsonArray 		= array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+		}
+		echo json_encode($jsonArray);
+	}
+
+	public function mycpd_edit_action(){
+
+		if ($this->input->post() && $this->input->post('pagestatus') && $this->input->post('user_id') && $this->input->post('cpd_id')) {
+			
+			$pagestatus 	= $this->input->post('pagestatus');
+
+			$this->form_validation->set_rules('activity','CPD Activity','trim|required');
+			$this->form_validation->set_rules('startdate','Start date','trim|required');
+
+			if ($this->form_validation->run()==FALSE) {
+				$errorMsg = implode(",", validation_errors());
+				$jsonArray = array("status"=>'0', "message"=>$errorMsg, 'result' => []);
+			}else{
+				$requestData1 		= [];
+
+				$post 				= $this->input->post();
+				$plumberID 			= $this->input->post('user_id');
+				$cpd_id 			= $this->input->post('cpd_id');
+				$datetime			= date('Y-m-d H:i:s');
+
+				if(isset($post['hidden_regnumber'])) 	$requestData1['reg_number']    		= $post['hidden_regnumber'];
+				if(isset($post['user_id']))  			$requestData1['user_id'] 	    	= $post['user_id'];
+				if(isset($post['name_surname']))  		$requestData1['name_surname']  		= $post['name_surname'];
+				if(isset($post['activity'])) 			$requestData1['cpd_activity']  		= $post['activity'];
+				if(isset($post['startdate'])) 	 		$requestData1['cpd_start_date'] 	= date("Y-m-d H:i:s", strtotime($post['startdate']));
+				if(isset($post['comments'])) 	 		$requestData1['comments'] 			= $post['comments'];
+				if(isset($post['image1'])) 		 		$requestData1['file1'] 				= $post['image1'];
+				if(isset($post['points'])) 		 		$requestData1['points'] 			= $post['points'];
+				if(isset($post['hidden_stream_id'])) 	$requestData1['cpd_stream'] 		= $post['hidden_stream_id'];
+				$requestData1['status'] 														= '0';
+
+				$requestData1['created_at'] = 	$datetime;
+				$requestData1['created_by']	= 	$plumberID;
+
+				$result = $this->db->update('cpd_activity_form', $requestData1, ['id' => $cpd_id]);
+
+				$jsonArray = array("status"=>'1', "message"=>'My CPD Updated Successfully', "result"=>$result);
+			}
+			
+		}else{
+			$jsonArray 		= array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+		}
 		echo json_encode($jsonArray);
 	}
 
