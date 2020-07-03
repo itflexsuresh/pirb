@@ -77,13 +77,7 @@ class Coc_Ordermodel extends CC_Model
 			if($type=='all') 		$result = $query->result_array();
 			elseif($type=='row') 	$result = $query->row_array();
 		}
-		// echo $this->db->last_query();
-		// foreach ($result as $key => $value) {
-		// 	if(!strpos($value[''],$str)){
-		// 	    echo 0;
-		// 	}
-		// }
-		// exit;
+		
 		return $result;
 	}
 
@@ -92,7 +86,6 @@ class Coc_Ordermodel extends CC_Model
 		$settings 		= $this->db->get('settings_details')->row_array();
 		$currency    	= $this->config->item('currency');
 		
-		// echo "<pre>"; print_r($data);die;
 		if(isset($data['quantity'])) 		$requestdata['description'] 	= 'Purchase of '.$data['quantity'].' PIRB Certificate of Compliance';	
 		if(isset($data['created_at'])) 	    $requestdata['created_at'] 		= date('Y-m-d H:i:s', strtotime($data['created_at']));
 		if(isset($data['user_id']))			$requestdata['user_id'] 		= $data['user_id'];	
@@ -192,6 +185,7 @@ class Coc_Ordermodel extends CC_Model
 			 	}
 			}
 		}
+		
 		return $result;
 	}
 

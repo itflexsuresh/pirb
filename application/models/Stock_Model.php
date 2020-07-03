@@ -6,6 +6,7 @@ class Stock_Model extends CC_Model
 
 		$this->db->select('*');
 		$this->db->from('stock_management');
+		$this->db->where(["id >=" => $this->config->item('customstockno')]);
 		$this->db->where(["user_id" => "0", "type" => "2"]);
 		$result = $this->db->get()->result_array();
 		
