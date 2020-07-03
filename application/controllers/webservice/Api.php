@@ -353,7 +353,7 @@ class Api extends CC_Controller
 	// Log coc log:
 	public function logcoc_log(){
 
-			if ($this->input->post() && $this->input->post('submit') == 'log') {
+		if ($this->input->post() && $this->input->post('submit') == 'log') {
 			
 
 			$this->form_validation->set_rules('completion_date','Completeion date','trim|required');
@@ -460,7 +460,7 @@ class Api extends CC_Controller
 					];
 				}
 				
-				$jsonArray = array("status"=>'1', "message"=>'Thanks for Saving the COC.', "result"=>$jsonData);
+				$jsonArray = array("status"=>'1', "message"=>'Thanks for Logging the COC.', "result"=>$jsonData);
 			}
 		}else{
 
