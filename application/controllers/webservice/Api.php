@@ -181,11 +181,63 @@ class Api extends CC_Controller
 
 		echo json_encode($jsonArray);
 	}
+	// Log CoC View:
+	public function logcoc_view(){
 
-	// Log CoC:
-	public function logcoc(){
+		if ($this->input->post() && $this->input->post('user_id') && $this->input->post('id')) {
+			$jsonData = [];
 
-		if ($this->input->post()) {
+			$plumberID						= $this->input->post('user_id');
+			$id								= $this->input->post('id'); // id = cocid
+
+			if ($this->input->post('auditorid') != '') {
+				$auditorid						= ['auditorid' => $extras['auditorid']];
+			}else{
+				$auditorid						= [];
+			}
+			
+			$result							= $this->Coc_Model->getCOCList('row', ['id' => $id, 'user_id' => $plumberID]+$auditorid);
+
+			$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $plumberID], ['users', 'usersdetail', 'usersplumber', 'company']);
+			$specialisations 				= explode(',', $userdata['specialisations']);
+
+
+			$jsonData['userdata'] 			= $userdata;
+			$jsonData['cocid'] 				= $id;
+			$jsonData['result'] 			= $result;
+			$jsonData['notification'] 		= $this->getNotification();
+			$jsonData['province'] 			= $this->getProvinceList();
+			$jsonData['designation2'] 		= $this->config->item('designation2');
+			$jsonData['ncnotice'] 			= $this->config->item('ncnotice');
+			$jsonData['installationtype']	= $this->getInstallationTypeList();
+			$jsonData['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => [], 'ids' => range(1,8)]);
+			$jsonData['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations, 'ids' => range(1,8)]);
+			$jsonData['result']				= $result;
+		
+			$noncompliance					= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $plumberID]);		
+			$jsonData['noncompliance']		= [];
+			foreach($noncompliance as $compliance){
+				$jsonData['noncompliance'][] = [
+					'id' 		=> $compliance['id'],
+					'details' 	=> $this->parsestring($compliance['details']),
+					'file' 		=> $compliance['file']
+				];
+			}
+
+			$jsonArray = array("status"=>'1', "message"=>'Plumber CoC Detail', "result"=>$jsonData);
+			
+		}else{
+
+			$jsonArray = array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+		}
+
+		echo json_encode($jsonArray);
+	}
+
+	// Log coc save:
+	public function logcoc_save(){
+
+			if ($this->input->post() && $this->input->post('submit') == 'save') {
 			
 
 			$this->form_validation->set_rules('completion_date','Completeion date','trim|required');
@@ -203,45 +255,82 @@ class Api extends CC_Controller
 				$post 				= $this->input->post();
 				$plumberID 			= $this->input->post('user_id');
 				$cocId 				= $this->input->post('coc_id');
+				$datetime			= date('Y-m-d H:i:s');
 
 				$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $plumberID], ['users', 'usersdetail', 'usersplumber', 'company']);
 				$specialisations 				= explode(',', $userdata['specialisations']);
 				$post['company_details'] 		= 	$userdata['company_details'];
 
-				if($post['submit']=='save'){
-					$data 	=  $this->Coc_Model->actionCocLog($post);
-					$message = 'Thanks for Saving the COC.';
-				}elseif($post['submit']=='log'){
-					$data 	=  $this->Coc_Model->actionCocLog($post);
-					$message = 'Thanks for Logging the COC.';
+				// Save
+
+				if ($this->input->post('id') != '') { // id = log coc autoincrement id
+					$id 			= 	$this->input->post('id');
+				}else{
+					$id 			= 	'';
 				}
 				
 
-				if ($this->input->post('auditorid') != '') {
-					$auditorid						= ['auditorid' => $this->input->post('auditorid')];
+				if(isset($post['coc_id'])) 				$request['coc_id'] 					= $cocId;
+				if(isset($post['completion_date'])) 	$request['completion_date'] 		= date('Y-m-d', strtotime($post['completion_date']));
+				if(isset($post['order_no'])) 			$request['order_no'] 				= $post['order_no'];
+				if(isset($post['name'])) 				$request['name'] 					= $post['name'];
+				if(isset($post['address'])) 			$request['address'] 				= $post['address'];
+				if(isset($post['street'])) 				$request['street'] 					= $post['street'];
+				if(isset($post['number'])) 				$request['number'] 					= $post['number'];
+				if(isset($post['province'])) 			$request['province'] 				= $post['province'];
+				if(isset($post['city'])) 				$request['city'] 					= $post['city'];
+				if(isset($post['suburb'])) 				$request['suburb'] 					= $post['suburb'];
+				if(isset($post['contact_no'])) 			$request['contact_no'] 				= $post['contact_no'];
+				if(isset($post['alternate_no'])) 		$request['alternate_no'] 			= $post['alternate_no'];
+				if(isset($post['email'])) 				$request['email'] 					= $post['email'];
+				if(isset($post['installationtype'])) 	$request['installationtype'] 		= implode(',', $post['installationtype']);
+				if(isset($post['specialisations'])) 	$request['specialisations'] 		= implode(',', $post['specialisations']);
+				if(isset($post['installation_detail'])) $request['installation_detail'] 	= $post['installation_detail'];
+				if(isset($post['file1'])) 				$request['file1'] 					= $post['file1'];
+				if(isset($post['agreement'])) 			$request['agreement'] 				= $post['agreement'];
+				if(isset($post['file1'])) 				$request['file1'] 					= $post['file1'];	
+				if(isset($post['company_details'])) 	$request['company_details'] 		= $post['company_details'];
+				if(isset($post['ncnotice'])) 			$request['ncnotice'] 				= $post['ncnotice'];
+				if(isset($post['ncemail'])) 			$request['ncemail'] 				= $post['ncemail'];
+				if(isset($post['ncreason'])) 			$request['ncreason'] 				= $post['ncreason'];
+				
+				
+				$request['file2'] 					= (isset($data['file2'])) ? implode(',', $data['file2']) : '';
+
+				if($id==''){
+					$request['created_at'] = $datetime;
+					$request['created_by'] = $plumberID;
+					$this->db->insert('coc_log', $request);
 				}else{
-					$auditorid						= [];
+					$request		=	[
+						'updated_at' 		=> $datetime,
+						'updated_by' 		=> $plumberID
+					];
+					$this->db->update('coc_log', $request, ['id' => $id]);
 				}
 				
-				$jsonData['coc_result']							= $this->Coc_Model->getCOCList('row', ['id' => $cocId, 'user_id' => $plumberID]+$auditorid);
-		
-		
+				$cocstatus = '5';
+				if(isset($cocstatus)) $this->db->update('stock_management', ['coc_status' => $cocstatus], ['id' => $cocId]);
+				
+				$result							= $this->Coc_Model->getCOCList('row', ['id' => $id, 'user_id' => $plumberID]);
+
 				$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $plumberID], ['users', 'usersdetail', 'usersplumber', 'company']);
 				$specialisations 				= explode(',', $userdata['specialisations']);
 
 
 				$jsonData['userdata'] 			= $userdata;
 				$jsonData['cocid'] 				= $cocId;
-				
+				$jsonData['log_coc_id'] 		= $id;
+				$jsonData['result'] 			= $result;
+				$jsonData['notification'] 		= $this->getNotification();
 				$jsonData['province'] 			= $this->getProvinceList();
 				$jsonData['designation2'] 		= $this->config->item('designation2');
 				$jsonData['ncnotice'] 			= $this->config->item('ncnotice');
 				$jsonData['installationtype']	= $this->getInstallationTypeList();
 				$jsonData['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => [], 'ids' => range(1,8)]);
 				$jsonData['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations, 'ids' => range(1,8)]);
-				$jsonData['result']				= $userdata;
-				
-				$noncompliance					= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $userid]);		
+			
+				$noncompliance					= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $plumberID]);		
 				$jsonData['noncompliance']		= [];
 				foreach($noncompliance as $compliance){
 					$jsonData['noncompliance'][] = [
@@ -251,7 +340,127 @@ class Api extends CC_Controller
 					];
 				}
 
-				$jsonArray = array("status"=>'1', "message"=>$message, "result"=>$jsonData);
+				$jsonArray = array("status"=>'1', "message"=>'Thanks for Saving the COC.', "result"=>$jsonData);
+			}
+		}else{
+
+			$jsonArray = array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+		}
+
+		echo json_encode($jsonArray);
+	}
+
+	// Log coc log:
+	public function logcoc_log(){
+
+			if ($this->input->post() && $this->input->post('submit') == 'log') {
+			
+
+			$this->form_validation->set_rules('completion_date','Completeion date','trim|required');
+			$this->form_validation->set_rules('name','Owners name','trim|required');
+			$this->form_validation->set_rules('street','Street','trim|required');
+			$this->form_validation->set_rules('number','Number','trim|required');
+			$this->form_validation->set_rules('contact_no','Contact mobile','trim|required');
+			$this->form_validation->set_rules('agreement','Agreement','trim|required');
+
+			if ($this->form_validation->run()==FALSE) {
+				$errorMsg = validation_errors();
+				$jsonArray = array("status"=>'0', "message"=>$errorMsg, 'result' => []);
+			}else{
+
+				$post 				= $this->input->post();
+				$plumberID 			= $this->input->post('user_id');
+				$cocId 				= $this->input->post('coc_id');
+				$datetime			= date('Y-m-d H:i:s');
+
+				$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $plumberID], ['users', 'usersdetail', 'usersplumber', 'company']);
+				$specialisations 				= explode(',', $userdata['specialisations']);
+				$post['company_details'] 		= 	$userdata['company_details'];
+
+				// Save
+
+				if ($this->input->post('id') != '') { // id = log coc autoincrement id
+					$id 			= 	$this->input->post('id');
+				}else{
+					$id 			= 	'';
+				}
+				
+
+				if(isset($post['coc_id'])) 				$request['coc_id'] 					= $cocId;
+				if(isset($post['completion_date'])) 	$request['completion_date'] 		= date('Y-m-d', strtotime($post['completion_date']));
+				if(isset($post['order_no'])) 			$request['order_no'] 				= $post['order_no'];
+				if(isset($post['name'])) 				$request['name'] 					= $post['name'];
+				if(isset($post['address'])) 			$request['address'] 				= $post['address'];
+				if(isset($post['street'])) 				$request['street'] 					= $post['street'];
+				if(isset($post['number'])) 				$request['number'] 					= $post['number'];
+				if(isset($post['province'])) 			$request['province'] 				= $post['province'];
+				if(isset($post['city'])) 				$request['city'] 					= $post['city'];
+				if(isset($post['suburb'])) 				$request['suburb'] 					= $post['suburb'];
+				if(isset($post['contact_no'])) 			$request['contact_no'] 				= $post['contact_no'];
+				if(isset($post['alternate_no'])) 		$request['alternate_no'] 			= $post['alternate_no'];
+				if(isset($post['email'])) 				$request['email'] 					= $post['email'];
+				if(isset($post['installationtype'])) 	$request['installationtype'] 		= implode(',', $post['installationtype']);
+				if(isset($post['specialisations'])) 	$request['specialisations'] 		= implode(',', $post['specialisations']);
+				if(isset($post['installation_detail'])) $request['installation_detail'] 	= $post['installation_detail'];
+				if(isset($post['file1'])) 				$request['file1'] 					= $post['file1'];
+				if(isset($post['agreement'])) 			$request['agreement'] 				= $post['agreement'];
+				if(isset($post['file1'])) 				$request['file1'] 					= $post['file1'];	
+				if(isset($post['company_details'])) 	$request['company_details'] 		= $post['company_details'];
+				if(isset($post['ncnotice'])) 			$request['ncnotice'] 				= $post['ncnotice'];
+				if(isset($post['ncemail'])) 			$request['ncemail'] 				= $post['ncemail'];
+				if(isset($post['ncreason'])) 			$request['ncreason'] 				= $post['ncreason'];
+				
+				
+				$request['file2'] 					= (isset($data['file2'])) ? implode(',', $data['file2']) : '';
+
+				if($id==''){
+					$request['created_at'] = $datetime;
+					$request['created_by'] = $plumberID;
+					$this->db->insert('coc_log', $request);
+				}else{
+					$request		=	[
+						'updated_at' 		=> $datetime,
+						'updated_by' 		=> $plumberID
+					];
+					$this->db->update('coc_log', $request, ['id' => $id]);
+				}
+				
+				$cocstatus = '2';
+				$this->db->set('count', 'count + 1',FALSE); 
+				$this->db->where('user_id', $plumberID); 
+				$increase_count = $this->db->update('coc_count'); 
+
+				if(isset($cocstatus)) $this->db->update('stock_management', ['coc_status' => $cocstatus], ['id' => $cocId]);
+				
+				$result							= $this->Coc_Model->getCOCList('row', ['id' => $id, 'user_id' => $plumberID]);
+
+				$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $plumberID], ['users', 'usersdetail', 'usersplumber', 'company']);
+				$specialisations 				= explode(',', $userdata['specialisations']);
+
+
+				$jsonData['userdata'] 			= $userdata;
+				$jsonData['cocid'] 				= $cocId;
+				$jsonData['log_coc_id'] 		= $id;
+				$jsonData['result'] 			= $result;
+				$jsonData['notification'] 		= $this->getNotification();
+				$jsonData['province'] 			= $this->getProvinceList();
+				$jsonData['designation2'] 		= $this->config->item('designation2');
+				$jsonData['ncnotice'] 			= $this->config->item('ncnotice');
+				$jsonData['installationtype']	= $this->getInstallationTypeList();
+				$jsonData['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => [], 'ids' => range(1,8)]);
+				$jsonData['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations, 'ids' => range(1,8)]);
+			
+				$noncompliance					= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $plumberID]);		
+				$jsonData['noncompliance']		= [];
+				foreach($noncompliance as $compliance){
+					$jsonData['noncompliance'][] = [
+						'id' 		=> $compliance['id'],
+						'details' 	=> $this->parsestring($compliance['details']),
+						'file' 		=> $compliance['file']
+					];
+				}
+				
+				$jsonArray = array("status"=>'1', "message"=>'Thanks for Saving the COC.', "result"=>$jsonData);
 			}
 		}else{
 
