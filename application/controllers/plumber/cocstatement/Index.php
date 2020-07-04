@@ -94,7 +94,7 @@ class Index extends CC_Controller
 		$this->coclogaction(
 			$id, 
 			['pagetype' => 'view', 'roletype' => $this->config->item('roleplumber'), 'electroniccocreport' => 'plumber/cocstatement/index/electroniccocreport/'.$id, 'noncompliancereport' => 'plumber/cocstatement/index/noncompliancereport/'.$id], 
-			['redirect' => 'plumber/cocstatement/index', 'userid' => $this->getUserID()]
+			['redirect' => 'plumber/cocstatement/index', 'userid' => $this->getUserID(), 'param' => 'plumberlogcoc']
 		);
 	}
 	
@@ -103,7 +103,7 @@ class Index extends CC_Controller
 		$this->coclogaction(
 			$id, 
 			['pagetype' => 'action', 'roletype' => $this->config->item('roleplumber'), 'electroniccocreport' => 'plumber/cocstatement/index/electroniccocreport/'.$id, 'noncompliancereport' => 'plumber/cocstatement/index/noncompliancereport/'.$id], 
-			['redirect' => 'plumber/cocstatement/index', 'userid' => $this->getUserID()]
+			['redirect' => 'plumber/cocstatement/index', 'userid' => $this->getUserID(), 'param' => 'plumberlogcoc']
 		);
 	}
 	
