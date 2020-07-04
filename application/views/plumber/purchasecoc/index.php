@@ -223,7 +223,6 @@ if (in_array($plumberstatus, $plumber_status)) {
 					<input id="name_last" name="name_last" value="<?php echo $username['surname']; ?>" type="hidden">
 					<input id="email_address" name="email_address" value="<?php echo $username['email']; ?>" type="hidden">
 					
-					<!---<input id="m_payment_id" name="m_payment_id" value="TRN1481493600" type="hidden">--->
 					<input type="hidden" id="totaldue1" class="form-control" readonly name="amount">
 					<input id="item_name" name="item_name" value="Coc Purchase" type="hidden">
 					<input id="item_description" name="item_description" value="coc" type="hidden">

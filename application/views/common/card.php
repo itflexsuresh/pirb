@@ -1,6 +1,4 @@
 <?php
-
-    
     $userid                 =isset($result['id']) ? $result['id'] : '';
 
     $name                   = isset($result['name']) ? $result['name'] : '';
@@ -35,7 +33,6 @@
     $backcard7              = base_url().'assets/images/card/back-card/Rainwater Disposal Icon.png';
     $backcard8              = base_url().'assets/images/card/back-card/Solar.png';
     $backcard9              = base_url().'assets/images/card/back-card/Water Energy Efficiency Icon.png';
-
 
 
     $file2                  = isset($result['file2']) ? $result['file2'] : '';

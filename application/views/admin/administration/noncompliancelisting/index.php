@@ -67,7 +67,7 @@ else
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="details">Non compliance details</label>
-									<textarea class="form-control" id="details" name="details" placeholder="Non compliance details"><?php echo $details; ?></textarea>						
+									<textarea class="form-control" id="details" name="details" placeholder="Non compliance details" readonly><?php echo $details; ?></textarea>						
 								</div>
 							</div>
 							<div class="col-md-12">
@@ -79,7 +79,7 @@ else
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="reference">SANS/Regulation/Bylaw Reference</label>
-									<input type="text" class="form-control" id="reference" name="reference" placeholder="SANS/Regulation/Bylaw Reference" value="<?php echo $reference; ?>">
+									<input type="text" class="form-control" id="reference" name="reference" placeholder="SANS/Regulation/Bylaw Reference" value="<?php echo $reference; ?>" readonly>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -118,7 +118,7 @@ else
 
 <script>
 	$(function(){
-		subtypereportinglist(['#installationtype','#subtype','#statement'], ['<?php echo $subtype; ?>', '<?php echo $statement; ?>']);
+		subtypereportinglist(['#installationtype','#subtype','#statement'], ['<?php echo $subtype; ?>', '<?php echo $statement; ?>'], reportlistingdata);
 
 		var options = {
 			url 	: 	'<?php echo base_url()."admin/administration/noncompliancelisting/index/DTComplianceListing"; ?>',
@@ -195,4 +195,16 @@ else
 
 		sweetalert(action, data);
 	})
+	
+	function reportlistingdata(){
+		var statement = $('#r_statement');
+		$('#reference, #details').val('');
+	
+		if(statement.val()!='' && statement.val()!=undefined){
+			var statementoption = statement.find('option:selected');
+			
+			$('#reference').val(statementoption.attr('data-reference'));
+			$('#details').val(statementoption.attr('data-comments'));
+		} 
+	}
 </script>

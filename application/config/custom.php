@@ -289,11 +289,19 @@ $config['designation1'] 			= 	[
 													'
 										];		
 				
-
 $config['designation2'] 			= 	[ 
 											'1' => 'Learner Plumber',
 											'2' => 'Technical Assistant Practitioner',
 											'3' => 'Technical Operator Practitioner',
+											'4' => 'Licensed Plumber',
+											'5' => 'Qualified Plumber',
+											'6' => 'Master Plumber'
+										];
+				
+$config['designation3'] 			= 	[ 
+											'1' => 'Learner Plumber',
+											'2' => 'Technical Assistant',
+											'3' => 'Technical Operator',
 											'4' => 'Licensed Plumber',
 											'5' => 'Qualified Plumber',
 											'6' => 'Master Plumber'

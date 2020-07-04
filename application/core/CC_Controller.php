@@ -41,7 +41,7 @@ class CC_Controller extends CI_Controller
 		
 		$segment1 = $this->uri->segment(1);
 		
-		if(!in_array($currenturl, $paymentarray) && $segment1!='' && $segment1!='login' && $segment1!='forgotpassword' && $segment1!='authentication' && $segment1!='ajax' && $segment1!='common' && $segment1!='webservice') $this->middleware();
+		if(!in_array($currenturl, $paymentarray) && $segment1!='' && $segment1!='login' && $segment1!='forgotpassword' && $segment1!='authentication' && $segment1!='ajax' && $segment1!='common' && $segment1!='webservice' && $segment1!='errors') $this->middleware();
 	}
 	
 	public function layout1($data=[])
@@ -334,7 +334,7 @@ class CC_Controller extends CI_Controller
 	public function plumbercard($userid)
 	{
 		$data['company'] 			= $this->getCompanyList();
-		$data['designation2'] 		= $this->config->item('designation2');
+		$data['designation2'] 		= $this->config->item('designation3');
 		$data['specialisations'] 	= $this->config->item('specialisations');
 		$data['settings'] 			= $this->Systemsettings_Model->getList('row');
 		
