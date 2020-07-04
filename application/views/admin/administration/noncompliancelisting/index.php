@@ -197,7 +197,7 @@ else
 	})
 	
 	function reportlistingdata(){
-		var statement = $('#r_statement');
+		var statement = $('#statement');
 		$('#reference, #details').val('');
 	
 		if(statement.val()!='' && statement.val()!=undefined){

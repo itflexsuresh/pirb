@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Notfound extends CC_Controller 
+class Errors extends CC_Controller 
 {
 	public function __construct()
 	{
@@ -14,6 +14,7 @@ class Notfound extends CC_Controller
 		
 		$userid = $this->getUserID();
 		
+		$data['exception']			= 1;
 		$data['plugins']			= [];
 		$data['content'] 			= $this->load->view('common/errors/notfound', '', true);
 		

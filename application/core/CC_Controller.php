@@ -46,13 +46,15 @@ class CC_Controller extends CI_Controller
 	
 	public function layout1($data=[])
 	{
-		$this->middleware('1');
+		if(!isset($data['exception'])) $this->middleware('1');
+		
 		$this->load->view('template/layout1', $data);
 	}
 	
 	public function layout2($data=[])
 	{
-		$this->middleware();	
+		if(!isset($data['exception'])) $this->middleware();	
+		
 		$data['userdata'] 					= $this->getUserDetails();
 		$data['permission'] 				= ($data['userdata']['type']=='2') ? $this->getUserPermission() : [];
 		$data['performancestatus'] 			= ($data['userdata']['type']=='3') ? $this->userperformancestatus() : '';

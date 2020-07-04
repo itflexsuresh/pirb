@@ -3469,3 +3469,8 @@ tr.dynmci---icns {
 .technical_operator #id_Card_back tbody:first-child tr:first-child td {
     padding-right: 42px !important;
 }
+
+.notfound{
+	text-align: center;
+	margin-top: 8%;
+}
