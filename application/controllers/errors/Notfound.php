@@ -14,6 +14,7 @@ class Notfound extends CC_Controller
 		
 		$userid = $this->getUserID();
 		
+		$data['exception']			= 1;
 		$data['plugins']			= [];
 		$data['content'] 			= $this->load->view('common/errors/notfound', '', true);
 		
