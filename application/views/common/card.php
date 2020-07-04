@@ -53,10 +53,10 @@
     if ($designation2[$designation2id] == 'Learner Plumber') {
         $plumber_icon = 'assets/images/card/Learner plumber.png';
 
-    }elseif($designation2[$designation2id] == 'Technical Assistant Practitioner'){
+    }elseif($designation2[$designation2id] == 'Technical Assistant'){
         $plumber_icon = 'assets/images/card/Technical Assistant.png';
 
-    }elseif($designation2[$designation2id] == 'Technical Operator Practitioner'){
+    }elseif($designation2[$designation2id] == 'Technical Operator'){
         $plumber_icon = 'assets/images/card/Technical Operator.png';
 
     }elseif($designation2[$designation2id] == 'Licensed Plumber'){
