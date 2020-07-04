@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Notfound extends CC_Controller 
+class Errors extends CC_Controller 
 {
 	public function __construct()
 	{
