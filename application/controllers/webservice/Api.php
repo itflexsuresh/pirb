@@ -43,22 +43,76 @@ class Api extends CC_Controller
 		if ($this->input->post()) {
 			$this->form_validation->set_rules('name','First Name','trim|required');
 			$this->form_validation->set_rules('surname','Second Name','trim|required');
+			$this->form_validation->set_rules('citizen','Citizen Residential','trim|required');
 			$this->form_validation->set_rules('address[2][postal_code]','postal code','trim|required');
+			// Physical address
+			$this->form_validation->set_rules('address[1][address]','Physical Address ','trim|required');
+			$this->form_validation->set_rules('address[1][province]','Physical Province ','trim|required');
+			$this->form_validation->set_rules('address[1][city]','Physical City ','trim|required');
+			$this->form_validation->set_rules('address[1][suburb]','Physical Suburb ','trim|required');
+
 			$this->form_validation->set_rules('mobile_phone','Mobile phone','trim|required');
-			$this->form_validation->set_rules('company_name','Company name','trim|required');
+			// $this->form_validation->set_rules('company_name','Company name','trim|required');
+			// $this->form_validation->set_rules('billing_email','Billing email','trim|required');
+			
+			// Postal address
+			$this->form_validation->set_rules('address[2][address]','Postal Address','trim|required');
+			$this->form_validation->set_rules('address[2][province]','Postal Province ','trim|required');
+			$this->form_validation->set_rules('address[2][city]','Postal City ','trim|required');
+			$this->form_validation->set_rules('address[2][suburb]','Postal Suburb ','trim|required');
+
+			// Billing details
+			$this->form_validation->set_rules('company_name','Billing name','trim|required');
 			$this->form_validation->set_rules('billing_email','Billing email','trim|required');
-			$this->form_validation->set_rules('address[3][postal_code]','Postal code','trim|required');
-			$this->form_validation->set_rules('billing_email','Billing email','trim|required');
+			$this->form_validation->set_rules('billing_contact','Billing Contact','trim|required');
+			// Billing address
+			$this->form_validation->set_rules('address[3][address]','Billing Address','trim|required');
+			$this->form_validation->set_rules('address[3][province]','Billing Province','trim|required');
+			$this->form_validation->set_rules('address[3][city]','Billing City','trim|required');
+			$this->form_validation->set_rules('address[3][suburb]','Billing Suburb','trim|required');
+
+			$this->form_validation->set_rules('address[3][postal_code]','Postal code','trim|required');	
+			// $this->form_validation->set_rules('image1','Identity Document','trim|required');
+			// $this->form_validation->set_rules('image2','Photo ID','trim|required');
+
+			// Declaration:
+			$this->form_validation->set_rules('registerprocedure','The Registered Procedure','trim|required');
+			$this->form_validation->set_rules('acknowledgement','Acknowledgement','trim|required');
+			$this->form_validation->set_rules('codeofconduct','PIRBs Code of Conduct','trim|required');
 
 			if ($this->form_validation->run()==FALSE) {
-				$errorMsg = implode(",", validation_errors());
+				$errorMsg =  validation_errors();
 				$jsonArray = array("status"=>'0', "message"=>$errorMsg, 'result' => []);
 			}else{
+				$jsonData = [];
+
+				$jsonData['page_lables'] = [ 'headertabs' => 'Welcome', 'Personal Details', 'Billing Details', 'Employement Details', 'Designation', 'Declaration', 'buttons' => 'Previous', 'Next', 'welcome' => 'Registered Plumber Details
+', 'Donec augue enim, volutpat at ligula et, dictum laoreet sapien. Sed maximus feugiat tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla eu mollis leo, eu elementum nisl. Curabitur cursus turpis nibh, egestas efficitur diam tristique non. Proin faucibus erat ligula, nec interdum odio rhoncus vel. Nulla facilisi. Nulla vehicula felis lorem, sed molestie lacus maximus quis. Mauris dolor enim, fringilla ut porta sed, ullamcorper id quam. Integer in eleifend justo, quis cursus odio. Pellentesque fermentum sapien elit, aliquam rhoncus neque semper in. Duis id consequat nisl, vitae semper elit. Nulla tristique lorem sem, et pretium magna cursus sit amet. Maecenas malesuada fermentum mauris, at vestibulum arcu vulputate a.', 'personaldetails' => 'Registered Plumber Details', 'Title *', 'Date of Birth *', 'Name *', 'Surname *', 'Gender *', 'Racial Status *', 'South African National *', 'ID Number', 'Home Language *', 'Disability *', 'Citizen Residential Status *', 'Identity Document *', 'Photo ID *', 'Photos must be no more than 6 months old Photos must be high quality Photos must be in colour Photos must have clear preferably white background Photos must be in sharp focus and clear Photo must be only of your head and shoulders You must be looking directly at the camera No sunglasses or hats File name is your NAME and SURNAME.', '(Image/File Size Smaller than 5mb)', 'Registration Card', 'Due to the high number of card returns and cost incurred, the registration fees do not include a registration card. Registration cards are available but must be requested separately. If the registration card option is selected you will be billed accordingly.', 'Registration Card Required *', 'Method of Delivery of Card *', 'Physical Address', 'Postal Address', 'Note: All delivery services will be sent to this address.', 'Note: All postal services will be sent to this address.', 'Physical Address *', 'Postal Address *', 'Province *', 'City *', 'Suburb *', 'Add city', 'Add suburb', 'Postal Code *', 'Contact Details', 'Home Phone:', 'Mobile Phone *', 'Note: All SMS and OTP notifications will be sent to this mobile number above.', 'Work Phone:', 'Secondary Mobile Phone', 'Email Address *', 'Secondary Email Address', 'Note: This email will be used as your user profile name and all emails notifications will be sent to it.', 'billingdetails' => 'Billing Details', 'All invoices generated, will be used this billing information.', 'Billing Name *', 'Company Reg Number', 'Company VAT Number', 'Billing Email *', 'Billing Contact *', 'Billing Address *', 'Province *', 'City *', 'Suburb *', 'Add city', 'Add suburb', 'Postal Code *', 'employementdetails' => 'Employment Details', 'Company Details', 'Your Employment Status', 'Company *', 'If the Company does not appear on this list please ask the company to register with the PIRB. Once they have been approved and registered, return to the list and select the company', 'designation' => 'Designation', '', 'Applications for Master Plumber and/or specialisations can only be done once your registration has been verified and approved. Please select the relevant designation being applied for.'
+			];
 
 				$post 				= $this->input->post();
 				$plumberID 			= $this->input->post('user_id');
+
 				$userdata			= $this->Plumber_Model->getList('row', ['id' => $plumberID, 'status' => ['0','1']], ['users', 'usersdetail', 'usersplumber', 'usersskills', 'company', 'physicaladdress', 'postaladdress', 'billingaddress']);
-				$jsonArray = array("status"=>'1', "message"=>'Profile Updated Successfully', "result"=>$userdata);
+
+		//print_r($userdata);die;
+				$post['user_id']	 	= 	$plumberID;
+				$post['formstatus'] 	= 	'1';
+				$post['status'] 		= 	'1';
+				$post['usersdetailid'] 	= 	$userdata['usersdetailid'];
+				$post['usersplumberid'] = 	$userdata['usersplumberid'];
+
+				$data 				=  	$this->Plumber_Model->action($post);
+
+				if ($data) {
+					
+
+					$jsonData['userdata'] = $userdata;
+					$jsonArray = array("status"=>'1', "message"=>'Profile Updated Successfully', "result"=>$jsonData);
+				}else{
+					$jsonArray = array("status"=>'0', "message"=>'Something went wrong Please try again!!!', 'result' => []);
+				}
+				
 			}
 
 		}else{
@@ -125,10 +179,11 @@ class Api extends CC_Controller
 		echo json_encode($jsonArray);
 	}
 
-	// Plumber CoC:
-	public function plumber_COC(){
+	// Purchase CoC:
+	public function purchase_coc(){
 
 		if ($this->input->post('user_id')) {
+			$jsonData = [];
 			
 			$userid 					=	$this->input->post('user_id');
 			$userdata					= 	$this->getUserDetails($userid);
@@ -151,6 +206,9 @@ class Api extends CC_Controller
 			$jsonData['collectedbypirb']= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('collectedbypirb')]);
 			$orderquantity 				= $this->Coc_Ordermodel->getCocorderList('all', ['admin_status' => '0', 'userid' => $userid]);
 			$jsonData['userorderstock']	= array_sum(array_column($orderquantity, 'quantity'));
+
+			$jsonData['page_lables'] = [ 'COC’s yet to allocated', "Number of Non Logged COC's", "Total Number COC's You are Permitted", "Number of Permitted COC's that you are able to purchase", "Select type of COC you wish to purchase", "Method Of Delivery", "Number of COC's You wish to Purchase", "Cost of COC Type", "Cost of Delivery", "VAT @".$jsonData['settings']['vat_percentage']."%", "Total Due"
+			];
 
 			$jsonArray = array("status"=>'1', "message"=>'Plumber coc details', "result"=>$jsonData);
 
@@ -201,6 +259,8 @@ class Api extends CC_Controller
 			$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $plumberID], ['users', 'usersdetail', 'usersplumber', 'company']);
 			$specialisations 				= explode(',', $userdata['specialisations']);
 
+			$jsonData['page_lables'] = [ 'Plumbing Work Completion Date *', "Insurance Claim/Order no: (if relevant)", "Certificate Number: ".$id."", "Installation Images", "Physical Address Details of Installation" => "Owners Name *", "Name of Complex/Flat and Unit Number (if applicable)", "Street *", "Number *", "Province *", "City *", "Suburb *", "Contact Mobile *", "Alternate Contact", "Email Address"
+			];
 
 			$jsonData['userdata'] 			= $userdata;
 			$jsonData['cocid'] 				= $id;
@@ -245,6 +305,9 @@ class Api extends CC_Controller
 			$this->form_validation->set_rules('street','Street','trim|required');
 			$this->form_validation->set_rules('number','Number','trim|required');
 			$this->form_validation->set_rules('contact_no','Contact mobile','trim|required');
+			$this->form_validation->set_rules('province','Province','trim|required');
+			$this->form_validation->set_rules('city','city','trim|required');
+			$this->form_validation->set_rules('suburb','suburb','trim|required');
 			$this->form_validation->set_rules('agreement','Agreement','trim|required');
 
 			if ($this->form_validation->run()==FALSE) {
@@ -362,6 +425,11 @@ class Api extends CC_Controller
 			$this->form_validation->set_rules('number','Number','trim|required');
 			$this->form_validation->set_rules('contact_no','Contact mobile','trim|required');
 			$this->form_validation->set_rules('agreement','Agreement','trim|required');
+			$this->form_validation->set_rules('installationtype[]','Instalaltion type','trim|required');
+			$this->form_validation->set_rules('specialisations[]','Specialisations','trim|required');
+			$this->form_validation->set_rules('installation_detail','Instalaltion details','trim|required');
+			$this->form_validation->set_rules('ncnotice','non compliance notice','trim|required');
+			
 
 			if ($this->form_validation->run()==FALSE) {
 				$errorMsg = validation_errors();
@@ -547,27 +615,29 @@ class Api extends CC_Controller
 	// Audit Review;
 	public function auditreview_coc(){
 
-		if ($this->input->post() && $this->input->post('type') == 'auditreview_coc') {
-			$extraparam = [];
+		// if ($this->input->post() && $this->input->post('type') == 'auditreview_coc') {
+		// 	$extraparam = [];
 
-			$cocID 						= $this->input->post('coc_id');
-			if ($this->input->post('auditorid') != '') {
-				$extraparam['auditorid'] = $this->input->post('auditorid');
-			}else{
-				$extraparam['auditorid'] = '';
-			}
+		// 	$cocID 						= $this->input->post('coc_id');
+		// 	if ($this->input->post('auditorid') != '') {
+		// 		$extraparam['auditorid'] = $this->input->post('auditorid');
+		// 	}else{
+		// 		$extraparam['auditorid'] = '';
+		// 	}
 			
-			$extraparam['user_id'] 		= $this->input->post('user_id');	
-			$result						= $this->Coc_Model->getCOCList('row', ['id' => $cocID, 'coc_status' => ['2']]+$extraparam);	
+		// 	$extraparam['user_id'] 		= $this->input->post('user_id');	
+		// 	$result						= $this->Coc_Model->getCOCList('row', ['id' => $cocID, 'coc_status' => ['2']]+$extraparam);	
 
-			if (count($result) > 0) {
-				$jsonArray = array("status"=>'1', "message"=>'Audit Statement', "result"=>$result);
-			}else{
-				$jsonArray = array("status"=>'0', "message"=>'invalid request', "result"=>[]);
-			}
-		}elseif ($this->input->post() && $this->input->post('user_id') && $this->input->post('type') == 'view_coc') {
+		// 	if (count($result) > 0) {
+		// 		$jsonArray = array("status"=>'1', "message"=>'Audit Statement', "result"=>$result);
+		// 	}else{
+		// 		$jsonArray = array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+		// 	}
+		// }else
+		if ($this->input->post() && $this->input->post('user_id') && $this->input->post('type') == 'view_coc') {
 
 			$userid							= $this->input->post('user_id');
+			$cocID 						= $this->input->post('coc_id');
 
 			if ($this->input->post('auditorid') != '') {
 				$auditorid						= ['auditorid' => $this->input->post('auditorid')];
@@ -575,10 +645,13 @@ class Api extends CC_Controller
 				$auditorid						= [];
 			}
 			
-			$result							= $this->Coc_Model->getCOCList('row', ['id' => $id, 'user_id' => $userid]+$auditorid);
+			$jsonData['result']					= $this->Coc_Model->getCOCList('row', ['id' => $cocID, 'user_id' => $userid]+$auditorid);
 
-			if (count($result) > 0) {
-				$jsonArray = array("status"=>'1', "message"=>'View CoC', "result"=>$result);
+			$jsonData['page_lables'] = [ 'Plumbing Work Completion Date *', "Insurance Claim/Order no: (if relevant)", "Certificate Number: ".$cocID."", "Installation Images", "Physical Address Details of Installation" => "Owners Name *", "Name of Complex/Flat and Unit Number (if applicable)", "Street *", "Number *", "Province *", "City *", "Suburb *", "Contact Mobile *", "Alternate Contact", "Email Address"
+			];
+
+			if (count($jsonData['result']) > 0) {
+				$jsonArray = array("status"=>'1', "message"=>'View CoC', "result"=>$jsonData);
 			}else{
 				$jsonArray = array("status"=>'0', "message"=>'invalid request', "result"=>[]);
 			}
