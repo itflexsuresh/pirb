@@ -100,6 +100,13 @@ $config['messagegroup'] 			= 	[
 											'4' => 'COMPANY MESSAGE'
 										];
 
+$config['helpgroup'] 			= 	[
+											'3' => 'PLUMBER',
+											'4' => 'COMPANY',
+											'5' => 'AUDITOR',
+											'6' => 'RESELLER'
+										];
+
 $config['cpdstream'] 				= 	[
 											'1' => 'Developmental',
 											'2' => 'Work-Based',
