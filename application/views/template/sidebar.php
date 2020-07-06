@@ -154,6 +154,15 @@ if(count($permission) > 0){
 								<?php } ?>
 							</ul>
 						</li>				      
+					<?php }if($menu=='1' || ($menu=='2' && in_array('11', $parent))){ ?>
+						<li class="step five"> 
+							<a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-email"></i><span class="hide-menu">Help</span></a>
+							<ul aria-expanded="false" class="collapse">
+								<?php if($menu=='1' || ($menu=='2' && (in_array('31', $readpermission) || in_array('31', $writepermission)))){ ?>
+									<li><a href="<?php echo base_url().'admin/help/index'; ?>">Help</a></li>
+								<?php } ?>
+							</ul>
+						</li>				      
 					<?php } ?>
 				<?php 
 					}elseif($type=='3'){ 
@@ -322,6 +331,7 @@ if(count($permission) > 0){
 									</div>
 								</div>
 							</li>
+							<li><a href="<?php echo base_url().'plumber/help/index'; ?>">Help</a></li>
 						<?php
 						}else{ 
 						?>

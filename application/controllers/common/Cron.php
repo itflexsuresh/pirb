@@ -262,19 +262,21 @@ class Cron extends CC_Controller {
 				
 				$rowData = $this->Coc_Model->getListPDF('row', ['id' => $inv_id, 'status' => ['0','1']]);
 				$designation =	$this->config->item('designation2')[$rowData['designation']];					
-				$cocreport = $this->cocreport($inv_id, 'PDF Invoice Plumber COC', ['description' => 'PIRB year registration fee for '.$designation.' for '.$rowData['username'].' '.$rowData['surname'].', registration number '.$rowData['registration_no'], 'type' => '2']);
+				$cocreport = $this->cocreport($inv_id, 'PDF Invoice Plumber COC', ['description' => 'PIRB year registration fee for '.$designation.' for '.$rowData['username'].' '.$rowData['surname'].', registration number '.$rowData['registration_no']]);
 					
 					$cocTypes = $orders['coc_type'];
 					$mail_date = date("d-m-Y", strtotime($orders['created_at']));
 					
 					
-					$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '1', 'emailstatus' => '1']);
+					//$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '1', 'emailstatus' => '1']);
+					$notificationdata 	= $this->Communication_Model->getList('row', ['id' => '1']);
 					
 					if($notificationdata){
 						$array1 = ['{Plumbers Name and Surname}','{date of purchase}', '{Number of COC}','{COC Type}','{renewal_date}'];
 						$array2 = [$userdata1['name']." ".$userdata1['surname'], $mail_date, $orders['quantity'], $this->config->item('coctype2')[$cocTypes],$renewal_date];
 						$body 	= str_replace($array1, $array2, $notificationdata['email_body']);
-						$this->CC_Model->sentMail($userdata1['email'], $notificationdata['subject'], $body, $cocreport);
+						//$this->CC_Model->sentMail($userdata1['email'], $notificationdata['subject'], $body, $cocreport);
+						$this->CC_Model->sentMail('suresh@itflexsolutions.com', $notificationdata['subject'], $body, $cocreport);
 					}
 					
 					if($this->config->item('otpstatus')!='1'){

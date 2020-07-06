@@ -185,7 +185,7 @@ class CC_Controller extends CI_Controller
 			if($permissiontype=='1'){
 				if(!in_array($pagetype, $readpermission) && !in_array($pagetype, $writepermission)){ 
 					$this->session->set_flashdata('error', 'Invalid Url');
-					redirect('admin/administration/installationtype'); 
+					redirect('admin/dashboard/index'); 
 				}
 			}
 			
@@ -193,7 +193,7 @@ class CC_Controller extends CI_Controller
 				if(!in_array($pagetype, $writepermission)){ 
 					if($redirect=='1'){
 						$this->session->set_flashdata('error', 'Invalid Url');
-						redirect('admin/administration/installationtype'); 
+						redirect('admin/dashboard/index'); 
 					}
 					
 					return false;
