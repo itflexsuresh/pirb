@@ -30,7 +30,7 @@ if($file!=''){
 	$fileimgurl		= $filepath.$file;
 }else{
 	$fileimg 		= $uploadimg;
-	$fileimgurl		= 'javascript:void(0);';
+	$fileimgurl		= '';
 }
 ?>
 
@@ -55,41 +55,58 @@ if($file!=''){
 				<?php if($checkpermission){ ?>
 					<form class="mt-4 form" action="" method="post">
 						<div class="row">
-							<div class="form-group">
-								<label for="title">Title *</label>
-								<input type="text" class="form-control" id="title" name="title" placeholder="Enter Title*" value="<?php echo $title; ?>">
-							</div>
-							<div class="form-group">
-								<label for="title">Description *</label>
-								<textarea class="form-control" id="description" name="description" placeholder="Enter Description*"><?php echo $description; ?></textarea>
-							</div>	
-							<div class="form-group">
-								<label>Type *</label>
-								<?php
-									echo form_dropdown('type', $helpgroup, $type, ['id' => 'type', 'class' => 'form-control']);
-								?>
-							</div>	
-							<div class="form-group">
-								<label>Video</label>
-								<div>
-									<a href="<?php echo $file1imgurl; ?>" target="_blank"><img src="<?php echo $fileimg; ?>" class="photo_image" width="100"></a>
-								</div>
-								<input type="file" class="photo_file">
-								<input type="hidden" name="image2" class="photo" value="<?php echo $file2; ?>">
-							</div>
-							<div class="form-group">
-								<label for="order">Order</label>
-								<input type="text" class="form-control" id="order" name="order" placeholder="Enter Order*" value="<?php echo $order; ?>">
-							</div>
-							<div class="form-group">
-								<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
-									<input type="checkbox" class="custom-control-input" name="status" id="status" <?php if($status=='1') echo 'checked'; if($status=='') echo 'checked'; ?> value="1">
-									<label class="custom-control-label" for="status">Active</label>
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="title">Title *</label>
+									<input type="text" class="form-control" id="title" name="title" placeholder="Enter Title*" value="<?php echo $title; ?>">
 								</div>
 							</div>
-							<div class="form-group">
-								<input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
-								<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?></button>
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="title">Description *</label>
+									<textarea class="form-control" id="description" name="description" placeholder="Enter Description*" data-editor="editor"><?php echo $description; ?></textarea>
+								</div>	
+							</div>	
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Type *</label>
+									<?php
+										echo form_dropdown('type', $helpgroup, $type, ['id' => 'type', 'class' => 'form-control']);
+									?>
+								</div>	
+							</div>	
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Video</label>
+									<div>
+										<video width="320" height="240" controls class="filevideotag displaynone">
+											<source src="<?php echo $fileimg; ?>" type="video/mp4">
+										</video>
+										<img src="<?php echo $fileimg; ?>" class="fileimgtag displaynone" width="100">
+									</div>
+									<input type="file" class="file_file">
+									<input type="hidden" name="file" class="file">
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="order">Order</label>
+									<input type="text" class="form-control" id="order" name="order" placeholder="Enter Order" value="<?php echo $order; ?>">
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
+										<input type="checkbox" class="custom-control-input" name="status" id="status" <?php if($status=='1') echo 'checked'; if($status=='') echo 'checked'; ?> value="1">
+										<label class="custom-control-label" for="status">Active</label>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
+									<input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
+									<button type="submit" name="submit" value="submit" class="btn btn-primary"><?php echo $heading; ?></button>
+								</div>
 							</div>
 						</div>
 					</form>
@@ -98,7 +115,8 @@ if($file!=''){
 					<table class="table table-bordered table-striped datatables fullwidth text_left">
 						<thead>
 							<tr>
-								<th>Name</th>
+								<th>Title</th>
+								<th>Type</th>
 								<th>Status</th>
 								<th>Action</th>
 							</tr>
@@ -112,17 +130,22 @@ if($file!=''){
 </div>
 
 <script>
+	var filepath = '<?php echo $filepath; ?>';
+	
 	$(function(){
 		editor('#description');
+		fileupload([".file_file", "./assets/uploads/help/", ["mp4"]], ['.file', '.fileimgtag'], "", videoupload);
+		videoupload('<?php echo $file; ?>');
 		
 		var options = {
-			url 	: 	'<?php echo base_url()."admin/help/DTHelp"; ?>',
+			url 	: 	'<?php echo base_url()."admin/help/index/DTHelp"; ?>',
 			columns : 	[
-				{ "data": "name" },
+				{ "data": "title" },
+				{ "data": "typename" },
 				{ "data": "status" },
 				{ "data": "action" }
 			],
-			target	:	[2],
+			target	:	[3],
 			sort	:	'0'
 		};
 		
@@ -151,14 +174,29 @@ if($file!=''){
 				type 	: {
 					required	: "Type field is required."
 				}
+			},
+			{
+				ignore : []
 			}
 		);
 	});
 	
+	function videoupload(data){
+		$('.filevideotag, .fileimgtag').addClass('displaynone');
+		
+		if(data==''){
+			$('.fileimgtag').removeClass('displaynone');
+		}else{
+			$('.filevideotag').removeClass('displaynone');
+			$('.filevideotag source').attr('src', filepath+data);
+		}
+		
+		$('.file').val(data);
+	}
 	// Delete
 	
 	$(document).on('click', '.delete', function(){
-		var action 	= 	'<?php echo base_url().'admin/administration/installationtype'; ?>';
+		var action 	= 	'<?php echo base_url().'admin/help/index'; ?>';
 		var data	= 	'\
 			<input type="hidden" value="'+$(this).attr('data-id')+'" name="id">\
 		';

@@ -17,13 +17,13 @@
 			<div class="card-body">
 			
 				<div class="row">
-					<?php foreach($result as $data){ ?>
+					<?php foreach($results as $result){ ?>
 						<div class="col-md-12">
-							<h5><?php echo $data['title']; ?></h5>
+							<h5><?php echo $result['title']; ?></h5>
 							<video width="320" height="240" controls>
-								<source src="<?php echo base_url().'assets/uploads/help/'.$data['file']; ?>" type="video/mp4">
+								<source src="<?php echo base_url().'assets/uploads/help/'.$result['file']; ?>" type="video/mp4">
 							</video>
-							<div><?php echo $data['description']; ?></div>
+							<div><?php echo $result['description']; ?></div>
 						</div>
 					<?php } ?>
 				</div>

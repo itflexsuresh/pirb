@@ -4,23 +4,26 @@ class Help_Model extends CC_Model
 {
 	public function getList($type, $requestdata=[])
 	{
-		$this->db->select('*');
-		$this->db->from('help');
+		$this->db->select('h.*, c1.name as typename');
+		$this->db->from('help h');
+		$this->db->join('custom c1', 'c1.c_id=h.type and c1.type="8"', 'left');
 		
-		if(isset($requestdata['id'])) 				$this->db->where('id', $requestdata['id']);
-		if(isset($requestdata['type']))				$this->db->where_in('type', $requestdata['type']);
-		if(isset($requestdata['status']))			$this->db->where_in('status', $requestdata['status']);
+		if(isset($requestdata['id'])) 				$this->db->where('h.id', $requestdata['id']);
+		if(isset($requestdata['type']))				$this->db->where_in('h.type', $requestdata['type']);
+		if(isset($requestdata['status']))			$this->db->where_in('h.status', $requestdata['status']);
 		
 		if($type!=='count' && isset($requestdata['start']) && isset($requestdata['length'])){
 			$this->db->limit($requestdata['length'], $requestdata['start']);
 		}
 		if(isset($requestdata['order']['0']['column']) && isset($requestdata['order']['0']['dir'])){
-			$column = ['id', 'name', 'status'];
+			$column = ['h.id', 'h.title', 'c1.name', 'h.status'];
 			$this->db->order_by($column[$requestdata['order']['0']['column']], $requestdata['order']['0']['dir']);
 		}
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];
-			$this->db->like('name', $searchvalue);
+			$this->db->like('h.title', $searchvalue);
+			$this->db->or_like('c1.name', $searchvalue);
+			$this->db->or_like('h.status', $searchvalue);
 		}
 		
 		if($type=='count'){
@@ -48,7 +51,7 @@ class Help_Model extends CC_Model
 			'updated_by' 		=> $userid
 		];
 
-		if(isset($data['name'])) 				$request['name'] 			= $data['name'];
+		if(isset($data['title'])) 				$request['title'] 			= $data['title'];
 		if(isset($data['description'])) 		$request['description'] 	= $data['description'];
 		if(isset($data['file'])) 				$request['file'] 			= $data['file'];
 		if(isset($data['order'])) 				$request['order'] 			= $data['order'];

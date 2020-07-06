@@ -11,10 +11,10 @@ class Index extends CC_Controller
 	
 	public function index()
 	{
-		$result = $this->Help_Model->getList('row', ['type' => ['3'], 'status' => ['0','1']]);
+		$results = $this->Help_Model->getList('all', ['type' => ['3'], 'status' => ['1']]);
 		
 		$pagedata['notification'] 		= $this->getNotification();
-		$pagedata['result'] 			= $result;
+		$pagedata['results'] 			= $results;
 		$data['plugins']				= [];
 		$data['content'] 				= $this->load->view('plumber/help/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);

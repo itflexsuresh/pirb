@@ -47,7 +47,7 @@ class Index extends CC_Controller
 		$pagedata['notification'] 		= $this->getNotification();
 		$pagedata['helpgroup'] 			= $this->config->item('helpgroup');
 		$pagedata['checkpermission'] 	= $this->checkUserPermission('31', '2');
-		$data['plugins']				= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation'];
+		$data['plugins']				= ['datatables', 'datatablesresponsive', 'sweetalert', 'validation', 'tinymce'];
 		$data['content'] 				= $this->load->view('admin/help/index', (isset($pagedata) ? $pagedata : ''), true);
 		$this->layout2($data);
 	}
@@ -66,7 +66,7 @@ class Index extends CC_Controller
 
 				if($checkpermission){
 					$action = 	'<div class="table-action">
-									<a href="'.base_url().'admin/help/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+									<a href="'.base_url().'admin/help/index/index/'.$result['id'].'" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-alt"></i></a>
 									<a href="javascript:void(0);" data-id="'.$result['id'].'" class="delete" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
 								</div>';
 				}else{
@@ -74,7 +74,8 @@ class Index extends CC_Controller
 				}
 
 				$totalrecord[] = 	[
-										'name' 		=> 	$result['name'],
+										'title' 	=> 	$result['title'],
+										'typename' 	=> 	$result['typename'],
 										'status' 	=> 	$this->config->item('statusicon')[$result['status']],
 										'action'	=> 	$action
 									];
