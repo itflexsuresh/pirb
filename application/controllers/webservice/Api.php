@@ -102,6 +102,32 @@ class Api extends CC_Controller
 				$post['usersdetailid'] 	= 	$userdata['usersdetailid'];
 				$post['usersplumberid'] = 	$userdata['usersplumberid'];
 
+				if (isset($post['address[1][id]']) && $post['address[1][id]'] !='') {
+					$post['address[1][id]'] = $post['address[1][id]'];
+				}else{
+					$post['address[1][id]'] = '';
+				}
+
+				if (isset($post['address[2][id]']) && $post['address[2][id]'] !='') {
+					$post['address[2][id]'] = $post['address[2][id]'];
+				}else{
+					$post['address[2][id]'] = '';
+				}
+
+				if (isset($post['address[3][id]']) && $post['address[3][id]'] !='') {
+					$post['address[3][id]'] = $post['address[3][id]'];
+				}else{
+					$post['address[3][id]'] = '';
+				}
+
+				if (isset($post['skill_id'])) {
+					$post['skill_id'] = $post['skill_id'];
+				}else{
+					$post['skill_id'] = '';
+				}
+
+				
+
 				$data 				=  	$this->Plumber_Model->action($post);
 
 				if ($data) {
@@ -636,7 +662,7 @@ class Api extends CC_Controller
 		// }else
 		if ($this->input->post() && $this->input->post('user_id') && $this->input->post('type') == 'view_coc') {
 
-			$userid							= $this->input->post('user_id');
+			$userid						= $this->input->post('user_id');
 			$cocID 						= $this->input->post('coc_id');
 
 			if ($this->input->post('auditorid') != '') {
