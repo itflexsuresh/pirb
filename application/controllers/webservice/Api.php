@@ -493,57 +493,6 @@ class Api extends CC_Controller
 		echo json_encode($jsonArray);
 	}
 
-	// Audit Review coc Details;
-	public function coc_details(){
-
-		if ($this->input->post() && $this->input->post('type') == 'coc_details') {
-			$extraparam = [];
-			$jsonData 	= [];
-
-			$jsonData['page_lables'] = [
-				'page_heading' => 'CoC Details', 'certificate' => 'Certificate', 'lable1' => 'Plumbing work completeion date','lable2' => 'Owners name', 'address' =>'Street', 'Suburb', 'City', 'Province', 'lable3' => 'Name of the complex / flat (if applicable)', 'contactinfo' => 'Contact number', 'Alternate Contact number', 'auditreview' => 'Audit status', 'Auditors name and surname', 'Phone (mobile)', 'Phone (mobile)', 'Date of audit', 'Overall workmanship', 'Licensed plumber present', 'Was CoC completed correctly', 'auditstatus' =>'Complement','Solar Water Heating System', 'Cautionary', 'Below Ground Drainage System Statement', 'Failure', 'Sanitary-ware Statement', 'footernotice' => 'NOTICE TO LICENESED PLUMBER', "its tour responsibity to complete your refix's within the allocated. Failure to do so within the allocated time will result in the refix being ,arked as Audit Complete (with Refix(s)) and relevant remedial action will follow"
-			];
-
-			$userid							= $this->input->post('user_id');
-			$id								= $this->input->post('coc_id'); // id = coc id
-			if ($this->input->post('auditorid') !='') {
-				$auditorid					= ['auditorid' => $this->input->post('auditorid')];
-			}else{
-				$auditorid					= [];
-			}
-			$result							= $this->Coc_Model->getCOCList('row', ['id' => $id, 'user_id' => $userid]+$auditorid);
-			$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber', 'company']);
-			$specialisations 				= explode(',', $userdata['specialisations']);
-
-			$jsonData['userdata'] 			= $userdata;
-			$jsonData['cocid'] 				= $id;
-			$jsonData['auditorid'] 			= $auditorid;
-			$jsonData['notification'] 		= $this->getNotification();
-			$jsonData['province'] 			= $this->getProvinceList();
-			$jsonData['designation2'] 		= $this->config->item('designation2');
-			$jsonData['ncnotice'] 			= $this->config->item('ncnotice');
-			$jsonData['installationtype']	= $this->getInstallationTypeList();
-			$jsonData['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => [], 'ids' => range(1,8)]);
-			$jsonData['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations, 'ids' => range(1,8)]);
-			$jsonData['result']				= $result;
-			
-			$noncompliance					= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $userid]);		
-			$jsonData['noncompliance']		= [];
-			foreach($noncompliance as $compliance){
-				$jsonData['noncompliance'][] = [
-					'id' 		=> $compliance['id'],
-					'details' 	=> $this->parsestring($compliance['details']),
-					'file' 		=> $compliance['file']
-				];
-			}
-			$jsonArray = array("status"=>'1', "message"=>'CoC Details', "result"=>$jsonData);
-		}else{
-			$jsonArray = array("status"=>'0', "message"=>'Invalid Api', "result"=>[]);
-		}
-
-		echo json_encode($jsonArray);
-	}
-
 	// Audit Review;
 	public function auditreview_coc(){
 
