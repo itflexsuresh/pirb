@@ -73,6 +73,7 @@ if($file!=''){
 									<input type="file" class="file_file">
 									<input type="hidden" name="file" class="file">
 								</div>
+								<p class="tagline">(Allowed extension mp4)</p>
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">

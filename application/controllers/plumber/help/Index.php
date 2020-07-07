@@ -11,7 +11,7 @@ class Index extends CC_Controller
 	
 	public function index()
 	{
-		$results = $this->Help_Model->getList('all', ['type' => ['3'], 'status' => ['1'], 'order' => 'order asc']);
+		$results = $this->Help_Model->getList('all', ['type' => ['3'], 'status' => ['1'], 'orderby' => 'order asc']);
 		
 		$pagedata['notification'] 		= $this->getNotification();
 		$pagedata['results'] 			= $results;

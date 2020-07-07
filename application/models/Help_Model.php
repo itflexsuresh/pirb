@@ -26,7 +26,7 @@ class Help_Model extends CC_Model
 			$this->db->or_like('h.status', $searchvalue);
 		}
 		
-		if(isset($requestdata['order'])) $this->db->order_by($requestdata['order']);
+		if(isset($requestdata['orderby'])) $this->db->order_by($requestdata['orderby']);
 		
 		if($type=='count'){
 			$result = $this->db->count_all_results();
