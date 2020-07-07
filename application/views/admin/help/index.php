@@ -63,6 +63,19 @@ if($file!=''){
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
+									<label>Video</label>
+									<div>
+										<video width="320" height="240" controls class="filevideotag displaynone">
+											<source src="<?php echo $fileimg; ?>" type="video/mp4">
+										</video>
+										<img src="<?php echo $fileimg; ?>" class="fileimgtag displaynone" width="100">
+									</div>
+									<input type="file" class="file_file">
+									<input type="hidden" name="file" class="file">
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group">
 									<label for="title">Description *</label>
 									<textarea class="form-control" id="description" name="description" placeholder="Enter Description*" data-editor="editor"><?php echo $description; ?></textarea>
 								</div>	
@@ -75,19 +88,6 @@ if($file!=''){
 									?>
 								</div>	
 							</div>	
-							<div class="col-md-12">
-								<div class="form-group">
-									<label>Video</label>
-									<div>
-										<video width="320" height="240" controls class="filevideotag displaynone">
-											<source src="<?php echo $fileimg; ?>" type="video/mp4">
-										</video>
-										<img src="<?php echo $fileimg; ?>" class="fileimgtag displaynone" width="100">
-									</div>
-									<input type="file" class="file_file">
-									<input type="hidden" name="file" class="file">
-								</div>
-							</div>
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="order">Order</label>

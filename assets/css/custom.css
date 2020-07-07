@@ -3473,3 +3473,16 @@ tr.dynmci---icns {
 .notfound{
 	text-align: center;
 }
+
+.plumberhelpsection{
+	border: 1px solid lightgrey;
+    padding: 10px;
+	margin-bottom: 25px;
+}
+.plumberhelpsection h5{
+	margin-bottom: 20px;
+}
+.plumberhelpsection p{
+	font-size: 13px;
+    margin-bottom: 10px;
+}
