@@ -716,6 +716,10 @@ class Api extends CC_Controller
 						];
 					
 				}
+			}else{
+				$jsonData['installation_images'] = [
+							'file' 		=> '' 
+						];
 			}
 
 			$jsonData['pdf'] = ['electroniccocreport' => base_url().'plumber/auditstatement/index/electroniccocreport/'.$cocID.'/'.$userid, 'noncompliancereport' => base_url().'plumber/auditstatement/index/noncompliancereport/'.$cocID.'/'.$userid];
