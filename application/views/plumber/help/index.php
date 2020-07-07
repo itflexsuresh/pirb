@@ -17,12 +17,21 @@
 			<div class="card-body">
 			
 				<div class="row">
+					<div class="col-md-12 plumberhelpsection">
+						<h5>Plumber Help Section</h5>
+						<?php foreach($results as $result){ ?>
+							<p><a href="javascript:void(0);" data-id="<?php echo $result['id']; ?>" class="helpsection"><?php echo $result['title']; ?></a></p>
+						<?php } ?>
+					</div>
+					
 					<?php foreach($results as $result){ ?>
-						<div class="col-md-12">
+						<div class="col-md-12" id="helpsection<?php echo $result['id']; ?>">
 							<h5><?php echo $result['title']; ?></h5>
-							<video width="320" height="240" controls>
-								<source src="<?php echo base_url().'assets/uploads/help/'.$result['file']; ?>" type="video/mp4">
-							</video>
+							<?php if($result['file']!=''){ ?>
+								<video width="320" height="240" controls>
+									<source src="<?php echo base_url().'assets/uploads/help/'.$result['file']; ?>" type="video/mp4">
+								</video>
+							<?php } ?>
 							<div><?php echo $result['description']; ?></div>
 						</div>
 					<?php } ?>
@@ -32,3 +41,12 @@
 		</div>
 	</div>
 </div>
+
+<script>
+$('.helpsection').on('click', function(){  
+	var id = $(this).attr('data-id');
+	$('html, body').animate({
+      scrollTop: $('#helpsection'+id).offset().top
+    }, 500);
+});
+</script>
