@@ -711,13 +711,13 @@ class Api extends CC_Controller
 					}
 					
 				}else{
-					$jsonData['installation_images'] = [
+					$jsonData['installation_images'][] = [
 							'file' 		=> base_url().'assets/uploads/plumber/'.$userid.'/log/'.$jsonData['result']['cl_file2'] 
 						];
 					
 				}
 			}else{
-				$jsonData['installation_images'] = [
+				$jsonData['installation_images'][] = [
 							'file' 		=> '' 
 						];
 			}
