@@ -292,7 +292,7 @@ class Api extends CC_Controller
 			$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $plumberID], ['users', 'usersdetail', 'usersplumber', 'company']);
 			$specialisations 				= explode(',', $userdata['specialisations']);
 
-			$jsonData['page_lables'] = [ 'Plumbing Work Completion Date *', "Insurance Claim/Order no: (if relevant)", "Certificate Number: ".$id."", "Installation Images", "Physical Address Details of Installation" => "Owners Name *", "Name of Complex/Flat and Unit Number (if applicable)", "Street *", "Number *", "Province *", "City *", "Suburb *", "Contact Mobile *", "Alternate Contact", "Email Address"
+			$jsonData['page_lables'] = [ 'Plumbing Work Completion Date *', "Insurance Claim/Order no: (if relevant)", "Certificate Number: ".$id."", "Installation Images", "Physical Address Details of Installation", "Owners Name *", "Name of Complex/Flat and Unit Number (if applicable)", "Street *", "Number *", "Province *", "City *", "Suburb *", "Contact Mobile *", "Alternate Contact", "Email Address"
 			];
 
 			$jsonData['userdata'] 			= $userdata;
@@ -720,7 +720,7 @@ class Api extends CC_Controller
 
 			$jsonData['pdf'] = ['electroniccocreport' => base_url().'plumber/auditstatement/index/electroniccocreport/'.$cocID.'/'.$userid, 'noncompliancereport' => base_url().'plumber/auditstatement/index/noncompliancereport/'.$cocID.'/'.$userid];
 
-			$jsonData['page_lables'] = [ 'Plumbing Work Completion Date *', "Insurance Claim/Order no: (if relevant)", "Certificate Number: ".$cocID."", "Installation Images", "Physical Address Details of Installation" => ["Owners Name *", "Name of Complex/Flat and Unit Number (if applicable)", "Street *", "Number *", "Province *", "City *", "Suburb *", "Contact Mobile *", "Alternate Contact", "Email Address"]
+			$jsonData['page_lables'] = [ 'Plumbing Work Completion Date *', "Insurance Claim/Order no: (if relevant)", "Certificate Number: ".$cocID."", "Installation Images", "Physical Address Details of Installation", "Owners Name *", "Name of Complex/Flat and Unit Number (if applicable)", "Street *", "Number *", "Province *", "City *", "Suburb *", "Contact Mobile *", "Alternate Contact", "Email Address"
 			];
 
 			$jsonData['agreement'] = [ 'header' => ["I ".$jsonData['result']['u_name'].", Licensed registration number ".$jsonData['result']['plumberregno'].", certify that, the above compliance certifcate details are true and correct and will be logged in accordance with the prescribed requirements as defned by the PIRB. Select either A or B as appropriate"],'agreement1' => ['description' => 'A: The above plumbing work was carried out by me or under my supervision, and that it complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.', 'agreementid' => '1'], 'agreement2' => ['description' => 'B: I have fully inspected and tested the work started but not completed by another Licensed plumber. I further certify that the inspected and tested work and the necessary completion work was carried out by me or under my supervision- complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.', 'agreementid' => '2'], 
