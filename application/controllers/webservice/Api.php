@@ -588,7 +588,7 @@ class Api extends CC_Controller
 			if (count($results) > 0) {
 				$jsonArray = array("status"=>'1', "message"=>'Audit Statement', "result"=>$jsonData);
 			}else{
-				$jsonArray = array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+				$jsonArray = array("status"=>'0', "message"=>'No record found', "result"=>[]);
 			}
 
 		}else{
