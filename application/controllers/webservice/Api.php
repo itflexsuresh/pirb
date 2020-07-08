@@ -188,22 +188,6 @@ class Api extends CC_Controller
 			$jsonData['provinceperformancestatus'] 		= $this->userperformancestatus(['province' => $userdata['province'], 'limit' => '3']);
 			// $jsonData['cityperformancestatus'] 			= $this->userperformancestatus(['city' => $userdata['city'], 'limit' => '3'],$id);
 
-
-		// 	$friends 									= $this->Friends_Model->getList('all', ['userid' => $id, 'fromto' => $id, 'status' => ['1'], 'limit' => '10']);
-		// 	$friendsarray								= [];
-		// 	if(count($friends) > 0){
-		// 	foreach($friends as $friend){
-		// 		$friendperformance = $this->userperformancestatus(['userid' => $friend['userid']]);
-		// 		$friendsarray[] =  $friend+['rank' => $friendperformance];
-		// 	}
-			
-		// 	array_multisort(array_column($friendsarray, 'rank'), SORT_ASC, $friendsarray);
-		// }
-
-		// 	$jsonData['friends'] 						= $friendsarray;
-
-			// $jsonData['chat_count'] 					= $this->Chat_Model->getList('count',['to_id' => $id, 'msg_status' => '0']);
-			// $jsonData['chat_messages'] 					= $this->Chat_Model->getList('all',['to_id' => $id, 'msg_status' => '0']);
 			$jsonData['plumber_profile']		= [];
 			if ($jsonData['userdata']['file2'] !='') {
 				$jsonData['plumber_profile'] = [
