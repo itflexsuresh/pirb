@@ -575,14 +575,18 @@ class Api extends CC_Controller
 	public function audit_statement(){
 
 		if ($this->input->post() && $this->input->post('type') == 'list') {
+			$jsonData = [];
 
 			$userid 		= $this->input->post('user_id');
 			$post 			= $this->input->post();
 			$totalcount 	= $this->Coc_Model->getCOCList('count', ['coc_status' => ['2'], 'user_id' => $userid, 'noaudit' => '']+$post);
 			$results 		= $this->Coc_Model->getCOCList('all', ['coc_status' => ['2'], 'user_id' => $userid, 'noaudit' => '']+$post);
 
+			$jsonData['totalcount'] = $totalcount;
+			$jsonData['results'] 	= $results;
+
 			if (count($results) > 0) {
-				$jsonArray = array("status"=>'1', "message"=>'Audit Statement', "result"=>$results);
+				$jsonArray = array("status"=>'1', "message"=>'Audit Statement', "result"=>$jsonData);
 			}else{
 				$jsonArray = array("status"=>'0', "message"=>'invalid request', "result"=>[]);
 			}
