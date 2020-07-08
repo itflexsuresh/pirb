@@ -180,27 +180,53 @@ class Api extends CC_Controller
 			$jsonData['auditrefixincomplete'] 			= $jsonData['history']['refixincomplete'];
 			$jsonData['auditorratio']					= $this->Auditor_Model->getAuditorRatio('row', ['userid' => $id]);
 			$jsonData['auditorratio']					= ($jsonData['auditorratio']) ? $jsonData['auditorratio']['audit'].'%' : '0%';
+			// country rangking
+			$jsonData['overallperformancestatus'] 		= $this->userperformancestatus(['overall' => '1']);
 			$jsonData['myprovinceperformancestatus'] 	= $this->userperformancestatus(['province' => $userdata['province']], $id);
 			$jsonData['performancestatus'] 				= $this->userperformancestatus();
 			$jsonData['mycityperformancestatus'] 		= $this->userperformancestatus(['city' => $userdata['city']], $id);
 			$jsonData['provinceperformancestatus'] 		= $this->userperformancestatus(['province' => $userdata['province'], 'limit' => '3']);
-			$jsonData['cityperformancestatus'] 			= $this->userperformancestatus(['city' => $userdata['city'], 'limit' => '3'],$id);
-			$friends 									= $this->Friends_Model->getList('all', ['userid' => $id, 'fromto' => $id, 'status' => ['1'], 'limit' => '10']);
-			$friendsarray								= [];
-			if(count($friends) > 0){
-			foreach($friends as $friend){
-				$friendperformance = $this->userperformancestatus(['userid' => $friend['userid']]);
-				$friendsarray[] =  $friend+['rank' => $friendperformance];
-			}
+			// $jsonData['cityperformancestatus'] 			= $this->userperformancestatus(['city' => $userdata['city'], 'limit' => '3'],$id);
+
+
+		// 	$friends 									= $this->Friends_Model->getList('all', ['userid' => $id, 'fromto' => $id, 'status' => ['1'], 'limit' => '10']);
+		// 	$friendsarray								= [];
+		// 	if(count($friends) > 0){
+		// 	foreach($friends as $friend){
+		// 		$friendperformance = $this->userperformancestatus(['userid' => $friend['userid']]);
+		// 		$friendsarray[] =  $friend+['rank' => $friendperformance];
+		// 	}
 			
-			array_multisort(array_column($friendsarray, 'rank'), SORT_ASC, $friendsarray);
-		}
+		// 	array_multisort(array_column($friendsarray, 'rank'), SORT_ASC, $friendsarray);
+		// }
 
-			$jsonData['friends'] 						= $friendsarray;
+		// 	$jsonData['friends'] 						= $friendsarray;
 
-			$jsonData['chat_count'] 					= $this->Chat_Model->getList('count',['to_id' => $id, 'msg_status' => '0']);
-			$jsonData['chat_messages'] 					= $this->Chat_Model->getList('all',['to_id' => $id, 'msg_status' => '0']);
+			// $jsonData['chat_count'] 					= $this->Chat_Model->getList('count',['to_id' => $id, 'msg_status' => '0']);
+			// $jsonData['chat_messages'] 					= $this->Chat_Model->getList('all',['to_id' => $id, 'msg_status' => '0']);
+			$jsonData['plumber_profile']		= [];
+			if ($jsonData['userdata']['file2'] !='') {
+				$jsonData['plumber_profile'] = [
+					'file' 		=> base_url().'assets/uploads/plumber/'.$id.'/'.$jsonData['userdata']['file2'] 
+				];
+			}else{
+					$jsonData['plumber_profile'] = [
+							'file' 		=> base_url().'assets/uploads/plumber/'.$id.'/'.$jsonData['userdata']['file2'] 
+						];
+					
+				}
 
+			$jsonData['plumber_designation']	= [];
+			if ($jsonData['userdata']['designation'] !='') {
+				$jsonData['plumber_designation'] = [
+					'designation' 		=> $this->config->item('designation2')[$jsonData['userdata']['designation']]
+				];
+			}else{
+					$jsonData['plumber_designation'] = [
+							'designation' 		=> $jsonData['userdata']['designation'] 
+						];
+					
+				}
 			$jsonArray = array("status"=>'1', "message"=>'User details', "result"=>$jsonData);
 
 		
