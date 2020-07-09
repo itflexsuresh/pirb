@@ -167,6 +167,7 @@ class Api extends CC_Controller
 			$jsonData['plumber_details']			= [];
 			$jsonData['plumber_profile']			= [];
 			$jsonData['plumber_designation']		= [];
+			$jsonData['page_lables']				= [];
 
 			$id 										= $this->input->post('user_id');
 			$userdata 									= $this->getUserDetails($id);
@@ -239,7 +240,8 @@ class Api extends CC_Controller
 			// $jsonData['cityperformancestatus'] 			= $this->userperformancestatus(['city' => $userdata['city'], 'limit' => '3'],$id);
 
 			//$jsonData['plumber_contact_details'] = ['email' => $userdata['email'], 'mobile1' => $userdetails['mobile_phone'], 'home_phone' => $userdetails['home_phone'], 'mobile2' => $userdetails['mobile_phone2'], 'work_phone' => $userdetails['work_phone'], 'email2' => $userdetails['email2'], 'physical_address' => ['province' => $province1, 'city' => $city1, 'suburb' => $suburb1, 'address' => $address1, 'postalcode' => $postalcode1], 'postal_address' => ['province' => $province2, 'city' => $city2, 'suburb' => $suburb2, 'address' => $address2, 'postalcode' => $postalcode2], 'billing_address' => ['province' => $province3, 'city' => $city3, 'suburb' => $suburb3, 'address' => $address3, 'postalcode' => $postalcode3]];
-			
+			$jsonData['page_lables'] = [ 'hellomsg' => 'Hello,', 'card' => 'PIRB registration card', 'country_rank' => 'My Country Ranking', 'perfomancscore' => 'My Performance Score', 'reginal_ranking' => 'My Regional Ranking', 'non_log' => 'non-logged', 'purchase' => 'Purchase CoC', 'cocstatement' => 'CoC Statement', 'audit_percent' => 'My Audits', 'rank_industry' => 'Industry Ranking', 'point' => 'Points', 'cpd' => 'My CPD', 'perfomancstatus' => 'Performance Status'
+			];
 			if (isset($userdata) && (count($userdata) > 0)) {
 				$jsonData['plumber_details'] = [
 					'plumberid' 		=> $userdata['id'],
@@ -249,7 +251,6 @@ class Api extends CC_Controller
 					'status' 			=> $this->config->item('plumberstatus')[$userdata['status']],
 					'nonlogcoc' 		=> $nonlogcoc,
 					'adminstock' 		=> $adminstock,
-					'hellomsg' 			=> 'Hello,',
 					'employementstatus' => $this->config->item('employmentdetail')[$userdetails['employment_details']],
 					'companyname' 		=> $userdetails['companyname'],
 					'coccount' 			=> $coccount,
