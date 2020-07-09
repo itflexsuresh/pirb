@@ -665,14 +665,31 @@ class Api extends CC_Controller
 
 		if ($this->input->post() && $this->input->post('type') == 'list') {
 			$jsonData = [];
+			$jsonData['results'] = [];
 
 			$userid 		= $this->input->post('user_id');
 			$post 			= $this->input->post();
 			$totalcount 	= $this->Coc_Model->getCOCList('count', ['coc_status' => ['2'], 'user_id' => $userid, 'noaudit' => '']+$post);
 			$results 		= $this->Coc_Model->getCOCList('all', ['coc_status' => ['2'], 'user_id' => $userid, 'noaudit' => '']+$post);
-
+			
+			foreach ($results as $key => $value) {
+				if ($value['u_status'] =='1') {
+					$colorcode = '#ade33d';
+				}elseif($value['u_status'] =='2'){
+					$colorcode = '#ffd700';
+				}elseif($value=='3'){
+					$colorcode = '#eb0000';
+				}elseif($value['u_status'] =='4'){
+					$colorcode = '#ade33d';
+				}elseif($value['u_status'] =='5'){
+					$colorcode = '#87d0ef';
+				}
+				$jsonData['results'][] = [
+					'coc_number' => $value['id'], 'auditstatus' => $this->config->item('auditstatus')[$value['u_status']], 'colorcode' => $colorcode, 'consumername' => $value['cl_name'], 'auditorname' => $value['auditorname'], 'address' => $value['cl_address'], 'audit_allocation_date' => $value['audit_allocation_date'], 
+				];
+			}
 			$jsonData['totalcount'] = $totalcount;
-			$jsonData['results'] 	= $results;
+			//$jsonData['results'] 	= $results;
 
 			if (count($results) > 0) {
 				$jsonArray = array("status"=>'1', "message"=>'Audit Statement', "result"=>$jsonData);
