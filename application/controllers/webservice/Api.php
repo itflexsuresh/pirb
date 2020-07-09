@@ -163,12 +163,61 @@ class Api extends CC_Controller
 	public function plumber_dashoard(){
 
 		if ($this->input->post('user_id')) {
+			$jsonData['plumber_contact_details'] 	= [];
+			$jsonData['plumber_details']			= [];
+			$jsonData['plumber_profile']			= [];
+			$jsonData['plumber_designation']		= [];
 
 			$id 										= $this->input->post('user_id');
 			$userdata 									= $this->getUserDetails($id);
-			$jsonData['id'] 							= $id;
+			$userdetails 								= $this->Plumber_Model->getList('row', ['id' => $id], ['users', 'usersdetail', 'usersplumber', 'usersskills', 'company', 'physicaladdress', 'postaladdress', 'billingaddress']);
+			
+			$getcity = $this->Managearea_Model->getListCity('all', ['status' => ['1']]);
+			if(count($getcity) > 0) {
+				$citydata=  ['' => 'Select City']+array_column($getcity, 'name', 'id');
+			}
+			else {
+				$citydata = [];
+			}
+
+			$getsuburb = $this->Managearea_Model->getListSuburb('all', ['status' => ['1']]);
+			if(count($getsuburb) > 0) {
+				$suburbdata=  ['' => 'Select City']+array_column($getsuburb, 'name', 'id');
+			}
+			else {
+				$suburbdata = [];
+			}
+
+// Physical address
+			$physicaladdress 		= isset($userdetails['physicaladdress']) ? explode('@-@', $userdetails['physicaladdress']) : [];
+			$addressid1 			= isset($physicaladdress[0]) ? $physicaladdress[0] : '';
+			$address1				= isset($physicaladdress[2]) ? $physicaladdress[2] : '';
+			$suburb1 				= isset($physicaladdress[3]) ? $suburbdata[$physicaladdress[3]] : '';
+			$city1 					= isset($physicaladdress[4]) ? $citydata[$physicaladdress[4]] : '';
+			$province1 				= isset($physicaladdress[5]) ? $this->getProvinceList()[$physicaladdress[5]] : '';
+			$postalcode1 			= isset($physicaladdress[6]) ? $physicaladdress[6] : '';
+
+// Postal address
+			$postaladdress 			= isset($result['postaladdress']) ? explode('@-@', $result['postaladdress']) : [];
+			$addressid2 			= isset($postaladdress[0]) ? $postaladdress[0] : '';
+			$address2				= isset($postaladdress[2]) ? $postaladdress[2] : '';
+			$suburb2 				= isset($postaladdress[3]) ? $suburbdata[$postaladdress[3]] : '';
+			$city2 					= isset($postaladdress[4]) ? $citydata[$postaladdress[4]] : '';
+			$province2 				= isset($postaladdress[5]) ? $this->getProvinceList()[$postaladdress[5]] : '';
+			$postalcode2 			= isset($postaladdress[6]) ? $postaladdress[6] : '';
+// Billing address
+			$billingaddress 		= isset($userdetails['billingaddress']) ? explode('@-@', $userdetails['billingaddress']) : [];
+			$addressid3 			= isset($billingaddress[0]) ? $billingaddress[0] : '';
+			$address3				= isset($billingaddress[2]) ? $billingaddress[2] : '';
+			$suburb3 				= isset($billingaddress[3]) ? $suburbdata[$billingaddress[3]] : '';
+			$city3 					= isset($billingaddress[4]) ? $citydata[$billingaddress[4]] : '';
+			$province3 				= isset($billingaddress[5]) ? $this->getProvinceList()[$billingaddress[5]] : '';
+			$postalcode3 			= isset($billingaddress[6]) ? $billingaddress[6] : '';
+			
+			$jsonData['id'] 								= $id;
 			//$jsonData['userdata'] 						= $this->getUserDetails($id);
 
+			
 			$mycpd 										= $this->userperformancestatus(['performancestatus' => '1', 'auditorstatement' => '1', 'userid' => $id]);
 			
 			$nonlogcoc 									= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['4','5']]);
@@ -189,18 +238,19 @@ class Api extends CC_Controller
 			$provinceperformancestatus 					= $this->userperformancestatus(['province' => $userdata['province'], 'limit' => '3']);
 			// $jsonData['cityperformancestatus'] 			= $this->userperformancestatus(['city' => $userdata['city'], 'limit' => '3'],$id);
 
-
-			$jsonData['plumber_details']		= [];
+			$jsonData['plumber_contact_details'] = ['email' => $userdata['email'], 'mobile1' => $userdetails['mobile_phone'], 'home_phone' => $userdetails['home_phone'], 'mobile2' => $userdetails['mobile_phone2'], 'work_phone' => $userdetails['work_phone'], 'email2' => $userdetails['email2'], 'physical_address' => ['province' => $province1, 'city' => $city1, 'suburb' => $suburb1, 'address' => $address1, 'postalcode' => $postalcode1], 'postal_address' => ['province' => $province2, 'city' => $city2, 'suburb' => $suburb2, 'address' => $address2, 'postalcode' => $postalcode2], 'billing_address' => ['province' => $province3, 'city' => $city3, 'suburb' => $suburb3, 'address' => $address3, 'postalcode' => $postalcode3]];
+			
 			if (isset($userdata) && (count($userdata) > 0)) {
 				$jsonData['plumber_details'] = [
-					'id' 				=> $userdata['id'],
+					'plumberid' 		=> $userdata['id'],
 					'renewaldate' 		=> date('d-m-Y', strtotime($userdata['expirydate'])),
 					'name' 				=> $userdata['name'],
 					'regno' 			=> $userdata['registration_no'],
-					'contactdetails' 	=> ['email' => $userdata['email'],'province' => $userdata['province'],'city' =>$userdata['city']],
 					'status' 			=> $this->config->item('plumberstatus')[$userdata['status']],
 					'nonlogcoc' 		=> $nonlogcoc,
 					'adminstock' 		=> $adminstock,
+					'employementstatus' => $this->config->item('employmentdetail')[$userdetails['employment_details']],
+					'companyname' 		=> $userdetails['companyname'],
 					'coccount' 			=> $coccount,
 					'auditorreview' 	=> $history,
 					'auditcoc' 			=> $auditcoc,
@@ -215,9 +265,7 @@ class Api extends CC_Controller
 
 				];
 			}
-
-
-			$jsonData['plumber_profile']		= [];
+			
 			if ($userdata['file2'] !='') {
 
 				$jsonData['plumber_profile'] = [
@@ -230,7 +278,7 @@ class Api extends CC_Controller
 					
 				}
 
-			$jsonData['plumber_designation']	= [];
+			
 			if ($userdata['designation'] !='') {
 				$jsonData['plumber_designation'] = [
 					'designation' 		=> $this->config->item('designation2')[$userdata['designation']]
