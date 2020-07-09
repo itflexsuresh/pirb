@@ -167,43 +167,73 @@ class Api extends CC_Controller
 			$id 										= $this->input->post('user_id');
 			$userdata 									= $this->getUserDetails($id);
 			$jsonData['id'] 							= $id;
-			$jsonData['userdata'] 						= $this->getUserDetails($id);
+			//$jsonData['userdata'] 						= $this->getUserDetails($id);
 
-			$jsonData['mycpd']							= $this->userperformancestatus(['performancestatus' => '1', 'auditorstatement' => '1']);
-			$jsonData['nonlogcoc']						= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['4','5']]);
-			$jsonData['adminstock'] 					= $this->Coc_Ordermodel->getCocorderList('all', ['admin_status' => '0', 'userid' => $id]);
-			$jsonData['adminstock']						= array_sum(array_column($jsonData['adminstock'], 'quantity'));
-			$jsonData['coccount']						= $this->Coc_Model->COCcount(['user_id' => $id]);
-			$jsonData['coccount']						= $jsonData['coccount']['count'];
-			$jsonData['history']						= $this->Auditor_Model->getReviewHistoryCount(['plumberid' => $id]);
-			$jsonData['auditcoc'] 						= $jsonData['history']['total'];
-			$jsonData['auditrefixincomplete'] 			= $jsonData['history']['refixincomplete'];
-			$jsonData['auditorratio']					= $this->Auditor_Model->getAuditorRatio('row', ['userid' => $id]);
-			$jsonData['auditorratio']					= ($jsonData['auditorratio']) ? $jsonData['auditorratio']['audit'].'%' : '0%';
+			$mycpd 										= $this->userperformancestatus(['performancestatus' => '1', 'auditorstatement' => '1', 'userid' => $id]);
+			
+			$nonlogcoc 									= $this->Coc_Model->getCOCList('count', ['user_id' => $id, 'coc_status' => ['4','5']]);
+			$adminstock 			 					= $this->Coc_Ordermodel->getCocorderList('all', ['admin_status' => '0', 'userid' => $id]);
+			$adminstock 								= array_sum(array_column($adminstock, 'quantity'));
+			$coccount 									= $this->Coc_Model->COCcount(['user_id' => $id]);
+			$coccount 									= $coccount['count'];
+			$history 									= $this->Auditor_Model->getReviewHistoryCount(['plumberid' => $id]);
+			$auditcoc 									= $history['total'];
+			$auditrefixincomplete						= $history['refixincomplete'];
+			$auditorratio								= $this->Auditor_Model->getAuditorRatio('row', ['userid' => $id]);
+			$auditorratio 								= ($auditorratio) ? $auditorratio['audit'].'%' : '0%';
 			// country rangking
-			$jsonData['overallperformancestatus'] 		= $this->userperformancestatus(['overall' => '1']);
-			$jsonData['myprovinceperformancestatus'] 	= $this->userperformancestatus(['province' => $userdata['province']], $id);
-			$jsonData['performancestatus'] 				= $this->userperformancestatus();
-			$jsonData['mycityperformancestatus'] 		= $this->userperformancestatus(['city' => $userdata['city']], $id);
-			$jsonData['provinceperformancestatus'] 		= $this->userperformancestatus(['province' => $userdata['province'], 'limit' => '3']);
+			$overallperformancestatus 					= $this->userperformancestatus(['overall' => '1']);
+			$myprovinceperformancestatus 				= $this->userperformancestatus(['province' => $userdata['province']], $id);
+			$performancestatus 							= $this->userperformancestatus();
+			$mycityperformancestatus 					= $this->userperformancestatus(['city' => $userdata['city']], $id);
+			$provinceperformancestatus 					= $this->userperformancestatus(['province' => $userdata['province'], 'limit' => '3']);
 			// $jsonData['cityperformancestatus'] 			= $this->userperformancestatus(['city' => $userdata['city'], 'limit' => '3'],$id);
 
+
+			$jsonData['plumber_details']		= [];
+			if (isset($userdata) && (count($userdata) > 0)) {
+				$jsonData['plumber_details'] = [
+					'id' 				=> $userdata['id'],
+					'renewaldate' 		=> date('d-m-Y', strtotime($userdata['expirydate'])),
+					'name' 				=> $userdata['name'],
+					'regno' 			=> $userdata['registration_no'],
+					'contactdetails' 	=> ['email' => $userdata['email'],'province' => $userdata['province'],'city' =>$userdata['city']],
+					'status' 			=> $this->config->item('plumberstatus')[$userdata['status']],
+					'nonlogcoc' 		=> $nonlogcoc,
+					'adminstock' 		=> $adminstock,
+					'coccount' 			=> $coccount,
+					'auditorreview' 	=> $history,
+					'auditcoc' 			=> $auditcoc,
+					'auditrefixincomplete' 	=> $auditrefixincomplete,
+					'auditorratio' 		=> $auditorratio,
+					'overallperformancestatus' 		=> $overallperformancestatus,
+					'myprovinceperformancestatus' 		=> $myprovinceperformancestatus,
+					'performancestatus' 		=> $performancestatus,
+					'mycityperformancestatus' 		=> $mycityperformancestatus,
+					'provinceperformancestatus' 		=> $provinceperformancestatus[0]['point']
+					
+
+				];
+			}
+
+
 			$jsonData['plumber_profile']		= [];
-			if ($jsonData['userdata']['file2'] !='') {
+			if ($userdata['file2'] !='') {
+
 				$jsonData['plumber_profile'] = [
-					'file' 		=> base_url().'assets/uploads/plumber/'.$id.'/'.$jsonData['userdata']['file2'] 
+					'file' 		=> base_url().'assets/uploads/plumber/'.$id.'/'.$userdata['file2'] 
 				];
 			}else{
 					$jsonData['plumber_profile'] = [
-							'file' 		=> base_url().'assets/uploads/plumber/'.$id.'/'.$jsonData['userdata']['file2'] 
+							'file' 		=> base_url().'assets/uploads/plumber/'.$id.'/'.$userdata['file2'] 
 						];
 					
 				}
 
 			$jsonData['plumber_designation']	= [];
-			if ($jsonData['userdata']['designation'] !='') {
+			if ($userdata['designation'] !='') {
 				$jsonData['plumber_designation'] = [
-					'designation' 		=> $this->config->item('designation2')[$jsonData['userdata']['designation']]
+					'designation' 		=> $this->config->item('designation2')[$userdata['designation']]
 				];
 			}else{
 					$jsonData['plumber_designation'] = [
@@ -211,6 +241,7 @@ class Api extends CC_Controller
 						];
 					
 				}
+				//print_r($jsonData);die;
 			$jsonArray = array("status"=>'1', "message"=>'User details', "result"=>$jsonData);
 
 		
