@@ -741,36 +741,59 @@ class Api extends CC_Controller
 
 			$userid							= $this->input->post('user_id');
 			$id								= $this->input->post('coc_id'); // id = coc id
-			if ($this->input->post('auditorid') !='') {
-				$auditorid					= ['auditorid' => $this->input->post('auditorid')];
-			}else{
-				$auditorid					= [];
-			}
-			$result							= $this->Coc_Model->getCOCList('row', ['id' => $id, 'user_id' => $userid]+$auditorid);
+			// if ($this->input->post('auditorid') !='') {
+			// 	$extraparam['auditorid']	= $this->input->post('auditorid');
+			// }else{
+			// 	$extraparam['auditorid']	= '';
+			// }
+			$extraparam['user_id'] 			= $userid;
+			$extraparam['page'] 			= 'review';
+		
+			$result	= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]+$extraparam);
 			$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber', 'company']);
-			$specialisations 				= explode(',', $userdata['specialisations']);
-
-			$jsonData['userdata'] 			= $userdata;
-			$jsonData['cocid'] 				= $id;
-			$jsonData['auditorid'] 			= $auditorid;
-			$jsonData['notification'] 		= $this->getNotification();
-			$jsonData['province'] 			= $this->getProvinceList();
-			$jsonData['designation2'] 		= $this->config->item('designation2');
-			$jsonData['ncnotice'] 			= $this->config->item('ncnotice');
-			$jsonData['installationtype']	= $this->getInstallationTypeList();
-			$jsonData['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => [], 'ids' => range(1,8)]);
-			$jsonData['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations, 'ids' => range(1,8)]);
-			$jsonData['result']				= $result;
+			$reviewlist						= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
 			
-			$noncompliance					= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $userid]);		
-			$jsonData['noncompliance']		= [];
-			foreach($noncompliance as $compliance){
-				$jsonData['noncompliance'][] = [
-					'id' 		=> $compliance['id'],
-					'details' 	=> $this->parsestring($compliance['details']),
-					'file' 		=> $compliance['file']
+			// $specialisations 				= explode(',', $userdata['specialisations']);
+
+			// $jsonData['userdata'] 			= $userdata;
+			// $jsonData['cocid'] 				= $id;
+			// $jsonData['auditorid'] 			= $auditorid;
+			// $jsonData['notification'] 		= $this->getNotification();
+			// $jsonData['province'] 			= $this->getProvinceList();
+			// $jsonData['designation2'] 		= $this->config->item('designation2');
+			// $jsonData['ncnotice'] 			= $this->config->item('ncnotice');
+			// $jsonData['installationtype']	= $this->getInstallationTypeList();
+			// $jsonData['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => [], 'ids' => range(1,8)]);
+			// $jsonData['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations, 'ids' => range(1,8)]);
+
+			// $noncompliance					= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $userid]);		
+			// $jsonData['noncompliance']		= [];
+			// foreach($noncompliance as $compliance){
+			// 	$jsonData['noncompliance'][] = [
+			// 		'id' 		=> $compliance['id'],
+			// 		'details' 	=> $this->parsestring($compliance['details']),
+			// 		'file' 		=> $compliance['file']
+			// 	];
+			// }
+
+			$jsonData['result']	= [ 'cocnumber' => $result['id'], 'plumberid' => $result['user_id'], 'completiondate' => date("d-m-Y", strtotime($result['cl_completion_date'])), 'onersname' =>  $result['cl_name'], 'cl_address' =>  $result['cl_address'], 'cl_street' =>  $result['cl_street'], 'cl_province_name' =>  $result['cl_province_name'], 'cl_city_name' =>  $result['cl_city_name'], 'cl_suburb_name' =>  $result['cl_suburb_name'], 'complex' =>  $result['cl_address'], 'cl_contact_no' =>  $result['cl_contact_no'], 'cl_alternate_no' =>  $result['cl_alternate_no'], 'auditstatus' => $this->config->item('auditstatus')[$result['audit_status']], 'auditorname' => $result['auditorname'], 'auditormobile' => $result['auditormobile'], 'auditormobile' => $result['auditormobile'], 'as_audit_date' => date("d-m-Y", strtotime($result['as_audit_date'])), 'as_workmanship', $this->config->item('workmanship')[$result['as_workmanship']], 'as_plumber_verification' => $this->config->item('yesno')[$result['as_plumber_verification']], 'as_coc_verification' => $this->config->item('yesno')[$result['as_coc_verification']]
+			];
+
+			foreach ($reviewlist as $key => $value) {
+
+				if ($this->config->item('reviewtype')[$value['reviewtype']] == 'Cautionary') {
+				$colorcode = '#ffd700';
+				}elseif($this->config->item('reviewtype')[$value['reviewtype']] == 'Compliment'){
+					$colorcode = '#ade33d';
+				}elseif($this->config->item('reviewtype')[$value['reviewtype']] == 'Failure'){
+					$colorcode = '#f33333';
+				}
+
+				$jsonData['review_details'][] = [ 'reviewtype' => $this->config->item('reviewtype')[$value['reviewtype']], 'statementname' => $value['statementname'], 'colorcode' => $colorcode
 				];
 			}
+
+			print_r($jsonData);die;
 			$jsonArray = array("status"=>'1', "message"=>'CoC Details', "result"=>$jsonData);
 		}else{
 			$jsonArray = array("status"=>'0', "message"=>'Invalid Api', "result"=>[]);
@@ -1105,5 +1128,26 @@ class Api extends CC_Controller
 			$jsonArray = array("status"=>'0', "message"=>'Invalid API', "result"=> []);
 		}
 	}
+
+	public function featchcity(){
+		$getcity = $this->Managearea_Model->getListCity('all', ['status' => ['1']]);
+		if(count($getcity) > 0) {
+			$citydata=  ['' => 'Select City']+array_column($getcity, 'name', 'id');
+		}else{
+			$citydata = [];
+		}
+		return $citydata;
+	}
+
+	public function featchsuburb(){
+		$getsuburb = $this->Managearea_Model->getListSuburb('all', ['status' => ['1']]);
+		if(count($getsuburb) > 0) {
+			$suburbdata=  ['' => 'Select City']+array_column($getsuburb, 'name', 'id');
+		}
+		else {
+			$suburbdata = [];
+		}
+		return $suburbdata;
+	}	
 
 }
