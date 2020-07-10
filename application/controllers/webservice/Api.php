@@ -308,31 +308,41 @@ class Api extends CC_Controller
 
 		if ($this->input->post('user_id')) {
 			$jsonData = [];
+			$jsonData['plumber_purchase_details'] = [];
 			
 			$userid 					=	$this->input->post('user_id');
 			$userdata					= 	$this->getUserDetails($userid);
 			$userdata1					= 	$this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber']);
 			$userdatacoc_count			= 	$this->Coc_Model->COCcount(['user_id' => $userid]);
-			$jsonData['province'] 		= 	$this->getProvinceList();
-			$jsonData['userid']			= 	$userid;
-			$jsonData['userdata']		= 	$userdata;
-			$jsonData['userdata1']		= 	$userdata1;
-			$jsonData['coc_count']		= 	$userdatacoc_count;
+			//$jsonData['userid']			= 	$userid;
+			//$jsonData['userdata']		= 	$userdata;
+			//$jsonData['userdata1']		= 	$userdata1;
+			// $jsonData['coc_count']		= 	$userdatacoc_count['count'];
 
 			$jsonData['deliverycard']	= 	$this->config->item('purchasecocdelivery');
 			$jsonData['coctype']		= 	$this->config->item('coctype');
-			$jsonData['settings']		= 	$this->Systemsettings_Model->getList('row');
-			$jsonData['logcoc']			=	$this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => ['4','5']]);
-			$jsonData['cocpaperwork']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocpaperwork')]);
-			$jsonData['cocelectronic']	=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocelectronic')]);
-			$jsonData['postage']		= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('postage')]);
-			$jsonData['couriour']		= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('couriour')]);
-			$jsonData['collectedbypirb']= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('collectedbypirb')]);
+			$settings 					= 	$this->Systemsettings_Model->getList('row');
+			$nonlogcoc	 					=	$this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => ['4','5']]);
+			$cocpaperwork 				=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocpaperwork')]);
+			$jsonData['cocpaperwork']	=	['id' => $cocpaperwork['id'], 'supllyname' => $cocpaperwork['supplyitem'], 'amount' => $cocpaperwork['amount']];
+			$cocelectronic 				=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocelectronic')]);
+			$jsonData['cocelectronic']	=	['id' => $cocelectronic['id'], 'supllyname' => $cocelectronic['supplyitem'], 'amount' => $cocelectronic['amount']];
+			$postage 					= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('postage')]);
+			$jsonData['postage']		= 	['id' => $postage['id'], 'supllyname' => $postage['supplyitem'], 'amount' => $postage['amount']];
+			$couriour 					= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('couriour')]);
+			$jsonData['couriour']		= 	['id' => $couriour['id'], 'supllyname' => $couriour['supplyitem'], 'amount' => $couriour['amount']];
+			$collectedbypirb 			= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('collectedbypirb')]);
+			$jsonData['collectedbypirb']= 	['id' => $collectedbypirb['id'], 'supllyname' => $collectedbypirb['supplyitem'], 'amount' => $collectedbypirb['amount']];
 			$orderquantity 				= $this->Coc_Ordermodel->getCocorderList('all', ['admin_status' => '0', 'userid' => $userid]);
+			
 			$jsonData['userorderstock']	= array_sum(array_column($orderquantity, 'quantity'));
 
-			$jsonData['page_lables'] = [ 'COC’s yet to allocated', "Number of Non Logged COC's", "Total Number COC's You are Permitted", "Number of Permitted COC's that you are able to purchase", "Select type of COC you wish to purchase", "Method Of Delivery", "Number of COC's You wish to Purchase", "Cost of COC Type", "Cost of Delivery", "VAT @".$jsonData['settings']['vat_percentage']."%", "Total Due"
+				$jsonData['plumber_purchase_details'] = ['plumberid' => $userdata1['id'],  'coc_purchase_limit' => $userdata1['coc_purchase_limit'], 'coc_purchase' => $userdatacoc_count['count'], 'nonlogcoc' => $nonlogcoc 
+				];
+
+			$jsonData['page_lables'] = [ 'mycoc' => 'My COC’s', "permitted" => "Total number COC’s your are permitted", "purchase" => "Number of Permitted COC's that you are able to purchase", "nonlogged" => "Number of non-logged COC’s","allocateadmin" => "Number of COC’s to be allocated by admin", "purchasecoc_heading" => "Purchase COC’s", "selectcoctype" => "Select type of COC’s you wish to purchase", "coctype1" => "Electronic","coctype2" => "Paper Based", "purchasecoc" => "Number of COC’s you wish to purchase", "typecost" => "Cost of COC Type", "vat" => "VAT @".$settings['vat_percentage']."%", "totaldue" => "Total Due"
 			];
+
 
 			$jsonArray = array("status"=>'1', "message"=>'Plumber coc details', "result"=>$jsonData);
 
