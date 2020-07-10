@@ -296,7 +296,7 @@ class Api extends CC_Controller
 				$jsonData = ['plumberstatus' => $this->config->item('plumberstatus')[$userdetails['plumberstatus']], 'pageresponse' => 'Plumber has Expired'];
 				
 			}elseif($this->config->item('plumberstatus')[$userdetails['plumberstatus']] == 'Deceased'){
-				$jsonData = ['plumberstatus' => $this->config->item('plumberstatus')[$userdetails['plumberstatus']], 'pageresponse' => 'plumber has Deceased'];
+				$jsonData = ['plumberstatus' => $this->config->item('plumberstatus')[$userdetails['plumberstatus']], 'pageresponse' => 'Plumber has Deceased'];
 				
 			}elseif($this->config->item('plumberstatus')[$userdetails['plumberstatus']] == 'Resigned'){
 				$jsonData = ['plumberstatus' => $this->config->item('plumberstatus')[$userdetails['plumberstatus']], 'pageresponse' => 'Plumber has Resigned'];
