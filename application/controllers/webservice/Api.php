@@ -322,7 +322,7 @@ class Api extends CC_Controller
 			$jsonData['deliverycard']	= 	$this->config->item('purchasecocdelivery');
 			$jsonData['coctype']		= 	$this->config->item('coctype');
 			$settings 					= 	$this->Systemsettings_Model->getList('row');
-			$nonlogcoc	 					=	$this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => ['4','5']]);
+			$nonlogcoc	 				=	$this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => ['4','5']]);
 			$cocpaperwork 				=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocpaperwork')]);
 			$jsonData['cocpaperwork']	=	['id' => $cocpaperwork['id'], 'supllyname' => $cocpaperwork['supplyitem'], 'amount' => $cocpaperwork['amount']];
 			$cocelectronic 				=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocelectronic')]);
