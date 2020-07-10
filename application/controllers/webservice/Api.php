@@ -229,10 +229,10 @@ class Api extends CC_Controller
 			// $jsonData['cityperformancestatus'] 			= $this->userperformancestatus(['city' => $userdata['city'], 'limit' => '3'],$id);
 
 			if ($this->config->item('plumberstatus')[$userdetails['plumberstatus']] == 'Pending') {
-				$jsonData['plumber_status'] = 'Your Applciation is Pending';
+				$jsonData = ['plumberstatus' => $this->config->item('plumberstatus')[$userdetails['plumberstatus']], 'pageresponse' => 'Your Applciation is Pending'];
 
 			}elseif($this->config->item('plumberstatus')[$userdetails['plumberstatus']] == 'Active'){
-				$jsonData['plumber_contact_details'] 	= [];
+				//$jsonData['plumber_contact_details'] 	= [];
 				$jsonData['plumber_details']			= [];
 				$jsonData['plumber_profile']			= [];
 				$jsonData['plumber_designation']		= [];
@@ -290,16 +290,16 @@ class Api extends CC_Controller
 			}
 
 			}elseif($this->config->item('plumberstatus')[$userdetails['plumberstatus']] == 'CPD Suspention'){
-				$jsonData['plumber_status'] = 'plumber has CPD Suspention';
+				$jsonData = ['plumberstatus' => $this->config->item('plumberstatus')[$userdetails['plumberstatus']], 'pageresponse' => 'plumber has CPD Suspention'];
 				
 			}elseif($this->config->item('plumberstatus')[$userdetails['plumberstatus']] == 'Expired'){
-				$jsonData['plumber_status'] = 'plumber has Expired';
+				$jsonData = ['plumberstatus' => $this->config->item('plumberstatus')[$userdetails['plumberstatus']], 'pageresponse' => 'Plumber has Expired'];
 				
 			}elseif($this->config->item('plumberstatus')[$userdetails['plumberstatus']] == 'Deceased'){
-				$jsonData['plumber_status'] = 'plumber has Deceased';
+				$jsonData = ['plumberstatus' => $this->config->item('plumberstatus')[$userdetails['plumberstatus']], 'pageresponse' => 'plumber has Deceased'];
 				
 			}elseif($this->config->item('plumberstatus')[$userdetails['plumberstatus']] == 'Resigned'){
-				$jsonData['plumber_status'] = 'plumber has Resigned';
+				$jsonData = ['plumberstatus' => $this->config->item('plumberstatus')[$userdetails['plumberstatus']], 'pageresponse' => 'Plumber has Resigned'];
 				
 			}
 			//print_r($jsonData);die;
