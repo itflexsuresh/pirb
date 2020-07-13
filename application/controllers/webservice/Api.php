@@ -734,11 +734,7 @@ class Api extends CC_Controller
 		if ($this->input->post() && $this->input->post('type') == 'coc_details') {
 			$extraparam = [];
 			$jsonData 	= [];
-
-			$jsonData['page_lables'] = [
-				'page_heading' => 'CoC Details', 'certificate' => 'Certificate','Plumbing work completeion date','Owners name','Street', 'Suburb', 'City', 'Province','Name of the complex / flat (if applicable)','Contact number', 'Alternate Contact number','Audit status', 'Auditors name and surname', 'Phone (mobile)', 'Phone (mobile)', 'Date of audit', 'Overall workmanship', 'Licensed plumber present', 'Was CoC completed correctly','Complement','Solar Water Heating System', 'Cautionary', 'Below Ground Drainage System Statement', 'Failure', 'Sanitary-ware Statement','NOTICE TO LICENESED PLUMBER', "its tour responsibity to complete your refix's within the allocated. Failure to do so within the allocated time will result in the refix being ,arked as Audit Complete (with Refix(s)) and relevant remedial action will follow"
-			];
-
+			
 			$userid							= $this->input->post('user_id');
 			$id								= $this->input->post('coc_id'); // id = coc id
 			// if ($this->input->post('auditorid') !='') {
@@ -776,6 +772,10 @@ class Api extends CC_Controller
 			// 	];
 			// }
 
+			$jsonData['page_lables'] = [
+				'page_heading' => 'CoC Details', 'certificate' => 'Certificate','plumbingwork' => 'Plumbing work completeion date', 'ownersname' => 'Owners name', 'street' => 'Street', 'suburb' => 'Suburb', 'city' => 'City', 'province' => 'Province', 'complex' => 'Name of the complex / flat (if applicable)', 'contactnumber1' => 'Contact number', 'contactnumber2' => 'Alternate Contact number', 'auditstaus' => 'Audit status', 'auditorname' => 'Auditors name and surname', 'phone' => 'Phone (mobile)', 'date' => 'Date of audit', 'overall' => 'Overall workmanship', 'plumberpresent' => 'Licensed plumber present', 'coccorrect' => 'Was CoC completed correctly'
+			];
+
 			$jsonData['result']	= [ 'cocnumber' => $result['id'], 'plumberid' => $result['user_id'], 'completiondate' => date("d-m-Y", strtotime($result['cl_completion_date'])), 'onersname' =>  $result['cl_name'], 'cl_address' =>  $result['cl_address'], 'cl_street' =>  $result['cl_street'], 'cl_province_name' =>  $result['cl_province_name'], 'cl_city_name' =>  $result['cl_city_name'], 'cl_suburb_name' =>  $result['cl_suburb_name'], 'complex' =>  $result['cl_address'], 'cl_contact_no' =>  $result['cl_contact_no'], 'cl_alternate_no' =>  $result['cl_alternate_no'], 'auditstatus' => $this->config->item('auditstatus')[$result['audit_status']], 'auditorname' => $result['auditorname'], 'auditormobile' => $result['auditormobile'], 'auditormobile' => $result['auditormobile'], 'as_audit_date' => date("d-m-Y", strtotime($result['as_audit_date'])), 'as_workmanship', $this->config->item('workmanship')[$result['as_workmanship']], 'as_plumber_verification' => $this->config->item('yesno')[$result['as_plumber_verification']], 'as_coc_verification' => $this->config->item('yesno')[$result['as_coc_verification']]
 			];
 
@@ -793,7 +793,7 @@ class Api extends CC_Controller
 				];
 			}
 
-			print_r($jsonData);die;
+			// print_r($jsonData);die;
 			$jsonArray = array("status"=>'1', "message"=>'CoC Details', "result"=>$jsonData);
 		}else{
 			$jsonArray = array("status"=>'0', "message"=>'Invalid Api', "result"=>[]);
