@@ -1049,7 +1049,7 @@ class Api extends CC_Controller
 					$statusicons = '';
 				}
 
-			$jsonData['result'] = [ 'dateofactivity' => date('d/m/Y', strtotime($result['cpd_start_date'])), 'activity' => $result['cpd_activity'], 'status' => $status, 'stausicons' => $statusicons, 'cpdpoints' => $result['points'], 'comments' => $result['comments'], 'admindocument' => ''.$base_url.'assets/uploads/cpdqueue/'.$result['file1'].'', 'plumberdocument' => ''.$base_url.'assets/uploads/cpdqueue/'.$result['file2'].'','cpdstreamid' => $result['cpd_stream'], 'userid' => $result['user_id']
+			$jsonData['result'] = [ 'dateofactivity' => date('d/m/Y', strtotime($result['cpd_start_date'])), 'activity' => $result['cpd_activity'], 'status' => $status, 'stausicons' => $statusicons, 'cpdpoints' => $result['points'], 'comments' => $result['comments'], 'admindocument' => ''.$base_url.'assets/uploads/cpdqueue/'.$result['file1'].'', 'plumberdocument' => ''.$base_url.'assets/uploads/cpdqueue/'.$result['file2'].'','cpdstreamid' => $result['cpd_stream'], 'userid' => $result['user_id'], 'cpdid' => $result['id']
 				];
 
 			if (count($result) > 0) {
