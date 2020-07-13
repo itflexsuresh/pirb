@@ -934,6 +934,9 @@ class Api extends CC_Controller
 	public function mycpd_current_year(){
 
 		if ($this->input->post() && $this->input->post('user_id')) {
+			$jsonData 					= [];
+			$jsonData['page_lables'] 	= [];
+			$jsonData['results'] 		= [];
 
 			$user_id 		= $this->input->post('user_id');
 			$pagestatus 	= '1';
@@ -941,10 +944,28 @@ class Api extends CC_Controller
 
 			$totalcount 	= $this->Mycpd_Model->getQueueList('count', ['status' => [$pagestatus], 'user_id' => [$user_id]]+$post);
 			$results 		= $this->Mycpd_Model->getQueueList('all', ['status' => [$pagestatus], 'user_id' => [$user_id]]+$post);
-			
+
+			$jsonData['page_lables'] = [ 'mycpd' => 'My CPD points', 'logcpd' => 'Log your CPD points', 'activity' => 'PIRB CPD Activity', 'date' => 'The Date', 'comments' => 'comments', 'documents' => 'Supporting Documents', 'files' => 'Choose Files', 'declaration' => 'I declare that the information contained in this CPD Activity form is complete, accurate and true. I further decalre that I understadn that I must keep verifiable evidence of all the CPD activities for at least 2 years and the PRIB may conduct a random audit of my activity(s) which would require me to submit the evidence to the PIRB', 'or' => 'OR', 'previouscpd' => 'Your Previous CPD Points'
+			];
+
+			foreach ($results as $key => $value) {
+
+				if ($value['status'] == '0') {
+					$status = 'Pending';
+					$statusicons = '';
+				}elseif($value['status'] == '1'){
+					$status = 'Approve';
+					$statusicons = '';
+				}elseif($value['status'] == '2'){
+					$status = 'Reject';
+					$statusicons = '';
+				}
+				$jsonData['results'][] = [ 'dateofactivity' => date('d/m/Y', strtotime($value['cpd_start_date'])), 'activity' => $value['cpd_activity'], 'status' => $status, 'stausicons' => $statusicons, 'cpdpoints' => $value['points']
+				];
+			}
 
 			if (count($results) > 0) {
-				$jsonArray 	= array("status"=>'1', "message"=>'My CPD', "result"=>$results);
+				$jsonArray 	= array("status"=>'1', "message"=>'My CPD', "result"=>$jsonData);
 			}else{
 				$jsonArray 	= array("status"=>'0', "message"=>'No Record Found', "result"=>[]);
 			}
@@ -959,6 +980,9 @@ class Api extends CC_Controller
 	public function mycpd_previous_year(){
 
 		if ($this->input->post() && $this->input->post('user_id')) {
+			$jsonData 					= [];
+			$jsonData['page_lables'] 	= [];
+			$jsonData['results'] 		= [];
 
 			$user_id 		= $this->input->post('user_id');
 			$pagestatus 	= '0';
@@ -967,9 +991,27 @@ class Api extends CC_Controller
 			$totalcount 	= $this->Mycpd_Model->getQueueList('count', ['status' => [$pagestatus], 'user_id' => [$user_id]]+$post);
 			$results 		= $this->Mycpd_Model->getQueueList('all', ['status' => [$pagestatus], 'user_id' => [$user_id]]+$post);
 			
+			$jsonData['page_lables'] = [ 'mycpd' => 'My CPD points', 'logcpd' => 'Log your CPD points', 'activity' => 'PIRB CPD Activity', 'date' => 'The Date', 'comments' => 'comments', 'documents' => 'Supporting Documents', 'files' => 'Choose Files', 'declaration' => 'I declare that the information contained in this CPD Activity form is complete, accurate and true. I further decalre that I understadn that I must keep verifiable evidence of all the CPD activities for at least 2 years and the PRIB may conduct a random audit of my activity(s) which would require me to submit the evidence to the PIRB', 'or' => 'OR', 'previouscpd' => 'Your Previous CPD Points'
+			];
+
+			foreach ($results as $key => $value) {
+
+				if ($value['status'] == '0') {
+					$status = 'Pending';
+					$statusicons = '';
+				}elseif($value['status'] == '1'){
+					$status = 'Approve';
+					$statusicons = '';
+				}elseif($value['status'] == '2'){
+					$status = 'Reject';
+					$statusicons = '';
+				}
+				$jsonData['results'][] = [ 'dateofactivity' => date('d/m/Y', strtotime($value['cpd_start_date'])), 'activity' => $value['cpd_activity'], 'status' => $status, 'stausicons' => $statusicons, 'cpdpoints' => $value['points']
+				];
+			}
 
 			if (count($results) > 0) {
-				$jsonArray 	= array("status"=>'1', "message"=>'My CPD', "result"=>$results);
+				$jsonArray 	= array("status"=>'1', "message"=>'My CPD', "result"=>$jsonData);
 			}else{
 				$jsonArray 	= array("status"=>'0', "message"=>'No Record Found', "result"=>[]);
 			}
@@ -984,11 +1026,31 @@ class Api extends CC_Controller
 	public function mycpd_edit_view(){
 
 		if ($this->input->post() && $this->input->post('cpdID') && $this->input->post('pagestatus')) {
+			$jsonData 					= [];
+			$jsonData['page_lables'] 	= [];
+			$jsonData['result'] 		= [];
+			$base_url 					= base_url();
 
 			$cpdID 			= $this->input->post('cpdID');
 			$pagestatus 	= $this->input->post('pagestatus');
 
 			$result 		= $this->Mycpd_Model->getQueueList('row', ['id' => $cpdID, 'pagestatus' => $pagestatus]);
+
+			$jsonData['page_lables'] = [ 'mycpd' => 'My CPD points', 'logcpd' => 'Log your CPD points', 'activity' => 'PIRB CPD Activity', 'date' => 'The Date', 'comments' => 'comments', 'documents' => 'Supporting Documents', 'files' => 'Choose Files', 'declaration' => 'I declare that the information contained in this CPD Activity form is complete, accurate and true. I further decalre that I understadn that I must keep verifiable evidence of all the CPD activities for at least 2 years and the PRIB may conduct a random audit of my activity(s) which would require me to submit the evidence to the PIRB', 'or' => 'OR', 'previouscpd' => 'Your Previous CPD Points'
+			];
+			if ($result['status'] == '0') {
+					$status = 'Pending';
+					$statusicons = '';
+				}elseif($result['status'] == '1'){
+					$status = 'Approve';
+					$statusicons = '';
+				}elseif($result['status'] == '2'){
+					$status = 'Reject';
+					$statusicons = '';
+				}
+
+			$jsonData['result'] = [ 'dateofactivity' => date('d/m/Y', strtotime($result['cpd_start_date'])), 'activity' => $result['cpd_activity'], 'status' => $status, 'stausicons' => $statusicons, 'cpdpoints' => $result['points'], 'comments' => $result['comments'], 'admindocument' => ''.$base_url.'assets/uploads/cpdqueue/'.$result['file1'].'', 'plumberdocument' => ''.$base_url.'assets/uploads/cpdqueue/'.$result['file2'].'','cpdstreamid' => $result['cpd_stream'], 'userid' => $result['user_id']
+				];
 
 			if (count($result) > 0) {
 				$jsonArray 	= array("status"=>'1', "message"=>'My CPD', "result"=>$result);
@@ -1007,7 +1069,7 @@ class Api extends CC_Controller
 
 		if ($this->input->post() && $this->input->post('user_id')) {
 			
-			$pagestatus 	= $this->input->post('pagestatus');
+			$pagestatus 	= '1';
 
 			$this->form_validation->set_rules('activity','CPD Activity','trim|required');
 			$this->form_validation->set_rules('startdate','Start date','trim|required');
