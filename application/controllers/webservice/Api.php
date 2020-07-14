@@ -250,7 +250,7 @@ class Api extends CC_Controller
 			$jsonArray = array("status"=>'0', "message"=>'invalid request', 'result' => []);
 		}
 
-		echo json_encode($jsonArray);
+		echo json_encode($jsonArray); 
 	}
 
 	// CoC Statement:
