@@ -82,6 +82,7 @@ class Index extends CC_Controller
 		$pagedata['acknowledgement'] 	= $this->config->item('acknowledgement');
 		$pagedata['codeofconduct'] 		= $this->config->item('codeofconduct');
 		$pagedata['declaration'] 		= $this->config->item('declaration');
+		$pagedata['qualificationtype'] 	= $this->config->item('qualificationtype');
 		$pagedata['userid'] 			= $userid;
 		$pagedata['result'] 			= $result;
 		

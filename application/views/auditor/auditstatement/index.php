@@ -26,7 +26,7 @@
 								<th>Plumber</th>
 								<th>Phone (Mobile)</th>
 								<th>Date Allocated to Plumber</th>
-								<th>Refix Date</th>
+								<th>Refix Due Date</th>
 								<th>Refix Complete Date</th>
 								<th>Suburb</th>
 								<th>Owners Name and Surname</th>

@@ -216,14 +216,13 @@ $logoimg = base64conversion(base_url().'assets/images/pitrb-logo.png');
 		
 		<tr>
 			<td>
-			<h3 style="margin: 0 0 20px;" class="audit-table-heading">NON COMPLIANCES</h3>
+				<h3 style="margin: 0 0 20px;" class="audit-table-heading">NON COMPLIANCES</h3>
 				<table class="table table-bordered reviewtable">    
 					<thead>
 						<tr>
 							<th>Non Compliance Details</th>
 							<th>Possible remedial actions</th>
 							<th>SANS/Regulation/Bylaw Reference</th>
-							<th>Images</th>
 						</tr>
 					</thead>
 
@@ -233,24 +232,28 @@ $logoimg = base64conversion(base_url().'assets/images/pitrb-logo.png');
 							<td><?php echo $list['details']; ?></td>
 							<td><?php echo $list['action']; ?></td>
 							<td><?php echo $list['reference']; ?></td>
-							<td>
-								<?php 
-									$filelist = array_filter(explode(',', $list['file'])); 
-									foreach($filelist as $file){
-										$plumberimg = base64conversion(base_url().'assets/uploads/plumber/'.$plumberid.'/log/'.$file);
-								?>
-										<p><img src="<?php echo $plumberimg; ?>" width="200"></p>
-								<?php
-									}
-								?>
-							</td>
 						</tr>
+						<?php if($list['file']!=''){ ?>
+							<tr>
+								<td colspan="3">
+									<?php 
+										$filelist = array_filter(explode(',', $list['file'])); 
+										foreach($filelist as $file){
+											if(!file_exists('./assets/uploads/plumber/'.$plumberid.'/log/'.$file)) continue;
+											$plumberimg = base64conversion(base_url().'assets/uploads/plumber/'.$plumberid.'/log/'.$file);
+									?>
+											<p style="display:inline-block;width:200px;margin-right:10px;"><img src="<?php echo $plumberimg; ?>" width="200" height="200"></p>
+									<?php
+										}
+									?>
+								</td>
+							</tr>
+						<?php } ?>      
 					<?php } ?>      
 					</tbody>                            
 				</table>
 			</td>
 		</tr>
-		
 		<tr>
 			<td>
 				<h5>DISCLAIMER: This doument was developed by PIRB to assist plumbers in providing a non compliance notice.  The responsibility </h5>
