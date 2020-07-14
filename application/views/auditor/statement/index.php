@@ -28,7 +28,7 @@
 										<th>Status</th>        
 										<th>Plumber</th>
 										<th>Phone (Mobile)</th>
-										<th>Refix Date</th>
+										<th>Refix Due Date</th>
 										<th>Suburb</th>
 										<th>Owners Name and Surname</th>
 										<th>Owners Name and Surname</th>

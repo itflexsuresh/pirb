@@ -315,21 +315,21 @@
 								</div>
 							</div>						
 							<div class="form-group row specialisations_wrapper displaynone">
-									<div class="col-md-12">
-										<label>PIRB Specialisations:</label>
-									</div>
-									<?php
-										foreach ($specialisations as $key => $value) {
-									?>
-											<div class='col-md-4'>
-												<div class='custom-control custom-checkbox'>
-													<input type='checkbox' class='custom-control-input' name='specialisations[]' id='<?php echo $key.'-'.$value; ?>' value='<?php echo $key; ?>' <?php echo (in_array($key, $specialisationsid)) ? 'checked="checked"' : ''; ?> <?php echo $disabled1.$disabled2; ?>>
-													<label class='custom-control-label' for='<?php echo $key.'-'.$value; ?>'><?php echo $value; ?></label>
-												</div>
+								<div class="col-md-12">
+									<label>PIRB Specialisations:</label>
+								</div>
+								<?php
+									foreach ($specialisations as $key => $value) {
+								?>
+										<div class='col-md-4'>
+											<div class='custom-control custom-checkbox'>
+												<input type='checkbox' class='custom-control-input' name='specialisations[]' id='<?php echo $key.'-'.$value; ?>' value='<?php echo $key; ?>' <?php echo (in_array($key, $specialisationsid)) ? 'checked="checked"' : ''; ?> <?php echo $disabled1.$disabled2; ?>>
+												<label class='custom-control-label' for='<?php echo $key.'-'.$value; ?>'><?php echo $value; ?></label>
 											</div>
-									<?php
-										}
-									?>
+										</div>
+								<?php
+									}
+								?>
 							</div>						
 							<div class="form-group row">
 								<div class="col-md-6">
@@ -828,7 +828,8 @@
 									<table class="table table-bordered skilltable">
 										<tr>
 											<td>Date of Qualification/Skill Obtained</td>
-											<td>Certificate Number</td>
+											<td>Certificate Number</td>											
+											<td>Qualification Type</td>
 											<td>Qualification Route</td>
 											<td>Training Provider</td>
 											<td>Attachments</td>
@@ -836,7 +837,7 @@
 												<td>Action</td>
 											<?php } ?>
 										</tr>
-										<tr class="skillnotfound"><td colspan="6">No Record Found</td></tr>
+										<tr class="skillnotfound"><td colspan="7">No Record Found</td></tr>
 									</table>
 									<?php if(!isset($psidconfig) && $roletype!='3'){ ?>
 									<div>
@@ -878,25 +879,28 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-md-12">
-							<div class="col-md-12">
-								<div class="form-group">
-									<label>Date of Qualification/Skill Obtained</label>
-									<div class="input-group">
-										<input type="text" class="form-control skill_date" name="skill_date" data-date='datepicker'>
-										<div class="input-group-append">
-											<span class="input-group-text"><i class="icon-calender"></i></span>
-										</div>
+							<div class="form-group">
+								<label>Date of Qualification/Skill Obtained</label>
+								<div class="input-group">
+									<input type="text" class="form-control skill_date" name="skill_date" data-date='datepicker'>
+									<div class="input-group-append">
+										<span class="input-group-text"><i class="icon-calender"></i></span>
 									</div>
-									
 								</div>
 							</div>
 						</div>
 						<div class="col-md-12">
-							<div class="col-md-12">
-								<div class="form-group">
-									<label>Certificate Number</label>
-									<input type="text" class="form-control skill_certificate" name="skill_certificate">
-								</div>
+							<div class="form-group">
+								<label>Certificate Number</label>
+								<input type="text" class="form-control skill_certificate" name="skill_certificate">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label>Qualification Type</label>
+								<?php
+								echo form_dropdown('skill_qualification_type', $qualificationtype, '', ['id' => 'skill_qualification_type', 'class'=>'form-control skill_qualification_type']);
+								?>
 							</div>
 						</div>
 						<div class="col-md-12">
@@ -955,13 +959,15 @@
 
 <script type="text/javascript">
 
-var userid		= '<?php echo $userid; ?>';
-var filepath 	= '<?php echo $filepath; ?>';
-var pdfimg		= '<?php echo $pdfimg; ?>';
-var type		= '<?php echo $type; ?>';
+var userid				= '<?php echo $userid; ?>';
+var filepath 			= '<?php echo $filepath; ?>';
+var pdfimg				= '<?php echo $pdfimg; ?>';
+var type				= '<?php echo $type; ?>';
+var roletype			= '<?php echo $roletype; ?>';
+var qualificationtype	= $.parseJSON('<?php echo json_encode($qualificationtype); ?>');
 
 $(function(){
-	select2('#plumberstatus, #designation2, #title, #gender, #racial, #nationality, #othernationality, #homelanguage, #disability, #citizen, #registration_card, #delivery_card, #province1, #city1, #suburb1, #province2, #city2, #suburb2, #province3, #city3, #suburb3, #employment_details, #company_details, #skill_route');
+	select2('#plumberstatus, #designation2, #title, #gender, #racial, #nationality, #othernationality, #homelanguage, #disability, #citizen, #registration_card, #delivery_card, #province1, #city1, #suburb1, #province2, #city2, #suburb2, #province3, #city3, #suburb3, #employment_details, #company_details, #skill_qualification_type, #skill_route');
 	datepicker('.dob, .skill_date');
 	inputmask('#home_phone, #work_phone, #mobile_phone, #mobile_phone2, #billing_contact', 1);
 	fileupload([".document_file", "./assets/uploads/plumber/"+userid+"/", ['jpg','gif','jpeg','png','pdf','tiff']], ['.document', '.document_image', filepath, pdfimg]);
@@ -998,7 +1004,7 @@ $(function(){
 	if(skill.length > 0){
 		$(skill).each(function(i, v){
 			var skillsplit 	= v.split('@@@');
-			var skilldata 	= {status : 1, result : { id: skillsplit[0], date: skillsplit[2], certificate: skillsplit[3], skillname: skillsplit[7], training: skillsplit[5], attachment: skillsplit[6] }}
+			var skilldata 	= {status : 1, result : { id: skillsplit[0], date: skillsplit[2], certificate: skillsplit[3], qualification: skillsplit[4], skillname: skillsplit[8], training: skillsplit[6], attachment: skillsplit[7] }}
 			skills(skilldata);
 		})
 	}
@@ -1146,10 +1152,19 @@ $(function(){
 			attachmenthidden 	: {
 				required:  	function() {
 								return $(".designation:checked").val() == "4";
+							},
+				remote	: 	{
+								url		: 	"<?php echo base_url().'ajax/index/ajaxqualificationvalidation'; ?>",
+								type	: 	"post",
+								async	: 	false,
+								data	: 	{
+												id 			: 	userid,
+												designation	: 	function() {
+																	return $("#designation2").val();
+																}
+											}
 							}
 			},
-			
-			
 			qualification_year 	: {
 				required:  	function() {
 								return ($("#designation2").val() == "4" || $("#designation2").val() == "5" || $("#designation2").val() == "6");
@@ -1275,15 +1290,13 @@ $(function(){
 				required	: "Postal Code field is required.",
 				number 		: "Numbers Only",
 			},
-			
 			company_details 	: {
 				required	: "Please select company.",
 			},
-			
 			attachmenthidden 	: {
 				required	: "Please add one skill.",
+				remote		: "Designation not found in qualification."
 			},
-			
 			qualification_year 	: {
 				required	: "Please select qualification year.",
 				number 		: "Numbers Only",
@@ -1305,6 +1318,9 @@ $(function(){
 			skill_certificate : {
 				required	: true,
 			},
+			skill_qualification_type 	: {
+				required	: true,
+			},
 			skill_route : {
 				required	: true,
 			},
@@ -1322,8 +1338,11 @@ $(function(){
 			skill_certificate 	: {
 				required	: "Please Enter Skill certificate Number.",
 			},
+			skill_qualification_type 	: {
+				required	: "Please Select Qualification Type.",
+			},
 			skill_route : {
-				required	: "Please Enter Employment Status.",
+				required	: "Please Select Employment Status.",
 			},
 			skill_training : {
 				required	: "Please Enter Training Provider.",
@@ -1439,6 +1458,7 @@ function skills(data){
 								<tr class="skillappend" data-id="'+result.id+'">\
 									<td>'+formatdate(result.date,1)+'</td>\
 									<td>'+((result.certificate!=undefined && result.certificate!='') ? result.certificate :  "")+'</td>\
+									<td>'+((result.qualification!=undefined && result.qualification!='' && qualificationtype[result.qualification]!=undefined) ? qualificationtype[result.qualification] :  "")+'</td>\
 									<td>'+((result.skillname!=undefined && result.skillname!='') ? result.skillname :  "")+'</td>\
 									<td>'+((result.training!=undefined && result.training!='') ? result.training :  "")+'</td>\
 									<td>'+((attachment!=undefined && attachment!='') ? attachment :  "")+'</td>\
@@ -1464,6 +1484,7 @@ function skillsedit(data){
 		
 		$('.skill_date').val(formatdate(result.date, 1));
 		$('.skill_certificate').val(((result.certificate!=undefined && result.certificate!='') ? result.certificate :  ""));
+		$('.skill_qualification_type').val(((result.qualification!=undefined && result.qualification!='') ? result.qualification :  "")).trigger('change');
 		$('.skill_route').val(((result.skills!=undefined && result.skills!='') ? result.skills :  "")).trigger('change');
 		$('.skill_training').val(((result.training!=undefined && result.training!='') ? result.training :  ""));
 		$('.skill_attachment').val(((result.attachment!=undefined && result.attachment!='') ? result.attachment :  ""));
@@ -1499,6 +1520,7 @@ function skillsclear(){
 	$('.skillform').find("p.error_class_1").remove();
 	$('.skillform').find(".error_class_1").removeClass('error_class_1');
 	$('.skill_route').val('').trigger('change');
+	$('.skill_qualification_type').val('').trigger('change');
 	
 	$('.attachmenthidden').valid();
 }

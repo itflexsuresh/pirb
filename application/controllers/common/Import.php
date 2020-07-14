@@ -70,23 +70,26 @@ class Import extends CC_Controller {
 		$datas 	= $spreadsheet->getActiveSheet()->toArray();
 		unset($datas[0]);
 		
-		foreach($datas as $key => $data){			
-			$getProvince = $this->db->get_where('province', ['name' => $data[2]])->row_array();
+		foreach($datas as $key => $data){		
+			$data = array_map('trim', $data);
+			$getProvince = $this->db->get_where('province', ['LOWER(name)' => strtolower($data[2])])->row_array();
 			
-			$checkCity = $this->db->get_where('city', ['name' => $data[1], 'province_id' => $getProvince['id']])->row_array();
-			
-			if(!$checkCity){
-				$citydata = [
-					'province_id' 		=> $getProvince['id'],
-					'name' 				=> $data[1],
-					'status'			=> '1',
-					'created_at'		=> date('Y-m-d H:i:s'),
-					'created_by'		=> '1',
-					'updated_at'		=> date('Y-m-d H:i:s'),
-					'updated_by'		=> '1'
-				];
+			if($getProvince){
+				$checkCity = $this->db->get_where('city', ['LOWER(name)' => strtolower($data[1]), 'province_id' => $getProvince['id']])->row_array();
 				
-				$this->db->insert('city', $citydata);
+				if(!$checkCity){
+					$citydata = [
+						'province_id' 		=> $getProvince['id'],
+						'name' 				=> $data[1],
+						'status'			=> '1',
+						'created_at'		=> date('Y-m-d H:i:s'),
+						'created_by'		=> '1',
+						'updated_at'		=> date('Y-m-d H:i:s'),
+						'updated_by'		=> '1'
+					];
+					
+					$this->db->insert('city', $citydata);
+				}
 			}
 		}
     }
@@ -102,24 +105,27 @@ class Import extends CC_Controller {
 		unset($datas[0]);
 		
 		foreach($datas as $key => $data){
-			$getProvince 	= $this->db->get_where('province', ['name' => $data[2]])->row_array();
-			$getCity 		= $this->db->get_where('city', ['name' => $data[1]])->row_array();
-				
-			$checkSuburb = $this->db->get_where('suburb', ['name' => $data[0], 'province_id' => $getProvince['id'], 'city_id' => $getCity['id']])->row_array();
+			$data 			= array_map('trim', $data);
+			$getProvince 	= $this->db->get_where('province', ['LOWER(name)' => strtolower($data[2])])->row_array();
+			$getCity 		= $this->db->get_where('city', ['LOWER(name)' => strtolower($data[1])])->row_array();
 			
-			if(!$checkSuburb){
-				$citydata = [
-					'province_id' 		=> $getProvince['id'],
-					'city_id' 			=> $getCity['id'],
-					'name' 				=> $data[0],
-					'status'			=> '1',
-					'created_at'		=> date('Y-m-d H:i:s'),
-					'created_by'		=> '1',
-					'updated_at'		=> date('Y-m-d H:i:s'),
-					'updated_by'		=> '1'
-				];
+			if($getProvince && $getCity){
+				$checkSuburb = $this->db->get_where('suburb', ['LOWER(name)' => strtolower($data[0]), 'province_id' => $getProvince['id'], 'city_id' => $getCity['id']])->row_array();
 				
-				$this->db->insert('suburb', $citydata);
+				if(!$checkSuburb){
+					$citydata = [
+						'province_id' 		=> $getProvince['id'],
+						'city_id' 			=> $getCity['id'],
+						'name' 				=> $data[0],
+						'status'			=> '1',
+						'created_at'		=> date('Y-m-d H:i:s'),
+						'created_by'		=> '1',
+						'updated_at'		=> date('Y-m-d H:i:s'),
+						'updated_by'		=> '1'
+					];
+					
+					$this->db->insert('suburb', $citydata);
+				}
 			}
 		}
     }
@@ -239,7 +245,7 @@ class Import extends CC_Controller {
 									'postal_code' 		=> $value['ResidentialCode'],
 									'type' 				=> '1'
 								];
-							
+			/*				
 			$address[1] 	=	[
 									'id' 				=> '',
 									'address' 			=> $value['PostalAddress'],
@@ -259,6 +265,7 @@ class Import extends CC_Controller {
 									'postal_code' 		=> $value['ResidentialCode'],
 									'type' 				=> '3'
 								];
+			*/
 			
 			$plumberstatus = '1';
 			if($value['RegistrationSuspended']=='1'){
@@ -297,7 +304,7 @@ class Import extends CC_Controller {
 								'usersdetailid'				=> '',
 								'usersplumberid'			=> '',
 								'registration_card'			=> '2',
-								'company_name'				=> $value['FirstName'].' '.$value['Surname'],
+								//'company_name'				=> $value['FirstName'].' '.$value['Surname'],
 								'address' 					=> $address,
 								'status'					=> '1',
 								'plumberstatus'				=> $plumberstatus,
@@ -310,17 +317,16 @@ class Import extends CC_Controller {
 							
 			$this->Plumber_Model->action($result);	
 			
-			/*for($i=6122; $i<=12729; $i++){
-				$data = [
-					'user_id' => $i,
-					'count' => '50',
-					'created_at' => date('Y-m-d H:i:s'),
-					'created_by' => $i,
-					'updated_at' => date('Y-m-d H:i:s'),
-					'updated_by' => $i
-				];
-				$this->db->insert('coc_count', $data);
-			}*/
+			$data = [
+				'user_id' 		=> $userid,
+				'count' 		=> '50',
+				'created_at' 	=> date('Y-m-d H:i:s'),
+				'created_by' 	=> $userid,
+				'updated_at' 	=> date('Y-m-d H:i:s'),
+				'updated_by' 	=> $userid
+			];
+			
+			$this->db->insert('coc_count', $data);
 		}
     }
 	
@@ -351,6 +357,14 @@ class Import extends CC_Controller {
 			'5' => '3'
 		];
 		
+		$qualificationarray = [
+			'1' => '2',
+			'2' => '4',
+			'3' => '5',
+			'4' => '1',
+			'5' => '3'
+		];
+		
 		$datas 	= 	$this->db->select('ips.*, u.id as userid')
 					->join('users u', 'u.migrateid=ips.PlumberID and u.type="3"', 'left')
 					->get('importplumberskills ips')
@@ -363,6 +377,7 @@ class Import extends CC_Controller {
 				$skilldata 	= [
 					'date' 				=> date('Y-m-d', strtotime($data['CourseDateCompleted'])),
 					'certificate' 		=> $data['CertificationNo'],
+					'qualification' 	=> isset($qualificationarray[$data['QualificationTypeID']]) ? $qualificationarray[$data['QualificationTypeID']] : '',
 					'skills' 			=> isset($routearray[$data['RouteID']]) ? $routearray[$data['RouteID']] : '',
 					'training' 			=> $data['TrainingProvider'],
 					'user_id' 			=> $userid
@@ -386,11 +401,10 @@ class Import extends CC_Controller {
 				if($data['QualificationTypeID']!=''  && $data['Completed']=='1' && isset($designationarray[$data['QualificationTypeID']])){
 					if(!isset($designations[$userid])){
 						$designations[$userid]['designation'] 		= [$designationarray[$data['QualificationTypeID']]];
-						$designations[$userid]['qualificationyear'] = date('Y', strtotime($data['CourseDateCompleted']));
+						if($data['CourseDateCompleted']!='') $designations[$userid]['qualificationyear'] = date('Y', strtotime($data['CourseDateCompleted']));
 					}else{
 						array_push($designations[$userid]['designation'], $designationarray[$data['QualificationTypeID']]);
-						array_unique($designations[$userid]['designation']);
-						$designations[$userid]['qualificationyear'] = date('Y', strtotime($data['CourseDateCompleted']));
+						if($data['CourseDateCompleted']!='' && !isset($designations[$userid]['qualificationyear'])) $designations[$userid]['qualificationyear'] = date('Y', strtotime($data['CourseDateCompleted']));
 					}
 				}
 			}
@@ -406,7 +420,7 @@ class Import extends CC_Controller {
 		foreach($designations as $key => $designation) {
 			$designationdata 	= [
 				'designation' 				=> end($designation['designation']),
-				'qualification_year'		=> $designation['qualificationyear']
+				'qualification_year'		=> isset($designation['qualificationyear']) ? $designation['qualificationyear'] : ''
 			];
 			$this->db->update('users_plumber', $designationdata, ['user_id' => $key]);
 		}
@@ -507,12 +521,12 @@ class Import extends CC_Controller {
     public function plumberdocument()
 	{
 		$plumbers 			= $this->db->get_where('users', ['type' => '3', 'migrateid !=' => ''])->result_array();
-		$descriptionarray	= ['IDDocument', 'TradeCertificate'];
+		$descriptionarray	= ['IDDocument', 'TradeCertificate', 'SolarSkillsCertificate', 'SolarAttendanceCertificate', 'HotWaterInstallerCertificate', 'TrainingAssessorCertificate'];
 		
 		foreach($plumbers as $plumber){
 			$migrateid 	= $plumber['migrateid'];
 			$userid		= $plumber['id'];
-			for($i=1; $i<3; $i++){
+			for($i=1; $i<7; $i++){
 				$sourcefile 		= './assets/plumbermigration/'.$migrateid.'_'.$i.'.*';
 				$checkfile			= glob($sourcefile);  
 				

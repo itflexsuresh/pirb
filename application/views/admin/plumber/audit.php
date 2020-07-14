@@ -103,7 +103,7 @@ if($roletype=='1'){ echo isset($menu) ? $menu : ''; }
 								<th>Status</th>
 								<th>Consumer</th>
 								<th>Address</th>
-								<th>Refix Date</th>
+								<th>Refix Due Date</th>
 								<th>Refix Complete Date</th>
 								<th>Date Allocated to Auditor</th>
 								<th>Auditor</th>

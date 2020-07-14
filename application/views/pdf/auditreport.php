@@ -234,16 +234,15 @@ function base64conversion($path){
 <table class="table table-bordered reviewtable">    
 	<thead>
 		<tr>
-			<th colspan="5" style="border:none; font-family:Helvetica; padding-left:0px; width:100%; text-align: left;">
+			<th colspan="4" style="border:none; font-family:Helvetica; padding-left:0px; width:100%; text-align: left;">
 				<h3>AUDIT REVIEW</h3>
 			</th>
 		</tr>
 		<tr>
 			<th style="font-family:Helvetica;">Review Type</th>
 			<th style="font-family:Helvetica;">Statement</th>
-			<th style="font-family:Helvetica;">SANS/Regulation/Bylaw Reference</th>
+			<th style="font-family:Helvetica;">SANS/Regulation<br>/Bylaw Reference</th>
 			<th style="font-family:Helvetica;">Comments</th>
-			<th style="font-family:Helvetica;">Images</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -264,17 +263,22 @@ function base64conversion($path){
 				<td style="font-family:Helvetica;"><?php echo $list['statementname']; ?></td>
 				<td style="font-family:Helvetica;"><?php echo $list['reference']; ?></td>
 				<td style="font-family:Helvetica;"><?php echo $list['comments']; ?></td>
-				<td style="font-family:Helvetica;">
-					<?php 
-						$filelist = array_filter(explode(',', $list['file'])); 
-						foreach($filelist as $file){
-					?>
-							<p><img src="<?php echo base64conversion(base_url().'assets/uploads/auditor/statement/'.$file); ?>" width="150"></p>
-					<?php
-						}
-					?>
-				</td>
 			</tr>
+			<?php if($list['file']!=''){ ?>
+				<tr>
+					<td colspan="4" style="font-family:Helvetica;">
+						<?php 
+							$filelist = array_filter(explode(',', $list['file'])); 
+							foreach($filelist as $file){
+								if(!file_exists('./assets/uploads/auditor/statement/'.$file)) continue;
+						?>
+								<p style="display:inline-block;width:200px;margin-right:10px;"><img src="<?php echo base64conversion(base_url().'assets/uploads/auditor/statement/'.$file); ?>" width="200" height="200"></p>
+						<?php
+							}
+						?>
+					</td>
+				</tr>
+			<?php } ?>
 		<?php } ?>      
 	</tbody>                            
 </table>

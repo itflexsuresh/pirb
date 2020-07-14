@@ -632,12 +632,13 @@
 								<tr>
 									<td>Date of Qualification/Skill Obtained</td>
 									<td>Certificate Number</td>
+									<td>Qualification Type</td>
 									<td>Qualification Route</td>
 									<td>Training Provider</td>
 									<td>Attachments</td>
 									<td>Action</td>
 								</tr>
-								<tr class="skillnotfound"><td colspan="6">No Record Found</td></tr>
+								<tr class="skillnotfound"><td colspan="7">No Record Found</td></tr>
 							</table>
 							<div class="col-md-12 text-right">
 								<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#skillmodal">Add Cert/Skill</button>
@@ -731,6 +732,14 @@
 						</div>
 						<div class="col-md-12">
 							<div class="form-group">
+								<label>Qualification Type</label>
+								<?php
+								echo form_dropdown('skill_qualification_type', $qualificationtype, '', ['id' => 'skill_qualification_type', 'class'=>'form-control skill_qualification_type']);
+								?>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
 								<label>Qualification/Skills Route</label>
 								<?php
 								echo form_dropdown('skill_route', $qualificationroute, '', ['id' => 'skill_route', 'class'=>'form-control skill_route']);
@@ -814,9 +823,10 @@
 
 <script type="text/javascript">
 
-var userid		= '<?php echo $userid; ?>';
-var filepath 	= '<?php echo $filepath; ?>';
-var pdfimg		= '<?php echo $pdfimg; ?>';
+var userid				= '<?php echo $userid; ?>';
+var filepath 			= '<?php echo $filepath; ?>';
+var pdfimg				= '<?php echo $pdfimg; ?>';
+var qualificationtype	= $.parseJSON('<?php echo json_encode($qualificationtype); ?>');
 
 $(function(){
 	checkstep();
@@ -847,7 +857,7 @@ $(function(){
 	if(skill.length > 0){
 		$(skill).each(function(i, v){
 			var skillsplit 	= v.split('@@@');
-			var skilldata 	= {status : 1, result : { id: skillsplit[0], date: skillsplit[2], certificate: skillsplit[3], skillname: skillsplit[7], training: skillsplit[5], attachment: skillsplit[6] }}
+			var skilldata 	= {status : 1, result : { id: skillsplit[0], date: skillsplit[2], certificate: skillsplit[3], qualification: skillsplit[4], skillname: skillsplit[8], training: skillsplit[6], attachment: skillsplit[7] }}
 			skills(skilldata);
 		})
 	}
@@ -1146,6 +1156,17 @@ $(function(){
 			attachmenthidden 	: {
 				required:  	function() {
 								return $(".designation:checked").val() == "4";
+							},
+				remote	: 	{
+								url		: 	"<?php echo base_url().'ajax/index/ajaxqualificationvalidation'; ?>",
+								type	: 	"post",
+								async	: 	false,
+								data	: 	{
+												id 			: 	userid,
+												designation	: 	function() {
+																	return $(".designation:checked").val();
+																}
+											}
 							}
 			},
 			criminalact 		: {
@@ -1160,6 +1181,7 @@ $(function(){
 			},
 			attachmenthidden 	: {
 				required	: "Please add one skill.",
+				remote		: "Designation not found in qualification."
 			},
 			criminalact 		: {
 				required	: "Please check skill are correct.",
@@ -1223,6 +1245,9 @@ $(function(){
 			skill_certificate : {
 				required	: true,
 			},
+			skill_qualification_type : {
+				required	: true,
+			},
 			skill_route : {
 				required	: true,
 			},
@@ -1240,8 +1265,11 @@ $(function(){
 			skill_certificate 	: {
 				required	: "Please Enter Skill certificate Number.",
 			},
+			skill_qualification_type 	: {
+				required	: "Please Select Qualification Type.",
+			},
 			skill_route : {
-				required	: "Please Enter Employment Status.",
+				required	: "Please Select Employment Status.",
 			},
 			skill_training : {
 				required	: "Please Enter Training Provider.",
@@ -1508,6 +1536,7 @@ function skills(data){
 								<tr class="skillappend" data-id="'+result.id+'">\
 									<td>'+formatdate(result.date,1)+'</td>\
 									<td>'+((result.certificate!=undefined && result.certificate!='') ? result.certificate :  "")+'</td>\
+									<td>'+((result.qualification!=undefined && result.qualification!='' && qualificationtype[result.qualification]!=undefined) ? qualificationtype[result.qualification] :  "")+'</td>\
 									<td>'+((result.skillname!=undefined && result.skillname!='') ? result.skillname :  "")+'</td>\
 									<td>'+((result.training!=undefined && result.training!='') ? result.training :  "")+'</td>\
 									<td>'+((attachment!=undefined && attachment!='') ? attachment :  "")+'</td>\
@@ -1536,6 +1565,7 @@ function skillsedit(data){
 		
 		$('.skill_date').val(formatdate(result.date, 1));
 		$('.skill_certificate').val(((result.certificate!=undefined && result.certificate!='') ? result.certificate :  ""));
+		$('.skill_qualification_type').val(((result.qualification!=undefined && result.qualification!='') ? result.qualification :  "")).trigger('change');;
 		$('.skill_route').val(((result.skills!=undefined && result.skills!='') ? result.skills :  "")).trigger('change');
 		$('.skill_training').val(((result.training!=undefined && result.training!='') ? result.training :  ""));
 		$('.skill_attachment').val(((result.attachment!=undefined && result.attachment!='') ? result.attachment :  ""));
@@ -1571,6 +1601,7 @@ function skillsclear(){
 	$('.skillform').find("p.error_class_1").remove();
 	$('.skillform').find(".error_class_1").removeClass('error_class_1');
 	$('.skill_route').val('').trigger('change');
+	$('.skill_qualification_type').val('').trigger('change');
 	
 	$('.attachmenthidden').valid();
 }

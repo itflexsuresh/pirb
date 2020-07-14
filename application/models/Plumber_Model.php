@@ -33,7 +33,7 @@ class Plumber_Model extends CC_Model
 		}
 		
 		if(in_array('usersskills', $querydata)){
-			$select[]		= 	'group_concat(IF(COALESCE(ups.id, "")="", "", concat_ws("@@@", COALESCE(ups.id, ""), COALESCE(ups.user_id, ""), COALESCE(ups.date, ""), COALESCE(ups.certificate, ""), COALESCE(ups.skills, ""), COALESCE(ups.training, ""), COALESCE(ups.attachment, ""), COALESCE(qr.name, ""))) separator "@-@") as skills';
+			$select[]		= 	'group_concat(IF(COALESCE(ups.id, "")="", "", concat_ws("@@@", COALESCE(ups.id, ""), COALESCE(ups.user_id, ""), COALESCE(ups.date, ""), COALESCE(ups.certificate, ""), COALESCE(ups.qualification, ""), COALESCE(ups.skills, ""), COALESCE(ups.training, ""), COALESCE(ups.attachment, ""), COALESCE(qr.name, ""))) separator "@-@") as skills';
 		}
 		
 		if(in_array('company', $querydata)){
@@ -267,11 +267,12 @@ class Plumber_Model extends CC_Model
 			$idarray['usersaddressinsertid'] = $usersaddressinsertids;
 		}
 		
-		if(isset($data['skill_date'])) 				$request4['date'] 				= date('Y-m-d', strtotime($data['skill_date']));
-		if(isset($data['skill_certificate'])) 		$request4['certificate'] 		= $data['skill_certificate'];
-		if(isset($data['skill_route'])) 			$request4['skills'] 			= $data['skill_route'];
-		if(isset($data['skill_training'])) 			$request4['training'] 			= $data['skill_training'];
-		if(isset($data['skill_attachment'])) 		$request4['attachment'] 		= $data['skill_attachment'];
+		if(isset($data['skill_date'])) 					$request4['date'] 				= date('Y-m-d', strtotime($data['skill_date']));
+		if(isset($data['skill_certificate'])) 			$request4['certificate'] 		= $data['skill_certificate'];
+		if(isset($data['skill_qualification_type'])) 	$request4['qualification'] 		= $data['skill_qualification_type'];
+		if(isset($data['skill_route'])) 				$request4['skills'] 			= $data['skill_route'];
+		if(isset($data['skill_training'])) 				$request4['training'] 			= $data['skill_training'];
+		if(isset($data['skill_attachment'])) 			$request4['attachment'] 		= $data['skill_attachment'];
 		
 		if(isset($request4)){
 			$skillid = (isset($data['skill_id'])) ? $data['skill_id'] : '';
@@ -505,5 +506,14 @@ class Plumber_Model extends CC_Model
 			return false;
 		}
 
+	}
+	
+	public function qualificationvalidation($data){
+		$result = $this->db->get_where('users_plumber_skill', ['user_id' => $data['id'], 'qualification' => $data['designation']])->row_array();
+		if ($result) {
+			return true;
+		}else{
+			return false;
+		}
 	}
 }

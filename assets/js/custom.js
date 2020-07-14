@@ -291,6 +291,10 @@ function fileupload(data1=[], data2=[], multiple='', customfunction=''){
 	})
 	
 	function fileappend(data){
+		if(typeof data !== 'object'){
+			alert(data);
+		}
+		
 		if((data.file_name && data2.length) || (data.file_name && customfunction!='')){
 			var file 		= data.file_name;
 			
@@ -351,7 +355,12 @@ function citysuburb(data1=[], data2=[], data3=[]){
 
 	function city(data){
 		$('.'+cityappend).remove();
-		if(suburbappend!='') $('.'+suburbappend).remove();
+		$(data1[1]).append('<option value="" class="'+cityappend+'">Select City</option>');
+		
+		if(suburbappend!=''){
+			$('.'+suburbappend).remove();
+			$(data1[2]).append('<option value="" class="'+suburbappend+'">Select Suburb</option>');
+		}
 		
 		if(data.status=='1'){
 			var append = [];
@@ -375,6 +384,7 @@ function citysuburb(data1=[], data2=[], data3=[]){
 
 		function suburb(data){
 			$('.'+suburbappend).remove();
+			$(data1[2]).append('<option value="" class="'+suburbappend+'">Select Suburb</option>');
 
 			if(data.status=='1'){
 				var append = [];

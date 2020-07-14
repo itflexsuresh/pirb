@@ -26,7 +26,7 @@
 								<th>Auditor</th>
 								<th>Auditor Phone (Mobile)</th>
 								<th>Allocated Assigned Date</th>
-								<th>Refix Date</th>
+								<th>Refix Due Date</th>
 								<th>Refix Complete Date</th>
 								<th>Action</th>
 							</tr>							

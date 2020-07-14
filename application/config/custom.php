@@ -405,6 +405,21 @@ $config['plumberstatus'] 			= 	[
 											'4' => 'Deceased',
 											'5' => 'Resigned',
 										];
+
+$config['qualificationtype'] 		= 	[
+											'1' => 'Learner Plumber',
+											'2' => 'Technical Assistant',
+											'3' => 'Technical Operator',
+											'4' => 'Licensed Plumber',
+											'5' => 'Qualified Plumber',
+											'6' => 'Master Plumber',
+											'7' => 'Solar',
+											'8' => 'Gas',
+											'9' => 'Plumbing estimator',
+											'10' => 'Heat Pump',
+											'11' => 'Plumbing Training Assessor',
+											'12' => 'Plumbing Arbitrator'
+										];
 										
 $config['companystatus'] 			= 	[
 											'0' => 'Pending',

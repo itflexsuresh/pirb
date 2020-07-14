@@ -481,6 +481,7 @@ class CC_Controller extends CI_Controller
 		$pagedata['citizen'] 			= $this->config->item('citizen');
 		$pagedata['deliverycard'] 		= $this->config->item('deliverycard');
 		$pagedata['employmentdetail'] 	= $this->config->item('employmentdetail');
+		$pagedata['qualificationtype'] 	= $this->config->item('qualificationtype');
 		$pagedata['userid'] 			= $userid;
 		$pagedata['result'] 			= $result;
 		
