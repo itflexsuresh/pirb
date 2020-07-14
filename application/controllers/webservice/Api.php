@@ -387,21 +387,21 @@ class Api extends CC_Controller
 			}else{
 
 				if ($this->input->post('coc_type') == '1') {
-					$cocelectronic 				=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocelectronic')]);
-					$typecost 					= $cocelectronic['amount']*$coc_count;
+					$cocelectronic 		=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocelectronic')]);
+					$typecost 			= $cocelectronic['amount']*$coc_count;
 				}else{
-					$cocpaperwork 				=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocpaperwork')]);
-					$typecost 					= $cocpaperwork['amount']*$coc_count;
+					$cocpaperwork 		=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocpaperwork')]);
+					$typecost 			= $cocpaperwork['amount']*$coc_count;
 				}
 
 				if ($delivery_type == '1') {
-					$deliveryamt = 0;
+					$deliveryamt 		= 0;
 				}elseif($delivery_type == '2'){
-					$couriour 					= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('couriour')]);
-					$deliveryamt = $couriour['amount'];
+					$couriour 			= $this->Rates_Model->getList('row', ['id' => $this->config->item('couriour')]);
+					$deliveryamt 		= $couriour['amount'];
 				}elseif($delivery_type == '3'){
-					$postage 					= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('postage')]);
-					$deliveryamt = $postage['amount'];
+					$postage 			= $this->Rates_Model->getList('row', ['id' => $this->config->item('postage')]);
+					$deliveryamt 		= $postage['amount'];
 				}
 
 				$vatcalculation = ((($typecost+$deliveryamt)*$settings['vat_percentage'])/100);
