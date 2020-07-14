@@ -22,7 +22,7 @@ class Services extends CC_Controller
 			}else{
 				$rollingavg 	= $this->getRollingAverage();
 				$date			= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
-				$ranking 		= $this->Plumber_Model->performancestatus('all', ['date' => $date, 'archive' => '0', 'overall' => '1', 'limit' => '7']);
+				$ranking 		= $this->Plumber_Model->performancestatus('all', ['date' => $date, 'archive' => '0', 'overall' => '1']);
 				
 				if(count($ranking) > 0){
 					$result = [];
@@ -76,7 +76,7 @@ class Services extends CC_Controller
 				
 				$rollingavg 	= $this->getRollingAverage();
 				$date			= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
-				$ranking 		= $this->Plumber_Model->performancestatus('all', ['date' => $date, 'archive' => '0', 'province' => $userdetail['province'], 'limit' => '7']);
+				$ranking 		= $this->Plumber_Model->performancestatus('all', ['date' => $date, 'archive' => '0', 'province' => $userdetail['province']]);
 				
 				if(count($ranking) > 0){
 					$result = [];
