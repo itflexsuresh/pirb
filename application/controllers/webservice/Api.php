@@ -340,7 +340,7 @@ class Api extends CC_Controller
 			$couriour 					= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('couriour')]);
 			$collectedbypirb 			= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('collectedbypirb')]);
 			$orderquantity 				= $this->Coc_Ordermodel->getCocorderList('all', ['admin_status' => '0', 'userid' => $userid]);
-
+// print_r($postage);die;
 			$userorderstock 			= array_sum(array_column($orderquantity, 'quantity'));
 
 			$jsonData['collectedbypirb']= 	['id' => $collectedbypirb['id'], 'supllyname' => $collectedbypirb['supplyitem'], 'amount' => $collectedbypirb['amount']];
@@ -352,7 +352,7 @@ class Api extends CC_Controller
 				$jsonData['plumber_purchase_details'] = ['plumberid' => $userdata1['id'],  'coc_purchase_limit' => $userdata1['coc_purchase_limit'], 'coc_purchase' => $userdatacoc_count['count'], 'nonlogcoc' => $nonlogcoc, 'adminallocated' => $userorderstock
 				];
 
-			$jsonData['page_lables'] = [ 'mycoc' => 'My COC’s', "permitted" => "Total number COC’s your are permitted", "purchase" => "Number of Permitted COC's that you are able to purchase", "nonlogged" => "Number of non-logged COC’s","allocateadmin" => "Number of COC’s to be allocated by admin", "purchasecoc_heading" => "Purchase COC’s", "selectcoctype" => "Select type of COC’s you wish to purchase", "coctype1" => "Electronic","coctype2" => "Paper Based", "purchasecoc" => "Number of COC’s you wish to purchase", "typecost" => "Cost of COC Type", "vat" => "VAT @".$settings['vat_percentage']."%", "totaldue" => "Total Due", "currency" => $this->config->item('currency')
+			$jsonData['page_lables'] = [ 'mycoc' => 'My COC’s', "permitted" => "Total number COC’s your are permitted", "purchase" => "Number of Permitted COC's that you are able to purchase", "nonlogged" => "Number of non-logged COC’s","allocateadmin" => "Number of COC’s to be allocated by admin", "purchasecoc_heading" => "Purchase COC’s", "selectcoctype" => "Select type of COC’s you wish to purchase", "coctype1" => "Electronic","coctype2" => "Paper Based", "purchasecoc" => "Number of COC’s you wish to purchase", "typecost" => "Cost of COC Type", "vat" => "VAT @".$settings['vat_percentage']."%", "totaldue" => "Total Due", "currency" => $this->config->item('currency'), 'vatamt' => $settings['vat_percentage']
 			];
 
 
@@ -363,6 +363,58 @@ class Api extends CC_Controller
 			$jsonArray = array("status"=>'0', "message"=>'invalid request', 'result' => []);
 		}
 
+		echo json_encode($jsonArray);
+	}
+
+	public function purchase_coc_action(){
+
+		if ($this->input->post('user_id') && $this->input->post('coc_count') && $this->input->post('coc_type') && $this->input->post('delivery_type')) {
+			$userid 					=	$this->input->post('user_id');
+			$coc_count 					=	$this->input->post('coc_count');
+			$coc_type 					=	$this->input->post('coc_type'); // 1- electronic , 2- paperbased
+			$delivery_type 				=	$this->input->post('delivery_type'); // 1- collected by PIRB , 2- By courier, 3- registered post
+			$userdata					= 	$this->getUserDetails($userid);
+			$userdata1					= 	$this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber']);
+			$userdatacoc_count			= 	$this->Coc_Model->COCcount(['user_id' => $userid]);
+			$settings 					= 	$this->Systemsettings_Model->getList('row');
+
+
+
+			if ($coc_count > $userdata1['coc_purchase_limit']) {
+				$jsonData['plumber_purchase_details'] = ['plumberid' => $userdata1['id'], 'errormsg' => 'You cannot purchase more than '.$userdata1['coc_purchase_limit'].' COCs. Contact our support for further assistance.'
+				];
+				$jsonArray = array("status"=>'1', "message"=>'Purchase COC’s', 'result' => $jsonData);
+			}else{
+
+				if ($this->input->post('coc_type') == '1') {
+					$cocelectronic 				=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocelectronic')]);
+					$typecost 					= $cocelectronic['amount']*$coc_count;
+				}else{
+					$cocpaperwork 				=	$this->Rates_Model->getList('row', ['id' => $this->config->item('cocpaperwork')]);
+					$typecost 					= $cocpaperwork['amount']*$coc_count;
+				}
+
+				if ($delivery_type == '1') {
+					$deliveryamt = 0;
+				}elseif($delivery_type == '2'){
+					$couriour 					= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('couriour')]);
+					$deliveryamt = $couriour['amount'];
+				}elseif($delivery_type == '3'){
+					$postage 					= 	$this->Rates_Model->getList('row', ['id' => $this->config->item('postage')]);
+					$deliveryamt = $postage['amount'];
+				}
+
+				$vatcalculation = ((($typecost+$deliveryamt)*$settings['vat_percentage'])/100);
+				$totaldue 		= ($typecost+$deliveryamt+$vatcalculation);
+
+				$jsonData['plumber_purchase_details'] = ['plumberid' => $userdata1['id'], 'costtypeofcoc' => number_format($typecost, 2, '.', ''), 'deliverycost' => number_format($deliveryamt, 2, '.', ''), 'totalvat' => number_format($vatcalculation, 2, '.', ''), 'totaldue' => number_format($totaldue, 2, '.', '')
+					];
+				$jsonArray = array("status"=>'1', "message"=>'Purchase COC’s', 'result' => $jsonData);
+			}
+
+		}else{
+			$jsonArray = array("status"=>'0', "message"=>'invalid request', 'result' => []);
+		}
 		echo json_encode($jsonArray);
 	}
 
