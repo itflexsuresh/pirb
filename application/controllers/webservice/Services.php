@@ -7,10 +7,13 @@ class Services extends CC_Controller
 	{
 		parent::__construct();
 		$this->load->model('Plumber_Model');
+		$this->load->model('Managearea_Model');
 	}
 	
 	public function national_ranking()
 	{
+		$extras['extras'] = ['heading' => 'Industry Ranking', 'subheading' => 'National'];
+		
 		if($this->input->post()){
 			$this->form_validation->set_rules('id', 'ID', 'trim|required');
 			
@@ -19,7 +22,7 @@ class Services extends CC_Controller
 			}else{
 				$rollingavg 	= $this->getRollingAverage();
 				$date			= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
-				$ranking 		= $this->Plumber_Model->performancestatus('all', ['date' => $date, 'archive' => '0', 'overall' => '1']);
+				$ranking 		= $this->Plumber_Model->performancestatus('all', ['date' => $date, 'archive' => '0', 'overall' => '1', 'limit' => '7']);
 				
 				if(count($ranking) > 0){
 					$result = [];
@@ -51,11 +54,13 @@ class Services extends CC_Controller
 			$json = array("status" => "0", "message" => "Invalid Request", "result" => []);
 		}
 		
-		echo json_encode($json);
+		echo json_encode($json+$extras);
 	}
 	
 	public function province_ranking()
 	{
+		$extras['extras'] = ['heading' => 'Industry Ranking', 'subheading' => 'Provincial'];
+		
 		if($this->input->post()){
 			$this->form_validation->set_rules('id', 'ID', 'trim|required');
 			
@@ -65,9 +70,13 @@ class Services extends CC_Controller
 				$post			= $this->input->post();
 				
 				$userdetail		= $this->getUserDetails($post['id']);
+				
+				$province 		= $this->Managearea_Model->getListProvince('row', ['id' => $userdetail['province']]);
+				$extras['extras']['subheading'] = 'Provincial - '.$province['name'];
+				
 				$rollingavg 	= $this->getRollingAverage();
 				$date			= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
-				$ranking 		= $this->Plumber_Model->performancestatus('all', ['date' => $date, 'archive' => '0', 'province' => $userdetail['province']]);
+				$ranking 		= $this->Plumber_Model->performancestatus('all', ['date' => $date, 'archive' => '0', 'province' => $userdetail['province'], 'limit' => '7']);
 				
 				if(count($ranking) > 0){
 					$result = [];
@@ -99,6 +108,6 @@ class Services extends CC_Controller
 			$json = array("status" => "0", "message" => "Invalid Request", "result" => []);
 		}
 		
-		echo json_encode($json);
+		echo json_encode($json+$extras);
 	}
 }
