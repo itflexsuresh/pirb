@@ -600,15 +600,12 @@ class Api extends CC_Controller
 		if ($this->input->post() && $this->input->post('type') == 'coc_details') {
 			$extraparam = [];
 			$jsonData 	= [];
-<<<<<<< HEAD
 
 			$jsonData['page_lables'] = [
 				'page_heading' => 'CoC Details', 'certificate' => 'Certificate', 'lable1' => 'Plumbing work completeion date','lable2' => 'Owners name', 'address' =>'Street', 'Suburb', 'City', 'Province', 'lable3' => 'Name of the complex / flat (if applicable)', 'contactinfo' => 'Contact number', 'Alternate Contact number', 'auditreview' => 'Audit status', 'Auditors name and surname', 'Phone (mobile)', 'Phone (mobile)', 'Date of audit', 'Overall workmanship', 'Licensed plumber present', 'Was CoC completed correctly', 'auditstatus' =>'Complement','Solar Water Heating System', 'Cautionary', 'Below Ground Drainage System Statement', 'Failure', 'Sanitary-ware Statement', 'footernotice' => 'NOTICE TO LICENESED PLUMBER', "its tour responsibity to complete your refix's within the allocated. Failure to do so within the allocated time will result in the refix being ,arked as Audit Complete (with Refix(s)) and relevant remedial action will follow"
 			];
 
-=======
-			
->>>>>>> 927596ca6f4039f618b692037d6706e74ff8fb37
+
 			$userid							= $this->input->post('user_id');
 			$id								= $this->input->post('coc_id'); // id = coc id
 			if ($this->input->post('auditorid') !='') {
@@ -618,9 +615,9 @@ class Api extends CC_Controller
 			}
 			$result							= $this->Coc_Model->getCOCList('row', ['id' => $id, 'user_id' => $userid]+$auditorid);
 			$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber', 'company']);
-<<<<<<< HEAD
+
 			$specialisations 				= explode(',', $userdata['specialisations']);
-=======
+
 			$reviewlist						= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
 			
 			// $specialisations 				= explode(',', $userdata['specialisations']);
@@ -662,7 +659,6 @@ class Api extends CC_Controller
 				}elseif($this->config->item('reviewtype')[$value['reviewtype']] == 'Failure'){
 					$colorcode = '#f33333';
 				}
->>>>>>> 927596ca6f4039f618b692037d6706e74ff8fb37
 
 			$jsonData['userdata'] 			= $userdata;
 			$jsonData['cocid'] 				= $id;
@@ -685,11 +681,9 @@ class Api extends CC_Controller
 					'file' 		=> $compliance['file']
 				];
 			}
-<<<<<<< HEAD
-=======
+
 
 			// print_r($jsonData);die;
->>>>>>> 927596ca6f4039f618b692037d6706e74ff8fb37
 			$jsonArray = array("status"=>'1', "message"=>'CoC Details', "result"=>$jsonData);
 		}else{
 			$jsonArray = array("status"=>'0', "message"=>'Invalid Api', "result"=>[]);
