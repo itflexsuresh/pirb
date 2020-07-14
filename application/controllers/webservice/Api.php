@@ -600,11 +600,15 @@ class Api extends CC_Controller
 		if ($this->input->post() && $this->input->post('type') == 'coc_details') {
 			$extraparam = [];
 			$jsonData 	= [];
+<<<<<<< HEAD
 
 			$jsonData['page_lables'] = [
 				'page_heading' => 'CoC Details', 'certificate' => 'Certificate', 'lable1' => 'Plumbing work completeion date','lable2' => 'Owners name', 'address' =>'Street', 'Suburb', 'City', 'Province', 'lable3' => 'Name of the complex / flat (if applicable)', 'contactinfo' => 'Contact number', 'Alternate Contact number', 'auditreview' => 'Audit status', 'Auditors name and surname', 'Phone (mobile)', 'Phone (mobile)', 'Date of audit', 'Overall workmanship', 'Licensed plumber present', 'Was CoC completed correctly', 'auditstatus' =>'Complement','Solar Water Heating System', 'Cautionary', 'Below Ground Drainage System Statement', 'Failure', 'Sanitary-ware Statement', 'footernotice' => 'NOTICE TO LICENESED PLUMBER', "its tour responsibity to complete your refix's within the allocated. Failure to do so within the allocated time will result in the refix being ,arked as Audit Complete (with Refix(s)) and relevant remedial action will follow"
 			];
 
+=======
+			
+>>>>>>> 927596ca6f4039f618b692037d6706e74ff8fb37
 			$userid							= $this->input->post('user_id');
 			$id								= $this->input->post('coc_id'); // id = coc id
 			if ($this->input->post('auditorid') !='') {
@@ -614,7 +618,51 @@ class Api extends CC_Controller
 			}
 			$result							= $this->Coc_Model->getCOCList('row', ['id' => $id, 'user_id' => $userid]+$auditorid);
 			$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber', 'company']);
+<<<<<<< HEAD
 			$specialisations 				= explode(',', $userdata['specialisations']);
+=======
+			$reviewlist						= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
+			
+			// $specialisations 				= explode(',', $userdata['specialisations']);
+
+			// $jsonData['userdata'] 			= $userdata;
+			// $jsonData['cocid'] 				= $id;
+			// $jsonData['auditorid'] 			= $auditorid;
+			// $jsonData['notification'] 		= $this->getNotification();
+			// $jsonData['province'] 			= $this->getProvinceList();
+			// $jsonData['designation2'] 		= $this->config->item('designation2');
+			// $jsonData['ncnotice'] 			= $this->config->item('ncnotice');
+			// $jsonData['installationtype']	= $this->getInstallationTypeList();
+			// $jsonData['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => [], 'ids' => range(1,8)]);
+			// $jsonData['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations, 'ids' => range(1,8)]);
+
+			// $noncompliance					= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $userid]);		
+			// $jsonData['noncompliance']		= [];
+			// foreach($noncompliance as $compliance){
+			// 	$jsonData['noncompliance'][] = [
+			// 		'id' 		=> $compliance['id'],
+			// 		'details' 	=> $this->parsestring($compliance['details']),
+			// 		'file' 		=> $compliance['file']
+			// 	];
+			// }
+
+			$jsonData['page_lables'] = [
+				'page_heading' => 'CoC Details', 'certificate' => 'Certificate','plumbingwork' => 'Plumbing work completeion date', 'ownersname' => 'Owners name', 'street' => 'Street', 'suburb' => 'Suburb', 'city' => 'City', 'province' => 'Province', 'complex' => 'Name of the complex / flat (if applicable)', 'contactnumber1' => 'Contact number', 'contactnumber2' => 'Alternate Contact number', 'auditstaus' => 'Audit status', 'auditorname' => 'Auditors name and surname', 'phone' => 'Phone (mobile)', 'date' => 'Date of audit', 'overall' => 'Overall workmanship', 'plumberpresent' => 'Licensed plumber present', 'coccorrect' => 'Was CoC completed correctly'
+			];
+
+			$jsonData['result']	= [ 'cocnumber' => $result['id'], 'plumberid' => $result['user_id'], 'completiondate' => date("d-m-Y", strtotime($result['cl_completion_date'])), 'onersname' =>  $result['cl_name'], 'cl_address' =>  $result['cl_address'], 'cl_street' =>  $result['cl_street'], 'cl_province_name' =>  $result['cl_province_name'], 'cl_city_name' =>  $result['cl_city_name'], 'cl_suburb_name' =>  $result['cl_suburb_name'], 'complex' =>  $result['cl_address'], 'cl_contact_no' =>  $result['cl_contact_no'], 'cl_alternate_no' =>  $result['cl_alternate_no'], 'auditstatus' => $this->config->item('auditstatus')[$result['audit_status']], 'auditorname' => $result['auditorname'], 'auditormobile' => $result['auditormobile'], 'auditormobile' => $result['auditormobile'], 'as_audit_date' => date("d-m-Y", strtotime($result['as_audit_date'])), 'as_workmanship', $this->config->item('workmanship')[$result['as_workmanship']], 'as_plumber_verification' => $this->config->item('yesno')[$result['as_plumber_verification']], 'as_coc_verification' => $this->config->item('yesno')[$result['as_coc_verification']]
+			];
+
+			foreach ($reviewlist as $key => $value) {
+
+				if ($this->config->item('reviewtype')[$value['reviewtype']] == 'Cautionary') {
+				$colorcode = '#ffd700';
+				}elseif($this->config->item('reviewtype')[$value['reviewtype']] == 'Compliment'){
+					$colorcode = '#ade33d';
+				}elseif($this->config->item('reviewtype')[$value['reviewtype']] == 'Failure'){
+					$colorcode = '#f33333';
+				}
+>>>>>>> 927596ca6f4039f618b692037d6706e74ff8fb37
 
 			$jsonData['userdata'] 			= $userdata;
 			$jsonData['cocid'] 				= $id;
@@ -637,6 +685,11 @@ class Api extends CC_Controller
 					'file' 		=> $compliance['file']
 				];
 			}
+<<<<<<< HEAD
+=======
+
+			// print_r($jsonData);die;
+>>>>>>> 927596ca6f4039f618b692037d6706e74ff8fb37
 			$jsonArray = array("status"=>'1', "message"=>'CoC Details', "result"=>$jsonData);
 		}else{
 			$jsonArray = array("status"=>'0', "message"=>'Invalid Api', "result"=>[]);
@@ -725,6 +778,9 @@ class Api extends CC_Controller
 	public function mycpd_current_year(){
 
 		if ($this->input->post() && $this->input->post('user_id')) {
+			$jsonData 					= [];
+			$jsonData['page_lables'] 	= [];
+			$jsonData['results'] 		= [];
 
 			$user_id 		= $this->input->post('user_id');
 			$pagestatus 	= '1';
@@ -732,10 +788,28 @@ class Api extends CC_Controller
 
 			$totalcount 	= $this->Mycpd_Model->getQueueList('count', ['status' => [$pagestatus], 'user_id' => [$user_id]]+$post);
 			$results 		= $this->Mycpd_Model->getQueueList('all', ['status' => [$pagestatus], 'user_id' => [$user_id]]+$post);
-			
+
+			$jsonData['page_lables'] = [ 'mycpd' => 'My CPD points', 'logcpd' => 'Log your CPD points', 'activity' => 'PIRB CPD Activity', 'date' => 'The Date', 'comments' => 'comments', 'documents' => 'Supporting Documents', 'files' => 'Choose Files', 'declaration' => 'I declare that the information contained in this CPD Activity form is complete, accurate and true. I further decalre that I understadn that I must keep verifiable evidence of all the CPD activities for at least 2 years and the PRIB may conduct a random audit of my activity(s) which would require me to submit the evidence to the PIRB', 'or' => 'OR', 'previouscpd' => 'Your Previous CPD Points'
+			];
+
+			foreach ($results as $key => $value) {
+
+				if ($value['status'] == '0') {
+					$status = 'Pending';
+					$statusicons = '';
+				}elseif($value['status'] == '1'){
+					$status = 'Approve';
+					$statusicons = '';
+				}elseif($value['status'] == '2'){
+					$status = 'Reject';
+					$statusicons = '';
+				}
+				$jsonData['results'][] = [ 'dateofactivity' => date('d/m/Y', strtotime($value['cpd_start_date'])), 'activity' => $value['cpd_activity'], 'status' => $status, 'stausicons' => $statusicons, 'cpdpoints' => $value['points'], 'userid' => $value['user_id'], 'cpdid' => $value['id']
+				];
+			}
 
 			if (count($results) > 0) {
-				$jsonArray 	= array("status"=>'1', "message"=>'My CPD', "result"=>$results);
+				$jsonArray 	= array("status"=>'1', "message"=>'My CPD', "result"=>$jsonData);
 			}else{
 				$jsonArray 	= array("status"=>'0', "message"=>'No Record Found', "result"=>[]);
 			}
@@ -750,6 +824,9 @@ class Api extends CC_Controller
 	public function mycpd_previous_year(){
 
 		if ($this->input->post() && $this->input->post('user_id')) {
+			$jsonData 					= [];
+			$jsonData['page_lables'] 	= [];
+			$jsonData['results'] 		= [];
 
 			$user_id 		= $this->input->post('user_id');
 			$pagestatus 	= '0';
@@ -758,9 +835,27 @@ class Api extends CC_Controller
 			$totalcount 	= $this->Mycpd_Model->getQueueList('count', ['status' => [$pagestatus], 'user_id' => [$user_id]]+$post);
 			$results 		= $this->Mycpd_Model->getQueueList('all', ['status' => [$pagestatus], 'user_id' => [$user_id]]+$post);
 			
+			$jsonData['page_lables'] = [ 'mycpd' => 'My CPD points', 'logcpd' => 'Log your CPD points', 'activity' => 'PIRB CPD Activity', 'date' => 'The Date', 'comments' => 'comments', 'documents' => 'Supporting Documents', 'files' => 'Choose Files', 'declaration' => 'I declare that the information contained in this CPD Activity form is complete, accurate and true. I further decalre that I understadn that I must keep verifiable evidence of all the CPD activities for at least 2 years and the PRIB may conduct a random audit of my activity(s) which would require me to submit the evidence to the PIRB', 'or' => 'OR', 'previouscpd' => 'Your Previous CPD Points'
+			];
+
+			foreach ($results as $key => $value) {
+
+				if ($value['status'] == '0') {
+					$status = 'Pending';
+					$statusicons = '';
+				}elseif($value['status'] == '1'){
+					$status = 'Approve';
+					$statusicons = '';
+				}elseif($value['status'] == '2'){
+					$status = 'Reject';
+					$statusicons = '';
+				}
+				$jsonData['results'][] = [ 'dateofactivity' => date('d/m/Y', strtotime($value['cpd_start_date'])), 'activity' => $value['cpd_activity'], 'status' => $status, 'stausicons' => $statusicons, 'cpdpoints' => $value['points'], 'userid' => $value['user_id'], 'cpdid' => $value['id']
+				];
+			}
 
 			if (count($results) > 0) {
-				$jsonArray 	= array("status"=>'1', "message"=>'My CPD', "result"=>$results);
+				$jsonArray 	= array("status"=>'1', "message"=>'My CPD', "result"=>$jsonData);
 			}else{
 				$jsonArray 	= array("status"=>'0', "message"=>'No Record Found', "result"=>[]);
 			}
@@ -775,11 +870,31 @@ class Api extends CC_Controller
 	public function mycpd_edit_view(){
 
 		if ($this->input->post() && $this->input->post('cpdID') && $this->input->post('pagestatus')) {
+			$jsonData 					= [];
+			$jsonData['page_lables'] 	= [];
+			$jsonData['result'] 		= [];
+			$base_url 					= base_url();
 
 			$cpdID 			= $this->input->post('cpdID');
 			$pagestatus 	= $this->input->post('pagestatus');
 
 			$result 		= $this->Mycpd_Model->getQueueList('row', ['id' => $cpdID, 'pagestatus' => $pagestatus]);
+
+			$jsonData['page_lables'] = [ 'mycpd' => 'My CPD points', 'logcpd' => 'Log your CPD points', 'activity' => 'PIRB CPD Activity', 'date' => 'The Date', 'comments' => 'comments', 'documents' => 'Supporting Documents', 'files' => 'Choose Files', 'declaration' => 'I declare that the information contained in this CPD Activity form is complete, accurate and true. I further decalre that I understadn that I must keep verifiable evidence of all the CPD activities for at least 2 years and the PRIB may conduct a random audit of my activity(s) which would require me to submit the evidence to the PIRB', 'or' => 'OR', 'previouscpd' => 'Your Previous CPD Points'
+			];
+			if ($result['status'] == '0') {
+					$status = 'Pending';
+					$statusicons = '';
+				}elseif($result['status'] == '1'){
+					$status = 'Approve';
+					$statusicons = '';
+				}elseif($result['status'] == '2'){
+					$status = 'Reject';
+					$statusicons = '';
+				}
+
+			$jsonData['result'] = [ 'dateofactivity' => date('d/m/Y', strtotime($result['cpd_start_date'])), 'activity' => $result['cpd_activity'], 'status' => $status, 'stausicons' => $statusicons, 'cpdpoints' => $result['points'], 'comments' => $result['comments'], 'admindocument' => ''.$base_url.'assets/uploads/cpdqueue/'.$result['file1'].'', 'plumberdocument' => ''.$base_url.'assets/uploads/cpdqueue/'.$result['file2'].'','cpdstreamid' => $result['cpd_stream'], 'userid' => $result['user_id'], 'cpdid' => $result['id']
+				];
 
 			if (count($result) > 0) {
 				$jsonArray 	= array("status"=>'1', "message"=>'My CPD', "result"=>$result);
@@ -798,7 +913,7 @@ class Api extends CC_Controller
 
 		if ($this->input->post() && $this->input->post('user_id')) {
 			
-			$pagestatus 	= $this->input->post('pagestatus');
+			$pagestatus 	= '1';
 
 			$this->form_validation->set_rules('activity','CPD Activity','trim|required');
 			$this->form_validation->set_rules('startdate','Start date','trim|required');
