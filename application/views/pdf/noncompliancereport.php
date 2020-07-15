@@ -213,53 +213,50 @@ $logoimg = base64conversion(base_url().'assets/images/pitrb-logo.png');
 				</table>
 			</td>
 		</tr>
-		
-		<tr>
-			<td>
-				<h3 style="margin: 0 0 20px;" class="audit-table-heading">NON COMPLIANCES</h3>
-				<table class="table table-bordered reviewtable">    
-					<thead>
-						<tr>
-							<th>Non Compliance Details</th>
-							<th>Possible remedial actions</th>
-							<th>SANS/Regulation/Bylaw Reference</th>
-						</tr>
-					</thead>
-
-					<tbody>
-					<?php foreach($noncompliance as $list){ ?>
-						<tr>
-							<td><?php echo $list['details']; ?></td>
-							<td><?php echo $list['action']; ?></td>
-							<td><?php echo $list['reference']; ?></td>
-						</tr>
-						<?php if($list['file']!=''){ ?>
-							<tr>
-								<td colspan="3">
-									<?php 
-										$filelist = array_filter(explode(',', $list['file'])); 
-										foreach($filelist as $file){
-											if(!file_exists('./assets/uploads/plumber/'.$plumberid.'/log/'.$file)) continue;
-											$plumberimg = base64conversion(base_url().'assets/uploads/plumber/'.$plumberid.'/log/'.$file);
-									?>
-											<p style="display:inline-block;width:200px;margin-right:10px;"><img src="<?php echo $plumberimg; ?>" width="200" height="200"></p>
-									<?php
-										}
-									?>
-								</td>
-							</tr>
-						<?php } ?>      
-					<?php } ?>      
-					</tbody>                            
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<h5>DISCLAIMER: This doument was developed by PIRB to assist plumbers in providing a non compliance notice.  The responsibility </h5>
-				<h5>for notifying the user & owner, lies with the lisenced plumber. This document is simply a guide & is not exhaustive.</h5>
-			</td>
-		</tr>
 
 	</tbody>
 </table>
+
+
+<h3 style="margin: 10 0 20px;" class="audit-table-heading">NON COMPLIANCES</h3>
+<table class="table table-bordered reviewtable">    
+	<thead>
+		<tr>
+			<th>Non Compliance Details</th>
+			<th>Possible remedial actions</th>
+			<th>SANS/Regulation/Bylaw Reference</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach($noncompliance as $list){ ?>
+		<tr>
+			<td><?php echo $list['details']; ?></td>
+			<td><?php echo $list['action']; ?></td>
+			<td><?php echo $list['reference']; ?></td>
+		</tr>
+		<?php if($list['file']!=''){ ?>
+			<tr>
+				<td colspan="3">
+					<?php 
+						$filelist = array_filter(explode(',', $list['file'])); 
+						$i=1;
+						foreach($filelist as $file){
+							if(!file_exists('./assets/uploads/plumber/'.$plumberid.'/log/'.$file)) continue;
+							$plumberimg = base64conversion(base_url().'assets/uploads/plumber/'.$plumberid.'/log/'.$file);
+					?>
+							<p style="display:inline-block;margin-right:10px;margin-bottom:10px;"><img src="<?php echo $plumberimg; ?>" width="215" height="200"></p>
+					<?php
+							if($i%3==0) echo '<br>';
+							$i++;
+						}
+					?>
+				</td>
+			</tr>
+		<?php } ?>      
+	<?php } ?>      
+	</tbody>                            
+</table>
+
+<h5>DISCLAIMER: This doument was developed by PIRB to assist plumbers in providing a non compliance notice.  The responsibility </h5>
+<h5>for notifying the user & owner, lies with the lisenced plumber. This document is simply a guide & is not exhaustive.</h5>
+			
