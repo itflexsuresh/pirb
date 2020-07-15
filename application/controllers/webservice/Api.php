@@ -426,15 +426,46 @@ class Api extends CC_Controller
 	// CoC Statement:
 	public function coc_statement(){
 
-		if ($this->input->post('user_id')) {
+		if ($this->input->post('user_id') && $this->input->post('type') == 'list') {
+			$jsonData = [];
 
 			$userid 				= $this->input->post('user_id');
-			
-			$jsonData['userid'] 	= $userid;
-			$jsonData['totalcount'] = $this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => ['2','4','5','7']]);
-			$jsonData['results'] 	= $this->Coc_Model->getCOCList('all', ['user_id' => $userid, 'coc_status' => ['2','4','5','7']]);
+
+			$totalcount 			 = $this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => ['2','4','5','7']]);
+			$results	 			= $this->Coc_Model->getCOCList('all', ['user_id' => $userid, 'coc_status' => ['2','4','5','7']]);
+
+			foreach ($results as $key => $value) {
+				if ( $this->config->item('cocstatus')[$value['coc_status']] == 'Logged') {
+					$colorcode = '#ade33d';
+				}else{
+					$colorcode = '#7f694f';
+				}
+				$jsonData['coc_statement'][] = [ 'plumberid' => $value['user_id'], 'coc_status' =>  $this->config->item('cocstatus')[$value['coc_status']], 'coc_type' => $this->config->item('coctype')[$value['type']], 'cl_name' => $value['cl_name'], 'colorcode' => $colorcode, 'totalcount' => $totalcount
+				];
+			}
 
 			$jsonArray = array("status"=>'1', "message"=>'COC statement details', "result"=>$jsonData);
+
+		}elseif($this->input->post('user_id') && $this->input->post('type') == 'search'  && $this->input->post('keywords')){
+			$keywords 		= $this->input->post('keywords');
+			$userid 		= $this->input->post('user_id');
+			$post 			= $this->input->post();
+
+			$totalcount 	= $this->Coc_Model->getCOCList('count', ['coc_status' => ['2','4','5','7'], 'user_id' => $userid, 'search' => ['value' => $keywords], 'page' => 'plumbercocstatement']);
+			$results 		= $this->Coc_Model->getCOCList('all', ['coc_status' => ['2','4','5','7'], 'user_id' => $userid, 'search' => ['value' => $keywords], 'page' => 'plumbercocstatement']);
+
+			foreach ($results as $key => $value) {
+				if ( $this->config->item('cocstatus')[$value['coc_status']] == 'Logged') {
+					$colorcode = '#ade33d';
+				}else{
+					$colorcode = '#7f694f';
+				}
+				$jsonData['coc_statement'][] = [ 'plumberid' => $value['user_id'], 'coc_status' =>  $this->config->item('cocstatus')[$value['coc_status']], 'coc_type' => $this->config->item('coctype')[$value['type']], 'cl_name' => $value['cl_name'], 'colorcode' => $colorcode, 'totalcount' => $totalcount
+				];
+			}
+			
+			$jsonArray = array("status"=>'1', "message"=>'COC statement serach details', "result"=>$jsonData);
+
 		}else{
 
 			$jsonArray = array("status"=>'0', "message"=>'invalid request', 'result' => []);
