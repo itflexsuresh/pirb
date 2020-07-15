@@ -146,16 +146,19 @@ class Services extends CC_Controller
 						
 						$friendperformance 	= $this->Plumber_Model->performancestatus('all', ['date' => $date, 'archive' => '0', 'overall' => '1', 'plumberid' => $friend['userid']]);
 						$point 				= count($friendperformance) ? array_sum(array_column($friendperformance, 'point')) : '0';
-						
+						$useridsearch		= array_search($userid, array_column($friendperformance, 'userid'));
+						$rank				= ($useridsearch !== false) ? $useridsearch+1 : 0;
+				
 						$result[] =  [
 							'id' 		=> $userid,
 							'name' 		=> $friend['name'],
 							'point' 	=> $point,
+							'rank' 		=> $rank,
 							'image' 	=> $photoidimg
 						];
 					}
 					
-					array_multisort(array_column($result, 'point'), SORT_ASC, $result);
+					array_multisort(array_column($result, 'rank'), SORT_ASC, $result);
 					$json = array("status" => "1", "message" => count($result)." Record Found", "result" => $result);
 				}else{
 					$json = array("status" => "0", "message" => "No Record Found", "result" => []);
