@@ -380,8 +380,13 @@ class Api extends CC_Controller
 
 
 
-			if ($coc_count > $userdata1['coc_purchase_limit']) {
-				$jsonData['plumber_purchase_details'] = ['plumberid' => $userdata1['id'], 'errormsg' => 'You cannot purchase more than '.$userdata1['coc_purchase_limit'].' COCs. Contact our support for further assistance.'
+			if ($coc_count > $userdatacoc_count['count']) {
+				if ($userdatacoc_count['count'] == '0') {
+					$errormsg = 'Purchase limit has been exceeded. Contact our support for further assistance.'
+				}else{
+					$errormsg = 'You cannot purchase more than '.$userdatacoc_count['count'].' COCs. Contact our support for further assistance.'
+				}
+				$jsonData['plumber_purchase_details'] = ['plumberid' => $userdata1['id'], 'errormsg' => $errormsg
 				];
 				$jsonArray = array("status"=>'1', "message"=>'Purchase COC’s', 'result' => $jsonData);
 			}else{
