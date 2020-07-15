@@ -269,11 +269,14 @@ function base64conversion($path){
 					<td colspan="4" style="font-family:Helvetica;">
 						<?php 
 							$filelist = array_filter(explode(',', $list['file'])); 
+							$i=1;
 							foreach($filelist as $file){
 								if(!file_exists('./assets/uploads/auditor/statement/'.$file)) continue;
 						?>
-								<p style="display:inline-block;width:200px;margin-right:10px;"><img src="<?php echo base64conversion(base_url().'assets/uploads/auditor/statement/'.$file); ?>" width="200" height="200"></p>
+								<p style="display:inline-block;margin-right:10px;margin-bottom:10px;"><img src="<?php echo base64conversion(base_url().'assets/uploads/auditor/statement/'.$file); ?>" width="215" height="200"></p>
 						<?php
+								if($i%3==0) echo '<br>';
+								$i++;
 							}
 						?>
 					</td>
