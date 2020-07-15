@@ -8,6 +8,7 @@ class Services extends CC_Controller
 		parent::__construct();
 		$this->load->model('Plumber_Model');
 		$this->load->model('Managearea_Model');
+		$this->load->model('Friends_Model');
 	}
 	
 	public function national_ranking()
@@ -132,7 +133,6 @@ class Services extends CC_Controller
 				$result			= [];
 				if(count($friends) > 0){
 					foreach($friends as $friend){
-						$id						= $friend['id'];
 						$userid					= $friend['userid'];
 						$filepath				= base_url().'assets/uploads/plumber/'.$userid.'/';
 						$file2 					= isset($friend['file2']) ? $friend['file2'] : '';
