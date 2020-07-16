@@ -1277,7 +1277,13 @@ class Api extends CC_Controller
 				if(isset($post['image1'])) 		 		$requestData1['file1'] 				= $post['image1'];
 				if(isset($post['points'])) 		 		$requestData1['points'] 			= $post['points'];
 				if(isset($post['hidden_stream_id'])) 	$requestData1['cpd_stream'] 		= $post['hidden_stream_id'];
-				$requestData1['status'] 														= '0';
+
+				if ($this->input->post('submit') == 'submit') {
+					$requestData1['status'] 												= '0';
+				}else{
+					$requestData1['status'] 												= '3';
+				}
+				
 
 				$requestData1['created_at'] = 	$datetime;
 				$requestData1['created_by']	= 	$plumberID;
@@ -1322,8 +1328,13 @@ class Api extends CC_Controller
 				if(isset($post['image1'])) 		 		$requestData1['file1'] 				= $post['image1'];
 				if(isset($post['points'])) 		 		$requestData1['points'] 			= $post['points'];
 				if(isset($post['hidden_stream_id'])) 	$requestData1['cpd_stream'] 		= $post['hidden_stream_id'];
-				$requestData1['status'] 														= '0';
-
+				
+				if ($this->input->post('submit') == 'submit') {
+					$requestData1['status'] 												= '0';
+				}else{
+					$requestData1['status'] 												= '3';
+				}
+				
 				$requestData1['created_at'] = 	$datetime;
 				$requestData1['created_by']	= 	$plumberID;
 
