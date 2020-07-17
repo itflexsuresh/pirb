@@ -44,7 +44,7 @@ class Api extends CC_Controller
 
 			if ($this->form_validation->run()==FALSE) {
 				$errorMsg =  validation_errors();
-				
+
 				$jsonArray = array("status"=>'0', "message"=>$errorMsg, 'result' => []);
 			}else{
 				$jsonData = [];
@@ -1266,7 +1266,7 @@ class Api extends CC_Controller
 
 			$result 		= $this->Mycpd_Model->getQueueList('row', ['id' => $cpdID, 'pagestatus' => $pagestatus]);
 
-			$jsonData['page_lables'] = [ 'mycpd' => 'My CPD points', 'logcpd' => 'Log your CPD points', 'activity' => 'PIRB CPD Activity', 'date' => 'The Date', 'comments' => 'comments', 'documents' => 'Supporting Documents', 'files' => 'Choose Files', 'declaration' => 'I declare that the information contained in this CPD Activity form is complete, accurate and true. I further decalre that I understadn that I must keep verifiable evidence of all the CPD activities for at least 2 years and the PRIB may conduct a random audit of my activity(s) which would require me to submit the evidence to the PIRB', 'or' => 'OR', 'previouscpd' => 'Your Previous CPD Points'
+			$jsonData['page_lables'] = [ 'mycpd' => 'My CPD points', 'logcpd' => 'Log your CPD points', 'activity' => 'PIRB CPD Activity', 'date' => 'The Date', 'comments' => 'comments', 'documents' => 'Supporting Documents', 'files' => 'Choose Files', 'declaration' => 'I declare that the information contained in this CPD Activity form is complete, accurate and true. I further decalre that I understadn that I must keep verifiable evidence of all the CPD activities for at least 2 years and the PRIB may conduct a random audit of my activity(s) which would require me to submit the evidence to the PIRB', 'or' => 'OR', 'previouscpd' => 'Your Previous CPD Points', 'renewalcpd' => 'CPD points needed for renewal'
 			];
 			if ($result['status'] == '0') {
 					$status = 'Pending';
@@ -1279,7 +1279,7 @@ class Api extends CC_Controller
 					$statusicons = '';
 				}
 
-			$jsonData['result'] = [ 'dateofactivity' => date('d/m/Y', strtotime($result['cpd_start_date'])), 'activity' => $result['cpd_activity'], 'status' => $status, 'stausicons' => $statusicons, 'cpdpoints' => $result['points'], 'comments' => $result['comments'], 'admindocument' => ''.$base_url.'assets/uploads/cpdqueue/'.$result['file1'].'', 'plumberdocument' => ''.$base_url.'assets/uploads/cpdqueue/'.$result['file2'].'','cpdstreamid' => $result['cpd_stream'], 'userid' => $result['user_id'], 'cpdid' => $result['id']
+			$jsonData['result'] = [ 'dateofactivity' => date('d/m/Y', strtotime($result['cpd_start_date'])), 'activity' => $result['cpd_activity'], 'status' => $status, 'stausicons' => $statusicons, 'cpdpoints' => $result['points'], 'comments' => $result['comments'], 'admindocument' => ''.$base_url.'assets/uploads/cpdqueue/'.$result['file1'].'', 'plumberdocument' => ''.$base_url.'assets/uploads/cpdqueue/'.$result['file2'].'','cpdstreamid' => $result['cpd_stream'], 'userid' => $result['user_id'], 'cpdid' => $result['id'], 'renewalcpd' => ''
 				];
 
 			if (count($result) > 0) {
@@ -1314,17 +1314,23 @@ class Api extends CC_Controller
 				$plumberID 			= $this->input->post('user_id');
 				$datetime			= date('Y-m-d H:i:s');
 
+				if ($post['image1'] != '') {
+					$data = $this->fileupload(['files' => $post['image1'], 'user_id' => $plumberID, 'pagetype' => 'plumbercpd']);
+					$image = base64_decode($data);
+					print_r($data);die;
+				}
+
 				if(isset($post['hidden_regnumber'])) 	$requestData1['reg_number']    		= $post['hidden_regnumber'];
 				if(isset($post['user_id']))  			$requestData1['user_id'] 	    	= $post['user_id'];
 				if(isset($post['name_surname']))  		$requestData1['name_surname']  		= $post['name_surname'];
 				if(isset($post['activity'])) 			$requestData1['cpd_activity']  		= $post['activity'];
 				if(isset($post['startdate'])) 	 		$requestData1['cpd_start_date'] 	= date("Y-m-d H:i:s", strtotime($post['startdate']));
 				if(isset($post['comments'])) 	 		$requestData1['comments'] 			= $post['comments'];
-				if(isset($post['image1'])) 		 		$requestData1['file1'] 				= $post['image1'];
+				if(isset($image)) 		 				$requestData1['file1'] 				= $image;
 				if(isset($post['points'])) 		 		$requestData1['points'] 			= $post['points'];
 				if(isset($post['hidden_stream_id'])) 	$requestData1['cpd_stream'] 		= $post['hidden_stream_id'];
-
-				if ($this->input->post('submit') == 'submit') {
+				// 1- submit 2- save
+				if ($this->input->post('submit') == '1') {
 					$requestData1['status'] 												= '0';
 				}else{
 					$requestData1['status'] 												= '3';
@@ -1365,13 +1371,19 @@ class Api extends CC_Controller
 				$cpd_id 			= $this->input->post('cpd_id');
 				$datetime			= date('Y-m-d H:i:s');
 
+				if ($post['image1'] != '') {
+					$data = $this->fileupload(['files' => $post['image1'], 'user_id' => $plumberID, 'pagetype' => 'plumbercpd']);
+					$image = base64_decode($data);
+					print_r($data);die;
+				}
+
 				if(isset($post['hidden_regnumber'])) 	$requestData1['reg_number']    		= $post['hidden_regnumber'];
 				if(isset($post['user_id']))  			$requestData1['user_id'] 	    	= $post['user_id'];
 				if(isset($post['name_surname']))  		$requestData1['name_surname']  		= $post['name_surname'];
 				if(isset($post['activity'])) 			$requestData1['cpd_activity']  		= $post['activity'];
 				if(isset($post['startdate'])) 	 		$requestData1['cpd_start_date'] 	= date("Y-m-d H:i:s", strtotime($post['startdate']));
 				if(isset($post['comments'])) 	 		$requestData1['comments'] 			= $post['comments'];
-				if(isset($post['image1'])) 		 		$requestData1['file1'] 				= $post['image1'];
+				if(isset($image)) 		 				$requestData1['file1'] 				= $image;
 				if(isset($post['points'])) 		 		$requestData1['points'] 			= $post['points'];
 				if(isset($post['hidden_stream_id'])) 	$requestData1['cpd_stream'] 		= $post['hidden_stream_id'];
 				
@@ -1411,7 +1423,36 @@ class Api extends CC_Controller
 		}else{
 			$jsonArray = array("status"=>'0', "message"=>'Invalid API', "result"=> []);
 		}
+		echo json_encode($jsonArray);
+	}
+	public function fileupload($data = []){
 		
+		$userid 	 = $data['user_id'];
+		$base64files = $data['files'];
+		$base_url 	 = base_url();
+		$page 		 = $data['pagetype'];
+
+		if ($page == 'plumbercpd') {
+			$path = $base_url.'assets/uploads/cpdqueue/';
+		}elseif($page == 'plumberlogcoc'){
+			$path = $base_url.'assets/uploads/cpdqueue/';
+		}
+		if(strpos($base64files, ',') !== false){
+			$imgarray = explode(",",$base64files);
+			foreach ($imgarray as $key => $images) {
+				$image = base64_decode($images);
+				$image_name = md5(uniqid(rand(), true));
+				$filename = $image_name . '.' . 'png';
+				file_put_contents($path . $filename, $image);
+			}
+				
+		}else{
+			$image = base64_decode($base64files);
+			$image_name = md5(uniqid(rand(), true));
+			$filename = $image_name . '.' . 'png';
+			file_put_contents($path . $filename, $image);
+		}
+		return $base64files;
 	}
 
 	public function province_ranking(){
