@@ -36,6 +36,52 @@ class Api extends CC_Controller
 		$this->load->model('Plumberperformance_Model');
 		$this->load->model('Mycpd_Model');
 	}
+
+	public function login(){
+		if ($this->input->post()) {
+			$this->form_validation->set_rules('email', 'Email', 'trim|required');
+			$this->form_validation->set_rules('password', 'Password', 'trim|required');
+
+			if ($this->form_validation->run()==FALSE) {
+				$errorMsg =  validation_errors();
+				
+				$jsonArray = array("status"=>'0', "message"=>$errorMsg, 'result' => []);
+			}else{
+				$jsonData = [];
+				$email 		= trim($this->input->post('email'));
+				$password 	= md5($this->input->post('password'));
+				$type 		= $this->input->post('roletype');
+
+				$query = $this->db->where_in('type', $type)->get_where('users', ['email' => $email, 'password' => $password]);
+			
+				if($query->num_rows() > 0){
+					$result = $query->row_array();
+
+					$jsonData['userdetails'] = [ 'userid' => $result['id'], 'roletype' => $result['type'], 'role' => $this->config->item('usertype2')[$result['type']]
+					 ];
+					
+					$jsonArray = array('status' => '1', "message"=>'Login sucessfully', 'result' => $jsonData);
+				}else{
+					$jsonArray = array('status' => '0', "message"=>'Invalid Credentials.', 'result' => []);
+				}
+			}
+
+		}else{
+			$jsonArray = array("status"=>'0', "message"=>'invalid request', 'result' => []);
+		}
+		echo json_encode($jsonArray);
+	}
+
+	public function email_validation($email)
+    {
+        if(stristr($str,'@uni-email-1.com') !== false) return true;
+        if(stristr($str,'@uni-email-2.com') !== false) return true;
+        if(stristr($str,'@uni-email-3.com') !== false) return true;
+
+        $this->form_validation->set_message('email', 'Invalid Credentials.');
+        return FALSE;
+    }
+
 	// Plumber Registration:
 
 	public function plumber_registration()
