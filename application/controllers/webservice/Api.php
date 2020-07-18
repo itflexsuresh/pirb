@@ -1462,24 +1462,34 @@ class Api extends CC_Controller
 		$base_url 	 = base_url();
 		$page 		 = $data['page'];
 
+		$file_size	=  $base64files['image']['size'];
+    	$files		=  $base64files['image']['tmp_name'];
+    	$countfiles = count($files);
+
 		if ($page == 'plumbercpd') {
 			$path = $base_url.'assets/uploads/cpdqueue/';
 		}elseif($page == 'plumberlogcoc'){
 			$path = $base_url.'assets/uploads/cpdqueue/';
 		}
-		if(strpos($base64files, ',') !== false){
-			$imgarray = explode(",",$base64files);
-			foreach ($imgarray as $key => $images) {
-				$image = base64_decode($images);
-				$image_name = md5(uniqid(rand(), true));
-				$filename = $image_name . '.' . 'png';
-				file_put_contents($path . $filename, $image);
+		
+		if ($countfiles > 1) {
+			for($i=0;$i<$countfiles;$i++){
+				$base64		= $base64files[$i];
+
+	            $extension 	= explode('/', mime_content_type($base64))[1];
+	            $image 		= base64_decode($base64);
+	            $image_name = md5(uniqid(rand(), true))[$i];
+	            $filename 	= $image_name . '.' . $extension;
+	            file_put_contents($path . $filename, $image)
 			}
-				
-		}else{
-			$image = base64_decode($base64files);
-			$image_name = md5(uniqid(rand(), true));
-			$filename = $image_name . '.' . 'png';
+		}
+		else{
+			$base64		= $base64files;
+
+			$extension 	= explode('/', mime_content_type($base64))[1];
+	        $image 		= base64_decode($base64);
+	        $image_name = md5(uniqid(rand(), true));
+	        $filename 	= $image_name . '.' . $extension;
 			file_put_contents($path . $filename, $image);
 		}
 		return $base64files;
