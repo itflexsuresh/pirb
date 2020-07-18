@@ -1315,7 +1315,7 @@ class Api extends CC_Controller
 				$datetime			= date('Y-m-d H:i:s');
 
 				if ($post['image1'] != '') {
-					$data = $this->fileupload(['files' => $post['image1'], 'user_id' => $plumberID, 'pagetype' => 'plumbercpd']);
+					$data = $this->fileupload(['files' => $post['image1'], 'user_id' => $plumberID, 'page' => 'plumbercpd']);
 					$image = base64_decode($data);
 					print_r($data);die;
 				}
@@ -1372,7 +1372,7 @@ class Api extends CC_Controller
 				$datetime			= date('Y-m-d H:i:s');
 
 				if ($post['image1'] != '') {
-					$data = $this->fileupload(['files' => $post['image1'], 'user_id' => $plumberID, 'pagetype' => 'plumbercpd']);
+					$data = $this->fileupload(['files' => $post['image1'], 'user_id' => $plumberID, 'page' => 'plumbercpd']);
 					$image = base64_decode($data);
 					print_r($data);die;
 				}
@@ -1430,7 +1430,7 @@ class Api extends CC_Controller
 		$userid 	 = $data['user_id'];
 		$base64files = $data['files'];
 		$base_url 	 = base_url();
-		$page 		 = $data['pagetype'];
+		$page 		 = $data['page'];
 
 		if ($page == 'plumbercpd') {
 			$path = $base_url.'assets/uploads/cpdqueue/';
