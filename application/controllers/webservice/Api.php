@@ -1189,7 +1189,7 @@ class Api extends CC_Controller
 	public function cpd_search_activity(){
 		if ($this->input->post() && $this->input->post('user_id')) {
 			$jsonData 	= [];
-			$userid 	= $this->input->post('user_id')
+			$userid 	= $this->input->post('user_id');
 			$keyword 	= $this->input->post('keyword');
 
 			if ($keyword != '') {
