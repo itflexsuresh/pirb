@@ -1187,20 +1187,49 @@ class Api extends CC_Controller
 		echo json_encode($jsonArray);
 	}
 	public function cpd_search_activity(){
-		if ($this->input->post() && $this->input->post('user_id') && $this->input->post('keyword')) {
-			$jsonData = [];
+		if ($this->input->post() && $this->input->post('user_id')) {
+			$jsonData 	= [];
 			$keyword 	= $this->input->post('keyword');
-			$data 		=   $this->Mycpd_Model->autosearchActivity(['search_keyword' => $keyword]);
 
-			foreach ($data as $key => $value) {
-				$jsonData['cpd_data'][] = [ 'actid' =>$value['id'], 'activityname' => $value['activity'], 'streamid' => $value['cpdstream'], 'points' => $value['points'], 'startdate' => date('m-d-Y', strtotime($value['startdate']))
-				];
-			}
-			if (count($data) > 0) {
-				$jsonArray 	= array("status"=>'1', "message"=>'My CPD', "result"=>$jsonData);
+			if ($keyword != '') {
+				$data 		=   $this->Mycpd_Model->autosearchActivity(['search_keyword' => $keyword]);
+				foreach ($data as $key => $value) {
+					$jsonData['cpd_data'][] = [ 'actid' =>$value['id'], 'activityname' => $value['activity'], 'streamid' => $value['cpdstream'], 'points' => $value['points'], 'startdate' => date('m-d-Y', strtotime($value['startdate']))
+					];
+				}
+				if (count($data) > 0) {
+					$jsonArray 	= array("status"=>'1', "message"=>'My CPD', "result"=>$jsonData);
+				}else{
+					$jsonArray 	= array("status"=>'0', "message"=>'No Record Found', "result"=>[]);
+				}
 			}else{
-				$jsonArray 	= array("status"=>'0', "message"=>'No Record Found', "result"=>[]);
+
+				$currentDate = date('Y-m-d H:i:s');
+
+				$this->db->select('cp1.id, cp1.activity, cp1.startdate, cp1.points, cp1.cpdstream');
+				$this->db->from('cpdtypes cp1');
+
+				$this->db->where('cp1.status="1"');
+				$this->db->where('cp1.startdate<="'.$currentDate.'"');
+				$this->db->where('cp1.enddate>"'.$currentDate.'"');
+				
+				$this->db->group_by("cp1.id");		
+				$query = $this->db->get();
+				$data = $query->result_array(); 
+
+				foreach ($data as $key => $value) {
+					$jsonData['cpd_data'][] = [ 'actid' =>$value['id'], 'activityname' => $value['activity'], 'streamid' => $value['cpdstream'], 'points' => $value['points'], 'startdate' => date('m-d-Y', strtotime($value['startdate']))
+					];
+				}
+
+				if (count($data) > 0) {
+					$jsonArray 	= array("status"=>'1', "message"=>'My CPD', "result"=>$jsonData);
+				}else{
+					$jsonArray 	= array("status"=>'0', "message"=>'No Record Found', "result"=>[]);
+				}
+
 			}
+
 		}else{
 			$jsonArray 		= array("status"=>'0', "message"=>'invalid request', "result"=>[]);
 		}
