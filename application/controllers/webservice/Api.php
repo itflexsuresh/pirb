@@ -1189,12 +1189,13 @@ class Api extends CC_Controller
 	public function cpd_search_activity(){
 		if ($this->input->post() && $this->input->post('user_id')) {
 			$jsonData 	= [];
+			$userid 	= $this->input->post('user_id')
 			$keyword 	= $this->input->post('keyword');
 
 			if ($keyword != '') {
 				$data 		=   $this->Mycpd_Model->autosearchActivity(['search_keyword' => $keyword]);
 				foreach ($data as $key => $value) {
-					$jsonData['cpd_data'][] = [ 'actid' =>$value['id'], 'activityname' => $value['activity'], 'streamid' => $value['cpdstream'], 'points' => $value['points'], 'startdate' => date('m-d-Y', strtotime($value['startdate']))
+					$jsonData['cpd_data'][] = [ 'actid' =>$value['id'], 'activityname' => $value['activity'], 'streamid' => $value['cpdstream'], 'points' => $value['points'], 'startdate' => date('m-d-Y', strtotime($value['startdate'])), 'plumberid' => $userid
 					];
 				}
 				if (count($data) > 0) {
@@ -1218,7 +1219,7 @@ class Api extends CC_Controller
 				$data = $query->result_array(); 
 
 				foreach ($data as $key => $value) {
-					$jsonData['cpd_data'][] = [ 'actid' =>$value['id'], 'activityname' => $value['activity'], 'streamid' => $value['cpdstream'], 'points' => $value['points'], 'startdate' => date('m-d-Y', strtotime($value['startdate']))
+					$jsonData['cpd_data'][] = [ 'actid' =>$value['id'], 'activityname' => $value['activity'], 'streamid' => $value['cpdstream'], 'points' => $value['points'], 'startdate' => date('m-d-Y', strtotime($value['startdate'])), 'plumberid' => $userid
 					];
 				}
 
