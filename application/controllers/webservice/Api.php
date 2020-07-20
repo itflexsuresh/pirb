@@ -1037,8 +1037,6 @@ class Api extends CC_Controller
 
 			$userid						= $this->input->post('user_id');
 			$cocID 						= $this->input->post('coc_id');
-
-
 			$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber', 'company']);
 			$specialisations 				= explode(',', $userdata['specialisations']);
 
