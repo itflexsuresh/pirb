@@ -1037,6 +1037,8 @@ class Api extends CC_Controller
 
 			$userid						= $this->input->post('user_id');
 			$cocID 						= $this->input->post('coc_id');
+			$electroniccocreport 		= '';
+			$noncompliancereport 		= '';
 			$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber', 'company']);
 			$specialisations 				= explode(',', $userdata['specialisations']);
 
@@ -1051,6 +1053,7 @@ class Api extends CC_Controller
 			}
 			
 			$result 					= $this->Coc_Model->getCOCList('row', ['id' => $cocID, 'user_id' => $userid]+$auditorid);
+			$logdate 					= isset($result['cl_log_date']) && date('Y-m-d', strtotime($result['cl_log_date']))!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_log_date'])) : '';
 
 			$noncompliance				= $this->Noncompliance_Model->getList('all', ['coc_id' => $cocID, 'user_id' => $userid]);		
 			$jsonData['noncompliance']		= [];
@@ -1104,14 +1107,21 @@ class Api extends CC_Controller
 						];
 			}
 
-			$jsonData['pdf'] = ['electroniccocreport' => base_url().'plumber/auditstatement/index/electroniccocreport/'.$cocID.'/'.$userid, 'noncompliancereport' => base_url().'plumber/auditstatement/index/noncompliancereport/'.$cocID.'/'.$userid];
+			if ($result['type'] =='2' && $logdate!='') {
+				$electroniccocreport = base_url().'plumber/auditstatement/index/electroniccocreport/'.$cocID.'/'.$userid;
+			}
+			if (count($jsonData['noncompliance']) > 0 && $logdate!='') {
+				$noncompliancereport = base_url().'plumber/auditstatement/index/noncompliancereport/'.$cocID.'/'.$userid;
+			}
+
+			$jsonData['pdf'] = ['electroniccocreport' => $electroniccocreport, 'noncompliancereport' => $noncompliancereport];
 
 			$jsonData['page_lables'] = [ 'plumbingwork' => 'Plumbing Work Completion Date *', 'insuranceclaim' => "Insurance Claim/Order no: (if relevant)", "certificatenumber" => $cocID, 'physicaladdress' => "Physical Address Details of Installation", 'ownername' => "Owners Name *", 'complex' => "Name of Complex/Flat and Unit Number (if applicable)", 'street' => "Street *", 'number' => "Number *", 'province' => "Province *", 'city' => "City *", 'suburb' => "Suburb *", 'contactmobile' => "Contact Mobile *", 'Alternate Contact' => "Alternate Contact", 'email' => "Email Address", 'installationimages' => "Installation Images"
 			];
 
 			$jsonData['agreement'] = [ 'header' => ["I ".$result['u_name'].", Licensed registration number ".$result['plumberregno'].", certify that, the above compliance certifcate details are true and correct and will be logged in accordance with the prescribed requirements as defned by the PIRB. Select either A or B as appropriate"],'agreement1' => ['description' => 'A: The above plumbing work was carried out by me or under my supervision, and that it complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.', 'agreementid' => '1'], 'agreement2' => ['description' => 'B: I have fully inspected and tested the work started but not completed by another Licensed plumber. I further certify that the inspected and tested work and the necessary completion work was carried out by me or under my supervision- complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.', 'agreementid' => '2'], 
 			];
-
+print_r($result);die;
 			if (count($result) > 0) {
 				$jsonArray = array("status"=>'1', "message"=>'View CoC', "result"=>$jsonData);
 			}else{
