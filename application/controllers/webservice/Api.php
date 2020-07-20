@@ -1480,7 +1480,7 @@ class Api extends CC_Controller
 	            $image 		= base64_decode($base64);
 	            $image_name = md5(uniqid(rand(), true))[$i];
 	            $filename 	= $image_name . '.' . $extension;
-	            file_put_contents($path . $filename, $image)
+	            file_put_contents($path . $filename, $image);
 			}
 		}
 		else{
