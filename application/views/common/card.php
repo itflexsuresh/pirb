@@ -7,7 +7,7 @@
     $designation2id         = isset($result['designation']) ? $result['designation'] : '';
     $registration_no        = isset($result['registration_no']) ? $result['registration_no'] : '';
     $registration_date      = isset($result['registration_date']) && $result['registration_date']!='1970-01-01' ? date('d-m-Y', strtotime($result['registration_date'])) : '';
-    $renewal_date           = $registration_date!='' ? date('d-m-Y', strtotime($result['registration_date']. ' +365 days')) : '';
+    $renewal_date           = date('d-m-Y', strtotime($result['expirydate']));
     $specialisationsid      = isset($result['specialisations']) ? array_filter(explode(',', $result['specialisations'])) : [];
     $companyname        	= isset($result['companyname']) ? $result['companyname'] : '';
 
