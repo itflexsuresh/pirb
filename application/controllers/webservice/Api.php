@@ -544,30 +544,38 @@ class Api extends CC_Controller
 			$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $plumberID], ['users', 'usersdetail', 'usersplumber', 'company']);
 			$specialisations 				= explode(',', $userdata['specialisations']);
 
-			$jsonData['page_lables'] = [ 'Plumbing Work Completion Date *', "Insurance Claim/Order no: (if relevant)", "Certificate Number: ".$id."", "Installation Images", "Physical Address Details of Installation", "Owners Name *", "Name of Complex/Flat and Unit Number (if applicable)", "Street *", "Number *", "Province *", "City *", "Suburb *", "Contact Mobile *", "Alternate Contact", "Email Address"
+			$jsonData['page_lables'] = [ 'plumbingwork' => 'Plumbing Work Completion Date *', 'insuranceclaim' => "Insurance Claim/Order no: (if relevant)", 'certificate' => "Certificate Number: ".$id."", 'installationimages' => "Installation Images", 'address' => "Physical Address Details of Installation", 'ownersname' => "Owners Name *", 'complex' => "Name of Complex/Flat and Unit Number (if applicable)", 'street' => "Street *", 'number' => "Number *", 'province' => "Province *", 'city' => "City *", 'suburb' => "Suburb *", 'contact' => "Contact Mobile *", 'alternate_no' => "Alternate Contact", 'email' => "Email Address"
 			];
 
 			$jsonData['userdata'] 			= $userdata;
 			$jsonData['cocid'] 				= $id;
-			$jsonData['result'] 			= $result;
-			$jsonData['notification'] 		= $this->getNotification();
-			$jsonData['province'] 			= $this->getProvinceList();
-			$jsonData['designation2'] 		= $this->config->item('designation2');
-			$jsonData['ncnotice'] 			= $this->config->item('ncnotice');
-			$jsonData['installationtype']	= $this->getInstallationTypeList();
 			$jsonData['installation'] 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => [], 'ids' => range(1,8)]);
 			$jsonData['specialisations']	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations, 'ids' => range(1,8)]);
-			$jsonData['result']				= $result;
-		
-			$noncompliance					= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $plumberID]);		
-			$jsonData['noncompliance']		= [];
-			foreach($noncompliance as $compliance){
-				$jsonData['noncompliance'][] = [
-					'id' 		=> $compliance['id'],
-					'details' 	=> $this->parsestring($compliance['details']),
-					'file' 		=> $compliance['file']
-				];
+
+
+			$province 						= $this->Managearea_Model->getListProvince('all', ['status' => ['1']]);
+			if(count($province) > 0){
+				foreach ($province as $key => $value) {
+					$jsonData['province_list'][] = [ 'id' => $value['id'], 'name' => $value['name']
+					];
+				}
 			}
+
+			//$jsonData['result'] 			= $result;
+
+			//$jsonData['designation2'] 		= $this->config->item('designation2');
+			//$jsonData['ncnotice'] 			= $this->config->item('ncnotice');
+			//$jsonData['installationtype']	= $this->getInstallationTypeList();
+		
+			//$noncompliance					= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $plumberID]);		
+			//$jsonData['noncompliance']		= [];
+			// foreach($noncompliance as $compliance){
+			// 	$jsonData['noncompliance'][] = [
+			// 		'id' 		=> $compliance['id'],
+			// 		'details' 	=> $this->parsestring($compliance['details']),
+			// 		'file' 		=> $compliance['file']
+			// 	];
+			// }
 
 			$jsonArray = array("status"=>'1', "message"=>'Plumber CoC Detail', "result"=>$jsonData);
 			
@@ -1532,6 +1540,70 @@ class Api extends CC_Controller
 		}else{
 			$jsonArray = array("status"=>'0', "message"=>'Invalid API', "result"=> []);
 		}
+		echo json_encode($jsonArray);
+	}
+
+	public function ajaxprovince(){
+		$jsonData = [];
+		$data = $this->Managearea_Model->getListProvince('all', ['status' => ['1']]);
+		
+		if(count($data) > 0){
+			foreach ($data as $key => $value) {
+				$jsonData['provincedata'][] = [ 'id' => $value['id'], 'name' => $value['name']
+				];
+			}
+			$jsonArray = ['status' => '1', 'result' => $jsonData];
+		}else{
+			$jsonArray = ['status' => '0', 'result' => []];
+		}
+		echo json_encode($jsonArray);
+	}
+
+	public function ajaxcity(){
+
+		if ($this->input->post()) {
+			$jsonData 			= [];
+			$post['provinceid']	= $this->input->post('provinceid'); 
+			$post['orderby'] 	= "c.name asc";
+			$result 			= $this->Managearea_Model->getListCity('all', $post);
+
+			if(count($result)){
+				foreach ($result as $key => $value) {
+					$jsonData['citydata'][] = [ 'id' => $value['id'], 'province_id' => $value['province_id'], 'name' => $value['name'], 
+					];
+				}
+				$jsonArray = ['status' => '1', 'result' => $jsonData];
+			}else{
+				$jsonArray = ['status' => '0', 'result' => []];
+			}
+		}else{
+			$jsonArray = array("status"=>'0', "message"=>'Invalid API', "result"=> []);
+		}
+		echo json_encode($jsonArray);
+	}
+
+	public function ajaxsuburb(){
+
+		if ($this->input->post()) {
+			$jsonData 			= [];
+			$post['provinceid'] = $this->input->post('provinceid');  
+			$post['cityid'] 	= $this->input->post('cityid');  
+			$post['orderby'] 	= "name asc";
+			$result 			= $this->Managearea_Model->getListSuburb('all', $post);
+			
+			if(count($result)){
+				foreach ($result as $key => $value) {
+					$jsonData['suburbdata'][] = [ 'id' => $value['id'], 'province_id' => $value['province_id'], 'city_id' => $value['city_id'], 'name' => $value['name'], 
+					];
+				}
+				$jsonArray = ['status' => '1', 'result' => $jsonData];
+			}else{
+				$jsonArray = ['status' => '0', 'result' => []];
+			}
+		}else{
+			$jsonArray = array("status"=>'0', "message"=>'Invalid API', "result"=> []);
+		}
+		echo json_encode($jsonArray);
 	}
 
 	public function featchcity(){
