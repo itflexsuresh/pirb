@@ -1085,9 +1085,9 @@ class Api extends CC_Controller
 			$jsonData['specialisation_details']		= [];
 			foreach($specialisations_details as $specialisations_detail){
 				$jsonData['specialisation_details'][] = [
-					'id' 		=> $installation['id'],
-					'name' 		=> $installation['name'],
-					'code' 		=>$installation['code']
+					'id' 		=> $specialisations_detail['id'],
+					'name' 		=> $specialisations_detail['name'],
+					'code' 		=>$specialisations_detail['code']
 				];
 			}
 
