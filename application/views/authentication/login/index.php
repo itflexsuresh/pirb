@@ -3,25 +3,25 @@
 		<?php echo $notification; ?>
 	</div>
 	<?php
-					if ($usertype=='4') {
-						$card_title = "Already Registered PIRB";
-						$header_title = "Company Registration with the PIRB";
-						$header_title2 = "Register a Plumbing Company with the Plumbing Registration Board";
-						$footer = "Register as an Individual with the PIRB"; 
-						$footer2 = "Login as PIRB Individual"; 
-						$pointer_title = "Why Register my Company with the PIRB?";
-						$btn_name = "Register Now";
-					}else{
-						$card_title = "Already Registered";
-						$header_title = "Individual Registration with the PIRB";
-						$header_title2 = "Register as an Individual with the Plumbing Registration Board";
-						$footer = "Register Plumber with the PIRB"; 
-						$footer2 = "Register your company with the PIRB";
-						$pointer_title = "About the Registration Process";
-						$btn_name = "Register";
-					}
-				?>
-	<div class="col-sm-6 <?php if($usertype=='' || $usertype=='5' || $usertype=='6'){ echo 'offset-3';} ?>">
+		if ($usertype=='4') {
+			$card_title = "Already Registered PIRB";
+			$header_title = "Company Registration with the PIRB";
+			$header_title2 = "Register a Plumbing Company with the Plumbing Registration Board";
+			$footer = "Register as an Individual with the PIRB"; 
+			$footer2 = "Login as PIRB Individual"; 
+			$pointer_title = "Why Register my Company with the PIRB?";
+			$btn_name = "Register Now";
+		}else{
+			$card_title = "Already Registered";
+			$header_title = "Individual Registration with the PIRB";
+			$header_title2 = "Register as an Individual with the Plumbing Registration Board";
+			$footer = "Register Plumber with the PIRB"; 
+			$footer2 = "Register your company with the PIRB";
+			$pointer_title = "About the Registration Process";
+			$btn_name = "Register";
+		}
+	?>
+	<div class="col-sm-6 <?php if($usertype=='' || $usertype=='3'  || $usertype=='5' || $usertype=='6'){ echo 'offset-3';} ?>">
 		<div class="card card-body">
 			<h4 class="card-title"><?php echo $card_title; ?></h4>
 			<h5 class="card-subtitle"> If you are already registered please enter your login details </h5>
@@ -42,54 +42,69 @@
 					<?php } ?>					
 				</div>
 				<button type="submit" name="submit" value="login" class="btn btn-success">Login</button>
+				<?php if($usertype=='3'){ ?>
+					<div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#register_popup">Register</button></div>
+				<?php } ?>	
 			</form>
 		</div>
 	</div>
 	<?php if($usertype!='' && $usertype!='5' && $usertype!='6'){ ?>
-		<div class="col-sm-6">
-			<div class="card card-body">
 				
-				<h4 class="card-title"><?php echo $header_title; ?></h4>
-				<h5 class="card-subtitle"> <?php echo $header_title2; ?> </h5>
-				<a style="cursor: pointer;"><?php echo $pointer_title; ?></a>
-				<form method="post" action="<?php echo base_url().'login/'.$usertypename; ?>" class="form-horizontal mt-4 register">
-					<div class="form-group">
-						<label for="email2">Email ID</label>
-						<input class="form-control" name="email" id="email2" type="text" placeholder="Email ID">
-					</div>
-					<div class="form-group">
-						<label for="verifyemail2">Verify Email ID</label>
-						<input class="form-control" name="verifyemail" id="verifyemail2" type="text" placeholder="Verify Email ID">
-					</div>
-					<div class="row">
-						<div class="col-sm-6">
-							<div class="form-group mb_0">
-								<label for="password2">Password</label>
-								<input class="form-control" name="password" id="password2" type="password" placeholder="Password">
-
-							</div>
+		<?php if($usertype=='3'){ ?>
+			<div id="register_popup" class="modal fade" role="dialog">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content register_modal">
+						<div class="modal-body">
+		<?php }else{ ?>
+			<div class="col-sm-6">
+		<?php } ?>
+		
+				<div class="card card-body">
+					<h4 class="card-title"><?php echo $header_title; ?></h4>
+					<h5 class="card-subtitle"> <?php echo $header_title2; ?> </h5>
+					<a style="cursor: pointer;"><?php echo $pointer_title; ?></a>
+					<form method="post" action="<?php echo base_url().'login/'.$usertypename; ?>" class="form-horizontal mt-4 register">
+						<div class="form-group">
+							<label for="email2">Email ID</label>
+							<input class="form-control" name="email" id="email2" type="text" placeholder="Email ID">
 						</div>
-						<div class="col-sm-6">
-							<div class="form-group mb_0">
-								<label for="verifypassword2">Verify Password</label>
-								<input class="form-control" name="verifypassword" id="verifypassword2" type="password" placeholder="Verify Password">
-							</div>
+						<div class="form-group">
+							<label for="verifyemail2">Verify Email ID</label>
+							<input class="form-control" name="verifyemail" id="verifyemail2" type="text" placeholder="Verify Email ID">
 						</div>
-						<p>Password must be 8 to 24 characters, is case sensitive, and cannot contain spaces.</p>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group mb_0">
+									<label for="password2">Password</label>
+									<input class="form-control" name="password" id="password2" type="password" placeholder="Password">
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group mb_0">
+									<label for="verifypassword2">Verify Password</label>
+									<input class="form-control" name="verifypassword" id="verifypassword2" type="password" placeholder="Verify Password">
+								</div>
+							</div>
+							<p>Password must be 8 to 24 characters, is case sensitive, and cannot contain spaces.</p>
+						</div>
+						<div class="text-center">
+							<?php if($usertype=='3'){ ?><a href="<?php echo base_url('login/company'); ?>"><?php echo $footer2; ?></a><?php } ?>
+							<?php if($usertype=='4'){ ?><a href="<?php echo base_url('login/plumber'); ?>"><?php echo $footer; ?></a><?php } ?>
+						</div>
+						<input type="hidden" value="<?php echo $usertype; ?>" name="type" id="userrole">
+						<button type="submit" name="submit" value="register" class="btn btn-success"><?php echo $btn_name; ?></button>
+					</form>
+				</div>
+		
+		<?php if($usertype=='3'){ ?>
 					</div>
-					<div class="text-center">
-						<?php if($usertype=='3'){ ?><a href="<?php echo base_url('login/company'); ?>"><?php echo $footer2; ?></a><?php } ?>
-						<?php if($usertype=='4'){ ?><a href="<?php echo base_url('login/plumber'); ?>"><?php echo $footer; ?></a><?php } ?>
-					</div>
-					<input type="hidden" value="<?php echo $usertype; ?>" name="type" id="userrole">
-					<button type="submit" name="submit" value="register" class="btn btn-success"><?php echo $btn_name; ?></button>
-				</form>
+				</div>
 			</div>
+		<?php } ?>
 		</div>
 	<?php } ?>
 </div>
 
-	
 <script>
 	$(function(){
 
@@ -172,5 +187,16 @@
 			}
 		);
 		
+		if(window.location.hash=='#register'){
+			$('.modal').modal('show');
+		}
 	});
+	
+	$('.modal').on('show.bs.modal', function (e) {
+        window.location.hash = 'register';
+    });
+	
+	$('.modal').on('hidden.bs.modal', function (e) {
+        history.replaceState({}, document.title, window.location.href.split('#')[0]);
+    });
 </script>
