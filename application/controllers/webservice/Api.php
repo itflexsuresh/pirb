@@ -1150,7 +1150,7 @@ class Api extends CC_Controller
 
 			$jsonData 			= [];
 			$post['cocid'] 		= $this->input->post('cocid');  
-			$post['fromto'] 	= $this->input->post('userid');   // checkto = userid
+			$post['fromto'] 	= $this->input->post('userid');   // fromto = userid
 			$result 			= $this->Chat_Model->getList('all', $post);
 			
 			if(count($result)){
