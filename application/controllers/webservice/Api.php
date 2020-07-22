@@ -1148,21 +1148,21 @@ class Api extends CC_Controller
 
 		if ($this->input->post()) {
 
-			$cocID 		= $this->input->post('coc_id');
-			if ($this->input->post('auditorid') != '') {
-				$auditorid	= ['auditorid' => $this->input->post('auditorid')];
-			}else{
-				$auditorid	= [];
-			}
-
+			$jsonData 			= [];
+			$post['cocid'] 		= $this->input->post('cocid');  
+			$post['fromto'] 	= $this->input->post('userid');   // checkto = userid
+			$result 			= $this->Chat_Model->getList('all', $post);
 			
-			$result		= $this->Coc_Model->getCOCList('row', ['id' => $cocID, 'coc_status' => ['2']]+$auditorid);	
-
-			if (count($result) > 0) {
-				$jsonArray = array("status"=>'1', "message"=>'Chat History', "result"=>$result);
+			if(count($result)){
+				foreach ($result as $key => $value) {
+					$jsonData['chatdata'][] = [ 'id' => $value['id'], 'coc_id' => $value['coc_id'], 'from_id' => $value['from_id'], 'to_id' => $value['to_id'], 'quote' => $value['quote'], 'message' => $value['message'], 'attachment' => $value['attachment'], 'name' => $value['name'], 'chatdate' => date('d-m-Y', strtotime($value['created_at']))
+					];
+				}
+				$jsonArray = ['status' => '1', "message"=>'Chat History', 'result' => $jsonData];
 			}else{
-				$jsonArray = array("status"=>'0', "message"=>'No Record Found', "result"=>[]);
+				$jsonArray = ['status' => '0', "message"=>'No chat found', 'result' => []];
 			}
+			
 		}else{
 			$jsonArray = array("status"=>'0', "message"=>'invalid request', "result"=>[]);
 		}
