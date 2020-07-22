@@ -3486,3 +3486,25 @@ tr.dynmci---icns {
 	font-size: 13px;
     margin-bottom: 10px;
 }
+
+.register_modal{
+	background-color: #f5f9fc;
+    padding: 0;
+    border: 1px solid #e4ebf3;
+    border-radius: 3px;
+}
+.register_modal .close_reg{
+	position: absolute;
+	top: 0px;
+	right: 0;
+	font-size: 21px;
+}
+.register_modal .card{
+	border: none;
+    padding: 13px!important;
+}
+
+.plumberloginbtn{
+	width:101px!important;
+	text-transform: uppercase;
+}

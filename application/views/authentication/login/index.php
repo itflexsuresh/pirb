@@ -11,6 +11,14 @@
 			$footer2 = "Login as PIRB Individual"; 
 			$pointer_title = "Why Register my Company with the PIRB?";
 			$btn_name = "Register Now";
+		}elseif ($usertype=='3') {
+			$card_title = "Login";
+			$header_title = "Register with the PIRB";
+			$header_title2 = "Register as a Plumber with the PIRB";
+			$footer = "Register Plumber with the PIRB"; 
+			$footer2 = "Register your company with the PIRB";
+			$pointer_title = "About the Registration Process";
+			$btn_name = "Register Now";
 		}else{
 			$card_title = "Already Registered";
 			$header_title = "Individual Registration with the PIRB";
@@ -24,11 +32,11 @@
 	<div class="col-sm-6 <?php if($usertype=='' || $usertype=='3'  || $usertype=='5' || $usertype=='6'){ echo 'offset-3';} ?>">
 		<div class="card card-body">
 			<h4 class="card-title"><?php echo $card_title; ?></h4>
-			<h5 class="card-subtitle"> If you are already registered please enter your login details </h5>
+			<h5 class="card-subtitle"> If you are already registered, please enter your login details. </h5>
 			<form method="post" action="<?php echo base_url().'login/'.$usertypename; ?>" class="form-horizontal mt-4 login">
 				<div class="form-group">
-					<label for="email">Email ID</label>
-					<input class="form-control" name="email" id="email1" type="text" value="<?php echo set_value('email'); ?>" placeholder="Email ID">
+					<label for="email">Email Address</label>
+					<input class="form-control" name="email" id="email1" type="text" value="<?php echo set_value('email'); ?>" placeholder="Email Address">
 				</div>
 				<div class="form-group">
 					<label for="password">Password</label>
@@ -41,7 +49,7 @@
 						<?php if($usertype=='4'){ ?><div><a href="<?php echo base_url('login/plumber'); ?>">Login as PIRB Individual</a></div><?php } ?>		
 					<?php } ?>					
 				</div>
-				<button type="submit" name="submit" value="login" class="btn btn-success">Login</button>
+				<button type="submit" name="submit" value="login" class="btn btn-success <?php if($usertype=='3'){ echo 'plumberloginbtn';} ?>" >Login</button>
 				<?php if($usertype=='3'){ ?>
 					<div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#register_popup">Register</button></div>
 				<?php } ?>	
@@ -55,6 +63,7 @@
 				<div class="modal-dialog modal-lg">
 					<div class="modal-content register_modal">
 						<div class="modal-body">
+							<button type="button" class="btn btn-default close_reg" data-dismiss="modal" data-toggle="tooltip" title="close">&times;</button>
 		<?php }else{ ?>
 			<div class="col-sm-6">
 		<?php } ?>
@@ -65,12 +74,12 @@
 					<a style="cursor: pointer;"><?php echo $pointer_title; ?></a>
 					<form method="post" action="<?php echo base_url().'login/'.$usertypename; ?>" class="form-horizontal mt-4 register">
 						<div class="form-group">
-							<label for="email2">Email ID</label>
-							<input class="form-control" name="email" id="email2" type="text" placeholder="Email ID">
+							<label for="email2">Email Address</label>
+							<input class="form-control" name="email" id="email2" type="text" placeholder="Email Address">
 						</div>
 						<div class="form-group">
-							<label for="verifyemail2">Verify Email ID</label>
-							<input class="form-control" name="verifyemail" id="verifyemail2" type="text" placeholder="Verify Email ID">
+							<label for="verifyemail2">Verify Email Address</label>
+							<input class="form-control" name="verifyemail" id="verifyemail2" type="text" placeholder="Verify Email Address">
 						</div>
 						<div class="row">
 							<div class="col-sm-6">
@@ -85,7 +94,9 @@
 									<input class="form-control" name="verifypassword" id="verifypassword2" type="password" placeholder="Verify Password">
 								</div>
 							</div>
-							<p>Password must be 8 to 24 characters, is case sensitive, and cannot contain spaces.</p>
+							<div class="col-sm-12 text-left">
+								<p>Password must be 8 to 24 characters, is case sensitive, and cannot contain spaces.</p>
+							</div>
 						</div>
 						<div class="text-center">
 							<?php if($usertype=='3'){ ?><a href="<?php echo base_url('login/company'); ?>"><?php echo $footer2; ?></a><?php } ?>
