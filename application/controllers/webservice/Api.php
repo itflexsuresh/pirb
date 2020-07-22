@@ -1186,7 +1186,8 @@ class Api extends CC_Controller
 
 			$jsonData['page_lables'] = [ 'mycpd' => 'My CPD points', 'logcpd' => 'Log your CPD points', 'activity' => 'PIRB CPD Activity', 'date' => 'The Date', 'comments' => 'comments', 'documents' => 'Supporting Documents', 'files' => 'Choose Files', 'declaration' => 'I declare that the information contained in this CPD Activity form is complete, accurate and true. I further decalre that I understadn that I must keep verifiable evidence of all the CPD activities for at least 2 years and the PRIB may conduct a random audit of my activity(s) which would require me to submit the evidence to the PIRB', 'or' => 'OR', 'previouscpd' => 'Your Previous CPD Points'
 			];
-			$jsonData['total_cpd_point'] = $mycpd;
+			$jsonData['total_cpd_point'] 	= $mycpd;
+			$jsonData['renewal_cpd_point'] 	= '';
 			foreach ($results as $key => $value) {
 
 				if ($value['status'] == '0') {
