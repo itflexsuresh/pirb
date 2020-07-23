@@ -952,19 +952,19 @@ class Api extends CC_Controller
 			$extraparam = [];
 			$jsonData 	= [];
 			
-			$userid							= $this->input->post('user_id');
-			$id								= $this->input->post('coc_id'); // id = coc id
+			$userid						= $this->input->post('user_id');
+			$id							= $this->input->post('coc_id'); // id = coc id
 			// if ($this->input->post('auditorid') !='') {
 			// 	$extraparam['auditorid']	= $this->input->post('auditorid');
 			// }else{
 			// 	$extraparam['auditorid']	= '';
 			// }
-			$extraparam['user_id'] 			= $userid;
-			$extraparam['page'] 			= 'review';
+			$extraparam['user_id'] 		= $userid;
+			$extraparam['page'] 		= 'review';
 		
-			$result	= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]+$extraparam);
-			$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber', 'company']);
-			$reviewlist						= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
+			$result						= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]+$extraparam);
+			$userdata				 	= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber', 'company']);
+			$reviewlist					= $this->Auditor_Model->getReviewList('all', ['coc_id' => $id]);
 			
 			// $specialisations 				= explode(',', $userdata['specialisations']);
 
@@ -1022,48 +1022,30 @@ class Api extends CC_Controller
 	// Audit Review;
 	public function auditreview_coc(){
 
-		// if ($this->input->post() && $this->input->post('type') == 'auditreview_coc') {
-		// 	$extraparam = [];
-
-		// 	$cocID 						= $this->input->post('coc_id');
-		// 	if ($this->input->post('auditorid') != '') {
-		// 		$extraparam['auditorid'] = $this->input->post('auditorid');
-		// 	}else{
-		// 		$extraparam['auditorid'] = '';
-		// 	}
-			
-		// 	$extraparam['user_id'] 		= $this->input->post('user_id');	
-		// 	$result						= $this->Coc_Model->getCOCList('row', ['id' => $cocID, 'coc_status' => ['2']]+$extraparam);	
-
-		// 	if (count($result) > 0) {
-		// 		$jsonArray = array("status"=>'1', "message"=>'Audit Statement', "result"=>$result);
-		// 	}else{
-		// 		$jsonArray = array("status"=>'0', "message"=>'invalid request', "result"=>[]);
-		// 	}
-		// }else
 		if ($this->input->post() && $this->input->post('user_id') && $this->input->post('type') == 'view_coc') {
 
-			$userid						= $this->input->post('user_id');
-			$cocID 						= $this->input->post('coc_id');
-			$electroniccocreport 		= '';
-			$noncompliancereport 		= '';
-			$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber', 'company']);
-			$specialisations 				= explode(',', $userdata['specialisations']);
+			$userid					 = $this->input->post('user_id');
+			$cocID 					 = $this->input->post('coc_id');
+			$electroniccocreport 	 = '';
+			$noncompliancereport 	 = '';
+			$userdata				 = $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber', 'company']);
+			$specialisations 		 = explode(',', $userdata['specialisations']);
 
 			//$jsonData['installationtype']	= $this->getInstallationTypeList();
-			$installations 		 		= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => [], 'ids' => range(1,8)]);
-			$specialisations_details	= $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations, 'ids' => range(1,8)]);
+			$installations 		 	 = $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => [], 'ids' => range(1,8)]);
+			$specialisations_details = $this->Installationtype_Model->getList('all', ['designation' => $userdata['designation'], 'specialisations' => $specialisations, 'ids' => range(1,8)]);
 
 			if ($this->input->post('auditorid') != '') {
-				$auditorid					= ['auditorid' => $this->input->post('auditorid')];
+				$auditorid			 = ['auditorid' => $this->input->post('auditorid')];
 			}else{
-				$auditorid					= [];
+				$auditorid			 = [];
 			}
 			
-			$result 					= $this->Coc_Model->getCOCList('row', ['id' => $cocID, 'user_id' => $userid]+$auditorid);
-			$logdate 					= isset($result['cl_log_date']) && date('Y-m-d', strtotime($result['cl_log_date']))!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_log_date'])) : '';
+			$result 				 = $this->Coc_Model->getCOCList('row', ['id' => $cocID, 'user_id' => $userid]+$auditorid);
+			$logdate 				 = isset($result['cl_log_date']) && date('Y-m-d', strtotime($result['cl_log_date']))!='1970-01-01' ? date('d-m-Y', strtotime($result['cl_log_date'])) : '';
 
-			$noncompliance				= $this->Noncompliance_Model->getList('all', ['coc_id' => $cocID, 'user_id' => $userid]);		
+			$noncompliance			 = $this->Noncompliance_Model->getList('all', ['coc_id' => $cocID, 'user_id' => $userid]);
+
 			$jsonData['noncompliance']		= [];
 			foreach($noncompliance as $compliance){
 				$jsonData['noncompliance'][] = [
@@ -1092,7 +1074,7 @@ class Api extends CC_Controller
 			}
 
 			$jsonData['coc_data']		= [];
-			$jsonData['coc_data'] = [ 'coc_id' => $result['id'], 'coc_id' => $result['id'], 'plumberid' => $result['user_id'], 'completiondate' => date('d-m-Y', strtotime($result['cl_completion_date'])), 'insuranceclaim' => $result['cl_order_no'], 'cl_name' => $result['cl_name'], 'cl_name' => $result['cl_name'], 'complex' => $result['cl_address'], 'cl_street' => $result['cl_street'], 'cl_number' => $result['cl_number'], 'cl_province_name' => $result['cl_province_name'], 'cl_city_name' => $result['cl_city_name'], 'cl_suburb_name' => $result['cl_suburb_name'], 'cl_contact_no' => $result['cl_contact_no'], 'cl_alternate_no' => $result['cl_alternate_no'], 'cl_email' => $result['cl_email'], 'cl_installationtype' => $result['cl_installationtype'], 'cl_specialisations' => $result['cl_specialisations'], 'cl_installation_detail' => $result['cl_installation_detail']
+			$jsonData['coc_data'] = [ 'coc_id' => $result['id'], 'coc_id' => $result['id'], 'plumberid' => $result['user_id'], 'completiondate' => date('d-m-Y', strtotime($result['cl_completion_date'])), 'insuranceclaim' => $result['cl_order_no'], 'cl_name' => $result['cl_name'], 'cl_name' => $result['cl_name'], 'complex' => $result['cl_address'], 'cl_street' => $result['cl_street'], 'cl_number' => $result['cl_number'], 'cl_province_name' => $result['cl_province_name'], 'cl_city_name' => $result['cl_city_name'], 'cl_suburb_name' => $result['cl_suburb_name'], 'cl_contact_no' => $result['cl_contact_no'], 'cl_alternate_no' => $result['cl_alternate_no'], 'cl_email' => $result['cl_email'], 'cl_installationtype' => $result['cl_installationtype'], 'cl_specialisations' => $result['cl_specialisations'], 'cl_installation_detail' => $result['cl_installation_detail'], 'cl_ncnotice ' => $result['cl_ncnotice'], 'cl_agreement' => $result['cl_agreement']
 			];
 
 			$jsonData['installation_images']		= [];
@@ -1105,12 +1087,12 @@ class Api extends CC_Controller
 						];
 					}
 				}else{
-					$jsonData['installation_images'] = [
+					$jsonData['installation_images'][] = [
 							'file' 		=> base_url().'assets/uploads/plumber/'.$userid.'/log/'.$result['cl_file2'] 
 						];
 				}
 			}else{
-				$jsonData['installation_images'] = [
+				$jsonData['installation_images'][] = [
 							'file' 		=> '' 
 						];
 			}
