@@ -1469,25 +1469,6 @@ class Api extends CC_Controller
 		echo json_encode($jsonArray);
 	}
 
-	public function country_ranking(){
-
-		if ($this->input->post('user_id')) {
-			$jsonData = [];
-
-			$id 										= $this->input->post('user_id');
-			$userdata 									= $this->getUserDetails($id);
-
-			$jsonData['id']  							= $id;
-			$jsonData['userdata'] 						= $userdata;
-			$jsonData['overallperformancestatus'] 		= $this->userperformancestatus(['overall' => '1']);
-
-			$jsonArray = array("status"=>'1', "message"=>'Country Ranking', "result"=> $jsonData);
-		}else{
-			$jsonArray = array("status"=>'0', "message"=>'Invalid API', "result"=> []);
-		}
-		echo json_encode($jsonArray);
-	}
-
 	public function ranking($data = []){
 
 		if ($data['type'] == 'province') {
@@ -1503,6 +1484,59 @@ class Api extends CC_Controller
 		}
 		return $ranking;
 	}
+
+	public function country_ranking(){
+
+		if ($this->input->post('user_id')) {
+			$jsonData = [];
+
+			$id 				= $this->input->post('user_id');
+			$userdata 			= $this->getUserDetails($id);
+
+			$countryranking 	= $this->ranking(['id' => $id, 'type' => 'country']);
+
+			// country and industry
+			foreach ($countryranking as $key1 => $user_country_ranking) {
+				if ($user_country_ranking['userid'] == $id) {
+					$countryrank = $key1+1;
+				}
+			}
+			$jsonData['plumber_data'] = [ 'id' => $id, 'rank' => $countryrank
+			];
+
+			$jsonArray = array("status"=>'1', "message"=>'Country Ranking', "result"=> $jsonData);
+		}else{
+			$jsonArray = array("status"=>'0', "message"=>'Invalid API', "result"=> []);
+		}
+		echo json_encode($jsonArray);
+	}
+
+	public function province_ranking(){
+
+		if ($this->input->post('user_id')) {
+			$jsonData = [];
+
+			$id 										= $this->input->post('user_id');
+			$userdata 									= $this->getUserDetails($id);
+
+			$regionalranking 	= $this->ranking(['id' => $id, 'type' => 'province']);
+			
+			// province
+			foreach ($regionalranking as $key1 => $user_province_ranking) {
+				if ($user_province_ranking['userid'] == $id) {
+					$regionalrank = $key1+1;
+				}
+			}
+			$jsonData['plumber_data'] = [ 'id' => $id, 'rank' => $regionalrank
+			];
+
+			$jsonArray = array("status"=>'1', "message"=>'Province Ranking', "result"=> $jsonData);
+		}else{
+			$jsonArray = array("status"=>'0', "message"=>'Invalid API', "result"=> []);
+		}
+		echo json_encode($jsonArray);
+	}
+
 	public function fileupload($data = []){
 		
 		$userid 	 = $data['user_id'];
@@ -1543,24 +1577,7 @@ class Api extends CC_Controller
 		return $base64files;
 	}
 
-	public function province_ranking(){
 
-		if ($this->input->post('user_id')) {
-			$jsonData = [];
-
-			$id 										= $this->input->post('user_id');
-			$userdata 									= $this->getUserDetails($id);
-
-			$jsonData['id']  							= $id;
-			$jsonData['userdata'] 						= $userdata;
-			$jsonData['provinceperformancestatus'] 		= $this->userperformancestatus(['province' => $userdata['province']]);
-
-			$jsonArray = array("status"=>'1', "message"=>'Province Ranking', "result"=> $jsonData);
-		}else{
-			$jsonArray = array("status"=>'0', "message"=>'Invalid API', "result"=> []);
-		}
-		echo json_encode($jsonArray);
-	}
 
 	public function ajaxprovince(){
 		$jsonData = [];
