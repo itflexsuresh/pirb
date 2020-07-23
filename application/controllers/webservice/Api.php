@@ -269,7 +269,7 @@ class Api extends CC_Controller
 			// country rangking
 			$overallperformancestatus 			= $this->userperformancestatus(['overall' => '1']);
 			$myprovinceperformancestatus 		= $this->userperformancestatus(['province' => $userdata['province']], $id);
-			$performancestatus 					= $this->userperformancestatus();
+			$performancestatus 					= $this->userperformancestatus(['userid' => $id]);
 			$mycityperformancestatus 			= $this->userperformancestatus(['city' => $userdata['city']], $id);
 			$provinceperformancestatus 			= $this->userperformancestatus(['province' => $userdata['province'], 'limit' => '3']);
 			// $jsonData['cityperformancestatus'] 			= $this->userperformancestatus(['city' => $userdata['city'], 'limit' => '3'],$id);
@@ -307,9 +307,11 @@ class Api extends CC_Controller
 					'auditorratio' 		=> $auditorratio,
 					'overallperformancestatus' 		=> $overallperformancestatus,
 					'myprovinceperformancestatus' 		=> $myprovinceperformancestatus,
-					'performancestatus' 		=> $performancestatus,
+					'performancestatus' 			=> $performancestatus,
 					'mycityperformancestatus' 		=> $mycityperformancestatus,
-					'provinceperformancestatus' 		=> $provinceperformancestatus[0]['point'],
+					'industryranking' 				=> '0',
+					'countryranking' 				=> '0',
+					'provinceperformancestatus' 	=> $provinceperformancestatus[0]['point'],
 					'cpdpoints' 					=> $mycpd
 					
 
@@ -1616,16 +1618,26 @@ class Api extends CC_Controller
 		if ($this->input->post('COCno')) {
 			$jsonData = [];
 			$id = $this->input->post('COCno');
-			$userdata = $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);
-
-			$jsonData['pName']  = $userdata['u_name'];
-			$jsonData['pRegNo'] = $userdata['plumberregno'];
-
-			$jsonArray = array("status"=>'1', "message"=>'Plumber Detail', "result"=> $jsonData);
+			$userdata = $this->Coc_Model->getCOCList('row', ['id' => $id]);
+			if(!empty($userdata)){
+				if($userdata['coc_status'] == '4'){
+					$jsonData['pName']  = $userdata['u_name'];
+					$jsonData['pRegNo'] = $userdata['plumberregno'];
+					$jsonArray = array("status"=>'1', "message"=>'Plumber Detail', "result"=> $jsonData);
+				}else{
+					if($userdata['user_id'] == '0'){
+						$jsonArray = array("status"=>'1', "message"=>'There is no plumber assigned to this COC.', "result"=> $jsonData);
+					}else{
+						$jsonArray = array("status"=>'1', "message"=>'Error: plumber cannot be found', "result"=> $jsonData);
+					}
+				}
+			}else{
+				$jsonArray = array("status"=>'1', "message"=>'There is no COC with the number '.$id, "result"=> $jsonData);
+			}
 		}else{
 			$jsonArray = array("status"=>'0', "message"=>'Invalid API', "result"=> []);
 		}
 		echo json_encode($jsonArray);
-	}	
+	}
 
 }
