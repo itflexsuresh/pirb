@@ -1608,6 +1608,22 @@ class Api extends CC_Controller
 			$suburbdata = [];
 		}
 		return $suburbdata;
+	}
+
+	public function get_cocplumber(){
+		if ($this->input->post('COCno')) {
+			$jsonData = [];
+			$id = $this->input->post('COCno');
+			$userdata = $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);
+
+			$jsonData['pName']  = $result['u_name'];
+			$jsonData['pRegNo'] = $result['plumberregno'];
+
+			$jsonArray = array("status"=>'1', "message"=>'Plumber Detail', "result"=> $jsonData);
+		}else{
+			$jsonArray = array("status"=>'0', "message"=>'Invalid API', "result"=> []);
+		}
+		echo json_encode($jsonArray);
 	}	
 
 }
