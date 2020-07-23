@@ -945,7 +945,7 @@ class Api extends CC_Controller
 		echo json_encode($jsonArray);
 	}
 
-	// Audit Review coc Details;
+	// coc Details;
 	public function coc_details(){
 
 		if ($this->input->post() && $this->input->post('type') == 'coc_details') {
@@ -1019,7 +1019,7 @@ class Api extends CC_Controller
 		echo json_encode($jsonArray);
 	}
 
-	// Audit Review;
+	// Audit Review, view coc;
 	public function auditreview_coc(){
 
 		if ($this->input->post() && $this->input->post('user_id') && $this->input->post('type') == 'view_coc') {
