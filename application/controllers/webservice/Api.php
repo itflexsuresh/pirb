@@ -272,6 +272,23 @@ class Api extends CC_Controller
 			$performancestatus 					= $this->userperformancestatus(['userid' => $id]);
 			$mycityperformancestatus 			= $this->userperformancestatus(['city' => $userdata['city']], $id);
 			$provinceperformancestatus 			= $this->userperformancestatus(['province' => $userdata['province'], 'limit' => '3']);
+
+			$countryranking 	= $this->ranking(['id' => $id, 'type' => 'country']);
+			$regionalranking 	= $this->ranking(['id' => $id, 'type' => 'province']);
+
+			// country and industry
+			foreach ($countryranking as $key1 => $user_country_ranking) {
+				if ($user_country_ranking['userid'] == $id) {
+					$countryrank = $key1+1;
+				}
+			}
+			// province
+			foreach ($regionalranking as $key1 => $user_province_ranking) {
+				if ($user_province_ranking['userid'] == $id) {
+					$regionalrank = $key1+1;
+				}
+			}
+
 			// $jsonData['cityperformancestatus'] 			= $this->userperformancestatus(['city' => $userdata['city'], 'limit' => '3'],$id);
 
 			if ($this->config->item('plumberstatus')[$userdetails['plumberstatus']] == 'Pending') {
@@ -306,11 +323,11 @@ class Api extends CC_Controller
 					'auditrefixincomplete' 	=> $auditrefixincomplete,
 					'auditorratio' 		=> $auditorratio,
 					'overallperformancestatus' 		=> $overallperformancestatus,
-					'myprovinceperformancestatus' 		=> $myprovinceperformancestatus,
+					'myprovinceperformancestatus' 	=> $regionalrank,
 					'performancestatus' 			=> $performancestatus,
 					'mycityperformancestatus' 		=> $mycityperformancestatus,
-					'industryranking' 				=> '0',
-					'countryranking' 				=> '0',
+					'industryranking' 				=> $countryrank,
+					'countryranking' 				=> $countryrank,
 					'provinceperformancestatus' 	=> $provinceperformancestatus[0]['point'],
 					'cpdpoints' 					=> $mycpd
 					
@@ -1469,6 +1486,22 @@ class Api extends CC_Controller
 			$jsonArray = array("status"=>'0', "message"=>'Invalid API', "result"=> []);
 		}
 		echo json_encode($jsonArray);
+	}
+
+	public function ranking($data = []){
+
+		if ($data['type'] == 'province') {
+			$userdetail		= $this->getUserDetails($data['id']);
+			$province 		= $this->Managearea_Model->getListProvince('row', ['id' => $userdetail['province']]);
+			$rollingavg 	= $this->getRollingAverage();
+			$date			= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
+			$ranking 		= $this->Plumber_Model->performancestatus('all', ['date' => $date, 'archive' => '0', 'province' => $userdetail['province']]);
+		}else{
+			$rollingavg 	 = $this->getRollingAverage();
+			$date			 = date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
+			$ranking  = $this->Plumber_Model->performancestatus('all', ['date' => $date, 'archive' => '0', 'overall' => '1']);
+		}
+		return $ranking;
 	}
 	public function fileupload($data = []){
 		
