@@ -1675,7 +1675,7 @@ class Api extends CC_Controller
 			$id = $this->input->post('COCno');
 			$userdata = $this->Coc_Model->getCOCList('row', ['id' => $id]);
 			if(!empty($userdata)){
-				if($userdata['coc_status'] == '4'){
+				if($userdata['coc_status'] == '4' && $userdata['coc_status'] == '2'){
 					$jsonData['pName']  = $userdata['u_name'];
 					$jsonData['pRegNo'] = $userdata['plumberregno'];
 					$jsonArray = array("status"=>'1', "message"=>'Plumber Detail', "result"=> $jsonData);
