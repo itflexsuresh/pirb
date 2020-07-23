@@ -309,7 +309,8 @@ class Api extends CC_Controller
 					'myprovinceperformancestatus' 		=> $myprovinceperformancestatus,
 					'performancestatus' 		=> $performancestatus,
 					'mycityperformancestatus' 		=> $mycityperformancestatus,
-					'provinceperformancestatus' 		=> $provinceperformancestatus[0]['point']
+					'provinceperformancestatus' 		=> $provinceperformancestatus[0]['point'],
+					'cpdpoints' 					=> $mycpd
 					
 
 				];
