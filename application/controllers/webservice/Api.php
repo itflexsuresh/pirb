@@ -275,21 +275,19 @@ class Api extends CC_Controller
 
 			$countryranking 	= $this->ranking(['id' => $id, 'type' => 'country']);
 			$regionalranking 	= $this->ranking(['id' => $id, 'type' => 'province']);
+			$countryrank  = 0;
+			$regionalrank = 0;
 
 			// country and industry
 			foreach ($countryranking as $key1 => $user_country_ranking) {
 				if ($user_country_ranking['userid'] == $id) {
 					$countryrank = $key1+1;
-				}else{
-					$countryrank = 0;
 				}
 			}
 			// province
 			foreach ($regionalranking as $key1 => $user_province_ranking) {
 				if ($user_province_ranking['userid'] == $id) {
 					$regionalrank = $key1+1;
-				}else{
-					$regionalrank = 0;
 				}
 			}
 
@@ -1496,6 +1494,8 @@ class Api extends CC_Controller
 
 			$id 				= $this->input->post('user_id');
 			$userdata 			= $this->getUserDetails($id);
+			$countryrank  = 0;
+			
 
 			$countryranking 	= $this->ranking(['id' => $id, 'type' => 'country']);
 
@@ -1503,8 +1503,6 @@ class Api extends CC_Controller
 			foreach ($countryranking as $key1 => $user_country_ranking) {
 				if ($user_country_ranking['userid'] == $id) {
 					$countryrank = $key1+1;
-				}else{
-					$countryrank = 0;
 				}
 			}
 			$jsonData['plumber_data'] = [ 'id' => $id, 'rank' => $countryrank
@@ -1524,6 +1522,7 @@ class Api extends CC_Controller
 
 			$id 										= $this->input->post('user_id');
 			$userdata 									= $this->getUserDetails($id);
+			$regionalrank = 0;
 
 			$regionalranking 	= $this->ranking(['id' => $id, 'type' => 'province']);
 			
@@ -1531,8 +1530,6 @@ class Api extends CC_Controller
 			foreach ($regionalranking as $key1 => $user_province_ranking) {
 				if ($user_province_ranking['userid'] == $id) {
 					$regionalrank = $key1+1;
-				}else{
-					$regionalrank = 0;
 				}
 			}
 			$jsonData['plumber_data'] = [ 'id' => $id, 'rank' => $regionalrank
