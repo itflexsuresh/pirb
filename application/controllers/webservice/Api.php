@@ -280,12 +280,16 @@ class Api extends CC_Controller
 			foreach ($countryranking as $key1 => $user_country_ranking) {
 				if ($user_country_ranking['userid'] == $id) {
 					$countryrank = $key1+1;
+				}else{
+					$countryrank = 0;
 				}
 			}
 			// province
 			foreach ($regionalranking as $key1 => $user_province_ranking) {
 				if ($user_province_ranking['userid'] == $id) {
 					$regionalrank = $key1+1;
+				}else{
+					$regionalrank = 0;
 				}
 			}
 
@@ -1499,6 +1503,8 @@ class Api extends CC_Controller
 			foreach ($countryranking as $key1 => $user_country_ranking) {
 				if ($user_country_ranking['userid'] == $id) {
 					$countryrank = $key1+1;
+				}else{
+					$countryrank = 0;
 				}
 			}
 			$jsonData['plumber_data'] = [ 'id' => $id, 'rank' => $countryrank
@@ -1525,6 +1531,8 @@ class Api extends CC_Controller
 			foreach ($regionalranking as $key1 => $user_province_ranking) {
 				if ($user_province_ranking['userid'] == $id) {
 					$regionalrank = $key1+1;
+				}else{
+					$regionalrank = 0;
 				}
 			}
 			$jsonData['plumber_data'] = [ 'id' => $id, 'rank' => $regionalrank
