@@ -1365,7 +1365,7 @@ class Api extends CC_Controller
 
 	public function mycpd_insert_action(){
 
-		if ($this->input->post() && $this->input->post('user_id')) {
+		if ($this->input->post() && $this->input->post('user_id') && $this->input->post('file_name')) {
 			
 			$pagestatus 	= '1';
 
