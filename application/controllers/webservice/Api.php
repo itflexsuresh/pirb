@@ -1612,15 +1612,16 @@ class Api extends CC_Controller
 		}
 		
 		if ($countfiles > 1) {
+			$file_names = explode(',', $file_name);
 			for($i=0;$i<$countfiles;$i++){
-				$base64		= $base64files[$i];
-
-	            $extension 	= explode('.', $base64)[1];
+				$base64		= $files[$i];
+				$file_name 	= $file_names[$i];
+	            $extension 	= explode('.', $file_name)[1];
 	            $image 		= base64_decode($base64);
-	            $image_name = md5(uniqid(rand(), true))[$i];
+	            $image_name = md5(uniqid(rand(), true).$i);
 	            $filename 	= $image_name . '.' . $extension;
 				$filearray[] 	= $filename;
-	            //file_put_contents($path . $filename, $image);
+	            file_put_contents($path . $filename, $image);
 			}
 		}
 		else{
