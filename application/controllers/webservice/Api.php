@@ -1384,8 +1384,7 @@ class Api extends CC_Controller
 
 				if ($post['image1'] != '') {
 					$data = $this->fileupload(['files' => $post['image1'], 'user_id' => $plumberID, 'page' => 'plumbercpd']);
-					$image = base64_decode($data);
-					print_r($data);die;
+					$image = $data;
 				}
 
 				if(isset($post['hidden_regnumber'])) 	$requestData1['reg_number']    		= $post['hidden_regnumber'];
@@ -1595,43 +1594,46 @@ class Api extends CC_Controller
 	}
 
 	public function fileupload($data = []){
-		
+
 		$userid 	 = $data['user_id'];
 		$base64files = $data['files'];
 		$base_url 	 = base_url();
 		$page 		 = $data['page'];
 
-		$file_size	=  $base64files['image']['size'];
-    	$files		=  $base64files['image']['tmp_name'];
-    	$countfiles = count($files);
+		// $file_size	=  $base64files['image']['size'];
+  //   	$files		=  $base64files['image']['tmp_name'];
+  //   	$countfiles = count($files);
 
 		if ($page == 'plumbercpd') {
-			$path = $base_url.'assets/uploads/cpdqueue/';
+			$path = FCPATH.'assets/uploads/cpdqueue/';
 		}elseif($page == 'plumberlogcoc'){
-			$path = $base_url.'assets/uploads/cpdqueue/';
+			$path = FCPATH.'assets/uploads/cpdqueue/';
 		}
 		
-		if ($countfiles > 1) {
-			for($i=0;$i<$countfiles;$i++){
-				$base64		= $base64files[$i];
+		// if ($countfiles > 1) {
+		// 	for($i=0;$i<$countfiles;$i++){
+		// 		$base64		= $base64files[$i];
 
-	            $extension 	= explode('/', mime_content_type($base64))[1];
-	            $image 		= base64_decode($base64);
-	            $image_name = md5(uniqid(rand(), true))[$i];
-	            $filename 	= $image_name . '.' . $extension;
-	            file_put_contents($path . $filename, $image);
-			}
-		}
-		else{
+	 //            $extension 	= explode('/', mime_content_type($base64))[1];
+	 //            $image 		= base64_decode($base64);
+	 //            $image_name = md5(uniqid(rand(), true))[$i];
+	 //            $filename 	= $image_name . '.' . $extension;
+				//	$filearray[] 	= $filename;
+	 //            file_put_contents($path . $filename, $image);
+		// 	}
+		// }
+		// else{
 			$base64		= $base64files;
 
 			$extension 	= explode('/', mime_content_type($base64))[1];
 	        $image 		= base64_decode($base64);
 	        $image_name = md5(uniqid(rand(), true));
 	        $filename 	= $image_name . '.' . $extension;
+	        $filearray 	= $filename;
+
 			file_put_contents($path . $filename, $image);
-		}
-		return $base64files;
+		// }
+		return $filearray;
 	}
 
 
