@@ -1120,7 +1120,8 @@ class Api extends CC_Controller
 			}
 
 			if ($result['type'] =='2' && $logdate!='') {
-				$electroniccocreport = base_url().'plumber/auditstatement/index/electroniccocreport/'.$cocID.'/'.$userid;
+				//$electroniccocreport = base_url().'plumber/auditstatement/index/electroniccocreport/'.$cocID.'/'.$cocID;
+				$electroniccocreport = $this->electroniccocreport_api($cocID, $cocID);
 			}
 			if (count($jsonData['noncompliance']) > 0 && $logdate!='') {
 				$noncompliancereport = base_url().'plumber/auditstatement/index/noncompliancereport/'.$cocID.'/'.$userid;
@@ -1472,6 +1473,54 @@ class Api extends CC_Controller
 		}
 		echo json_encode($jsonArray);
 	}
+
+	public function electroniccocreport_api($id, $userid)
+	{	
+		$this->pdfelectroniccocreport_apdi($id, $userid);
+	}
+
+	public function pdfelectroniccocreport_apdi($id, $userid)
+	{		
+		$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber']);
+		$pagedata['userdata']	 		= $userdata;
+		$pagedata['specialisations']	= explode(',', $pagedata['userdata']['specialisations']);
+		$pagedata['result']		    	= $this->Coc_Model->getCOCList('row', ['id' => $id]);
+		$pagedata['designation2'] 		= $this->config->item('designation2');
+		$specialisations 				= explode(',', $userdata['specialisations']);
+		$pagedata['installationtype']	= $this->getInstallationTypeList();
+		$pagedata['installation'] 		= $this->Installationtype_Model->getList('all', ['ids' => ['1','2','3','5','6','7']]);
+		$pagedata['specialisations']	= $this->Installationtype_Model->getList('all', ['ids' => ['4','8']]);
+
+		$html = $this->load->view('pdf/electroniccocreport', (isset($pagedata) ? $pagedata : ''), true);
+		$this->pdf->loadHtml($html);
+		$this->pdf->setPaper('A4', 'portrait');
+		$this->pdf->render();
+		$output = $this->pdf->output();
+		$this->pdf->stream('Electronic COC Report '.$id);
+	}
+
+	public function noncompliancereport_adi($id, $userid)
+	{	
+		$this->pdfnoncompliancereport_api($id, $userid);
+	}
+	public function pdfnoncompliancereport_api($id, $userid, $save='')
+	{		
+		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);
+		$pagedata['noncompliance'] 	= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $userid]);	
+
+		$html = $this->load->view('pdf/noncompliancereport', (isset($pagedata) ? $pagedata : ''), true);
+		$this->pdf->loadHtml($html);
+		$this->pdf->setPaper('A4', 'portrait');
+		$this->pdf->render();
+		$output = $this->pdf->output();
+		
+		if($save==''){
+			$this->pdf->stream('Non Compliance Report '.$id);
+		}else{
+			file_put_contents($save, $output);
+			return $save;
+		}
+	}	
 
 	public function ranking($data = []){
 
