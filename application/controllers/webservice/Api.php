@@ -1383,7 +1383,7 @@ class Api extends CC_Controller
 				$datetime			= date('Y-m-d H:i:s');
 
 				if ($post['image1'] != '') {
-					$data = $this->fileupload(['files' => $post['image1'], 'user_id' => $plumberID, 'page' => 'plumbercpd']);
+					$data = $this->fileupload(['files' => $post['image1'], 'file_name' => $post['file_name'], 'user_id' => $plumberID, 'page' => 'plumbercpd']);
 					$image = $data;
 				}
 
@@ -1599,6 +1599,7 @@ class Api extends CC_Controller
 		$base64files = $data['files'];
 		$base_url 	 = base_url();
 		$page 		 = $data['page'];
+		$file_name 	 = $data['file_name'];
 
 		// $file_size	=  $base64files['image']['size'];
   //   	$files		=  $base64files['image']['tmp_name'];
@@ -1625,7 +1626,7 @@ class Api extends CC_Controller
 		// else{
 			$base64		= $base64files;
 
-			$extension 	= explode('/', mime_content_type($base64))[1];
+			$extension 	= explode('.', $file_name)[1];
 	        $image 		= base64_decode($base64);
 	        $image_name = md5(uniqid(rand(), true));
 	        $filename 	= $image_name . '.' . $extension;
