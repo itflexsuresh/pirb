@@ -75,7 +75,7 @@ class Users_Model extends CC_Model
 	
 	public function getUserDetails($type, $requestdata=[])
 	{
-		$this->db->select('u.*,concat(ud.name, " ", ud.surname) as name,ud.mobile_phone,ud.file2,ua.province,ua.city,up.registration_no,up.designation,up.approval_status as approvalstatus');
+		$this->db->select('u.*,concat(ud.name, " ", ud.surname) as name,ud.mobile_phone,ud.file1,ud.file2,ua.province,ua.city,up.registration_no,up.designation,up.approval_status as approvalstatus');
 		$this->db->from('users u');
 		$this->db->join('users_detail ud', 'u.id=ud.user_id', 'left');
 		$this->db->join('users_plumber up', 'u.id=up.user_id', 'left');

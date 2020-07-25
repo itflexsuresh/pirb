@@ -5,9 +5,12 @@ $designation 	= $userdata['designation'];
 $approvalstatus = $userdata['approvalstatus'];
 $type 		 	= $userdata['type']; 
 $formstatus  	= $userdata['formstatus']; 
+$file1  		= $userdata['file1']; 
 $file2  		= $userdata['file2']; 
 $registrationno = $userdata['registration_no']; 
 $expirydate 	= $userdata['expirydate']; 
+$mobile_phone	= $userdata['mobile_phone'];
+$status  		= $userdata['status']; 
 
 if(count($permission) > 0){
 	$readpermission 	= explode(',', $permission['readpermission']);
@@ -384,6 +387,7 @@ if(count($permission) > 0){
 					<?php }elseif($formstatus=='0'){ ?>
 						<li><a href="<?php echo base_url().'company/registration/index'; ?>">My Profile</a></li>
 					<?php } ?>
+					<li><a href="<?php echo base_url().'company/help/index'; ?>">Help</a></li>
                     <?php 
                         
                        $this->db->select('*');
@@ -411,61 +415,256 @@ if(count($permission) > 0){
 						</div><?php }?>
 						 
 				<?php }elseif($type=='5'){ 
-                      $this->db->select('*');
-                       $this->db->from('messages');                  
-                       $this->db->where("groups='2' AND status='1'");
-                       $query=$this->db->get();
-                       $data= $query->result_array();
-                       $msg = "";
-                       foreach ($data as $key => $value) {
-                       		       				            
-                       $currentDate = date('Y-m-d');
-                       $startdate   = date('Y-m-d',strtotime($value['startdate']));
-                       $enddate = date('Y-m-d',strtotime($value['enddate']));
-                       if ($currentDate>= $startdate && $currentDate<=$enddate){
-                       	$msg = $msg.$value['message'].'</br></br>'; 
-							
-                            }
-                       }
-					?>
-					<li><a href="<?php echo base_url().'auditor/dashboard/index'; ?>">Dashboard</a></li>					
-					<li><a href="<?php echo base_url().'auditor/auditstatement/index'; ?>">Audit Statement</a></li>
-					<li><a href="<?php echo base_url().'auditor/accounts/index'; ?>">Accounts</a></li>
-					<li><a href="<?php echo base_url().'auditor/reportlisting/index'; ?>">My Report Listing</a></li>
-					<li><a href="<?php echo base_url().'auditor/profile/index'; ?>">My Profile</a></li>
+						$this->db->select('*');
+						$this->db->from('messages');                  
+						$this->db->where("groups='2' AND status='1'");
+						$query=$this->db->get();
+						$data= $query->result_array();
+						$msg = "";
+						
+						foreach ($data as $key => $value) {
+							$currentDate = date('Y-m-d');
+							$startdate   = date('Y-m-d',strtotime($value['startdate']));
+							$enddate = date('Y-m-d',strtotime($value['enddate']));
+							if ($currentDate>= $startdate && $currentDate<=$enddate){
+								$msg = $msg.$value['message'].'</br></br>'; 
+							}
+						}
+					   
+						$filepath				= base_url().'assets/uploads/auditor/';
+						$pdfimg 				= base_url().'assets/images/pdf.png';
+						$profileimg 			= base_url().'assets/images/profile.jpg';
+
+						if($file1!=''){
+							$explodefile2 	= explode('.', $file1);
+							$extfile2 		= array_pop($explodefile2);
+							$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$file1;
+							$photoidurl		= $filepath.$file1;
+						}else{
+							$photoidimg 	= $profileimg;
+							$photoidurl		= 'javascript:void(0);';
+						}
+						
+						$userstatus = (isset($this->config->item('auditorstatus')[$status])) ? $this->config->item('auditorstatus')[$status] : '';
+				?>
+					<div class="row pro_section">
+						<div class="col-sm-9 col-md-9 col-lg-9 side_pro">
+							<a href="<?php echo $photoidurl; ?>" target="_blank" class="side_img">
+								<img src="<?php echo $photoidimg; ?>" class="photo_image" width="100">
+							</a>
+							<p class="cus_username"><?php echo $username; ?></p>
+						</div>
+						<div class="col-sm-3 col-md-3 col-lg-3">
+							<p class="cus_icon">
+								<a href="<?php echo base_url().'auditor/profile/index'; ?>" target="_blank">
+									<i class="fa fa-pencil" aria-hidden="true"></i>
+								</a>
+							</p>
+						</div>
+						<div class="reg_sec">							
+							<p class="cus_reg">My Status:<?php echo $user_status; ?></p>
+						</div>
+					</div>
+					
+					<div class="row pro_section">
+						<div class="col-sm-9 col-md-9 col-lg-9 side_pro">
+							<a href="<?php echo $photoidurl; ?>" target="_blank" class="side_img">
+								<img src="<?php echo $photoidimg; ?>" class="photo_image" width="100">
+							</a>
+							<p class="cus_username"><?php echo $username; ?></p>
+						</div>
+						<div class="col-sm-3 col-md-3 col-lg-3">
+							<p class="cus_icon">
+								<a href="<?php echo base_url().'auditor/profile/index'; ?>" target="_blank">
+									<i class="fa fa-pencil" aria-hidden="true"></i>
+								</a>
+							</p>
+						</div>
+						<div class="reg_sec">							
+							<p class="cus_reg">My Status:<?php echo $user_status; ?></p>
+						</div>
+					</div>
+
+					<li>
+						<table border="1px">
+							<thead>
+								<tr>
+									<td>
+										<p class="cus_reg">Open Audits</p>
+									</td>
+									<td>
+										<p class="custom_li"><?php //echo $history['openaudits'];?></p>
+									</td>
+								</tr>
+							</thead>
+						</table>
+						</br>						
+					</li>
+					<li>
+						<div class="row side_list">
+							<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
+								<a href="<?php echo base_url().'auditor/dashboard/index'; ?>"><img src="<?php echo base_url().'assets/images/tachometer.png'; ?>" alt=""></a>
+							</div>
+							<div class="col-sm-9 col-md-9 col-lg-9 list_name">
+								<a href="<?php echo base_url().'auditor/dashboard/index'; ?>" class="cus_li_name"><p class="custom_li">Dashboard</p></a>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="row side_list">
+							<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
+								<a href="<?php echo base_url().'auditor/auditstatement/index'; ?>"><img src="<?php echo base_url().'assets/images/list.png'; ?>" alt=""></a>
+							</div>
+							<div class="col-sm-9 col-md-9 col-lg-9 list_name">
+								<a href="<?php echo base_url().'auditor/auditstatement/index'; ?>" class="cus_li_name"><p class="custom_li">Audit Statement</p></a>										
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="row side_list">
+							<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
+								<a href="<?php echo base_url().'auditor/accounts/index'; ?>"><img src="<?php echo base_url().'assets/images/amount.png'; ?>" alt=""></a>
+							</div>
+							<div class="col-sm-9 col-md-9 col-lg-9 list_name">
+								<a href="<?php echo base_url().'auditor/accounts/index'; ?>" class="cus_li_name"><p class="custom_li">Accounts</p></a>										
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="row side_list">
+							<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
+								<a href="<?php echo base_url().'auditor/reportlisting/index'; ?>"><img src="<?php echo base_url().'assets/images/pen.png'; ?>" alt=""></a>
+							</div>
+							<div class="col-sm-9 col-md-9 col-lg-9 list_name">
+								<a href="<?php echo base_url().'auditor/reportlisting/index'; ?>" class="cus_li_name"><p class="custom_li">My Report Listing</p></a>										
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="row side_list">
+							<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
+								<a href="<?php echo base_url().'auditor/help/index'; ?>"><img src="<?php echo base_url().'assets/images/info.png'; ?>" alt=""></a>
+							</div>
+							<div class="col-sm-9 col-md-9 col-lg-9 list_name">
+								<a href="<?php echo base_url().'auditor/help/index'; ?>" class="cus_li_name"><p class="custom_li">Help</p></a>
+							</div>
+						</div>
+					</li>
 					<?php if($msg!='' && $approvalstatus=='1'){?>
 						<div id="message">
 							<?php echo $msg;?>
-						</div><?php }?>
+						</div>
+					<?php }?>
 
 				<?php }elseif($type=='6'){
 					
-                      $this->db->select('*');
-                       $this->db->from('messages');                  
-                       $this->db->where("groups='3' AND status='1'");
-                       $query=$this->db->get();
-                       $data= $query->result_array();
-                       $msg = "";
-                       foreach ($data as $key => $value) {
-                       		       				            
-                       $currentDate = date('Y-m-d');
-                       $startdate   = date('Y-m-d',strtotime($value['startdate']));
-                       $enddate = date('Y-m-d',strtotime($value['enddate']));
-                      if ($currentDate>= $startdate && $currentDate<=$enddate){
-                       	$msg = $msg.$value['message'].'</br></br>'; 
-							
-                            }
-                       }
+						$this->db->select('*');
+						$this->db->from('messages');                  
+						$this->db->where("groups='3' AND status='1'");
+						$query=$this->db->get();
+						$data= $query->result_array();
+						$msg = "";
+						foreach ($data as $key => $value) {											
+							$currentDate = date('Y-m-d');
+							$startdate   = date('Y-m-d',strtotime($value['startdate']));
+							$enddate = date('Y-m-d',strtotime($value['enddate']));
+							if ($currentDate>= $startdate && $currentDate<=$enddate){
+								$msg = $msg.$value['message'].'</br></br>'; 
+							}
+						}
+						
+						$filepath				= base_url().'assets/uploads/resellers/';
+						$pdfimg 				= base_url().'assets/images/pdf.png';
+						$profileimg 			= base_url().'assets/images/profile.jpg';
+						
+						if($file2!=''){
+							$explodefile2 	= explode('.', $file2);
+							$extfile2 		= array_pop($explodefile2);
+							$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$file2;
+							$photoidurl		= $filepath.$file2;
+						}else{
+							$photoidimg 	= $profileimg;
+							$photoidurl		= 'javascript:void(0);';
+						}
 				 ?>
-					<li><a href="<?php echo base_url().'resellers/dashboard/index'; ?>">Dashboard</a></li>
-                    <li><a href="<?php echo base_url().'resellers/cocstatement/index'; ?>">COC Statement</a></li>
-					<li><a href="<?php echo base_url().'resellers/allocatecoc/index'; ?>">Allocate COC</a></li>
-					<li><a href="<?php echo base_url().'resellers/profile/index'; ?>">My Profile</a></li>
-					 <?php if($msg!=''){?>
-
+					<div class="row pro_section">
+						<div class="col-sm-9 col-md-9 col-lg-9 side_pro">
+							<a href="<?php echo $photoidurl; ?>" target="_blank" class="side_img">
+								<img src="<?php echo $photoidimg; ?>" class="photo_image" width="100">
+							</a>
+							<p class="cus_username"><?php echo $username; ?></p>
+						</div>
+						<div class="col-sm-3 col-md-3 col-lg-3">
+							<p class="cus_icon">
+								<a href="<?php echo base_url().'resellers/profile/index'; ?>" target="_blank">
+									<i class="fa fa-pencil" aria-hidden="true"></i>
+								</a>
+							</p>
+						</div>
+						<div class="reg_sec">							
+							<p class="cus_reg">Primary Contact:<?php echo $mobile_phone; ?></p>
+						</div>
+					</div>
+					<li>
+						<table border="1px">
+							<thead>
+								<tr>
+									<td>
+										<p class="cus_reg">COC Numbers in Stock</p>
+									</td>
+									<td>
+										<p class="custom_li"><?php //echo $cocstock;?></p>
+									</td>
+								</tr>
+							</thead>
+						</table>
+						</br>						
+					</li>
+					<li>
+						<div class="row side_list">
+							<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
+								<a href="<?php echo base_url().'resellers/dashboard/index'; ?>"><img src="<?php echo base_url().'assets/images/tachometer.png'; ?>" alt=""></i></a>
+							</div>
+							<div class="col-sm-9 col-md-9 col-lg-9 list_name">
+								<a href="<?php echo base_url().'resellers/dashboard/index'; ?>" class="cus_li_name"><p class="custom_li">Dashboard</p></a>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="row side_list">
+							<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
+								<a href="<?php echo base_url().'resellers/cocstatement/index'; ?>"><img src="<?php echo base_url().'assets/images/note.png'; ?>" alt=""></i></a>
+							</div>
+							<div class="col-sm-9 col-md-9 col-lg-9 list_name">
+								<a href="<?php echo base_url().'resellers/cocstatement/index'; ?>" class="cus_li_name"><p class="custom_li">COC Statement</p></a>										
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="row side_list">
+							<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
+								<a href="<?php echo base_url().'resellers/allocatecoc/index'; ?>"><img src="<?php echo base_url().'assets/images/notego.png'; ?>" alt=""></a>
+							</div>
+							<div class="col-sm-9 col-md-9 col-lg-9 list_name">
+								<a href="<?php echo base_url().'resellers/allocatecoc/index'; ?>" class="cus_li_name"><p class="custom_li">Allocate COC</p></a>										
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="row side_list">
+							<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
+								<a href="<?php echo base_url().'resellers/help/index'; ?>"><img src="<?php echo base_url().'assets/images/info.png'; ?>" alt=""></a>
+							</div>
+							<div class="col-sm-9 col-md-9 col-lg-9 list_name">
+								<a href="<?php echo base_url().'resellers/help/index'; ?>" class="cus_li_name"><p class="custom_li">Help</p></a>
+							</div>
+						</div>
+					</li>
+					<?php if($msg!=''){?>
 						<div id="message">
 							<?php echo $msg;?>
-						</div><?php }?>
+						</div>
+					<?php }?>
 					
 				<?php } ?>	
 							

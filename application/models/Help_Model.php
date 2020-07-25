@@ -56,6 +56,7 @@ class Help_Model extends CC_Model
 		if(isset($data['title'])) 				$request['title'] 			= $data['title'];
 		if(isset($data['description'])) 		$request['description'] 	= $data['description'];
 		if(isset($data['file'])) 				$request['file'] 			= $data['file'];
+		if(isset($data['image'])) 				$request['image'] 			= $data['image'];
 		if(isset($data['order'])) 				$request['order'] 			= $data['order'];
 		if(isset($data['type'])) 				$request['type'] 			= $data['type'];
 		$request['status'] 	= (isset($data['status'])) ? $data['status'] : '0';
