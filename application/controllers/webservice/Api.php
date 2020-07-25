@@ -1365,7 +1365,7 @@ class Api extends CC_Controller
 
 	public function mycpd_insert_action(){
 
-		if ($this->input->post() && $this->input->post('user_id') && $this->input->post('file_name')) {
+		if ($this->input->post() && $this->input->post('user_id')) {
 			
 			$pagestatus 	= '1';
 
@@ -1602,8 +1602,8 @@ class Api extends CC_Controller
 		$file_name 	 = $data['file_name'];
 
 		// $file_size	=  $base64files['image']['size'];
-  //   	$files		=  $base64files['image']['tmp_name'];
-  //   	$countfiles = count($files);
+    	$files		=  explode(',', $base64files);
+    	$countfiles = count($files);
 
 		if ($page == 'plumbercpd') {
 			$path = FCPATH.'assets/uploads/cpdqueue/';
@@ -1611,19 +1611,19 @@ class Api extends CC_Controller
 			$path = FCPATH.'assets/uploads/cpdqueue/';
 		}
 		
-		// if ($countfiles > 1) {
-		// 	for($i=0;$i<$countfiles;$i++){
-		// 		$base64		= $base64files[$i];
+		if ($countfiles > 1) {
+			for($i=0;$i<$countfiles;$i++){
+				$base64		= $base64files[$i];
 
-	 //            $extension 	= explode('/', mime_content_type($base64))[1];
-	 //            $image 		= base64_decode($base64);
-	 //            $image_name = md5(uniqid(rand(), true))[$i];
-	 //            $filename 	= $image_name . '.' . $extension;
-				//	$filearray[] 	= $filename;
-	 //            file_put_contents($path . $filename, $image);
-		// 	}
-		// }
-		// else{
+	            $extension 	= explode('.', $base64)[1];
+	            $image 		= base64_decode($base64);
+	            $image_name = md5(uniqid(rand(), true))[$i];
+	            $filename 	= $image_name . '.' . $extension;
+				$filearray[] 	= $filename;
+	            //file_put_contents($path . $filename, $image);
+			}
+		}
+		else{
 			$base64		= $base64files;
 
 			$extension 	= explode('.', $file_name)[1];
@@ -1633,7 +1633,7 @@ class Api extends CC_Controller
 	        $filearray 	= $filename;
 
 			file_put_contents($path . $filename, $image);
-		// }
+		}
 		return $filearray;
 	}
 
