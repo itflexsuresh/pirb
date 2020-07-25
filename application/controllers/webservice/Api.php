@@ -1121,7 +1121,7 @@ class Api extends CC_Controller
 
 			if ($result['type'] =='2' && $logdate!='') {
 				//$electroniccocreport = base_url().'plumber/auditstatement/index/electroniccocreport/'.$cocID.'/'.$cocID;
-				$electroniccocreport = $this->electroniccocreport_api($cocID, $cocID);
+				$electroniccocreport = base_url().'webservice/api/pdfelectroniccocreport_api/'.$cocID.'/'.$cocID;
 			}
 			if (count($jsonData['noncompliance']) > 0 && $logdate!='') {
 				$noncompliancereport = base_url().'plumber/auditstatement/index/noncompliancereport/'.$cocID.'/'.$userid;
@@ -1479,7 +1479,7 @@ class Api extends CC_Controller
 		$this->pdfelectroniccocreport_apdi($id, $userid);
 	}
 
-	public function pdfelectroniccocreport_apdi($id, $userid)
+	public function pdfelectroniccocreport_api($id, $userid)
 	{		
 		$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber']);
 		$pagedata['userdata']	 		= $userdata;
