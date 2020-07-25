@@ -32,6 +32,21 @@ if($file!=''){
 	$fileimg 		= $uploadimg;
 	$fileimgurl		= '';
 }
+
+
+$image 					= isset($result['image']) ? $result['image'] : set_value ('image');	
+$filepath				= base_url().'assets/uploads/help/';
+$pdfimg 				= base_url().'assets/images/pdf.png';
+$profileimg 			= base_url().'assets/images/profile.jpg';
+if($image!=''){
+	$explodefile2 	= explode('.', $image);
+	$extfile2 		= array_pop($explodefile2);
+	$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$image;
+	$photoidurl		= $filepath.$image;
+}else{
+	$photoidimg 	= $profileimg;
+	$photoidurl		= 'javascript:void(0);';
+}
 ?>
 
 <div class="row page-titles">
@@ -81,6 +96,17 @@ if($file!=''){
 									<textarea class="form-control" id="description" name="description" placeholder="Enter Description*" data-editor="editor"><?php echo $description; ?></textarea>
 								</div>	
 							</div>	
+							<div class="col-md-12">								
+								<div class="form-group">
+									<label>Photo</label>
+									<div>
+										<a href="<?php echo $photoidurl; ?>" target="_blank"><img src="<?php echo $photoidimg; ?>" class="help_photo" width="100"></a>
+									</div>
+									<input type="file" class="help_image">
+									<input type="hidden" name="image" class="help_picture" value="<?php echo $image; ?>">
+									<p>(Image/File Size Smaller than 5mb)</p>
+								</div>								
+							</div>
 							<div class="col-md-12">
 								<div class="form-group">
 									<label>Type *</label>
@@ -136,6 +162,7 @@ if($file!=''){
 	$(function(){
 		editor('#description');
 		fileupload([".file_file", "./assets/uploads/help/", ["mp4"]], ['.file', '.fileimgtag'], "", videoupload);
+		fileupload([".help_image", "./assets/uploads/help/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.help_picture', '.help_photo', '<?php echo base_url()."assets/uploads/help/"; ?>']);
 		videoupload('<?php echo $file; ?>');
 		
 		var options = {

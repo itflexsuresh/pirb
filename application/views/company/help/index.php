@@ -5,7 +5,7 @@
 	<div class="col-md-7 align-self-center text-right">
 		<div class="d-flex justify-content-end align-items-center">
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="<?php echo base_url().'plumber/dashboard'; ?>">Home</a></li>
+				<li class="breadcrumb-item"><a href="<?php echo base_url().'company/dashboard'; ?>">Home</a></li>
 				<li class="breadcrumb-item active">Help</li>
 			</ol>
 		</div>
@@ -18,7 +18,7 @@
 			
 				<div class="row">
 					<div class="col-md-12 plumberhelpsection">
-						<h5>Plumber Help Section</h5>
+						<h5>Company Help Section</h5>
 						<?php foreach($results as $result){ ?>
 							<p><a href="javascript:void(0);" data-id="<?php echo $result['id']; ?>" class="helpsection"><?php echo $result['title']; ?></a></p>
 						<?php } ?>
@@ -33,6 +33,8 @@
 								</video>
 							<?php } ?>
 							<div><?php echo $result['description']; ?></div>
+							
+
 							<?php
 							$image 					= isset($result['image']) ? $result['image'] : '';	
 							$filepath				= base_url().'assets/uploads/help/';
@@ -43,12 +45,13 @@
 								$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$image;
 								$photoidurl		= $filepath.$image;
 							?>
-								<div>
-									<a href="<?php echo $photoidurl; ?>" target="_blank"><img src="<?php echo $photoidimg; ?>" class="help_photo" width="100"></a>
-								</div>
+							<div>
+								<a href="<?php echo $photoidurl; ?>" target="_blank"><img src="<?php echo $photoidimg; ?>" class="help_photo" width="100"></a>
+							</div>
 							<?php
 							}
 							?>
+
 						</div>
 					<?php } ?>
 				</div>

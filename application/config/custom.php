@@ -406,6 +406,12 @@ $config['plumberstatus'] 			= 	[
 											'5' => 'Resigned',
 										];
 
+$config['auditorstatus'] 			= 	[
+											'0' => 'Pending',
+											'1' => 'Active',
+											'2' => 'Inactive'
+										];
+
 $config['qualificationtype'] 		= 	[
 											'1' => 'Learner Plumber',
 											'2' => 'Technical Assistant',
