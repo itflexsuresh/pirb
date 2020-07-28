@@ -35,6 +35,8 @@ class Api extends CC_Controller
 		$this->load->model('Resellers_allocatecoc_Model');
 		$this->load->model('Plumberperformance_Model');
 		$this->load->model('Mycpd_Model');
+		$this->load->model('Subtype_Model');
+		$this->load->model('Reportlisting_Model');
 	}
 
 	public function login(){
@@ -1474,13 +1476,176 @@ class Api extends CC_Controller
 		echo json_encode($jsonArray);
 	}
 
-	public function electroniccocreport_api($id, $userid)
-	{	
-		$this->pdfelectroniccocreport_apdi($id, $userid);
+	public function noncompliance_coc(){
+
+		if ($this->input->post() && $this->input->post('user_id') && $this->input->post('pagetype') =='view') {
+			$jsonData = [];
+
+			if ($this->input->post('request_type') !='' && $this->input->post('request_type') =='ajaxgetinstallationtype') {
+
+				$data		= $this->getInstallationTypeList_api();
+				$message 	= 'Installation Types';
+				
+			}elseif ($this->input->post('request_type') !='' && $this->input->post('request_type') =='ajaxgetsubtype' && $this->input->post('installationtypeid') !='') {
+
+				$installationtypeid		= $this->input->post('installationtypeid');
+				$data					= $this->getSubTypeList_api(['installationtypeid' => $installationtypeid]);
+				$message 				= 'Sub Types';
+
+			}elseif ($this->input->post('request_type') !='' && $this->input->post('request_type') =='ajaxreportreportlisting' && $this->input->post('installationtypeid') !='' && $this->input->post('subtypeid') !='') {
+
+				$installationtypeid		= $this->input->post('installationtypeid');
+				$subtypeid 				= $this->input->post('subtypeid');
+				$data					= $this->getreportlisting_api(['installationtypeid' => $installationtypeid, 'subtypeid' => $subtypeid]);
+				$message 				= 'Non Compliance Report';
+
+			}elseif ($this->input->post('request_type') !='' && $this->input->post('request_type') =='imageupload') {
+
+				$post = $this->input->post();
+				if ($post['nc_file'] != '') {
+					$data = $this->fileupload(['files' => $post['nc_file'], 'file_name' => $post['file_name'], 'user_id' => $post['user_id'], 'page' => 'noncompliance_coc_image']);
+					$message 		= 'Non Compliance Images';
+				}
+			}
+
+			$jsonData['page_lables'] = [];
+			$jsonArray 		= array("status"=>'1', "message"=>$message, "result"=>$data);
+		}elseif ($this->input->post() && $this->input->post('user_id') && $this->input->post('id') && $this->input->post('pagetype') =='edit') {
+
+			$id 	= $this->input->post('id');
+			$userid = $this->input->post('user_id');
+			$result = $this->Noncompliance_Model->getList('row', ['id' => $id]);
+			if ($result) {
+				$message 		= 'Non Compliance Data';
+
+				if ($result['file'] !='') {
+					if(strpos($result['file'], ',') !== false){
+						$imgarray = explode(",",$result['file']);
+						foreach ($imgarray as $key => $images) {
+							$jsonData['nc_images'][] = [
+								'file' 	=> base_url().'assets/uploads/plumber/'.$userid.'/log/'.$images 
+							];
+						}
+					}else{
+						$jsonData['nc_images'][] = [
+								'file' 	=> base_url().'assets/uploads/plumber/'.$userid.'/log/'.$result['file'] 
+							];
+					}
+				}else{
+					$jsonData['nc_images'][] = [
+								'file' 	=> '' 
+							];
+				}
+				$installationtype 	= $this->getInstallationTypeList_api(['id' => $result['installationtype'], 'type' => 'getinstallation']);
+				$subtype 			= $this->getSubTypeList_api(['id' => $result['subtype'], 'type' => 'getsubtypes']);
+				$statement 			= $this->getreportlisting_api(['id' => $result['statement'], 'type' => 'getstatement']);
+
+				$jsonData['noncompliance_details'][] = [ 'id' => $result['id'], 'user_id' => $result['user_id'], 'coc_id' => $result['coc_id'], 'installationtypeid' => $result['installationtype'], 'subtypeid' => $result['subtype'], 'statementid' => $result['statement'], 'details' => $result['details'], 'action' => $result['action'], 'reference' => $result['reference'], 'installationtype' => $installationtype[0]['name'], 'subtype' => $subtype[0]['name'], 'statement' => $statement[0]['statement']
+				];
+			}
+			$jsonArray 		= array("status"=>'1', "message"=>$message, "result"=>$jsonData);
+
+		}elseif ($this->input->post() && $this->input->post('user_id') && $this->input->post('id') && $this->input->post('pagetype') =='delete') {
+
+			$id 	= $this->input->post('id');
+			$userid = $this->input->post('user_id');
+			$result = $this->Noncompliance_Model->delete($id);
+			if ($result) {
+				$message 		= 'Non Compliance Deleted Sucessfully';
+			}
+			$jsonArray 		= array("status"=>'1', "message"=>$message, "result"=>['user_id' => $userid]);
+		}
+		else{
+			$jsonArray 		= array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+		}
+		echo json_encode($jsonArray);
 	}
 
-	public function pdfelectroniccocreport_api($id, $userid)
-	{		
+	public function getInstallationTypeList_api($data = []){
+
+		if (!isset($data['id']) && !isset($data['type'])) {
+			$results = $this->Installationtype_Model->getList('all', ['status' => ['1']]);
+			if(count($results) > 0){
+				foreach ($results as $key => $value) {
+					$arraydata[] = ['id' => $value['id'], 'name' => $value['name']];
+				}
+			}else{
+				$arraydata[] = [];
+			}
+		}else{
+			$results = $this->Installationtype_Model->getList('all', ['status' => ['1'], 'id' => $data['id']]);
+			if(count($results) > 0){
+				foreach ($results as $key => $value) {
+					$arraydata[] = ['id' => $value['id'], 'name' => $value['name']];
+				}
+			}else{
+				$arraydata[] = [];
+			}
+		}
+		
+		return $arraydata;
+	}
+	public function getSubTypeList_api($data = []){
+
+		if (!isset($data['id']) && !isset($data['type'])) {
+			$results = $this->Subtype_Model->getList('all', ['status' => ['1'], 'installationtypeid' => $data['installationtypeid']]);
+			print_r($results);die;
+			if(count($results) > 0){
+				foreach ($results as $key => $value) {
+					$arraydata[] = ['id' => $value['id'], 'installationtypeid' => $value['installationtype_id'], 'name' => $value['name']];
+				}
+			}else{
+				$arraydata[] = [];
+			}
+		}else{
+			$data = $this->Subtype_Model->getList('all', ['status' => ['1'], 'id' => $data['id']]);
+			if(count($data) > 0){
+				foreach ($data as $key => $value) {
+					$arraydata[] = ['id' => $value['id'], 'installationtypeid' => $value['installationtype_id'], 'name' => $value['name']];
+				}
+			}else{
+				$arraydata[] = [];
+			}
+		}
+		
+		return $arraydata;
+	}
+	public function getreportlisting_api($data =[]){
+
+		if (!isset($data['id']) && !isset($data['type'])) {
+			$results = $this->Reportlisting_Model->getList('all', ['status' => ['1'], 'installationtypeid' => $data['installationtypeid'], 'subtypeid' => $data['subtypeid']]);
+			if(count($results) > 0){
+				foreach ($results as $key => $value) {
+					$arraydata[] = ['id' => $value['id'], 'installationtypeid' => $value['installation_id'], 'subtype_id' => $value['subtype_id'], 'statement' => $value['statement'], 'regulation' => $value['regulation'], 'regulation' => $value['regulation'], 'compliment' => $value['compliment'], 'cautionary' => $value['cautionary'], 'refix_complete' => $value['refix_complete'], 'refix_incomplete' => $value['refix_incomplete'], 'ncn_details' => 'Details', 'pub_remedial_ac' => 'Actions', 'pub_remedial_ac' => 'Actions', 'reference' => 'Reference'];
+				}
+			}else{
+				$arraydata[] = [];
+			}
+		}else{
+			$results = $this->Reportlisting_Model->getList('all', ['status' => ['1'], 'id' => $data['id']]);
+			if(count($results) > 0){
+				foreach ($results as $key => $value) {
+					$arraydata[] = ['id' => $value['id'], 'installationtypeid' => $value['installation_id'], 'subtype_id' => $value['subtype_id'], 'statement' => $value['statement'], 'regulation' => $value['regulation'], 'regulation' => $value['regulation'], 'compliment' => $value['compliment'], 'cautionary' => $value['cautionary'], 'refix_complete' => $value['refix_complete'], 'refix_incomplete' => $value['refix_incomplete'], 'ncn_details' => 'Details', 'pub_remedial_ac' => 'Actions', 'reference' => 'Reference'];
+				}
+			}else{
+				$arraydata[] = [];
+			}
+		}
+		
+		return $arraydata;
+	}
+
+	// public function electroniccocreport_api($id, $userid)
+	// {	
+	// 	$this->pdfelectroniccocreport_apdi($id, $userid);
+	// }
+	// public function noncompliancereport_adi($id, $userid)
+	// {	
+	// 	$this->pdfnoncompliancereport_api($id, $userid);
+	// }
+
+	public function pdfelectroniccocreport_api($id, $userid){
+
 		$userdata				 		= $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber']);
 		$pagedata['userdata']	 		= $userdata;
 		$pagedata['specialisations']	= explode(',', $pagedata['userdata']['specialisations']);
@@ -1498,13 +1663,9 @@ class Api extends CC_Controller
 		$output = $this->pdf->output();
 		$this->pdf->stream('Electronic COC Report '.$id);
 	}
+	
+	public function pdfnoncompliancereport_api($id, $userid, $save=''){		
 
-	public function noncompliancereport_adi($id, $userid)
-	{	
-		$this->pdfnoncompliancereport_api($id, $userid);
-	}
-	public function pdfnoncompliancereport_api($id, $userid, $save='')
-	{		
 		$pagedata['result']			= $this->Coc_Model->getCOCList('row', ['id' => $id, 'coc_status' => ['2']]);
 		$pagedata['noncompliance'] 	= $this->Noncompliance_Model->getList('all', ['coc_id' => $id, 'user_id' => $userid]);	
 
@@ -1600,6 +1761,7 @@ class Api extends CC_Controller
 		$base_url 	 = base_url();
 		$page 		 = $data['page'];
 		$file_name 	 = $data['file_name'];
+		$directory 	 = dirname(__DIR__, 3);
 
 		// $file_size	=  $base64files['image']['size'];
     	$files		=  explode(',', $base64files);
@@ -1609,11 +1771,18 @@ class Api extends CC_Controller
 			$path = FCPATH.'assets/uploads/cpdqueue/';
 		}elseif($page == 'plumberlogcoc'){
 			$path = FCPATH.'assets/uploads/cpdqueue/';
+		}elseif($page == 'noncompliance_coc_image'){
+			$path = FCPATH.'assets/uploads/plumber/'.$userid.'/log/';
+			
+			if(!is_dir($path)){
+				mkdir($directory.'/assets/uploads/plumber/'.$userid.'/log', 0755, true);
+			}
 		}
 		
 		if ($countfiles > 1) {
 			$file_names = explode(',', $file_name);
 			for($i=0;$i<$countfiles;$i++){
+				
 				$base64		= $files[$i];
 				$file_name 	= $file_names[$i];
 	            $extension 	= explode('.', $file_name)[1];
@@ -1625,8 +1794,8 @@ class Api extends CC_Controller
 			}
 		}
 		else{
-			$base64		= $base64files;
 
+			$base64		= $base64files;
 			$extension 	= explode('.', $file_name)[1];
 	        $image 		= base64_decode($base64);
 	        $image_name = md5(uniqid(rand(), true));
@@ -1635,10 +1804,13 @@ class Api extends CC_Controller
 
 			file_put_contents($path . $filename, $image);
 		}
-		return $filearray;
+		if (is_array($filearray) && (count($filearray) > 1)) {
+			$file[] = implode(",",$filearray);
+		}else{
+			$file[] = $filearray;
+		}
+		return $file;
 	}
-
-
 
 	public function ajaxprovince(){
 		$jsonData = [];
