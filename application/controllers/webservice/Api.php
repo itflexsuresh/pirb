@@ -1508,7 +1508,8 @@ class Api extends CC_Controller
 				}
 			}
 
-			$jsonData['page_lables'] = [];
+			$jsonData['page_lables'] = [ 'heading' => 'Pre-existing Non Compliance Conditions', 'installation' => 'Installation Type', 'subtype' => 'Sub Type', 'statement' => 'Statement', 'nc_details' => 'Non compliance details', 'remedi' => 'Possible remedial actions', 'sans' => 'SANS / Regulation / Bylaw Reference', 'img' => 'images', 'addimg' => 'Add images'
+			];
 			$jsonArray 		= array("status"=>'1', "message"=>$message, "result"=>$data);
 		}elseif ($this->input->post() && $this->input->post('user_id') && $this->input->post('id') && $this->input->post('pagetype') =='edit') {
 
@@ -1543,6 +1544,8 @@ class Api extends CC_Controller
 				$jsonData['noncompliance_details'][] = [ 'id' => $result['id'], 'user_id' => $result['user_id'], 'coc_id' => $result['coc_id'], 'installationtypeid' => $result['installationtype'], 'subtypeid' => $result['subtype'], 'statementid' => $result['statement'], 'details' => $result['details'], 'action' => $result['action'], 'reference' => $result['reference'], 'installationtype' => $installationtype[0]['name'], 'subtype' => $subtype[0]['name'], 'statement' => $statement[0]['statement']
 				];
 			}
+			$jsonData['page_lables'] = [ 'heading' => 'Pre-existing Non Compliance Conditions', 'installation' => 'Installation Type', 'subtype' => 'Sub Type', 'statement' => 'Statement', 'nc_details' => 'Non compliance details', 'remedi' => 'Possible remedial actions', 'sans' => 'SANS / Regulation / Bylaw Reference', 'img' => 'images', 'addimg' => 'Add images'
+			];
 			$jsonArray 		= array("status"=>'1', "message"=>$message, "result"=>$jsonData);
 
 		}elseif ($this->input->post() && $this->input->post('user_id') && $this->input->post('id') && $this->input->post('pagetype') =='delete') {
@@ -1557,6 +1560,59 @@ class Api extends CC_Controller
 		}
 		else{
 			$jsonArray 		= array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+		}
+		echo json_encode($jsonArray);
+	}
+
+	public function noncompliance_coc_action(){
+		if ($this->input->post() && $this->input->post('user_id') && $this->input->post('coc_id')) {
+
+			$this->form_validation->set_rules('installationtype','installationtype','trim|required');
+			$this->form_validation->set_rules('subtype','subtype','trim|required');
+			$this->form_validation->set_rules('statement','statement','trim|required');
+			$this->form_validation->set_rules('details','details','trim|required');
+			$this->form_validation->set_rules('action','action','trim|required');
+			$this->form_validation->set_rules('reference','reference','trim|required');
+
+			if ($this->form_validation->run()==FALSE) {
+				$errorMsg = validation_errors();
+				$jsonArray = array("status"=>'0', "message"=>$errorMsg, 'result' => []);
+			}else{
+				$post 			= 	$this->input->post();
+				$userid			= 	$post['user_id'];
+				$id 			= 	$post['id']; //noncompliance id
+				$datetime		= 	date('Y-m-d H:i:s');
+				
+				$request		=	[
+					'updated_at' 		=> $datetime,
+					'updated_by' 		=> $userid
+				];
+
+				$request['user_id'] 													= $userid;
+				$request['coc_id'] 														= $post['coc_id'];
+				if(isset($post['installationtype'])) 	$request['installationtype'] 	= $post['installationtype'];
+				if(isset($post['subtype'])) 			$request['subtype'] 			= $post['subtype'];
+				if(isset($post['statement'])) 			$request['statement'] 			= $post['statement'];
+				if(isset($post['details'])) 			$request['details'] 			= $post['details'];
+				if(isset($post['action'])) 				$request['action'] 				= $post['action'];
+				if(isset($post['reference'])) 			$request['reference'] 			= $post['reference'];
+				
+				$request['file'] 	= (isset($post['file'])) ? implode(',', $post['file']) : '';
+				$request['status'] 	= (isset($post['status'])) ? $post['status'] : '0';
+				
+				if($id==''){
+					$request['created_at'] = $datetime;
+					$request['created_by'] = $userid;
+					$this->db->insert('noncompliance', $request);
+					$insertid = $this->db->insert_id();
+				}else{
+					$this->db->update('noncompliance', $request, ['id' => $id]);
+					$insertid = $id;
+				}
+
+			}else{
+				$jsonArray 		= array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+			}
 		}
 		echo json_encode($jsonArray);
 	}
