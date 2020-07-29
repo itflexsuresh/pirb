@@ -384,6 +384,20 @@ class Api extends CC_Controller
 		echo json_encode($jsonArray);
 	}
 
+	public function card(){
+
+		if ($this->input->post() && $this->input->post('user_id')) {
+			$userid 			= $this->input->post('user_id');
+			$card 				= $this->plumbercard($userid);
+			$jsonData['card'] 	= $card;
+
+			$jsonArray = array("status"=>'1', "message"=>'Plumber PIRB registration card', 'result' => $jsonData);
+		}else{
+			$jsonArray = array("status"=>'0', "message"=>'invalid request', 'result' => []);
+		}
+		echo json_encode($jsonArray);
+	}
+
 	// Purchase CoC:
 	public function purchase_coc(){
 
@@ -1610,10 +1624,10 @@ class Api extends CC_Controller
 					$insertid = $id;
 				}
 
-			}else{
+			}
+		}else{
 				$jsonArray 		= array("status"=>'0', "message"=>'invalid request', "result"=>[]);
 			}
-		}
 		echo json_encode($jsonArray);
 	}
 
