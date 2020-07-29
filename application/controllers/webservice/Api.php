@@ -388,7 +388,7 @@ class Api extends CC_Controller
 
 		if ($this->input->post() && $this->input->post('user_id')) {
 			$userid 			= $this->input->post('user_id');
-			$card 				= $this->plumbercard($userid);
+			$card 				= $this->plumbercard_api($userid);
 			$jsonData['card'] 	= $card;
 
 			$jsonArray = array("status"=>'1', "message"=>'Plumber PIRB registration card', 'result' => $jsonData);
@@ -396,6 +396,16 @@ class Api extends CC_Controller
 			$jsonArray = array("status"=>'0', "message"=>'invalid request', 'result' => []);
 		}
 		echo json_encode($jsonArray);
+	}
+	public function plumbercard_api($userid){
+
+		$data['company'] 			= $this->getCompanyList();
+		$data['designation2'] 		= $this->config->item('designation3');
+		$data['specialisations'] 	= $this->config->item('specialisations');
+		$data['settings'] 			= $this->Systemsettings_Model->getList('row');
+		
+		$data['result'] = $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber', 'company']);
+		return $this->load->view('api/card', $data, true) ;
 	}
 
 	// Purchase CoC:
