@@ -390,7 +390,7 @@ class Api extends CC_Controller
 			$userid 			= $this->input->post('user_id');
 			$card 				= $this->plumbercard_api($userid);
 			$jsonData['card'] 	= $card;
-
+			echo $jsonData['card'];die;
 			$jsonArray = array("status"=>'1', "message"=>'Plumber PIRB registration card', 'result' => $jsonData);
 		}else{
 			$jsonArray = array("status"=>'0', "message"=>'invalid request', 'result' => []);
