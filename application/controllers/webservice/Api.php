@@ -6,6 +6,12 @@ class Api extends CC_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		header("Access-Control-Allow-Origin: *");
+		header("Access-Control-Allow-Credentials: true");
+		header("Access-Control-Max-Age: 1728000");
+		header("Access-Control-Allow-Headers: X-Requested-With, Content-Type, Origin, Cache-Control, Pragma, Authorization, Accept, Accept-Encoding");
+		header("Access-Control-Allow-Methods: PUT, POST, GET, OPTIONS, DELETE");
+
 		$this->load->model('Coc_Model');
 		$this->load->model('Coc_Ordermodel');
 		$this->load->model('Auditor_Model');
