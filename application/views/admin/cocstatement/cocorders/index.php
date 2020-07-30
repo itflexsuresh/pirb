@@ -296,6 +296,7 @@ $tracking_display = ($delivery_type=='' || $delivery_type=='1') ? 'displaynone' 
 							<input type="hidden" class="form-control" name="type" value="<?php echo $type; ?>">
 							<input type="hidden" name="coc_type" value="<?php echo $coc_type; ?>">
 							<button type="submit" name="allocate_certificate" value="submit" class="btn btn-primary" <?php echo $allocate_button_disbled; ?>>Allocate Certificates</button>
+							<?php if($allocate_button_disbled=='disabled'){ echo '<p>COC\'S is out of stock. Please allocate in paper management.</p>'; } ?> 
 						</div>
 					</div>					
 				</form>

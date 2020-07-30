@@ -10,8 +10,6 @@ $coc_purchase_limit   	= $username["coc_purchase_limit"]=='' ? '0' : $username["
 $electronic_coc_log   	= $username["coc_electronic"];
 
 $coc_counts 			= $coc_count['count']=='' ? '0' : $coc_count['count'];
-// echo "<pre>";
-// print_r($coc_counts);die;
 
 $cocpaperwork 			= currencyconvertor($cocpaperwork["amount"]);
 $cocelectronic 			= currencyconvertor($cocelectronic["amount"]); 
@@ -62,7 +60,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 						<div class="col-md-3">
 							<div class="form-group coc_pur_sec">
 								<div class="coc_pur_num1"><?php  echo $admin_allot; ?></div>
-								<label class="add_max_height">COC’s yet to allocated</label>
+								<label class="add_max_height">Number Of COC's Not Yet Allocated to You</label>
 								<input type="hidden" id="admin_allot" class="form-control" name="admin_allot" value="<?php  echo $admin_allot; ?>" readonly>
 							</div>
 						</div>
@@ -70,7 +68,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 						<div class="col-md-3">
 							<div class="form-group coc_pur_sec">
 								<div class="coc_pur_num2"><?php  echo $log_coc; ?></div>
-								<label class="add_max_height">Number of Non Logged COC's</label>
+								<label class="add_max_height">Number Of COC's Not Logged Yet</label>
 								<input type="hidden" id="log_coc" class="form-control" name="log_coc" value="<?php  echo $log_coc; ?>" readonly>
 							</div>
 						</div>
@@ -78,7 +76,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 						<div class="col-md-3">
 							<div class="form-group coc_pur_sec">
 								<div class="coc_pur_num3"><?php  echo $coc_purchase_limit; ?></div>
-								<label class="add_max_height">Total Number COC's You are Permitted</label>
+								<label class="add_max_height">Total Number of COC's That You Are Pertmitted</label>
 								<input type="hidden" class="form-control" id="coc_permitted" name="coc_permitted" readonly value="<?php echo $coc_purchase_limit; ?>">
 							</div>
 						</div>
@@ -86,7 +84,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 						<div class="col-md-3">
 							<div class="form-group coc_pur_sec">
 								<div class="coc_pur_num4"><?php  echo $coc_counts; ?></div>
-								<label class="add_max_height">Number of Permitted COC's that you are able to purchase</label>
+								<label class="add_max_height">Number of Permitted COC's That You Are Able To Purchase</label>
 								<input type="hidden" class="form-control" id="number_of_purchase_coc" name="number_of_purchase_coc" readonly value="<?php echo $coc_counts; ?>">
 							</div>
 						</div>
@@ -196,9 +194,13 @@ if (in_array($plumberstatus, $plumber_status)) {
 						<input type="checkbox" id="disclaimer" name="disclaimer" class="custom-control-input" <?php echo $disabled; ?>>
 						<label class="custom-control-label" for="disclaimer">I declare and understand</label>
 					</div>
-					<p class="info_text">
-						That all the plumbing works comply in all respect to the plumbing regulations and laws as defined by the National Compulsory Standards and Local By-Laws. The PIRB's auditing, rectification and disciplinary policy and procedures and that I fully comply to them. If I fail to comply with the policy and procedures it may result in disciplinary action being taken against me, which could result in my suspension from the PIRB.  As a professional plumber I abide by the PIRB Code of Conduct as a professional Plumber
-					</p>
+					<div class="mt-3">
+						<ul>
+							<li>That all plumbing work undertaken by me shall, in all aspects, comply with the requirements of the regulations and laws as defined by the Compulsory National Standards and Local By-Laws for plumbing practices.</li>
+							<li>The PIRB's auditing, rectification and disciplinary policies and procedures, and that I fully comply with said policies and procedures. Should I fail to comply with said policies and procedures, it may result in disciplinary action being taken against me, which may include the suspension of my registration with the PIRB.</li>
+							<li>That, as a professional Plumber, I will abide by the PIRB’s Code of Conduct.</li>
+						</ul>
+					</div>
 
 					<input type="hidden" id="dbvat" name="dbvat" value="<?php echo $VAT; ?>">
 					<input type="hidden" id="dbcocpaperwork" name="dbcocpaperwork" value="<?php echo $cocpaperwork; ?>">

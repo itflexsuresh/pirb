@@ -191,7 +191,7 @@ if(isset($id) && $id >0)
 							<label class="custom-control-label" for="disclaimer">I declare and understand</label>
 						</div>
 						<p class="info_text">
-							That I have allocated/sold the relevant COC to a valid Licensed Plumber, and that if I am found that I have allocated a COC to non valid Licensed Plumbers I will be held accountable for my actions.
+							That I have allocated/sold the relevant COC to a valid PIRB Licensed Plumber, and that if I am found to have allocated/sold any COC to non-valid PIRB Licensed Plumber I will be held accountable for my actions.
 						</p>
 					</div>
 				</div>

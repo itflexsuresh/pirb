@@ -2052,7 +2052,8 @@ footer.footer {
 }
 
 table td {
-    padding: 6px 20px 6px 20px !important;
+	padding: 6px 20px 6px 20px !important;
+	width: 100%;
 }
 
 th {
@@ -2406,16 +2407,16 @@ a.side_img {
 }
 
 .topbar .top-navbar .navbar-header {
-    line-height: 40px;
-    }
+	line-height: 40px;
+}
 
-    .cpd_points_sec {
-        box-shadow: 4px 3px 5px 3px #c5c2c2;
-    border-radius: 3px;
-        height: 358px;
-        margin: 20px 0px;
-        height: 400px;
-		background-color: #fff;
+.cpd_points_sec {
+	box-shadow: 4px 3px 5px 3px #c5c2c2;
+	border-radius: 3px;
+	height: 358px;
+	margin: 20px 0px;
+	height: 325px;
+	background-color: #fff;
 }
 
 p.cus_view_cpd {
@@ -2441,8 +2442,15 @@ div#mycocs {
     box-shadow: 4px 3px 5px 3px #c5c2c2;
     border-radius: 3px;
     margin: 20px 0px;
-    height: 400px;
 	background-color: #fff;
+}
+
+.cpd_points_sec input{margin-top:130px!important;color:black!important;}
+.cpd_points_sec img{
+	position: absolute;
+    top: 180px;
+    left: 45%;
+    width: 49px;
 }
 
 p.cus_my_coc{
@@ -2765,7 +2773,6 @@ p.frd_num {
     box-shadow: 4px 3px 5px 3px #c5c2c2;
     padding: 10px 7px;
     margin-top: 20px;
-    height: 157px;
 	background-color: #fff;
 }
 
@@ -2813,10 +2820,11 @@ span.ver_name1 {
    top: 150px !important;
 }
  
- .coc_pur_sec{
-        width: 60%;
-        margin: 0 auto;
- }
+.coc_pur_sec{
+	width: 60%;
+	margin: 0 auto;
+	text-align: center;
+}
 
  .coc_pur_num1{
     width: 70%;
@@ -3508,3 +3516,7 @@ tr.dynmci---icns {
 	width:101px!important;
 	text-transform: uppercase;
 }
+
+
+.list_icon a{width: 70px;}
+.list_icon a img{width: 100%;}

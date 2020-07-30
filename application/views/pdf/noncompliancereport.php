@@ -115,7 +115,7 @@ $logoimg = base64conversion(base_url().'assets/images/pitrb-logo.png');
 				<table class="head-all">
 					<tbody>
 						<tr>
-							<td><h2>NOTICE OF NON COMPLIANCE</h2></td>
+							<td><h2>NOTICE OF NON-COMPLIANCE</h2></td>
 							<td style="text-align: right; width:250px;"><img width="200px" src="<?php echo $logoimg; ?>"></td>                   
 						</tr>
 					</tbody>
@@ -133,7 +133,7 @@ $logoimg = base64conversion(base_url().'assets/images/pitrb-logo.png');
 					</thead>
 					<tbody>
 						<tr>
-							<td style="padding: 5px 15px; text-align:center;">In terms of the SOUTH AFRICAN NATIONAL STANDARDS (SANS); 10254 (Geyser), 10106 (Solar), 1352 (Heat Pump) and the National Consumer Protection Act; all owner/users of a maintained, replaced or repaired hot water heating system are to comply to these standards. Any non-compliance of the respective South African National Standard(s) must be notifed in writing to the user/owner by the Licensed Plumber. THIS NOTICE OF NON COPLIANCE SERVICES AS THIS NOTICE. Unless otherwise stated, this Inspection is a visual Inspection of component(s) and part(s) of your plumbing system as listed. These are reasonably visible and capable of being inspected without creating damage(s), the inspection further does not cover/include pressure testing and/or the design nor effciency of the plumbing system.</td>             
+							<td style="padding: 5px 15px; text-align:center;">In terms of the, Water Services Act of 8 June 2001; Occupational Health & Safety Act (Pressure Equipment Regulations, 2009); the National Standard SANS 10254 (The Installation, Maintenance, Replacement and Reparation of Fixed Electric Storage Water Heating Systems); the National Standard SANS 1352 (The Installation, Maintenance, Replacement and Reparation of Domestic Air Source Water Heating Heat Pump Systems); the National Standard SANS 10106 (The Installation, Maintenance, Replacement and Reparation of Domestic Solar Water Heating Systems); as well as Section 58 of the Consumer Protection Act, any aspect of your plumbing installation that does not comply with the latest requirements of the above-mentioned national standards and legislation must be notified in writing to the user/owner by the relevant Licensed Plumber. THIS NOTICE SERVES NOTIFY TO YOU OF SUCH NON-COMPLIANCES.  Unless otherwise stated, this inspection is a visual inspection of component(s) and part(s) of your plumbing system, as listed.  These non-compliances are reasonably visible and capable of being inspected without creating damage(s).  Although the applicable plumbing at your premises may have been compliant at the time that it was installed, changes to the above-mentioned requirements are made from time to time for improvement and to minimise any potential risks. In doing so, it ensures that your safety, as the consumer, is the highest priority.</td>             
 						</tr>
 					</tbody>
 				</table>
@@ -257,6 +257,5 @@ $logoimg = base64conversion(base_url().'assets/images/pitrb-logo.png');
 	</tbody>                            
 </table>
 
-<h5>DISCLAIMER: This doument was developed by PIRB to assist plumbers in providing a non compliance notice.  The responsibility </h5>
-<h5>for notifying the user & owner, lies with the lisenced plumber. This document is simply a guide & is not exhaustive.</h5>
+<h5>DISCLAIMER: This document was developed by the PIRB to assist plumbers in providing a Non-Compliance notice.  The responsibility for notifying the user & owner, lies with the licenced plumber. This document simply is a guide and is not exhaustive.  </h5>
 			

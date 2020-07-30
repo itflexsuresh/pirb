@@ -28,25 +28,31 @@
 						<div class="col-md-12" id="helpsection<?php echo $result['id']; ?>">
 							<h5><?php echo $result['title']; ?></h5>
 							<?php if($result['file']!=''){ ?>
-								<video width="320" height="240" controls>
-									<source src="<?php echo base_url().'assets/uploads/help/'.$result['file']; ?>" type="video/mp4">
-								</video>
+								<div class="text-center">
+									<video width="800" controls>
+										<source src="<?php echo base_url().'assets/uploads/help/'.$result['file']; ?>" type="video/mp4">
+									</video>
+								</div>
 							<?php } ?>
 							<div><?php echo $result['description']; ?></div>
 							<?php
-							$image 					= isset($result['image']) ? $result['image'] : '';	
-							$filepath				= base_url().'assets/uploads/help/';
-							$pdfimg 				= base_url().'assets/images/pdf.png';
-							if($image!=''){
-								$explodefile2 	= explode('.', $image);
-								$extfile2 		= array_pop($explodefile2);
-								$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$image;
-								$photoidurl		= $filepath.$image;
+							$images 		= isset($result['image']) ? $result['image'] : '';	
+							if($images!=''){
+								$images = explode(',', $images);
+								foreach($images as $image){
+									$filepath				= base_url().'assets/uploads/help/';
+									$pdfimg 				= base_url().'assets/images/pdf.png';
+								
+									$explodefile2 	= explode('.', $image);
+									$extfile2 		= array_pop($explodefile2);
+									$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$image;
+									$photoidurl		= $filepath.$image;
 							?>
-								<div>
-									<a href="<?php echo $photoidurl; ?>" target="_blank"><img src="<?php echo $photoidimg; ?>" class="help_photo" width="100"></a>
-								</div>
+									<div class="text-center mb-5">
+										<a href="<?php echo $photoidurl; ?>" target="_blank"><img src="<?php echo $photoidimg; ?>" class="help_photo img-responsive"></a>
+									</div>
 							<?php
+								}
 							}
 							?>
 						</div>

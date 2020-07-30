@@ -265,7 +265,7 @@ class Index extends CC_Controller
 				}			
 				else{
 					$statuz 	= $this->config->item('approvalstatus')[$result['status']];
-					if ($statuz!='Reject') {
+					if ($statuz!='Rejected') {
 						$awardPts 	= $result['points'];
 					}else{
 						$awardPts 	= 0;

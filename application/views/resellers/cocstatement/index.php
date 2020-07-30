@@ -25,7 +25,7 @@
 								<th>COC Number</th>
 								<th>Status</th>
 								<th>Date and Time of</br>Allocation</th>
-								<th>Reseller</br>Invocie Number</th>
+								<th>Reseller</br>Invoice Number</th>
 								<th>Licensed Plumber</br>Name Surname</th>
 								<th>Licensed Plumbers</br>Employer</th>
 							</tr>

@@ -71,7 +71,7 @@
 				<div class="card card-body">
 					<h4 class="card-title"><?php echo $header_title; ?></h4>
 					<h5 class="card-subtitle"> <?php echo $header_title2; ?> </h5>
-					<a style="cursor: pointer;"><?php echo $pointer_title; ?></a>
+					<a href="http://new.pirb.co.za/registrations/"><?php echo $pointer_title; ?></a>
 					<form method="post" action="<?php echo base_url().'login/'.$usertypename; ?>" class="form-horizontal mt-4 register">
 						<div class="form-group">
 							<label for="email2">Email Address</label>

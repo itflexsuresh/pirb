@@ -945,12 +945,9 @@
 		<div class="modal-content">
 			<div class="modal-body">
 				<div class="row">
-					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
-					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
-					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
-					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
-					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
-					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
+					<div class="col-md-12">
+						<img src="<?php echo base_url().'assets/images/photoid.png'; ?>">
+					</div>
 				</div>
 			</div>
 		</div>
@@ -1148,10 +1145,9 @@ $(function(){
 								return $("#employment_details").val() == "1";
 							}
 			},
-			
 			attachmenthidden 	: {
 				required:  	function() {
-								return $(".designation:checked").val() == "4";
+								return $("#designation2").val() == "4" || $("#designation2").val() == "5" || $("#designation2").val() == "6";
 							},
 				remote	: 	{
 								url		: 	"<?php echo base_url().'ajax/index/ajaxqualificationvalidation'; ?>",
@@ -1294,8 +1290,8 @@ $(function(){
 				required	: "Please select company.",
 			},
 			attachmenthidden 	: {
-				required	: "Please add one skill.",
-				remote		: "Designation not found in qualification."
+				required	: "No qualifications found",
+				remote		: "Add the relevant qualification to the table."
 			},
 			qualification_year 	: {
 				required	: "Please select qualification year.",
@@ -1533,6 +1529,8 @@ function skillsextras(){
 		$('.skillnotfound').show();
 		$('.attachmenthidden').val('');
 	}
+	
+	$(".attachmenthidden").removeData("previousValue");
 }
 
 $('#plumbersubmit').click(function(){

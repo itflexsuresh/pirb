@@ -127,9 +127,12 @@
 				
 				<div class="steps active" data-id="1">
 					<h4 class="card-title">Registered Plumber Details</h4>
-					<p>
-						Donec augue enim, volutpat at ligula et, dictum laoreet sapien. Sed maximus feugiat tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla eu mollis leo, eu elementum nisl. Curabitur cursus turpis nibh, egestas efficitur diam tristique non. Proin faucibus erat ligula, nec interdum odio rhoncus vel. Nulla facilisi. Nulla vehicula felis lorem, sed molestie lacus maximus quis. Mauris dolor enim, fringilla ut porta sed, ullamcorper id quam. Integer in eleifend justo, quis cursus odio. Pellentesque fermentum sapien elit, aliquam rhoncus neque semper in. Duis id consequat nisl, vitae semper elit. Nulla tristique lorem sem, et pretium magna cursus sit amet. Maecenas malesuada fermentum mauris, at vestibulum arcu vulputate a.
-					</p>
+					<p>Welcome to the Plumbing Industry Registration Board (PIRB)</p>
+					<p>We would like to commend you for choosing to register with the PIRB. By registering with the PIRB you are ultimately striving towards better plumbing practices within South Africa. </p>
+					<p>The PIRB is a professional board and registrar of plumbers in South Africa, as well as a trusted professional body that is recognised by the South African Qualifications Authority (SAQA). We provide a comprehensive registration system for plumbers and, we encourage and monitor their performance for the purpose of protecting the health and safety of both the community and environment. </p>
+					<p>The PIRB’s Continuous Professional Development (CPD) process allows for plumbers to continuously improve their skills and knowledge, and ensures that they remain a source of reliable, trustworthy, and well-respected professional tradespeople within the plumbing industry. It also allows for plumbers who are registered with the PIRB as Learners, Technical Assistant Practitioners and Technical Operator Practitioners, to become qualified and appropriately accredited, which further promotes a sense of pride and accountability within the plumbing industry.</p>
+					<p>Read more about the various categories under which plumbing practitioners can register with the PIRB: http://new.pirb.co.za/pirb-designations/</p>
+					<p>To find out more about the PIRB and what will be expected from you as a plumber, feel free to watch the video at the following Youtube link: <a href="https://www.youtube.com/watch?v=Hzv0CGyJtAs&t=1s" target="_blank">https://www.youtube.com/watch?v=Hzv0CGyJtAs&t=1s</a></p>
 				</div>
 				
 				<div class="steps displaynone" data-id="2">
@@ -619,7 +622,7 @@
 					<form class="form5">
 						<h4 class="card-title">Designation</h4>
 						<p>Applications for Master Plumber and/or specialisations can only be done once your registration has been verified and approved.</p>
-						<p>Please select the relevant designation being applied for. <a style="margin-left: 10px;" href="javascript:void()">View the designation requirements</a></p>                    	
+						<p>Please select the relevant designation being applied for. <a style="margin-left: 10px;" href="http://new.pirb.co.za/pirb-designations/">View the designation requirements</a></p>                    	
 						<?php 
 							foreach($designation1 as $k => $design){
 								echo sprintf($design, $plumberrates[$k]);
@@ -780,12 +783,9 @@
 		<div class="modal-content">
 			<div class="modal-body">
 				<div class="row">
-					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
-					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
-					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
-					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
-					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
-					<div class="col-md-4"><img src="<?php echo $profileimg; ?>" class="img-responsive"></div>
+					<div class="col-md-12">
+						<img src="<?php echo base_url().'assets/images/photoid.png'; ?>">
+					</div>
 				</div>
 			</div>
 		</div>
@@ -1180,8 +1180,8 @@ $(function(){
 				required	: "Please select designation.",
 			},
 			attachmenthidden 	: {
-				required	: "Please add one skill.",
-				remote		: "Designation not found in qualification."
+				required	: "No qualifications found",
+				remote		: "Add the relevant qualification to the table."
 			},
 			criminalact 		: {
 				required	: "Please check skill are correct.",
@@ -1614,6 +1614,8 @@ function skillsextras(){
 		$('.skillnotfound').show();
 		$('.attachmenthidden').val('');
 	}
+	
+	$(".attachmenthidden").removeData("previousValue");
 }
 
 $('#name').bind('keyup blur', function() { 

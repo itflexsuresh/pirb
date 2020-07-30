@@ -381,8 +381,8 @@ $config['applicationstatus'] 		= 	[
 										];
 
 $config['approvalstatus'] 			= 	[
-											'1' => 'Approve',
-											'2' => 'Reject'
+											'1' => 'Approved',
+											'2' => 'Rejected'
 										];
 
 $config['rejectreason'] 			= 	[
