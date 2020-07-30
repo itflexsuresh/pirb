@@ -38,15 +38,8 @@ $image 					= isset($result['image']) ? $result['image'] : set_value ('image');
 $filepath				= base_url().'assets/uploads/help/';
 $pdfimg 				= base_url().'assets/images/pdf.png';
 $profileimg 			= base_url().'assets/images/profile.jpg';
-if($image!=''){
-	$explodefile2 	= explode('.', $image);
-	$extfile2 		= array_pop($explodefile2);
-	$photoidimg 	= (in_array($extfile2, ['pdf', 'tiff'])) ? $pdfimg : $filepath.$image;
-	$photoidurl		= $filepath.$image;
-}else{
-	$photoidimg 	= $profileimg;
-	$photoidurl		= 'javascript:void(0);';
-}
+$photoidimg 			= $profileimg;
+$photoidurl				= 'javascript:void(0);';
 ?>
 
 <div class="row page-titles">
@@ -103,8 +96,8 @@ if($image!=''){
 										<a href="<?php echo $photoidurl; ?>" target="_blank"><img src="<?php echo $photoidimg; ?>" class="help_photo" width="100"></a>
 									</div>
 									<input type="file" class="help_image">
-									<input type="hidden" name="image" class="help_picture" value="<?php echo $image; ?>">
 									<p>(Image/File Size Smaller than 5mb)</p>
+									<div class="help_picture"></div>
 								</div>								
 							</div>
 							<div class="col-md-12">
@@ -157,12 +150,13 @@ if($image!=''){
 </div>
 
 <script>
-	var filepath = '<?php echo $filepath; ?>';
+	var filepath 	= '<?php echo $filepath; ?>';
+	var pdfimg		= '<?php echo $pdfimg; ?>';
 	
 	$(function(){
 		editor('#description');
 		fileupload([".file_file", "./assets/uploads/help/", ["mp4"]], ['.file', '.fileimgtag'], "", videoupload);
-		fileupload([".help_image", "./assets/uploads/help/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['.help_picture', '.help_photo', '<?php echo base_url()."assets/uploads/help/"; ?>']);
+		fileupload([".help_image", "./assets/uploads/help/", ['jpg','gif','jpeg','png','pdf','tiff','tif']], ['image[]', '.help_picture', filepath, pdfimg], 'multiple');
 		videoupload('<?php echo $file; ?>');
 		
 		var options = {
@@ -178,6 +172,7 @@ if($image!=''){
 		};
 		
 		ajaxdatatables('.datatables', options);
+		multiimage();
 		
 		validation(
 			'.form',
@@ -221,6 +216,27 @@ if($image!=''){
 		
 		$('.file').val(data);
 	}
+	
+	function multiimage(){
+		var image = '<?php echo $image; ?>';
+		
+		if(image!=''){
+			var filesplit = image.split(',');
+			
+			$(filesplit).each(function(i, v){
+				
+				var ext 		= v.split('.').pop().toLowerCase();
+				if(ext=='jpg' || ext=='jpeg' || ext=='png'){
+					var filesrc = filepath+v;	
+				}else if(ext=='pdf'){
+					var filesrc = '<?php echo base_url()."assets/images/pdf.png"?>';	
+				}
+				
+				$('.help_picture').append('<div class="multipleupload"><input type="hidden" value="'+v+'" name="image[]"><img src="'+filesrc+'" width="100"><i class="fa fa-times"></i></div>');
+			})
+		} 
+	}
+	
 	// Delete
 	
 	$(document).on('click', '.delete', function(){

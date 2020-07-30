@@ -447,24 +447,6 @@ if(count($permission) > 0){
 						
 						$userstatus = (isset($this->config->item('auditorstatus')[$status])) ? $this->config->item('auditorstatus')[$status] : '';
 				?>
-					<div class="row pro_section">
-						<div class="col-sm-9 col-md-9 col-lg-9 side_pro">
-							<a href="<?php echo $photoidurl; ?>" target="_blank" class="side_img">
-								<img src="<?php echo $photoidimg; ?>" class="photo_image" width="100">
-							</a>
-							<p class="cus_username"><?php echo $username; ?></p>
-						</div>
-						<div class="col-sm-3 col-md-3 col-lg-3">
-							<p class="cus_icon">
-								<a href="<?php echo base_url().'auditor/profile/index'; ?>" target="_blank">
-									<i class="fa fa-pencil" aria-hidden="true"></i>
-								</a>
-							</p>
-						</div>
-						<div class="reg_sec">							
-							<p class="cus_reg">My Status:<?php echo $user_status; ?></p>
-						</div>
-					</div>
 					
 					<div class="row pro_section">
 						<div class="col-sm-9 col-md-9 col-lg-9 side_pro">
@@ -481,7 +463,7 @@ if(count($permission) > 0){
 							</p>
 						</div>
 						<div class="reg_sec">							
-							<p class="cus_reg">My Status:<?php echo $user_status; ?></p>
+							<p class="cus_reg">My Status:<?php //echo $user_status; ?></p>
 						</div>
 					</div>
 
@@ -503,7 +485,7 @@ if(count($permission) > 0){
 					<li>
 						<div class="row side_list">
 							<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
-								<a href="<?php echo base_url().'auditor/dashboard/index'; ?>"><img src="<?php echo base_url().'assets/images/tachometer.png'; ?>" alt=""></a>
+								<a href="<?php echo base_url().'auditor/dashboard/index'; ?>"><img src="<?php echo base_url().'assets/images/sidebar/tachometer.png'; ?>" alt=""></a>
 							</div>
 							<div class="col-sm-9 col-md-9 col-lg-9 list_name">
 								<a href="<?php echo base_url().'auditor/dashboard/index'; ?>" class="cus_li_name"><p class="custom_li">Dashboard</p></a>
@@ -513,7 +495,7 @@ if(count($permission) > 0){
 					<li>
 						<div class="row side_list">
 							<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
-								<a href="<?php echo base_url().'auditor/auditstatement/index'; ?>"><img src="<?php echo base_url().'assets/images/list.png'; ?>" alt=""></a>
+								<a href="<?php echo base_url().'auditor/auditstatement/index'; ?>"><img src="<?php echo base_url().'assets/images/sidebar/list.png'; ?>" alt=""></a>
 							</div>
 							<div class="col-sm-9 col-md-9 col-lg-9 list_name">
 								<a href="<?php echo base_url().'auditor/auditstatement/index'; ?>" class="cus_li_name"><p class="custom_li">Audit Statement</p></a>										
@@ -523,7 +505,7 @@ if(count($permission) > 0){
 					<li>
 						<div class="row side_list">
 							<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
-								<a href="<?php echo base_url().'auditor/accounts/index'; ?>"><img src="<?php echo base_url().'assets/images/amount.png'; ?>" alt=""></a>
+								<a href="<?php echo base_url().'auditor/accounts/index'; ?>"><img src="<?php echo base_url().'assets/images/sidebar/amount.png'; ?>" alt=""></a>
 							</div>
 							<div class="col-sm-9 col-md-9 col-lg-9 list_name">
 								<a href="<?php echo base_url().'auditor/accounts/index'; ?>" class="cus_li_name"><p class="custom_li">Accounts</p></a>										
@@ -533,7 +515,7 @@ if(count($permission) > 0){
 					<li>
 						<div class="row side_list">
 							<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
-								<a href="<?php echo base_url().'auditor/reportlisting/index'; ?>"><img src="<?php echo base_url().'assets/images/pen.png'; ?>" alt=""></a>
+								<a href="<?php echo base_url().'auditor/reportlisting/index'; ?>"><img src="<?php echo base_url().'assets/images/sidebar/pen.png'; ?>" alt=""></a>
 							</div>
 							<div class="col-sm-9 col-md-9 col-lg-9 list_name">
 								<a href="<?php echo base_url().'auditor/reportlisting/index'; ?>" class="cus_li_name"><p class="custom_li">My Report Listing</p></a>										
@@ -543,7 +525,7 @@ if(count($permission) > 0){
 					<li>
 						<div class="row side_list">
 							<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
-								<a href="<?php echo base_url().'auditor/help/index'; ?>"><img src="<?php echo base_url().'assets/images/info.png'; ?>" alt=""></a>
+								<a href="<?php echo base_url().'auditor/help/index'; ?>"><img src="<?php echo base_url().'assets/images/sidebar/info.png'; ?>" alt=""></a>
 							</div>
 							<div class="col-sm-9 col-md-9 col-lg-9 list_name">
 								<a href="<?php echo base_url().'auditor/help/index'; ?>" class="cus_li_name"><p class="custom_li">Help</p></a>
@@ -623,7 +605,7 @@ if(count($permission) > 0){
 					<li>
 						<div class="row side_list">
 							<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
-								<a href="<?php echo base_url().'resellers/dashboard/index'; ?>"><img src="<?php echo base_url().'assets/images/tachometer.png'; ?>" alt=""></i></a>
+								<a href="<?php echo base_url().'resellers/dashboard/index'; ?>"><img src="<?php echo base_url().'assets/images/sidebar/tachometer.png'; ?>" alt=""></i></a>
 							</div>
 							<div class="col-sm-9 col-md-9 col-lg-9 list_name">
 								<a href="<?php echo base_url().'resellers/dashboard/index'; ?>" class="cus_li_name"><p class="custom_li">Dashboard</p></a>
@@ -633,7 +615,7 @@ if(count($permission) > 0){
 					<li>
 						<div class="row side_list">
 							<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
-								<a href="<?php echo base_url().'resellers/cocstatement/index'; ?>"><img src="<?php echo base_url().'assets/images/note.png'; ?>" alt=""></i></a>
+								<a href="<?php echo base_url().'resellers/cocstatement/index'; ?>"><img src="<?php echo base_url().'assets/images/sidebar/note.png'; ?>" alt=""></i></a>
 							</div>
 							<div class="col-sm-9 col-md-9 col-lg-9 list_name">
 								<a href="<?php echo base_url().'resellers/cocstatement/index'; ?>" class="cus_li_name"><p class="custom_li">COC Statement</p></a>										
@@ -643,7 +625,7 @@ if(count($permission) > 0){
 					<li>
 						<div class="row side_list">
 							<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
-								<a href="<?php echo base_url().'resellers/allocatecoc/index'; ?>"><img src="<?php echo base_url().'assets/images/notego.png'; ?>" alt=""></a>
+								<a href="<?php echo base_url().'resellers/allocatecoc/index'; ?>"><img src="<?php echo base_url().'assets/images/sidebar/notego.png'; ?>" alt=""></a>
 							</div>
 							<div class="col-sm-9 col-md-9 col-lg-9 list_name">
 								<a href="<?php echo base_url().'resellers/allocatecoc/index'; ?>" class="cus_li_name"><p class="custom_li">Allocate COC</p></a>										
@@ -653,7 +635,7 @@ if(count($permission) > 0){
 					<li>
 						<div class="row side_list">
 							<div class="col-sm-3 col-md-3 col-lg-3 list_icon">
-								<a href="<?php echo base_url().'resellers/help/index'; ?>"><img src="<?php echo base_url().'assets/images/info.png'; ?>" alt=""></a>
+								<a href="<?php echo base_url().'resellers/help/index'; ?>"><img src="<?php echo base_url().'assets/images/sidebar/info.png'; ?>" alt=""></a>
 							</div>
 							<div class="col-sm-9 col-md-9 col-lg-9 list_name">
 								<a href="<?php echo base_url().'resellers/help/index'; ?>" class="cus_li_name"><p class="custom_li">Help</p></a>

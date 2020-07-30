@@ -494,9 +494,9 @@
 						<h3>IMPORTANCE NOTICE</h3>
 						<ul>
 							<li>An incorrect statement of fact, including an omission, is an offence in terms of the PIRB Code of conduct, and will be subjected to PIRB disciplinary procedures.</li>
-							<li>A completed Certifcate of Compliance must be provided to the owner/consumer within 5 days of the completion of the plumbing works.</li>
-							<li>The relevant plumbing work that was certifed as complaint through the issuing of this certifcate may be possibly be audited by a PIRB Auditor for compliance to the regulations, workmanship and health and safety of the plumbing works.</li>
-							<li>If this Certifcate of Compliance has been chosen for an audit you must cooperated fully with the PIRB Auditor in allowing them to carry out the relevant audit.</li>
+							<li>A completed Certificate of Compliance must be provided to the owner/consumer.</li>
+							<li>The relevant plumbing work that was certified as complaint through the issuing of this certificate may possibly be audited by a PIRB Auditor to verify that the workmanship and health & safety of the plumbing work comply with the relevant regulations and requirements.</li>
+							<li>If this Certificate of Compliance has been chosen for an audit you must fully cooperate with the PIRB Auditor in allowing them to carry out the relevant audit.</li>
 						</ul>
 					</div>
 					<div class="col-md-12 text-center">
@@ -565,9 +565,7 @@ $(function(){
 				required	: true
 			},
 			order_no : {
-				number		: true,
-				minlength	: 9,
-				maxlength	: 9
+				maxlength	: 20
 			},
 			name : {
 				required    : true
@@ -629,9 +627,7 @@ $(function(){
 				required	: "Please select completion date"
 			},
 			order_no : {
-				number		: "Please enter number only",
-				minlength	: "Order no should be 9 digits",
-				maxlength	: "Order no should be 9 digits"
+				maxlength	: "Order no should not exceed 25 characters."
 			},
 			name : {
 				required    : "Please fill the owner name"

@@ -61,15 +61,22 @@ class Login extends CC_Controller
 				if($data){
 					$id 		= 	$data;
 					$subject 	= 	'Email Verification';
-					$message 	= 	'<div>Hi,</div>
-
-									<div>Please Click the below link to verify your account.</div>
+					$message 	= 	'<div>Thank you for creating an account/profile on the PIRB\'s Audit-IT System.</div>
+									<br>
+									<div>Please click on the link below to verify your email address:</div>
+									<br>
 									<div><a href="'.base_url().'login/verification/'.$id.'/'.$usertypename.'">Click Here</a></div>
+									<br>
+									<div>Once verified, you will automatically be redirected to the Login Page, and may then log into your new account/profile to complete the required Application to Register forms.</div>
 									<br>
 									<div>Best Regards</div>
 									<br>
-									<div>Lea Smith</div>
-									Chairman of the PIRB';
+									<div>The PIRB Team</div>
+									<div>Tel: 0861 747 275</div>
+									<div>Email: info@pirb.co.za</div>
+									<br>
+									<div>Please do not reply to this email, as it will not be responded to.</div>
+									';
 				
 					$this->CC_Model->sentMail($requestData['email'], $subject, $message);
 				

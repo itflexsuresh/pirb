@@ -83,19 +83,28 @@ if(isset($result) && $result){
 								<img src="<?php echo base_url().'assets/qrcode/'.$qrcode.''; ?>" height="200" width="200">
 							</div>
 							<div class="col-md-6">
-								<a href="<?php echo base_url().'admin/cpd/cpdtypesetup/getPDF/'.$id.''; ?>" class="btn btn-primary">Download PDF</a>
+								<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
+									<input type="checkbox" class="custom-control-input" name="status" id="status" <?php if($status=='1') echo 'checked'; ?> value="1">
+									<label class="custom-control-label" for="status">Active</label>
+								</div>
 							</div>
 						</div>
 						<?php
 					}
 					?>
 					<div class="row">
-						<div class="col-md-6">
-							<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
-								<input type="checkbox" class="custom-control-input" name="status" id="status" <?php if($status=='1') echo 'checked'; ?> value="1">
-								<label class="custom-control-label" for="status">Active</label>
+						<?php if(isset($qrcode) && $qrcode){ ?>
+							<div class="col-md-6">
+								<a href="<?php echo base_url().'admin/cpd/cpdtypesetup/getPDF/'.$id.''; ?>" class="btn btn-primary">Download PDF</a>
 							</div>
-						</div>
+						<?php }else{ ?>
+							<div class="col-md-6">
+								<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
+									<input type="checkbox" class="custom-control-input" name="status" id="status" <?php if($status=='1') echo 'checked'; ?> value="1">
+									<label class="custom-control-label" for="status">Active</label>
+								</div>
+							</div>
+						<?php } ?>
 						<div class="col-md-6 text-right">
 							<input type="hidden" name="id" value="<?php echo $id; ?>">
 							<input type="hidden" name="productcode" value="<?php echo $productcode; ?>">

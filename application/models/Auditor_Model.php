@@ -729,6 +729,8 @@ class Auditor_Model extends CC_Model
 		
 		$count = $this->db->select('count(id) as count')->where($plumberdata1+$auditordata1)->get('stock_management')->row_array();
 		
+		$openaudits = $this->db->select('count(id) as count')->where(['audit_status' => '2']+$plumberdata1+$auditordata1)->get('stock_management')->row_array();
+		
 		$total 	= 	$this->db->select('count(ar.id) as count')
 					->join('auditor_statement as', 'as.coc_id=ar.coc_id', 'left')
 					->where(['as.auditcomplete' => '1']+$plumberdata2+$auditordata2)
@@ -767,6 +769,7 @@ class Auditor_Model extends CC_Model
 
 		$result = [
 			'count' => $count['count'],
+			'openaudits' => $openaudits['count'],
 			'total' => $total['count'],
 			'refixincomplete' => $refixincomplete['count'],
 			'refixcomplete' => $refixcomplete['count'],

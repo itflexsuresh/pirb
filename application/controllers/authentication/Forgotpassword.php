@@ -21,7 +21,7 @@ class Forgotpassword extends CC_Controller
 			$requestData 	= $this->input->post();
 			$data 			= $this->Users_Model->forgotPassword($requestData);
 			
-			if($data=='1') $this->session->set_flashdata('success', 'Check your email id and follow the steps to reset your password.');
+			if($data=='1') $this->session->set_flashdata('success', 'Please check your email inbox and follow the steps, as instructed, to reset your password.');
 			elseif($data=='3') $this->session->set_flashdata('error', 'Incorrect Email ID.');
 			else $this->session->set_flashdata('error', 'Try Later.');
 			

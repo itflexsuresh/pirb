@@ -30,7 +30,7 @@
 						</div>
 						<div class="myaudit_legend">
 							<div class="legend1"></div>
-							<div>COC being Audited</div>
+							<div>COC's Being Audited</div>
 							<div class="legend2"></div>
 							<div>Refixes Required</div>
 						</div>
