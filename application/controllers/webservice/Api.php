@@ -1702,7 +1702,6 @@ class Api extends CC_Controller
 
 		if (!isset($data['id']) && !isset($data['type'])) {
 			$results = $this->Subtype_Model->getList('all', ['status' => ['1'], 'installationtypeid' => $data['installationtypeid']]);
-			print_r($results);die;
 			if(count($results) > 0){
 				foreach ($results as $key => $value) {
 					$arraydata[] = ['id' => $value['id'], 'installationtypeid' => $value['installationtype_id'], 'name' => $value['name']];
