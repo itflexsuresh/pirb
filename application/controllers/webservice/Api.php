@@ -1346,6 +1346,33 @@ class Api extends CC_Controller
 		}
 		echo json_encode($jsonArray);
 	}
+	public function mycpd_view(){
+		if ($this->input->post() && $this->input->post('cpdid') && $this->input->post('pagestatus')) {
+			$cpdID 			= $this->input->post('cpdID');
+			$pagestatus 	= $this->input->post('pagestatus');
+			$base_url 		= base_url();
+			$file1 			= '';
+			$file2 			= '';
+
+			$result 		= $this->Mycpd_Model->getQueueList('row', ['id' => $cpdID, 'pagestatus' => $pagestatus]);
+			if (count($result) > 0) {
+					if ($result['file1'] !='') {
+						$file1 			= $base_url.'assets/uploads/cpdqueue/'.$result['file1'];
+					}if ($result['file2'] !='') {
+						$file2 			= $base_url.'assets/uploads/cpdqueue/'.$result['file2'];
+					}
+					$jsonData['result'] = [ 'id' => $result['id'], 'user_id' => $result['user_id'], 'cpd_activity' => $result['cpd_activity'], 'cpd_start_date' => date('d/m/Y', strtotime($result['cpd_start_date'])), 'comments' => $result['comments'], 'file1' => $file1,'file2' => $file2,'admin_comments' => $result['admin_comments'],'status' => $this->config->item('approvalstatus')[$result['status']]
+					]; 
+			}
+			$jsonData['page_lables'] = [ 'heading' => 'View your CPD Activity', 'subheading1' => 'PIRB CPD Activity', 'subheading2' => 'The Date', 'subheading3' => 'comments', 'subheading4' => 'Supporting Documents', 'heading1' => 'PIRB Office Purpose', 'subheading5' => 'CPD Activity Approval Status:', 'status1' => 'Approved', 'status2' => 'Rejected', 'subheading6' => 'Admin Comments:'
+			];
+			$jsonArray 	= array("status"=>'1', "message"=>'My CPD', "result"=>$jsonData);
+
+		}else{
+			$jsonArray 		= array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+		}
+		echo json_encode($jsonArray);
+	}
 
 	public function mycpd_edit_view(){
 
