@@ -74,41 +74,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="<?php echo base_url().'assets/css/custom.css?version=3.0'; ?>" rel="stylesheet">
+    <link href="<?php echo base_url().'assets/css/mobile.css?version=3.0.css'; ?>" rel="stylesheet">
     <script src="<?php echo base_url().'assets/plugins/jquery/jquery-3.2.1.min.js?version=5.0'; ?>"></script>
     <title></title>
 </head>
+
 <body>
-<div class="row add_top_value <?php echo (isset($cardcolor[$designation2id]) ? $cardcolor[$designation2id] : ''); ?>">
-    <div class="col-md-6">  
-        <table id="id_Card" width="442" height="285" class="front--card--design">
-            <tbody>
-                <tr>
-                    <td>
-                        <img class="id_logo" src="<?php echo base_url();?>assets/images/pitrb-logo.png">
-                        <p class="register-num">Reg No: <?php echo ($registration_no!='') ? $registration_no : '-'; ?></p>
-                        <p class="rene-date">Renewal Date: <?php echo $renewal_date; ?></p>
-                    </td>
-                    <td style="vertical-align: baseline;">
-                        <img class="id_admin" src="<?php echo $photoidimg; ?>">
-                        <p><?php echo $name.' '.$surname; ?></p>
-                    </td>
-                </tr>
-                <tr class="add_idcard_color" >
-                    <td colspan="2">
-                        <div class="idcard_icon">
-                            <img class="plum_lic" src="<?php echo base_url().$plumber_icon; ?>">
-                        </div>
-                        <div class="idcard--name">
-                            <p class="license"><?php echo isset($designation2[$designation2id]) ? $designation2[$designation2id] : '-'; ?></p>
-                        </div>                   
-                    </td>
-                        
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-md-6 alter_img">
+   <div class="add_top_value <?php echo (isset($cardcolor[$designation2id]) ? $cardcolor[$designation2id] : ''); ?>  pb_inner pb_rotate">
+      <div class="pb_card">
+         <div class="p_top">
+         <p class="pb_first_txt">This card holder is only entitled to purchase and issue Plumbing COC’s for the following categories of plumbing and plumbing specialisations</p>
+         <p style="margin-top: -5px;"><span><img src="<?php echo $backcard; ?>"></span><span>Above Ground Drainage</span>
+         <span><img src="<?php echo $backcard6; ?>"></span><span>Hot Water</span>
+         <span><img src="<?php echo $backcard1; ?>"></span><span>Below Ground Drainage</span>
+         <span><img src="<?php echo $backcard; ?>"></span><span>Solar Water Heating</span>
+         <span><img src="<?php echo $backcard; ?>"></span><span>Rain Water Drainage</span>
+         <span><img src="<?php echo $backcard; ?>"></span><span>Heat Pumps</span>
+         <span><img src="<?php echo $backcard; ?>"></span><span>Cold Water</span>
+         <span><img src="<?php echo $backcard; ?>"></span><span>Gas</span></p>
+         </div>
+         <div class="pb_bottom_left">
+            <span class="pb_title">Current</span><br>
+            <span class="pb_title">Employer</span>
+            <p class="plumber_name add_style"><?php echo  $companyname; ?></p></span>
+            <!-- <img class="tchn--asiiisss" src="<?php// echo base_url().$plumber_icon; ?>"> -->
+            <p class="pb_p pb_lost">Lost or Found <?php echo $work_phone; ?></p>
+            <p class="pb_p pb_vrfy">Verification can be done via</p>
+            <p class="pb_p pb_web">www.pirb.co.za</p>
+         </div>
+         <div class="pb_right">
+            <p style="font-weight: 600;font-size: 14px;">specialisations</p>
+            <?php if($designation2id != '1' and $designation2id != '2' and $designation2id != '3'){ ?>
+                        <?php 
+                            if(count($specialisationsid) > 0){
+                                foreach($specialisationsid as $specialisationsdata){
+                                    
+                               
+                                
+                        ?>
+                                    <p style="font-size: 13px;margin-bottom: -10px;margin-left: 20px;"><?php echo  isset($specialisations[$specialisationsdata]) ? $specialisations[$specialisationsdata] : '-';?></p>
+                        <?php   
+                                }
+                            }else{
+                            
+                        ?>
+                                <p>-</p>
+                        <?php 
+                            }
+                        }
+
+                        ?>
+         </div>
+         <div class="pb_bar">
+         </div>
+         <h2 class="pb_lic"><?php echo isset($designation2[$designation2id]) ? $designation2[$designation2id] : '-'; ?></h2>
+      </div>
+   </div>
+</body>
+<!-- <body>
+   <div class="add_top_value <?php echo (isset($cardcolor[$designation2id]) ? $cardcolor[$designation2id] : ''); ?>  pb_inner pb_rotate">
+          <div class="col-md-6 alter_img">
         <table id="id_Card_back" width="442" height="285" class="back---card--design">
             <tbody>
                 
@@ -273,8 +298,8 @@
             </tbody>
         </table>
     </div>
-</div>
-</body>
+   </div>
+</body> -->
 </html>
 
 
