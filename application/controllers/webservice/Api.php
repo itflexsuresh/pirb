@@ -413,7 +413,7 @@ class Api extends CC_Controller
 		$data['result'] = $this->Plumber_Model->getList('row', ['id' => $requestdata['id']], ['users', 'usersdetail', 'usersplumber', 'company']);
 		if (isset($requestdata['type']) && $requestdata['type'] == 'front') {
 			return $this->load->view('api/card/card_front', $data, true) ;
-		}else{
+		}elseif (isset($requestdata['type']) && $requestdata['type'] == 'back'){
 			return $this->load->view('api/card/card_back', $data, true) ;
 		}
 		
