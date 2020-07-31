@@ -1,0 +1,164 @@
+/* card front */
+.p_card{
+            width: 500px;
+    position: relative;
+    background: #F5F8FD;
+    padding: 31px 35px;
+    font-family: 'Helvetica' !important;
+    transform: scale(2.65);
+}
+.p_admin{
+    width: 166px;
+    height: 166px;
+    position: relative;
+    object-fit: cover;
+}
+.p_card p{
+    margin-bottom:30px;
+}
+.p_logo{
+    width: 180px;
+    margin-bottom: 30px;
+}
+.p_left{
+    width: 70%;
+}
+.p_right{
+    width: 30%;
+}
+.p_profile{
+    width: 166px;
+    height: 166px;
+    position: absolute;
+    top: 16%;
+    right: 6%;
+    border: 2px solid #EC2829;
+}
+.p_bottom{
+    background: #EA0000;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: -85px;
+    color: white;
+    text-align: center;
+    height:100px;
+}
+.inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.rotate {  
+    transform:  translateX(-70%) translateY(-50%) rotate(-90deg);
+}
+.p_lic{
+    position: absolute;
+    background: white;
+    width: 45px;
+    top: 25%;
+    left: 15%;
+}
+.p_h2{
+    width:70%;
+    float:right;
+    padding: 18px;
+}
+
+/* card back */
+.pb_inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.pb_rotate {
+    transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+}
+
+.pb_card {
+    width: 500px;
+    height: 300px;
+    position: relative;
+    background: #F5F8FD;
+    padding: 30px 35px;
+    font-family: 'Helvetica' !important;
+    transform: scale(2.65);
+    overflow: hidden;
+}
+.p_top {
+    width: 90%;
+    border-bottom: 1px solid #737476;
+    padding: 0 89px 0px 12px;
+    margin: 0 0 0 -36px;
+} 
+.pb_first_txt {
+    font-size: 12px;
+    text-align: center;
+    /* width: 80%; */
+    /* border-bottom: 1px solid #737476; */
+    /* padding: 20px 135px 32px 20px; */
+    /* margin: 0 0 0 -33px; */
+}
+
+.pb_title {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.pb_bottom_left {
+    border-right: 1px solid #737476;
+    width: 40%;
+    padding: 3px 0 86px 0;font-size: 13px;
+}
+
+.pb_lost {
+    padding: 15px 0 0 15px;
+    border-top: 1px solid #737476;
+    width: 90%;
+}
+
+.pb_p {
+    font-size: 12px;
+    margin-left: -15px;
+    padding-left: 15px;
+}
+
+.pb_right {
+    position: absolute;
+    top: 44%;
+    right: 35%;
+}
+
+.pb_bar {
+    position: absolute;
+    width: 20%;
+    background: #EA0000;
+    top: 0;
+    right: 0;
+    height: 362px;
+}
+p.plumber_name.add_style{
+    top: 37%;
+    position: absolute;
+    right: 65%;
+}
+h2.pb_lic {
+    position: absolute;
+    top: 40%;
+    transform: rotate(-90deg);
+    right: -8%;
+    color: white;
+}
+.p_top span img {
+    width: 11px;
+}
+
+.p_top span {
+    font-size: 11px;
+    margin: 0 0 0 8px;
+}
+.p_bot_img{
+    width: 15px;
+}
