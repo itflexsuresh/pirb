@@ -24,6 +24,7 @@ class Services extends CC_Controller
 				$rollingavg 	= $this->getRollingAverage();
 				$date			= date('Y-m-d', strtotime(date('Y-m-d').'+'.$rollingavg.' months'));
 				$ranking 		= $this->Plumber_Model->performancestatus('all', ['date' => $date, 'archive' => '0', 'overall' => '1']);
+				print_r($ranking);die;
 				
 				if(count($ranking) > 0){
 					$result = [];

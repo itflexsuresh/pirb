@@ -394,24 +394,29 @@ class Api extends CC_Controller
 
 		if ($this->input->post() && $this->input->post('user_id')) {
 			$userid 			= $this->input->post('user_id');
-			$card 				= $this->plumbercard_api($userid);
+			$cardtype 			= $this->input->post('cardtype');
+			$card 				= $this->plumbercard_api(['id' => $userid, 'type' => $cardtype]);
 			$jsonData['card'] 	= $card;
-			echo $jsonData['card'];die;
 			$jsonArray = array("status"=>'1', "message"=>'Plumber PIRB registration card', 'result' => $jsonData);
 		}else{
 			$jsonArray = array("status"=>'0', "message"=>'invalid request', 'result' => []);
 		}
 		echo json_encode($jsonArray);
 	}
-	public function plumbercard_api($userid){
+	public function plumbercard_api($requestdata = []){
 
 		$data['company'] 			= $this->getCompanyList();
 		$data['designation2'] 		= $this->config->item('designation3');
 		$data['specialisations'] 	= $this->config->item('specialisations');
 		$data['settings'] 			= $this->Systemsettings_Model->getList('row');
 		
-		$data['result'] = $this->Plumber_Model->getList('row', ['id' => $userid], ['users', 'usersdetail', 'usersplumber', 'company']);
-		return $this->load->view('api/card', $data, true) ;
+		$data['result'] = $this->Plumber_Model->getList('row', ['id' => $requestdata['id']], ['users', 'usersdetail', 'usersplumber', 'company']);
+		if (isset($requestdata['type']) && $requestdata['type'] == 'front') {
+			return $this->load->view('api/card/card_front', $data, true) ;
+		}else{
+			return $this->load->view('api/card/card_back', $data, true) ;
+		}
+		
 	}
 
 	// Purchase CoC:
