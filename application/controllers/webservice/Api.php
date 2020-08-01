@@ -1446,7 +1446,7 @@ class Api extends CC_Controller
 				$post 				= $this->input->post();
 				$plumberID 			= $this->input->post('user_id');
 				$datetime			= date('Y-m-d H:i:s');
-				//print_r($post);die;
+				
 				if ($post['image1'] != '') {
 					$data = $this->fileupload(['files' => $post['image1'], 'file_name' => $post['file_name'], 'user_id' => $plumberID, 'page' => 'plumbercpd']);
 					$image = $data[0];
@@ -1467,7 +1467,7 @@ class Api extends CC_Controller
 				}else{
 					$requestData1['status'] 												= '3';
 				}
-				
+
 				$requestData1['created_at'] = 	$datetime;
 				$requestData1['created_by']	= 	$plumberID;
 
