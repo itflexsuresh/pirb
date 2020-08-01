@@ -74,7 +74,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="<?php echo base_url().'assets/css/mobile?version=3.0.css'; ?>" rel="stylesheet">
+<link href="<?php echo base_url().'assets/css/mobile.css?version=3.0'; ?>" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <script src="<?php echo base_url().'assets/plugins/jquery/jquery-3.2.1.min.js?version=5.0'; ?>"></script>
     <title></title>
 </head>

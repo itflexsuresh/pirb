@@ -76,6 +76,8 @@
 <head>
     <link href="<?php echo base_url().'assets/css/mobile.css?version=3.0.css'; ?>" rel="stylesheet">
     <script src="<?php echo base_url().'assets/plugins/jquery/jquery-3.2.1.min.js?version=5.0'; ?>"></script>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title></title>
 </head>
 
@@ -84,7 +86,7 @@
       <div class="pb_card">
          <div class="p_top">
          <p class="pb_first_txt">This card holder is only entitled to purchase and issue Plumbing COC’s for the following categories of plumbing and plumbing specialisations</p>
-         <p style="margin-top: -5px;"><span><img src="<?php echo $backcard; ?>"></span><span>Above Ground Drainage</span>
+         <p style="margin-top: -9px; margin-bottom: 0;"><span><img src="<?php echo $backcard; ?>"></span><span>Above Ground Drainage</span>
          <span><img src="<?php echo $backcard6; ?>"></span><span>Hot Water</span>
          <span><img src="<?php echo $backcard1; ?>"></span><span>Below Ground Drainage</span>
          <span><img src="<?php echo $backcard; ?>"></span><span>Solar Water Heating</span>
@@ -103,7 +105,7 @@
             <p class="pb_p pb_web">www.pirb.co.za</p>
          </div>
          <div class="pb_right">
-            <p style="font-weight: 600;font-size: 14px;">specialisations</p>
+            <p style="font-weight: 600;font-size: 8px;">specialisations</p>
             <?php if($designation2id != '1' and $designation2id != '2' and $designation2id != '3'){ ?>
                         <?php 
                             if(count($specialisationsid) > 0){
@@ -112,7 +114,7 @@
                                
                                 
                         ?>
-                                    <p style="font-size: 13px;margin-bottom: -10px;margin-left: 20px;"><?php echo  isset($specialisations[$specialisationsdata]) ? $specialisations[$specialisationsdata] : '-';?></p>
+                                    <p style="font-size: 9px;margin-bottom: -10px;margin-left: 20px;"><?php echo  isset($specialisations[$specialisationsdata]) ? $specialisations[$specialisationsdata] : '-';?></p>
                         <?php   
                                 }
                             }else{
