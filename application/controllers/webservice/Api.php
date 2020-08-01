@@ -1223,17 +1223,24 @@ class Api extends CC_Controller
 		if ($this->input->post() && $this->input->post('user_id')) {
 
 			if ($this->input->post('file') !='') {
-				$data = $this->fileupload(['files' => $this->input->post('file'), 'file_name' => $this->input->post('file_name'), 'user_id' => $this->input->post('user_id'), 'page' => 'chat']);
+				$data = $this->fileupload(['files' => $this->input->post('file'), 'file_name' => $this->input->post('file_name'), 'user_id' => $this->input->post('coc_id'), 'page' => 'chat']);
 					// $image = $data[0];
-				$post['quoteattachment'] = $data[0];
+				$post['attachment'] = $data[0];
 			}
 
 			$post['cocid'] 		= $this->input->post('coc_id');
 			$post['fromid'] 	= $this->input->post('user_id');
 			$post['toid'] 		= $this->input->post('auditorid');
-			$post['message'] 	= $this->input->post('message');
+			if ($this->input->post('message') !='') {
+				$post['message'] 	= $this->input->post('message');
+			}
 			$post['state1'] 	= '1'; // [state1] => 1 for viewd
-			$post['type'] 		= '1'; //[type] => 1
+			if (isset($post['attachment'])) {
+				$post['type'] 		= '2'; //[type] => 2 for file upload
+			}else{
+				$post['type'] 		= '1'; //[type] => 1
+			}
+			
 			if ($this->input->post('quote') !='') {
 				$post['quote'] 		= $this->input->post('quote');
 			}
@@ -1960,7 +1967,7 @@ class Api extends CC_Controller
 			}
 		}elseif($page == 'chat'){
 			$path = FCPATH.'assets/uploads/chat/'.$userid.'/';
-			
+
 			if(!is_dir($path)){
 				mkdir($directory.'assets/uploads/chat/'.$userid.'/', 0755, true);
 			}
