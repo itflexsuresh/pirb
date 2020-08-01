@@ -1969,7 +1969,7 @@ class Api extends CC_Controller
 			$path = FCPATH.'assets/uploads/chat/'.$userid.'/';
 
 			if(!is_dir($path)){
-				mkdir($directory.'assets/uploads/chat/'.$userid.'/', 0755, true);
+				mkdir($directory.'/assets/uploads/chat/'.$userid.'/', 0755, true);
 			}
 		}
 		
