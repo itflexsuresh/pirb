@@ -1664,7 +1664,13 @@ class Api extends CC_Controller
 				if(isset($post['action'])) 				$request['action'] 				= $post['action'];
 				if(isset($post['reference'])) 			$request['reference'] 			= $post['reference'];
 				
-				$request['file'] 	= (isset($post['file'])) ? implode(',', $post['file']) : '';
+				
+
+				if(strpos($post['file'], ',') !== false){
+					$request['file'] 	= (isset($post['file'])) ? implode(',', $post['file']) : '';
+				}else{
+					$request['file'] 	= (isset($post['file'])) ? $post['file'] : '';
+				}
 				$request['status'] 	= (isset($post['status'])) ? $post['status'] : '0';
 				
 				if($id==''){
