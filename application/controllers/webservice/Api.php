@@ -1446,7 +1446,7 @@ class Api extends CC_Controller
 				$post 				= $this->input->post();
 				$plumberID 			= $this->input->post('user_id');
 				$datetime			= date('Y-m-d H:i:s');
-				
+
 				if ($post['image1'] != '') {
 					$data = $this->fileupload(['files' => $post['image1'], 'file_name' => $post['file_name'], 'user_id' => $plumberID, 'page' => 'plumbercpd']);
 					$image = $data[0];
@@ -1642,7 +1642,12 @@ class Api extends CC_Controller
 			}else{
 				$post 			= 	$this->input->post();
 				$userid			= 	$post['user_id'];
-				$id 			= 	$post['id']; //noncompliance id
+				if ($post['id'] != '') {
+					$id 			= 	$post['id']; //noncompliance id
+				}else{
+					$id 			= 	''; //noncompliance id
+				}
+				
 				$datetime		= 	date('Y-m-d H:i:s');
 				
 				$request		=	[
