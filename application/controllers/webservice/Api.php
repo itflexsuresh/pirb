@@ -1642,7 +1642,7 @@ class Api extends CC_Controller
 			}else{
 				$post 			= 	$this->input->post();
 				$userid			= 	$post['user_id'];
-				if ($post['id'] != '') {
+				if (isset($post['id'])) {
 					$id 			= 	$post['id']; //noncompliance id
 				}else{
 					$id 			= 	''; //noncompliance id
