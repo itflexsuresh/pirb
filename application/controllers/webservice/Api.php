@@ -1052,8 +1052,23 @@ class Api extends CC_Controller
 			$jsonData['page_lables'] = [
 				'page_heading' => 'CoC Details', 'certificate' => 'Certificate','plumbingwork' => 'Plumbing work completeion date', 'ownersname' => 'Owners name', 'street' => 'Street', 'suburb' => 'Suburb', 'city' => 'City', 'province' => 'Province', 'complex' => 'Name of the complex / flat (if applicable)', 'contactnumber1' => 'Contact number', 'contactnumber2' => 'Alternate Contact number', 'auditstaus' => 'Audit status', 'auditorname' => 'Auditors name and surname', 'phone' => 'Phone (mobile)', 'date' => 'Date of audit', 'overall' => 'Overall workmanship', 'plumberpresent' => 'Licensed plumber present', 'coccorrect' => 'Was CoC completed correctly'
 			];
+			if ($result['as_workmanship'] =='') {
+				$as_workmanship = '1';
+			}else{
+				$as_workmanship = $result['as_workmanship'];
+			}
+			if ($result['as_plumber_verification'] !='') {
+				$as_plumber_verification = $result['as_plumber_verification'];
+			}else{
+				$as_plumber_verification = '1';
+			}
+			if ($result['as_coc_verification'] !='') {
+				$as_coc_verification = $result['as_coc_verification'];
+			}else{
+				$as_coc_verification = '1';
+			}
 
-			$jsonData['result']	= [ 'cocnumber' => $result['id'], 'plumberid' => $result['user_id'], 'completiondate' => date("d-m-Y", strtotime($result['cl_completion_date'])), 'onersname' =>  $result['cl_name'], 'cl_address' =>  $result['cl_address'], 'cl_street' =>  $result['cl_street'], 'cl_province_name' =>  $result['cl_province_name'], 'cl_city_name' =>  $result['cl_city_name'], 'cl_suburb_name' =>  $result['cl_suburb_name'], 'complex' =>  $result['cl_address'], 'cl_contact_no' =>  $result['cl_contact_no'], 'cl_alternate_no' =>  $result['cl_alternate_no'], 'auditstatus' => $this->config->item('auditstatus')[$result['audit_status']], 'auditorname' => $result['auditorname'], 'auditormobile' => $result['auditormobile'], 'auditormobile' => $result['auditormobile'], 'as_audit_date' => date("d-m-Y", strtotime($result['as_audit_date'])), 'as_workmanship', $this->config->item('workmanship')[$result['as_workmanship']], 'as_plumber_verification' => $this->config->item('yesno')[$result['as_plumber_verification']], 'as_coc_verification' => $this->config->item('yesno')[$result['as_coc_verification']]
+			$jsonData['result']	= [ 'cocnumber' => $result['id'], 'plumberid' => $result['user_id'], 'completiondate' => date("d-m-Y", strtotime($result['cl_completion_date'])), 'onersname' =>  $result['cl_name'], 'cl_address' =>  $result['cl_address'], 'cl_street' =>  $result['cl_street'], 'cl_province_name' =>  $result['cl_province_name'], 'cl_city_name' =>  $result['cl_city_name'], 'cl_suburb_name' =>  $result['cl_suburb_name'], 'complex' =>  $result['cl_address'], 'cl_contact_no' =>  $result['cl_contact_no'], 'cl_alternate_no' =>  $result['cl_alternate_no'], 'auditstatus' => $this->config->item('auditstatus')[$result['audit_status']], 'auditorname' => $result['auditorname'], 'auditormobile' => $result['auditormobile'], 'auditormobile' => $result['auditormobile'], 'as_audit_date' => date("d-m-Y", strtotime($result['as_audit_date'])), 'as_workmanship' => $this->config->item('workmanship')[$as_workmanship], 'as_plumber_verification' => $this->config->item('yesno')[$as_plumber_verification], 'as_coc_verification' => $this->config->item('yesno')[$as_coc_verification], 'auditorid' => $result['auditorid']
 			];
 
 			foreach ($reviewlist as $key => $value) {
@@ -1193,24 +1208,60 @@ class Api extends CC_Controller
 		if ($this->input->post()) {
 
 			$jsonData 			= [];
-			$post['cocid'] 		= $this->input->post('cocid');  
-			$post['fromto'] 	= $this->input->post('userid');   // fromto = userid
-			$result 			= $this->Chat_Model->getList('all', $post);
-			
-			if(count($result)){
-				foreach ($result as $key => $value) {
-					$jsonData['chatdata'][] = [ 'id' => $value['id'], 'coc_id' => $value['coc_id'], 'from_id' => $value['from_id'], 'to_id' => $value['to_id'], 'quote' => $value['quote'], 'message' => $value['message'], 'attachment' => $value['attachment'], 'name' => $value['name'], 'chatdate' => date('d-m-Y', strtotime($value['created_at']))
-					];
-				}
-				$jsonArray = ['status' => '1', "message"=>'Chat History', 'result' => $jsonData];
-			}else{
-				$jsonArray = ['status' => '0', "message"=>'No chat found', 'result' => []];
+			$cocid 		= $this->input->post('cocid');  
+			$fromto 	= $this->input->post('userid');   // fromto = userid
+			$data 		= $this->chat_view(['cocid' => $cocid, 'fromto' => $fromto]);
+
+			$jsonArray = ['status' => '1', "message"=>'Chat History', 'result' => $data];
+		
+		}else{
+			$jsonArray = array("status"=>'0', "message"=>'invalid request', "result"=>[]);
+		}
+		echo json_encode($jsonArray);
+	}
+	public function chat_action(){
+		if ($this->input->post() && $this->input->post('user_id')) {
+
+			if ($this->input->post('file') !='') {
+				$data = $this->fileupload(['files' => $this->input->post('file'), 'file_name' => $this->input->post('file_name'), 'user_id' => $this->input->post('user_id'), 'page' => 'chat']);
+					// $image = $data[0];
+				$post['quoteattachment'] = $data[0];
+			}
+
+			$post['cocid'] 		= $this->input->post('coc_id');
+			$post['fromid'] 	= $this->input->post('user_id');
+			$post['toid'] 		= $this->input->post('auditorid');
+			$post['message'] 	= $this->input->post('message');
+			$post['state1'] 	= '1'; // [state1] => 1 for viewd
+			$post['type'] 		= '1'; //[type] => 1
+			if ($this->input->post('quote') !='') {
+				$post['quote'] 		= $this->input->post('quote');
+			}
+			$result = $this->Chat_Model->action($post);
+			if ($result) {
+				$data = $this->chat_view(['cocid' => $post['cocid'], 'fromto' => $post['fromid']]);
+				$jsonArray = array("status"=>'1', "message"=>'chat inserted sucessfully', "result"=>$data);
 			}
 			
 		}else{
 			$jsonArray = array("status"=>'0', "message"=>'invalid request', "result"=>[]);
 		}
 		echo json_encode($jsonArray);
+	}
+	public function chat_view($data = []){
+		$result 			= $this->Chat_Model->getList('all', $data);
+		if(count($result)){
+			foreach ($result as $key => $value) {
+				if ($value['attachment'] !='') {
+					$attachment = base_url().'assets/uploads/chat/'.$data['fromto'].'/'.$value['attachment'].'';
+				}else{
+					$attachment = '';
+				}
+				$jsonData['chatdata'][] = [ 'id' => $value['id'], 'coc_id' => $value['coc_id'], 'from_id' => $value['from_id'], 'to_id' => $value['to_id'], 'quote' => $value['quote'], 'message' => $value['message'], 'attachment' => $attachment, 'name' => $value['name'], 'chatdate' => date('d-m-Y', strtotime($value['created_at']))
+				];
+			}
+		}
+		return $jsonData;
 	}
 
 	public function mycpd_current_year(){
@@ -1674,11 +1725,13 @@ class Api extends CC_Controller
 					$request['created_by'] = $userid;
 					$this->db->insert('noncompliance', $request);
 					$insertid = $this->db->insert_id();
+					$request['id'] = $insertid;
 					$message = 'non compliance inserted sucessfully';
 					$jsonArray 		= array("status"=>'0', "message"=>$message, "result"=>$request);
 				}else{
 					$this->db->update('noncompliance', $request, ['id' => $id]);
 					$insertid = $id;
+					$request['id'] = $insertid;
 					$message = 'non compliance updated sucessfully';
 					$jsonArray 		= array("status"=>'0', "message"=>$message, "result"=>$request);
 				}
@@ -1904,6 +1957,12 @@ class Api extends CC_Controller
 			
 			if(!is_dir($path)){
 				mkdir($directory.'/assets/uploads/plumber/'.$userid.'/log', 0755, true);
+			}
+		}elseif($page == 'chat'){
+			$path = FCPATH.'assets/uploads/chat/'.$userid.'/';
+			
+			if(!is_dir($path)){
+				mkdir($directory.'assets/uploads/chat/'.$userid.'/', 0755, true);
 			}
 		}
 		
