@@ -79,7 +79,7 @@
 }
 
 .pb_card {
-   width: 280px;
+    width: 230px;
     height: 140px;
     position: relative;
     background: #F5F8FD;
@@ -94,7 +94,7 @@
     margin: 0 0 0 -16px;
 } 
 .pb_first_txt {
-    font-size: 8px;
+    font-size: 7px;
     text-align: center;
     /* width: 80%; */
     /* border-bottom: 1px solid #737476; */
@@ -150,10 +150,10 @@ p.plumber_name.add_style{
     font-size: 8px;
 }
 h2.pb_lic {
-    position: absolute;
+  position: absolute;
     top: 40%;
     transform: rotate(-90deg);
-    right: -18px;
+    right: -30px;
     font-size: 11px;
     color: white;
 }
