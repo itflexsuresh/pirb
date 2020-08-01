@@ -1,24 +1,24 @@
 /* card front */
 .p_card{
-            width: 500px;
+              width: 280px;
     position: relative;
     background: #F5F8FD;
-    padding: 31px 35px;
+    padding: 30px 3px;
     font-family: 'Helvetica' !important;
     transform: scale(2.65);
 }
 .p_admin{
-    width: 166px;
-    height: 166px;
+       width: 76px;
+    height: 70px;
     position: relative;
     object-fit: cover;
 }
 .p_card p{
-    margin-bottom:30px;
-}
+    margin-bottom: 8px;
+    font-size: 8px;}
 .p_logo{
-    width: 180px;
-    margin-bottom: 30px;
+    width: 130px;
+    margin-bottom: 10px;
 }
 .p_left{
     width: 70%;
@@ -27,22 +27,22 @@
     width: 30%;
 }
 .p_profile{
-    width: 166px;
-    height: 166px;
+    width: 76px;
+    height: 68px;
     position: absolute;
-    top: 16%;
-    right: 6%;
+    top: 23%;
+    right: 10%;
     border: 2px solid #EC2829;
 }
 .p_bottom{
-    background: #EA0000;
+       background: #EA0000;
     position: absolute;
     width: 100%;
     left: 0;
-    bottom: -85px;
+    bottom: -14px;
     color: white;
     text-align: center;
-    height:100px;
+    height: 34px;
 }
 .inner {
     position: absolute;
@@ -54,16 +54,17 @@
     transform:  translateX(-70%) translateY(-50%) rotate(-90deg);
 }
 .p_lic{
-    position: absolute;
+      position: absolute;
     background: white;
-    width: 45px;
-    top: 25%;
+    width: 19px;
+    top: 15%;
     left: 15%;
 }
 .p_h2{
-    width:70%;
-    float:right;
-    padding: 18px;
+    width: 70%;
+    float: right;
+    padding: 0;
+    font-size: 12px;
 }
 
 /* card back */
@@ -78,23 +79,22 @@
 }
 
 .pb_card {
-    width: 500px;
-    height: 300px;
+   width: 280px;
+    height: 140px;
     position: relative;
     background: #F5F8FD;
-    padding: 30px 35px;
+    padding: 0px 35px;
     font-family: 'Helvetica' !important;
     transform: scale(2.65);
-    overflow: hidden;
-}
+    overflow: hidden;}
 .p_top {
-    width: 90%;
+   width: 100%;
     border-bottom: 1px solid #737476;
-    padding: 0 89px 0px 12px;
-    margin: 0 0 0 -36px;
+    padding: 0 9px 0px 12px;
+    margin: 0 0 0 -16px;
 } 
 .pb_first_txt {
-    font-size: 12px;
+    font-size: 8px;
     text-align: center;
     /* width: 80%; */
     /* border-bottom: 1px solid #737476; */
@@ -103,61 +103,67 @@
 }
 
 .pb_title {
-    font-weight: bold;
-    font-size: 15px;
+       font-weight: bold;
+    font-size: 7px;
 }
 
 .pb_bottom_left {
     border-right: 1px solid #737476;
     width: 40%;
-    padding: 3px 0 86px 0;font-size: 13px;
+    padding: 3px 0 86px 0;font-size: 7px;
 }
 
 .pb_lost {
-    padding: 15px 0 0 15px;
+       padding: 3px 0 0 15px;
     border-top: 1px solid #737476;
     width: 90%;
 }
 
 .pb_p {
-    font-size: 12px;
+       font-size: 7px;
     margin-left: -15px;
     padding-left: 15px;
+    margin-top: 3px;
+        padding-bottom: 0px;
 }
 
 .pb_right {
-    position: absolute;
-    top: 44%;
+        position: absolute;
+    top: 54%;
     right: 35%;
+
 }
 
 .pb_bar {
-    position: absolute;
-    width: 20%;
+  position: absolute;
+    width: 11%;
     background: #EA0000;
     top: 0;
     right: 0;
     height: 362px;
 }
 p.plumber_name.add_style{
-    top: 37%;
+   top: 60%;
     position: absolute;
     right: 65%;
+    margin: 0 0;
+    font-size: 8px;
 }
 h2.pb_lic {
     position: absolute;
     top: 40%;
     transform: rotate(-90deg);
-    right: -8%;
+    right: -18px;
+    font-size: 11px;
     color: white;
 }
 .p_top span img {
-    width: 11px;
+    width: 7px;
 }
 
 .p_top span {
-    font-size: 11px;
-    margin: 0 0 0 8px;
+   font-size: 8px;
+    margin: 0 0 0 2px;
 }
 .p_bot_img{
     width: 15px;
