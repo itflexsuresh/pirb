@@ -358,7 +358,8 @@ $(function(){
 									type	: 	"post",
 									async	: 	false,
 									data	: 	{
-													id : userid
+													id : userid,
+													type : 6
 												}
 								}
 			},

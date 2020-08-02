@@ -61,6 +61,21 @@ class CC_Controller extends CI_Controller
 		$data['overallperformancestatus'] 	= ($data['userdata']['type']=='3') ? $this->userperformancestatus(['overall' => '1']) : '';
 		$data['provinceperformancestatus'] 	= ($data['userdata']['type']=='3') ? $this->userperformancestatus(['province' => $data['userdata']['province']]) : '';
 		
+		if($data['userdata']['type']=='5'){
+			$history = $this->Auditor_Model->getReviewHistoryCount(['auditorid' => $data['userdata']['id']]);
+			$data['openaudits'] 	= $history['openaudits'];
+			$data['auditorstatus'] 	= $data['userdata']['status'];
+		}else{
+			$data['openaudits'] 	= ''; 
+			$data['auditorstatus'] 	= ''; 
+		}
+		
+		if($data['userdata']['type']=='6'){
+			$data['cocstock'] = $this->Coc_Model->getCOCList('count',  ['allocated_id' => $data['userdata']['id']]);
+		}else{
+			$data['cocstock'] 	= ''; 
+		}
+		
 		$data['sidebar'] 		= $this->load->view('template/sidebar', $data, true);
 		$this->load->view('template/layout2', $data);
 	}

@@ -68,7 +68,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 						<div class="col-md-3">
 							<div class="form-group coc_pur_sec">
 								<div class="coc_pur_num2"><?php  echo $log_coc; ?></div>
-								<label class="add_max_height">Number Of COC's Not Logged Yet</label>
+								<label class="add_max_height">Number Of COC's Not Yet Logged</label>
 								<input type="hidden" id="log_coc" class="form-control" name="log_coc" value="<?php  echo $log_coc; ?>" readonly>
 							</div>
 						</div>
@@ -76,7 +76,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 						<div class="col-md-3">
 							<div class="form-group coc_pur_sec">
 								<div class="coc_pur_num3"><?php  echo $coc_purchase_limit; ?></div>
-								<label class="add_max_height">Total Number of COC's That You Are Pertmitted</label>
+								<label class="add_max_height">Total Number of COC's That You Are Pertmitted To Purchase</label>
 								<input type="hidden" class="form-control" id="coc_permitted" name="coc_permitted" readonly value="<?php echo $coc_purchase_limit; ?>">
 							</div>
 						</div>
@@ -84,7 +84,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 						<div class="col-md-3">
 							<div class="form-group coc_pur_sec">
 								<div class="coc_pur_num4"><?php  echo $coc_counts; ?></div>
-								<label class="add_max_height">Number of Permitted COC's That You Are Able To Purchase</label>
+								<label class="add_max_height">Number of COC's That You Are Able To Purchase</label>
 								<input type="hidden" class="form-control" id="number_of_purchase_coc" name="number_of_purchase_coc" readonly value="<?php echo $coc_counts; ?>">
 							</div>
 						</div>
@@ -187,7 +187,7 @@ if (in_array($plumberstatus, $plumber_status)) {
 							</div>
 						</div>
 					</div>
-					<?php if ($plumberstatus != 2) { ?>
+					<?php if (!in_array($plumberstatus, [2, 6])) { ?>
 					
 					<h4 class="card-title add_top_value">Disclaimer</h4>
 					<div class="custom-control custom-checkbox">

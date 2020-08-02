@@ -6,7 +6,13 @@ class Api extends CC_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		header("Access-Control-Allow-Origin: *");
+		
+		$http_origin = $_SERVER['HTTP_ORIGIN'];
+
+		if ($http_origin == "http://testing.mrventer.co.za" || $http_origin == "https://fogi.co.za" || $http_origin == "https://katchmi.co.za" || $http_origin == "http://podcast.articulateit.co.za/")
+		{  
+			header("Access-Control-Allow-Origin: $http_origin");
+		}
 		header("Access-Control-Allow-Credentials: true");
 		header("Access-Control-Max-Age: 1728000");
 		header("Access-Control-Allow-Headers: X-Requested-With, Content-Type, Origin, Cache-Control, Pragma, Authorization, Accept, Accept-Encoding");

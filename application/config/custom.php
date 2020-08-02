@@ -11,10 +11,10 @@ $config['paymenturl']				= 	'https://sandbox.payfast.co.za/eng/process';
 //$config['paymentid']				= 	'11034518';
 //$config['paymentkey']				= 	'47bfxswooibsp';
 
-$config['customstockno']			= 	'420496';
+$config['customstockno']			= 	'444271';
 
 
-$config['psidconfig']	 			= 	['2'];
+$config['psidconfig']	 			= 	['2', '6'];
 $config['roleadmin']	 			= 	'1';
 $config['rolesubadmin']	 			= 	'2';
 $config['roleplumber']	 			= 	'3';
@@ -38,6 +38,9 @@ $config['couriour'] 				= 	'17';
 $config['collectedbypirb'] 			= 	'24';
 
 $config['inspection'] 				= 	'20';
+
+$config['latefee'] 					= 	'10';
+$config['cardfee'] 					= 	'11';
 
 // Global Performance Table
 
@@ -404,6 +407,7 @@ $config['plumberstatus'] 			= 	[
 											'3' => 'Expired',
 											'4' => 'Deceased',
 											'5' => 'Resigned',
+											'6' => 'Suspended'
 										];
 
 $config['auditorstatus'] 			= 	[

@@ -502,7 +502,7 @@
 					<div class="col-md-12 text-center">
 						<div class="form-group">
 							<h4 class="mb-15">A One Time Pin (OTP) was sent to the Licensed Plumber with the following Mobile Number :</h4>
-							<h4><?php echo $userdata['name']." / ".$userdata['surname']." - ".$userdata['mobile_phone']; ?></h4>
+							<h4><?php echo $userdata['name']." ".$userdata['surname']." - ".$userdata['mobile_phone']; ?></h4>
 						</div>
 					</div>
 					<div class="col-md-12">

@@ -66,9 +66,18 @@
 
 <script>
 $('.helpsection').on('click', function(){  
-	var id = $(this).attr('data-id');
-	$('html, body').animate({
-      scrollTop: $('#helpsection'+id).offset().top
-    }, 500);
+	var el = $('#helpsection'+$(this).attr('data-id'));
+	var elOffset = el.offset().top;
+	var elHeight = el.height();
+	var windowHeight = $(window).height();
+	var offset;
+
+	if (elHeight < windowHeight) {
+		offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
+	}else {
+		offset = elOffset - 300;
+	}
+	
+	$('html, body').animate({scrollTop:offset}, 700);
 });
 </script>

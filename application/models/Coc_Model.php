@@ -105,6 +105,17 @@ class Coc_Model extends CC_Model
 			$this->db->group_end();
 		}
 		
+		if(isset($requestdata['allocated_id'])){
+			$this->db->group_start();
+				$this->db->where('sm.user_id', $requestdata['allocated_id']);
+				$this->db->or_where('sm.allocatedby', $requestdata['allocated_id']);
+			$this->db->group_end();
+		}
+
+		if(isset($requestdata['monthrange'])){
+			$monthArray 	=	explode('-', $requestdata['monthArray']);
+			$this->db->where('YEAR(sm.purchased_at) = '.$monthArray[0].' AND '.'MONTH(sm.purchased_at) = '.$monthArray[1]);	
+		}
 		
 		if(isset($requestdata['search']['value']) && $requestdata['search']['value']!=''){
 			$searchvalue = $requestdata['search']['value'];

@@ -463,7 +463,7 @@ if(count($permission) > 0){
 							</p>
 						</div>
 						<div class="reg_sec">							
-							<p class="cus_reg">My Status:<?php //echo $user_status; ?></p>
+							<p class="cus_reg">My Status:<?php echo isset($this->config->item('auditorstatus')[$auditorstatus]) ? $this->config->item('auditorstatus')[$auditorstatus] : ''; ?></p>
 						</div>
 					</div>
 
@@ -475,7 +475,7 @@ if(count($permission) > 0){
 										<p class="cus_reg">Open Audits</p>
 									</td>
 									<td>
-										<p class="custom_li"><?php //echo $history['openaudits'];?></p>
+										<p class="custom_li"><?php echo $openaudits; ?></p>
 									</td>
 								</tr>
 							</thead>
@@ -595,7 +595,7 @@ if(count($permission) > 0){
 										<p class="cus_reg">COC Numbers in Stock</p>
 									</td>
 									<td>
-										<p class="custom_li"><?php //echo $cocstock;?></p>
+										<p class="custom_li"><?php echo $cocstock;?></p>
 									</td>
 								</tr>
 							</thead>

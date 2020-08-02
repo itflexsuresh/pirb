@@ -19,7 +19,6 @@ class Index extends CC_Controller
 		$user_id 						= 	$this->getUserID();
 		$userdata 						= 	$this->getUserDetails();
 		$post['allocated_id']			= 	$user_id;
-		$post['allocated']				= 	$user_id; 
 		$pagedata['cocstock'] 			= 	$this->Coc_Model->getCOCList('count',$post);
 
 		$post['monthrange']				= 	'6';		

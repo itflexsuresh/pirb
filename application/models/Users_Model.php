@@ -23,6 +23,7 @@ class Users_Model extends CC_Model
 		$this->db->select('*');
 		$this->db->from('users');
 		$this->db->where('email', $data['email']);
+		$this->db->where_in('type', $data['type']);
 		$this->db->where_in('status', ['0', '1']);
 		$query = $this->db->get();
 		
