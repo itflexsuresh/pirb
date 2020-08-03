@@ -1,6 +1,7 @@
 /* card front */
 .p_card{
-              width: 280px;
+          height: 80px;
+    width: 230px;
     position: relative;
     background: #F5F8FD;
     padding: 30px 3px;
@@ -8,16 +9,18 @@
     transform: scale(2.65);
 }
 .p_admin{
-       width: 76px;
+       width: 56px;
     height: 70px;
     position: relative;
     object-fit: cover;
 }
 .p_card p{
     margin-bottom: 8px;
-    font-size: 8px;}
+    font-size: 8px;
+    margin-top: 0;
+}
 .p_logo{
-    width: 130px;
+    width: 100px;
     margin-bottom: 10px;
 }
 .p_left{
@@ -27,7 +30,7 @@
     width: 30%;
 }
 .p_profile{
-    width: 76px;
+        width: 56px;
     height: 68px;
     position: absolute;
     top: 23%;
@@ -79,11 +82,13 @@
 }
 
 .pb_card {
-    width: 230px;
-    height: 140px;
+    width: 200px;
+    height: 136px;
     position: relative;
     background: #F5F8FD;
     padding: 0px 35px;
+    padding-right: 26px;
+    padding-left: 15px;
     font-family: 'Helvetica' !important;
     transform: scale(2.65);
     overflow: hidden;}
@@ -94,7 +99,7 @@
     margin: 0 0 0 -16px;
 } 
 .pb_first_txt {
-    font-size: 7px;
+    font-size: 6px;
     text-align: center;
     /* width: 80%; */
     /* border-bottom: 1px solid #737476; */
@@ -104,34 +109,36 @@
 
 .pb_title {
        font-weight: bold;
-    font-size: 7px;
+    font-size: 6px;
 }
 
 .pb_bottom_left {
+   
     border-right: 1px solid #737476;
     width: 40%;
-    padding: 3px 0 86px 0;font-size: 7px;
+    padding: 0px 0 86px 0;
+    font-size: 6px;
+
 }
 
 .pb_lost {
        padding: 3px 0 0 15px;
     border-top: 1px solid #737476;
-    width: 90%;
+    width: 100%;
 }
 
 .pb_p {
-       font-size: 7px;
+  font-size: 6px;
     margin-left: -15px;
     padding-left: 15px;
-    margin-top: 3px;
-        padding-bottom: 0px;
+    margin-top: 1px;
+    padding-bottom: 2px;
 }
 
 .pb_right {
-        position: absolute;
-    top: 54%;
-    right: 35%;
-
+    position: absolute;
+    top: 52%;
+    right: 24%;
 }
 
 .pb_bar {
@@ -143,17 +150,17 @@
     height: 362px;
 }
 p.plumber_name.add_style{
-   top: 60%;
+    top: 54%;
     position: absolute;
-    right: 65%;
+    right: 67%;
     margin: 0 0;
-    font-size: 8px;
+    font-size: 5px;
 }
 h2.pb_lic {
   position: absolute;
     top: 40%;
     transform: rotate(-90deg);
-    right: -30px;
+    right: -36px;
     font-size: 11px;
     color: white;
 }
@@ -162,9 +169,16 @@ h2.pb_lic {
 }
 
 .p_top span {
-   font-size: 8px;
-    margin: 0 0 0 2px;
+   font-size: 5px;
+   letter-spacing: 0.2px;
+   margin: 0 0 0 2px;
 }
 .p_bot_img{
     width: 15px;
 }
+
+.pb_right p {
+    font-size: 7px !important;
+        margin-bottom: 0px !important;
+}
+
