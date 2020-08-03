@@ -9,7 +9,7 @@ class Api extends CC_Controller
 		
 		$http_origin = $_SERVER['HTTP_ORIGIN'];
 
-		if ($http_origin == "http://testing.mrventer.co.za" || $http_origin == "https://fogi.co.za" || $http_origin == "https://katchmi.co.za" || $http_origin == "http://podcast.articulateit.co.za/")
+		if ($http_origin == "http://testing.mrventer.co.za" || $http_origin == "https://fogi.co.za" || $http_origin == "https://katchmi.co.za" || $http_origin == "http://podcast.articulateit.co.za/" || $http_origin == "http://diyesh.com/")
 		{  
 			header("Access-Control-Allow-Origin: $http_origin");
 		}
