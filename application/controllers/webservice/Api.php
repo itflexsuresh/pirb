@@ -13,7 +13,7 @@ class Api extends CC_Controller
 		if ($origin == 'localhost' || 'diyesh.com') {
 			$http_origin = $_SERVER['SERVER_NAME'];
 		}else{
-			$http_origin = $_SERVER['HTTP_ORIGIN'];
+			$http_origin = $_SERVER['HTTP_REFERER'];
 		}
 
 		if ($http_origin == "http://testing.mrventer.co.za" || $http_origin == "https://fogi.co.za" || $http_origin == "https://katchmi.co.za" || $http_origin == "http://podcast.articulateit.co.za/" || $http_origin == "http://diyesh.com/" || $http_origin == "http://localhost/")
