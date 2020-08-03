@@ -544,14 +544,14 @@ class Api extends CC_Controller
 
 			$totalcount 			 = $this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => ['2','4','5','7']]);
 			$results	 			= $this->Coc_Model->getCOCList('all', ['user_id' => $userid, 'coc_status' => ['2','4','5','7']]);
-
+			
 			foreach ($results as $key => $value) {
 				if ( $this->config->item('cocstatus')[$value['coc_status']] == 'Logged') {
 					$colorcode = '#ade33d';
 				}else{
 					$colorcode = '#7f694f';
 				}
-				$jsonData['coc_statement'][] = [ 'plumberid' => $value['user_id'], 'coc_status' =>  $this->config->item('cocstatus')[$value['coc_status']], 'coc_type' => $this->config->item('coctype')[$value['type']], 'cl_name' => $value['cl_name'], 'colorcode' => $colorcode, 'totalcount' => $totalcount
+				$jsonData['coc_statement'][] = [ 'coc_number' => $value['id'], 'plumberid' => $value['user_id'], 'coc_status' =>  $this->config->item('cocstatus')[$value['coc_status']], 'coc_type' => $this->config->item('coctype')[$value['type']], 'cl_name' => $value['cl_name'], 'colorcode' => $colorcode, 'totalcount' => $totalcount
 				];
 			}
 
