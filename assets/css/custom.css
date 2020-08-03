@@ -2053,7 +2053,7 @@ footer.footer {
 
 table td {
 	padding: 6px 20px 6px 20px !important;
-	width: 100%;
+	/*width: 100%;*/
 }
 
 th {
