@@ -56,6 +56,7 @@ class Api extends CC_Controller
 		$this->load->model('Mycpd_Model');
 		$this->load->model('Subtype_Model');
 		$this->load->model('Reportlisting_Model');
+		// $this->load->model('Coc_Model_Api');
 	}
 
 	public function login(){
@@ -557,7 +558,7 @@ class Api extends CC_Controller
 
 			$totalcount 			 = $this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => ['2','4','5','7']]);
 			$results	 			= $this->Coc_Model->getCOCList('all', ['user_id' => $userid, 'coc_status' => ['2','4','5','7']]);
-			
+			// print_r($results);die;
 			foreach ($results as $key => $value) {
 				if ( $this->config->item('cocstatus')[$value['coc_status']] == 'Logged') {
 					$colorcode = '#ade33d';
@@ -1092,6 +1093,8 @@ class Api extends CC_Controller
 					$colorcode = '#ade33d';
 				}elseif($this->config->item('reviewtype')[$value['reviewtype']] == 'Failure'){
 					$colorcode = '#f33333';
+				}elseif($this->config->item('reviewtype')[$value['reviewtype']] == 'No Audit Findings'){
+					$colorcode = '#50c6f2';
 				}
 
 				$jsonData['review_details'][] = [ 'reviewtype' => $this->config->item('reviewtype')[$value['reviewtype']], 'statementname' => $value['statementname'], 'colorcode' => $colorcode
