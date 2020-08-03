@@ -56,7 +56,7 @@ class Api extends CC_Controller
 		$this->load->model('Mycpd_Model');
 		$this->load->model('Subtype_Model');
 		$this->load->model('Reportlisting_Model');
-		$this->load->model('Coc_Model_Api');
+		$this->load->model('Api');
 	}
 
 	public function login(){
@@ -556,8 +556,8 @@ class Api extends CC_Controller
 
 			$userid 				= $this->input->post('user_id');
 
-			$totalcount 			 = $this->Coc_Model_Api->getCOCList('count', ['user_id' => $userid, 'coc_status' => ['2','4','5','7']]);
-			$results	 			= $this->Coc_Model_Api->getCOCList('all', ['user_id' => $userid, 'coc_status' => ['2','4','5','7'], 'api_data' => 'plumber_coc_statement_api']);
+			$totalcount 			 = $this->Api->getCOCList('count', ['user_id' => $userid, 'coc_status' => ['2','4','5','7']]);
+			$results	 			= $this->Api->getCOCList('all', ['user_id' => $userid, 'coc_status' => ['2','4','5','7'], 'api_data' => 'plumber_coc_statement_api']);
 			
 			foreach ($results as $key => $value) {
 				if ( $this->config->item('cocstatus')[$value['coc_status']] == 'Logged') {
@@ -578,8 +578,8 @@ class Api extends CC_Controller
 			$userid 		= $this->input->post('user_id');
 			$post 			= $this->input->post();
 
-			$totalcount 	= $this->Coc_Model_Api->getCOCList('count', ['coc_status' => ['2','4','5','7'], 'user_id' => $userid, 'search' => ['value' => $keywords], 'page' => 'plumbercocstatement']);
-			$results 		= $this->Coc_Model_Api->getCOCList('all', ['coc_status' => ['2','4','5','7'], 'user_id' => $userid, 'search' => ['value' => $keywords], 'page' => 'plumbercocstatement']);
+			$totalcount 	= $this->Api->getCOCList('count', ['coc_status' => ['2','4','5','7'], 'user_id' => $userid, 'search' => ['value' => $keywords], 'page' => 'plumbercocstatement']);
+			$results 		= $this->Api->getCOCList('all', ['coc_status' => ['2','4','5','7'], 'user_id' => $userid, 'search' => ['value' => $keywords], 'page' => 'plumbercocstatement']);
 
 			foreach ($results as $key => $value) {
 				if ( $this->config->item('cocstatus')[$value['coc_status']] == 'Logged') {
