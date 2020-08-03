@@ -7,10 +7,10 @@ class Api extends CC_Controller
 	{
 		parent::__construct();
 
-		$instance =& get_instance();
-    	$origin =  preg_replace("/^[\w]{2,6}:\/\/([\w\d\.\-]+).*$/","$1", $instance->config->slash_item('base_url'));
+		$instance 	=& get_instance();
+    	$domain 	=  preg_replace("/^[\w]{2,6}:\/\/([\w\d\.\-]+).*$/","$1", $instance->config->slash_item('base_url'));
 
-		if ($origin == 'localhost' || 'diyesh.com') {
+		if ($domain == 'localhost' || 'diyesh.com') {
 			$http_origin = $_SERVER['SERVER_NAME'];
 		}else{
 			$http_origin = $_SERVER['HTTP_REFERER'];
