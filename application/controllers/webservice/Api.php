@@ -1064,47 +1064,52 @@ class Api extends CC_Controller
 			// 		'file' 		=> $compliance['file']
 			// 	];
 			// }
-
-			$jsonData['page_lables'] = [
+			if ($result) {
+				$jsonData['page_lables'] = [
 				'page_heading' => 'CoC Details', 'certificate' => 'Certificate','plumbingwork' => 'Plumbing work completeion date', 'ownersname' => 'Owners name', 'street' => 'Street', 'suburb' => 'Suburb', 'city' => 'City', 'province' => 'Province', 'complex' => 'Name of the complex / flat (if applicable)', 'contactnumber1' => 'Contact number', 'contactnumber2' => 'Alternate Contact number', 'auditstaus' => 'Audit status', 'auditorname' => 'Auditors name and surname', 'phone' => 'Phone (mobile)', 'date' => 'Date of audit', 'overall' => 'Overall workmanship', 'plumberpresent' => 'Licensed plumber present', 'coccorrect' => 'Was CoC completed correctly'
-			];
-			if ($result['as_workmanship'] =='') {
-				$as_workmanship = '1';
-			}else{
-				$as_workmanship = $result['as_workmanship'];
-			}
-			if ($result['as_plumber_verification'] !='') {
-				$as_plumber_verification = $result['as_plumber_verification'];
-			}else{
-				$as_plumber_verification = '1';
-			}
-			if ($result['as_coc_verification'] !='') {
-				$as_coc_verification = $result['as_coc_verification'];
-			}else{
-				$as_coc_verification = '1';
-			}
-
-			$jsonData['result']	= [ 'cocnumber' => $result['id'], 'plumberid' => $result['user_id'], 'completiondate' => date("d-m-Y", strtotime($result['cl_completion_date'])), 'onersname' =>  $result['cl_name'], 'cl_address' =>  $result['cl_address'], 'cl_street' =>  $result['cl_street'], 'cl_province_name' =>  $result['cl_province_name'], 'cl_city_name' =>  $result['cl_city_name'], 'cl_suburb_name' =>  $result['cl_suburb_name'], 'complex' =>  $result['cl_address'], 'cl_contact_no' =>  $result['cl_contact_no'], 'cl_alternate_no' =>  $result['cl_alternate_no'], 'auditstatus' => $this->config->item('auditstatus')[$result['audit_status']], 'auditorname' => $result['auditorname'], 'auditormobile' => $result['auditormobile'], 'auditormobile' => $result['auditormobile'], 'as_audit_date' => date("d-m-Y", strtotime($result['as_audit_date'])), 'as_workmanship' => $this->config->item('workmanship')[$as_workmanship], 'as_plumber_verification' => $this->config->item('yesno')[$as_plumber_verification], 'as_coc_verification' => $this->config->item('yesno')[$as_coc_verification], 'auditorid' => $result['auditorid']
-			];
-
-			foreach ($reviewlist as $key => $value) {
-
-				if ($this->config->item('reviewtype')[$value['reviewtype']] == 'Cautionary') {
-				$colorcode = '#ffd700';
-				}elseif($this->config->item('reviewtype')[$value['reviewtype']] == 'Compliment'){
-					$colorcode = '#ade33d';
-				}elseif($this->config->item('reviewtype')[$value['reviewtype']] == 'Failure'){
-					$colorcode = '#f33333';
-				}elseif($this->config->item('reviewtype')[$value['reviewtype']] == 'No Audit Findings'){
-					$colorcode = '#50c6f2';
-				}
-
-				$jsonData['review_details'][] = [ 'reviewtype' => $this->config->item('reviewtype')[$value['reviewtype']], 'statementname' => $value['statementname'], 'colorcode' => $colorcode
 				];
+				if ($result['as_workmanship'] =='') {
+					$as_workmanship = '1';
+				}else{
+					$as_workmanship = $result['as_workmanship'];
+				}
+				if ($result['as_plumber_verification'] !='') {
+					$as_plumber_verification = $result['as_plumber_verification'];
+				}else{
+					$as_plumber_verification = '1';
+				}
+				if ($result['as_coc_verification'] !='') {
+					$as_coc_verification = $result['as_coc_verification'];
+				}else{
+					$as_coc_verification = '1';
+				}
+				$jsonData['result']	= [ 'cocnumber' => $result['id'], 'plumberid' => $result['user_id'], 'completiondate' => date("d-m-Y", strtotime($result['cl_completion_date'])), 'onersname' =>  $result['cl_name'], 'cl_address' =>  $result['cl_address'], 'cl_street' =>  $result['cl_street'], 'cl_province_name' =>  $result['cl_province_name'], 'cl_city_name' =>  $result['cl_city_name'], 'cl_suburb_name' =>  $result['cl_suburb_name'], 'complex' =>  $result['cl_address'], 'cl_contact_no' =>  $result['cl_contact_no'], 'cl_alternate_no' =>  $result['cl_alternate_no'], 'auditstatus' => $this->config->item('auditstatus')[$result['audit_status']], 'auditorname' => $result['auditorname'], 'auditormobile' => $result['auditormobile'], 'auditormobile' => $result['auditormobile'], 'as_audit_date' => date("d-m-Y", strtotime($result['as_audit_date'])), 'as_workmanship' => $this->config->item('workmanship')[$as_workmanship], 'as_plumber_verification' => $this->config->item('yesno')[$as_plumber_verification], 'as_coc_verification' => $this->config->item('yesno')[$as_coc_verification], 'auditorid' => $result['auditorid']
+				];
+
+				foreach ($reviewlist as $key => $value) {
+
+					if ($this->config->item('reviewtype')[$value['reviewtype']] == 'Cautionary') {
+					$colorcode = '#ffd700';
+					}elseif($this->config->item('reviewtype')[$value['reviewtype']] == 'Compliment'){
+						$colorcode = '#ade33d';
+					}elseif($this->config->item('reviewtype')[$value['reviewtype']] == 'Failure'){
+						$colorcode = '#f33333';
+					}elseif($this->config->item('reviewtype')[$value['reviewtype']] == 'No Audit Findings'){
+						$colorcode = '#50c6f2';
+					}
+
+					$jsonData['review_details'][] = [ 'reviewtype' => $this->config->item('reviewtype')[$value['reviewtype']], 'statementname' => $value['statementname'], 'colorcode' => $colorcode
+					];
+				}
+				$message 	= 'CoC Details';
+				$status 	= '1';
+			}else{
+				$message 	= 'No Record Found';
+				$status 	= '0';
 			}
 
 			// print_r($jsonData);die;
-			$jsonArray = array("status"=>'1', "message"=>'CoC Details', "result"=>$jsonData);
+			$jsonArray = array("status"=> $status, "message"=> $message, "result"=> $jsonData);
 		}else{
 			$jsonArray = array("status"=>'0', "message"=>'Invalid Api', "result"=>[]);
 		}
