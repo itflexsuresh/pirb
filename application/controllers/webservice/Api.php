@@ -1254,15 +1254,31 @@ class Api extends CC_Controller
 				$post['type'] 		= '1'; //[type] => 1
 			}
 			
-			if ($this->input->post('quote') !='') {
-				$post['quote'] 		= $this->input->post('quote');
-			}
 			$result = $this->Chat_Model->action($post);
 			if ($result) {
 				$data = $this->chat_view(['cocid' => $post['cocid'], 'fromto' => $post['fromid']]);
 				$jsonArray = array("status"=>'1', "message"=>'chat inserted sucessfully', "result"=>$data);
 			}
 			
+		}elseif($this->input->post() && $this->input->post('id') && $this->input->post('action') == "delete" && $this->input->post('coc_id') && $this->input->post('user_id')) { // id =chat id
+			$delete = $this->db->delete('chat', ['id' => $this->input->post('id')]);
+			if ($delete) {
+				$data = $this->chat_view(['cocid' => $this->input->post('coc_id'), 'fromto' => $this->input->post('user_id')]);
+				$jsonArray = array("status"=>'1', "message"=>'chat deleted sucessfully', "result"=>$data);
+			}
+		}elseif($this->input->post() && $this->input->post('id') && $this->input->post('action') == "quote" && $this->input->post('coc_id') && $this->input->post('user_id')) { // id =chat id
+			$chat = $this->chat_view(['id' => $this->input->post('id')]);
+			if ($chat) {
+				$id 				= $this->input->post('id');
+				$request['quote'] 	= $this->input->post('quote_message');
+				$this->db->update('chat', $request, ['id' => $id]);
+				$insertid = $id;
+				$data = $this->chat_view(['cocid' => $this->input->post('coc_id'), 'fromto' => $this->input->post('user_id')]);
+				$jsonArray = array("status"=>'1', "message"=>'quote added sucessfully', "result"=>$data);
+
+			}else{
+				$jsonArray = array("status"=>'0', "message"=>'No Chat found', "result"=>[]);
+			}
 		}else{
 			$jsonArray = array("status"=>'0', "message"=>'invalid request', "result"=>[]);
 		}
