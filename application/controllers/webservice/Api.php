@@ -8,6 +8,7 @@ class Api extends CC_Controller
 		parent::__construct();
 		
 		$http_origin = $_SERVER['SERVER_NAME'];
+		//$http_origin = $_SERVER['HTTP_ORIGIN'];
 
 		if ($http_origin == "http://testing.mrventer.co.za" || $http_origin == "https://fogi.co.za" || $http_origin == "https://katchmi.co.za" || $http_origin == "http://podcast.articulateit.co.za/" || $http_origin == "http://diyesh.com/" || $http_origin == "http://localhost/")
 		{  
