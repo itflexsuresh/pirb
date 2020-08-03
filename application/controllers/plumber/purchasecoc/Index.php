@@ -161,6 +161,9 @@ class Index extends CC_Controller
 							$this->db->update('stock_management', $cocrequestdata, ['id' => $stockmanagement['id']]);
 							$cocinsertid = $stockmanagement['id'];
 						}else{
+							$checklastid = $this->db->order_by('id', 'desc')->get_where('stock_management')->row_array();
+							if($checklastid && $checklastid['id'] < $this->config->item('customstockno')) $cocrequestdata['id'] = $this->config->item('customstockno');
+								
 							$this->db->insert('stock_management', $cocrequestdata);
 							$cocinsertid = $this->db->insert_id();
 						}

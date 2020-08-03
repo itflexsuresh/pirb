@@ -366,7 +366,7 @@
 
 					<table class="table table-bordered table-striped datatables fullwidth add_top_value_v2">
 						<tr>
-							<th colspan="3" style="text-align: left;">I <?php echo $userdata['name'].' '.$userdata['surname']; ?>, Licensed registration number <?php echo $userdata['registration_no']; ?>, certify that, the above compliance certifcate details are true and correct and will be logged in accordance with the prescribed requirements as defned by the PIRB. Select either A or B as appropriate</th>			
+							<th colspan="3" style="text-align: left;">I <span style="text-decoration: underline;"><?php echo $userdata['name'].' '.$userdata['surname']; ?></span> (Licensed Plumber's Name and Surname), Licensed registration number <span style="text-decoration: underline;"><?php echo $userdata['registration_no']; ?></span>, certify that, the above compliance certificate details are true and correct and will be logged in accordance with the prescribed requirements as defined by the PIRB. Select either A or B as appropriate</th>	
 						</tr>
 						<tr>
 							<td style="text-align: center; background-color: #ffeae5; vertical-align: middle;">
@@ -377,7 +377,7 @@
 									</div>
 								</div>	
 							</td>
-							<td colspan="2" style="text-align: left;">A: The above plumbing work was carried out by me or under my supervision, and that it complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</td>
+							<td style="text-align: left;">A: The above plumbing work was carried out by me or under my supervision, and that it complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</td>
 						</tr>
 						<tr>
 							<td style="text-align: center; background-color: #ffeae5; vertical-align: middle;">
@@ -388,7 +388,7 @@
 									</div>
 								</div>	
 							</td>
-							<td colspan="2" style="text-align: left;">B: I have fully inspected and tested the work started but not completed by another Licensed plumber. I further certify that the inspected and tested work and the necessary completion work was carried out by me or under my supervision- complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</td>
+							<td style="text-align: left;">B: I have fully inspected and tested the work started but not completed by another Licensed plumber. I further certify that the inspected and tested work and the necessary completion work was carried out by me or under my supervision- complies in all respects to the plumbing regulations, laws, National Compulsory Standards and Local bylaws.</td>
 						</tr>
 					</table>
 

@@ -8,8 +8,8 @@ $config['paymentid']				= 	'10018056';
 $config['paymentkey']				= 	'u1jqr1spqbpes';
 $config['paymenturl']				= 	'https://sandbox.payfast.co.za/eng/process';
 //$config['paymenturl']				= 	'https://www.payfast.co.za/eng/process';
-//$config['paymentid']				= 	'11034518';
-//$config['paymentkey']				= 	'47bfxswooibsp';
+//$config['paymentid']				= 	'10140624';
+//$config['paymentkey']				= 	'mbmxqajjukwkb';
 
 $config['customstockno']			= 	'444271';
 

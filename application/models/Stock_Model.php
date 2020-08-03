@@ -6,7 +6,6 @@ class Stock_Model extends CC_Model
 
 		$this->db->select('*');
 		$this->db->from('stock_management');
-		$this->db->where(["id >=" => $this->config->item('customstockno')]);
 		$this->db->where(["user_id" => "0", "type" => "2"]);
 		$result = $this->db->get()->result_array();
 		
@@ -143,6 +142,9 @@ class Stock_Model extends CC_Model
 							$result1 = $this->db->update('stock_management', $requestdata, ['id' => $stockmanagement['id']]);
 							$insertid = $stockmanagement['id'];
 						}else{
+							$checklastid = $this->db->order_by('id', 'desc')->get_where('stock_management')->row_array();
+							if($checklastid && $checklastid['id'] < $this->config->item('customstockno')) $requestdata['id'] = $this->config->item('customstockno');
+							
 							$result1 = $this->db->insert('stock_management', $requestdata);
 							$insertid = $this->db->insert_id();
 						}
