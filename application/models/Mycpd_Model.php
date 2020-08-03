@@ -110,7 +110,7 @@ class Mycpd_Model extends CC_Model
 	}
 
 	public function actionInsert($requestdata){
-		
+		echo "<pre>";print_r($requestdata);die;
 		$user_id 	= $this->getUserID();
 		$id 		= $requestdata['id'];
 		$cpd_id 	= $requestdata['cpd_id'];
