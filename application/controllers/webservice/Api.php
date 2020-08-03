@@ -6,9 +6,15 @@ class Api extends CC_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		
-		$http_origin = $_SERVER['SERVER_NAME'];
-		//$http_origin = $_SERVER['HTTP_ORIGIN'];
+
+		$instance =& get_instance();
+    	$origin =  preg_replace("/^[\w]{2,6}:\/\/([\w\d\.\-]+).*$/","$1", $instance->config->slash_item('base_url'));
+
+		if ($origin == 'localhost' || 'diyesh.com') {
+			$http_origin = $_SERVER['SERVER_NAME'];
+		}else{
+			$http_origin = $_SERVER['HTTP_ORIGIN'];
+		}
 
 		if ($http_origin == "http://testing.mrventer.co.za" || $http_origin == "https://fogi.co.za" || $http_origin == "https://katchmi.co.za" || $http_origin == "http://podcast.articulateit.co.za/" || $http_origin == "http://diyesh.com/" || $http_origin == "http://localhost/")
 		{  
