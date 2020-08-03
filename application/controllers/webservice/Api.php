@@ -56,7 +56,7 @@ class Api extends CC_Controller
 		$this->load->model('Mycpd_Model');
 		$this->load->model('Subtype_Model');
 		$this->load->model('Reportlisting_Model');
-		// $this->load->model('Coc_Model_Api');
+		$this->load->model('Coc_Model_Api');
 	}
 
 	public function login(){
@@ -556,19 +556,21 @@ class Api extends CC_Controller
 
 			$userid 				= $this->input->post('user_id');
 
-			$totalcount 			 = $this->Coc_Model->getCOCList('count', ['user_id' => $userid, 'coc_status' => ['2','4','5','7']]);
-			$results	 			= $this->Coc_Model->getCOCList('all', ['user_id' => $userid, 'coc_status' => ['2','4','5','7']]);
-			// print_r($results);die;
+			$totalcount 			 = $this->Coc_Model_Api->getCOCList('count', ['user_id' => $userid, 'coc_status' => ['2','4','5','7']]);
+			$results	 			= $this->Coc_Model_Api->getCOCList('all', ['user_id' => $userid, 'coc_status' => ['2','4','5','7'], 'api_data' => 'plumber_coc_statement_api']);
+			
 			foreach ($results as $key => $value) {
 				if ( $this->config->item('cocstatus')[$value['coc_status']] == 'Logged') {
-					$colorcode = '#ade33d';
+					$colorcode 	= '#ade33d';
+					$coc_status = 'Logged';
 				}else{
 					$colorcode = '#7f694f';
+					$coc_status = 'Un Logged';
 				}
-				$jsonData['coc_statement'][] = [ 'coc_number' => $value['id'], 'plumberid' => $value['user_id'], 'coc_status' =>  $this->config->item('cocstatus')[$value['coc_status']], 'coc_type' => $this->config->item('coctype')[$value['type']], 'cl_name' => $value['cl_name'], 'colorcode' => $colorcode, 'totalcount' => $totalcount
+				$jsonData['coc_statement'][] = [ 'coc_number' => $value['id'], 'plumberid' => $value['user_id'], 'coc_status' =>  $coc_status, 'coc_type' => $this->config->item('coctype')[$value['type']], 'cl_name' => $value['cl_name'], 'colorcode' => $colorcode, 'totalcount' => $totalcount
 				];
 			}
-
+			
 			$jsonArray = array("status"=>'1', "message"=>'COC statement details', "result"=>$jsonData);
 
 		}elseif($this->input->post('user_id') && $this->input->post('type') == 'search'  && $this->input->post('keywords')){
@@ -576,8 +578,8 @@ class Api extends CC_Controller
 			$userid 		= $this->input->post('user_id');
 			$post 			= $this->input->post();
 
-			$totalcount 	= $this->Coc_Model->getCOCList('count', ['coc_status' => ['2','4','5','7'], 'user_id' => $userid, 'search' => ['value' => $keywords], 'page' => 'plumbercocstatement']);
-			$results 		= $this->Coc_Model->getCOCList('all', ['coc_status' => ['2','4','5','7'], 'user_id' => $userid, 'search' => ['value' => $keywords], 'page' => 'plumbercocstatement']);
+			$totalcount 	= $this->Coc_Model_Api->getCOCList('count', ['coc_status' => ['2','4','5','7'], 'user_id' => $userid, 'search' => ['value' => $keywords], 'page' => 'plumbercocstatement']);
+			$results 		= $this->Coc_Model_Api->getCOCList('all', ['coc_status' => ['2','4','5','7'], 'user_id' => $userid, 'search' => ['value' => $keywords], 'page' => 'plumbercocstatement']);
 
 			foreach ($results as $key => $value) {
 				if ( $this->config->item('cocstatus')[$value['coc_status']] == 'Logged') {
