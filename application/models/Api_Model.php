@@ -1,6 +1,6 @@
 <?php
 
-class Coc_Model_Api extends CC_Model
+class Api_Model extends CC_Model
 {
 	public function getCOCList($type, $requestdata=[])
 	{ 
