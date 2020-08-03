@@ -48,7 +48,7 @@
 							if ($commentsz!='') {
 								
 								foreach($comments as $comment){
-									echo '<p>'.date('d-m-Y', strtotime($comment['created_at'])).' - '.$user_role[$comment['created_by']].' : '.$comment['comments'].'</p>';
+									echo '<p>'.date('d-m-Y', strtotime($comment['created_at'])).' - '.$comment['createdby'].' : '.$comment['comments'].'</p>';
 								}								
 							}
 						?>

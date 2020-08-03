@@ -102,7 +102,7 @@ $heading 				= isset($result['id']) ? 'Update' : 'Add';
 						<div class="form-group col-md-6">
 							<div class="custom-control custom-checkbox mr-sm-2 mb-3 pt-2">
 								<input type="checkbox" class="custom-control-input" name="declaration" id="declaration"  value="1">
-								<label class="custom-control-label" for="declaration">I declare that the information contained in this CPD Activity form is complete, accurate and true.  I further decalre that I understadn that I must keep verifiable evidence of all the CPD activities for at least 2 years and the PRIB may conduct a random audit of my activity(s) which would require me to submit the evidence to the PIRB.</label>
+								<label class="custom-control-label" for="declaration">Active</label>
 							</div>
 						</div>
 					</div>

@@ -456,7 +456,7 @@ class Index extends CC_Controller
 	public function ajaxqualificationvalidation()
 	{
 		$post 			= $this->input->post();		
-		if(in_array($post['designation'], ['4','5','6'])){
+		if(in_array($post['designation'], ['4','5','6']) && (!isset($post['roletype']) || (isset($post['roletype']) && $post['roletype']!='3'))){
 			$result	= $this->Plumber_Model->qualificationvalidation($post);
 			
 			if($result) $result = "true";

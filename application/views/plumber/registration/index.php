@@ -131,7 +131,7 @@
 					<p>We would like to commend you for choosing to register with the PIRB. By registering with the PIRB you are ultimately striving towards better plumbing practices within South Africa. </p>
 					<p>The PIRB is a professional board and registrar of plumbers in South Africa, as well as a trusted professional body that is recognised by the South African Qualifications Authority (SAQA). We provide a comprehensive registration system for plumbers and, we encourage and monitor their performance for the purpose of protecting the health and safety of both the community and environment. </p>
 					<p>The PIRB’s Continuous Professional Development (CPD) process allows for plumbers to continuously improve their skills and knowledge, and ensures that they remain a source of reliable, trustworthy, and well-respected professional tradespeople within the plumbing industry. It also allows for plumbers who are registered with the PIRB as Learners, Technical Assistant Practitioners and Technical Operator Practitioners, to become qualified and appropriately accredited, which further promotes a sense of pride and accountability within the plumbing industry.</p>
-					<p>Read more about the various categories under which plumbing practitioners can register with the PIRB: http://new.pirb.co.za/pirb-designations/</p>
+					<p>Read more about the various categories under which plumbing practitioners can register with the PIRB: <a href="http://new.pirb.co.za/pirb-designations" target="_blank">http://new.pirb.co.za/pirb-designations</a></p>
 					<p>To find out more about the PIRB and what will be expected from you as a plumber, feel free to watch the video at the following Youtube link: <a href="https://www.youtube.com/watch?v=Hzv0CGyJtAs&t=1s" target="_blank">https://www.youtube.com/watch?v=Hzv0CGyJtAs&t=1s</a></p>
 				</div>
 				
@@ -622,7 +622,10 @@
 					<form class="form5">
 						<h4 class="card-title">Designation</h4>
 						<p>Applications for Master Plumber and/or specialisations can only be done once your registration has been verified and approved.</p>
-						<p>Please select the relevant designation being applied for. <a style="margin-left: 10px;" href="http://new.pirb.co.za/pirb-designations/">View the designation requirements</a></p>                    	
+						<p>Please select the relevant designation being applied for. <a style="margin-left: 10px;" href="http://new.pirb.co.za/pirb-designations/" target="_blank">View the designation requirements</a></p>                    	
+						<p class="mt-5">Registation fees can be viewed in <a href="http://new.pirb.co.za/registration-fees/" target="_blank">here</a></p>
+						<p>Admin fee : <?php echo $latefee; ?></p>
+						<p>Plumber Card cost : <?php echo $cardfee; ?></p>
 						<?php 
 							foreach($designation1 as $k => $design){
 								echo sprintf($design, $plumberrates[$k]);
@@ -779,11 +782,11 @@
 </div>
 
 <div id="photomodal" class="modal fade" role="dialog">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-body">
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-12 text-center">
 						<img src="<?php echo base_url().'assets/images/photoid.png'; ?>">
 					</div>
 				</div>

@@ -90,7 +90,7 @@
 	$designation2id 		= isset($result['designation']) ? $result['designation'] : '';
 	$qualificationyear 		= isset($result['qualification_year']) ? $result['qualification_year'] : '';
 	$specialisationsid 		= isset($result['specialisations']) ? array_filter(explode(',', $result['specialisations'])) : [];
-	$cocpurchaselimit 		= isset($result['coc_purchase_limit']) && $result['coc_purchase_limit']!='0' ? $result['coc_purchase_limit'] : $defaultsettings['plumber_certificate'];
+	$cocpurchaselimit 		= isset($result['coc_purchase_limit']) && $result['coc_purchase_limit']!='0' ? $result['coc_purchase_limit'] : 0;
 	$cocelectronic 			= isset($result['coc_electronic']) ? $result['coc_electronic'] : '';
 	$message 				= isset($result['message']) ? $result['message'] : '';
 	
@@ -131,6 +131,8 @@
 	if($roletype!='1' && in_array($plumberstatusid, $this->config->item('psidconfig'))){
 		$psidconfig = '1';
 	}
+	
+	$plumbercoc = $defaultsettings['plumber_certificate'];
 ?>
 
 <div class="row page-titles">
@@ -334,7 +336,7 @@
 							<div class="form-group row">
 								<div class="col-md-6">
 									<label>Number of CoC's Able to purchase:</label>
-									<input type="number" class="form-control" name="coc_purchase_limit" value="<?php echo $cocpurchaselimit; ?>" <?php echo $disabled1.$disabled2; ?>>
+									<input type="number" class="form-control coc_purchase_limit" name="coc_purchase_limit" value="<?php echo $cocpurchaselimit; ?>" <?php echo $disabled1.$disabled2; ?>>
 								</div>
 								<div class="col-md-6">
 									<div class="custom-control custom-checkbox">
@@ -941,11 +943,11 @@
 </div>
 
 <div id="photomodal" class="modal fade" role="dialog">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-body">
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-12 text-center">
 						<img src="<?php echo base_url().'assets/images/photoid.png'; ?>">
 					</div>
 				</div>
@@ -1147,7 +1149,7 @@ $(function(){
 			},
 			attachmenthidden 	: {
 				required:  	function() {
-								return $("#designation2").val() == "4" || $("#designation2").val() == "5" || $("#designation2").val() == "6";
+								return roletype!="3" && ($("#designation2").val() == "4" || $("#designation2").val() == "5" || $("#designation2").val() == "6");
 							},
 				remote	: 	{
 								url		: 	"<?php echo base_url().'ajax/index/ajaxqualificationvalidation'; ?>",
@@ -1155,6 +1157,7 @@ $(function(){
 								async	: 	false,
 								data	: 	{
 												id 			: 	userid,
+												roletype 	: 	roletype,
 												designation	: 	function() {
 																	return $("#designation2").val();
 																}
@@ -1605,8 +1608,17 @@ function rejectother(){
 	}
 }
 
-$('#designation2').change(function(){
-	designationcondition($(this).val());
+$('#designation2').change(function(){	
+	var value = $(this).val();
+	designationcondition(value);
+	
+	if(value=='4' || value=='6'){
+		if($('.coc_purchase_limit').val()=='0'){
+			$('.coc_purchase_limit').val('<?php echo $plumbercoc; ?>');
+		}
+	}else{
+		$('.coc_purchase_limit').val('0');
+	}	
 })
 
 function designationcondition(value){

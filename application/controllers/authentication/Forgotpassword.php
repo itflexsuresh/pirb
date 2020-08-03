@@ -12,13 +12,16 @@ class Forgotpassword extends CC_Controller
 			
 			$usertype 		= $this->config->item('usertype1')[$usertype];
 			$usertypename 	= $this->config->item('usertype2')[$usertype];
+			$postusertype	= [$usertype];
 		}else{
 			$usertype 		= '';
 			$usertypename 	= '';
+			$postusertype	= ['1','2'];
 		}
 		
 		if($this->input->post()){			
-			$requestData 	= $this->input->post();
+			$requestData 			= $this->input->post();
+			$requestData['type'] 	= $postusertype;
 			$data 			= $this->Users_Model->forgotPassword($requestData);
 			
 			if($data=='1') $this->session->set_flashdata('success', 'Please check your email inbox and follow the steps, as instructed, to reset your password.');

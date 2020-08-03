@@ -65,6 +65,8 @@ class Index extends CC_Controller
 		$pagedata['qualificationroute'] = $this->getQualificationRouteList();
 		$pagedata['plumberrates'] 		= $this->getPlumberRates();
 		$pagedata['company'] 			= $this->getCompanyList();
+		$pagedata['latefee'] 			= $this->getRates($this->config->item('latefee'));
+		$pagedata['cardfee'] 			= $this->getRates($this->config->item('cardfee'));
 		
 		$pagedata['titlesign'] 			= $this->config->item('titlesign');
 		$pagedata['gender'] 			= $this->config->item('gender');
